@@ -62,7 +62,7 @@ class InputElasticAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputElasticProxyModeTypedDict(TypedDict):
-    enabled: NotRequired[bool]
+    enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
     auth_type: NotRequired[InputElasticAuthenticationMethod]
     r"""Enter credentials directly, or select a stored secret"""
@@ -81,12 +81,12 @@ class InputElasticProxyModeTypedDict(TypedDict):
 
 
 class InputElasticProxyMode(BaseModel):
-    enabled: Optional[bool] = False
+    enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
 
     auth_type: Annotated[
         Optional[InputElasticAuthenticationMethod], pydantic.Field(alias="authType")
-    ] = InputElasticAuthenticationMethod.NONE
+    ] = None
     r"""Enter credentials directly, or select a stored secret"""
 
     username: Optional[str] = None
@@ -103,7 +103,7 @@ class InputElasticProxyMode(BaseModel):
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     remove_headers: Annotated[
@@ -111,7 +111,7 @@ class InputElasticProxyMode(BaseModel):
     ] = None
     r"""List of headers to remove from the request to proxy"""
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 60
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
 
     @field_serializer("auth_type")
@@ -125,11 +125,15 @@ class InputElasticProxyMode(BaseModel):
 
 
 class InputElasticPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputElasticType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    elastic_api: str
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -144,8 +148,6 @@ class InputElasticPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
@@ -169,8 +171,6 @@ class InputElasticPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    elastic_api: NotRequired[str]
-    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
     auth_type: NotRequired[InputElasticAuthenticationType]
     api_version: NotRequired[InputElasticAPIVersion]
     r"""The API version to use for communicating with the server"""
@@ -191,26 +191,32 @@ class InputElasticPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputElasticPqEnabledTrueWithPqConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputElasticType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    elastic_api: Annotated[str, pydantic.Field(alias="elasticAPI")]
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -223,76 +229,70 @@ class InputElasticPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
+        None
     )
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
 
     max_requests_per_socket: Annotated[
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
+    ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Add request headers to events, in the __headers field"""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = 100
+    ] = None
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
 
     keep_alive_timeout: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 5
+    ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
     enable_health_check: Annotated[
         Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
+    ] = None
     r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
 
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
 
     ip_denylist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
+    ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = "/"
-    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     auth_type: Annotated[
         Optional[InputElasticAuthenticationType], pydantic.Field(alias="authType")
-    ] = InputElasticAuthenticationType.NONE
+    ] = None
 
     api_version: Annotated[
         Optional[InputElasticAPIVersion], pydantic.Field(alias="apiVersion")
-    ] = InputElasticAPIVersion.EIGHT_DOT_3_DOT_2
+    ] = None
     r"""The API version to use for communicating with the server"""
 
     extra_http_headers: Annotated[
@@ -326,7 +326,7 @@ class InputElasticPqEnabledTrueWithPqConstraint(BaseModel):
 
     custom_api_version: Annotated[
         Optional[str], pydantic.Field(alias="customAPIVersion")
-    ] = '{\n    "name": "AzU84iL",\n    "cluster_name": "cribl",\n    "cluster_uuid": "Js6_Z2VKS3KbfRSxPmPbaw",\n    "version": {\n        "number": "8.3.2",\n        "build_type": "tar",\n        "build_hash": "bca0c8d",\n        "build_date": "2019-10-16T06:19:49.319352Z",\n        "build_snapshot": false,\n        "lucene_version": "9.7.2",\n        "minimum_wire_compatibility_version": "7.17.0",\n        "minimum_index_compatibility_version": "7.0.0"\n    },\n    "tagline": "You Know, for Search"\n}'
+    ] = None
     r"""Custom version information to respond to requests"""
 
     @field_serializer("auth_type")
@@ -349,11 +349,15 @@ class InputElasticPqEnabledTrueWithPqConstraint(BaseModel):
 
 
 class InputElasticPqEnabledFalseConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputElasticType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    elastic_api: str
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -368,8 +372,6 @@ class InputElasticPqEnabledFalseConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
@@ -393,8 +395,6 @@ class InputElasticPqEnabledFalseConstraintTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    elastic_api: NotRequired[str]
-    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
     auth_type: NotRequired[InputElasticAuthenticationType]
     api_version: NotRequired[InputElasticAPIVersion]
     r"""The API version to use for communicating with the server"""
@@ -415,24 +415,30 @@ class InputElasticPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputElasticPqEnabledFalseConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputElasticType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    elastic_api: Annotated[str, pydantic.Field(alias="elasticAPI")]
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -447,76 +453,70 @@ class InputElasticPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
+        None
     )
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
 
     max_requests_per_socket: Annotated[
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
+    ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Add request headers to events, in the __headers field"""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = 100
+    ] = None
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
 
     keep_alive_timeout: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 5
+    ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
     enable_health_check: Annotated[
         Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
+    ] = None
     r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
 
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
 
     ip_denylist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
+    ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = "/"
-    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     auth_type: Annotated[
         Optional[InputElasticAuthenticationType], pydantic.Field(alias="authType")
-    ] = InputElasticAuthenticationType.NONE
+    ] = None
 
     api_version: Annotated[
         Optional[InputElasticAPIVersion], pydantic.Field(alias="apiVersion")
-    ] = InputElasticAPIVersion.EIGHT_DOT_3_DOT_2
+    ] = None
     r"""The API version to use for communicating with the server"""
 
     extra_http_headers: Annotated[
@@ -550,7 +550,7 @@ class InputElasticPqEnabledFalseConstraint(BaseModel):
 
     custom_api_version: Annotated[
         Optional[str], pydantic.Field(alias="customAPIVersion")
-    ] = '{\n    "name": "AzU84iL",\n    "cluster_name": "cribl",\n    "cluster_uuid": "Js6_Z2VKS3KbfRSxPmPbaw",\n    "version": {\n        "number": "8.3.2",\n        "build_type": "tar",\n        "build_hash": "bca0c8d",\n        "build_date": "2019-10-16T06:19:49.319352Z",\n        "build_snapshot": false,\n        "lucene_version": "9.7.2",\n        "minimum_wire_compatibility_version": "7.17.0",\n        "minimum_index_compatibility_version": "7.0.0"\n    },\n    "tagline": "You Know, for Search"\n}'
+    ] = None
     r"""Custom version information to respond to requests"""
 
     @field_serializer("auth_type")
@@ -573,11 +573,15 @@ class InputElasticPqEnabledFalseConstraint(BaseModel):
 
 
 class InputElasticSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputElasticType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    elastic_api: str
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -592,8 +596,6 @@ class InputElasticSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict)
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
@@ -617,8 +619,6 @@ class InputElasticSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict)
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    elastic_api: NotRequired[str]
-    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
     auth_type: NotRequired[InputElasticAuthenticationType]
     api_version: NotRequired[InputElasticAPIVersion]
     r"""The API version to use for communicating with the server"""
@@ -639,15 +639,19 @@ class InputElasticSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict)
 
 
 class InputElasticSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputElasticType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    elastic_api: Annotated[str, pydantic.Field(alias="elasticAPI")]
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -655,7 +659,7 @@ class InputElasticSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -663,7 +667,7 @@ class InputElasticSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -671,76 +675,70 @@ class InputElasticSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
+        None
     )
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
 
     max_requests_per_socket: Annotated[
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
+    ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Add request headers to events, in the __headers field"""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = 100
+    ] = None
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
 
     keep_alive_timeout: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 5
+    ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
     enable_health_check: Annotated[
         Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
+    ] = None
     r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
 
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
 
     ip_denylist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
+    ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = "/"
-    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     auth_type: Annotated[
         Optional[InputElasticAuthenticationType], pydantic.Field(alias="authType")
-    ] = InputElasticAuthenticationType.NONE
+    ] = None
 
     api_version: Annotated[
         Optional[InputElasticAPIVersion], pydantic.Field(alias="apiVersion")
-    ] = InputElasticAPIVersion.EIGHT_DOT_3_DOT_2
+    ] = None
     r"""The API version to use for communicating with the server"""
 
     extra_http_headers: Annotated[
@@ -774,7 +772,7 @@ class InputElasticSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     custom_api_version: Annotated[
         Optional[str], pydantic.Field(alias="customAPIVersion")
-    ] = '{\n    "name": "AzU84iL",\n    "cluster_name": "cribl",\n    "cluster_uuid": "Js6_Z2VKS3KbfRSxPmPbaw",\n    "version": {\n        "number": "8.3.2",\n        "build_type": "tar",\n        "build_hash": "bca0c8d",\n        "build_date": "2019-10-16T06:19:49.319352Z",\n        "build_snapshot": false,\n        "lucene_version": "9.7.2",\n        "minimum_wire_compatibility_version": "7.17.0",\n        "minimum_index_compatibility_version": "7.0.0"\n    },\n    "tagline": "You Know, for Search"\n}'
+    ] = None
     r"""Custom version information to respond to requests"""
 
     @field_serializer("auth_type")
@@ -797,11 +795,15 @@ class InputElasticSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
 
 class InputElasticSendToRoutesTrueConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputElasticType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    elastic_api: str
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -816,8 +818,6 @@ class InputElasticSendToRoutesTrueConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
@@ -841,8 +841,6 @@ class InputElasticSendToRoutesTrueConstraintTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    elastic_api: NotRequired[str]
-    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
     auth_type: NotRequired[InputElasticAuthenticationType]
     api_version: NotRequired[InputElasticAPIVersion]
     r"""The API version to use for communicating with the server"""
@@ -863,20 +861,24 @@ class InputElasticSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputElasticSendToRoutesTrueConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputElasticType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    elastic_api: Annotated[str, pydantic.Field(alias="elasticAPI")]
+    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -884,7 +886,7 @@ class InputElasticSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -895,76 +897,70 @@ class InputElasticSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
+        None
     )
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
 
     max_requests_per_socket: Annotated[
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
+    ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Add request headers to events, in the __headers field"""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = 100
+    ] = None
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
 
     keep_alive_timeout: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 5
+    ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
     enable_health_check: Annotated[
         Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
+    ] = None
     r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
 
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
 
     ip_denylist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
+    ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = "/"
-    r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     auth_type: Annotated[
         Optional[InputElasticAuthenticationType], pydantic.Field(alias="authType")
-    ] = InputElasticAuthenticationType.NONE
+    ] = None
 
     api_version: Annotated[
         Optional[InputElasticAPIVersion], pydantic.Field(alias="apiVersion")
-    ] = InputElasticAPIVersion.EIGHT_DOT_3_DOT_2
+    ] = None
     r"""The API version to use for communicating with the server"""
 
     extra_http_headers: Annotated[
@@ -998,7 +994,7 @@ class InputElasticSendToRoutesTrueConstraint(BaseModel):
 
     custom_api_version: Annotated[
         Optional[str], pydantic.Field(alias="customAPIVersion")
-    ] = '{\n    "name": "AzU84iL",\n    "cluster_name": "cribl",\n    "cluster_uuid": "Js6_Z2VKS3KbfRSxPmPbaw",\n    "version": {\n        "number": "8.3.2",\n        "build_type": "tar",\n        "build_hash": "bca0c8d",\n        "build_date": "2019-10-16T06:19:49.319352Z",\n        "build_snapshot": false,\n        "lucene_version": "9.7.2",\n        "minimum_wire_compatibility_version": "7.17.0",\n        "minimum_index_compatibility_version": "7.0.0"\n    },\n    "tagline": "You Know, for Search"\n}'
+    ] = None
     r"""Custom version information to respond to requests"""
 
     @field_serializer("auth_type")

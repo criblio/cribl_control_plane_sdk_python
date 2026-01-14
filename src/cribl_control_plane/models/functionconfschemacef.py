@@ -43,7 +43,7 @@ class FunctionConfSchemaCefTypedDict(TypedDict):
 
 
 class FunctionConfSchemaCef(BaseModel):
-    output_field: Annotated[Optional[str], pydantic.Field(alias="outputField")] = "_raw"
+    output_field: Annotated[Optional[str], pydantic.Field(alias="outputField")] = None
     r"""The field to which the CEF formatted event will be output"""
 
     header: Optional[List[Header]] = None
@@ -73,7 +73,7 @@ class FunctionConfSchemaCefInputTypedDict(TypedDict):
 
 
 class FunctionConfSchemaCefInput(BaseModel):
-    output_field: Annotated[Optional[str], pydantic.Field(alias="outputField")] = "_raw"
+    output_field: Annotated[Optional[str], pydantic.Field(alias="outputField")] = None
     r"""The field to which the CEF formatted event will be output"""
 
     header: Optional[List[HeaderInput]] = None

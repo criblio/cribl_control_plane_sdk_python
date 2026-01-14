@@ -49,10 +49,10 @@ class InputWindowsMetricsSystemTypedDict(TypedDict):
 
 
 class InputWindowsMetricsSystem(BaseModel):
-    mode: Optional[InputWindowsMetricsSystemMode] = InputWindowsMetricsSystemMode.BASIC
+    mode: Optional[InputWindowsMetricsSystemMode] = None
     r"""Select the level of details for system metrics"""
 
-    detail: Optional[bool] = False
+    detail: Optional[bool] = None
     r"""Generate metrics for all system information"""
 
     @field_serializer("mode")
@@ -90,16 +90,16 @@ class InputWindowsMetricsCPUTypedDict(TypedDict):
 
 
 class InputWindowsMetricsCPU(BaseModel):
-    mode: Optional[InputWindowsMetricsCPUMode] = InputWindowsMetricsCPUMode.BASIC
+    mode: Optional[InputWindowsMetricsCPUMode] = None
     r"""Select the level of details for CPU metrics"""
 
-    per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = False
+    per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = None
     r"""Generate metrics for each CPU"""
 
-    detail: Optional[bool] = False
+    detail: Optional[bool] = None
     r"""Generate metrics for all CPU states"""
 
-    time: Optional[bool] = False
+    time: Optional[bool] = None
     r"""Generate raw, monotonic CPU time counters"""
 
     @field_serializer("mode")
@@ -133,10 +133,10 @@ class InputWindowsMetricsMemoryTypedDict(TypedDict):
 
 
 class InputWindowsMetricsMemory(BaseModel):
-    mode: Optional[InputWindowsMetricsMemoryMode] = InputWindowsMetricsMemoryMode.BASIC
+    mode: Optional[InputWindowsMetricsMemoryMode] = None
     r"""Select the level of details for memory metrics"""
 
-    detail: Optional[bool] = False
+    detail: Optional[bool] = None
     r"""Generate metrics for all memory states"""
 
     @field_serializer("mode")
@@ -176,22 +176,20 @@ class InputWindowsMetricsNetworkTypedDict(TypedDict):
 
 
 class InputWindowsMetricsNetwork(BaseModel):
-    mode: Optional[InputWindowsMetricsNetworkMode] = (
-        InputWindowsMetricsNetworkMode.BASIC
-    )
+    mode: Optional[InputWindowsMetricsNetworkMode] = None
     r"""Select the level of details for network metrics"""
 
-    detail: Optional[bool] = False
+    detail: Optional[bool] = None
     r"""Generate full network metrics"""
 
-    protocols: Optional[bool] = False
+    protocols: Optional[bool] = None
     r"""Generate protocol metrics for ICMP, ICMPMsg, IP, TCP, UDP and UDPLite"""
 
     devices: Optional[List[str]] = None
     r"""Network interfaces to include/exclude. All interfaces are included if this list is empty."""
 
     per_interface: Annotated[Optional[bool], pydantic.Field(alias="perInterface")] = (
-        False
+        None
     )
     r"""Generate separate metrics for each interface"""
 
@@ -230,13 +228,13 @@ class InputWindowsMetricsDiskTypedDict(TypedDict):
 
 
 class InputWindowsMetricsDisk(BaseModel):
-    mode: Optional[InputWindowsMetricsDiskMode] = InputWindowsMetricsDiskMode.BASIC
+    mode: Optional[InputWindowsMetricsDiskMode] = None
     r"""Select the level of details for disk metrics"""
 
-    per_volume: Annotated[Optional[bool], pydantic.Field(alias="perVolume")] = False
+    per_volume: Annotated[Optional[bool], pydantic.Field(alias="perVolume")] = None
     r"""Generate separate metrics for each volume"""
 
-    detail: Optional[bool] = False
+    detail: Optional[bool] = None
     r"""Generate full disk metrics"""
 
     volumes: Optional[List[str]] = None
@@ -279,7 +277,7 @@ class InputWindowsMetricsHostTypedDict(TypedDict):
 
 
 class InputWindowsMetricsHost(BaseModel):
-    mode: Optional[ModeOptionsHost] = ModeOptionsHost.BASIC
+    mode: Optional[ModeOptionsHost] = None
     r"""Select level of detail for host metrics"""
 
     custom: Optional[InputWindowsMetricsCustom] = None
@@ -309,25 +307,21 @@ class InputWindowsMetricsPersistenceTypedDict(TypedDict):
 
 
 class InputWindowsMetricsPersistence(BaseModel):
-    enable: Optional[bool] = False
+    enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
-    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10m"
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
     r"""Time span for each file bucket"""
 
-    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = "1GB"
+    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = None
     r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
 
-    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
+    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = None
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Optional[DataCompressionFormatOptionsPersistence] = (
-        DataCompressionFormatOptionsPersistence.GZIP
-    )
+    compress: Optional[DataCompressionFormatOptionsPersistence] = None
 
-    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
-        "$CRIBL_HOME/state/windows_metrics"
-    )
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/windows_metrics"""
 
     @field_serializer("compress")
@@ -341,9 +335,9 @@ class InputWindowsMetricsPersistence(BaseModel):
 
 
 class InputWindowsMetricsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
-    type: InputWindowsMetricsType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputWindowsMetricsType
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -371,23 +365,23 @@ class InputWindowsMetricsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputWindowsMetricsPqEnabledTrueWithPqConstraint(BaseModel):
-    type: InputWindowsMetricsType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputWindowsMetricsType
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -400,7 +394,7 @@ class InputWindowsMetricsPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
     host: Optional[InputWindowsMetricsHost] = None
@@ -414,16 +408,16 @@ class InputWindowsMetricsPqEnabledTrueWithPqConstraint(BaseModel):
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
-    ] = False
+    ] = None
     r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
 
     description: Optional[str] = None
 
 
 class InputWindowsMetricsPqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputWindowsMetricsType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputWindowsMetricsType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -451,21 +445,21 @@ class InputWindowsMetricsPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputWindowsMetricsPqEnabledFalseConstraint(BaseModel):
-    type: InputWindowsMetricsType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputWindowsMetricsType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -480,7 +474,7 @@ class InputWindowsMetricsPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
     host: Optional[InputWindowsMetricsHost] = None
@@ -494,16 +488,16 @@ class InputWindowsMetricsPqEnabledFalseConstraint(BaseModel):
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
-    ] = False
+    ] = None
     r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
 
     description: Optional[str] = None
 
 
 class InputWindowsMetricsSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputWindowsMetricsType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputWindowsMetricsType
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -531,12 +525,10 @@ class InputWindowsMetricsSendToRoutesFalseWithConnectionsConstraintTypedDict(Typ
 
 
 class InputWindowsMetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputWindowsMetricsType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    type: InputWindowsMetricsType
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -544,7 +536,7 @@ class InputWindowsMetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -552,7 +544,7 @@ class InputWindowsMetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -560,7 +552,7 @@ class InputWindowsMetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
     host: Optional[InputWindowsMetricsHost] = None
@@ -574,16 +566,16 @@ class InputWindowsMetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
-    ] = False
+    ] = None
     r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
 
     description: Optional[str] = None
 
 
 class InputWindowsMetricsSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputWindowsMetricsType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputWindowsMetricsType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -611,17 +603,15 @@ class InputWindowsMetricsSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputWindowsMetricsSendToRoutesTrueConstraint(BaseModel):
-    type: InputWindowsMetricsType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    type: InputWindowsMetricsType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -629,7 +619,7 @@ class InputWindowsMetricsSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -640,7 +630,7 @@ class InputWindowsMetricsSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
     host: Optional[InputWindowsMetricsHost] = None
@@ -654,7 +644,7 @@ class InputWindowsMetricsSendToRoutesTrueConstraint(BaseModel):
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
-    ] = False
+    ] = None
     r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
 
     description: Optional[str] = None

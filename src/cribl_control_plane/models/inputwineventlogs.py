@@ -42,11 +42,11 @@ class EventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputWinEventLogsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputWinEventLogsType
     log_names: List[str]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -83,26 +83,26 @@ class InputWinEventLogsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputWinEventLogsPqEnabledTrueWithPqConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputWinEventLogsType
 
     log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -115,25 +115,23 @@ class InputWinEventLogsPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = (
-        ReadMode.NEWEST
-    )
+    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = None
     r"""Read all stored and future event logs, or only future events"""
 
     event_format: Annotated[
         Optional[EventFormat], pydantic.Field(alias="eventFormat")
-    ] = EventFormat.JSON
+    ] = None
     r"""Format of individual events"""
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
-    ] = False
+    ] = None
     r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
 
-    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = 500
+    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = None
     r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -141,19 +139,19 @@ class InputWinEventLogsPqEnabledTrueWithPqConstraint(BaseModel):
 
     max_event_bytes: Annotated[
         Optional[float], pydantic.Field(alias="maxEventBytes")
-    ] = 51200
+    ] = None
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
 
     description: Optional[str] = None
 
     disable_json_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableJsonRendering")
-    ] = False
+    ] = None
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
     disable_xml_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableXmlRendering")
-    ] = True
+    ] = None
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
     @field_serializer("read_mode")
@@ -176,11 +174,11 @@ class InputWinEventLogsPqEnabledTrueWithPqConstraint(BaseModel):
 
 
 class InputWinEventLogsPqEnabledFalseConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputWinEventLogsType
     log_names: List[str]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -217,24 +215,24 @@ class InputWinEventLogsPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputWinEventLogsPqEnabledFalseConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputWinEventLogsType
 
     log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -249,25 +247,23 @@ class InputWinEventLogsPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = (
-        ReadMode.NEWEST
-    )
+    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = None
     r"""Read all stored and future event logs, or only future events"""
 
     event_format: Annotated[
         Optional[EventFormat], pydantic.Field(alias="eventFormat")
-    ] = EventFormat.JSON
+    ] = None
     r"""Format of individual events"""
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
-    ] = False
+    ] = None
     r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
 
-    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = 500
+    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = None
     r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -275,19 +271,19 @@ class InputWinEventLogsPqEnabledFalseConstraint(BaseModel):
 
     max_event_bytes: Annotated[
         Optional[float], pydantic.Field(alias="maxEventBytes")
-    ] = 51200
+    ] = None
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
 
     description: Optional[str] = None
 
     disable_json_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableJsonRendering")
-    ] = False
+    ] = None
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
     disable_xml_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableXmlRendering")
-    ] = True
+    ] = None
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
     @field_serializer("read_mode")
@@ -310,11 +306,11 @@ class InputWinEventLogsPqEnabledFalseConstraint(BaseModel):
 
 
 class InputWinEventLogsSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputWinEventLogsType
     log_names: List[str]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -351,15 +347,13 @@ class InputWinEventLogsSendToRoutesFalseWithConnectionsConstraintTypedDict(Typed
 
 
 class InputWinEventLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputWinEventLogsType
 
     log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -367,7 +361,7 @@ class InputWinEventLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -375,7 +369,7 @@ class InputWinEventLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -383,25 +377,23 @@ class InputWinEventLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = (
-        ReadMode.NEWEST
-    )
+    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = None
     r"""Read all stored and future event logs, or only future events"""
 
     event_format: Annotated[
         Optional[EventFormat], pydantic.Field(alias="eventFormat")
-    ] = EventFormat.JSON
+    ] = None
     r"""Format of individual events"""
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
-    ] = False
+    ] = None
     r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
 
-    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = 500
+    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = None
     r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -409,19 +401,19 @@ class InputWinEventLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     max_event_bytes: Annotated[
         Optional[float], pydantic.Field(alias="maxEventBytes")
-    ] = 51200
+    ] = None
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
 
     description: Optional[str] = None
 
     disable_json_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableJsonRendering")
-    ] = False
+    ] = None
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
     disable_xml_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableXmlRendering")
-    ] = True
+    ] = None
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
     @field_serializer("read_mode")
@@ -444,11 +436,11 @@ class InputWinEventLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
 
 class InputWinEventLogsSendToRoutesTrueConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputWinEventLogsType
     log_names: List[str]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -485,20 +477,18 @@ class InputWinEventLogsSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputWinEventLogsSendToRoutesTrueConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputWinEventLogsType
 
     log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -506,7 +496,7 @@ class InputWinEventLogsSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -517,25 +507,23 @@ class InputWinEventLogsSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = (
-        ReadMode.NEWEST
-    )
+    read_mode: Annotated[Optional[ReadMode], pydantic.Field(alias="readMode")] = None
     r"""Read all stored and future event logs, or only future events"""
 
     event_format: Annotated[
         Optional[EventFormat], pydantic.Field(alias="eventFormat")
-    ] = EventFormat.JSON
+    ] = None
     r"""Format of individual events"""
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
-    ] = False
+    ] = None
     r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
 
-    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = 500
+    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = None
     r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -543,19 +531,19 @@ class InputWinEventLogsSendToRoutesTrueConstraint(BaseModel):
 
     max_event_bytes: Annotated[
         Optional[float], pydantic.Field(alias="maxEventBytes")
-    ] = 51200
+    ] = None
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
 
     description: Optional[str] = None
 
     disable_json_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableJsonRendering")
-    ] = False
+    ] = None
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
     disable_xml_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableXmlRendering")
-    ] = True
+    ] = None
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
     @field_serializer("read_mode")

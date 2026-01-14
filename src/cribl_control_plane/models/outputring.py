@@ -75,7 +75,7 @@ class OutputRing(BaseModel):
 
     format_: Annotated[
         Optional[OutputRingDataFormat], pydantic.Field(alias="format")
-    ] = OutputRingDataFormat.JSON
+    ] = None
     r"""Format of the output data."""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
@@ -83,22 +83,20 @@ class OutputRing(BaseModel):
     )
     r"""JS expression to define how files are partitioned and organized. If left blank, Cribl Stream will fallback on event.__partition."""
 
-    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = "1GB"
+    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = None
     r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
 
-    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
+    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = None
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Optional[DataCompressionFormatOptionsPersistence] = (
-        DataCompressionFormatOptionsPersistence.GZIP
-    )
+    compress: Optional[DataCompressionFormatOptionsPersistence] = None
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None

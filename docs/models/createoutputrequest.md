@@ -5,12 +5,6 @@ Output object
 
 ## Supported Types
 
-### `models.CreateOutputOutputDefault`
-
-```python
-value: models.CreateOutputOutputDefault = /* values here */
-```
-
 ### `models.CreateOutputOutputWebhook`
 
 ```python

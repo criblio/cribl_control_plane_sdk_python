@@ -23,13 +23,11 @@ class FunctionConfSchemaSnmpTrapSerializeV3User(BaseModel):
     auth_protocol: Annotated[
         Optional[AuthenticationProtocolOptionsV3User],
         pydantic.Field(alias="authProtocol"),
-    ] = AuthenticationProtocolOptionsV3User.NONE
+    ] = None
 
     auth_key: Annotated[Optional[Any], pydantic.Field(alias="authKey")] = None
 
-    priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = (
-        "none"
-    )
+    priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = None
 
     @field_serializer("auth_protocol")
     def serialize_auth_protocol(self, value):
@@ -50,12 +48,12 @@ class FunctionConfSchemaSnmpTrapSerializeTypedDict(TypedDict):
 
 
 class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
-    strict: Optional[bool] = True
+    strict: Optional[bool] = None
     r"""Prevent event serialization if any required fields are missing. When disabled, @{product} will attempt to serialize the event even if required fields are missing, which could cause unexpected behavior at the downstream receiver."""
 
     drop_failed_events: Annotated[
         Optional[bool], pydantic.Field(alias="dropFailedEvents")
-    ] = True
+    ] = None
     r"""When disabled, `snmpSerializeErrors` will be set on the event, and the `__snmpRaw` field will be removed to prevent @{product} from sending the event from the SNMP Trap Destination"""
 
     v3_user: Annotated[

@@ -4,9 +4,7 @@ from __future__ import annotations
 from .acknowledgmentsoptions import AcknowledgmentsOptions
 from .acknowledgmentsoptions1 import AcknowledgmentsOptions1
 from .authenticationmethodoptions import AuthenticationMethodOptions
-from .authenticationmethodoptions1 import AuthenticationMethodOptions1
-from .authenticationmethodoptions3 import AuthenticationMethodOptions3
-from .authenticationmethodoptionsauth import AuthenticationMethodOptionsAuth
+from .authenticationmethodoptions2 import AuthenticationMethodOptions2
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
 )
@@ -19,6 +17,10 @@ from .authenticationtypeoptions import AuthenticationTypeOptions
 from .authenticationtypeoptionsprometheusauth import (
     AuthenticationTypeOptionsPrometheusAuth,
 )
+from .authenticationtypeoptionsprometheusauth1 import (
+    AuthenticationTypeOptionsPrometheusAuth1,
+)
+from .authtype import AuthType, AuthTypeTypedDict
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
 from .certificatetypeazureblobauthtypeclientcert import (
@@ -75,6 +77,7 @@ from .kafkaschemaregistryauthenticationtype1 import (
 from .maxs2sversionoptions import MaxS2SVersionOptions
 from .messageformatoptions import MessageFormatOptions
 from .methodoptions import MethodOptions
+from .methodoptionscredentials import MethodOptionsCredentials
 from .microsoftentraidauthenticationendpointoptionssasl import (
     MicrosoftEntraIDAuthenticationEndpointOptionsSasl,
 )
@@ -111,7 +114,6 @@ from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
 )
-from .tlsoptionshostsitems import TLSOptionsHostsItems
 from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
     TLSSettingsClientSideTypeTypedDict,
@@ -123,10 +125,6 @@ from .tlssettingsclientsidetype1 import (
 from .tlssettingsclientsidetype2 import (
     TLSSettingsClientSideType2,
     TLSSettingsClientSideType2TypedDict,
-)
-from .tlssettingsclientsidetype3 import (
-    TLSSettingsClientSideType3,
-    TLSSettingsClientSideType3TypedDict,
 )
 from .tlssettingsclientsidetypekafkaschemaregistry import (
     TLSSettingsClientSideTypeKafkaSchemaRegistry,
@@ -146,6 +144,14 @@ class CreateOutputTypeCloudflareR2(str, Enum):
     CLOUDFLARE_R2 = "cloudflare_r2"
 
 
+class AuthenticationMethodCloudflareR2(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    AUTO = "auto"
+    SECRET = "secret"
+    MANUAL = "manual"
+
+
 class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
@@ -154,6 +160,8 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     r"""Cloudflare R2 service URL (example: https://<ACCOUNT_ID>.r2.cloudflarestorage.com)"""
     bucket: str
     r"""Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -162,13 +170,11 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodCloudflareR2]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`)."""
     region: NotRequired[Any]
-    stage_path: NotRequired[str]
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     dest_path: NotRequired[str]
@@ -271,6 +277,9 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     bucket: str
     r"""Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -286,9 +295,9 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodCloudflareR2],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -298,14 +307,9 @@ class CreateOutputOutputCloudflareR2(BaseModel):
 
     region: Optional[Any] = None
 
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
-
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
@@ -313,7 +317,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
 
     signature_version: Annotated[
         Optional[SignatureVersionOptions5], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions5.V4
+    ] = None
     r"""Signature version to use for signing MinIO requests"""
 
     object_acl: Annotated[Optional[Any], pydantic.Field(alias="objectACL")] = None
@@ -331,96 +335,96 @@ class CreateOutputOutputCloudflareR2(BaseModel):
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates)"""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
-        "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')"
+        None
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
-        DataFormatOptions.JSON
+        None
     )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
-        "`CriblOut`"
+        None
     )
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 32
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
-    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = ""
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
     r"""If set, this line will be written to the beginning of each output file"""
 
     write_high_water_mark: Annotated[
         Optional[float], pydantic.Field(alias="writeHighWaterMark")
-    ] = 64
+    ] = None
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     force_close_on_shutdown: Annotated[
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
-    ] = False
+    ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
-    ] = 4
+    ] = None
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
 
     description: Optional[str] = None
@@ -431,17 +435,17 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
         Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
-    ] = CompressionLevelOptions.BEST_SPEED
+    ] = None
     r"""Compression level to apply before moving files to final destination"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
+    ] = None
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
@@ -451,22 +455,22 @@ class CreateOutputOutputCloudflareR2(BaseModel):
 
     parquet_version: Annotated[
         Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
-    ] = ParquetVersionOptions.PARQUET_2_6
+    ] = None
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
         Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
-    ] = DataPageVersionOptions.DATA_PAGE_V2
+    ] = None
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
     parquet_row_group_length: Annotated[
         Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
+    ] = None
     r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
 
     parquet_page_size: Annotated[
         Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
+    ] = None
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
 
     should_log_invalid_rows: Annotated[
@@ -482,42 +486,44 @@ class CreateOutputOutputCloudflareR2(BaseModel):
 
     enable_statistics: Annotated[
         Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
+    ] = None
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
 
     enable_write_page_index: Annotated[
         Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
+    ] = None
     r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
 
     enable_page_checksum: Annotated[
         Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
+    ] = None
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodCloudflareR2(value)
             except ValueError:
                 return value
         return value
@@ -625,7 +631,7 @@ class AuthenticationMethodMicrosoftFabric(str, Enum, metaclass=utils.OpenEnumMet
 class CreateOutputAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
-    disabled: NotRequired[bool]
+    disabled: bool
     mechanism: NotRequired[SaslMechanismOptionsSasl1]
     username: NotRequired[str]
     r"""The username for authentication. This should always be $ConnectionString."""
@@ -652,11 +658,11 @@ class CreateOutputAuthenticationTypedDict(TypedDict):
 class CreateOutputAuthentication(BaseModel):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
-    disabled: Optional[bool] = False
+    disabled: bool
 
-    mechanism: Optional[SaslMechanismOptionsSasl1] = SaslMechanismOptionsSasl1.PLAIN
+    mechanism: Optional[SaslMechanismOptionsSasl1] = None
 
-    username: Optional[str] = "$ConnectionString"
+    username: Optional[str] = None
     r"""The username for authentication. This should always be $ConnectionString."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -665,7 +671,7 @@ class CreateOutputAuthentication(BaseModel):
     client_secret_auth_type: Annotated[
         Optional[AuthenticationMethodMicrosoftFabric],
         pydantic.Field(alias="clientSecretAuthType"),
-    ] = AuthenticationMethodMicrosoftFabric.SECRET
+    ] = None
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")
@@ -686,7 +692,7 @@ class CreateOutputAuthentication(BaseModel):
     oauth_endpoint: Annotated[
         Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
         pydantic.Field(alias="oauthEndpoint"),
-    ] = MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM
+    ] = None
     r"""Endpoint used to acquire authentication tokens from Azure"""
 
     client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
@@ -831,61 +837,61 @@ class CreateOutputOutputMicrosoftFabric(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Optional[AcknowledgmentsOptions] = AcknowledgmentsOptions.ONE
+    ack: Optional[AcknowledgmentsOptions] = None
     r"""Control the number of required acknowledgments"""
 
     format_: Annotated[
         Optional[RecordDataFormatOptions], pydantic.Field(alias="format")
-    ] = RecordDataFormatOptions.JSON
+    ] = None
     r"""Format to use to serialize events before writing to the Event Hubs Kafka brokers"""
 
     max_record_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSizeKB")
-    ] = 768
+    ] = None
     r"""Maximum size of each record batch before compression. Setting should be < message.max.bytes settings in Event Hubs brokers."""
 
     flush_event_count: Annotated[
         Optional[float], pydantic.Field(alias="flushEventCount")
-    ] = 1000
+    ] = None
     r"""Maximum number of events in a batch before forcing a flush"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for a connection to complete successfully"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to a request"""
 
-    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = None
     r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
 
-    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = None
     r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
 
     initial_backoff: Annotated[
         Optional[float], pydantic.Field(alias="initialBackoff")
-    ] = 300
+    ] = None
     r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
 
-    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = None
     r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
 
     authentication_timeout: Annotated[
         Optional[float], pydantic.Field(alias="authenticationTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
 
     reauthentication_threshold: Annotated[
         Optional[float], pydantic.Field(alias="reauthenticationThreshold")
-    ] = 10000
+    ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     sasl: Optional[CreateOutputAuthentication] = None
@@ -895,57 +901,53 @@ class CreateOutputOutputMicrosoftFabric(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -1017,8 +1019,16 @@ class CreateOutputOutputDatabricksTypedDict(TypedDict):
     type: CreateOutputTypeDatabricks
     workspace_id: str
     r"""Databricks workspace ID"""
+    scope: str
+    r"""OAuth scope for Unity Catalog authentication"""
     client_id: str
     r"""OAuth client ID for Unity Catalog authentication"""
+    catalog: str
+    r"""Name of the catalog to use for the output"""
+    schema_: str
+    r"""Name of the catalog schema to use for the output"""
+    events_volume_name: str
+    r"""Name of the events volume in Databricks"""
     client_text_secret: str
     r"""OAuth client secret for Unity Catalog authentication"""
     pipeline: NotRequired[str]
@@ -1065,14 +1075,6 @@ class CreateOutputOutputDatabricksTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
-    scope: NotRequired[str]
-    r"""OAuth scope for Unity Catalog authentication"""
-    catalog: NotRequired[str]
-    r"""Name of the catalog to use for the output"""
-    schema_: NotRequired[str]
-    r"""Name of the catalog schema to use for the output"""
-    events_volume_name: NotRequired[str]
-    r"""Name of the events volume in Databricks"""
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     description: NotRequired[str]
@@ -1121,8 +1123,20 @@ class CreateOutputOutputDatabricks(BaseModel):
     workspace_id: Annotated[str, pydantic.Field(alias="workspaceId")]
     r"""Databricks workspace ID"""
 
+    scope: str
+    r"""OAuth scope for Unity Catalog authentication"""
+
     client_id: Annotated[str, pydantic.Field(alias="clientId")]
     r"""OAuth client ID for Unity Catalog authentication"""
+
+    catalog: str
+    r"""Name of the catalog to use for the output"""
+
+    schema_: Annotated[str, pydantic.Field(alias="schema")]
+    r"""Name of the catalog schema to use for the output"""
+
+    events_volume_name: Annotated[str, pydantic.Field(alias="eventsVolumeName")]
+    r"""Name of the events volume in Databricks"""
 
     client_text_secret: Annotated[str, pydantic.Field(alias="clientTextSecret")]
     r"""OAuth client secret for Unity Catalog authentication"""
@@ -1141,123 +1155,107 @@ class CreateOutputOutputDatabricks(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = ""
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Optional path to prepend to files before uploading."""
 
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
+    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = None
     r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant, stable storage."""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
-        "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')"
+        None
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
-        DataFormatOptions.JSON
+        None
     )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
-        "`CriblOut`"
+        None
     )
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 32
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
-    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = ""
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
     r"""If set, this line will be written to the beginning of each output file"""
 
     write_high_water_mark: Annotated[
         Optional[float], pydantic.Field(alias="writeHighWaterMark")
-    ] = 64
+    ] = None
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     force_close_on_shutdown: Annotated[
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
-    ] = False
+    ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
-    scope: Optional[str] = "all-apis"
-    r"""OAuth scope for Unity Catalog authentication"""
-
-    catalog: Optional[str] = "main"
-    r"""Name of the catalog to use for the output"""
-
-    schema_: Annotated[Optional[str], pydantic.Field(alias="schema")] = "external"
-    r"""Name of the catalog schema to use for the output"""
-
-    events_volume_name: Annotated[
-        Optional[str], pydantic.Field(alias="eventsVolumeName")
-    ] = "events"
-    r"""Name of the events volume in Databricks"""
-
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 60
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
         Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
-    ] = CompressionLevelOptions.BEST_SPEED
+    ] = None
     r"""Compression level to apply before moving files to final destination"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
+    ] = None
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
@@ -1267,22 +1265,22 @@ class CreateOutputOutputDatabricks(BaseModel):
 
     parquet_version: Annotated[
         Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
-    ] = ParquetVersionOptions.PARQUET_2_6
+    ] = None
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
         Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
-    ] = DataPageVersionOptions.DATA_PAGE_V2
+    ] = None
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
     parquet_row_group_length: Annotated[
         Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
+    ] = None
     r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
 
     parquet_page_size: Annotated[
         Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
+    ] = None
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
 
     should_log_invalid_rows: Annotated[
@@ -1298,35 +1296,37 @@ class CreateOutputOutputDatabricks(BaseModel):
 
     enable_statistics: Annotated[
         Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
+    ] = None
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
 
     enable_write_page_index: Annotated[
         Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
+    ] = None
     r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
 
     enable_page_checksum: Annotated[
         Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
+    ] = None
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     @field_serializer("format_")
@@ -1402,19 +1402,19 @@ class AuthenticationMethodChronicle(str, Enum, metaclass=utils.OpenEnumMeta):
     SERVICE_ACCOUNT_SECRET = "serviceAccountSecret"
 
 
-class CustomLabelChronicleTypedDict(TypedDict):
+class CreateOutputCustomLabelTypedDict(TypedDict):
     key: str
     value: str
     rbac_enabled: NotRequired[bool]
     r"""Designate this label for role-based access control and filtering"""
 
 
-class CustomLabelChronicle(BaseModel):
+class CreateOutputCustomLabel(BaseModel):
     key: str
 
     value: str
 
-    rbac_enabled: Annotated[Optional[bool], pydantic.Field(alias="rbacEnabled")] = False
+    rbac_enabled: Annotated[Optional[bool], pydantic.Field(alias="rbacEnabled")] = None
     r"""Designate this label for role-based access control and filtering"""
 
 
@@ -1487,7 +1487,7 @@ class CreateOutputOutputChronicleTypedDict(TypedDict):
     r"""User-configured environment namespace to identify the data domain the logs originated from. This namespace is used as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
     log_text_field: NotRequired[str]
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
-    custom_labels: NotRequired[List[CustomLabelChronicleTypedDict]]
+    custom_labels: NotRequired[List[CreateOutputCustomLabelTypedDict]]
     r"""Custom labels to be added to every event"""
     description: NotRequired[str]
     service_account_credentials: NotRequired[str]
@@ -1549,14 +1549,12 @@ class CreateOutputOutputChronicle(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    api_version: Annotated[Optional[str], pydantic.Field(alias="apiVersion")] = (
-        "v1alpha"
-    )
+    api_version: Annotated[Optional[str], pydantic.Field(alias="apiVersion")] = None
 
     authentication_method: Annotated[
         Optional[AuthenticationMethodChronicle],
         pydantic.Field(alias="authenticationMethod"),
-    ] = AuthenticationMethodChronicle.SERVICE_ACCOUNT
+    ] = None
 
     response_retry_settings: Annotated[
         Optional[List[ItemsTypeResponseRetrySettings]],
@@ -1570,39 +1568,39 @@ class CreateOutputOutputChronicle(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 1024
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 90
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -1614,7 +1612,7 @@ class CreateOutputOutputChronicle(BaseModel):
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -1624,12 +1622,12 @@ class CreateOutputOutputChronicle(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     total_memory_limit_kb: Annotated[
@@ -1639,7 +1637,7 @@ class CreateOutputOutputChronicle(BaseModel):
 
     ingestion_method: Annotated[
         Optional[str], pydantic.Field(alias="ingestionMethod")
-    ] = "ImportLogs"
+    ] = None
 
     namespace: Optional[str] = None
     r"""User-configured environment namespace to identify the data domain the logs originated from. This namespace is used as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
@@ -1650,7 +1648,7 @@ class CreateOutputOutputChronicle(BaseModel):
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
 
     custom_labels: Annotated[
-        Optional[List[CustomLabelChronicle]], pydantic.Field(alias="customLabels")
+        Optional[List[CreateOutputCustomLabel]], pydantic.Field(alias="customLabels")
     ] = None
     r"""Custom labels to be added to every event"""
 
@@ -1668,50 +1666,46 @@ class CreateOutputOutputChronicle(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -1808,6 +1802,10 @@ class CreateOutputOutputSentinelOneAiSiemTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeSentinelOneAiSiem
+    region: CreateOutputRegion
+    r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
+    endpoint: CreateOutputAISIEMEndpointPath
+    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -1816,10 +1814,6 @@ class CreateOutputOutputSentinelOneAiSiemTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    region: NotRequired[CreateOutputRegion]
-    r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
-    endpoint: NotRequired[CreateOutputAISIEMEndpointPath]
-    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -1916,6 +1910,12 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
 
     type: CreateOutputTypeSentinelOneAiSiem
 
+    region: CreateOutputRegion
+    r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
+
+    endpoint: CreateOutputAISIEMEndpointPath
+    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -1930,44 +1930,36 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    region: Optional[CreateOutputRegion] = CreateOutputRegion.US
-    r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
-
-    endpoint: Optional[CreateOutputAISIEMEndpointPath] = (
-        CreateOutputAISIEMEndpointPath.ROOT_SERVICES_COLLECTOR_EVENT
-    )
-    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
-
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 5120
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 5
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -1979,7 +1971,7 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -1990,7 +1982,7 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     response_retry_settings: Annotated[
@@ -2005,12 +1997,12 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -2021,121 +2013,113 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    base_url: Annotated[Optional[str], pydantic.Field(alias="baseUrl")] = (
-        "https://<Your-S1-Tenant>.sentinelone.net"
-    )
+    base_url: Annotated[Optional[str], pydantic.Field(alias="baseUrl")] = None
     r"""Base URL of the endpoint used to send events to, such as https://<Your-S1-Tenant>.sentinelone.net. Must begin with http:// or https://, can include a port number, and no trailing slashes. Matches pattern: ^https?://[a-zA-Z0-9.-]+(:[0-9]+)?$."""
 
     host_expression: Annotated[
         Optional[str], pydantic.Field(alias="hostExpression")
-    ] = "__e.host || C.os.hostname()"
+    ] = None
     r"""Define serverHost for events using a JavaScript expression. You must enclose text constants in quotes (such as, 'myServer')."""
 
     source_expression: Annotated[
         Optional[str], pydantic.Field(alias="sourceExpression")
-    ] = "__e.source || (__e.__criblMetrics ? 'metrics' : 'cribl')"
+    ] = None
     r"""Define logFile for events using a JavaScript expression. You must enclose text constants in quotes (such as, 'myLogFile.txt')."""
 
     source_type_expression: Annotated[
         Optional[str], pydantic.Field(alias="sourceTypeExpression")
-    ] = "__e.sourcetype || 'dottedJson'"
+    ] = None
     r"""Define the parser for events using a JavaScript expression. This value helps parse data into AI SIEM. You must enclose text constants in quotes (such as, 'dottedJson'). For custom parsers, substitute 'dottedJson' with your parser's name."""
 
     data_source_category_expression: Annotated[
         Optional[str], pydantic.Field(alias="dataSourceCategoryExpression")
-    ] = "'security'"
+    ] = None
     r"""Define the dataSource.category for events using a JavaScript expression. This value helps categorize data and helps enable extra features in SentinelOne AI SIEM. You must enclose text constants in quotes. The default value is 'security'."""
 
     data_source_name_expression: Annotated[
         Optional[str], pydantic.Field(alias="dataSourceNameExpression")
-    ] = "__e.__dataSourceName || 'cribl'"
+    ] = None
     r"""Define the dataSource.name for events using a JavaScript expression. This value should reflect the type of data being inserted into AI SIEM. You must enclose text constants in quotes (such as, 'networkActivity' or 'authLogs')."""
 
     data_source_vendor_expression: Annotated[
         Optional[str], pydantic.Field(alias="dataSourceVendorExpression")
-    ] = "__e.__dataSourceVendor || 'cribl'"
+    ] = None
     r"""Define the dataSource.vendor for events using a JavaScript expression. This value should reflect the vendor of the data being inserted into AI SIEM. You must enclose text constants in quotes (such as, 'Cisco' or 'Microsoft')."""
 
     event_type_expression: Annotated[
         Optional[str], pydantic.Field(alias="eventTypeExpression")
-    ] = ""
+    ] = None
     r"""Optionally, define the event.type for events using a JavaScript expression. This value acts as a label, grouping events into meaningful categories. You must enclose text constants in quotes (such as, 'Process Creation' or 'Network Connection')."""
 
-    host: Optional[str] = "C.os.hostname()"
+    host: Optional[str] = None
     r"""Define the serverHost for events using a JavaScript expression. This value will be passed to AI SIEM. You must enclose text constants in quotes (such as, 'myServerName')."""
 
-    source: Optional[str] = "cribl"
+    source: Optional[str] = None
     r"""Specify the logFile value to pass as a parameter to SentinelOne AI SIEM. Don't quote this value. The default is cribl."""
 
-    source_type: Annotated[Optional[str], pydantic.Field(alias="sourceType")] = (
-        "hecRawParser"
-    )
+    source_type: Annotated[Optional[str], pydantic.Field(alias="sourceType")] = None
     r"""Specify the sourcetype parameter for SentinelOne AI SIEM, which determines the parser. Don't quote this value. For custom parsers, substitute hecRawParser with your parser's name. The default is hecRawParser."""
 
     data_source_category: Annotated[
         Optional[str], pydantic.Field(alias="dataSourceCategory")
-    ] = "security"
+    ] = None
     r"""Specify the dataSource.category value to pass as a parameter to SentinelOne AI SIEM. This value helps categorize data and enables additional features. Don't quote this value. The default is security."""
 
     data_source_name: Annotated[
         Optional[str], pydantic.Field(alias="dataSourceName")
-    ] = "cribl"
+    ] = None
     r"""Specify the dataSource.name value to pass as a parameter to AI SIEM. This value should reflect the type of data being inserted. Don't quote this value. The default is cribl."""
 
     data_source_vendor: Annotated[
         Optional[str], pydantic.Field(alias="dataSourceVendor")
-    ] = "cribl"
+    ] = None
     r"""Specify the dataSource.vendorvalue to pass as a parameter to AI SIEM. This value should reflect the vendor of the data being inserted. Don't quote this value. The default is cribl."""
 
-    event_type: Annotated[Optional[str], pydantic.Field(alias="eventType")] = ""
+    event_type: Annotated[Optional[str], pydantic.Field(alias="eventType")] = None
     r"""Specify the event.type value to pass as an optional parameter to AI SIEM. This value acts as a label, grouping events into meaningful categories like Process Creation, File Modification, or Network Connection. Don't quote this value. By default, this field is empty."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -2247,6 +2231,14 @@ class CreateOutputOutputDynatraceOtlpTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeDynatraceOtlp
+    protocol: ProtocolDynatraceOtlp
+    r"""Select a transport option for Dynatrace"""
+    endpoint: str
+    r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
+    otlp_version: OtlpVersionOptions1
+    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
+    endpoint_type: CreateOutputEndpointType
+    r"""Select the type of Dynatrace endpoint configured"""
     token_secret: str
     r"""Select or create a stored text secret"""
     pipeline: NotRequired[str]
@@ -2257,12 +2249,6 @@ class CreateOutputOutputDynatraceOtlpTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    protocol: NotRequired[ProtocolDynatraceOtlp]
-    r"""Select a transport option for Dynatrace"""
-    endpoint: NotRequired[str]
-    r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
-    otlp_version: NotRequired[OtlpVersionOptions1]
-    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
     compress: NotRequired[CompressionOptions4]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_compress: NotRequired[CompressionOptions5]
@@ -2291,8 +2277,6 @@ class CreateOutputOutputDynatraceOtlpTypedDict(TypedDict):
     r"""How often the sender should ping the peer to keep the connection open"""
     keep_alive: NotRequired[bool]
     r"""Disable to close the connection immediately after sending the outgoing request"""
-    endpoint_type: NotRequired[CreateOutputEndpointType]
-    r"""Select the type of Dynatrace endpoint configured"""
     auth_token_name: NotRequired[str]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
@@ -2342,6 +2326,20 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
 
     type: CreateOutputTypeDynatraceOtlp
 
+    protocol: ProtocolDynatraceOtlp
+    r"""Select a transport option for Dynatrace"""
+
+    endpoint: str
+    r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
+
+    otlp_version: Annotated[OtlpVersionOptions1, pydantic.Field(alias="otlpVersion")]
+    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
+
+    endpoint_type: Annotated[
+        CreateOutputEndpointType, pydantic.Field(alias="endpointType")
+    ]
+    r"""Select the type of Dynatrace endpoint configured"""
+
     token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
     r"""Select or create a stored text secret"""
 
@@ -2359,25 +2357,12 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Optional[ProtocolDynatraceOtlp] = ProtocolDynatraceOtlp.HTTP
-    r"""Select a transport option for Dynatrace"""
-
-    endpoint: Optional[str] = (
-        "https://{your-environment-id}.live.dynatrace.com/api/v2/otlp"
-    )
-    r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
-
-    otlp_version: Annotated[
-        Optional[OtlpVersionOptions1], pydantic.Field(alias="otlpVersion")
-    ] = OtlpVersionOptions1.ONE_DOT_3_DOT_1
-    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
-
-    compress: Optional[CompressionOptions4] = CompressionOptions4.GZIP
+    compress: Optional[CompressionOptions4] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
         Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
-    ] = CompressionOptions5.GZIP
+    ] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_traces_endpoint_override: Annotated[
@@ -2398,60 +2383,55 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     metadata: Optional[List[ItemsTypeKeyValueMetadata]] = None
     r"""List of key-value pairs to send with each gRPC request. Value supports JavaScript expressions that are evaluated just once, when the destination gets started. To pass credentials as metadata, use 'C.Secret'."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 2048
+    ] = None
     r"""Maximum size (in KB) of the request body. The maximum payload size is 4 MB. If this limit is exceeded, the entire OTLP message is dropped"""
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often the sender should ping the peer to keep the connection open"""
 
-    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = True
+    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
-    endpoint_type: Annotated[
-        Optional[CreateOutputEndpointType], pydantic.Field(alias="endpointType")
-    ] = CreateOutputEndpointType.SAAS
-    r"""Select the type of Dynatrace endpoint configured"""
-
     auth_token_name: Annotated[Optional[str], pydantic.Field(alias="authTokenName")] = (
-        "Authorization"
+        None
     )
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
@@ -2459,7 +2439,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     extra_http_headers: Annotated[
@@ -2485,55 +2465,51 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -2679,6 +2655,10 @@ class CreateOutputOutputDynatraceHTTPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeDynatraceHTTP
+    format_: FormatDynatraceHTTP
+    r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
+    endpoint: CreateOutputEndpoint
+    telemetry_type: CreateOutputTelemetryType
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -2724,10 +2704,6 @@ class CreateOutputOutputDynatraceHTTPTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     auth_type: NotRequired[AuthenticationTypeDynatraceHTTP]
-    format_: NotRequired[FormatDynatraceHTTP]
-    r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
-    endpoint: NotRequired[CreateOutputEndpoint]
-    telemetry_type: NotRequired[CreateOutputTelemetryType]
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
@@ -2770,6 +2746,15 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
 
     type: CreateOutputTypeDynatraceHTTP
 
+    format_: Annotated[FormatDynatraceHTTP, pydantic.Field(alias="format")]
+    r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
+
+    endpoint: CreateOutputEndpoint
+
+    telemetry_type: Annotated[
+        CreateOutputTelemetryType, pydantic.Field(alias="telemetryType")
+    ]
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -2784,42 +2769,42 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    method: Optional[MethodOptions] = MethodOptions.POST
+    method: Optional[MethodOptions] = None
     r"""The method to use when sending events"""
 
-    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = True
+    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -2830,13 +2815,13 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -2856,28 +2841,17 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
         Optional[AuthenticationTypeDynatraceHTTP], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeDynatraceHTTP.TOKEN
-
-    format_: Annotated[
-        Optional[FormatDynatraceHTTP], pydantic.Field(alias="format")
-    ] = FormatDynatraceHTTP.JSON_ARRAY
-    r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
-
-    endpoint: Optional[CreateOutputEndpoint] = CreateOutputEndpoint.CLOUD
-
-    telemetry_type: Annotated[
-        Optional[CreateOutputTelemetryType], pydantic.Field(alias="telemetryType")
-    ] = CreateOutputTelemetryType.LOGS
+    ] = None
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
@@ -2888,50 +2862,46 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -3055,7 +3025,7 @@ class CreateOutputTypeNetflow(str, Enum):
 class HostNetflowTypedDict(TypedDict):
     host: str
     r"""Destination host"""
-    port: NotRequired[float]
+    port: float
     r"""Destination port, default is 2055"""
 
 
@@ -3063,7 +3033,7 @@ class HostNetflow(BaseModel):
     host: str
     r"""Destination host"""
 
-    port: Optional[float] = 2055
+    port: float
     r"""Destination port, default is 2055"""
 
 
@@ -3115,19 +3085,19 @@ class CreateOutputOutputNetflow(BaseModel):
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 0
+    ] = None
     r"""How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every datagram sent will incur a DNS lookup."""
 
     enable_ip_spoofing: Annotated[
         Optional[bool], pydantic.Field(alias="enableIpSpoofing")
-    ] = False
+    ] = None
     r"""Send NetFlow traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
 
     description: Optional[str] = None
 
     max_record_size: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSize")
-    ] = 1500
+    ] = None
     r"""MTU in bytes. The actual maximum NetFlow payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). For example, with the default MTU of 1500, the max payload is 1472 bytes for IPv4. Payloads exceeding this limit will be dropped."""
 
 
@@ -3151,7 +3121,7 @@ class URLXsiamTypedDict(TypedDict):
 class URLXsiam(BaseModel):
     url: Any
 
-    weight: Optional[float] = 1
+    weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
@@ -3271,37 +3241,37 @@ class CreateOutputOutputXsiam(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        False
+        None
     )
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 9500
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -3313,7 +3283,7 @@ class CreateOutputOutputXsiam(BaseModel):
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -3323,7 +3293,7 @@ class CreateOutputOutputXsiam(BaseModel):
 
     auth_type: Annotated[
         Optional[AuthenticationMethodXsiam], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodXsiam.TOKEN
+    ] = None
     r"""Enter a token directly, or provide a secret referencing a token"""
 
     response_retry_settings: Annotated[
@@ -3338,17 +3308,17 @@ class CreateOutputOutputXsiam(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     throttle_rate_req_per_sec: Annotated[
         Optional[int], pydantic.Field(alias="throttleRateReqPerSec")
-    ] = 400
+    ] = None
     r"""Maximum number of requests to limit to per second"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     total_memory_limit_kb: Annotated[
@@ -3358,27 +3328,27 @@ class CreateOutputOutputXsiam(BaseModel):
 
     description: Optional[str] = None
 
-    url: Optional[str] = "http://localhost:8088/logs/v1/event"
+    url: Optional[str] = None
     r"""XSIAM endpoint URL to send events to, such as https://api-{tenant external URL}/logs/v1/event"""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[URLXsiam]] = None
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     token: Optional[str] = None
@@ -3389,50 +3359,46 @@ class CreateOutputOutputXsiam(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -3606,7 +3572,7 @@ class CreateOutputOutputClickHouseTypedDict(TypedDict):
     r"""How event fields are mapped to ClickHouse columns."""
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing. Disable to write to a ClickHouse table immediately."""
-    tls: NotRequired[TLSSettingsClientSideType2TypedDict]
+    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -3729,55 +3695,55 @@ class CreateOutputOutputClickHouse(BaseModel):
 
     auth_type: Annotated[
         Optional[AuthenticationTypeClickHouse], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeClickHouse.NONE
+    ] = None
 
     format_: Annotated[Optional[FormatClickHouse], pydantic.Field(alias="format")] = (
-        FormatClickHouse.JSON_COMPACT_EACH_ROW_WITH_NAMES
+        None
     )
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
 
     mapping_type: Annotated[
         Optional[CreateOutputMappingType], pydantic.Field(alias="mappingType")
-    ] = CreateOutputMappingType.AUTOMATIC
+    ] = None
     r"""How event fields are mapped to ClickHouse columns."""
 
     async_inserts: Annotated[Optional[bool], pydantic.Field(alias="asyncInserts")] = (
-        False
+        None
     )
     r"""Collect data into batches for later processing. Disable to write to a ClickHouse table immediately."""
 
-    tls: Optional[TLSSettingsClientSideType2] = None
+    tls: Optional[TLSSettingsClientSideType1] = None
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -3788,13 +3754,13 @@ class CreateOutputOutputClickHouse(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -3814,12 +3780,12 @@ class CreateOutputOutputClickHouse(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     dump_format_errors_to_disk: Annotated[
         Optional[bool], pydantic.Field(alias="dumpFormatErrorsToDisk")
-    ] = False
+    ] = None
     r"""Log the most recent event that fails to match the table schema"""
 
     stats_destination: Annotated[
@@ -3828,7 +3794,7 @@ class CreateOutputOutputClickHouse(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -3866,12 +3832,12 @@ class CreateOutputOutputClickHouse(BaseModel):
 
     auth_header_expr: Annotated[
         Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
+    ] = None
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
 
     token_timeout_secs: Annotated[
         Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
+    ] = None
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
@@ -3889,7 +3855,7 @@ class CreateOutputOutputClickHouse(BaseModel):
 
     wait_for_async_inserts: Annotated[
         Optional[bool], pydantic.Field(alias="waitForAsyncInserts")
-    ] = True
+    ] = None
     r"""Cribl will wait for confirmation that data has been fully inserted into the ClickHouse database before proceeding. Disabling this option can increase throughput, but Cribl won’t be able to verify data has been completely inserted."""
 
     exclude_mapping_fields: Annotated[
@@ -3909,50 +3875,46 @@ class CreateOutputOutputClickHouse(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -4081,18 +4043,16 @@ class CreateOutputOutputDiskSpool(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10m"
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
     r"""Time period for grouping spooled events. Default is 10m."""
 
-    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = "1GB"
+    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = None
     r"""Maximum disk space that can be consumed before older buckets are deleted. Examples: 420MB, 4GB. Default is 1GB."""
 
-    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
+    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = None
     r"""Maximum amount of time to retain data before older buckets are deleted. Examples: 2h, 4d. Default is 24h."""
 
-    compress: Optional[CompressionOptionsPersistence] = (
-        CompressionOptionsPersistence.GZIP
-    )
+    compress: Optional[CompressionOptionsPersistence] = None
     r"""Data compression format. Default is gzip."""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
@@ -4114,12 +4074,6 @@ class CreateOutputOutputDiskSpool(BaseModel):
 
 class CreateOutputTypeCriblLake(str, Enum):
     CRIBL_LAKE = "cribl_lake"
-
-
-class CreateOutputAwsAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
-    AUTO = "auto"
-    AUTO_RPC = "auto_rpc"
-    MANUAL = "manual"
 
 
 class CreateOutputOutputCriblLakeTypedDict(TypedDict):
@@ -4199,7 +4153,7 @@ class CreateOutputOutputCriblLakeTypedDict(TypedDict):
     r"""Disable if you can access files within the bucket but not the bucket itself"""
     max_closing_files_to_backpressure: NotRequired[float]
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
-    aws_authentication_method: NotRequired[CreateOutputAwsAuthenticationMethod]
+    aws_authentication_method: NotRequired[MethodOptionsCredentials]
     format_: NotRequired[FormatOptionsCriblLakeDataset]
     max_concurrent_file_parts: NotRequired[float]
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
@@ -4251,22 +4205,22 @@ class CreateOutputOutputCriblLake(BaseModel):
     signature_version: Annotated[
         Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
-    ] = SignatureVersionOptionsS3CollectorConf.V4
+    ] = None
     r"""Signature version to use for signing S3 requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access S3"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -4281,17 +4235,15 @@ class CreateOutputOutputCriblLake(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
+    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = None
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
@@ -4299,7 +4251,7 @@ class CreateOutputOutputCriblLake(BaseModel):
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
-    ] = ObjectACLOptions.PRIVATE
+    ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
@@ -4317,82 +4269,82 @@ class CreateOutputOutputCriblLake(BaseModel):
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
-        "`CriblOut`"
+        None
     )
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 64
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
-    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = ""
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
     r"""If set, this line will be written to the beginning of each output file"""
 
     write_high_water_mark: Annotated[
         Optional[float], pydantic.Field(alias="writeHighWaterMark")
-    ] = 64
+    ] = None
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     force_close_on_shutdown: Annotated[
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
-    ] = False
+    ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself"""
 
     max_closing_files_to_backpressure: Annotated[
         Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
-    ] = 100
+    ] = None
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
 
     aws_authentication_method: Annotated[
-        Optional[CreateOutputAwsAuthenticationMethod],
+        Optional[MethodOptionsCredentials],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = CreateOutputAwsAuthenticationMethod.AUTO
+    ] = None
 
     format_: Annotated[
         Optional[FormatOptionsCriblLakeDataset], pydantic.Field(alias="format")
@@ -4400,27 +4352,29 @@ class CreateOutputOutputCriblLake(BaseModel):
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
-    ] = 1
+    ] = None
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
 
     description: Optional[str] = None
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     @field_serializer("signature_version")
@@ -4481,7 +4435,7 @@ class CreateOutputOutputCriblLake(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputAwsAuthenticationMethod(value)
+                return models.MethodOptionsCredentials(value)
             except ValueError:
                 return value
         return value
@@ -4517,6 +4471,8 @@ class CreateOutputOutputSecurityLakeTypedDict(TypedDict):
     r"""Region where the Amazon Security Lake is located."""
     assume_role_arn: str
     r"""Amazon Resource Name (ARN) of the role to assume"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     account_id: str
     r"""ID of the AWS account whose data the Destination will write to Security Lake. This should have been configured when creating the Amazon Security Lake custom source."""
     custom_source: str
@@ -4530,7 +4486,7 @@ class CreateOutputOutputSecurityLakeTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     aws_secret_key: NotRequired[str]
-    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     endpoint: NotRequired[str]
     r"""Amazon Security Lake service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Amazon Security Lake-compatible endpoint."""
@@ -4546,8 +4502,6 @@ class CreateOutputOutputSecurityLakeTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    stage_path: NotRequired[str]
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     object_acl: NotRequired[ObjectACLOptions]
@@ -4639,6 +4593,9 @@ class CreateOutputOutputSecurityLake(BaseModel):
     assume_role_arn: Annotated[str, pydantic.Field(alias="assumeRoleArn")]
     r"""Amazon Resource Name (ARN) of the role to assume"""
 
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+
     account_id: Annotated[str, pydantic.Field(alias="accountId")]
     r"""ID of the AWS account whose data the Destination will write to Security Lake. This should have been configured when creating the Amazon Security Lake custom source."""
 
@@ -4664,9 +4621,9 @@ class CreateOutputOutputSecurityLake(BaseModel):
     )
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptions],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptions.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     endpoint: Optional[str] = None
@@ -4674,22 +4631,22 @@ class CreateOutputOutputSecurityLake(BaseModel):
 
     signature_version: Annotated[
         Optional[SignatureVersionSecurityLake], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionSecurityLake.V4
+    ] = None
     r"""Signature version to use for signing Amazon Security Lake requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access S3"""
 
     assume_role_external_id: Annotated[
@@ -4699,22 +4656,17 @@ class CreateOutputOutputSecurityLake(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
-    ] = ObjectACLOptions.PRIVATE
+    ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
@@ -4732,101 +4684,101 @@ class CreateOutputOutputSecurityLake(BaseModel):
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
-        "`CriblOut`"
+        None
     )
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 32
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
-    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = ""
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
     r"""If set, this line will be written to the beginning of each output file"""
 
     write_high_water_mark: Annotated[
         Optional[float], pydantic.Field(alias="writeHighWaterMark")
-    ] = 64
+    ] = None
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     force_close_on_shutdown: Annotated[
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
-    ] = False
+    ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
-    ] = 4
+    ] = None
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself"""
 
     max_closing_files_to_backpressure: Annotated[
         Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
-    ] = 100
+    ] = None
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
+    ] = None
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_version: Annotated[
         Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
-    ] = ParquetVersionOptions.PARQUET_2_6
+    ] = None
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
         Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
-    ] = DataPageVersionOptions.DATA_PAGE_V2
+    ] = None
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
     parquet_row_group_length: Annotated[
         Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
+    ] = None
     r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
 
     parquet_page_size: Annotated[
         Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
+    ] = None
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
 
     should_log_invalid_rows: Annotated[
@@ -4842,17 +4794,17 @@ class CreateOutputOutputSecurityLake(BaseModel):
 
     enable_statistics: Annotated[
         Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
+    ] = None
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
 
     enable_write_page_index: Annotated[
         Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
+    ] = None
     r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
 
     enable_page_checksum: Annotated[
         Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
+    ] = None
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     description: Optional[str] = None
@@ -4865,12 +4817,12 @@ class CreateOutputOutputSecurityLake(BaseModel):
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
@@ -4880,17 +4832,19 @@ class CreateOutputOutputSecurityLake(BaseModel):
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value
@@ -4978,6 +4932,8 @@ class CreateOutputOutputDlS3TypedDict(TypedDict):
     type: CreateOutputTypeDlS3
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -4990,7 +4946,7 @@ class CreateOutputOutputDlS3TypedDict(TypedDict):
     r"""Region where the S3 bucket is located"""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     endpoint: NotRequired[str]
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
@@ -5008,8 +4964,6 @@ class CreateOutputOutputDlS3TypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    stage_path: NotRequired[str]
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     dest_path: NotRequired[str]
@@ -5107,6 +5061,9 @@ class CreateOutputOutputDlS3(BaseModel):
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -5130,9 +5087,9 @@ class CreateOutputOutputDlS3(BaseModel):
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptions],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptions.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     endpoint: Optional[str] = None
@@ -5141,22 +5098,22 @@ class CreateOutputOutputDlS3(BaseModel):
     signature_version: Annotated[
         Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
-    ] = SignatureVersionOptionsS3CollectorConf.V4
+    ] = None
     r"""Signature version to use for signing S3 requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access S3"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -5171,25 +5128,20 @@ class CreateOutputOutputDlS3(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
-    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = ""
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
-    ] = ObjectACLOptions.PRIVATE
+    ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
@@ -5207,86 +5159,86 @@ class CreateOutputOutputDlS3(BaseModel):
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
-        DataFormatOptions.JSON
+        None
     )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
-        "`CriblOut`"
+        None
     )
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 32
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
-    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = ""
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
     r"""If set, this line will be written to the beginning of each output file"""
 
     write_high_water_mark: Annotated[
         Optional[float], pydantic.Field(alias="writeHighWaterMark")
-    ] = 64
+    ] = None
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     force_close_on_shutdown: Annotated[
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
-    ] = False
+    ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
-    ] = 4
+    ] = None
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself"""
 
     max_closing_files_to_backpressure: Annotated[
         Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
-    ] = 100
+    ] = None
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
 
     partitioning_fields: Annotated[
@@ -5302,17 +5254,17 @@ class CreateOutputOutputDlS3(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
         Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
-    ] = CompressionLevelOptions.BEST_SPEED
+    ] = None
     r"""Compression level to apply before moving files to final destination"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
+    ] = None
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
@@ -5322,22 +5274,22 @@ class CreateOutputOutputDlS3(BaseModel):
 
     parquet_version: Annotated[
         Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
-    ] = ParquetVersionOptions.PARQUET_2_6
+    ] = None
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
         Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
-    ] = DataPageVersionOptions.DATA_PAGE_V2
+    ] = None
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
     parquet_row_group_length: Annotated[
         Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
+    ] = None
     r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
 
     parquet_page_size: Annotated[
         Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
+    ] = None
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
 
     should_log_invalid_rows: Annotated[
@@ -5353,42 +5305,44 @@ class CreateOutputOutputDlS3(BaseModel):
 
     enable_statistics: Annotated[
         Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
+    ] = None
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
 
     enable_write_page_index: Annotated[
         Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
+    ] = None
     r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
 
     enable_page_checksum: Annotated[
         Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
+    ] = None
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value
@@ -5513,6 +5467,8 @@ class CreateOutputOutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     r"""URL provided from a CrowdStrike data connector.
     Example: https://ingest.<region>.crowdstrike.com/api/ingest/hec/<connection-id>/v1/services/collector
     """
+    format_: RequestFormatOptions
+    r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -5546,8 +5502,6 @@ class CreateOutputOutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    format_: NotRequired[RequestFormatOptions]
-    r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
@@ -5595,6 +5549,9 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
     Example: https://ingest.<region>.crowdstrike.com/api/ingest/hec/<connection-id>/v1/services/collector
     """
 
+    format_: Annotated[RequestFormatOptions, pydantic.Field(alias="format")]
+    r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -5609,36 +5566,36 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -5649,13 +5606,13 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = True
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -5663,15 +5620,10 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
     ] = None
     r"""List of headers that are safe to log in plain text"""
 
-    format_: Annotated[
-        Optional[RequestFormatOptions], pydantic.Field(alias="format")
-    ] = RequestFormatOptions.JSON
-    r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
-
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     response_retry_settings: Annotated[
@@ -5686,12 +5638,12 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -5703,50 +5655,46 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -5833,6 +5781,10 @@ class CreateOutputOutputHumioHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeHumioHec
+    url: str
+    r"""URL to a CrowdStrike Falcon LogScale endpoint to send events to. Examples: https://cloud.us.humio.com/api/v1/ingest/hec for JSON and https://cloud.us.humio.com/api/v1/ingest/hec/raw for raw"""
+    format_: RequestFormatOptions
+    r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -5841,8 +5793,6 @@ class CreateOutputOutputHumioHecTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    url: NotRequired[str]
-    r"""URL to a CrowdStrike Falcon LogScale endpoint to send events to. Examples: https://cloud.us.humio.com/api/v1/ingest/hec for JSON and https://cloud.us.humio.com/api/v1/ingest/hec/raw for raw"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -5868,8 +5818,6 @@ class CreateOutputOutputHumioHecTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    format_: NotRequired[RequestFormatOptions]
-    r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
@@ -5913,6 +5861,12 @@ class CreateOutputOutputHumioHec(BaseModel):
 
     type: CreateOutputTypeHumioHec
 
+    url: str
+    r"""URL to a CrowdStrike Falcon LogScale endpoint to send events to. Examples: https://cloud.us.humio.com/api/v1/ingest/hec for JSON and https://cloud.us.humio.com/api/v1/ingest/hec/raw for raw"""
+
+    format_: Annotated[RequestFormatOptions, pydantic.Field(alias="format")]
+    r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -5927,39 +5881,36 @@ class CreateOutputOutputHumioHec(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    url: Optional[str] = "https://cloud.us.humio.com/api/v1/ingest/hec"
-    r"""URL to a CrowdStrike Falcon LogScale endpoint to send events to. Examples: https://cloud.us.humio.com/api/v1/ingest/hec for JSON and https://cloud.us.humio.com/api/v1/ingest/hec/raw for raw"""
-
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -5970,13 +5921,13 @@ class CreateOutputOutputHumioHec(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = True
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -5984,15 +5935,10 @@ class CreateOutputOutputHumioHec(BaseModel):
     ] = None
     r"""List of headers that are safe to log in plain text"""
 
-    format_: Annotated[
-        Optional[RequestFormatOptions], pydantic.Field(alias="format")
-    ] = RequestFormatOptions.JSON
-    r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
-
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     response_retry_settings: Annotated[
@@ -6007,12 +5953,12 @@ class CreateOutputOutputHumioHec(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -6025,50 +5971,46 @@ class CreateOutputOutputHumioHec(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -6260,7 +6202,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        False
+        None
     )
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
 
@@ -6268,7 +6210,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
 
     token_ttl_minutes: Annotated[
         Optional[float], pydantic.Field(alias="tokenTTLMinutes")
-    ] = 60
+    ] = None
     r"""The number of minutes before the internally generated authentication token expires. Valid values are between 1 and 60."""
 
     exclude_fields: Annotated[
@@ -6276,36 +6218,36 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     ] = None
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
 
-    compression: Optional[CompressionOptions1] = CompressionOptions1.GZIP
+    compression: Optional[CompressionOptions1] = None
     r"""Codec to use to compress the data before sending"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -6317,7 +6259,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -6327,7 +6269,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     response_retry_settings: Annotated[
@@ -6342,7 +6284,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     auth_tokens: Annotated[
@@ -6352,12 +6294,12 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     description: Optional[str] = None
@@ -6365,67 +6307,63 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     url: Optional[str] = None
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[ItemsTypeUrls]] = None
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -6608,7 +6546,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        True
+        None
     )
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
 
@@ -6616,7 +6554,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
 
     token_ttl_minutes: Annotated[
         Optional[float], pydantic.Field(alias="tokenTTLMinutes")
-    ] = 60
+    ] = None
     r"""The number of minutes before the internally generated authentication token expires. Valid values are between 1 and 60."""
 
     exclude_fields: Annotated[
@@ -6624,36 +6562,36 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     ] = None
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
 
-    compression: Optional[CompressionOptions1] = CompressionOptions1.GZIP
+    compression: Optional[CompressionOptions1] = None
     r"""Codec to use to compress the data before sending"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -6665,7 +6603,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -6675,7 +6613,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     response_retry_settings: Annotated[
@@ -6690,7 +6628,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     auth_tokens: Annotated[
@@ -6700,7 +6638,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -6710,70 +6648,66 @@ class CreateOutputOutputCriblHTTP(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[ItemsTypeUrls]] = None
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -6839,45 +6773,6 @@ class CreateOutputTypeCriblTCP(str, Enum):
     CRIBL_TCP = "cribl_tcp"
 
 
-class HostCriblTCPTypedDict(TypedDict):
-    host: str
-    r"""The hostname of the receiver"""
-    port: NotRequired[float]
-    r"""The port to connect to on the provided host"""
-    tls: NotRequired[TLSOptionsHostsItems]
-    r"""Whether to inherit TLS configs from group setting or disable TLS"""
-    servername: NotRequired[str]
-    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
-    weight: NotRequired[float]
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-
-class HostCriblTCP(BaseModel):
-    host: str
-    r"""The hostname of the receiver"""
-
-    port: Optional[float] = 10300
-    r"""The port to connect to on the provided host"""
-
-    tls: Optional[TLSOptionsHostsItems] = TLSOptionsHostsItems.INHERIT
-    r"""Whether to inherit TLS configs from group setting or disable TLS"""
-
-    servername: Optional[str] = None
-    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
-
-    weight: Optional[float] = 1
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-    @field_serializer("tls")
-    def serialize_tls(self, value):
-        if isinstance(value, str):
-            try:
-                return models.TLSOptionsHostsItems(value)
-            except ValueError:
-                return value
-        return value
-
-
 class PqControlsCriblTCPTypedDict(TypedDict):
     pass
 
@@ -6926,7 +6821,7 @@ class CreateOutputOutputCriblTCPTypedDict(TypedDict):
     r"""The port to connect to on the provided host"""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    hosts: NotRequired[List[HostCriblTCPTypedDict]]
+    hosts: NotRequired[List[ItemsTypeHostsTypedDict]]
     r"""Set of hosts to load-balance data to"""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
@@ -6978,38 +6873,38 @@ class CreateOutputOutputCriblTCP(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        True
+        None
     )
     r"""Use load-balanced destinations"""
 
-    compression: Optional[CompressionOptions1] = CompressionOptions1.GZIP
+    compression: Optional[CompressionOptions1] = None
     r"""Codec to use to compress the data before sending"""
 
     log_failed_requests: Annotated[
         Optional[bool], pydantic.Field(alias="logFailedRequests")
-    ] = False
+    ] = None
     r"""Use to troubleshoot issues with sending data"""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        60000
+        None
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
     token_ttl_minutes: Annotated[
         Optional[float], pydantic.Field(alias="tokenTTLMinutes")
-    ] = 60
+    ] = None
     r"""The number of minutes before the internally generated authentication token expires, valid values between 1 and 60"""
 
     auth_tokens: Annotated[
@@ -7024,7 +6919,7 @@ class CreateOutputOutputCriblTCP(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -7032,76 +6927,72 @@ class CreateOutputOutputCriblTCP(BaseModel):
     host: Optional[str] = None
     r"""The hostname of the receiver"""
 
-    port: Optional[float] = 10300
+    port: Optional[float] = None
     r"""The port to connect to on the provided host"""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
-    hosts: Optional[List[HostCriblTCP]] = None
+    hosts: Optional[List[ItemsTypeHosts]] = None
     r"""Set of hosts to load-balance data to"""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     max_concurrent_senders: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentSenders")
-    ] = 0
+    ] = None
     r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -7252,7 +7143,7 @@ class CreateOutputOutputDatasetTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions3]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter API key directly, or select a stored secret"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
@@ -7325,7 +7216,7 @@ class CreateOutputOutputDataset(BaseModel):
 
     default_severity: Annotated[
         Optional[SeverityDataset], pydantic.Field(alias="defaultSeverity")
-    ] = SeverityDataset.INFO
+    ] = None
     r"""Default value for event severity. If the `sev` or `__severity` fields are set on an event, the first one matching will override this value."""
 
     response_retry_settings: Annotated[
@@ -7340,42 +7231,42 @@ class CreateOutputOutputDataset(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = False
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    site: Optional[CreateOutputDataSetSite] = CreateOutputDataSetSite.US
+    site: Optional[CreateOutputDataSetSite] = None
     r"""DataSet site to which events should be sent"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -7386,13 +7277,13 @@ class CreateOutputOutputDataset(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -7402,12 +7293,12 @@ class CreateOutputOutputDataset(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions3.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = None
     r"""Enter API key directly, or select a stored secret"""
 
     total_memory_limit_kb: Annotated[
@@ -7421,50 +7312,46 @@ class CreateOutputOutputDataset(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -7517,7 +7404,7 @@ class CreateOutputOutputDataset(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions3(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -7566,8 +7453,14 @@ class CreateOutputOutputServiceNowTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeServiceNow
+    endpoint: str
+    r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
     token_secret: str
     r"""Select or create a stored text secret"""
+    otlp_version: OtlpVersionOptions1
+    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
+    protocol: ProtocolOptions
+    r"""Select a transport option for OpenTelemetry"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -7576,15 +7469,9 @@ class CreateOutputOutputServiceNowTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    endpoint: NotRequired[str]
-    r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
     auth_token_name: NotRequired[str]
-    otlp_version: NotRequired[OtlpVersionOptions1]
-    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
     max_payload_size_kb: NotRequired[float]
     r"""Maximum size, in KB, of the request body"""
-    protocol: NotRequired[ProtocolOptions]
-    r"""Select a transport option for OpenTelemetry"""
     compress: NotRequired[CompressionOptions4]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_compress: NotRequired[CompressionOptions5]
@@ -7630,7 +7517,7 @@ class CreateOutputOutputServiceNowTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    tls: NotRequired[TLSSettingsClientSideType3TypedDict]
+    tls: NotRequired[TLSSettingsClientSideType2TypedDict]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -7660,8 +7547,17 @@ class CreateOutputOutputServiceNow(BaseModel):
 
     type: CreateOutputTypeServiceNow
 
+    endpoint: str
+    r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
+
     token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
     r"""Select or create a stored text secret"""
+
+    otlp_version: Annotated[OtlpVersionOptions1, pydantic.Field(alias="otlpVersion")]
+    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
+
+    protocol: ProtocolOptions
+    r"""Select a transport option for OpenTelemetry"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -7677,32 +7573,21 @@ class CreateOutputOutputServiceNow(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    endpoint: Optional[str] = "ingest.lightstep.com:443"
-    r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
-
     auth_token_name: Annotated[Optional[str], pydantic.Field(alias="authTokenName")] = (
-        "lightstep-access-token"
+        None
     )
-
-    otlp_version: Annotated[
-        Optional[OtlpVersionOptions1], pydantic.Field(alias="otlpVersion")
-    ] = OtlpVersionOptions1.ONE_DOT_3_DOT_1
-    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 2048
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
-    protocol: Optional[ProtocolOptions] = ProtocolOptions.GRPC
-    r"""Select a transport option for OpenTelemetry"""
-
-    compress: Optional[CompressionOptions4] = CompressionOptions4.GZIP
+    compress: Optional[CompressionOptions4] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
         Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
-    ] = CompressionOptions5.GZIP
+    ] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_traces_endpoint_override: Annotated[
@@ -7723,46 +7608,46 @@ class CreateOutputOutputServiceNow(BaseModel):
     metadata: Optional[List[ItemsTypeKeyValueMetadata]] = None
     r"""List of key-value pairs to send with each gRPC request. Value supports JavaScript expressions that are evaluated just once, when the destination gets started. To pass credentials as metadata, use 'C.Secret'."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often the sender should ping the peer to keep the connection open"""
 
-    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = True
+    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
@@ -7770,7 +7655,7 @@ class CreateOutputOutputServiceNow(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     extra_http_headers: Annotated[
@@ -7796,57 +7681,53 @@ class CreateOutputOutputServiceNow(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    tls: Optional[TLSSettingsClientSideType3] = None
+    tls: Optional[TLSSettingsClientSideType2] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -8047,7 +7928,7 @@ class CreateOutputOutputOpenTelemetryTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    tls: NotRequired[TLSSettingsClientSideType3TypedDict]
+    tls: NotRequired[TLSSettingsClientSideType2TypedDict]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -8094,25 +7975,25 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Optional[ProtocolOptions] = ProtocolOptions.GRPC
+    protocol: Optional[ProtocolOptions] = None
     r"""Select a transport option for OpenTelemetry"""
 
     otlp_version: Annotated[
         Optional[CreateOutputOTLPVersion], pydantic.Field(alias="otlpVersion")
-    ] = CreateOutputOTLPVersion.ZERO_DOT_10_DOT_0
+    ] = None
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
-    compress: Optional[CompressionOptions4] = CompressionOptions4.GZIP
+    compress: Optional[CompressionOptions4] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
         Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
-    ] = CompressionOptions5.GZIP
+    ] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     auth_type: Annotated[
         Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeOptions.NONE
+    ] = None
     r"""OpenTelemetry authentication type"""
 
     http_traces_endpoint_override: Annotated[
@@ -8133,44 +8014,44 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     metadata: Optional[List[ItemsTypeKeyValueMetadata]] = None
     r"""List of key-value pairs to send with each gRPC request. Value supports JavaScript expressions that are evaluated just once, when the destination gets started. To pass credentials as metadata, use 'C.Secret'."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often the sender should ping the peer to keep the connection open"""
 
-    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = True
+    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -8208,12 +8089,12 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
 
     auth_header_expr: Annotated[
         Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
+    ] = None
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
 
     token_timeout_secs: Annotated[
         Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
+    ] = None
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
@@ -8228,7 +8109,7 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
@@ -8236,7 +8117,7 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     extra_http_headers: Annotated[
@@ -8262,57 +8143,53 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    tls: Optional[TLSSettingsClientSideType3] = None
+    tls: Optional[TLSSettingsClientSideType2] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -8469,9 +8346,7 @@ class CreateOutputOutputRing(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    format_: Annotated[Optional[DataFormatRing], pydantic.Field(alias="format")] = (
-        DataFormatRing.JSON
-    )
+    format_: Annotated[Optional[DataFormatRing], pydantic.Field(alias="format")] = None
     r"""Format of the output data."""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
@@ -8479,22 +8354,20 @@ class CreateOutputOutputRing(BaseModel):
     )
     r"""JS expression to define how files are partitioned and organized. If left blank, Cribl Stream will fallback on event.__partition."""
 
-    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = "1GB"
+    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = None
     r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
 
-    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
+    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = None
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Optional[DataCompressionFormatOptionsPersistence] = (
-        DataCompressionFormatOptionsPersistence.GZIP
-    )
+    compress: Optional[DataCompressionFormatOptionsPersistence] = None
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -8664,41 +8537,41 @@ class CreateOutputOutputPrometheus(BaseModel):
 
     metric_rename_expr: Annotated[
         Optional[str], pydantic.Field(alias="metricRenameExpr")
-    ] = "name.replace(/[^a-zA-Z0-9_]/g, '_')"
+    ] = None
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
 
     send_metadata: Annotated[Optional[bool], pydantic.Field(alias="sendMetadata")] = (
-        True
+        None
     )
     r"""Generate and send metadata (`type` and `metricFamilyName`) requests"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -8709,13 +8582,13 @@ class CreateOutputOutputPrometheus(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -8735,73 +8608,69 @@ class CreateOutputOutputPrometheus(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
         Optional[AuthenticationTypeOptionsPrometheusAuth],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationTypeOptionsPrometheusAuth.NONE
+    ] = None
     r"""Remote Write authentication type"""
 
     description: Optional[str] = None
 
     metrics_flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="metricsFlushPeriodSec")
-    ] = 60
+    ] = None
     r"""How frequently metrics metadata is sent out. Value cannot be smaller than the base Flush period set above."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -8841,12 +8710,12 @@ class CreateOutputOutputPrometheus(BaseModel):
 
     auth_header_expr: Annotated[
         Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
+    ] = None
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
 
     token_timeout_secs: Annotated[
         Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
+    ] = None
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
@@ -8918,19 +8787,6 @@ class CreateOutputTypeLoki(str, Enum):
     LOKI = "loki"
 
 
-class AuthenticationTypeLoki(str, Enum, metaclass=utils.OpenEnumMeta):
-    # None
-    NONE = "none"
-    # Auth token
-    TOKEN = "token"
-    # Auth token (text secret)
-    TEXT_SECRET = "textSecret"
-    # Basic
-    BASIC = "basic"
-    # Basic (credentials secret)
-    CREDENTIALS_SECRET = "credentialsSecret"
-
-
 class PqControlsLokiTypedDict(TypedDict):
     pass
 
@@ -8959,7 +8815,7 @@ class CreateOutputOutputLokiTypedDict(TypedDict):
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
     labels: NotRequired[List[ItemsTypeLabelsTypedDict]]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
-    auth_type: NotRequired[AuthenticationTypeLoki]
+    auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth1]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki to complain about entries being delivered out of order."""
     max_payload_size_kb: NotRequired[float]
@@ -9058,43 +8914,44 @@ class CreateOutputOutputLoki(BaseModel):
 
     message_format: Annotated[
         Optional[MessageFormatOptions], pydantic.Field(alias="messageFormat")
-    ] = MessageFormatOptions.PROTOBUF
+    ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
     labels: Optional[List[ItemsTypeLabels]] = None
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     auth_type: Annotated[
-        Optional[AuthenticationTypeLoki], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeLoki.NONE
+        Optional[AuthenticationTypeOptionsPrometheusAuth1],
+        pydantic.Field(alias="authType"),
+    ] = None
 
-    concurrency: Optional[float] = 1
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki to complain about entries being delivered out of order."""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body. Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki to complain about entries being delivered out of order."""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Defaults to 0 (unlimited). Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki to complain about entries being delivered out of order."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 15
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Maximum time between requests. Small values can reduce the payload size below the configured 'Max record size' and 'Max events per request'. Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki to complain about entries being delivered out of order."""
 
     extra_http_headers: Annotated[
@@ -9105,13 +8962,13 @@ class CreateOutputOutputLoki(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -9131,17 +8988,17 @@ class CreateOutputOutputLoki(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = False
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     enable_dynamic_headers: Annotated[
         Optional[bool], pydantic.Field(alias="enableDynamicHeaders")
-    ] = False
+    ] = None
     r"""Add per-event HTTP headers from the __headers field to outgoing requests. Events with different headers are batched and sent separately."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     total_memory_limit_kb: Annotated[
@@ -9151,7 +9008,7 @@ class CreateOutputOutputLoki(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     token: Optional[str] = None
@@ -9173,50 +9030,46 @@ class CreateOutputOutputLoki(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -9236,7 +9089,7 @@ class CreateOutputOutputLoki(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationTypeLoki(value)
+                return models.AuthenticationTypeOptionsPrometheusAuth1(value)
             except ValueError:
                 return value
         return value
@@ -9412,7 +9265,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
 
     message_format: Annotated[
         Optional[MessageFormatOptions], pydantic.Field(alias="messageFormat")
-    ] = MessageFormatOptions.PROTOBUF
+    ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
     labels: Optional[List[ItemsTypeLabels]] = None
@@ -9420,7 +9273,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
 
     metric_rename_expr: Annotated[
         Optional[str], pydantic.Field(alias="metricRenameExpr")
-    ] = "name.replace(/[^a-zA-Z0-9_]/g, '_')"
+    ] = None
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
 
     prometheus_auth: Annotated[
@@ -9431,33 +9284,33 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
         Optional[PrometheusAuthType], pydantic.Field(alias="lokiAuth")
     ] = None
 
-    concurrency: Optional[float] = 1
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki and Prometheus to complain about entries being delivered out of order."""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body. Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki and Prometheus to complain about entries being delivered out of order."""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited). Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki and Prometheus to complain about entries being delivered out of order."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 15
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Maximum time between requests. Small values can reduce the payload size below the configured 'Max record size' and 'Max events per request'. Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki and Prometheus to complain about entries being delivered out of order."""
 
     extra_http_headers: Annotated[
@@ -9468,13 +9321,13 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -9494,65 +9347,61 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending. Applies only to JSON payloads; the Protobuf variant for both Prometheus and Loki are snappy-compressed by default."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -9742,7 +9591,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
 
     message_format: Annotated[
         Optional[MessageFormatOptions], pydantic.Field(alias="messageFormat")
-    ] = MessageFormatOptions.PROTOBUF
+    ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
     labels: Optional[List[ItemsTypeLabels]] = None
@@ -9750,7 +9599,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
 
     metric_rename_expr: Annotated[
         Optional[str], pydantic.Field(alias="metricRenameExpr")
-    ] = "name.replace(/[^a-zA-Z0-9_]/g, '_')"
+    ] = None
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
 
     prometheus_auth: Annotated[
@@ -9761,33 +9610,33 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
         Optional[PrometheusAuthType], pydantic.Field(alias="lokiAuth")
     ] = None
 
-    concurrency: Optional[float] = 1
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki and Prometheus to complain about entries being delivered out of order."""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body. Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki and Prometheus to complain about entries being delivered out of order."""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited). Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki and Prometheus to complain about entries being delivered out of order."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 15
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Maximum time between requests. Small values can reduce the payload size below the configured 'Max record size' and 'Max events per request'. Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki and Prometheus to complain about entries being delivered out of order."""
 
     extra_http_headers: Annotated[
@@ -9798,13 +9647,13 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -9824,65 +9673,61 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending. Applies only to JSON payloads; the Protobuf variant for both Prometheus and Loki are snappy-compressed by default."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -10090,7 +9935,7 @@ class CreateOutputOutputDatadogTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions3]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter API key directly, or select a stored secret"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
@@ -10145,7 +9990,7 @@ class CreateOutputOutputDatadog(BaseModel):
 
     content_type: Annotated[
         Optional[CreateOutputSendLogsAs], pydantic.Field(alias="contentType")
-    ] = CreateOutputSendLogsAs.JSON
+    ] = None
     r"""The content type to use when sending logs"""
 
     message: Optional[str] = None
@@ -10163,55 +10008,55 @@ class CreateOutputOutputDatadog(BaseModel):
     tags: Optional[List[str]] = None
     r"""List of tags to send with logs, such as 'env:prod' and 'env_staging:east'"""
 
-    batch_by_tags: Annotated[Optional[bool], pydantic.Field(alias="batchByTags")] = True
+    batch_by_tags: Annotated[Optional[bool], pydantic.Field(alias="batchByTags")] = None
     r"""Batch events by API key and the ddtags field on the event. When disabled, batches events only by API key. If incoming events have high cardinality in the ddtags field, disabling this setting may improve Destination performance."""
 
     allow_api_key_from_events: Annotated[
         Optional[bool], pydantic.Field(alias="allowApiKeyFromEvents")
-    ] = False
+    ] = None
     r"""Allow API key to be set from the event's '__agent_api_key' field"""
 
     severity: Optional[SeverityDatadog] = None
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
 
-    site: Optional[CreateOutputDatadogSite] = CreateOutputDatadogSite.US
+    site: Optional[CreateOutputDatadogSite] = None
     r"""Datadog site to which events should be sent"""
 
     send_counters_as_count: Annotated[
         Optional[bool], pydantic.Field(alias="sendCountersAsCount")
-    ] = False
+    ] = None
     r"""If not enabled, Datadog will transform 'counter' metrics to 'gauge'. [Learn more about Datadog metrics types.](https://docs.datadoghq.com/metrics/types/?tab=count)"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -10222,13 +10067,13 @@ class CreateOutputOutputDatadog(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -10248,17 +10093,17 @@ class CreateOutputOutputDatadog(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = False
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions3.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = None
     r"""Enter API key directly, or select a stored secret"""
 
     total_memory_limit_kb: Annotated[
@@ -10272,50 +10117,46 @@ class CreateOutputOutputDatadog(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -10377,7 +10218,7 @@ class CreateOutputOutputDatadog(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions3(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -10542,39 +10383,39 @@ class CreateOutputOutputSumoLogic(BaseModel):
 
     format_: Annotated[
         Optional[DataFormatSumoLogic], pydantic.Field(alias="format")
-    ] = DataFormatSumoLogic.JSON
+    ] = None
     r"""Preserve the raw event format instead of JSONifying it"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 1024
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -10585,13 +10426,13 @@ class CreateOutputOutputSumoLogic(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -10611,12 +10452,12 @@ class CreateOutputOutputSumoLogic(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = False
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     total_memory_limit_kb: Annotated[
@@ -10628,50 +10469,46 @@ class CreateOutputOutputSumoLogic(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -10740,7 +10577,7 @@ class CreateOutputTypeSnmp(str, Enum):
 class HostSnmpTypedDict(TypedDict):
     host: str
     r"""Destination host"""
-    port: NotRequired[float]
+    port: float
     r"""Destination port, default is 162"""
 
 
@@ -10748,7 +10585,7 @@ class HostSnmp(BaseModel):
     host: str
     r"""Destination host"""
 
-    port: Optional[float] = 162
+    port: float
     r"""Destination port, default is 162"""
 
 
@@ -10796,7 +10633,7 @@ class CreateOutputOutputSnmp(BaseModel):
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 0
+    ] = None
     r"""How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every trap sent will incur a DNS lookup."""
 
     description: Optional[str] = None
@@ -10845,7 +10682,7 @@ class CreateOutputOutputSqsTypedDict(TypedDict):
     r"""This parameter applies only to FIFO queues. The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner. Use event field __messageGroupId to override this value."""
     create_queue: NotRequired[bool]
     r"""Create queue if it does not exist."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -10936,16 +10773,16 @@ class CreateOutputOutputSqs(BaseModel):
 
     message_group_id: Annotated[
         Optional[str], pydantic.Field(alias="messageGroupId")
-    ] = "cribl"
+    ] = None
     r"""This parameter applies only to FIFO queues. The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner. Use event field __messageGroupId to override this value."""
 
-    create_queue: Annotated[Optional[bool], pydantic.Field(alias="createQueue")] = True
+    create_queue: Annotated[Optional[bool], pydantic.Field(alias="createQueue")] = None
     r"""Create queue if it does not exist."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptions],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptions.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -10960,22 +10797,22 @@ class CreateOutputOutputSqs(BaseModel):
 
     signature_version: Annotated[
         Optional[SignatureVersionOptions3], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions3.V4
+    ] = None
     r"""Signature version to use for signing SQS requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access SQS"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -10990,32 +10827,32 @@ class CreateOutputOutputSqs(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     max_queue_size: Annotated[Optional[float], pydantic.Field(alias="maxQueueSize")] = (
-        100
+        None
     )
     r"""Maximum number of queued batches before blocking."""
 
     max_record_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSizeKB")
-    ] = 256
+    ] = None
     r"""Maximum size (KB) of batches to send. Per the SQS spec, the max allowed value is 256 KB."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
 
     max_in_progress: Annotated[
         Optional[float], pydantic.Field(alias="maxInProgress")
-    ] = 10
+    ] = None
     r"""The maximum number of in-progress API requests before backpressure is applied."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -11027,50 +10864,46 @@ class CreateOutputOutputSqs(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -11090,7 +10923,7 @@ class CreateOutputOutputSqs(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value
@@ -11178,7 +11011,7 @@ class CreateOutputOutputSnsTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     max_retries: NotRequired[float]
     r"""Maximum number of retries before the output returns an error. Note that not all errors are retryable. The retries use an exponential backoff policy."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -11258,9 +11091,9 @@ class CreateOutputOutputSns(BaseModel):
     r"""Maximum number of retries before the output returns an error. Note that not all errors are retryable. The retries use an exponential backoff policy."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptions],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptions.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -11275,22 +11108,22 @@ class CreateOutputOutputSns(BaseModel):
 
     signature_version: Annotated[
         Optional[SignatureVersionSns], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionSns.V4
+    ] = None
     r"""Signature version to use for signing SNS requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access SNS"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -11305,12 +11138,12 @@ class CreateOutputOutputSns(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -11322,50 +11155,46 @@ class CreateOutputOutputSns(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -11376,7 +11205,7 @@ class CreateOutputOutputSns(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value
@@ -11452,7 +11281,7 @@ class CreateOutputRule(BaseModel):
     description: Optional[str] = None
     r"""Description of this rule's purpose"""
 
-    final: Optional[bool] = True
+    final: Optional[bool] = None
     r"""Flag to control whether to stop the event from being checked against other rules"""
 
 
@@ -11515,8 +11344,12 @@ class CreateOutputOutputGraphiteTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeGraphite
+    protocol: DestinationProtocolOptions
+    r"""Protocol to use when communicating with the destination."""
     host: str
     r"""The hostname of the destination."""
+    port: float
+    r"""Destination port."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -11525,10 +11358,6 @@ class CreateOutputOutputGraphiteTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    protocol: NotRequired[DestinationProtocolOptions]
-    r"""Protocol to use when communicating with the destination."""
-    port: NotRequired[float]
-    r"""Destination port."""
     mtu: NotRequired[float]
     r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
     flush_period_sec: NotRequired[float]
@@ -11573,8 +11402,14 @@ class CreateOutputOutputGraphite(BaseModel):
 
     type: CreateOutputTypeGraphite
 
+    protocol: DestinationProtocolOptions
+    r"""Protocol to use when communicating with the destination."""
+
     host: str
     r"""The hostname of the destination."""
+
+    port: float
+    r"""Destination port."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -11590,93 +11425,83 @@ class CreateOutputOutputGraphite(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Optional[DestinationProtocolOptions] = DestinationProtocolOptions.UDP
-    r"""Protocol to use when communicating with the destination."""
-
-    port: Optional[float] = 8125
-    r"""Destination port."""
-
-    mtu: Optional[float] = 512
+    mtu: Optional[float] = None
     r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""When protocol is TCP, specifies how often buffers should be flushed, resulting in records sent to the destination."""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 0
+    ] = None
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
 
     description: Optional[str] = None
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        60000
+        None
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -11745,8 +11570,12 @@ class CreateOutputOutputStatsdExtTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeStatsdExt
+    protocol: DestinationProtocolOptions
+    r"""Protocol to use when communicating with the destination."""
     host: str
     r"""The hostname of the destination."""
+    port: float
+    r"""Destination port."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -11755,10 +11584,6 @@ class CreateOutputOutputStatsdExtTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    protocol: NotRequired[DestinationProtocolOptions]
-    r"""Protocol to use when communicating with the destination."""
-    port: NotRequired[float]
-    r"""Destination port."""
     mtu: NotRequired[float]
     r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
     flush_period_sec: NotRequired[float]
@@ -11803,8 +11628,14 @@ class CreateOutputOutputStatsdExt(BaseModel):
 
     type: CreateOutputTypeStatsdExt
 
+    protocol: DestinationProtocolOptions
+    r"""Protocol to use when communicating with the destination."""
+
     host: str
     r"""The hostname of the destination."""
+
+    port: float
+    r"""Destination port."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -11820,93 +11651,83 @@ class CreateOutputOutputStatsdExt(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Optional[DestinationProtocolOptions] = DestinationProtocolOptions.UDP
-    r"""Protocol to use when communicating with the destination."""
-
-    port: Optional[float] = 8125
-    r"""Destination port."""
-
-    mtu: Optional[float] = 512
+    mtu: Optional[float] = None
     r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""When protocol is TCP, specifies how often buffers should be flushed, resulting in records sent to the destination."""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 0
+    ] = None
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
 
     description: Optional[str] = None
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        60000
+        None
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -11975,8 +11796,12 @@ class CreateOutputOutputStatsdTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeStatsd
+    protocol: DestinationProtocolOptions
+    r"""Protocol to use when communicating with the destination."""
     host: str
     r"""The hostname of the destination."""
+    port: float
+    r"""Destination port."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -11985,10 +11810,6 @@ class CreateOutputOutputStatsdTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    protocol: NotRequired[DestinationProtocolOptions]
-    r"""Protocol to use when communicating with the destination."""
-    port: NotRequired[float]
-    r"""Destination port."""
     mtu: NotRequired[float]
     r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
     flush_period_sec: NotRequired[float]
@@ -12033,8 +11854,14 @@ class CreateOutputOutputStatsd(BaseModel):
 
     type: CreateOutputTypeStatsd
 
+    protocol: DestinationProtocolOptions
+    r"""Protocol to use when communicating with the destination."""
+
     host: str
     r"""The hostname of the destination."""
+
+    port: float
+    r"""Destination port."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -12050,93 +11877,83 @@ class CreateOutputOutputStatsd(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Optional[DestinationProtocolOptions] = DestinationProtocolOptions.UDP
-    r"""Protocol to use when communicating with the destination."""
-
-    port: Optional[float] = 8125
-    r"""Destination port."""
-
-    mtu: Optional[float] = 512
+    mtu: Optional[float] = None
     r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""When protocol is TCP, specifies how often buffers should be flushed, resulting in records sent to the destination."""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 0
+    ] = None
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
 
     description: Optional[str] = None
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        60000
+        None
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -12201,6 +12018,8 @@ class CreateOutputOutputMinioTypedDict(TypedDict):
     r"""MinIO service url (e.g. http://minioHost:9000)"""
     bucket: str
     r"""Name of the destination MinIO bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -12209,14 +12028,12 @@ class CreateOutputOutputMinioTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`)."""
     region: NotRequired[str]
     r"""Region where the MinIO service/cluster is located"""
-    stage_path: NotRequired[str]
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     dest_path: NotRequired[str]
@@ -12320,6 +12137,9 @@ class CreateOutputOutputMinio(BaseModel):
     bucket: str
     r"""Name of the destination MinIO bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -12335,9 +12155,9 @@ class CreateOutputOutputMinio(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptions],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptions.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -12348,14 +12168,9 @@ class CreateOutputOutputMinio(BaseModel):
     region: Optional[str] = None
     r"""Region where the MinIO service/cluster is located"""
 
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
-
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
@@ -12363,12 +12178,12 @@ class CreateOutputOutputMinio(BaseModel):
 
     signature_version: Annotated[
         Optional[SignatureVersionOptions5], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions5.V4
+    ] = None
     r"""Signature version to use for signing MinIO requests"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
-    ] = ObjectACLOptions.PRIVATE
+    ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
@@ -12384,96 +12199,96 @@ class CreateOutputOutputMinio(BaseModel):
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates)"""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
-        "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')"
+        None
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
-        DataFormatOptions.JSON
+        None
     )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
-        "`CriblOut`"
+        None
     )
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 32
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
-    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = ""
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
     r"""If set, this line will be written to the beginning of each output file"""
 
     write_high_water_mark: Annotated[
         Optional[float], pydantic.Field(alias="writeHighWaterMark")
-    ] = 64
+    ] = None
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     force_close_on_shutdown: Annotated[
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
-    ] = False
+    ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
-    ] = 4
+    ] = None
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
 
     description: Optional[str] = None
@@ -12484,17 +12299,17 @@ class CreateOutputOutputMinio(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
         Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
-    ] = CompressionLevelOptions.BEST_SPEED
+    ] = None
     r"""Compression level to apply before moving files to final destination"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
+    ] = None
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
@@ -12504,22 +12319,22 @@ class CreateOutputOutputMinio(BaseModel):
 
     parquet_version: Annotated[
         Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
-    ] = ParquetVersionOptions.PARQUET_2_6
+    ] = None
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
         Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
-    ] = DataPageVersionOptions.DATA_PAGE_V2
+    ] = None
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
     parquet_row_group_length: Annotated[
         Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
+    ] = None
     r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
 
     parquet_page_size: Annotated[
         Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
+    ] = None
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
 
     should_log_invalid_rows: Annotated[
@@ -12535,42 +12350,44 @@ class CreateOutputOutputMinio(BaseModel):
 
     enable_statistics: Annotated[
         Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
+    ] = None
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
 
     enable_write_page_index: Annotated[
         Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
+    ] = None
     r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
 
     enable_page_checksum: Annotated[
         Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
+    ] = None
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value
@@ -12705,7 +12522,7 @@ class CreateOutputOutputCloudwatchTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -12787,9 +12604,9 @@ class CreateOutputOutputCloudwatch(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptions],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptions.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -12801,17 +12618,17 @@ class CreateOutputOutputCloudwatch(BaseModel):
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access CloudWatchLogs"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -12826,25 +12643,27 @@ class CreateOutputOutputCloudwatch(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    max_queue_size: Annotated[Optional[float], pydantic.Field(alias="maxQueueSize")] = 5
+    max_queue_size: Annotated[Optional[float], pydantic.Field(alias="maxQueueSize")] = (
+        None
+    )
     r"""Maximum number of queued batches before blocking"""
 
     max_record_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSizeKB")
-    ] = 1024
+    ] = None
     r"""Maximum size (KB) of each individual record before compression. For non compressible data 1MB is the max recommended size"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -12856,50 +12675,46 @@ class CreateOutputOutputCloudwatch(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -12910,7 +12725,7 @@ class CreateOutputOutputCloudwatch(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value
@@ -13125,55 +12940,55 @@ class CreateOutputOutputInfluxdb(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    use_v2_api: Annotated[Optional[bool], pydantic.Field(alias="useV2API")] = False
+    use_v2_api: Annotated[Optional[bool], pydantic.Field(alias="useV2API")] = None
     r"""The v2 API can be enabled with InfluxDB versions 1.8 and later."""
 
     timestamp_precision: Annotated[
         Optional[CreateOutputTimestampPrecision],
         pydantic.Field(alias="timestampPrecision"),
-    ] = CreateOutputTimestampPrecision.MS
+    ] = None
     r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
 
     dynamic_value_field_name: Annotated[
         Optional[bool], pydantic.Field(alias="dynamicValueFieldName")
-    ] = True
+    ] = None
     r"""Enabling this will pull the value field from the metric name. E,g, 'db.query.user' will use 'db.query' as the measurement and 'user' as the value field."""
 
     value_field_name: Annotated[
         Optional[str], pydantic.Field(alias="valueFieldName")
-    ] = "value"
+    ] = None
     r"""Name of the field in which to store the metric when sending to InfluxDB. If dynamic generation is enabled and fails, this will be used as a fallback."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -13184,13 +12999,13 @@ class CreateOutputOutputInfluxdb(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -13210,17 +13025,17 @@ class CreateOutputOutputInfluxdb(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
         Optional[AuthenticationTypeInfluxdb], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeInfluxdb.NONE
+    ] = None
     r"""InfluxDB authentication type"""
 
     description: Optional[str] = None
@@ -13236,50 +13051,46 @@ class CreateOutputOutputInfluxdb(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -13319,12 +13130,12 @@ class CreateOutputOutputInfluxdb(BaseModel):
 
     auth_header_expr: Annotated[
         Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
+    ] = None
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
 
     token_timeout_secs: Annotated[
         Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
+    ] = None
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
@@ -13463,7 +13274,7 @@ class CreateOutputOutputNewrelicEventsTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions3]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
     custom_url: NotRequired[str]
@@ -13520,39 +13331,39 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    region: Optional[RegionOptions] = RegionOptions.US
+    region: Optional[RegionOptions] = None
     r"""Which New Relic region endpoint to use."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 1024
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -13563,13 +13374,13 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -13589,17 +13400,17 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions3.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = None
     r"""Enter API key directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -13608,50 +13419,46 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -13695,7 +13502,7 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions3(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -13821,7 +13628,7 @@ class CreateOutputOutputNewrelicTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions3]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter API key directly, or select a stored secret"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
@@ -13874,48 +13681,48 @@ class CreateOutputOutputNewrelic(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    region: Optional[RegionOptions] = RegionOptions.US
+    region: Optional[RegionOptions] = None
     r"""Which New Relic region endpoint to use."""
 
-    log_type: Annotated[Optional[str], pydantic.Field(alias="logType")] = ""
+    log_type: Annotated[Optional[str], pydantic.Field(alias="logType")] = None
     r"""Name of the logtype to send with events, e.g.: observability, access_log. The event's 'sourcetype' field (if set) will override this value."""
 
-    message_field: Annotated[Optional[str], pydantic.Field(alias="messageField")] = ""
+    message_field: Annotated[Optional[str], pydantic.Field(alias="messageField")] = None
     r"""Name of field to send as log message value. If not present, event will be serialized and sent as JSON."""
 
     metadata: Optional[List[CreateOutputMetadatum]] = None
     r"""Fields to add to events from this input"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 1024
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -13926,13 +13733,13 @@ class CreateOutputOutputNewrelic(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -13952,17 +13759,17 @@ class CreateOutputOutputNewrelic(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = False
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions3.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = None
     r"""Enter API key directly, or select a stored secret"""
 
     total_memory_limit_kb: Annotated[
@@ -13976,50 +13783,46 @@ class CreateOutputOutputNewrelic(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -14063,7 +13866,7 @@ class CreateOutputOutputNewrelic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions3(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -14098,55 +13901,6 @@ class CreateOutputOutputNewrelic(BaseModel):
 
 class CreateOutputTypeElasticCloud(str, Enum):
     ELASTIC_CLOUD = "elastic_cloud"
-
-
-class AuthElasticCloudTypedDict(TypedDict):
-    disabled: NotRequired[bool]
-    username: NotRequired[str]
-    password: NotRequired[str]
-    auth_type: NotRequired[AuthenticationMethodOptionsAuth]
-    r"""Enter credentials directly, or select a stored secret"""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials"""
-    manual_api_key: NotRequired[str]
-    r"""Enter API key directly"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-
-
-class AuthElasticCloud(BaseModel):
-    disabled: Optional[bool] = False
-
-    username: Optional[str] = None
-
-    password: Optional[str] = None
-
-    auth_type: Annotated[
-        Optional[AuthenticationMethodOptionsAuth], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptionsAuth.MANUAL
-    r"""Enter credentials directly, or select a stored secret"""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials"""
-
-    manual_api_key: Annotated[Optional[str], pydantic.Field(alias="manualAPIKey")] = (
-        None
-    )
-    r"""Enter API key directly"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptionsAuth(value)
-            except ValueError:
-                return value
-        return value
 
 
 class PqControlsElasticCloudTypedDict(TypedDict):
@@ -14198,7 +13952,7 @@ class CreateOutputOutputElasticCloudTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     extra_params: NotRequired[List[ItemsTypeSaslSaslExtensionsTypedDict]]
     r"""Extra parameters to use in HTTP requests"""
-    auth: NotRequired[AuthElasticCloudTypedDict]
+    auth: NotRequired[AuthTypeTypedDict]
     elastic_pipeline: NotRequired[str]
     r"""Optional Elastic Cloud Destination pipeline"""
     include_doc_id: NotRequired[bool]
@@ -14260,36 +14014,36 @@ class CreateOutputOutputElasticCloud(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -14301,7 +14055,7 @@ class CreateOutputOutputElasticCloud(BaseModel):
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -14314,7 +14068,7 @@ class CreateOutputOutputElasticCloud(BaseModel):
     ] = None
     r"""Extra parameters to use in HTTP requests"""
 
-    auth: Optional[AuthElasticCloud] = None
+    auth: Optional[AuthType] = None
 
     elastic_pipeline: Annotated[
         Optional[str], pydantic.Field(alias="elasticPipeline")
@@ -14322,7 +14076,7 @@ class CreateOutputOutputElasticCloud(BaseModel):
     r"""Optional Elastic Cloud Destination pipeline"""
 
     include_doc_id: Annotated[Optional[bool], pydantic.Field(alias="includeDocId")] = (
-        True
+        None
     )
     r"""Include the `document_id` field when sending events to an Elastic TSDS (time series data stream)"""
 
@@ -14338,62 +14092,58 @@ class CreateOutputOutputElasticCloud(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -14450,55 +14200,6 @@ class CreateOutputTypeElastic(str, Enum):
     ELASTIC = "elastic"
 
 
-class AuthElasticTypedDict(TypedDict):
-    disabled: NotRequired[bool]
-    username: NotRequired[str]
-    password: NotRequired[str]
-    auth_type: NotRequired[AuthenticationMethodOptionsAuth]
-    r"""Enter credentials directly, or select a stored secret"""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials"""
-    manual_api_key: NotRequired[str]
-    r"""Enter API key directly"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-
-
-class AuthElastic(BaseModel):
-    disabled: Optional[bool] = True
-
-    username: Optional[str] = None
-
-    password: Optional[str] = None
-
-    auth_type: Annotated[
-        Optional[AuthenticationMethodOptionsAuth], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptionsAuth.MANUAL
-    r"""Enter credentials directly, or select a stored secret"""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials"""
-
-    manual_api_key: Annotated[Optional[str], pydantic.Field(alias="manualAPIKey")] = (
-        None
-    )
-    r"""Enter API key directly"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptionsAuth(value)
-            except ValueError:
-                return value
-        return value
-
-
 class CreateOutputElasticVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
 
@@ -14530,7 +14231,7 @@ class URLElastic(BaseModel):
     url: str
     r"""The URL to an Elastic node to send events to. Example: http://elastic:9200/_bulk"""
 
-    weight: Optional[float] = 1
+    weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
@@ -14589,7 +14290,7 @@ class CreateOutputOutputElasticTypedDict(TypedDict):
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     extra_params: NotRequired[List[ItemsTypeSaslSaslExtensionsTypedDict]]
-    auth: NotRequired[AuthElasticTypedDict]
+    auth: NotRequired[AuthTypeTypedDict]
     elastic_version: NotRequired[CreateOutputElasticVersion]
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
     elastic_pipeline: NotRequired[str]
@@ -14661,43 +14362,43 @@ class CreateOutputOutputElastic(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        True
+        None
     )
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
 
     doc_type: Annotated[Optional[str], pydantic.Field(alias="docType")] = None
     r"""Document type to use for events. Can be overwritten by an event's __type field."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -14709,7 +14410,7 @@ class CreateOutputOutputElastic(BaseModel):
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -14729,18 +14430,18 @@ class CreateOutputOutputElastic(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     extra_params: Annotated[
         Optional[List[ItemsTypeSaslSaslExtensions]], pydantic.Field(alias="extraParams")
     ] = None
 
-    auth: Optional[AuthElastic] = None
+    auth: Optional[AuthType] = None
 
     elastic_version: Annotated[
         Optional[CreateOutputElasticVersion], pydantic.Field(alias="elasticVersion")
-    ] = CreateOutputElasticVersion.AUTO
+    ] = None
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
 
     elastic_pipeline: Annotated[
@@ -14749,23 +14450,23 @@ class CreateOutputOutputElastic(BaseModel):
     r"""Optional Elasticsearch destination pipeline"""
 
     include_doc_id: Annotated[Optional[bool], pydantic.Field(alias="includeDocId")] = (
-        False
+        None
     )
     r"""Include the `document_id` field when sending events to an Elastic TSDS (time series data stream)"""
 
     write_action: Annotated[
         Optional[CreateOutputWriteAction], pydantic.Field(alias="writeAction")
-    ] = CreateOutputWriteAction.CREATE
+    ] = None
     r"""Action to use when writing events. Must be set to `Create` when writing to a data stream."""
 
     retry_partial_errors: Annotated[
         Optional[bool], pydantic.Field(alias="retryPartialErrors")
-    ] = False
+    ] = None
     r"""Retry failed events when a bulk request to Elastic is successful, but the response body returns an error for one or more events in the batch"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -14775,70 +14476,66 @@ class CreateOutputOutputElastic(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[URLElastic]] = None
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -14929,6 +14626,8 @@ class CreateOutputOutputMskTypedDict(TypedDict):
     r"""Enter each Kafka bootstrap server you want to use. Specify hostname and port, e.g., mykafkabroker:9092, or just hostname, in which case @{product} will assign port 9092."""
     topic: str
     r"""The topic to publish events to. Can be overridden using the __topicOut field."""
+    aws_authentication_method: AuthenticationMethodOptionsS3CollectorConf
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
     region: str
     r"""Region where the MSK cluster is located"""
     pipeline: NotRequired[str]
@@ -14968,8 +14667,6 @@ class CreateOutputOutputMskTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
@@ -14987,7 +14684,7 @@ class CreateOutputOutputMskTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -15033,6 +14730,12 @@ class CreateOutputOutputMsk(BaseModel):
     topic: str
     r"""The topic to publish events to. Can be overridden using the __topicOut field."""
 
+    aws_authentication_method: Annotated[
+        AuthenticationMethodOptionsS3CollectorConf,
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
     region: str
     r"""Region where the MSK cluster is located"""
 
@@ -15050,30 +14753,30 @@ class CreateOutputOutputMsk(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Optional[AcknowledgmentsOptions1] = AcknowledgmentsOptions1.ONE
+    ack: Optional[AcknowledgmentsOptions1] = None
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
         Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
-    ] = RecordDataFormatOptions1.JSON
+    ] = None
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Optional[CompressionOptions3] = CompressionOptions3.GZIP
+    compression: Optional[CompressionOptions3] = None
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSizeKB")
-    ] = 768
+    ] = None
     r"""Maximum size of each record batch before compression. The value must not exceed the Kafka brokers' message.max.bytes setting."""
 
     flush_event_count: Annotated[
         Optional[float], pydantic.Field(alias="flushEventCount")
-    ] = 1000
+    ] = None
     r"""The maximum number of events you want the Destination to allow in a batch before forcing a flush"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
@@ -15083,43 +14786,37 @@ class CreateOutputOutputMsk(BaseModel):
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for a connection to complete successfully"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to a request"""
 
-    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = None
     r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
 
-    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = None
     r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
 
     initial_backoff: Annotated[
         Optional[float], pydantic.Field(alias="initialBackoff")
-    ] = 300
+    ] = None
     r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
 
-    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = None
     r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
 
     authentication_timeout: Annotated[
         Optional[float], pydantic.Field(alias="authenticationTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
 
     reauthentication_threshold: Annotated[
         Optional[float], pydantic.Field(alias="reauthenticationThreshold")
-    ] = 10000
+    ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-
-    aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptions],
-        pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptions.AUTO
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
@@ -15130,22 +14827,22 @@ class CreateOutputOutputMsk(BaseModel):
 
     signature_version: Annotated[
         Optional[SignatureVersionOptions], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions.V4
+    ] = None
     r"""Signature version to use for signing MSK cluster requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access MSK"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -15160,14 +14857,14 @@ class CreateOutputOutputMsk(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    tls: Optional[TLSSettingsClientSideType1] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -15189,50 +14886,46 @@ class CreateOutputOutputMsk(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -15270,7 +14963,7 @@ class CreateOutputOutputMsk(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value
@@ -15349,7 +15042,7 @@ class CreateOutputOutputConfluentCloudTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     ack: NotRequired[AcknowledgmentsOptions1]
     r"""Control the number of required acknowledgments."""
     format_: NotRequired[RecordDataFormatOptions1]
@@ -15437,32 +15130,32 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    tls: Optional[TLSSettingsClientSideType1] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
-    ack: Optional[AcknowledgmentsOptions1] = AcknowledgmentsOptions1.ONE
+    ack: Optional[AcknowledgmentsOptions1] = None
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
         Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
-    ] = RecordDataFormatOptions1.JSON
+    ] = None
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Optional[CompressionOptions3] = CompressionOptions3.GZIP
+    compression: Optional[CompressionOptions3] = None
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSizeKB")
-    ] = 768
+    ] = None
     r"""Maximum size of each record batch before compression. The value must not exceed the Kafka brokers' message.max.bytes setting."""
 
     flush_event_count: Annotated[
         Optional[float], pydantic.Field(alias="flushEventCount")
-    ] = 1000
+    ] = None
     r"""The maximum number of events you want the Destination to allow in a batch before forcing a flush"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
@@ -15472,36 +15165,36 @@ class CreateOutputOutputConfluentCloud(BaseModel):
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for a connection to complete successfully"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to a request"""
 
-    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = None
     r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
 
-    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = None
     r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
 
     initial_backoff: Annotated[
         Optional[float], pydantic.Field(alias="initialBackoff")
-    ] = 300
+    ] = None
     r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
 
-    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = None
     r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
 
     authentication_timeout: Annotated[
         Optional[float], pydantic.Field(alias="authenticationTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
 
     reauthentication_threshold: Annotated[
         Optional[float], pydantic.Field(alias="reauthenticationThreshold")
-    ] = 10000
+    ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     sasl: Optional[AuthenticationType] = None
@@ -15509,7 +15202,7 @@ class CreateOutputOutputConfluentCloud(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -15526,50 +15219,46 @@ class CreateOutputOutputConfluentCloud(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -15756,30 +15445,30 @@ class CreateOutputOutputKafka(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Optional[AcknowledgmentsOptions1] = AcknowledgmentsOptions1.ONE
+    ack: Optional[AcknowledgmentsOptions1] = None
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
         Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
-    ] = RecordDataFormatOptions1.JSON
+    ] = None
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Optional[CompressionOptions3] = CompressionOptions3.GZIP
+    compression: Optional[CompressionOptions3] = None
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSizeKB")
-    ] = 768
+    ] = None
     r"""Maximum size of each record batch before compression. The value must not exceed the Kafka brokers' message.max.bytes setting."""
 
     flush_event_count: Annotated[
         Optional[float], pydantic.Field(alias="flushEventCount")
-    ] = 1000
+    ] = None
     r"""The maximum number of events you want the Destination to allow in a batch before forcing a flush"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
@@ -15789,36 +15478,36 @@ class CreateOutputOutputKafka(BaseModel):
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for a connection to complete successfully"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to a request"""
 
-    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = None
     r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
 
-    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = None
     r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
 
     initial_backoff: Annotated[
         Optional[float], pydantic.Field(alias="initialBackoff")
-    ] = 300
+    ] = None
     r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
 
-    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = None
     r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
 
     authentication_timeout: Annotated[
         Optional[float], pydantic.Field(alias="authenticationTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
 
     reauthentication_threshold: Annotated[
         Optional[float], pydantic.Field(alias="reauthenticationThreshold")
-    ] = 10000
+    ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     sasl: Optional[AuthenticationType] = None
@@ -15828,7 +15517,7 @@ class CreateOutputOutputKafka(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -15845,50 +15534,46 @@ class CreateOutputOutputKafka(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -15971,6 +15656,10 @@ class CreateOutputOutputExabeamTypedDict(TypedDict):
     r"""Name of the destination bucket. A constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a JavaScript Global Variable: `myBucket-${C.vars.myVar}`."""
     region: str
     r"""Region where the bucket is located"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+    endpoint: str
+    r"""Google Cloud Storage service endpoint"""
     collector_instance_id: str
     r"""ID of the Exabeam Collector where data should be sent. Example: 11112222-3333-4444-5555-666677778888
 
@@ -15983,10 +15672,6 @@ class CreateOutputOutputExabeamTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    stage_path: NotRequired[str]
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-    endpoint: NotRequired[str]
-    r"""Google Cloud Storage service endpoint"""
     signature_version: NotRequired[SignatureVersionOptions4]
     r"""Signature version to use for signing Google Cloud Storage requests"""
     object_acl: NotRequired[ObjectACLOptions1]
@@ -16049,6 +15734,12 @@ class CreateOutputOutputExabeam(BaseModel):
     region: str
     r"""Region where the bucket is located"""
 
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+
+    endpoint: str
+    r"""Google Cloud Storage service endpoint"""
+
     collector_instance_id: Annotated[str, pydantic.Field(alias="collectorInstanceId")]
     r"""ID of the Exabeam Collector where data should be sent. Example: 11112222-3333-4444-5555-666677778888
 
@@ -16068,22 +15759,14 @@ class CreateOutputOutputExabeam(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-
-    endpoint: Optional[str] = "https://storage.googleapis.com"
-    r"""Google Cloud Storage service endpoint"""
-
     signature_version: Annotated[
         Optional[SignatureVersionOptions4], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions4.V4
+    ] = None
     r"""Signature version to use for signing Google Cloud Storage requests"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptions1], pydantic.Field(alias="objectACL")
-    ] = ObjectACLOptions1.PRIVATE
+    ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
@@ -16093,58 +15776,58 @@ class CreateOutputOutputExabeam(BaseModel):
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 10
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     encoded_configuration: Annotated[
@@ -16174,20 +15857,22 @@ class CreateOutputOutputExabeam(BaseModel):
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     @field_serializer("signature_version")
@@ -16335,12 +16020,12 @@ class CreateOutputOutputGooglePubsub(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = False
+    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = None
     r"""If enabled, create topic if it does not exist."""
 
     ordered_delivery: Annotated[
         Optional[bool], pydantic.Field(alias="orderedDelivery")
-    ] = False
+    ] = None
     r"""If enabled, send events in the order they were added to the queue. For this to work correctly, the process receiving events must have ordering enabled."""
 
     region: Optional[str] = None
@@ -16349,7 +16034,7 @@ class CreateOutputOutputGooglePubsub(BaseModel):
     google_auth_method: Annotated[
         Optional[GoogleAuthenticationMethodOptions],
         pydantic.Field(alias="googleAuthMethod"),
-    ] = GoogleAuthenticationMethodOptions.MANUAL
+    ] = None
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
 
     service_account_credentials: Annotated[
@@ -16360,85 +16045,81 @@ class CreateOutputOutputGooglePubsub(BaseModel):
     secret: Optional[str] = None
     r"""Select or create a stored text secret"""
 
-    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = 1000
+    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = None
     r"""The maximum number of items the Google API should batch before it sends them to the topic."""
 
     batch_timeout: Annotated[Optional[float], pydantic.Field(alias="batchTimeout")] = (
-        100
+        None
     )
     r"""The maximum amount of time, in milliseconds, that the Google API should wait to send a batch (if the Batch size is not reached)."""
 
     max_queue_size: Annotated[Optional[float], pydantic.Field(alias="maxQueueSize")] = (
-        100
+        None
     )
     r"""Maximum number of queued batches before blocking."""
 
     max_record_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSizeKB")
-    ] = 256
+    ] = None
     r"""Maximum size (KB) of batches to send."""
 
-    flush_period: Annotated[Optional[float], pydantic.Field(alias="flushPeriod")] = 1
+    flush_period: Annotated[Optional[float], pydantic.Field(alias="flushPeriod")] = None
     r"""Maximum time to wait before sending a batch (when batch size limit is not reached)"""
 
     max_in_progress: Annotated[
         Optional[float], pydantic.Field(alias="maxInProgress")
-    ] = 10
+    ] = None
     r"""The maximum number of in-progress API requests before backpressure is applied."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -16693,11 +16374,11 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
 
     sanitize_log_names: Annotated[
         Optional[bool], pydantic.Field(alias="sanitizeLogNames")
-    ] = False
+    ] = None
 
     payload_format: Annotated[
         Optional[CreateOutputPayloadFormat], pydantic.Field(alias="payloadFormat")
-    ] = CreateOutputPayloadFormat.TEXT
+    ] = None
     r"""Format to use when sending payload. Defaults to Text."""
 
     log_labels: Annotated[
@@ -16728,7 +16409,7 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
     google_auth_method: Annotated[
         Optional[GoogleAuthenticationMethodOptions],
         pydantic.Field(alias="googleAuthMethod"),
-    ] = GoogleAuthenticationMethodOptions.MANUAL
+    ] = None
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
 
     service_account_credentials: Annotated[
@@ -16741,28 +16422,28 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body."""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Max number of events to include in the request body. Default is 0 (unlimited)."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
 
     throttle_rate_req_per_sec: Annotated[
@@ -16910,7 +16591,7 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     total_memory_limit_kb: Annotated[
@@ -16927,50 +16608,46 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -17062,6 +16739,10 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Name of the destination bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
     region: str
     r"""Region where the bucket is located"""
+    endpoint: str
+    r"""Google Cloud Storage service endpoint"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -17070,13 +16751,9 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    endpoint: NotRequired[str]
-    r"""Google Cloud Storage service endpoint"""
     signature_version: NotRequired[SignatureVersionOptions4]
     r"""Signature version to use for signing Google Cloud Storage requests"""
     aws_authentication_method: NotRequired[AuthenticationMethodGoogleCloudStorage]
-    stage_path: NotRequired[str]
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     dest_path: NotRequired[str]
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
     verify_permissions: NotRequired[bool]
@@ -17176,6 +16853,12 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     region: str
     r"""Region where the bucket is located"""
 
+    endpoint: str
+    r"""Google Cloud Storage service endpoint"""
+
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -17190,35 +16873,27 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    endpoint: Optional[str] = "https://storage.googleapis.com"
-    r"""Google Cloud Storage service endpoint"""
-
     signature_version: Annotated[
         Optional[SignatureVersionOptions4], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions4.V4
+    ] = None
     r"""Signature version to use for signing Google Cloud Storage requests"""
 
     aws_authentication_method: Annotated[
         Optional[AuthenticationMethodGoogleCloudStorage],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodGoogleCloudStorage.MANUAL
+    ] = None
 
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-
-    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = ""
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptions1], pydantic.Field(alias="objectACL")
-    ] = ObjectACLOptions1.PRIVATE
+    ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
@@ -17228,106 +16903,106 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
-        "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')"
+        None
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
-        DataFormatOptions.JSON
+        None
     )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
-        "`CriblOut`"
+        None
     )
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 32
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
-    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = ""
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
     r"""If set, this line will be written to the beginning of each output file"""
 
     write_high_water_mark: Annotated[
         Optional[float], pydantic.Field(alias="writeHighWaterMark")
-    ] = 64
+    ] = None
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     force_close_on_shutdown: Annotated[
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
-    ] = False
+    ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
         Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
-    ] = CompressionLevelOptions.BEST_SPEED
+    ] = None
     r"""Compression level to apply before moving files to final destination"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
+    ] = None
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
@@ -17337,22 +17012,22 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
 
     parquet_version: Annotated[
         Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
-    ] = ParquetVersionOptions.PARQUET_2_6
+    ] = None
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
         Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
-    ] = DataPageVersionOptions.DATA_PAGE_V2
+    ] = None
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
     parquet_row_group_length: Annotated[
         Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
+    ] = None
     r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
 
     parquet_page_size: Annotated[
         Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
+    ] = None
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
 
     should_log_invalid_rows: Annotated[
@@ -17368,35 +17043,37 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
 
     enable_statistics: Annotated[
         Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
+    ] = None
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
 
     enable_write_page_index: Annotated[
         Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
+    ] = None
     r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
 
     enable_page_checksum: Annotated[
         Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
+    ] = None
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
@@ -17550,17 +17227,6 @@ class CreateOutputExtraLogType(BaseModel):
     description: Optional[str] = None
 
 
-class CustomLabelGoogleChronicleTypedDict(TypedDict):
-    key: str
-    value: str
-
-
-class CustomLabelGoogleChronicle(BaseModel):
-    key: str
-
-    value: str
-
-
 class CreateOutputUDMType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
 
@@ -17580,6 +17246,7 @@ class CreateOutputOutputGoogleChronicleTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeGoogleChronicle
+    log_format_type: CreateOutputSendEventsAs
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -17595,7 +17262,6 @@ class CreateOutputOutputGoogleChronicleTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    log_format_type: NotRequired[CreateOutputSendEventsAs]
     region: NotRequired[str]
     r"""Regional endpoint to send events to"""
     concurrency: NotRequired[float]
@@ -17638,7 +17304,7 @@ class CreateOutputOutputGoogleChronicleTypedDict(TypedDict):
     r"""A unique identifier (UUID) for your Google SecOps instance. This is provided by your Google representative and is required for API V2 authentication."""
     namespace: NotRequired[str]
     r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
-    custom_labels: NotRequired[List[CustomLabelGoogleChronicleTypedDict]]
+    custom_labels: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
     r"""Custom labels to be added to every batch"""
     udm_type: NotRequired[CreateOutputUDMType]
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
@@ -17679,6 +17345,10 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
 
     type: CreateOutputTypeGoogleChronicle
 
+    log_format_type: Annotated[
+        CreateOutputSendEventsAs, pydantic.Field(alias="logFormatType")
+    ]
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -17695,12 +17365,12 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
 
     api_version: Annotated[
         Optional[CreateOutputAPIVersion], pydantic.Field(alias="apiVersion")
-    ] = CreateOutputAPIVersion.V1
+    ] = None
 
     authentication_method: Annotated[
         Optional[AuthenticationMethodGoogleChronicle],
         pydantic.Field(alias="authenticationMethod"),
-    ] = AuthenticationMethodGoogleChronicle.SERVICE_ACCOUNT
+    ] = None
 
     response_retry_settings: Annotated[
         Optional[List[ItemsTypeResponseRetrySettings]],
@@ -17714,46 +17384,42 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = False
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-
-    log_format_type: Annotated[
-        Optional[CreateOutputSendEventsAs], pydantic.Field(alias="logFormatType")
-    ] = CreateOutputSendEventsAs.UNSTRUCTURED
 
     region: Optional[str] = None
     r"""Regional endpoint to send events to"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 1024
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 90
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -17765,7 +17431,7 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -17775,12 +17441,12 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     total_memory_limit_kb: Annotated[
@@ -17810,13 +17476,13 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
     r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
 
     custom_labels: Annotated[
-        Optional[List[CustomLabelGoogleChronicle]], pydantic.Field(alias="customLabels")
+        Optional[List[ItemsTypeKeyValueMetadata]], pydantic.Field(alias="customLabels")
     ] = None
     r"""Custom labels to be added to every batch"""
 
     udm_type: Annotated[
         Optional[CreateOutputUDMType], pydantic.Field(alias="udmType")
-    ] = CreateOutputUDMType.LOGS
+    ] = None
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
@@ -17839,50 +17505,46 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -18080,61 +17742,61 @@ class CreateOutputOutputAzureEventhub(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Optional[AcknowledgmentsOptions] = AcknowledgmentsOptions.ONE
+    ack: Optional[AcknowledgmentsOptions] = None
     r"""Control the number of required acknowledgments"""
 
     format_: Annotated[
         Optional[RecordDataFormatOptions], pydantic.Field(alias="format")
-    ] = RecordDataFormatOptions.JSON
+    ] = None
     r"""Format to use to serialize events before writing to the Event Hubs Kafka brokers"""
 
     max_record_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSizeKB")
-    ] = 768
+    ] = None
     r"""Maximum size of each record batch before compression. Setting should be < message.max.bytes settings in Event Hubs brokers."""
 
     flush_event_count: Annotated[
         Optional[float], pydantic.Field(alias="flushEventCount")
-    ] = 1000
+    ] = None
     r"""Maximum number of events in a batch before forcing a flush"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for a connection to complete successfully"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to a request"""
 
-    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = None
     r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
 
-    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = None
     r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
 
     initial_backoff: Annotated[
         Optional[float], pydantic.Field(alias="initialBackoff")
-    ] = 300
+    ] = None
     r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
 
-    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = None
     r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
 
     authentication_timeout: Annotated[
         Optional[float], pydantic.Field(alias="authenticationTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
 
     reauthentication_threshold: Annotated[
         Optional[float], pydantic.Field(alias="reauthenticationThreshold")
-    ] = 10000
+    ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     sasl: Optional[AuthenticationType1] = None
@@ -18144,57 +17806,53 @@ class CreateOutputOutputAzureEventhub(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -18314,7 +17972,7 @@ class CreateOutputOutputHoneycombTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions3]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
@@ -18367,36 +18025,36 @@ class CreateOutputOutputHoneycomb(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -18407,13 +18065,13 @@ class CreateOutputOutputHoneycomb(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -18433,67 +18091,63 @@ class CreateOutputOutputHoneycomb(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions3.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = None
     r"""Enter API key directly, or select a stored secret"""
 
     description: Optional[str] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -18528,7 +18182,7 @@ class CreateOutputOutputHoneycomb(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions3(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -18598,7 +18252,7 @@ class CreateOutputOutputKinesisTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -18687,9 +18341,9 @@ class CreateOutputOutputKinesis(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptions],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptions.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -18701,22 +18355,22 @@ class CreateOutputOutputKinesis(BaseModel):
 
     signature_version: Annotated[
         Optional[SignatureVersionOptions2], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions2.V4
+    ] = None
     r"""Signature version to use for signing Kinesis stream requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access Kinesis stream"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -18731,36 +18385,36 @@ class CreateOutputOutputKinesis(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing put requests before blocking."""
 
     max_record_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSizeKB")
-    ] = 1024
+    ] = None
     r"""Maximum size (KB) of each individual record before compression. For uncompressed or non-compressible data 1MB is the max recommended size"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
 
-    compression: Optional[CreateOutputCompression] = CreateOutputCompression.GZIP
+    compression: Optional[CreateOutputCompression] = None
     r"""Compression type to use for records"""
 
     use_list_shards: Annotated[
         Optional[bool], pydantic.Field(alias="useListShards")
-    ] = False
+    ] = None
     r"""Provides higher stream rate limits, improving delivery speed and reliability by minimizing throttling. See the [ListShards API](https://docs.aws.amazon.com/kinesis/latest/APIReference/API_ListShards.html) documentation for details."""
 
-    as_ndjson: Annotated[Optional[bool], pydantic.Field(alias="asNdjson")] = True
+    as_ndjson: Annotated[Optional[bool], pydantic.Field(alias="asNdjson")] = None
     r"""Batch events into a single record as NDJSON"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -18772,55 +18426,51 @@ class CreateOutputOutputKinesis(BaseModel):
 
     max_events_per_flush: Annotated[
         Optional[float], pydantic.Field(alias="maxEventsPerFlush")
-    ] = 500
+    ] = None
     r"""Maximum number of records to send in a single request"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -18831,7 +18481,7 @@ class CreateOutputOutputKinesis(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value
@@ -18914,6 +18564,8 @@ class CreateOutputOutputAzureLogsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeAzureLogs
+    log_type: str
+    r"""The Log Type of events sent to this LogAnalytics workspace. Defaults to `Cribl`. Use only letters, numbers, and `_` characters, and can't exceed 100 characters. Can be overwritten by event field __logType."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -18922,8 +18574,6 @@ class CreateOutputOutputAzureLogsTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    log_type: NotRequired[str]
-    r"""The Log Type of events sent to this LogAnalytics workspace. Defaults to `Cribl`. Use only letters, numbers, and `_` characters, and can't exceed 100 characters. Can be overwritten by event field __logType."""
     resource_id: NotRequired[str]
     r"""Optional Resource ID of the Azure resource to associate the data with. Can be overridden by the __resourceId event field. This ID populates the _ResourceId property, allowing the data to be included in resource-centric queries. If the ID is neither specified nor overridden, resource-centric queries will omit the data."""
     concurrency: NotRequired[float]
@@ -18997,6 +18647,9 @@ class CreateOutputOutputAzureLogs(BaseModel):
 
     type: CreateOutputTypeAzureLogs
 
+    log_type: Annotated[str, pydantic.Field(alias="logType")]
+    r"""The Log Type of events sent to this LogAnalytics workspace. Defaults to `Cribl`. Use only letters, numbers, and `_` characters, and can't exceed 100 characters. Can be overwritten by event field __logType."""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -19011,41 +18664,38 @@ class CreateOutputOutputAzureLogs(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    log_type: Annotated[Optional[str], pydantic.Field(alias="logType")] = "Cribl"
-    r"""The Log Type of events sent to this LogAnalytics workspace. Defaults to `Cribl`. Use only letters, numbers, and `_` characters, and can't exceed 100 characters. Can be overwritten by event field __logType."""
-
     resource_id: Annotated[Optional[str], pydantic.Field(alias="resourceId")] = None
     r"""Optional Resource ID of the Azure resource to associate the data with. Can be overridden by the __resourceId event field. This ID populates the _ResourceId property, allowing the data to be included in resource-centric queries. If the ID is neither specified nor overridden, resource-centric queries will omit the data."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 1024
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
     compress: Optional[bool] = None
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -19056,13 +18706,13 @@ class CreateOutputOutputAzureLogs(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -19070,9 +18720,7 @@ class CreateOutputOutputAzureLogs(BaseModel):
     ] = None
     r"""List of headers that are safe to log in plain text"""
 
-    api_url: Annotated[Optional[str], pydantic.Field(alias="apiUrl")] = (
-        ".ods.opinsights.azure.com"
-    )
+    api_url: Annotated[Optional[str], pydantic.Field(alias="apiUrl")] = None
     r"""The DNS name of the Log API endpoint that sends log data to a Log Analytics workspace in Azure Monitor. Defaults to .ods.opinsights.azure.com. @{product} will add a prefix and suffix to construct a URI in this format: <https://<Workspace_ID><your_DNS_name>/api/logs?api-version=<API version>."""
 
     response_retry_settings: Annotated[
@@ -19087,67 +18735,63 @@ class CreateOutputOutputAzureLogs(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodAzureLogs], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodAzureLogs.MANUAL
+    ] = None
     r"""Enter workspace ID and workspace key directly, or select a stored secret"""
 
     description: Optional[str] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -19340,12 +18984,18 @@ class CreateOutputOutputAzureDataExplorerTypedDict(TypedDict):
     r"""Name of the database containing the table where data will be ingested"""
     table: str
     r"""Name of the table to ingest data into"""
+    oauth_endpoint: MicrosoftEntraIDAuthenticationEndpointOptionsSasl
+    r"""Endpoint used to acquire authentication tokens from Azure"""
     tenant_id: str
     r"""Directory ID (tenant identifier) in Azure Active Directory"""
     client_id: str
     r"""client_id to pass in the OAuth request parameter"""
     scope: str
     r"""Scope to pass in the OAuth request parameter"""
+    oauth_type: AuthenticationMethodAzureDataExplorer
+    r"""The type of OAuth 2.0 client credentials grant flow to use"""
+    compress: CompressionOptions2
+    r"""Data compression format to apply to HTTP content before it is delivered"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -19357,10 +19007,6 @@ class CreateOutputOutputAzureDataExplorerTypedDict(TypedDict):
     validate_database_settings: NotRequired[bool]
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
     ingest_mode: NotRequired[CreateOutputIngestionMode]
-    oauth_endpoint: NotRequired[MicrosoftEntraIDAuthenticationEndpointOptionsSasl]
-    r"""Endpoint used to acquire authentication tokens from Azure"""
-    oauth_type: NotRequired[AuthenticationMethodAzureDataExplorer]
-    r"""The type of OAuth 2.0 client credentials grant flow to use"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
     r"""The client secret that you generated for your app in the Azure portal"""
@@ -19369,8 +19015,6 @@ class CreateOutputOutputAzureDataExplorerTypedDict(TypedDict):
     certificate: NotRequired[CreateOutputCertificateTypedDict]
     format_: NotRequired[DataFormatOptions]
     r"""Format of the output data"""
-    compress: NotRequired[CompressionOptions2]
-    r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
     automatic_schema: NotRequired[bool]
@@ -19511,6 +19155,12 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     table: str
     r"""Name of the table to ingest data into"""
 
+    oauth_endpoint: Annotated[
+        MicrosoftEntraIDAuthenticationEndpointOptionsSasl,
+        pydantic.Field(alias="oauthEndpoint"),
+    ]
+    r"""Endpoint used to acquire authentication tokens from Azure"""
+
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
     r"""Directory ID (tenant identifier) in Azure Active Directory"""
 
@@ -19519,6 +19169,14 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
 
     scope: str
     r"""Scope to pass in the OAuth request parameter"""
+
+    oauth_type: Annotated[
+        AuthenticationMethodAzureDataExplorer, pydantic.Field(alias="oauthType")
+    ]
+    r"""The type of OAuth 2.0 client credentials grant flow to use"""
+
+    compress: CompressionOptions2
+    r"""Data compression format to apply to HTTP content before it is delivered"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -19536,24 +19194,12 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
 
     validate_database_settings: Annotated[
         Optional[bool], pydantic.Field(alias="validateDatabaseSettings")
-    ] = True
+    ] = None
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
 
     ingest_mode: Annotated[
         Optional[CreateOutputIngestionMode], pydantic.Field(alias="ingestMode")
-    ] = CreateOutputIngestionMode.BATCHING
-
-    oauth_endpoint: Annotated[
-        Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
-        pydantic.Field(alias="oauthEndpoint"),
-    ] = MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM
-    r"""Endpoint used to acquire authentication tokens from Azure"""
-
-    oauth_type: Annotated[
-        Optional[AuthenticationMethodAzureDataExplorer],
-        pydantic.Field(alias="oauthType"),
-    ] = AuthenticationMethodAzureDataExplorer.CLIENT_SECRET
-    r"""The type of OAuth 2.0 client credentials grant flow to use"""
+    ] = None
 
     description: Optional[str] = None
 
@@ -19566,21 +19212,18 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     certificate: Optional[CreateOutputCertificate] = None
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
-        DataFormatOptions.JSON
+        None
     )
     r"""Format of the output data"""
 
-    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
-    r"""Data compression format to apply to HTTP content before it is delivered"""
-
     compression_level: Annotated[
         Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
-    ] = CompressionLevelOptions.BEST_SPEED
+    ] = None
     r"""Compression level to apply before moving files to final destination"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
+    ] = None
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
@@ -19590,22 +19233,22 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
 
     parquet_version: Annotated[
         Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
-    ] = ParquetVersionOptions.PARQUET_2_6
+    ] = None
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
         Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
-    ] = DataPageVersionOptions.DATA_PAGE_V2
+    ] = None
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
     parquet_row_group_length: Annotated[
         Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
+    ] = None
     r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
 
     parquet_page_size: Annotated[
         Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
+    ] = None
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
 
     should_log_invalid_rows: Annotated[
@@ -19621,49 +19264,51 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
 
     enable_statistics: Annotated[
         Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
+    ] = None
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
 
     enable_write_page_index: Annotated[
         Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
+    ] = None
     r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
 
     enable_page_checksum: Annotated[
         Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
+    ] = None
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     is_mapping_obj: Annotated[Optional[bool], pydantic.Field(alias="isMappingObj")] = (
-        False
+        None
     )
     r"""Send a JSON mapping object instead of specifying an existing named data mapping"""
 
@@ -19678,66 +19323,64 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
+    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = None
     r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant and stable storage."""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 32
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
-    ] = 1
+    ] = None
     r"""Maximum number of parts to upload in parallel per file"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_immediately: Annotated[
         Optional[bool], pydantic.Field(alias="flushImmediately")
-    ] = False
+    ] = None
     r"""Bypass the data management service's aggregation mechanism"""
 
     retain_blob_on_success: Annotated[
         Optional[bool], pydantic.Field(alias="retainBlobOnSuccess")
-    ] = False
+    ] = None
     r"""Prevent blob deletion after ingestion is complete"""
 
     extent_tags: Annotated[
@@ -19753,12 +19396,12 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
 
     report_level: Annotated[
         Optional[CreateOutputReportLevel], pydantic.Field(alias="reportLevel")
-    ] = CreateOutputReportLevel.FAILURES_ONLY
+    ] = None
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
 
     report_method: Annotated[
         Optional[CreateOutputReportMethod], pydantic.Field(alias="reportMethod")
-    ] = CreateOutputReportMethod.QUEUE
+    ] = None
     r"""Target of the ingestion status reporting. Defaults to Queue."""
 
     additional_properties: Annotated[
@@ -19779,30 +19422,30 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
@@ -19810,58 +19453,54 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
-    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = True
+    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -20027,6 +19666,8 @@ class CreateOutputOutputAzureBlobTypedDict(TypedDict):
     type: CreateOutputTypeAzureBlob
     container_name: str
     r"""The Azure Blob Storage container name. Name can include only lowercase letters, numbers, and hyphens. For dynamic container names, enter a JavaScript expression within quotes or backticks, to be evaluated at initialization. The expression can evaluate to a constant value and can reference Global Variables, such as `myContainer-${C.env[\"CRIBL_WORKER_ID\"]}`."""
+    stage_path: str
+    r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant and stable storage."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -20039,8 +19680,6 @@ class CreateOutputOutputAzureBlobTypedDict(TypedDict):
     r"""Create the configured container in Azure Blob Storage if it does not already exist"""
     dest_path: NotRequired[str]
     r"""Root directory prepended to path before uploading. Value can be a JavaScript expression enclosed in quotes or backticks, to be evaluated at initialization. The expression can evaluate to a constant value and can reference Global Variables, such as `myBlobPrefix-${C.env[\"CRIBL_WORKER_ID\"]}`."""
-    stage_path: NotRequired[str]
-    r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant and stable storage."""
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     max_concurrent_file_parts: NotRequired[float]
@@ -20075,7 +19714,7 @@ class CreateOutputOutputAzureBlobTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions]
     storage_class: NotRequired[CreateOutputBlobAccessTier]
     description: NotRequired[str]
     compress: NotRequired[CompressionOptions2]
@@ -20140,6 +19779,9 @@ class CreateOutputOutputAzureBlob(BaseModel):
     container_name: Annotated[str, pydantic.Field(alias="containerName")]
     r"""The Azure Blob Storage container name. Name can include only lowercase letters, numbers, and hyphens. For dynamic container names, enter a JavaScript expression within quotes or backticks, to be evaluated at initialization. The expression can evaluate to a constant value and can reference Global Variables, such as `myContainer-${C.env[\"CRIBL_WORKER_ID\"]}`."""
 
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant and stable storage."""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -20156,122 +19798,117 @@ class CreateOutputOutputAzureBlob(BaseModel):
 
     create_container: Annotated[
         Optional[bool], pydantic.Field(alias="createContainer")
-    ] = False
+    ] = None
     r"""Create the configured container in Azure Blob Storage if it does not already exist"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Root directory prepended to path before uploading. Value can be a JavaScript expression enclosed in quotes or backticks, to be evaluated at initialization. The expression can evaluate to a constant value and can reference Global Variables, such as `myBlobPrefix-${C.env[\"CRIBL_WORKER_ID\"]}`."""
 
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
-    r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant and stable storage."""
-
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
-    ] = 1
+    ] = None
     r"""Maximum number of parts to upload in parallel per file"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
-        "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')"
+        None
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
-        DataFormatOptions.JSON
+        None
     )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
-        "`CriblOut`"
+        None
     )
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 32
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
-    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = ""
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
     r"""If set, this line will be written to the beginning of each output file"""
 
     write_high_water_mark: Annotated[
         Optional[float], pydantic.Field(alias="writeHighWaterMark")
-    ] = 64
+    ] = None
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     force_close_on_shutdown: Annotated[
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
-    ] = False
+    ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
+    ] = None
 
     storage_class: Annotated[
         Optional[CreateOutputBlobAccessTier], pydantic.Field(alias="storageClass")
-    ] = CreateOutputBlobAccessTier.INFERRED
+    ] = None
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
         Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
-    ] = CompressionLevelOptions.BEST_SPEED
+    ] = None
     r"""Compression level to apply before moving files to final destination"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
+    ] = None
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
@@ -20281,22 +19918,22 @@ class CreateOutputOutputAzureBlob(BaseModel):
 
     parquet_version: Annotated[
         Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
-    ] = ParquetVersionOptions.PARQUET_2_6
+    ] = None
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
         Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
-    ] = DataPageVersionOptions.DATA_PAGE_V2
+    ] = None
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
     parquet_row_group_length: Annotated[
         Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
+    ] = None
     r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
 
     parquet_page_size: Annotated[
         Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
+    ] = None
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
 
     should_log_invalid_rows: Annotated[
@@ -20312,35 +19949,37 @@ class CreateOutputOutputAzureBlob(BaseModel):
 
     enable_statistics: Annotated[
         Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
+    ] = None
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
 
     enable_write_page_index: Annotated[
         Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
+    ] = None
     r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
 
     enable_page_checksum: Annotated[
         Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
+    ] = None
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     connection_string: Annotated[
@@ -20408,7 +20047,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -20469,6 +20108,8 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     type: CreateOutputTypeS3
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -20481,7 +20122,7 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""Region where the S3 bucket is located"""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     endpoint: NotRequired[str]
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
@@ -20499,8 +20140,6 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    stage_path: NotRequired[str]
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     dest_path: NotRequired[str]
@@ -20598,6 +20237,9 @@ class CreateOutputOutputS3(BaseModel):
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -20621,9 +20263,9 @@ class CreateOutputOutputS3(BaseModel):
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptions],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptions.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     endpoint: Optional[str] = None
@@ -20632,22 +20274,22 @@ class CreateOutputOutputS3(BaseModel):
     signature_version: Annotated[
         Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
-    ] = SignatureVersionOptionsS3CollectorConf.V4
+    ] = None
     r"""Signature version to use for signing S3 requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access S3"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -20662,25 +20304,20 @@ class CreateOutputOutputS3(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
-    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = ""
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
-    ] = ObjectACLOptions.PRIVATE
+    ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
@@ -20698,91 +20335,91 @@ class CreateOutputOutputS3(BaseModel):
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
-        "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')"
+        None
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
-        DataFormatOptions.JSON
+        None
     )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
-        "`CriblOut`"
+        None
     )
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 32
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
-    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = ""
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
     r"""If set, this line will be written to the beginning of each output file"""
 
     write_high_water_mark: Annotated[
         Optional[float], pydantic.Field(alias="writeHighWaterMark")
-    ] = 64
+    ] = None
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     force_close_on_shutdown: Annotated[
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
-    ] = False
+    ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
-    ] = 4
+    ] = None
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself"""
 
     max_closing_files_to_backpressure: Annotated[
         Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
-    ] = 100
+    ] = None
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
 
     description: Optional[str] = None
@@ -20793,17 +20430,17 @@ class CreateOutputOutputS3(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
         Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
-    ] = CompressionLevelOptions.BEST_SPEED
+    ] = None
     r"""Compression level to apply before moving files to final destination"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
+    ] = None
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
@@ -20813,22 +20450,22 @@ class CreateOutputOutputS3(BaseModel):
 
     parquet_version: Annotated[
         Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
-    ] = ParquetVersionOptions.PARQUET_2_6
+    ] = None
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
         Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
-    ] = DataPageVersionOptions.DATA_PAGE_V2
+    ] = None
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
     parquet_row_group_length: Annotated[
         Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
+    ] = None
     r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
 
     parquet_page_size: Annotated[
         Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
+    ] = None
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
 
     should_log_invalid_rows: Annotated[
@@ -20844,42 +20481,44 @@ class CreateOutputOutputS3(BaseModel):
 
     enable_statistics: Annotated[
         Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
+    ] = None
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
 
     enable_write_page_index: Annotated[
         Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
+    ] = None
     r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
 
     enable_page_checksum: Annotated[
         Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
+    ] = None
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value
@@ -21101,96 +20740,96 @@ class CreateOutputOutputFilesystem(BaseModel):
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
-        "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')"
+        None
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
-        DataFormatOptions.JSON
+        None
     )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
-        "`CriblOut`"
+        None
     )
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 32
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
-    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = ""
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
     r"""If set, this line will be written to the beginning of each output file"""
 
     write_high_water_mark: Annotated[
         Optional[float], pydantic.Field(alias="writeHighWaterMark")
-    ] = 64
+    ] = None
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     force_close_on_shutdown: Annotated[
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
-    ] = False
+    ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
         Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
-    ] = CompressionLevelOptions.BEST_SPEED
+    ] = None
     r"""Compression level to apply before moving files to final destination"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
+    ] = None
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
@@ -21200,22 +20839,22 @@ class CreateOutputOutputFilesystem(BaseModel):
 
     parquet_version: Annotated[
         Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
-    ] = ParquetVersionOptions.PARQUET_2_6
+    ] = None
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
         Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
-    ] = DataPageVersionOptions.DATA_PAGE_V2
+    ] = None
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
     parquet_row_group_length: Annotated[
         Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
+    ] = None
     r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
 
     parquet_page_size: Annotated[
         Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
+    ] = None
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
 
     should_log_invalid_rows: Annotated[
@@ -21231,35 +20870,37 @@ class CreateOutputOutputFilesystem(BaseModel):
 
     enable_statistics: Annotated[
         Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
+    ] = None
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
 
     enable_write_page_index: Annotated[
         Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
+    ] = None
     r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
 
     enable_page_checksum: Annotated[
         Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
+    ] = None
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     @field_serializer("format_")
@@ -21342,6 +20983,8 @@ class CreateOutputOutputSignalfxTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeSignalfx
+    realm: str
+    r"""SignalFx realm name, e.g. \"us0\". For a complete list of available SignalFx realm names, please check [here](https://docs.splunk.com/observability/en/get-started/service-description.html#sd-regions)."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -21352,8 +20995,6 @@ class CreateOutputOutputSignalfxTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
-    realm: NotRequired[str]
-    r"""SignalFx realm name, e.g. \"us0\". For a complete list of available SignalFx realm names, please check [here](https://docs.splunk.com/observability/en/get-started/service-description.html#sd-regions)."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -21420,6 +21061,9 @@ class CreateOutputOutputSignalfx(BaseModel):
 
     type: CreateOutputTypeSignalfx
 
+    realm: str
+    r"""SignalFx realm name, e.g. \"us0\". For a complete list of available SignalFx realm names, please check [here](https://docs.splunk.com/observability/en/get-started/service-description.html#sd-regions)."""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -21437,42 +21081,39 @@ class CreateOutputOutputSignalfx(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
-    realm: Optional[str] = "us0"
-    r"""SignalFx realm name, e.g. \"us0\". For a complete list of available SignalFx realm names, please check [here](https://docs.splunk.com/observability/en/get-started/service-description.html#sd-regions)."""
-
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -21483,13 +21124,13 @@ class CreateOutputOutputSignalfx(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -21509,12 +21150,12 @@ class CreateOutputOutputSignalfx(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -21527,50 +21168,46 @@ class CreateOutputOutputSignalfx(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -21648,6 +21285,8 @@ class CreateOutputOutputWavefrontTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeWavefront
+    domain: str
+    r"""WaveFront domain name, e.g. \"longboard\" """
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -21658,8 +21297,6 @@ class CreateOutputOutputWavefrontTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
-    domain: NotRequired[str]
-    r"""WaveFront domain name, e.g. \"longboard\" """
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -21726,6 +21363,9 @@ class CreateOutputOutputWavefront(BaseModel):
 
     type: CreateOutputTypeWavefront
 
+    domain: str
+    r"""WaveFront domain name, e.g. \"longboard\" """
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -21743,42 +21383,39 @@ class CreateOutputOutputWavefront(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
-    domain: Optional[str] = "longboard"
-    r"""WaveFront domain name, e.g. \"longboard\" """
-
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -21789,13 +21426,13 @@ class CreateOutputOutputWavefront(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -21815,12 +21452,12 @@ class CreateOutputOutputWavefront(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -21833,50 +21470,46 @@ class CreateOutputOutputWavefront(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -22046,52 +21679,52 @@ class CreateOutputOutputTcpjson(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        True
+        None
     )
     r"""Use load-balanced destinations"""
 
-    compression: Optional[CompressionOptions1] = CompressionOptions1.GZIP
+    compression: Optional[CompressionOptions1] = None
     r"""Codec to use to compress the data before sending"""
 
     log_failed_requests: Annotated[
         Optional[bool], pydantic.Field(alias="logFailedRequests")
-    ] = False
+    ] = None
     r"""Use to troubleshoot issues with sending data"""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        60000
+        None
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
     token_ttl_minutes: Annotated[
         Optional[float], pydantic.Field(alias="tokenTTLMinutes")
-    ] = 60
+    ] = None
     r"""The number of minutes before the internally generated authentication token expires, valid values between 1 and 60"""
 
-    send_header: Annotated[Optional[bool], pydantic.Field(alias="sendHeader")] = True
+    send_header: Annotated[Optional[bool], pydantic.Field(alias="sendHeader")] = None
     r"""Upon connection, send a header-like record containing the auth token and other metadata.This record will not contain an actual event – only subsequent records will."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
@@ -22102,7 +21735,7 @@ class CreateOutputOutputTcpjson(BaseModel):
     port: Optional[float] = None
     r"""The port to connect to on the provided host"""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     hosts: Optional[List[ItemsTypeHosts]] = None
@@ -22110,72 +21743,68 @@ class CreateOutputOutputTcpjson(BaseModel):
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     max_concurrent_senders: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentSenders")
-    ] = 0
+    ] = None
     r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
         Optional[PqControlsTcpjson], pydantic.Field(alias="pqControls")
     ] = None
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Optional authentication token to include as part of the connection header"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -22241,17 +21870,17 @@ class CreateOutputTypeWizHec(str, Enum):
 
 
 class URLWizHecTypedDict(TypedDict):
-    url: NotRequired[str]
+    url: str
     r"""URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event"""
     weight: NotRequired[float]
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
 class URLWizHec(BaseModel):
-    url: Optional[str] = "http://localhost:8088/services/collector/event"
+    url: str
     r"""URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event"""
 
-    weight: Optional[float] = 1
+    weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
@@ -22273,7 +21902,7 @@ class CreateOutputOutputWizHecTypedDict(TypedDict):
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
     tcp_routing: NotRequired[str]
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
-    tls: NotRequired[TLSSettingsClientSideType2TypedDict]
+    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -22347,52 +21976,48 @@ class CreateOutputOutputWizHec(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        True
+        None
     )
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
 
-    next_queue: Annotated[Optional[str], pydantic.Field(alias="nextQueue")] = (
-        "indexQueue"
-    )
+    next_queue: Annotated[Optional[str], pydantic.Field(alias="nextQueue")] = None
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
 
-    tcp_routing: Annotated[Optional[str], pydantic.Field(alias="tcpRouting")] = (
-        "nowhere"
-    )
+    tcp_routing: Annotated[Optional[str], pydantic.Field(alias="tcpRouting")] = None
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
 
-    tls: Optional[TLSSettingsClientSideType2] = None
+    tls: Optional[TLSSettingsClientSideType1] = None
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -22404,7 +22029,7 @@ class CreateOutputOutputWizHec(BaseModel):
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -22414,13 +22039,13 @@ class CreateOutputOutputWizHec(BaseModel):
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
-    ] = False
+    ] = None
     r"""Output metrics in multiple-metric format"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     response_retry_settings: Annotated[
@@ -22435,37 +22060,37 @@ class CreateOutputOutputWizHec(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
 
-    url: Optional[str] = "http://localhost:8088/services/collector/event"
+    url: Optional[str] = None
     r"""URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event"""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[URLWizHec]] = None
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     token: Optional[str] = None
@@ -22507,17 +22132,17 @@ class CreateOutputTypeSplunkHec(str, Enum):
 
 
 class URLSplunkHecTypedDict(TypedDict):
-    url: NotRequired[str]
+    url: str
     r"""URL to a Splunk HEC endpoint to send events to, e.g., http://localhost:8088/services/collector/event"""
     weight: NotRequired[float]
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
 class URLSplunkHec(BaseModel):
-    url: Optional[str] = "http://localhost:8088/services/collector/event"
+    url: str
     r"""URL to a Splunk HEC endpoint to send events to, e.g., http://localhost:8088/services/collector/event"""
 
-    weight: Optional[float] = 1
+    weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
@@ -22547,7 +22172,7 @@ class CreateOutputOutputSplunkHecTypedDict(TypedDict):
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
     tcp_routing: NotRequired[str]
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
-    tls: NotRequired[TLSSettingsClientSideType2TypedDict]
+    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -22642,52 +22267,48 @@ class CreateOutputOutputSplunkHec(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        True
+        None
     )
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
 
-    next_queue: Annotated[Optional[str], pydantic.Field(alias="nextQueue")] = (
-        "indexQueue"
-    )
+    next_queue: Annotated[Optional[str], pydantic.Field(alias="nextQueue")] = None
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
 
-    tcp_routing: Annotated[Optional[str], pydantic.Field(alias="tcpRouting")] = (
-        "nowhere"
-    )
+    tcp_routing: Annotated[Optional[str], pydantic.Field(alias="tcpRouting")] = None
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
 
-    tls: Optional[TLSSettingsClientSideType2] = None
+    tls: Optional[TLSSettingsClientSideType1] = None
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -22699,7 +22320,7 @@ class CreateOutputOutputSplunkHec(BaseModel):
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -22709,13 +22330,13 @@ class CreateOutputOutputSplunkHec(BaseModel):
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
-    ] = False
+    ] = None
     r"""Output metrics in multiple-metric format, supported in Splunk 8.0 and above to allow multiple metrics in a single event."""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     response_retry_settings: Annotated[
@@ -22730,37 +22351,37 @@ class CreateOutputOutputSplunkHec(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
 
-    url: Optional[str] = "http://localhost:8088/services/collector/event"
+    url: Optional[str] = None
     r"""URL to a Splunk HEC endpoint to send events to, e.g., http://localhost:8088/services/collector/event"""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[URLSplunkHec]] = None
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     token: Optional[str] = None
@@ -22771,50 +22392,46 @@ class CreateOutputOutputSplunkHec(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -22893,10 +22510,10 @@ class CreateOutputAuthToken(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -22915,11 +22532,11 @@ class CreateOutputAuthToken(BaseModel):
 class CreateOutputIndexerDiscoveryConfigsTypedDict(TypedDict):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
+    site: str
+    r"""Clustering site of the indexers from where indexers need to be discovered. In case of single site cluster, it defaults to 'default' site."""
     master_uri: str
     r"""Full URI of Splunk cluster manager (scheme://host:port). Example: https://managerAddress:8089"""
-    site: NotRequired[str]
-    r"""Clustering site of the indexers from where indexers need to be discovered. In case of single site cluster, it defaults to 'default' site."""
-    refresh_interval_sec: NotRequired[float]
+    refresh_interval_sec: float
     r"""Time interval, in seconds, between two consecutive indexer list fetches from cluster manager"""
     reject_unauthorized: NotRequired[bool]
     r"""During indexer discovery, reject cluster manager certificates that are not authorized by the system's CA. Disable to allow untrusted (for example, self-signed) certificates."""
@@ -22936,20 +22553,18 @@ class CreateOutputIndexerDiscoveryConfigsTypedDict(TypedDict):
 class CreateOutputIndexerDiscoveryConfigs(BaseModel):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
+    site: str
+    r"""Clustering site of the indexers from where indexers need to be discovered. In case of single site cluster, it defaults to 'default' site."""
+
     master_uri: Annotated[str, pydantic.Field(alias="masterUri")]
     r"""Full URI of Splunk cluster manager (scheme://host:port). Example: https://managerAddress:8089"""
 
-    site: Optional[str] = "default"
-    r"""Clustering site of the indexers from where indexers need to be discovered. In case of single site cluster, it defaults to 'default' site."""
-
-    refresh_interval_sec: Annotated[
-        Optional[float], pydantic.Field(alias="refreshIntervalSec")
-    ] = 300
+    refresh_interval_sec: Annotated[float, pydantic.Field(alias="refreshIntervalSec")]
     r"""Time interval, in seconds, between two consecutive indexer list fetches from cluster manager"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""During indexer discovery, reject cluster manager certificates that are not authorized by the system's CA. Disable to allow untrusted (for example, self-signed) certificates."""
 
     auth_tokens: Annotated[
@@ -22960,10 +22575,10 @@ class CreateOutputIndexerDiscoveryConfigs(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -22974,45 +22589,6 @@ class CreateOutputIndexerDiscoveryConfigs(BaseModel):
         if isinstance(value, str):
             try:
                 return models.AuthenticationMethodOptionsAuthTokensItems(value)
-            except ValueError:
-                return value
-        return value
-
-
-class HostSplunkLbTypedDict(TypedDict):
-    host: str
-    r"""The hostname of the receiver"""
-    port: NotRequired[float]
-    r"""The port to connect to on the provided host"""
-    tls: NotRequired[TLSOptionsHostsItems]
-    r"""Whether to inherit TLS configs from group setting or disable TLS"""
-    servername: NotRequired[str]
-    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
-    weight: NotRequired[float]
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-
-class HostSplunkLb(BaseModel):
-    host: str
-    r"""The hostname of the receiver"""
-
-    port: Optional[float] = 9997
-    r"""The port to connect to on the provided host"""
-
-    tls: Optional[TLSOptionsHostsItems] = TLSOptionsHostsItems.INHERIT
-    r"""Whether to inherit TLS configs from group setting or disable TLS"""
-
-    servername: Optional[str] = None
-    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
-
-    weight: Optional[float] = 1
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-    @field_serializer("tls")
-    def serialize_tls(self, value):
-        if isinstance(value, str):
-            try:
-                return models.TLSOptionsHostsItems(value)
             except ValueError:
                 return value
         return value
@@ -23030,7 +22606,7 @@ class CreateOutputOutputSplunkLbTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputTypeSplunkLb
-    hosts: List[HostSplunkLbTypedDict]
+    hosts: List[ItemsTypeHostsTypedDict]
     r"""Set of Splunk indexers to load-balance data to."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
@@ -23113,7 +22689,7 @@ class CreateOutputOutputSplunkLb(BaseModel):
 
     type: CreateOutputTypeSplunkLb
 
-    hosts: List[HostSplunkLb]
+    hosts: List[ItemsTypeHosts]
     r"""Set of Splunk indexers to load-balance data to."""
 
     pipeline: Optional[str] = None
@@ -23132,36 +22708,36 @@ class CreateOutputOutputSplunkLb(BaseModel):
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     max_concurrent_senders: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentSenders")
-    ] = 0
+    ] = None
     r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
 
     nested_fields: Annotated[
         Optional[NestedFieldSerializationOptions], pydantic.Field(alias="nestedFields")
-    ] = NestedFieldSerializationOptions.NONE
+    ] = None
     r"""How to serialize nested fields into index-time fields"""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        60000
+        None
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
@@ -23169,51 +22745,51 @@ class CreateOutputOutputSplunkLb(BaseModel):
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
-    ] = False
+    ] = None
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
 
-    enable_ack: Annotated[Optional[bool], pydantic.Field(alias="enableACK")] = True
+    enable_ack: Annotated[Optional[bool], pydantic.Field(alias="enableACK")] = None
     r"""Check if indexer is shutting down and stop sending data. This helps minimize data loss during shutdown."""
 
     log_failed_requests: Annotated[
         Optional[bool], pydantic.Field(alias="logFailedRequests")
-    ] = False
+    ] = None
     r"""Use to troubleshoot issues with sending data"""
 
     max_s2_sversion: Annotated[
         Optional[MaxS2SVersionOptions], pydantic.Field(alias="maxS2Sversion")
-    ] = MaxS2SVersionOptions.V3
+    ] = None
     r"""The highest S2S protocol version to advertise during handshake"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     indexer_discovery: Annotated[
         Optional[bool], pydantic.Field(alias="indexerDiscovery")
-    ] = False
+    ] = None
     r"""Automatically discover indexers in indexer clustering environment."""
 
     sender_unhealthy_time_allowance: Annotated[
         Optional[float], pydantic.Field(alias="senderUnhealthyTimeAllowance")
-    ] = 100
+    ] = None
     r"""How long (in milliseconds) each LB endpoint can report blocked before the Destination reports unhealthy, blocking the sender. (Grace period for fluctuations.) Use 0 to disable; max 1 minute."""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
 
     max_failed_health_checks: Annotated[
         Optional[float], pydantic.Field(alias="maxFailedHealthChecks")
-    ] = 1
+    ] = None
     r"""Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur."""
 
-    compress: Optional[CompressionOptions] = CompressionOptions.DISABLED
+    compress: Optional[CompressionOptions] = None
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
 
     indexer_discovery_configs: Annotated[
@@ -23222,62 +22798,58 @@ class CreateOutputOutputSplunkLb(BaseModel):
     ] = None
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
         Optional[PqControlsSplunkLb], pydantic.Field(alias="pqControls")
     ] = None
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -23374,6 +22946,8 @@ class CreateOutputOutputSplunkTypedDict(TypedDict):
     type: CreateOutputTypeSplunk
     host: str
     r"""The hostname of the receiver"""
+    port: float
+    r"""The port to connect to on the provided host"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -23382,8 +22956,6 @@ class CreateOutputOutputSplunkTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    port: NotRequired[float]
-    r"""The port to connect to on the provided host"""
     nested_fields: NotRequired[NestedFieldSerializationOptions]
     r"""How to serialize nested fields into index-time fields"""
     throttle_rate_per_sec: NotRequired[str]
@@ -23446,6 +23018,9 @@ class CreateOutputOutputSplunk(BaseModel):
     host: str
     r"""The hostname of the receiver"""
 
+    port: float
+    r"""The port to connect to on the provided host"""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -23460,26 +23035,23 @@ class CreateOutputOutputSplunk(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    port: Optional[float] = 9997
-    r"""The port to connect to on the provided host"""
-
     nested_fields: Annotated[
         Optional[NestedFieldSerializationOptions], pydantic.Field(alias="nestedFields")
-    ] = NestedFieldSerializationOptions.NONE
+    ] = None
     r"""How to serialize nested fields into index-time fields"""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        60000
+        None
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
@@ -23487,96 +23059,92 @@ class CreateOutputOutputSplunk(BaseModel):
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
-    ] = False
+    ] = None
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
 
-    enable_ack: Annotated[Optional[bool], pydantic.Field(alias="enableACK")] = True
+    enable_ack: Annotated[Optional[bool], pydantic.Field(alias="enableACK")] = None
     r"""Check if indexer is shutting down and stop sending data. This helps minimize data loss during shutdown."""
 
     log_failed_requests: Annotated[
         Optional[bool], pydantic.Field(alias="logFailedRequests")
-    ] = False
+    ] = None
     r"""Use to troubleshoot issues with sending data"""
 
     max_s2_sversion: Annotated[
         Optional[MaxS2SVersionOptions], pydantic.Field(alias="maxS2Sversion")
-    ] = MaxS2SVersionOptions.V3
+    ] = None
     r"""The highest S2S protocol version to advertise during handshake"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
 
     max_failed_health_checks: Annotated[
         Optional[float], pydantic.Field(alias="maxFailedHealthChecks")
-    ] = 1
+    ] = None
     r"""Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur."""
 
-    compress: Optional[CompressionOptions] = CompressionOptions.DISABLED
+    compress: Optional[CompressionOptions] = None
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
         Optional[PqControlsSplunk], pydantic.Field(alias="pqControls")
     ] = None
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -23845,31 +23413,31 @@ class CreateOutputOutputSyslog(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Optional[ProtocolSyslog] = ProtocolSyslog.TCP
+    protocol: Optional[ProtocolSyslog] = None
     r"""The network protocol to use for sending out syslog messages"""
 
-    facility: Optional[CreateOutputFacility] = CreateOutputFacility.ONE
+    facility: Optional[CreateOutputFacility] = None
     r"""Default value for message facility. Will be overwritten by value of __facility if set. Defaults to user."""
 
-    severity: Optional[SeveritySyslog] = SeveritySyslog.FIVE
+    severity: Optional[SeveritySyslog] = None
     r"""Default value for message severity. Will be overwritten by value of __severity if set. Defaults to notice."""
 
-    app_name: Annotated[Optional[str], pydantic.Field(alias="appName")] = "Cribl"
+    app_name: Annotated[Optional[str], pydantic.Field(alias="appName")] = None
     r"""Default name for device or application that originated the message. Defaults to Cribl, but will be overwritten by value of __appname if set."""
 
     message_format: Annotated[
         Optional[CreateOutputMessageFormat], pydantic.Field(alias="messageFormat")
-    ] = CreateOutputMessageFormat.RFC3164
+    ] = None
     r"""The syslog message format depending on the receiver's support"""
 
     timestamp_format: Annotated[
         Optional[CreateOutputTimestampFormat], pydantic.Field(alias="timestampFormat")
-    ] = CreateOutputTimestampFormat.SYSLOG
+    ] = None
     r"""Timestamp format to use when serializing event's time field"""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     octet_count_framing: Annotated[
@@ -23879,13 +23447,13 @@ class CreateOutputOutputSyslog(BaseModel):
 
     log_failed_requests: Annotated[
         Optional[bool], pydantic.Field(alias="logFailedRequests")
-    ] = False
+    ] = None
     r"""Use to troubleshoot issues with sending data"""
 
     description: Optional[str] = None
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        True
+        None
     )
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs.  If this setting is disabled, consider enabling round-robin DNS."""
 
@@ -23895,7 +23463,7 @@ class CreateOutputOutputSyslog(BaseModel):
     port: Optional[float] = None
     r"""The port to connect to on the provided host"""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     hosts: Optional[List[ItemsTypeHosts]] = None
@@ -23903,26 +23471,26 @@ class CreateOutputOutputSyslog(BaseModel):
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     max_concurrent_senders: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentSenders")
-    ] = 0
+    ] = None
     r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        60000
+        None
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
@@ -23930,70 +23498,66 @@ class CreateOutputOutputSyslog(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     max_record_size: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSize")
-    ] = 1500
+    ] = None
     r"""Maximum size of syslog messages. Make sure this value is less than or equal to the MTU to avoid UDP packet fragmentation."""
 
     udp_dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="udpDnsResolvePeriodSec")
-    ] = 0
+    ] = None
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every message sent will incur a DNS lookup."""
 
     enable_ip_spoofing: Annotated[
         Optional[bool], pydantic.Field(alias="enableIpSpoofing")
-    ] = False
+    ] = None
     r"""Send Syslog traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -24163,6 +23727,8 @@ class CreateOutputOutputSentinelTypedDict(TypedDict):
     r"""Secret parameter value to pass in request body"""
     client_id: str
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
+    endpoint_url_configuration: CreateOutputEndpointConfiguration
+    r"""Enter the data collection endpoint URL or the individual ID"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -24208,8 +23774,6 @@ class CreateOutputOutputSentinelTypedDict(TypedDict):
     auth_type: NotRequired[CreateOutputAuthType]
     scope: NotRequired[str]
     r"""Scope to pass in the OAuth request"""
-    endpoint_url_configuration: NotRequired[CreateOutputEndpointConfiguration]
-    r"""Enter the data collection endpoint URL or the individual ID"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
@@ -24276,6 +23840,12 @@ class CreateOutputOutputSentinel(BaseModel):
     client_id: str
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
 
+    endpoint_url_configuration: Annotated[
+        CreateOutputEndpointConfiguration,
+        pydantic.Field(alias="endpointURLConfiguration"),
+    ]
+    r"""Enter the data collection endpoint URL or the individual ID"""
+
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
 
@@ -24290,39 +23860,39 @@ class CreateOutputOutputSentinel(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = True
+    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 1000
+    ] = None
     r"""Maximum size (KB) of the request body (defaults to the API's maximum limit of 1000 KB)"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -24333,13 +23903,13 @@ class CreateOutputOutputSentinel(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -24359,26 +23929,20 @@ class CreateOutputOutputSentinel(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = False
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
         Optional[CreateOutputAuthType], pydantic.Field(alias="authType")
     ] = None
 
-    scope: Optional[str] = "https://monitor.azure.com/.default"
+    scope: Optional[str] = None
     r"""Scope to pass in the OAuth request"""
-
-    endpoint_url_configuration: Annotated[
-        Optional[CreateOutputEndpointConfiguration],
-        pydantic.Field(alias="endpointURLConfiguration"),
-    ] = CreateOutputEndpointConfiguration.URL
-    r"""Enter the data collection endpoint URL or the individual ID"""
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
@@ -24391,32 +23955,32 @@ class CreateOutputOutputSentinel(BaseModel):
 
     custom_source_expression: Annotated[
         Optional[str], pydantic.Field(alias="customSourceExpression")
-    ] = "__httpOut"
+    ] = None
     r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
 
     custom_drop_when_null: Annotated[
         Optional[bool], pydantic.Field(alias="customDropWhenNull")
-    ] = False
+    ] = None
     r"""Whether to drop events when the source expression evaluates to null"""
 
     custom_event_delimiter: Annotated[
         Optional[str], pydantic.Field(alias="customEventDelimiter")
-    ] = "\\n"
+    ] = None
     r"""Delimiter string to insert between individual events. Defaults to newline character."""
 
     custom_content_type: Annotated[
         Optional[str], pydantic.Field(alias="customContentType")
-    ] = "application/x-ndjson"
+    ] = None
     r"""Content type to use for request. Defaults to application/x-ndjson. Any content types set in Advanced Settings > Extra HTTP headers will override this entry."""
 
     custom_payload_expression: Annotated[
         Optional[str], pydantic.Field(alias="customPayloadExpression")
-    ] = "`${events}`"
+    ] = None
     r"""Expression specifying how to format the payload for each batch. To reference the events to send, use the `${events}` variable. Example expression: `{ \"items\" : [${events}] }` would send the batch inside a JSON object."""
 
     advanced_content_type: Annotated[
         Optional[str], pydantic.Field(alias="advancedContentType")
-    ] = "application/json"
+    ] = None
     r"""HTTP content-type header value"""
 
     format_event_code: Annotated[
@@ -24431,50 +23995,46 @@ class CreateOutputOutputSentinel(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -24619,7 +24179,7 @@ class URLWebhook(BaseModel):
     url: str
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
 
-    weight: Optional[float] = 1
+    weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
@@ -24675,7 +24235,7 @@ class CreateOutputOutputWebhookTypedDict(TypedDict):
     r"""How to handle events when all receivers are exerting backpressure"""
     auth_type: NotRequired[AuthenticationTypeWebhook]
     r"""Authentication method to use for the HTTP request"""
-    tls: NotRequired[TLSSettingsClientSideType2TypedDict]
+    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     load_balanced: NotRequired[bool]
@@ -24773,47 +24333,45 @@ class CreateOutputOutputWebhook(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    method: Optional[MethodOptions] = MethodOptions.POST
+    method: Optional[MethodOptions] = None
     r"""The method to use when sending events"""
 
-    format_: Annotated[Optional[FormatWebhook], pydantic.Field(alias="format")] = (
-        FormatWebhook.NDJSON
-    )
+    format_: Annotated[Optional[FormatWebhook], pydantic.Field(alias="format")] = None
     r"""How to format events before sending out"""
 
-    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = True
+    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -24824,13 +24382,13 @@ class CreateOutputOutputWebhook(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -24850,20 +24408,20 @@ class CreateOutputOutputWebhook(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = False
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
         Optional[AuthenticationTypeWebhook], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeWebhook.NONE
+    ] = None
     r"""Authentication method to use for the HTTP request"""
 
-    tls: Optional[TLSSettingsClientSideType2] = None
+    tls: Optional[TLSSettingsClientSideType1] = None
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
@@ -24871,7 +24429,7 @@ class CreateOutputOutputWebhook(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        False
+        None
     )
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
 
@@ -24879,32 +24437,32 @@ class CreateOutputOutputWebhook(BaseModel):
 
     custom_source_expression: Annotated[
         Optional[str], pydantic.Field(alias="customSourceExpression")
-    ] = "__httpOut"
+    ] = None
     r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
 
     custom_drop_when_null: Annotated[
         Optional[bool], pydantic.Field(alias="customDropWhenNull")
-    ] = False
+    ] = None
     r"""Whether to drop events when the source expression evaluates to null"""
 
     custom_event_delimiter: Annotated[
         Optional[str], pydantic.Field(alias="customEventDelimiter")
-    ] = "\\n"
+    ] = None
     r"""Delimiter string to insert between individual events. Defaults to newline character."""
 
     custom_content_type: Annotated[
         Optional[str], pydantic.Field(alias="customContentType")
-    ] = "application/x-ndjson"
+    ] = None
     r"""Content type to use for request. Defaults to application/x-ndjson. Any content types set in Advanced Settings > Extra HTTP headers will override this entry."""
 
     custom_payload_expression: Annotated[
         Optional[str], pydantic.Field(alias="customPayloadExpression")
-    ] = "`${events}`"
+    ] = None
     r"""Expression specifying how to format the payload for each batch. To reference the events to send, use the `${events}` variable. Example expression: `{ \"items\" : [${events}] }` would send the batch inside a JSON object."""
 
     advanced_content_type: Annotated[
         Optional[str], pydantic.Field(alias="advancedContentType")
-    ] = "application/json"
+    ] = None
     r"""HTTP content-type header value"""
 
     format_event_code: Annotated[
@@ -24919,50 +24477,46 @@ class CreateOutputOutputWebhook(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -25002,12 +24556,12 @@ class CreateOutputOutputWebhook(BaseModel):
 
     auth_header_expr: Annotated[
         Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
+    ] = None
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
 
     token_timeout_secs: Annotated[
         Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
+    ] = None
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
@@ -25023,19 +24577,19 @@ class CreateOutputOutputWebhook(BaseModel):
     url: Optional[str] = None
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[URLWebhook]] = None
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     @field_serializer("method")
@@ -25235,7 +24789,6 @@ r"""Output object"""
 
 CreateOutputRequest = Annotated[
     Union[
-        Annotated[CreateOutputOutputDefault, Tag("default")],
         Annotated[CreateOutputOutputWebhook, Tag("webhook")],
         Annotated[CreateOutputOutputSentinel, Tag("sentinel")],
         Annotated[CreateOutputOutputDevnull, Tag("devnull")],

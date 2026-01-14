@@ -34,7 +34,7 @@ class PipelineFunctionSerializeType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class PipelineFunctionSerializeConfTypedDict(TypedDict):
-    type: NotRequired[PipelineFunctionSerializeType]
+    type: PipelineFunctionSerializeType
     r"""Data output format"""
     delim_char: NotRequired[Any]
     quote_char: NotRequired[Any]
@@ -49,7 +49,7 @@ class PipelineFunctionSerializeConfTypedDict(TypedDict):
 
 
 class PipelineFunctionSerializeConf(BaseModel):
-    type: Optional[PipelineFunctionSerializeType] = PipelineFunctionSerializeType.CSV
+    type: PipelineFunctionSerializeType
     r"""Data output format"""
 
     delim_char: Annotated[Optional[Any], pydantic.Field(alias="delimChar")] = None
@@ -66,7 +66,7 @@ class PipelineFunctionSerializeConf(BaseModel):
     src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
     r"""Field containing object to serialize. Leave blank to serialize top-level event fields."""
 
-    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = "_raw"
+    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
     r"""Field to serialize data to"""
 
     @field_serializer("type")
@@ -101,7 +101,7 @@ class PipelineFunctionSerialize(BaseModel):
 
     conf: PipelineFunctionSerializeConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

@@ -34,5 +34,5 @@ class FunctionConfSchemaGrok(BaseModel):
         pydantic.Field(alias="patternList"),
     ] = None
 
-    source: Optional[str] = "_raw"
+    source: Optional[str] = None
     r"""Field on which to perform Grok extractions"""

@@ -42,26 +42,26 @@ class FunctionConfSchemaAggregationTypedDict(TypedDict):
 
 
 class FunctionConfSchemaAggregation(BaseModel):
-    passthrough: Optional[bool] = False
+    passthrough: Optional[bool] = None
     r"""Pass through the original events along with the aggregation events"""
 
     preserve_group_bys: Annotated[
         Optional[bool], pydantic.Field(alias="preserveGroupBys")
-    ] = False
+    ] = None
     r"""Preserve the structure of the original aggregation event's groupby fields"""
 
     sufficient_stats_only: Annotated[
         Optional[bool], pydantic.Field(alias="sufficientStatsOnly")
-    ] = False
+    ] = None
     r"""Output only statistics that are sufficient for the supplied aggregations"""
 
-    metrics_mode: Annotated[Optional[bool], pydantic.Field(alias="metricsMode")] = False
+    metrics_mode: Annotated[Optional[bool], pydantic.Field(alias="metricsMode")] = None
     r"""Enable to output the aggregates as metrics. When disabled, aggregates are output as events."""
 
     prefix: Optional[str] = None
     r"""A prefix that is prepended to all of the fields output by this Aggregations Function"""
 
-    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10s"
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
 
     aggregations: Optional[List[str]] = None
@@ -80,7 +80,7 @@ class FunctionConfSchemaAggregation(BaseModel):
     )
     r"""The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."""
 
-    cumulative: Optional[bool] = False
+    cumulative: Optional[bool] = None
     r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
 
     search_agg_mode: Annotated[Optional[str], pydantic.Field(alias="searchAggMode")] = (
@@ -93,10 +93,10 @@ class FunctionConfSchemaAggregation(BaseModel):
 
     should_treat_dots_as_literals: Annotated[
         Optional[bool], pydantic.Field(alias="shouldTreatDotsAsLiterals")
-    ] = False
+    ] = None
     r"""Treat dots in dimension names as literals. This is useful for top-level dimensions that contain dots, such as 'service.name'."""
 
     flush_on_input_close: Annotated[
         Optional[bool], pydantic.Field(alias="flushOnInputClose")
-    ] = True
+    ] = None
     r"""Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior."""

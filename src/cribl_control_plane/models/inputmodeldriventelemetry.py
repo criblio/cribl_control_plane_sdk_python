@@ -26,9 +26,13 @@ class InputModelDrivenTelemetryType(str, Enum):
 
 
 class InputModelDrivenTelemetryPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
-    type: InputModelDrivenTelemetryType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputModelDrivenTelemetryType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: float
+    r"""Port to listen on"""
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -43,10 +47,6 @@ class InputModelDrivenTelemetryPqEnabledTrueWithPqConstraintTypedDict(TypedDict)
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: NotRequired[float]
-    r"""Port to listen on"""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
@@ -58,23 +58,29 @@ class InputModelDrivenTelemetryPqEnabledTrueWithPqConstraintTypedDict(TypedDict)
 
 
 class InputModelDrivenTelemetryPqEnabledTrueWithPqConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputModelDrivenTelemetryType
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: float
+    r"""Port to listen on"""
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -87,34 +93,32 @@ class InputModelDrivenTelemetryPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: Optional[float] = 57000
-    r"""Port to listen on"""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to events from this input"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     shutdown_timeout_ms: Annotated[
         Optional[float], pydantic.Field(alias="shutdownTimeoutMs")
-    ] = 5000
+    ] = None
     r"""Time in milliseconds to allow the server to shutdown gracefully before forcing shutdown. Defaults to 5000."""
 
     description: Optional[str] = None
 
 
 class InputModelDrivenTelemetryPqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputModelDrivenTelemetryType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputModelDrivenTelemetryType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: float
+    r"""Port to listen on"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -129,10 +133,6 @@ class InputModelDrivenTelemetryPqEnabledFalseConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: NotRequired[float]
-    r"""Port to listen on"""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
@@ -144,21 +144,27 @@ class InputModelDrivenTelemetryPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputModelDrivenTelemetryPqEnabledFalseConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputModelDrivenTelemetryType
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: float
+    r"""Port to listen on"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -173,25 +179,19 @@ class InputModelDrivenTelemetryPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: Optional[float] = 57000
-    r"""Port to listen on"""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to events from this input"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     shutdown_timeout_ms: Annotated[
         Optional[float], pydantic.Field(alias="shutdownTimeoutMs")
-    ] = 5000
+    ] = None
     r"""Time in milliseconds to allow the server to shutdown gracefully before forcing shutdown. Defaults to 5000."""
 
     description: Optional[str] = None
@@ -200,9 +200,13 @@ class InputModelDrivenTelemetryPqEnabledFalseConstraint(BaseModel):
 class InputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstraintTypedDict(
     TypedDict
 ):
-    type: InputModelDrivenTelemetryType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputModelDrivenTelemetryType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: float
+    r"""Port to listen on"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -217,10 +221,6 @@ class InputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstraintTypedDi
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: NotRequired[float]
-    r"""Port to listen on"""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
@@ -232,12 +232,16 @@ class InputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstraintTypedDi
 
 
 class InputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputModelDrivenTelemetryType
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: float
+    r"""Port to listen on"""
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -245,7 +249,7 @@ class InputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstraint(BaseMo
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -253,7 +257,7 @@ class InputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstraint(BaseMo
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -261,34 +265,32 @@ class InputModelDrivenTelemetrySendToRoutesFalseWithConnectionsConstraint(BaseMo
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: Optional[float] = 57000
-    r"""Port to listen on"""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to events from this input"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     shutdown_timeout_ms: Annotated[
         Optional[float], pydantic.Field(alias="shutdownTimeoutMs")
-    ] = 5000
+    ] = None
     r"""Time in milliseconds to allow the server to shutdown gracefully before forcing shutdown. Defaults to 5000."""
 
     description: Optional[str] = None
 
 
 class InputModelDrivenTelemetrySendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputModelDrivenTelemetryType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputModelDrivenTelemetryType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: float
+    r"""Port to listen on"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -303,10 +305,6 @@ class InputModelDrivenTelemetrySendToRoutesTrueConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: NotRequired[float]
-    r"""Port to listen on"""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
@@ -318,17 +316,21 @@ class InputModelDrivenTelemetrySendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputModelDrivenTelemetrySendToRoutesTrueConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputModelDrivenTelemetryType
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: float
+    r"""Port to listen on"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -336,7 +338,7 @@ class InputModelDrivenTelemetrySendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -347,25 +349,19 @@ class InputModelDrivenTelemetrySendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: Optional[float] = 57000
-    r"""Port to listen on"""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to events from this input"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     shutdown_timeout_ms: Annotated[
         Optional[float], pydantic.Field(alias="shutdownTimeoutMs")
-    ] = 5000
+    ] = None
     r"""Time in milliseconds to allow the server to shutdown gracefully before forcing shutdown. Defaults to 5000."""
 
     description: Optional[str] = None

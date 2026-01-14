@@ -47,9 +47,7 @@ class PipelineFunctionMvExpandConf(BaseModel):
     ] = None
     r"""stores the value as new target field name"""
 
-    row_limit: Annotated[Optional[float], pydantic.Field(alias="rowLimit")] = (
-        9007199254740991
-    )
+    row_limit: Annotated[Optional[float], pydantic.Field(alias="rowLimit")] = None
     r"""max. number of rows generated out of every source events"""
 
     item_index_name: Annotated[Optional[str], pydantic.Field(alias="itemIndexName")] = (
@@ -60,7 +58,7 @@ class PipelineFunctionMvExpandConf(BaseModel):
     bag_expansion_mode: Annotated[
         Optional[PipelineFunctionMvExpandBagExpansionMode],
         pydantic.Field(alias="bagExpansionMode"),
-    ] = PipelineFunctionMvExpandBagExpansionMode.BAG
+    ] = None
     r"""decides if bag-values are expanded to bags or arrays"""
 
     @field_serializer("bag_expansion_mode")
@@ -95,7 +93,7 @@ class PipelineFunctionMvExpand(BaseModel):
 
     conf: PipelineFunctionMvExpandConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

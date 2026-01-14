@@ -20,5 +20,5 @@ class FunctionConfSchemaPack(BaseModel):
     ] = None
     r"""List of fields to keep, everything else will be packed"""
 
-    target: Optional[str] = "_pack"
+    target: Optional[str] = None
     r"""Name of the (packed) target field"""

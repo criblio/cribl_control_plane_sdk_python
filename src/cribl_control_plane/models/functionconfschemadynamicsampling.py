@@ -35,23 +35,23 @@ class FunctionConfSchemaDynamicSamplingTypedDict(TypedDict):
 
 
 class FunctionConfSchemaDynamicSampling(BaseModel):
-    mode: Optional[FunctionConfSchemaDynamicSamplingSampleMode] = (
-        FunctionConfSchemaDynamicSamplingSampleMode.LOG
-    )
+    mode: Optional[FunctionConfSchemaDynamicSamplingSampleMode] = None
     r"""Defines how sample rate will be derived: log(previousPeriodCount) or sqrt(previousPeriodCount)"""
 
-    key_expr: Annotated[Optional[str], pydantic.Field(alias="keyExpr")] = "`${host}`"
+    key_expr: Annotated[Optional[str], pydantic.Field(alias="keyExpr")] = None
     r"""Expression used to derive sample group key. Example:`${domain}:${status}`. Each sample group will have its own derived sampling rate based on volume. Defaults to `${host}`."""
 
-    sample_period: Annotated[Optional[float], pydantic.Field(alias="samplePeriod")] = 30
+    sample_period: Annotated[Optional[float], pydantic.Field(alias="samplePeriod")] = (
+        None
+    )
     r"""How often (in seconds) sample rates will be adjusted"""
 
-    min_events: Annotated[Optional[float], pydantic.Field(alias="minEvents")] = 30
+    min_events: Annotated[Optional[float], pydantic.Field(alias="minEvents")] = None
     r"""Minimum number of events that must be received in previous sample period for sampling mode to be applied to current period. If the number of events received for a sample group is less than this minimum, a sample rate of 1:1 is used."""
 
     max_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="maxSampleRate")
-    ] = 100
+    ] = None
     r"""Maximum sampling rate. If computed sampling rate is above this value, it will be limited to this value."""
 
     @field_serializer("mode")

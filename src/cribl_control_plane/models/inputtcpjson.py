@@ -31,11 +31,13 @@ class InputTcpjsonType(str, Enum):
 
 
 class InputTcpjsonPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputTcpjsonType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -50,8 +52,6 @@ class InputTcpjsonPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
@@ -79,26 +79,29 @@ class InputTcpjsonPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputTcpjsonPqEnabledTrueWithPqConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputTcpjsonType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -111,39 +114,36 @@ class InputTcpjsonPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to establish a connection"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     socket_idle_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
 
     socket_ending_max_wait: Annotated[
         Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
+    ] = None
     r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
 
     socket_max_lifespan: Annotated[
         Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
+    ] = None
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -151,18 +151,18 @@ class InputTcpjsonPqEnabledTrueWithPqConstraint(BaseModel):
 
     enable_load_balancing: Annotated[
         Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
+    ] = None
     r"""Load balance traffic across all Worker Processes"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -179,11 +179,13 @@ class InputTcpjsonPqEnabledTrueWithPqConstraint(BaseModel):
 
 
 class InputTcpjsonPqEnabledFalseConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputTcpjsonType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -198,8 +200,6 @@ class InputTcpjsonPqEnabledFalseConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
@@ -227,24 +227,27 @@ class InputTcpjsonPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputTcpjsonPqEnabledFalseConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputTcpjsonType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -259,39 +262,36 @@ class InputTcpjsonPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to establish a connection"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     socket_idle_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
 
     socket_ending_max_wait: Annotated[
         Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
+    ] = None
     r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
 
     socket_max_lifespan: Annotated[
         Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
+    ] = None
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -299,18 +299,18 @@ class InputTcpjsonPqEnabledFalseConstraint(BaseModel):
 
     enable_load_balancing: Annotated[
         Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
+    ] = None
     r"""Load balance traffic across all Worker Processes"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -327,11 +327,13 @@ class InputTcpjsonPqEnabledFalseConstraint(BaseModel):
 
 
 class InputTcpjsonSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputTcpjsonType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -346,8 +348,6 @@ class InputTcpjsonSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict)
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
@@ -375,15 +375,16 @@ class InputTcpjsonSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict)
 
 
 class InputTcpjsonSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputTcpjsonType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -391,7 +392,7 @@ class InputTcpjsonSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -399,7 +400,7 @@ class InputTcpjsonSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -407,39 +408,36 @@ class InputTcpjsonSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to establish a connection"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     socket_idle_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
 
     socket_ending_max_wait: Annotated[
         Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
+    ] = None
     r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
 
     socket_max_lifespan: Annotated[
         Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
+    ] = None
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -447,18 +445,18 @@ class InputTcpjsonSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     enable_load_balancing: Annotated[
         Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
+    ] = None
     r"""Load balance traffic across all Worker Processes"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -475,11 +473,13 @@ class InputTcpjsonSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
 
 class InputTcpjsonSendToRoutesTrueConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputTcpjsonType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -494,8 +494,6 @@ class InputTcpjsonSendToRoutesTrueConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
@@ -523,20 +521,21 @@ class InputTcpjsonSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputTcpjsonSendToRoutesTrueConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputTcpjsonType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -544,7 +543,7 @@ class InputTcpjsonSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -555,39 +554,36 @@ class InputTcpjsonSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to establish a connection"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     socket_idle_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
 
     socket_ending_max_wait: Annotated[
         Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
+    ] = None
     r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
 
     socket_max_lifespan: Annotated[
         Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
+    ] = None
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -595,18 +591,18 @@ class InputTcpjsonSendToRoutesTrueConstraint(BaseModel):
 
     enable_load_balancing: Annotated[
         Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
+    ] = None
     r"""Load balance traffic across all Worker Processes"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None

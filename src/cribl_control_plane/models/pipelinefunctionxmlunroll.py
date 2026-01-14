@@ -34,10 +34,10 @@ class PipelineFunctionXMLUnrollConf(BaseModel):
 
     unroll_idx_field: Annotated[
         Optional[str], pydantic.Field(alias="unrollIdxField")
-    ] = "unroll_idx"
+    ] = None
     r"""Add a field with this name, containing the index at which the item was located, starting from 0"""
 
-    pretty: Optional[bool] = False
+    pretty: Optional[bool] = None
     r"""Pretty print the output XML"""
 
 
@@ -63,7 +63,7 @@ class PipelineFunctionXMLUnroll(BaseModel):
 
     conf: PipelineFunctionXMLUnrollConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

@@ -25,21 +25,20 @@ class FunctionConfSchemaAggregateMetricsMetricType(
 
 
 class FunctionConfSchemaAggregateMetricsAggregationTypedDict(TypedDict):
+    metric_type: FunctionConfSchemaAggregateMetricsMetricType
+    r"""The output metric type"""
     agg: str
     r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
-    metric_type: NotRequired[FunctionConfSchemaAggregateMetricsMetricType]
-    r"""The output metric type"""
 
 
 class FunctionConfSchemaAggregateMetricsAggregation(BaseModel):
+    metric_type: Annotated[
+        FunctionConfSchemaAggregateMetricsMetricType, pydantic.Field(alias="metricType")
+    ]
+    r"""The output metric type"""
+
     agg: str
     r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
-
-    metric_type: Annotated[
-        Optional[FunctionConfSchemaAggregateMetricsMetricType],
-        pydantic.Field(alias="metricType"),
-    ] = FunctionConfSchemaAggregateMetricsMetricType.AUTOMATIC
-    r"""The output metric type"""
 
     @field_serializer("metric_type")
     def serialize_metric_type(self, value):
@@ -96,23 +95,23 @@ class FunctionConfSchemaAggregateMetricsTypedDict(TypedDict):
 
 
 class FunctionConfSchemaAggregateMetrics(BaseModel):
-    passthrough: Optional[bool] = False
+    passthrough: Optional[bool] = None
     r"""Pass through the original events along with the aggregation events"""
 
     preserve_group_bys: Annotated[
         Optional[bool], pydantic.Field(alias="preserveGroupBys")
-    ] = False
+    ] = None
     r"""Preserve the structure of the original aggregation event's groupby fields"""
 
     sufficient_stats_only: Annotated[
         Optional[bool], pydantic.Field(alias="sufficientStatsOnly")
-    ] = False
+    ] = None
     r"""Output only statistics that are sufficient for the supplied aggregations"""
 
     prefix: Optional[str] = None
     r"""A prefix that is prepended to all of the fields output by this Aggregations Function"""
 
-    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10s"
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
 
     aggregations: Optional[List[FunctionConfSchemaAggregateMetricsAggregation]] = None
@@ -131,12 +130,12 @@ class FunctionConfSchemaAggregateMetrics(BaseModel):
     )
     r"""The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."""
 
-    cumulative: Optional[bool] = False
+    cumulative: Optional[bool] = None
     r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
 
     should_treat_dots_as_literals: Annotated[
         Optional[bool], pydantic.Field(alias="shouldTreatDotsAsLiterals")
-    ] = True
+    ] = None
     r"""Treat dots in dimension names as literals. This is useful for top-level dimensions that contain dots, such as 'service.name'."""
 
     add: Optional[List[FunctionConfSchemaAggregateMetricsAdd]] = None
@@ -144,5 +143,5 @@ class FunctionConfSchemaAggregateMetrics(BaseModel):
 
     flush_on_input_close: Annotated[
         Optional[bool], pydantic.Field(alias="flushOnInputClose")
-    ] = True
+    ] = None
     r"""Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior."""

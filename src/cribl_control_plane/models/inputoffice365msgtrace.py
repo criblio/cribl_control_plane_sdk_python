@@ -75,9 +75,13 @@ class CertOptions(BaseModel):
 
 
 class InputOffice365MsgTracePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
-    type: InputOffice365MsgTraceType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputOffice365MsgTraceType
+    url: str
+    r"""URL to use when retrieving report data."""
+    interval: float
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -92,10 +96,6 @@ class InputOffice365MsgTracePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    url: NotRequired[str]
-    r"""URL to use when retrieving report data."""
-    interval: NotRequired[float]
-    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     start_date: NotRequired[str]
     r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
     end_date: NotRequired[str]
@@ -148,23 +148,29 @@ class InputOffice365MsgTracePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputOffice365MsgTracePqEnabledTrueWithPqConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputOffice365MsgTraceType
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    url: str
+    r"""URL to use when retrieving report data."""
+
+    interval: float
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -177,68 +183,60 @@ class InputOffice365MsgTracePqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    url: Optional[str] = (
-        "https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace"
-    )
-    r"""URL to use when retrieving report data."""
-
-    interval: Optional[float] = 60
-    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
-
     start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
     r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
 
     end_date: Annotated[Optional[str], pydantic.Field(alias="endDate")] = None
     r"""Backward offset for the search range's tail. (E.g.: -2h@h) Message Trace data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
 
-    timeout: Optional[float] = 300
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = True
+    ] = None
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
         Optional[InputOffice365MsgTraceAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = InputOffice365MsgTraceAuthenticationMethod.OAUTH
+    ] = None
     r"""Select authentication method."""
 
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
-    ] = True
+    ] = None
     r"""Reschedule tasks that failed with non-fatal errors"""
 
     max_task_reschedule: Annotated[
         Optional[float], pydantic.Field(alias="maxTaskReschedule")
-    ] = 1
+    ] = None
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
         Optional[InputOffice365MsgTraceLogLevel], pydantic.Field(alias="logLevel")
-    ] = InputOffice365MsgTraceLogLevel.INFO
+    ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
 
     max_missed_keep_alives: Annotated[
         Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
+    ] = None
     r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
 
-    ttl: Optional[str] = "4h"
+    ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
 
     ignore_group_jobs_limit: Annotated[
         Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
+    ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -270,12 +268,12 @@ class InputOffice365MsgTracePqEnabledTrueWithPqConstraint(BaseModel):
     client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
     r"""client_id to pass in the OAuth request parameter."""
 
-    resource: Optional[str] = "https://outlook.office365.com"
+    resource: Optional[str] = None
     r"""Resource to pass in the OAuth request parameter."""
 
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
-    ] = SubscriptionPlanOptions.ENTERPRISE_GCC
+    ] = None
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -314,9 +312,13 @@ class InputOffice365MsgTracePqEnabledTrueWithPqConstraint(BaseModel):
 
 
 class InputOffice365MsgTracePqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputOffice365MsgTraceType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputOffice365MsgTraceType
+    url: str
+    r"""URL to use when retrieving report data."""
+    interval: float
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -331,10 +333,6 @@ class InputOffice365MsgTracePqEnabledFalseConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    url: NotRequired[str]
-    r"""URL to use when retrieving report data."""
-    interval: NotRequired[float]
-    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     start_date: NotRequired[str]
     r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
     end_date: NotRequired[str]
@@ -387,21 +385,27 @@ class InputOffice365MsgTracePqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputOffice365MsgTracePqEnabledFalseConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputOffice365MsgTraceType
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    url: str
+    r"""URL to use when retrieving report data."""
+
+    interval: float
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -416,68 +420,60 @@ class InputOffice365MsgTracePqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    url: Optional[str] = (
-        "https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace"
-    )
-    r"""URL to use when retrieving report data."""
-
-    interval: Optional[float] = 60
-    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
-
     start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
     r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
 
     end_date: Annotated[Optional[str], pydantic.Field(alias="endDate")] = None
     r"""Backward offset for the search range's tail. (E.g.: -2h@h) Message Trace data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
 
-    timeout: Optional[float] = 300
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = True
+    ] = None
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
         Optional[InputOffice365MsgTraceAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = InputOffice365MsgTraceAuthenticationMethod.OAUTH
+    ] = None
     r"""Select authentication method."""
 
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
-    ] = True
+    ] = None
     r"""Reschedule tasks that failed with non-fatal errors"""
 
     max_task_reschedule: Annotated[
         Optional[float], pydantic.Field(alias="maxTaskReschedule")
-    ] = 1
+    ] = None
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
         Optional[InputOffice365MsgTraceLogLevel], pydantic.Field(alias="logLevel")
-    ] = InputOffice365MsgTraceLogLevel.INFO
+    ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
 
     max_missed_keep_alives: Annotated[
         Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
+    ] = None
     r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
 
-    ttl: Optional[str] = "4h"
+    ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
 
     ignore_group_jobs_limit: Annotated[
         Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
+    ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -509,12 +505,12 @@ class InputOffice365MsgTracePqEnabledFalseConstraint(BaseModel):
     client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
     r"""client_id to pass in the OAuth request parameter."""
 
-    resource: Optional[str] = "https://outlook.office365.com"
+    resource: Optional[str] = None
     r"""Resource to pass in the OAuth request parameter."""
 
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
-    ] = SubscriptionPlanOptions.ENTERPRISE_GCC
+    ] = None
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -555,9 +551,13 @@ class InputOffice365MsgTracePqEnabledFalseConstraint(BaseModel):
 class InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraintTypedDict(
     TypedDict
 ):
-    type: InputOffice365MsgTraceType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputOffice365MsgTraceType
+    url: str
+    r"""URL to use when retrieving report data."""
+    interval: float
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -572,10 +572,6 @@ class InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraintTypedDict(
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
-    url: NotRequired[str]
-    r"""URL to use when retrieving report data."""
-    interval: NotRequired[float]
-    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     start_date: NotRequired[str]
     r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
     end_date: NotRequired[str]
@@ -628,12 +624,16 @@ class InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraintTypedDict(
 
 
 class InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputOffice365MsgTraceType
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    url: str
+    r"""URL to use when retrieving report data."""
+
+    interval: float
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -641,7 +641,7 @@ class InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraint(BaseModel
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -649,7 +649,7 @@ class InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraint(BaseModel
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -657,68 +657,60 @@ class InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraint(BaseModel
 
     pq: Optional[PqType] = None
 
-    url: Optional[str] = (
-        "https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace"
-    )
-    r"""URL to use when retrieving report data."""
-
-    interval: Optional[float] = 60
-    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
-
     start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
     r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
 
     end_date: Annotated[Optional[str], pydantic.Field(alias="endDate")] = None
     r"""Backward offset for the search range's tail. (E.g.: -2h@h) Message Trace data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
 
-    timeout: Optional[float] = 300
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = True
+    ] = None
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
         Optional[InputOffice365MsgTraceAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = InputOffice365MsgTraceAuthenticationMethod.OAUTH
+    ] = None
     r"""Select authentication method."""
 
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
-    ] = True
+    ] = None
     r"""Reschedule tasks that failed with non-fatal errors"""
 
     max_task_reschedule: Annotated[
         Optional[float], pydantic.Field(alias="maxTaskReschedule")
-    ] = 1
+    ] = None
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
         Optional[InputOffice365MsgTraceLogLevel], pydantic.Field(alias="logLevel")
-    ] = InputOffice365MsgTraceLogLevel.INFO
+    ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
 
     max_missed_keep_alives: Annotated[
         Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
+    ] = None
     r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
 
-    ttl: Optional[str] = "4h"
+    ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
 
     ignore_group_jobs_limit: Annotated[
         Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
+    ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -750,12 +742,12 @@ class InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraint(BaseModel
     client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
     r"""client_id to pass in the OAuth request parameter."""
 
-    resource: Optional[str] = "https://outlook.office365.com"
+    resource: Optional[str] = None
     r"""Resource to pass in the OAuth request parameter."""
 
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
-    ] = SubscriptionPlanOptions.ENTERPRISE_GCC
+    ] = None
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -794,9 +786,13 @@ class InputOffice365MsgTraceSendToRoutesFalseWithConnectionsConstraint(BaseModel
 
 
 class InputOffice365MsgTraceSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputOffice365MsgTraceType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputOffice365MsgTraceType
+    url: str
+    r"""URL to use when retrieving report data."""
+    interval: float
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -811,10 +807,6 @@ class InputOffice365MsgTraceSendToRoutesTrueConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    url: NotRequired[str]
-    r"""URL to use when retrieving report data."""
-    interval: NotRequired[float]
-    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     start_date: NotRequired[str]
     r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
     end_date: NotRequired[str]
@@ -867,17 +859,21 @@ class InputOffice365MsgTraceSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputOffice365MsgTraceSendToRoutesTrueConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputOffice365MsgTraceType
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    url: str
+    r"""URL to use when retrieving report data."""
+
+    interval: float
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -885,7 +881,7 @@ class InputOffice365MsgTraceSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -896,68 +892,60 @@ class InputOffice365MsgTraceSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    url: Optional[str] = (
-        "https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace"
-    )
-    r"""URL to use when retrieving report data."""
-
-    interval: Optional[float] = 60
-    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
-
     start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
     r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
 
     end_date: Annotated[Optional[str], pydantic.Field(alias="endDate")] = None
     r"""Backward offset for the search range's tail. (E.g.: -2h@h) Message Trace data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
 
-    timeout: Optional[float] = 300
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = True
+    ] = None
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
         Optional[InputOffice365MsgTraceAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = InputOffice365MsgTraceAuthenticationMethod.OAUTH
+    ] = None
     r"""Select authentication method."""
 
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
-    ] = True
+    ] = None
     r"""Reschedule tasks that failed with non-fatal errors"""
 
     max_task_reschedule: Annotated[
         Optional[float], pydantic.Field(alias="maxTaskReschedule")
-    ] = 1
+    ] = None
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
         Optional[InputOffice365MsgTraceLogLevel], pydantic.Field(alias="logLevel")
-    ] = InputOffice365MsgTraceLogLevel.INFO
+    ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
 
     max_missed_keep_alives: Annotated[
         Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
+    ] = None
     r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
 
-    ttl: Optional[str] = "4h"
+    ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
 
     ignore_group_jobs_limit: Annotated[
         Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
+    ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -989,12 +977,12 @@ class InputOffice365MsgTraceSendToRoutesTrueConstraint(BaseModel):
     client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
     r"""client_id to pass in the OAuth request parameter."""
 
-    resource: Optional[str] = "https://outlook.office365.com"
+    resource: Optional[str] = None
     r"""Resource to pass in the OAuth request parameter."""
 
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
-    ] = SubscriptionPlanOptions.ENTERPRISE_GCC
+    ] = None
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None

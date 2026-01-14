@@ -70,7 +70,7 @@ class PipelineFunctionLookupConf(BaseModel):
     file: str
     r"""Path to the lookup file. Reference environment variables via $. Example: $HOME/file.csv"""
 
-    db_lookup: Annotated[Optional[bool], pydantic.Field(alias="dbLookup")] = False
+    db_lookup: Annotated[Optional[bool], pydantic.Field(alias="dbLookup")] = None
     r"""Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups."""
 
     match_mode: Annotated[Optional[Any], pydantic.Field(alias="matchMode")] = None
@@ -92,7 +92,7 @@ class PipelineFunctionLookupConf(BaseModel):
     ] = None
     r"""Fields to add to events after matching lookup. Defaults to all if not specified."""
 
-    add_to_event: Annotated[Optional[bool], pydantic.Field(alias="addToEvent")] = False
+    add_to_event: Annotated[Optional[bool], pydantic.Field(alias="addToEvent")] = None
     r"""Add the looked-up values to _raw, as key=value pairs"""
 
     ignore_case: Annotated[Optional[Any], pydantic.Field(alias="ignoreCase")] = None
@@ -120,7 +120,7 @@ class PipelineFunctionLookup(BaseModel):
 
     conf: PipelineFunctionLookupConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

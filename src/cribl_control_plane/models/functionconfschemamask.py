@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class FunctionConfSchemaMaskRuleTypedDict(TypedDict):
     match_regex: str
     r"""Pattern to replace. Use /g to replace all matches."""
-    replace_expr: NotRequired[str]
+    replace_expr: str
     r"""A JavaScript expression or literal to replace the matching content. Capturing groups can be referenced as g1, g2, and so on, and event fields as event.<fieldName>."""
     disabled: NotRequired[bool]
     r"""Set to No to disable the evaluation of an individual rule"""
@@ -21,10 +21,10 @@ class FunctionConfSchemaMaskRule(BaseModel):
     match_regex: Annotated[str, pydantic.Field(alias="matchRegex")]
     r"""Pattern to replace. Use /g to replace all matches."""
 
-    replace_expr: Annotated[Optional[str], pydantic.Field(alias="replaceExpr")] = "''"
+    replace_expr: Annotated[str, pydantic.Field(alias="replaceExpr")]
     r"""A JavaScript expression or literal to replace the matching content. Capturing groups can be referenced as g1, g2, and so on, and event fields as event.<fieldName>."""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
     r"""Set to No to disable the evaluation of an individual rule"""
 
 
@@ -44,7 +44,7 @@ class FunctionConfSchemaMask(BaseModel):
     fields: Optional[List[str]] = None
     r"""Fields on which to apply the masking rules. Supports * wildcards, except when used on internal fields."""
 
-    depth: Optional[int] = 5
+    depth: Optional[int] = None
     r"""Depth to which the Mask Function will search for fields to mask"""
 
     flags: Optional[List[ItemsTypeAdd]] = None

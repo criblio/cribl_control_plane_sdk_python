@@ -29,13 +29,13 @@ class FunctionConfSchemaLakeExport(BaseModel):
     dataset: Optional[str] = None
     r"""Name of the dataset"""
 
-    lake: Optional[str] = "default"
+    lake: Optional[str] = None
     r"""Name of the lake"""
 
-    tee: Optional[str] = "false"
+    tee: Optional[str] = None
     r"""Tee results to search. When set to true results will be shipped instead of stats"""
 
-    flush_ms: Annotated[Optional[float], pydantic.Field(alias="flushMs")] = 1000
+    flush_ms: Annotated[Optional[float], pydantic.Field(alias="flushMs")] = None
     r"""How often are stats flushed in ms"""
 
     suppress_previews: Annotated[

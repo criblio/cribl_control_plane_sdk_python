@@ -51,10 +51,10 @@ class SendConfiguration(BaseModel):
     url: Optional[str] = None
     r"""Full URL to send search to."""
 
-    group: Optional[str] = "default"
+    group: Optional[str] = None
     r"""Group within the workspace we're sending to."""
 
-    workspace: Optional[str] = "main"
+    workspace: Optional[str] = None
     r"""Workspace within the deployment to send the search results to."""
 
     send_url_template: Annotated[
@@ -62,10 +62,10 @@ class SendConfiguration(BaseModel):
     ] = None
     r"""Template to build the URL to send from."""
 
-    tee: Optional[str] = "false"
+    tee: Optional[str] = None
     r"""Tee results to search. When set to true results will be shipped instead of stats"""
 
-    flush_ms: Annotated[Optional[float], pydantic.Field(alias="flushMs")] = 1000
+    flush_ms: Annotated[Optional[float], pydantic.Field(alias="flushMs")] = None
     r"""How often are stats flushed in ms"""
 
     suppress_previews: Annotated[
@@ -108,7 +108,7 @@ class PipelineFunctionSend(BaseModel):
 
     conf: SendConfiguration
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

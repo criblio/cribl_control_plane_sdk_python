@@ -34,5 +34,5 @@ class FunctionConfSchemaRegexFilter(BaseModel):
         pydantic.Field(alias="regexList"),
     ] = None
 
-    field: Optional[str] = "_raw"
+    field: Optional[str] = None
     r"""Name of the field to apply the regex on (defaults to _raw)"""

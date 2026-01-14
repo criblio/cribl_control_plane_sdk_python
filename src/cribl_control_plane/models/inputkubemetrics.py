@@ -42,25 +42,21 @@ class InputKubeMetricsPersistenceTypedDict(TypedDict):
 
 
 class InputKubeMetricsPersistence(BaseModel):
-    enable: Optional[bool] = False
+    enable: Optional[bool] = None
     r"""Spool metrics on disk for Cribl Search"""
 
-    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10m"
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
     r"""Time span for each file bucket"""
 
-    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = "1GB"
+    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = None
     r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
 
-    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
+    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = None
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Optional[DataCompressionFormatOptionsPersistence] = (
-        DataCompressionFormatOptionsPersistence.GZIP
-    )
+    compress: Optional[DataCompressionFormatOptionsPersistence] = None
 
-    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
-        "$CRIBL_HOME/state/kube_metrics"
-    )
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
 
     @field_serializer("compress")
@@ -74,9 +70,9 @@ class InputKubeMetricsPersistence(BaseModel):
 
 
 class InputKubeMetricsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
-    type: InputKubeMetricsType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputKubeMetricsType
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -102,23 +98,23 @@ class InputKubeMetricsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputKubeMetricsPqEnabledTrueWithPqConstraint(BaseModel):
-    type: InputKubeMetricsType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputKubeMetricsType
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -131,7 +127,7 @@ class InputKubeMetricsPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    interval: Optional[float] = 15
+    interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metrics collections. Default is 15 secs."""
 
     rules: Optional[List[ItemsTypeRules]] = None
@@ -146,9 +142,9 @@ class InputKubeMetricsPqEnabledTrueWithPqConstraint(BaseModel):
 
 
 class InputKubeMetricsPqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputKubeMetricsType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputKubeMetricsType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -174,21 +170,21 @@ class InputKubeMetricsPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputKubeMetricsPqEnabledFalseConstraint(BaseModel):
-    type: InputKubeMetricsType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputKubeMetricsType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -203,7 +199,7 @@ class InputKubeMetricsPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    interval: Optional[float] = 15
+    interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metrics collections. Default is 15 secs."""
 
     rules: Optional[List[ItemsTypeRules]] = None
@@ -218,9 +214,9 @@ class InputKubeMetricsPqEnabledFalseConstraint(BaseModel):
 
 
 class InputKubeMetricsSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputKubeMetricsType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputKubeMetricsType
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -246,12 +242,10 @@ class InputKubeMetricsSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedD
 
 
 class InputKubeMetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputKubeMetricsType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    type: InputKubeMetricsType
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -259,7 +253,7 @@ class InputKubeMetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -267,7 +261,7 @@ class InputKubeMetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -275,7 +269,7 @@ class InputKubeMetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    interval: Optional[float] = 15
+    interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metrics collections. Default is 15 secs."""
 
     rules: Optional[List[ItemsTypeRules]] = None
@@ -290,9 +284,9 @@ class InputKubeMetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
 
 class InputKubeMetricsSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputKubeMetricsType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputKubeMetricsType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -318,17 +312,15 @@ class InputKubeMetricsSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputKubeMetricsSendToRoutesTrueConstraint(BaseModel):
-    type: InputKubeMetricsType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    type: InputKubeMetricsType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -336,7 +328,7 @@ class InputKubeMetricsSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -347,7 +339,7 @@ class InputKubeMetricsSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    interval: Optional[float] = 15
+    interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metrics collections. Default is 15 secs."""
 
     rules: Optional[List[ItemsTypeRules]] = None

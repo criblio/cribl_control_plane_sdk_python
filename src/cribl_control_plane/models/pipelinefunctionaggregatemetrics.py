@@ -31,21 +31,20 @@ class PipelineFunctionAggregateMetricsMetricType(
 
 
 class PipelineFunctionAggregateMetricsAggregationTypedDict(TypedDict):
+    metric_type: PipelineFunctionAggregateMetricsMetricType
+    r"""The output metric type"""
     agg: str
     r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
-    metric_type: NotRequired[PipelineFunctionAggregateMetricsMetricType]
-    r"""The output metric type"""
 
 
 class PipelineFunctionAggregateMetricsAggregation(BaseModel):
+    metric_type: Annotated[
+        PipelineFunctionAggregateMetricsMetricType, pydantic.Field(alias="metricType")
+    ]
+    r"""The output metric type"""
+
     agg: str
     r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
-
-    metric_type: Annotated[
-        Optional[PipelineFunctionAggregateMetricsMetricType],
-        pydantic.Field(alias="metricType"),
-    ] = PipelineFunctionAggregateMetricsMetricType.AUTOMATIC
-    r"""The output metric type"""
 
     @field_serializer("metric_type")
     def serialize_metric_type(self, value):
@@ -71,6 +70,8 @@ class PipelineFunctionAggregateMetricsAdd(BaseModel):
 
 
 class PipelineFunctionAggregateMetricsConfTypedDict(TypedDict):
+    time_window: str
+    r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
     aggregations: List[PipelineFunctionAggregateMetricsAggregationTypedDict]
     r"""Combination of Aggregation function and output metric type"""
     passthrough: NotRequired[bool]
@@ -81,8 +82,6 @@ class PipelineFunctionAggregateMetricsConfTypedDict(TypedDict):
     r"""Output only statistics that are sufficient for the supplied aggregations"""
     prefix: NotRequired[str]
     r"""A prefix that is prepended to all of the fields output by this Aggregations Function"""
-    time_window: NotRequired[str]
-    r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
     groupbys: NotRequired[List[str]]
     r"""Optional: One or more dimensions to group aggregates by. Supports wildcard expressions. Wrap dimension names in quotes if using literal identifiers, such as 'service.name'. Warning: Using wildcard '*' causes all dimensions in the event to be included, which can result in high cardinality and increased memory usage. Exclude dimensions that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"""
     flush_event_limit: NotRequired[float]
@@ -100,27 +99,27 @@ class PipelineFunctionAggregateMetricsConfTypedDict(TypedDict):
 
 
 class PipelineFunctionAggregateMetricsConf(BaseModel):
+    time_window: Annotated[str, pydantic.Field(alias="timeWindow")]
+    r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
+
     aggregations: List[PipelineFunctionAggregateMetricsAggregation]
     r"""Combination of Aggregation function and output metric type"""
 
-    passthrough: Optional[bool] = False
+    passthrough: Optional[bool] = None
     r"""Pass through the original events along with the aggregation events"""
 
     preserve_group_bys: Annotated[
         Optional[bool], pydantic.Field(alias="preserveGroupBys")
-    ] = False
+    ] = None
     r"""Preserve the structure of the original aggregation event's groupby fields"""
 
     sufficient_stats_only: Annotated[
         Optional[bool], pydantic.Field(alias="sufficientStatsOnly")
-    ] = False
+    ] = None
     r"""Output only statistics that are sufficient for the supplied aggregations"""
 
     prefix: Optional[str] = None
     r"""A prefix that is prepended to all of the fields output by this Aggregations Function"""
-
-    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10s"
-    r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
 
     groupbys: Optional[List[str]] = None
     r"""Optional: One or more dimensions to group aggregates by. Supports wildcard expressions. Wrap dimension names in quotes if using literal identifiers, such as 'service.name'. Warning: Using wildcard '*' causes all dimensions in the event to be included, which can result in high cardinality and increased memory usage. Exclude dimensions that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"""
@@ -135,12 +134,12 @@ class PipelineFunctionAggregateMetricsConf(BaseModel):
     )
     r"""The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."""
 
-    cumulative: Optional[bool] = False
+    cumulative: Optional[bool] = None
     r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
 
     should_treat_dots_as_literals: Annotated[
         Optional[bool], pydantic.Field(alias="shouldTreatDotsAsLiterals")
-    ] = True
+    ] = None
     r"""Treat dots in dimension names as literals. This is useful for top-level dimensions that contain dots, such as 'service.name'."""
 
     add: Optional[List[PipelineFunctionAggregateMetricsAdd]] = None
@@ -148,7 +147,7 @@ class PipelineFunctionAggregateMetricsConf(BaseModel):
 
     flush_on_input_close: Annotated[
         Optional[bool], pydantic.Field(alias="flushOnInputClose")
-    ] = True
+    ] = None
     r"""Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior."""
 
 
@@ -174,7 +173,7 @@ class PipelineFunctionAggregateMetrics(BaseModel):
 
     conf: PipelineFunctionAggregateMetricsConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

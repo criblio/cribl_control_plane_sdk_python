@@ -26,12 +26,12 @@ class InputCollectionType(str, Enum):
 
 
 class InputCollectionPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputCollectionType
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputCollectionType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process results"""
@@ -57,23 +57,23 @@ class InputCollectionPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputCollectionPqEnabledTrueWithPqConstraint(BaseModel):
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputCollectionType
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    type: Optional[InputCollectionType] = InputCollectionType.COLLECTION
-
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process results"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
 
@@ -93,14 +93,14 @@ class InputCollectionPqEnabledTrueWithPqConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     preprocess: Optional[PreprocessTypeSavedJobCollectionInput] = None
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -111,11 +111,11 @@ class InputCollectionPqEnabledTrueWithPqConstraint(BaseModel):
 
 
 class InputCollectionPqEnabledFalseConstraintTypedDict(TypedDict):
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputCollectionType
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputCollectionType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process results"""
@@ -142,21 +142,21 @@ class InputCollectionPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputCollectionPqEnabledFalseConstraint(BaseModel):
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputCollectionType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    type: Optional[InputCollectionType] = InputCollectionType.COLLECTION
-
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process results"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
 
@@ -178,14 +178,14 @@ class InputCollectionPqEnabledFalseConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     preprocess: Optional[PreprocessTypeSavedJobCollectionInput] = None
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -196,13 +196,13 @@ class InputCollectionPqEnabledFalseConstraint(BaseModel):
 
 
 class InputCollectionSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
+    type: InputCollectionType
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputCollectionType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process results"""
@@ -227,10 +227,10 @@ class InputCollectionSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDi
 
 
 class InputCollectionSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
+
+    type: InputCollectionType
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -238,9 +238,7 @@ class InputCollectionSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    type: Optional[InputCollectionType] = InputCollectionType.COLLECTION
-
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process results"""
@@ -248,7 +246,7 @@ class InputCollectionSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -263,14 +261,14 @@ class InputCollectionSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     preprocess: Optional[PreprocessTypeSavedJobCollectionInput] = None
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -281,11 +279,11 @@ class InputCollectionSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
 
 class InputCollectionSendToRoutesTrueConstraintTypedDict(TypedDict):
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
+    type: InputCollectionType
     id: NotRequired[str]
     r"""Unique ID for this input"""
-    type: NotRequired[InputCollectionType]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process results"""
@@ -312,17 +310,15 @@ class InputCollectionSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputCollectionSendToRoutesTrueConstraint(BaseModel):
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
+
+    type: InputCollectionType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    type: Optional[InputCollectionType] = InputCollectionType.COLLECTION
-
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process results"""
@@ -330,7 +326,7 @@ class InputCollectionSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -348,14 +344,14 @@ class InputCollectionSendToRoutesTrueConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     preprocess: Optional[PreprocessTypeSavedJobCollectionInput] = None
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None

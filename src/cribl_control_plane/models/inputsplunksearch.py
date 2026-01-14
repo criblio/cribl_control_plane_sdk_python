@@ -74,11 +74,19 @@ class InputSplunkSearchAuthenticationType(str, Enum, metaclass=utils.OpenEnumMet
 
 
 class InputSplunkSearchPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputSplunkSearchType
+    search_head: str
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    cron_schedule: str
+    r"""A cron schedule on which to run this job"""
+    endpoint: str
+    r"""REST API used to create a search"""
+    output_mode: OutputModeOptionsSplunkCollectorConf
+    r"""Format of the returned output"""
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -93,18 +101,10 @@ class InputSplunkSearchPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    search_head: NotRequired[str]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     earliest: NotRequired[str]
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    cron_schedule: NotRequired[str]
-    r"""A cron schedule on which to run this job"""
-    endpoint: NotRequired[str]
-    r"""REST API used to create a search"""
-    output_mode: NotRequired[OutputModeOptionsSplunkCollectorConf]
-    r"""Format of the returned output"""
     endpoint_params: NotRequired[List[EndpointParamTypedDict]]
     r"""Optional request parameters to send to the endpoint"""
     endpoint_headers: NotRequired[List[EndpointHeaderTypedDict]]
@@ -166,26 +166,40 @@ class InputSplunkSearchPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputSplunkSearchPqEnabledTrueWithPqConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputSplunkSearchType
+
+    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
 
     search: str
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
+    r"""A cron schedule on which to run this job"""
+
+    endpoint: str
+    r"""REST API used to create a search"""
+
+    output_mode: Annotated[
+        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
+    ]
+    r"""Format of the returned output"""
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -198,30 +212,11 @@ class InputSplunkSearchPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
-        "https://localhost:8089"
-    )
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
-
-    earliest: Optional[str] = "-16m@m"
+    earliest: Optional[str] = None
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
 
-    latest: Optional[str] = "-1m@m"
+    latest: Optional[str] = None
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
-        "*/15 * * * *"
-    )
-    r"""A cron schedule on which to run this job"""
-
-    endpoint: Optional[str] = "/services/search/v2/jobs/export"
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        Optional[OutputModeOptionsSplunkCollectorConf],
-        pydantic.Field(alias="outputMode"),
-    ] = OutputModeOptionsSplunkCollectorConf.JSON
-    r"""Format of the returned output"""
 
     endpoint_params: Annotated[
         Optional[List[EndpointParam]], pydantic.Field(alias="endpointParams")
@@ -240,17 +235,17 @@ class InputSplunkSearchPqEnabledTrueWithPqConstraint(BaseModel):
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     encoding: Optional[str] = None
@@ -258,23 +253,23 @@ class InputSplunkSearchPqEnabledTrueWithPqConstraint(BaseModel):
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
 
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
 
     max_missed_keep_alives: Annotated[
         Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
+    ] = None
     r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
 
-    ttl: Optional[str] = "4h"
+    ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
 
     ignore_group_jobs_limit: Annotated[
         Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
+    ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -291,12 +286,12 @@ class InputSplunkSearchPqEnabledTrueWithPqConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_type: Annotated[
         Optional[InputSplunkSearchAuthenticationType], pydantic.Field(alias="authType")
-    ] = InputSplunkSearchAuthenticationType.BASIC
+    ] = None
     r"""Splunk Search authentication type"""
 
     description: Optional[str] = None
@@ -334,12 +329,12 @@ class InputSplunkSearchPqEnabledTrueWithPqConstraint(BaseModel):
 
     auth_header_expr: Annotated[
         Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
+    ] = None
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
 
     token_timeout_secs: Annotated[
         Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
+    ] = None
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
@@ -381,11 +376,19 @@ class InputSplunkSearchPqEnabledTrueWithPqConstraint(BaseModel):
 
 
 class InputSplunkSearchPqEnabledFalseConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputSplunkSearchType
+    search_head: str
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    cron_schedule: str
+    r"""A cron schedule on which to run this job"""
+    endpoint: str
+    r"""REST API used to create a search"""
+    output_mode: OutputModeOptionsSplunkCollectorConf
+    r"""Format of the returned output"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -400,18 +403,10 @@ class InputSplunkSearchPqEnabledFalseConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    search_head: NotRequired[str]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     earliest: NotRequired[str]
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    cron_schedule: NotRequired[str]
-    r"""A cron schedule on which to run this job"""
-    endpoint: NotRequired[str]
-    r"""REST API used to create a search"""
-    output_mode: NotRequired[OutputModeOptionsSplunkCollectorConf]
-    r"""Format of the returned output"""
     endpoint_params: NotRequired[List[EndpointParamTypedDict]]
     r"""Optional request parameters to send to the endpoint"""
     endpoint_headers: NotRequired[List[EndpointHeaderTypedDict]]
@@ -473,24 +468,38 @@ class InputSplunkSearchPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputSplunkSearchPqEnabledFalseConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputSplunkSearchType
+
+    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
 
     search: str
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
+    r"""A cron schedule on which to run this job"""
+
+    endpoint: str
+    r"""REST API used to create a search"""
+
+    output_mode: Annotated[
+        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
+    ]
+    r"""Format of the returned output"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -505,30 +514,11 @@ class InputSplunkSearchPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
-        "https://localhost:8089"
-    )
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
-
-    earliest: Optional[str] = "-16m@m"
+    earliest: Optional[str] = None
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
 
-    latest: Optional[str] = "-1m@m"
+    latest: Optional[str] = None
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
-        "*/15 * * * *"
-    )
-    r"""A cron schedule on which to run this job"""
-
-    endpoint: Optional[str] = "/services/search/v2/jobs/export"
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        Optional[OutputModeOptionsSplunkCollectorConf],
-        pydantic.Field(alias="outputMode"),
-    ] = OutputModeOptionsSplunkCollectorConf.JSON
-    r"""Format of the returned output"""
 
     endpoint_params: Annotated[
         Optional[List[EndpointParam]], pydantic.Field(alias="endpointParams")
@@ -547,17 +537,17 @@ class InputSplunkSearchPqEnabledFalseConstraint(BaseModel):
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     encoding: Optional[str] = None
@@ -565,23 +555,23 @@ class InputSplunkSearchPqEnabledFalseConstraint(BaseModel):
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
 
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
 
     max_missed_keep_alives: Annotated[
         Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
+    ] = None
     r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
 
-    ttl: Optional[str] = "4h"
+    ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
 
     ignore_group_jobs_limit: Annotated[
         Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
+    ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -598,12 +588,12 @@ class InputSplunkSearchPqEnabledFalseConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_type: Annotated[
         Optional[InputSplunkSearchAuthenticationType], pydantic.Field(alias="authType")
-    ] = InputSplunkSearchAuthenticationType.BASIC
+    ] = None
     r"""Splunk Search authentication type"""
 
     description: Optional[str] = None
@@ -641,12 +631,12 @@ class InputSplunkSearchPqEnabledFalseConstraint(BaseModel):
 
     auth_header_expr: Annotated[
         Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
+    ] = None
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
 
     token_timeout_secs: Annotated[
         Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
+    ] = None
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
@@ -688,11 +678,19 @@ class InputSplunkSearchPqEnabledFalseConstraint(BaseModel):
 
 
 class InputSplunkSearchSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputSplunkSearchType
+    search_head: str
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    cron_schedule: str
+    r"""A cron schedule on which to run this job"""
+    endpoint: str
+    r"""REST API used to create a search"""
+    output_mode: OutputModeOptionsSplunkCollectorConf
+    r"""Format of the returned output"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -707,18 +705,10 @@ class InputSplunkSearchSendToRoutesFalseWithConnectionsConstraintTypedDict(Typed
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
-    search_head: NotRequired[str]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     earliest: NotRequired[str]
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    cron_schedule: NotRequired[str]
-    r"""A cron schedule on which to run this job"""
-    endpoint: NotRequired[str]
-    r"""REST API used to create a search"""
-    output_mode: NotRequired[OutputModeOptionsSplunkCollectorConf]
-    r"""Format of the returned output"""
     endpoint_params: NotRequired[List[EndpointParamTypedDict]]
     r"""Optional request parameters to send to the endpoint"""
     endpoint_headers: NotRequired[List[EndpointHeaderTypedDict]]
@@ -780,15 +770,27 @@ class InputSplunkSearchSendToRoutesFalseWithConnectionsConstraintTypedDict(Typed
 
 
 class InputSplunkSearchSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputSplunkSearchType
+
+    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
 
     search: str
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
+    r"""A cron schedule on which to run this job"""
+
+    endpoint: str
+    r"""REST API used to create a search"""
+
+    output_mode: Annotated[
+        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
+    ]
+    r"""Format of the returned output"""
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -796,7 +798,7 @@ class InputSplunkSearchSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -804,7 +806,7 @@ class InputSplunkSearchSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -812,30 +814,11 @@ class InputSplunkSearchSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
-        "https://localhost:8089"
-    )
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
-
-    earliest: Optional[str] = "-16m@m"
+    earliest: Optional[str] = None
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
 
-    latest: Optional[str] = "-1m@m"
+    latest: Optional[str] = None
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
-        "*/15 * * * *"
-    )
-    r"""A cron schedule on which to run this job"""
-
-    endpoint: Optional[str] = "/services/search/v2/jobs/export"
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        Optional[OutputModeOptionsSplunkCollectorConf],
-        pydantic.Field(alias="outputMode"),
-    ] = OutputModeOptionsSplunkCollectorConf.JSON
-    r"""Format of the returned output"""
 
     endpoint_params: Annotated[
         Optional[List[EndpointParam]], pydantic.Field(alias="endpointParams")
@@ -854,17 +837,17 @@ class InputSplunkSearchSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     encoding: Optional[str] = None
@@ -872,23 +855,23 @@ class InputSplunkSearchSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
 
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
 
     max_missed_keep_alives: Annotated[
         Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
+    ] = None
     r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
 
-    ttl: Optional[str] = "4h"
+    ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
 
     ignore_group_jobs_limit: Annotated[
         Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
+    ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -905,12 +888,12 @@ class InputSplunkSearchSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_type: Annotated[
         Optional[InputSplunkSearchAuthenticationType], pydantic.Field(alias="authType")
-    ] = InputSplunkSearchAuthenticationType.BASIC
+    ] = None
     r"""Splunk Search authentication type"""
 
     description: Optional[str] = None
@@ -948,12 +931,12 @@ class InputSplunkSearchSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     auth_header_expr: Annotated[
         Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
+    ] = None
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
 
     token_timeout_secs: Annotated[
         Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
+    ] = None
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
@@ -995,11 +978,19 @@ class InputSplunkSearchSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
 
 class InputSplunkSearchSendToRoutesTrueConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputSplunkSearchType
+    search_head: str
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    cron_schedule: str
+    r"""A cron schedule on which to run this job"""
+    endpoint: str
+    r"""REST API used to create a search"""
+    output_mode: OutputModeOptionsSplunkCollectorConf
+    r"""Format of the returned output"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -1014,18 +1005,10 @@ class InputSplunkSearchSendToRoutesTrueConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    search_head: NotRequired[str]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     earliest: NotRequired[str]
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    cron_schedule: NotRequired[str]
-    r"""A cron schedule on which to run this job"""
-    endpoint: NotRequired[str]
-    r"""REST API used to create a search"""
-    output_mode: NotRequired[OutputModeOptionsSplunkCollectorConf]
-    r"""Format of the returned output"""
     endpoint_params: NotRequired[List[EndpointParamTypedDict]]
     r"""Optional request parameters to send to the endpoint"""
     endpoint_headers: NotRequired[List[EndpointHeaderTypedDict]]
@@ -1087,20 +1070,32 @@ class InputSplunkSearchSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputSplunkSearchSendToRoutesTrueConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputSplunkSearchType
+
+    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
 
     search: str
     r"""Enter Splunk search here. Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
+    r"""A cron schedule on which to run this job"""
+
+    endpoint: str
+    r"""REST API used to create a search"""
+
+    output_mode: Annotated[
+        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
+    ]
+    r"""Format of the returned output"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1108,7 +1103,7 @@ class InputSplunkSearchSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -1119,30 +1114,11 @@ class InputSplunkSearchSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
-        "https://localhost:8089"
-    )
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
-
-    earliest: Optional[str] = "-16m@m"
+    earliest: Optional[str] = None
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
 
-    latest: Optional[str] = "-1m@m"
+    latest: Optional[str] = None
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
-        "*/15 * * * *"
-    )
-    r"""A cron schedule on which to run this job"""
-
-    endpoint: Optional[str] = "/services/search/v2/jobs/export"
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        Optional[OutputModeOptionsSplunkCollectorConf],
-        pydantic.Field(alias="outputMode"),
-    ] = OutputModeOptionsSplunkCollectorConf.JSON
-    r"""Format of the returned output"""
 
     endpoint_params: Annotated[
         Optional[List[EndpointParam]], pydantic.Field(alias="endpointParams")
@@ -1161,17 +1137,17 @@ class InputSplunkSearchSendToRoutesTrueConstraint(BaseModel):
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     encoding: Optional[str] = None
@@ -1179,23 +1155,23 @@ class InputSplunkSearchSendToRoutesTrueConstraint(BaseModel):
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
 
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
 
     max_missed_keep_alives: Annotated[
         Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
+    ] = None
     r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
 
-    ttl: Optional[str] = "4h"
+    ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
 
     ignore_group_jobs_limit: Annotated[
         Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
+    ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -1212,12 +1188,12 @@ class InputSplunkSearchSendToRoutesTrueConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_type: Annotated[
         Optional[InputSplunkSearchAuthenticationType], pydantic.Field(alias="authType")
-    ] = InputSplunkSearchAuthenticationType.BASIC
+    ] = None
     r"""Splunk Search authentication type"""
 
     description: Optional[str] = None
@@ -1255,12 +1231,12 @@ class InputSplunkSearchSendToRoutesTrueConstraint(BaseModel):
 
     auth_header_expr: Annotated[
         Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
+    ] = None
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
 
     token_timeout_secs: Annotated[
         Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
+    ] = None
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[

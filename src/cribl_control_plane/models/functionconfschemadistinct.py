@@ -26,13 +26,13 @@ class FunctionConfSchemaDistinct(BaseModel):
 
     max_combinations: Annotated[
         Optional[float], pydantic.Field(alias="maxCombinations")
-    ] = 10000
+    ] = None
     r"""maximum number of tracked combinations"""
 
-    max_depth: Annotated[Optional[float], pydantic.Field(alias="maxDepth")] = 15
+    max_depth: Annotated[Optional[float], pydantic.Field(alias="maxDepth")] = None
     r"""maximum number of groupBy properties"""
 
-    is_federated: Annotated[Optional[bool], pydantic.Field(alias="isFederated")] = False
+    is_federated: Annotated[Optional[bool], pydantic.Field(alias="isFederated")] = None
     r"""indicator that the operator runs on a federated executor"""
 
     suppress_previews: Annotated[

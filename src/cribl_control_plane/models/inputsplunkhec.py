@@ -53,13 +53,13 @@ class InputSplunkHecAuthToken(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored text secret"""
 
-    enabled: Optional[bool] = True
+    enabled: Optional[bool] = None
 
     description: Optional[str] = None
     r"""Optional token description"""
@@ -83,11 +83,15 @@ class InputSplunkHecAuthToken(BaseModel):
 
 
 class InputSplunkHecPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputSplunkHecType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    splunk_hec_api: str
+    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -102,8 +106,6 @@ class InputSplunkHecPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[InputSplunkHecAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -128,8 +130,6 @@ class InputSplunkHecPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    splunk_hec_api: NotRequired[str]
-    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
     allowed_indexes: NotRequired[List[str]]
@@ -156,26 +156,32 @@ class InputSplunkHecPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputSplunkHecPqEnabledTrueWithPqConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputSplunkHecType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    splunk_hec_api: Annotated[str, pydantic.Field(alias="splunkHecAPI")]
+    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -188,9 +194,6 @@ class InputSplunkHecPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
     auth_tokens: Annotated[
         Optional[List[InputSplunkHecAuthToken]], pydantic.Field(alias="authTokens")
     ] = None
@@ -199,43 +202,43 @@ class InputSplunkHecPqEnabledTrueWithPqConstraint(BaseModel):
     tls: Optional[TLSSettingsServerSideType] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
+        None
     )
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
 
     max_requests_per_socket: Annotated[
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
+    ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Add request headers to events, in the __headers field"""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = 100
+    ] = None
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
 
     keep_alive_timeout: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 5
+    ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
     enable_health_check: Annotated[
@@ -244,18 +247,13 @@ class InputSplunkHecPqEnabledTrueWithPqConstraint(BaseModel):
 
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
 
     ip_denylist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
+    ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    splunk_hec_api: Annotated[Optional[str], pydantic.Field(alias="splunkHecAPI")] = (
-        "/services/collector"
-    )
-    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
@@ -267,7 +265,7 @@ class InputSplunkHecPqEnabledTrueWithPqConstraint(BaseModel):
 
     splunk_hec_acks: Annotated[
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
-    ] = False
+    ] = None
     r"""Enable Splunk HEC acknowledgements"""
 
     breaker_rulesets: Annotated[
@@ -277,22 +275,22 @@ class InputSplunkHecPqEnabledTrueWithPqConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     use_fwd_timezone: Annotated[
         Optional[bool], pydantic.Field(alias="useFwdTimezone")
-    ] = True
+    ] = None
     r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
 
     drop_control_fields: Annotated[
         Optional[bool], pydantic.Field(alias="dropControlFields")
-    ] = True
+    ] = None
     r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
 
     extract_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="extractMetrics")
-    ] = False
+    ] = None
     r"""Extract and process Splunk-generated metrics as Cribl metrics"""
 
     access_control_allow_origin: Annotated[
@@ -307,18 +305,22 @@ class InputSplunkHecPqEnabledTrueWithPqConstraint(BaseModel):
 
     emit_token_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="emitTokenMetrics")
-    ] = False
+    ] = None
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
 
     description: Optional[str] = None
 
 
 class InputSplunkHecPqEnabledFalseConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputSplunkHecType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    splunk_hec_api: str
+    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -333,8 +335,6 @@ class InputSplunkHecPqEnabledFalseConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[InputSplunkHecAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -359,8 +359,6 @@ class InputSplunkHecPqEnabledFalseConstraintTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    splunk_hec_api: NotRequired[str]
-    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
     allowed_indexes: NotRequired[List[str]]
@@ -387,24 +385,30 @@ class InputSplunkHecPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputSplunkHecPqEnabledFalseConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputSplunkHecType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    splunk_hec_api: Annotated[str, pydantic.Field(alias="splunkHecAPI")]
+    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -419,9 +423,6 @@ class InputSplunkHecPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
     auth_tokens: Annotated[
         Optional[List[InputSplunkHecAuthToken]], pydantic.Field(alias="authTokens")
     ] = None
@@ -430,43 +431,43 @@ class InputSplunkHecPqEnabledFalseConstraint(BaseModel):
     tls: Optional[TLSSettingsServerSideType] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
+        None
     )
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
 
     max_requests_per_socket: Annotated[
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
+    ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Add request headers to events, in the __headers field"""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = 100
+    ] = None
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
 
     keep_alive_timeout: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 5
+    ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
     enable_health_check: Annotated[
@@ -475,18 +476,13 @@ class InputSplunkHecPqEnabledFalseConstraint(BaseModel):
 
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
 
     ip_denylist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
+    ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    splunk_hec_api: Annotated[Optional[str], pydantic.Field(alias="splunkHecAPI")] = (
-        "/services/collector"
-    )
-    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
@@ -498,7 +494,7 @@ class InputSplunkHecPqEnabledFalseConstraint(BaseModel):
 
     splunk_hec_acks: Annotated[
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
-    ] = False
+    ] = None
     r"""Enable Splunk HEC acknowledgements"""
 
     breaker_rulesets: Annotated[
@@ -508,22 +504,22 @@ class InputSplunkHecPqEnabledFalseConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     use_fwd_timezone: Annotated[
         Optional[bool], pydantic.Field(alias="useFwdTimezone")
-    ] = True
+    ] = None
     r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
 
     drop_control_fields: Annotated[
         Optional[bool], pydantic.Field(alias="dropControlFields")
-    ] = True
+    ] = None
     r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
 
     extract_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="extractMetrics")
-    ] = False
+    ] = None
     r"""Extract and process Splunk-generated metrics as Cribl metrics"""
 
     access_control_allow_origin: Annotated[
@@ -538,18 +534,22 @@ class InputSplunkHecPqEnabledFalseConstraint(BaseModel):
 
     emit_token_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="emitTokenMetrics")
-    ] = False
+    ] = None
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
 
     description: Optional[str] = None
 
 
 class InputSplunkHecSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputSplunkHecType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    splunk_hec_api: str
+    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -564,8 +564,6 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDic
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[InputSplunkHecAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -590,8 +588,6 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDic
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    splunk_hec_api: NotRequired[str]
-    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
     allowed_indexes: NotRequired[List[str]]
@@ -618,15 +614,19 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDic
 
 
 class InputSplunkHecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputSplunkHecType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    splunk_hec_api: Annotated[str, pydantic.Field(alias="splunkHecAPI")]
+    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -634,7 +634,7 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -642,16 +642,13 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
     pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     auth_tokens: Annotated[
         Optional[List[InputSplunkHecAuthToken]], pydantic.Field(alias="authTokens")
@@ -661,43 +658,43 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     tls: Optional[TLSSettingsServerSideType] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
+        None
     )
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
 
     max_requests_per_socket: Annotated[
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
+    ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Add request headers to events, in the __headers field"""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = 100
+    ] = None
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
 
     keep_alive_timeout: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 5
+    ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
     enable_health_check: Annotated[
@@ -706,18 +703,13 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
 
     ip_denylist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
+    ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    splunk_hec_api: Annotated[Optional[str], pydantic.Field(alias="splunkHecAPI")] = (
-        "/services/collector"
-    )
-    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
@@ -729,7 +721,7 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     splunk_hec_acks: Annotated[
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
-    ] = False
+    ] = None
     r"""Enable Splunk HEC acknowledgements"""
 
     breaker_rulesets: Annotated[
@@ -739,22 +731,22 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     use_fwd_timezone: Annotated[
         Optional[bool], pydantic.Field(alias="useFwdTimezone")
-    ] = True
+    ] = None
     r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
 
     drop_control_fields: Annotated[
         Optional[bool], pydantic.Field(alias="dropControlFields")
-    ] = True
+    ] = None
     r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
 
     extract_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="extractMetrics")
-    ] = False
+    ] = None
     r"""Extract and process Splunk-generated metrics as Cribl metrics"""
 
     access_control_allow_origin: Annotated[
@@ -769,18 +761,22 @@ class InputSplunkHecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     emit_token_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="emitTokenMetrics")
-    ] = False
+    ] = None
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
 
     description: Optional[str] = None
 
 
 class InputSplunkHecSendToRoutesTrueConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputSplunkHecType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    splunk_hec_api: str
+    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -795,8 +791,6 @@ class InputSplunkHecSendToRoutesTrueConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     auth_tokens: NotRequired[List[InputSplunkHecAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
@@ -821,8 +815,6 @@ class InputSplunkHecSendToRoutesTrueConstraintTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    splunk_hec_api: NotRequired[str]
-    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
     allowed_indexes: NotRequired[List[str]]
@@ -849,20 +841,24 @@ class InputSplunkHecSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputSplunkHecSendToRoutesTrueConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputSplunkHecType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
+    splunk_hec_api: Annotated[str, pydantic.Field(alias="splunkHecAPI")]
+    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -870,7 +866,7 @@ class InputSplunkHecSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -881,9 +877,6 @@ class InputSplunkHecSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
     auth_tokens: Annotated[
         Optional[List[InputSplunkHecAuthToken]], pydantic.Field(alias="authTokens")
     ] = None
@@ -892,43 +885,43 @@ class InputSplunkHecSendToRoutesTrueConstraint(BaseModel):
     tls: Optional[TLSSettingsServerSideType] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
+        None
     )
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
 
     max_requests_per_socket: Annotated[
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
+    ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Add request headers to events, in the __headers field"""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = 100
+    ] = None
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
 
     keep_alive_timeout: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 5
+    ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
     enable_health_check: Annotated[
@@ -937,18 +930,13 @@ class InputSplunkHecSendToRoutesTrueConstraint(BaseModel):
 
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
 
     ip_denylist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
+    ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    splunk_hec_api: Annotated[Optional[str], pydantic.Field(alias="splunkHecAPI")] = (
-        "/services/collector"
-    )
-    r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
@@ -960,7 +948,7 @@ class InputSplunkHecSendToRoutesTrueConstraint(BaseModel):
 
     splunk_hec_acks: Annotated[
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
-    ] = False
+    ] = None
     r"""Enable Splunk HEC acknowledgements"""
 
     breaker_rulesets: Annotated[
@@ -970,22 +958,22 @@ class InputSplunkHecSendToRoutesTrueConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     use_fwd_timezone: Annotated[
         Optional[bool], pydantic.Field(alias="useFwdTimezone")
-    ] = True
+    ] = None
     r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
 
     drop_control_fields: Annotated[
         Optional[bool], pydantic.Field(alias="dropControlFields")
-    ] = True
+    ] = None
     r"""Drop Splunk control fields such as `crcSalt` and `_savedPort`. If disabled, control fields are stored in the internal field `__ctrlFields`."""
 
     extract_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="extractMetrics")
-    ] = False
+    ] = None
     r"""Extract and process Splunk-generated metrics as Cribl metrics"""
 
     access_control_allow_origin: Annotated[
@@ -1000,7 +988,7 @@ class InputSplunkHecSendToRoutesTrueConstraint(BaseModel):
 
     emit_token_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="emitTokenMetrics")
-    ] = False
+    ] = None
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
 
     description: Optional[str] = None

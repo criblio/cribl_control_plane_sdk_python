@@ -38,9 +38,9 @@ class InputKubeLogsRule(BaseModel):
 
 
 class InputKubeLogsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
-    type: InputKubeLogsType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputKubeLogsType
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -74,23 +74,23 @@ class InputKubeLogsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputKubeLogsPqEnabledTrueWithPqConstraint(BaseModel):
-    type: InputKubeLogsType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputKubeLogsType
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -103,13 +103,13 @@ class InputKubeLogsPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    interval: Optional[float] = 15
+    interval: Optional[float] = None
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
 
     rules: Optional[List[InputKubeLogsRule]] = None
     r"""Add rules to decide which Pods to collect logs from. Logs are collected if no rules are given or if all the rules' expressions evaluate to true."""
 
-    timestamps: Optional[bool] = False
+    timestamps: Optional[bool] = None
     r"""For use when containers do not emit a timestamp, prefix each line of output with a timestamp. If you enable this setting, you can use the Kubernetes Logs Event Breaker and the kubernetes_logs Pre-processing Pipeline to remove them from the events after the timestamps are extracted."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -124,21 +124,21 @@ class InputKubeLogsPqEnabledTrueWithPqConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     enable_load_balancing: Annotated[
         Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
+    ] = None
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None
 
 
 class InputKubeLogsPqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputKubeLogsType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputKubeLogsType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -172,21 +172,21 @@ class InputKubeLogsPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputKubeLogsPqEnabledFalseConstraint(BaseModel):
-    type: InputKubeLogsType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputKubeLogsType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -201,13 +201,13 @@ class InputKubeLogsPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    interval: Optional[float] = 15
+    interval: Optional[float] = None
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
 
     rules: Optional[List[InputKubeLogsRule]] = None
     r"""Add rules to decide which Pods to collect logs from. Logs are collected if no rules are given or if all the rules' expressions evaluate to true."""
 
-    timestamps: Optional[bool] = False
+    timestamps: Optional[bool] = None
     r"""For use when containers do not emit a timestamp, prefix each line of output with a timestamp. If you enable this setting, you can use the Kubernetes Logs Event Breaker and the kubernetes_logs Pre-processing Pipeline to remove them from the events after the timestamps are extracted."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -222,21 +222,21 @@ class InputKubeLogsPqEnabledFalseConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     enable_load_balancing: Annotated[
         Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
+    ] = None
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None
 
 
 class InputKubeLogsSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputKubeLogsType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputKubeLogsType
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -270,12 +270,10 @@ class InputKubeLogsSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict
 
 
 class InputKubeLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputKubeLogsType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    type: InputKubeLogsType
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -283,7 +281,7 @@ class InputKubeLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -291,7 +289,7 @@ class InputKubeLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -299,13 +297,13 @@ class InputKubeLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    interval: Optional[float] = 15
+    interval: Optional[float] = None
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
 
     rules: Optional[List[InputKubeLogsRule]] = None
     r"""Add rules to decide which Pods to collect logs from. Logs are collected if no rules are given or if all the rules' expressions evaluate to true."""
 
-    timestamps: Optional[bool] = False
+    timestamps: Optional[bool] = None
     r"""For use when containers do not emit a timestamp, prefix each line of output with a timestamp. If you enable this setting, you can use the Kubernetes Logs Event Breaker and the kubernetes_logs Pre-processing Pipeline to remove them from the events after the timestamps are extracted."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -320,21 +318,21 @@ class InputKubeLogsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     enable_load_balancing: Annotated[
         Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
+    ] = None
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None
 
 
 class InputKubeLogsSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputKubeLogsType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputKubeLogsType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -368,17 +366,15 @@ class InputKubeLogsSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputKubeLogsSendToRoutesTrueConstraint(BaseModel):
-    type: InputKubeLogsType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    type: InputKubeLogsType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -386,7 +382,7 @@ class InputKubeLogsSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -397,13 +393,13 @@ class InputKubeLogsSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    interval: Optional[float] = 15
+    interval: Optional[float] = None
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
 
     rules: Optional[List[InputKubeLogsRule]] = None
     r"""Add rules to decide which Pods to collect logs from. Logs are collected if no rules are given or if all the rules' expressions evaluate to true."""
 
-    timestamps: Optional[bool] = False
+    timestamps: Optional[bool] = None
     r"""For use when containers do not emit a timestamp, prefix each line of output with a timestamp. If you enable this setting, you can use the Kubernetes Logs Event Breaker and the kubernetes_logs Pre-processing Pipeline to remove them from the events after the timestamps are extracted."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -418,12 +414,12 @@ class InputKubeLogsSendToRoutesTrueConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     enable_load_balancing: Annotated[
         Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
+    ] = None
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None

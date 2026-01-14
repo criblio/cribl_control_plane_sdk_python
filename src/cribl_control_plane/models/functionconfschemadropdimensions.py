@@ -17,7 +17,7 @@ class FunctionConfSchemaDropDimensionsTypedDict(TypedDict):
 
 
 class FunctionConfSchemaDropDimensions(BaseModel):
-    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10s"
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
 
     drop_dimensions: Annotated[
@@ -27,5 +27,5 @@ class FunctionConfSchemaDropDimensions(BaseModel):
 
     flush_on_input_close: Annotated[
         Optional[bool], pydantic.Field(alias="flushOnInputClose")
-    ] = True
+    ] = None
     r"""Flush aggregations when an input stream is closed. If disabled, aggregations are flushed based on Time Window Settings instead."""

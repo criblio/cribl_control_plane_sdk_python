@@ -40,7 +40,7 @@ class ScriptCollectorConf(BaseModel):
     collect_script: Annotated[str, pydantic.Field(alias="collectScript")]
     r"""Script to run to perform data collections. Task passed in as $CRIBL_COLLECT_ARG. Should output results to stdout."""
 
-    shell: Optional[str] = "/bin/bash"
+    shell: Optional[str] = None
     r"""Shell to use to execute scripts."""
 
     env_vars: Annotated[Optional[List[EnvVar]], pydantic.Field(alias="envVars")] = None

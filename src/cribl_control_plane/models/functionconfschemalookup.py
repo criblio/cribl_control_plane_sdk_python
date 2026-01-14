@@ -63,7 +63,7 @@ class FunctionConfSchemaLookup(BaseModel):
     file: Optional[str] = None
     r"""Path to the lookup file. Reference environment variables via $. Example: $HOME/file.csv"""
 
-    db_lookup: Annotated[Optional[bool], pydantic.Field(alias="dbLookup")] = False
+    db_lookup: Annotated[Optional[bool], pydantic.Field(alias="dbLookup")] = None
     r"""Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups."""
 
     match_mode: Annotated[Optional[Any], pydantic.Field(alias="matchMode")] = None
@@ -86,7 +86,7 @@ class FunctionConfSchemaLookup(BaseModel):
     ] = None
     r"""Fields to add to events after matching lookup. Defaults to all if not specified."""
 
-    add_to_event: Annotated[Optional[bool], pydantic.Field(alias="addToEvent")] = False
+    add_to_event: Annotated[Optional[bool], pydantic.Field(alias="addToEvent")] = None
     r"""Add the looked-up values to _raw, as key=value pairs"""
 
     ignore_case: Annotated[Optional[Any], pydantic.Field(alias="ignoreCase")] = None

@@ -15,8 +15,8 @@ class FunctionConfSchemaUnrollTypedDict(TypedDict):
 
 
 class FunctionConfSchemaUnroll(BaseModel):
-    src_expr: Annotated[Optional[str], pydantic.Field(alias="srcExpr")] = "_raw"
+    src_expr: Annotated[Optional[str], pydantic.Field(alias="srcExpr")] = None
     r"""Field in which to find/calculate the array to unroll. Example: _raw, _raw.split(/\n/)"""
 
-    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = "_raw"
+    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
     r"""Field in destination event in which to place the unrolled value"""

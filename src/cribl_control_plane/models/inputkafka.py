@@ -31,13 +31,13 @@ class InputKafkaType(str, Enum):
 
 
 class InputKafkaPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputKafkaType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -110,6 +110,9 @@ class InputKafkaPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputKafkaType
 
     brokers: List[str]
@@ -118,21 +121,18 @@ class InputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -145,11 +145,11 @@ class InputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
 
     from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
-        True
+        None
     )
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
 
@@ -160,36 +160,36 @@ class InputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for a connection to complete successfully"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to a request"""
 
-    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = None
     r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
 
-    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = None
     r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
 
     initial_backoff: Annotated[
         Optional[float], pydantic.Field(alias="initialBackoff")
-    ] = 300
+    ] = None
     r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
 
-    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = None
     r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
 
     authentication_timeout: Annotated[
         Optional[float], pydantic.Field(alias="authenticationTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
 
     reauthentication_threshold: Annotated[
         Optional[float], pydantic.Field(alias="reauthenticationThreshold")
-    ] = 10000
+    ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     sasl: Optional[AuthenticationType] = None
@@ -199,7 +199,7 @@ class InputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
-    ] = 30000
+    ] = None
     r"""
     Timeout used to detect client failures when using Kafka's group-management facilities.
     If the client sends no heartbeats to the broker before the timeout expires,
@@ -210,7 +210,7 @@ class InputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
 
     rebalance_timeout: Annotated[
         Optional[float], pydantic.Field(alias="rebalanceTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum allowed time for each worker to join the group after a rebalance begins.
     If the timeout is exceeded, the coordinator broker will remove the worker from the group.
     See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
@@ -218,7 +218,7 @@ class InputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
 
     heartbeat_interval: Annotated[
         Optional[float], pydantic.Field(alias="heartbeatInterval")
-    ] = 3000
+    ] = None
     r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
     Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
     See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
@@ -236,15 +236,15 @@ class InputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
 
     max_bytes_per_partition: Annotated[
         Optional[float], pydantic.Field(alias="maxBytesPerPartition")
-    ] = 1048576
+    ] = None
     r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
 
-    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = None
     r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
 
     max_socket_errors: Annotated[
         Optional[float], pydantic.Field(alias="maxSocketErrors")
-    ] = 0
+    ] = None
     r"""Maximum number of network errors before the consumer re-creates a socket"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -254,13 +254,13 @@ class InputKafkaPqEnabledTrueWithPqConstraint(BaseModel):
 
 
 class InputKafkaPqEnabledFalseConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputKafkaType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -333,6 +333,9 @@ class InputKafkaPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputKafkaPqEnabledFalseConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputKafkaType
 
     brokers: List[str]
@@ -341,19 +344,16 @@ class InputKafkaPqEnabledFalseConstraint(BaseModel):
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -368,11 +368,11 @@ class InputKafkaPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
 
     from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
-        True
+        None
     )
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
 
@@ -383,36 +383,36 @@ class InputKafkaPqEnabledFalseConstraint(BaseModel):
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for a connection to complete successfully"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to a request"""
 
-    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = None
     r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
 
-    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = None
     r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
 
     initial_backoff: Annotated[
         Optional[float], pydantic.Field(alias="initialBackoff")
-    ] = 300
+    ] = None
     r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
 
-    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = None
     r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
 
     authentication_timeout: Annotated[
         Optional[float], pydantic.Field(alias="authenticationTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
 
     reauthentication_threshold: Annotated[
         Optional[float], pydantic.Field(alias="reauthenticationThreshold")
-    ] = 10000
+    ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     sasl: Optional[AuthenticationType] = None
@@ -422,7 +422,7 @@ class InputKafkaPqEnabledFalseConstraint(BaseModel):
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
-    ] = 30000
+    ] = None
     r"""
     Timeout used to detect client failures when using Kafka's group-management facilities.
     If the client sends no heartbeats to the broker before the timeout expires,
@@ -433,7 +433,7 @@ class InputKafkaPqEnabledFalseConstraint(BaseModel):
 
     rebalance_timeout: Annotated[
         Optional[float], pydantic.Field(alias="rebalanceTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum allowed time for each worker to join the group after a rebalance begins.
     If the timeout is exceeded, the coordinator broker will remove the worker from the group.
     See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
@@ -441,7 +441,7 @@ class InputKafkaPqEnabledFalseConstraint(BaseModel):
 
     heartbeat_interval: Annotated[
         Optional[float], pydantic.Field(alias="heartbeatInterval")
-    ] = 3000
+    ] = None
     r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
     Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
     See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
@@ -459,15 +459,15 @@ class InputKafkaPqEnabledFalseConstraint(BaseModel):
 
     max_bytes_per_partition: Annotated[
         Optional[float], pydantic.Field(alias="maxBytesPerPartition")
-    ] = 1048576
+    ] = None
     r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
 
-    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = None
     r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
 
     max_socket_errors: Annotated[
         Optional[float], pydantic.Field(alias="maxSocketErrors")
-    ] = 0
+    ] = None
     r"""Maximum number of network errors before the consumer re-creates a socket"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -477,13 +477,13 @@ class InputKafkaPqEnabledFalseConstraint(BaseModel):
 
 
 class InputKafkaSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputKafkaType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -556,6 +556,9 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
 
 
 class InputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputKafkaType
 
     brokers: List[str]
@@ -564,18 +567,13 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -583,7 +581,7 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -591,11 +589,11 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
 
     from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
-        True
+        None
     )
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
 
@@ -606,36 +604,36 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for a connection to complete successfully"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to a request"""
 
-    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = None
     r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
 
-    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = None
     r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
 
     initial_backoff: Annotated[
         Optional[float], pydantic.Field(alias="initialBackoff")
-    ] = 300
+    ] = None
     r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
 
-    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = None
     r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
 
     authentication_timeout: Annotated[
         Optional[float], pydantic.Field(alias="authenticationTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
 
     reauthentication_threshold: Annotated[
         Optional[float], pydantic.Field(alias="reauthenticationThreshold")
-    ] = 10000
+    ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     sasl: Optional[AuthenticationType] = None
@@ -645,7 +643,7 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
-    ] = 30000
+    ] = None
     r"""
     Timeout used to detect client failures when using Kafka's group-management facilities.
     If the client sends no heartbeats to the broker before the timeout expires,
@@ -656,7 +654,7 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     rebalance_timeout: Annotated[
         Optional[float], pydantic.Field(alias="rebalanceTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum allowed time for each worker to join the group after a rebalance begins.
     If the timeout is exceeded, the coordinator broker will remove the worker from the group.
     See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
@@ -664,7 +662,7 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     heartbeat_interval: Annotated[
         Optional[float], pydantic.Field(alias="heartbeatInterval")
-    ] = 3000
+    ] = None
     r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
     Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
     See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
@@ -682,15 +680,15 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     max_bytes_per_partition: Annotated[
         Optional[float], pydantic.Field(alias="maxBytesPerPartition")
-    ] = 1048576
+    ] = None
     r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
 
-    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = None
     r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
 
     max_socket_errors: Annotated[
         Optional[float], pydantic.Field(alias="maxSocketErrors")
-    ] = 0
+    ] = None
     r"""Maximum number of network errors before the consumer re-creates a socket"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -700,13 +698,13 @@ class InputKafkaSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
 
 class InputKafkaSendToRoutesTrueConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputKafkaType
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -779,6 +777,9 @@ class InputKafkaSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputKafkaSendToRoutesTrueConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputKafkaType
 
     brokers: List[str]
@@ -787,15 +788,10 @@ class InputKafkaSendToRoutesTrueConstraint(BaseModel):
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -803,7 +799,7 @@ class InputKafkaSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -814,11 +810,11 @@ class InputKafkaSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = "Cribl"
+    group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
 
     from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
-        True
+        None
     )
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
 
@@ -829,36 +825,36 @@ class InputKafkaSendToRoutesTrueConstraint(BaseModel):
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for a connection to complete successfully"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to a request"""
 
-    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = None
     r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
 
-    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = None
     r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
 
     initial_backoff: Annotated[
         Optional[float], pydantic.Field(alias="initialBackoff")
-    ] = 300
+    ] = None
     r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
 
-    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = None
     r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
 
     authentication_timeout: Annotated[
         Optional[float], pydantic.Field(alias="authenticationTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
 
     reauthentication_threshold: Annotated[
         Optional[float], pydantic.Field(alias="reauthenticationThreshold")
-    ] = 10000
+    ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     sasl: Optional[AuthenticationType] = None
@@ -868,7 +864,7 @@ class InputKafkaSendToRoutesTrueConstraint(BaseModel):
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
-    ] = 30000
+    ] = None
     r"""
     Timeout used to detect client failures when using Kafka's group-management facilities.
     If the client sends no heartbeats to the broker before the timeout expires,
@@ -879,7 +875,7 @@ class InputKafkaSendToRoutesTrueConstraint(BaseModel):
 
     rebalance_timeout: Annotated[
         Optional[float], pydantic.Field(alias="rebalanceTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum allowed time for each worker to join the group after a rebalance begins.
     If the timeout is exceeded, the coordinator broker will remove the worker from the group.
     See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
@@ -887,7 +883,7 @@ class InputKafkaSendToRoutesTrueConstraint(BaseModel):
 
     heartbeat_interval: Annotated[
         Optional[float], pydantic.Field(alias="heartbeatInterval")
-    ] = 3000
+    ] = None
     r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
     Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
     See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
@@ -905,15 +901,15 @@ class InputKafkaSendToRoutesTrueConstraint(BaseModel):
 
     max_bytes_per_partition: Annotated[
         Optional[float], pydantic.Field(alias="maxBytesPerPartition")
-    ] = 1048576
+    ] = None
     r"""Maximum amount of data that Kafka will return per partition, per fetch request. Must equal or exceed the maximum message size (maxBytesPerPartition) that Kafka is configured to allow. Otherwise, @{product} can get stuck trying to retrieve messages. Defaults to 1048576 (1 MB)."""
 
-    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = 10485760
+    max_bytes: Annotated[Optional[float], pydantic.Field(alias="maxBytes")] = None
     r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
 
     max_socket_errors: Annotated[
         Optional[float], pydantic.Field(alias="maxSocketErrors")
-    ] = 0
+    ] = None
     r"""Maximum number of network errors before the consumer re-creates a socket"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None

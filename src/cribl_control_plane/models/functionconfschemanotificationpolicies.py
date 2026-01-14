@@ -92,7 +92,7 @@ class Policy(BaseModel):
     order: float
     r"""Evaluation order of this policy (lower numbers evaluated first)"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
     r"""If true, this policy will be skipped during evaluation"""
 
     wait_to_group: Annotated[Optional[float], pydantic.Field(alias="waitToGroup")] = (
@@ -108,7 +108,7 @@ class Policy(BaseModel):
     conditions: Optional[List[List[Condition]]] = None
     r"""List of conditions. If ANY condition matches (OR), the policy applies. Each condition is a list of tags that must ALL match (AND)."""
 
-    final: Optional[bool] = False
+    final: Optional[bool] = None
     r"""If true, stop evaluating further policies after this one matches"""
 
 

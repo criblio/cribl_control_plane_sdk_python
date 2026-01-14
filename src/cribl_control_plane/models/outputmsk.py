@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 from .acknowledgmentsoptions1 import AcknowledgmentsOptions1
-from .authenticationmethodoptions import AuthenticationMethodOptions
+from .authenticationmethodoptionss3collectorconf import (
+    AuthenticationMethodOptionsS3CollectorConf,
+)
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptions3 import CompressionOptions3
 from .compressionoptionspq import CompressionOptionsPq
@@ -14,9 +16,9 @@ from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptions1 import RecordDataFormatOptions1
 from .signatureversionoptions import SignatureVersionOptions
-from .tlssettingsclientsidetype1 import (
-    TLSSettingsClientSideType1,
-    TLSSettingsClientSideType1TypedDict,
+from .tlssettingsclientsidetypekafkaschemaregistry import (
+    TLSSettingsClientSideTypeKafkaSchemaRegistry,
+    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
@@ -45,6 +47,8 @@ class OutputMskTypedDict(TypedDict):
     r"""Enter each Kafka bootstrap server you want to use. Specify hostname and port, e.g., mykafkabroker:9092, or just hostname, in which case @{product} will assign port 9092."""
     topic: str
     r"""The topic to publish events to. Can be overridden using the __topicOut field."""
+    aws_authentication_method: AuthenticationMethodOptionsS3CollectorConf
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
     region: str
     r"""Region where the MSK cluster is located"""
     id: NotRequired[str]
@@ -86,8 +90,6 @@ class OutputMskTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
@@ -105,7 +107,7 @@ class OutputMskTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -148,6 +150,12 @@ class OutputMsk(BaseModel):
     topic: str
     r"""The topic to publish events to. Can be overridden using the __topicOut field."""
 
+    aws_authentication_method: Annotated[
+        AuthenticationMethodOptionsS3CollectorConf,
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
     region: str
     r"""Region where the MSK cluster is located"""
 
@@ -168,30 +176,30 @@ class OutputMsk(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Optional[AcknowledgmentsOptions1] = AcknowledgmentsOptions1.ONE
+    ack: Optional[AcknowledgmentsOptions1] = None
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
         Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
-    ] = RecordDataFormatOptions1.JSON
+    ] = None
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Optional[CompressionOptions3] = CompressionOptions3.GZIP
+    compression: Optional[CompressionOptions3] = None
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSizeKB")
-    ] = 768
+    ] = None
     r"""Maximum size of each record batch before compression. The value must not exceed the Kafka brokers' message.max.bytes setting."""
 
     flush_event_count: Annotated[
         Optional[float], pydantic.Field(alias="flushEventCount")
-    ] = 1000
+    ] = None
     r"""The maximum number of events you want the Destination to allow in a batch before forcing a flush"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
@@ -201,43 +209,37 @@ class OutputMsk(BaseModel):
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for a connection to complete successfully"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to a request"""
 
-    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 5
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = None
     r"""If messages are failing, you can set the maximum number of retries as high as 100 to prevent loss of data"""
 
-    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = 30000
+    max_back_off: Annotated[Optional[float], pydantic.Field(alias="maxBackOff")] = None
     r"""The maximum wait time for a retry, in milliseconds. Default (and minimum) is 30,000 ms (30 seconds); maximum is 180,000 ms (180 seconds)."""
 
     initial_backoff: Annotated[
         Optional[float], pydantic.Field(alias="initialBackoff")
-    ] = 300
+    ] = None
     r"""Initial value used to calculate the retry, in milliseconds. Maximum is 600,000 ms (10 minutes)."""
 
-    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = None
     r"""Set the backoff multiplier (2-20) to control the retry frequency for failed messages. For faster retries, use a lower multiplier. For slower retries with more delay between attempts, use a higher multiplier. The multiplier is used in an exponential backoff formula; see the Kafka [documentation](https://kafka.js.org/docs/retry-detailed) for details."""
 
     authentication_timeout: Annotated[
         Optional[float], pydantic.Field(alias="authenticationTimeout")
-    ] = 10000
+    ] = None
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
 
     reauthentication_threshold: Annotated[
         Optional[float], pydantic.Field(alias="reauthenticationThreshold")
-    ] = 10000
+    ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-
-    aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptions],
-        pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptions.AUTO
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
@@ -248,22 +250,22 @@ class OutputMsk(BaseModel):
 
     signature_version: Annotated[
         Optional[SignatureVersionOptions], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions.V4
+    ] = None
     r"""Signature version to use for signing MSK cluster requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access MSK"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -278,14 +280,14 @@ class OutputMsk(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    tls: Optional[TLSSettingsClientSideType1] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -307,50 +309,46 @@ class OutputMsk(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -388,7 +386,7 @@ class OutputMsk(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value

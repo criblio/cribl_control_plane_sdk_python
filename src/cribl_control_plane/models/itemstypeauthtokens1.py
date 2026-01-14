@@ -18,6 +18,6 @@ class ItemsTypeAuthTokens1(BaseModel):
     token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
     r"""Select or create a stored text secret"""
 
-    enabled: Optional[bool] = True
+    enabled: Optional[bool] = None
 
     description: Optional[str] = None

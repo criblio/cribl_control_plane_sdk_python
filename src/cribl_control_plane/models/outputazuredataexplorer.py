@@ -155,12 +155,18 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Name of the database containing the table where data will be ingested"""
     table: str
     r"""Name of the table to ingest data into"""
+    oauth_endpoint: MicrosoftEntraIDAuthenticationEndpointOptionsSasl
+    r"""Endpoint used to acquire authentication tokens from Azure"""
     tenant_id: str
     r"""Directory ID (tenant identifier) in Azure Active Directory"""
     client_id: str
     r"""client_id to pass in the OAuth request parameter"""
     scope: str
     r"""Scope to pass in the OAuth request parameter"""
+    oauth_type: OutputAzureDataExplorerAuthenticationMethod
+    r"""The type of OAuth 2.0 client credentials grant flow to use"""
+    compress: CompressionOptions2
+    r"""Data compression format to apply to HTTP content before it is delivered"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -174,10 +180,6 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     validate_database_settings: NotRequired[bool]
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
     ingest_mode: NotRequired[IngestionMode]
-    oauth_endpoint: NotRequired[MicrosoftEntraIDAuthenticationEndpointOptionsSasl]
-    r"""Endpoint used to acquire authentication tokens from Azure"""
-    oauth_type: NotRequired[OutputAzureDataExplorerAuthenticationMethod]
-    r"""The type of OAuth 2.0 client credentials grant flow to use"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
     r"""The client secret that you generated for your app in the Azure portal"""
@@ -186,8 +188,6 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     certificate: NotRequired[CertificateTypedDict]
     format_: NotRequired[DataFormatOptions]
     r"""Format of the output data"""
-    compress: NotRequired[CompressionOptions2]
-    r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
     automatic_schema: NotRequired[bool]
@@ -325,6 +325,12 @@ class OutputAzureDataExplorer(BaseModel):
     table: str
     r"""Name of the table to ingest data into"""
 
+    oauth_endpoint: Annotated[
+        MicrosoftEntraIDAuthenticationEndpointOptionsSasl,
+        pydantic.Field(alias="oauthEndpoint"),
+    ]
+    r"""Endpoint used to acquire authentication tokens from Azure"""
+
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
     r"""Directory ID (tenant identifier) in Azure Active Directory"""
 
@@ -333,6 +339,14 @@ class OutputAzureDataExplorer(BaseModel):
 
     scope: str
     r"""Scope to pass in the OAuth request parameter"""
+
+    oauth_type: Annotated[
+        OutputAzureDataExplorerAuthenticationMethod, pydantic.Field(alias="oauthType")
+    ]
+    r"""The type of OAuth 2.0 client credentials grant flow to use"""
+
+    compress: CompressionOptions2
+    r"""Data compression format to apply to HTTP content before it is delivered"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -353,24 +367,12 @@ class OutputAzureDataExplorer(BaseModel):
 
     validate_database_settings: Annotated[
         Optional[bool], pydantic.Field(alias="validateDatabaseSettings")
-    ] = True
+    ] = None
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
 
     ingest_mode: Annotated[
         Optional[IngestionMode], pydantic.Field(alias="ingestMode")
-    ] = IngestionMode.BATCHING
-
-    oauth_endpoint: Annotated[
-        Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
-        pydantic.Field(alias="oauthEndpoint"),
-    ] = MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM
-    r"""Endpoint used to acquire authentication tokens from Azure"""
-
-    oauth_type: Annotated[
-        Optional[OutputAzureDataExplorerAuthenticationMethod],
-        pydantic.Field(alias="oauthType"),
-    ] = OutputAzureDataExplorerAuthenticationMethod.CLIENT_SECRET
-    r"""The type of OAuth 2.0 client credentials grant flow to use"""
+    ] = None
 
     description: Optional[str] = None
 
@@ -383,21 +385,18 @@ class OutputAzureDataExplorer(BaseModel):
     certificate: Optional[Certificate] = None
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
-        DataFormatOptions.JSON
+        None
     )
     r"""Format of the output data"""
 
-    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
-    r"""Data compression format to apply to HTTP content before it is delivered"""
-
     compression_level: Annotated[
         Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
-    ] = CompressionLevelOptions.BEST_SPEED
+    ] = None
     r"""Compression level to apply before moving files to final destination"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
+    ] = None
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
@@ -407,22 +406,22 @@ class OutputAzureDataExplorer(BaseModel):
 
     parquet_version: Annotated[
         Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
-    ] = ParquetVersionOptions.PARQUET_2_6
+    ] = None
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
         Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
-    ] = DataPageVersionOptions.DATA_PAGE_V2
+    ] = None
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
     parquet_row_group_length: Annotated[
         Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
+    ] = None
     r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
 
     parquet_page_size: Annotated[
         Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
+    ] = None
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
 
     should_log_invalid_rows: Annotated[
@@ -438,49 +437,51 @@ class OutputAzureDataExplorer(BaseModel):
 
     enable_statistics: Annotated[
         Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
+    ] = None
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
 
     enable_write_page_index: Annotated[
         Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
+    ] = None
     r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
 
     enable_page_checksum: Annotated[
         Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
+    ] = None
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     is_mapping_obj: Annotated[Optional[bool], pydantic.Field(alias="isMappingObj")] = (
-        False
+        None
     )
     r"""Send a JSON mapping object instead of specifying an existing named data mapping"""
 
@@ -495,66 +496,64 @@ class OutputAzureDataExplorer(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
+    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = None
     r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant and stable storage."""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 32
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
-    ] = 1
+    ] = None
     r"""Maximum number of parts to upload in parallel per file"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_immediately: Annotated[
         Optional[bool], pydantic.Field(alias="flushImmediately")
-    ] = False
+    ] = None
     r"""Bypass the data management service's aggregation mechanism"""
 
     retain_blob_on_success: Annotated[
         Optional[bool], pydantic.Field(alias="retainBlobOnSuccess")
-    ] = False
+    ] = None
     r"""Prevent blob deletion after ingestion is complete"""
 
     extent_tags: Annotated[
@@ -569,12 +568,12 @@ class OutputAzureDataExplorer(BaseModel):
 
     report_level: Annotated[
         Optional[ReportLevel], pydantic.Field(alias="reportLevel")
-    ] = ReportLevel.FAILURES_ONLY
+    ] = None
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
 
     report_method: Annotated[
         Optional[ReportMethod], pydantic.Field(alias="reportMethod")
-    ] = ReportMethod.QUEUE
+    ] = None
     r"""Target of the ingestion status reporting. Defaults to Queue."""
 
     additional_properties: Annotated[
@@ -594,30 +593,30 @@ class OutputAzureDataExplorer(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 4096
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
@@ -625,58 +624,54 @@ class OutputAzureDataExplorer(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
-    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = True
+    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[

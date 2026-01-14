@@ -31,7 +31,7 @@ class OutputSentinelType(str, Enum):
     SENTINEL = "sentinel"
 
 
-class AuthType(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputSentinelAuthType(str, Enum, metaclass=utils.OpenEnumMeta):
     OAUTH = "oauth"
 
 
@@ -67,6 +67,8 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Secret parameter value to pass in request body"""
     client_id: str
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
+    endpoint_url_configuration: EndpointConfiguration
+    r"""Enter the data collection endpoint URL or the individual ID"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -111,11 +113,9 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthType]
+    auth_type: NotRequired[OutputSentinelAuthType]
     scope: NotRequired[str]
     r"""Scope to pass in the OAuth request"""
-    endpoint_url_configuration: NotRequired[EndpointConfiguration]
-    r"""Enter the data collection endpoint URL or the individual ID"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
@@ -179,6 +179,11 @@ class OutputSentinel(BaseModel):
     client_id: str
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
 
+    endpoint_url_configuration: Annotated[
+        EndpointConfiguration, pydantic.Field(alias="endpointURLConfiguration")
+    ]
+    r"""Enter the data collection endpoint URL or the individual ID"""
+
     id: Optional[str] = None
     r"""Unique ID for this output"""
 
@@ -196,39 +201,39 @@ class OutputSentinel(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = True
+    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 1000
+    ] = None
     r"""Maximum size (KB) of the request body (defaults to the API's maximum limit of 1000 KB)"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -239,13 +244,13 @@ class OutputSentinel(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -265,24 +270,20 @@ class OutputSentinel(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = False
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
-    auth_type: Annotated[Optional[AuthType], pydantic.Field(alias="authType")] = None
+    auth_type: Annotated[
+        Optional[OutputSentinelAuthType], pydantic.Field(alias="authType")
+    ] = None
 
-    scope: Optional[str] = "https://monitor.azure.com/.default"
+    scope: Optional[str] = None
     r"""Scope to pass in the OAuth request"""
-
-    endpoint_url_configuration: Annotated[
-        Optional[EndpointConfiguration],
-        pydantic.Field(alias="endpointURLConfiguration"),
-    ] = EndpointConfiguration.URL
-    r"""Enter the data collection endpoint URL or the individual ID"""
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
@@ -297,32 +298,32 @@ class OutputSentinel(BaseModel):
 
     custom_source_expression: Annotated[
         Optional[str], pydantic.Field(alias="customSourceExpression")
-    ] = "__httpOut"
+    ] = None
     r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
 
     custom_drop_when_null: Annotated[
         Optional[bool], pydantic.Field(alias="customDropWhenNull")
-    ] = False
+    ] = None
     r"""Whether to drop events when the source expression evaluates to null"""
 
     custom_event_delimiter: Annotated[
         Optional[str], pydantic.Field(alias="customEventDelimiter")
-    ] = "\\n"
+    ] = None
     r"""Delimiter string to insert between individual events. Defaults to newline character."""
 
     custom_content_type: Annotated[
         Optional[str], pydantic.Field(alias="customContentType")
-    ] = "application/x-ndjson"
+    ] = None
     r"""Content type to use for request. Defaults to application/x-ndjson. Any content types set in Advanced Settings > Extra HTTP headers will override this entry."""
 
     custom_payload_expression: Annotated[
         Optional[str], pydantic.Field(alias="customPayloadExpression")
-    ] = "`${events}`"
+    ] = None
     r"""Expression specifying how to format the payload for each batch. To reference the events to send, use the `${events}` variable. Example expression: `{ \"items\" : [${events}] }` would send the batch inside a JSON object."""
 
     advanced_content_type: Annotated[
         Optional[str], pydantic.Field(alias="advancedContentType")
-    ] = "application/json"
+    ] = None
     r"""HTTP content-type header value"""
 
     format_event_code: Annotated[
@@ -337,50 +338,46 @@ class OutputSentinel(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
@@ -421,7 +418,7 @@ class OutputSentinel(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthType(value)
+                return models.OutputSentinelAuthType(value)
             except ValueError:
                 return value
         return value

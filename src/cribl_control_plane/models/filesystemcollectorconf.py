@@ -45,10 +45,10 @@ class FilesystemCollectorConf(BaseModel):
     extractors: Optional[List[FilesystemCollectorConfExtractor]] = None
     r"""Allows using template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)}, will enrich discovery results with a human readable \"date\" field."""
 
-    recurse: Optional[bool] = True
+    recurse: Optional[bool] = None
     r"""Recurse through subdirectories"""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata files to batch before recording as results"""

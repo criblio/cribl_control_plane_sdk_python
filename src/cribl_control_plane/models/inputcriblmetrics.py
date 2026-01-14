@@ -22,9 +22,9 @@ class InputCriblmetricsType(str, Enum):
 
 
 class InputCriblmetricsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
-    type: InputCriblmetricsType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputCriblmetricsType
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -49,23 +49,23 @@ class InputCriblmetricsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputCriblmetricsPqEnabledTrueWithPqConstraint(BaseModel):
-    type: InputCriblmetricsType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputCriblmetricsType
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -78,11 +78,11 @@ class InputCriblmetricsPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    prefix: Optional[str] = "cribl.logstream."
+    prefix: Optional[str] = None
     r"""A prefix that is applied to the metrics provided by Cribl Stream"""
 
     full_fidelity: Annotated[Optional[bool], pydantic.Field(alias="fullFidelity")] = (
-        True
+        None
     )
     r"""Include granular metrics. Disabling this will drop the following metrics events: `cribl.logstream.host.(in_bytes,in_events,out_bytes,out_events)`, `cribl.logstream.index.(in_bytes,in_events,out_bytes,out_events)`, `cribl.logstream.source.(in_bytes,in_events,out_bytes,out_events)`, `cribl.logstream.sourcetype.(in_bytes,in_events,out_bytes,out_events)`."""
 
@@ -93,9 +93,9 @@ class InputCriblmetricsPqEnabledTrueWithPqConstraint(BaseModel):
 
 
 class InputCriblmetricsPqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputCriblmetricsType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputCriblmetricsType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -120,21 +120,21 @@ class InputCriblmetricsPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputCriblmetricsPqEnabledFalseConstraint(BaseModel):
-    type: InputCriblmetricsType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputCriblmetricsType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -149,11 +149,11 @@ class InputCriblmetricsPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    prefix: Optional[str] = "cribl.logstream."
+    prefix: Optional[str] = None
     r"""A prefix that is applied to the metrics provided by Cribl Stream"""
 
     full_fidelity: Annotated[Optional[bool], pydantic.Field(alias="fullFidelity")] = (
-        True
+        None
     )
     r"""Include granular metrics. Disabling this will drop the following metrics events: `cribl.logstream.host.(in_bytes,in_events,out_bytes,out_events)`, `cribl.logstream.index.(in_bytes,in_events,out_bytes,out_events)`, `cribl.logstream.source.(in_bytes,in_events,out_bytes,out_events)`, `cribl.logstream.sourcetype.(in_bytes,in_events,out_bytes,out_events)`."""
 
@@ -164,9 +164,9 @@ class InputCriblmetricsPqEnabledFalseConstraint(BaseModel):
 
 
 class InputCriblmetricsSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputCriblmetricsType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputCriblmetricsType
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -191,12 +191,10 @@ class InputCriblmetricsSendToRoutesFalseWithConnectionsConstraintTypedDict(Typed
 
 
 class InputCriblmetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputCriblmetricsType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    type: InputCriblmetricsType
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -204,7 +202,7 @@ class InputCriblmetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -212,7 +210,7 @@ class InputCriblmetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -220,11 +218,11 @@ class InputCriblmetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    prefix: Optional[str] = "cribl.logstream."
+    prefix: Optional[str] = None
     r"""A prefix that is applied to the metrics provided by Cribl Stream"""
 
     full_fidelity: Annotated[Optional[bool], pydantic.Field(alias="fullFidelity")] = (
-        True
+        None
     )
     r"""Include granular metrics. Disabling this will drop the following metrics events: `cribl.logstream.host.(in_bytes,in_events,out_bytes,out_events)`, `cribl.logstream.index.(in_bytes,in_events,out_bytes,out_events)`, `cribl.logstream.source.(in_bytes,in_events,out_bytes,out_events)`, `cribl.logstream.sourcetype.(in_bytes,in_events,out_bytes,out_events)`."""
 
@@ -235,9 +233,9 @@ class InputCriblmetricsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
 
 class InputCriblmetricsSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputCriblmetricsType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputCriblmetricsType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -262,17 +260,15 @@ class InputCriblmetricsSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputCriblmetricsSendToRoutesTrueConstraint(BaseModel):
-    type: InputCriblmetricsType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    type: InputCriblmetricsType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -280,7 +276,7 @@ class InputCriblmetricsSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -291,11 +287,11 @@ class InputCriblmetricsSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    prefix: Optional[str] = "cribl.logstream."
+    prefix: Optional[str] = None
     r"""A prefix that is applied to the metrics provided by Cribl Stream"""
 
     full_fidelity: Annotated[Optional[bool], pydantic.Field(alias="fullFidelity")] = (
-        True
+        None
     )
     r"""Include granular metrics. Disabling this will drop the following metrics events: `cribl.logstream.host.(in_bytes,in_events,out_bytes,out_events)`, `cribl.logstream.index.(in_bytes,in_events,out_bytes,out_events)`, `cribl.logstream.source.(in_bytes,in_events,out_bytes,out_events)`, `cribl.logstream.sourcetype.(in_bytes,in_events,out_bytes,out_events)`."""
 

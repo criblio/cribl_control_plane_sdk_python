@@ -25,7 +25,7 @@ class FunctionConfSchemaTee(BaseModel):
 
     restart_on_exit: Annotated[
         Optional[bool], pydantic.Field(alias="restartOnExit")
-    ] = True
+    ] = None
     r"""Restart the process if it exits and/or we fail to write to it"""
 
     env: Optional[Dict[str, str]] = None

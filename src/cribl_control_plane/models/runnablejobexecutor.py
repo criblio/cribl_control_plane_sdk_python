@@ -35,21 +35,21 @@ class RunnableJobExecutorRunTypedDict(TypedDict):
 class RunnableJobExecutorRun(BaseModel):
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
-    ] = True
+    ] = None
     r"""Reschedule tasks that failed with non-fatal errors"""
 
     max_task_reschedule: Annotated[
         Optional[float], pydantic.Field(alias="maxTaskReschedule")
-    ] = 1
+    ] = None
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
         Optional[LogLevelOptionsSavedJobCollectionScheduleRun],
         pydantic.Field(alias="logLevel"),
-    ] = LogLevelOptionsSavedJobCollectionScheduleRun.INFO
+    ] = None
     r"""Level at which to set task logging"""
 
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
     @field_serializer("log_level")
@@ -97,12 +97,12 @@ class RunnableJobExecutor(BaseModel):
 
     type: Optional[JobTypeOptionsSavedJobCollection] = None
 
-    ttl: Optional[str] = "4h"
+    ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
 
     ignore_group_jobs_limit: Annotated[
         Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
+    ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
     remove_fields: Annotated[
@@ -111,7 +111,7 @@ class RunnableJobExecutor(BaseModel):
     r"""List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface."""
 
     resume_on_boot: Annotated[Optional[bool], pydantic.Field(alias="resumeOnBoot")] = (
-        False
+        None
     )
     r"""Resume the ad hoc job if a failure condition causes Stream to restart during job execution"""
 

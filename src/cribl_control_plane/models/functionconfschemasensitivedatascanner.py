@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class FunctionConfSchemaSensitiveDataScannerRuleTypedDict(TypedDict):
     ruleset_id: str
     r"""The ID of the ruleset to use for the scan"""
-    replace_expr: NotRequired[str]
+    replace_expr: str
     r"""A JavaScript expression or literal to replace the matching content. Capturing groups can be referenced as g1, g2, and so on, and event fields as event.<fieldName>."""
     disabled: NotRequired[bool]
 
@@ -19,12 +19,10 @@ class FunctionConfSchemaSensitiveDataScannerRule(BaseModel):
     ruleset_id: Annotated[str, pydantic.Field(alias="rulesetId")]
     r"""The ID of the ruleset to use for the scan"""
 
-    replace_expr: Annotated[Optional[str], pydantic.Field(alias="replaceExpr")] = (
-        "'REDACTED'"
-    )
+    replace_expr: Annotated[str, pydantic.Field(alias="replaceExpr")]
     r"""A JavaScript expression or literal to replace the matching content. Capturing groups can be referenced as g1, g2, and so on, and event fields as event.<fieldName>."""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
 
 class FunctionConfSchemaSensitiveDataScannerFlagTypedDict(TypedDict):
@@ -67,9 +65,9 @@ class FunctionConfSchemaSensitiveDataScanner(BaseModel):
 
     include_detected_rules: Annotated[
         Optional[bool], pydantic.Field(alias="includeDetectedRules")
-    ] = True
+    ] = None
     r"""Add matching ruleset IDs to a field called \"__detected\" """
 
     background_detection: Annotated[
         Optional[bool], pydantic.Field(alias="backgroundDetection")
-    ] = False
+    ] = None

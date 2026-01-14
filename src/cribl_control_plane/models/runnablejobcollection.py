@@ -2,10 +2,6 @@
 
 from __future__ import annotations
 from .collector import Collector, CollectorTypedDict
-from .inputtypesavedjobcollection import (
-    InputTypeSavedJobCollection,
-    InputTypeSavedJobCollectionTypedDict,
-)
 from .jobtypeoptionssavedjobcollection import JobTypeOptionsSavedJobCollection
 from .logleveloptionssavedjobcollectionschedulerun import (
     LogLevelOptionsSavedJobCollectionScheduleRun,
@@ -14,6 +10,10 @@ from .metricsstore import MetricsStore, MetricsStoreTypedDict
 from .scheduletyperunnablejobcollection import (
     ScheduleTypeRunnableJobCollection,
     ScheduleTypeRunnableJobCollectionTypedDict,
+)
+from .typecollectionwithbreakerrulesetsconstraint import (
+    TypeCollectionWithBreakerRulesetsConstraint,
+    TypeCollectionWithBreakerRulesetsConstraintTypedDict,
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
@@ -57,13 +57,13 @@ class CaptureSettingsTypedDict(TypedDict):
 
 
 class CaptureSettings(BaseModel):
-    duration: Optional[float] = 60
+    duration: Optional[float] = None
     r"""Amount of time to keep capture open, in seconds"""
 
-    max_events: Annotated[Optional[float], pydantic.Field(alias="maxEvents")] = 100
+    max_events: Annotated[Optional[float], pydantic.Field(alias="maxEvents")] = None
     r"""Maximum number of events to capture"""
 
-    level: Optional[WhereToCapture] = WhereToCapture.ZERO
+    level: Optional[WhereToCapture] = None
 
     @field_serializer("level")
     def serialize_level(self, value):
@@ -76,6 +76,8 @@ class CaptureSettings(BaseModel):
 
 
 class RunnableJobCollectionRunTypedDict(TypedDict):
+    mode: RunnableJobCollectionMode
+    r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
     reschedule_dropped_tasks: NotRequired[bool]
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
@@ -84,8 +86,6 @@ class RunnableJobCollectionRunTypedDict(TypedDict):
     r"""Level at which to set task logging"""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-    mode: NotRequired[RunnableJobCollectionMode]
-    r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
     time_range_type: NotRequired[TimeRange]
     earliest: NotRequired[float]
     r"""Earliest time to collect data for the selected timezone"""
@@ -114,31 +114,31 @@ class RunnableJobCollectionRunTypedDict(TypedDict):
 
 
 class RunnableJobCollectionRun(BaseModel):
+    mode: RunnableJobCollectionMode
+    r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
+
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
-    ] = True
+    ] = None
     r"""Reschedule tasks that failed with non-fatal errors"""
 
     max_task_reschedule: Annotated[
         Optional[float], pydantic.Field(alias="maxTaskReschedule")
-    ] = 1
+    ] = None
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
         Optional[LogLevelOptionsSavedJobCollectionScheduleRun],
         pydantic.Field(alias="logLevel"),
-    ] = LogLevelOptionsSavedJobCollectionScheduleRun.INFO
+    ] = None
     r"""Level at which to set task logging"""
 
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-
-    mode: Optional[RunnableJobCollectionMode] = RunnableJobCollectionMode.LIST
-    r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
 
     time_range_type: Annotated[
         Optional[TimeRange], pydantic.Field(alias="timeRangeType")
-    ] = TimeRange.RELATIVE
+    ] = None
 
     earliest: Optional[float] = None
     r"""Earliest time to collect data for the selected timezone"""
@@ -148,26 +148,24 @@ class RunnableJobCollectionRun(BaseModel):
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
-    ] = "UTC"
+    ] = None
     r"""Timezone to use for Earliest and Latest times"""
 
     time_warning: Annotated[
         Optional[MetricsStore], pydantic.Field(alias="timeWarning")
     ] = None
 
-    expression: Optional[str] = "true"
+    expression: Optional[str] = None
     r"""A filter for tokens in the provided collect path and/or the events being collected"""
 
-    min_task_size: Annotated[Optional[str], pydantic.Field(alias="minTaskSize")] = "1MB"
+    min_task_size: Annotated[Optional[str], pydantic.Field(alias="minTaskSize")] = None
     r"""Limits the bundle size for small tasks. For example,
 
 
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
 
-    max_task_size: Annotated[Optional[str], pydantic.Field(alias="maxTaskSize")] = (
-        "10MB"
-    )
+    max_task_size: Annotated[Optional[str], pydantic.Field(alias="maxTaskSize")] = None
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
 
 
@@ -176,7 +174,7 @@ class RunnableJobCollectionRun(BaseModel):
 
     discover_to_routes: Annotated[
         Optional[bool], pydantic.Field(alias="discoverToRoutes")
-    ] = False
+    ] = None
     r"""Send discover results to Routes"""
 
     capture: Optional[CaptureSettings] = None
@@ -233,7 +231,7 @@ class RunnableJobCollectionTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[InputTypeSavedJobCollectionTypedDict]
+    input: NotRequired[TypeCollectionWithBreakerRulesetsConstraintTypedDict]
 
 
 class RunnableJobCollection(BaseModel):
@@ -249,12 +247,12 @@ class RunnableJobCollection(BaseModel):
 
     type: Optional[JobTypeOptionsSavedJobCollection] = None
 
-    ttl: Optional[str] = "4h"
+    ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
 
     ignore_group_jobs_limit: Annotated[
         Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
+    ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
     remove_fields: Annotated[
@@ -263,7 +261,7 @@ class RunnableJobCollection(BaseModel):
     r"""List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface."""
 
     resume_on_boot: Annotated[Optional[bool], pydantic.Field(alias="resumeOnBoot")] = (
-        False
+        None
     )
     r"""Resume the ad hoc job if a failure condition causes Stream to restart during job execution"""
 
@@ -278,10 +276,10 @@ class RunnableJobCollection(BaseModel):
 
     worker_affinity: Annotated[
         Optional[bool], pydantic.Field(alias="workerAffinity")
-    ] = False
+    ] = None
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[InputTypeSavedJobCollection] = None
+    input: Optional[TypeCollectionWithBreakerRulesetsConstraint] = None
 
     @field_serializer("type")
     def serialize_type(self, value):

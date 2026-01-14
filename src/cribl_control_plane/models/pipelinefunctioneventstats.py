@@ -32,12 +32,12 @@ class EventstatsConfiguration(BaseModel):
     group_bys: Annotated[Optional[List[str]], pydantic.Field(alias="groupBys")] = None
     r"""Fields to group aggregates by, supports wildcard expressions."""
 
-    max_events: Annotated[Optional[float], pydantic.Field(alias="maxEvents")] = 50000
+    max_events: Annotated[Optional[float], pydantic.Field(alias="maxEvents")] = None
     r"""Specifies how many events are at max kept in memory to be enriched with aggregations"""
 
     flush_on_input_close: Annotated[
         Optional[bool], pydantic.Field(alias="flushOnInputClose")
-    ] = False
+    ] = None
     r"""Determines if aggregations should flush when an input stream is closed. If disabled, time window settings will control flush behavior."""
 
 
@@ -63,7 +63,7 @@ class PipelineFunctionEventstats(BaseModel):
 
     conf: EventstatsConfiguration
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

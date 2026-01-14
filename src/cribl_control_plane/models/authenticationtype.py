@@ -22,7 +22,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class AuthenticationTypeTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    disabled: NotRequired[bool]
+    disabled: bool
     username: NotRequired[str]
     password: NotRequired[str]
     auth_type: NotRequired[AuthenticationMethodOptionsSasl]
@@ -54,7 +54,7 @@ class AuthenticationTypeTypedDict(TypedDict):
 class AuthenticationType(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    disabled: Optional[bool] = True
+    disabled: bool
 
     username: Optional[str] = None
 
@@ -62,7 +62,7 @@ class AuthenticationType(BaseModel):
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsSasl], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptionsSasl.MANUAL
+    ] = None
     r"""Enter credentials directly, or select a stored secret"""
 
     credentials_secret: Annotated[
@@ -70,7 +70,7 @@ class AuthenticationType(BaseModel):
     ] = None
     r"""Select or create a secret that references your credentials"""
 
-    mechanism: Optional[SaslMechanismOptionsSasl] = SaslMechanismOptionsSasl.PLAIN
+    mechanism: Optional[SaslMechanismOptionsSasl] = None
 
     keytab_location: Annotated[
         Optional[str], pydantic.Field(alias="keytabLocation")
@@ -86,7 +86,7 @@ class AuthenticationType(BaseModel):
     r"""Kerberos service class for Kafka brokers, such as `kafka`"""
 
     oauth_enabled: Annotated[Optional[bool], pydantic.Field(alias="oauthEnabled")] = (
-        False
+        None
     )
     r"""Enable OAuth authentication"""
 
@@ -98,7 +98,7 @@ class AuthenticationType(BaseModel):
 
     oauth_secret_type: Annotated[
         Optional[str], pydantic.Field(alias="oauthSecretType")
-    ] = "secret"
+    ] = None
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")

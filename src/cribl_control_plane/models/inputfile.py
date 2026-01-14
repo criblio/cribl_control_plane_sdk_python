@@ -33,9 +33,9 @@ class PqEnabledTrueWithPqConstraintMode(str, Enum, metaclass=utils.OpenEnumMeta)
 
 
 class InputFilePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
-    type: InputFilePqEnabledTrueWithPqConstraintType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputFilePqEnabledTrueWithPqConstraintType
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -91,23 +91,23 @@ class InputFilePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputFilePqEnabledTrueWithPqConstraint(BaseModel):
-    type: InputFilePqEnabledTrueWithPqConstraintType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputFilePqEnabledTrueWithPqConstraintType
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -120,12 +120,10 @@ class InputFilePqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    mode: Optional[PqEnabledTrueWithPqConstraintMode] = (
-        PqEnabledTrueWithPqConstraintMode.MANUAL
-    )
+    mode: Optional[PqEnabledTrueWithPqConstraintMode] = None
     r"""Choose how to discover files to monitor"""
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between scanning for files"""
 
     filenames: Optional[List[str]] = None
@@ -133,13 +131,13 @@ class InputFilePqEnabledTrueWithPqConstraint(BaseModel):
 
     filter_archived_files: Annotated[
         Optional[bool], pydantic.Field(alias="filterArchivedFiles")
-    ] = False
+    ] = None
     r"""Apply filename allowlist to file entries in archive file types, like tar or zip."""
 
-    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = True
+    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = None
     r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
 
-    idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = 300
+    idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = None
     r"""Time, in seconds, before an idle file is closed"""
 
     min_age_dur: Annotated[Optional[str], pydantic.Field(alias="minAgeDur")] = None
@@ -150,13 +148,13 @@ class InputFilePqEnabledTrueWithPqConstraint(BaseModel):
 
     check_file_mod_time: Annotated[
         Optional[bool], pydantic.Field(alias="checkFileModTime")
-    ] = False
+    ] = None
     r"""Skip files with modification times earlier than the maximum age duration"""
 
-    force_text: Annotated[Optional[bool], pydantic.Field(alias="forceText")] = False
+    force_text: Annotated[Optional[bool], pydantic.Field(alias="forceText")] = None
     r"""Forces files containing binary data to be streamed as text"""
 
-    hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = 256
+    hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = None
     r"""Length of file header bytes to use in hash for unique file identification"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -169,7 +167,7 @@ class InputFilePqEnabledTrueWithPqConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
@@ -182,14 +180,14 @@ class InputFilePqEnabledTrueWithPqConstraint(BaseModel):
 
     suppress_missing_path_errors: Annotated[
         Optional[bool], pydantic.Field(alias="suppressMissingPathErrors")
-    ] = False
+    ] = None
 
-    delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = False
+    delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = None
     r"""Delete files after they have been collected"""
 
     include_unidentifiable_binary: Annotated[
         Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
-    ] = False
+    ] = None
     r"""Stream binary files as Base64-encoded chunks."""
 
     @field_serializer("mode")
@@ -216,9 +214,9 @@ class PqEnabledFalseConstraintMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputFilePqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputFilePqEnabledFalseConstraintType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputFilePqEnabledFalseConstraintType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -274,21 +272,21 @@ class InputFilePqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputFilePqEnabledFalseConstraint(BaseModel):
-    type: InputFilePqEnabledFalseConstraintType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputFilePqEnabledFalseConstraintType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -303,10 +301,10 @@ class InputFilePqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    mode: Optional[PqEnabledFalseConstraintMode] = PqEnabledFalseConstraintMode.MANUAL
+    mode: Optional[PqEnabledFalseConstraintMode] = None
     r"""Choose how to discover files to monitor"""
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between scanning for files"""
 
     filenames: Optional[List[str]] = None
@@ -314,13 +312,13 @@ class InputFilePqEnabledFalseConstraint(BaseModel):
 
     filter_archived_files: Annotated[
         Optional[bool], pydantic.Field(alias="filterArchivedFiles")
-    ] = False
+    ] = None
     r"""Apply filename allowlist to file entries in archive file types, like tar or zip."""
 
-    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = True
+    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = None
     r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
 
-    idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = 300
+    idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = None
     r"""Time, in seconds, before an idle file is closed"""
 
     min_age_dur: Annotated[Optional[str], pydantic.Field(alias="minAgeDur")] = None
@@ -331,13 +329,13 @@ class InputFilePqEnabledFalseConstraint(BaseModel):
 
     check_file_mod_time: Annotated[
         Optional[bool], pydantic.Field(alias="checkFileModTime")
-    ] = False
+    ] = None
     r"""Skip files with modification times earlier than the maximum age duration"""
 
-    force_text: Annotated[Optional[bool], pydantic.Field(alias="forceText")] = False
+    force_text: Annotated[Optional[bool], pydantic.Field(alias="forceText")] = None
     r"""Forces files containing binary data to be streamed as text"""
 
-    hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = 256
+    hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = None
     r"""Length of file header bytes to use in hash for unique file identification"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -350,7 +348,7 @@ class InputFilePqEnabledFalseConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
@@ -363,14 +361,14 @@ class InputFilePqEnabledFalseConstraint(BaseModel):
 
     suppress_missing_path_errors: Annotated[
         Optional[bool], pydantic.Field(alias="suppressMissingPathErrors")
-    ] = False
+    ] = None
 
-    delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = False
+    delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = None
     r"""Delete files after they have been collected"""
 
     include_unidentifiable_binary: Annotated[
         Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
-    ] = False
+    ] = None
     r"""Stream binary files as Base64-encoded chunks."""
 
     @field_serializer("mode")
@@ -399,9 +397,9 @@ class SendToRoutesFalseWithConnectionsConstraintMode(
 
 
 class InputFileSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputFileSendToRoutesFalseWithConnectionsConstraintType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputFileSendToRoutesFalseWithConnectionsConstraintType
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -457,12 +455,10 @@ class InputFileSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
 
 
 class InputFileSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputFileSendToRoutesFalseWithConnectionsConstraintType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    type: InputFileSendToRoutesFalseWithConnectionsConstraintType
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -470,7 +466,7 @@ class InputFileSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -478,7 +474,7 @@ class InputFileSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -486,12 +482,10 @@ class InputFileSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    mode: Optional[SendToRoutesFalseWithConnectionsConstraintMode] = (
-        SendToRoutesFalseWithConnectionsConstraintMode.MANUAL
-    )
+    mode: Optional[SendToRoutesFalseWithConnectionsConstraintMode] = None
     r"""Choose how to discover files to monitor"""
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between scanning for files"""
 
     filenames: Optional[List[str]] = None
@@ -499,13 +493,13 @@ class InputFileSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     filter_archived_files: Annotated[
         Optional[bool], pydantic.Field(alias="filterArchivedFiles")
-    ] = False
+    ] = None
     r"""Apply filename allowlist to file entries in archive file types, like tar or zip."""
 
-    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = True
+    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = None
     r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
 
-    idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = 300
+    idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = None
     r"""Time, in seconds, before an idle file is closed"""
 
     min_age_dur: Annotated[Optional[str], pydantic.Field(alias="minAgeDur")] = None
@@ -516,13 +510,13 @@ class InputFileSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     check_file_mod_time: Annotated[
         Optional[bool], pydantic.Field(alias="checkFileModTime")
-    ] = False
+    ] = None
     r"""Skip files with modification times earlier than the maximum age duration"""
 
-    force_text: Annotated[Optional[bool], pydantic.Field(alias="forceText")] = False
+    force_text: Annotated[Optional[bool], pydantic.Field(alias="forceText")] = None
     r"""Forces files containing binary data to be streamed as text"""
 
-    hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = 256
+    hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = None
     r"""Length of file header bytes to use in hash for unique file identification"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -535,7 +529,7 @@ class InputFileSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
@@ -548,14 +542,14 @@ class InputFileSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     suppress_missing_path_errors: Annotated[
         Optional[bool], pydantic.Field(alias="suppressMissingPathErrors")
-    ] = False
+    ] = None
 
-    delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = False
+    delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = None
     r"""Delete files after they have been collected"""
 
     include_unidentifiable_binary: Annotated[
         Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
-    ] = False
+    ] = None
     r"""Stream binary files as Base64-encoded chunks."""
 
     @field_serializer("mode")
@@ -582,9 +576,9 @@ class SendToRoutesTrueConstraintMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputFileSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputFileSendToRoutesTrueConstraintType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputFileSendToRoutesTrueConstraintType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -640,17 +634,15 @@ class InputFileSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputFileSendToRoutesTrueConstraint(BaseModel):
-    type: InputFileSendToRoutesTrueConstraintType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    type: InputFileSendToRoutesTrueConstraintType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -658,7 +650,7 @@ class InputFileSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -669,12 +661,10 @@ class InputFileSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    mode: Optional[SendToRoutesTrueConstraintMode] = (
-        SendToRoutesTrueConstraintMode.MANUAL
-    )
+    mode: Optional[SendToRoutesTrueConstraintMode] = None
     r"""Choose how to discover files to monitor"""
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between scanning for files"""
 
     filenames: Optional[List[str]] = None
@@ -682,13 +672,13 @@ class InputFileSendToRoutesTrueConstraint(BaseModel):
 
     filter_archived_files: Annotated[
         Optional[bool], pydantic.Field(alias="filterArchivedFiles")
-    ] = False
+    ] = None
     r"""Apply filename allowlist to file entries in archive file types, like tar or zip."""
 
-    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = True
+    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = None
     r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
 
-    idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = 300
+    idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = None
     r"""Time, in seconds, before an idle file is closed"""
 
     min_age_dur: Annotated[Optional[str], pydantic.Field(alias="minAgeDur")] = None
@@ -699,13 +689,13 @@ class InputFileSendToRoutesTrueConstraint(BaseModel):
 
     check_file_mod_time: Annotated[
         Optional[bool], pydantic.Field(alias="checkFileModTime")
-    ] = False
+    ] = None
     r"""Skip files with modification times earlier than the maximum age duration"""
 
-    force_text: Annotated[Optional[bool], pydantic.Field(alias="forceText")] = False
+    force_text: Annotated[Optional[bool], pydantic.Field(alias="forceText")] = None
     r"""Forces files containing binary data to be streamed as text"""
 
-    hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = 256
+    hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = None
     r"""Length of file header bytes to use in hash for unique file identification"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -718,7 +708,7 @@ class InputFileSendToRoutesTrueConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
@@ -731,14 +721,14 @@ class InputFileSendToRoutesTrueConstraint(BaseModel):
 
     suppress_missing_path_errors: Annotated[
         Optional[bool], pydantic.Field(alias="suppressMissingPathErrors")
-    ] = False
+    ] = None
 
-    delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = False
+    delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = None
     r"""Delete files after they have been collected"""
 
     include_unidentifiable_binary: Annotated[
         Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
-    ] = False
+    ] = None
     r"""Stream binary files as Base64-encoded chunks."""
 
     @field_serializer("mode")

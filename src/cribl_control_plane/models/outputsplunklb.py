@@ -7,11 +7,11 @@ from .authenticationmethodoptionsauthtokensitems import (
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptions import CompressionOptions
 from .compressionoptionspq import CompressionOptionsPq
+from .itemstypehosts import ItemsTypeHosts, ItemsTypeHostsTypedDict
 from .maxs2sversionoptions import MaxS2SVersionOptions
 from .modeoptions import ModeOptions
 from .nestedfieldserializationoptions import NestedFieldSerializationOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .tlsoptionshostsitems import TLSOptionsHostsItems
 from .tlssettingsclientsidetypekafkaschemaregistry import (
     TLSSettingsClientSideTypeKafkaSchemaRegistry,
     TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
@@ -42,10 +42,10 @@ class OutputSplunkLbAuthToken(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -64,11 +64,11 @@ class OutputSplunkLbAuthToken(BaseModel):
 class IndexerDiscoveryConfigsTypedDict(TypedDict):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
+    site: str
+    r"""Clustering site of the indexers from where indexers need to be discovered. In case of single site cluster, it defaults to 'default' site."""
     master_uri: str
     r"""Full URI of Splunk cluster manager (scheme://host:port). Example: https://managerAddress:8089"""
-    site: NotRequired[str]
-    r"""Clustering site of the indexers from where indexers need to be discovered. In case of single site cluster, it defaults to 'default' site."""
-    refresh_interval_sec: NotRequired[float]
+    refresh_interval_sec: float
     r"""Time interval, in seconds, between two consecutive indexer list fetches from cluster manager"""
     reject_unauthorized: NotRequired[bool]
     r"""During indexer discovery, reject cluster manager certificates that are not authorized by the system's CA. Disable to allow untrusted (for example, self-signed) certificates."""
@@ -85,20 +85,18 @@ class IndexerDiscoveryConfigsTypedDict(TypedDict):
 class IndexerDiscoveryConfigs(BaseModel):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
+    site: str
+    r"""Clustering site of the indexers from where indexers need to be discovered. In case of single site cluster, it defaults to 'default' site."""
+
     master_uri: Annotated[str, pydantic.Field(alias="masterUri")]
     r"""Full URI of Splunk cluster manager (scheme://host:port). Example: https://managerAddress:8089"""
 
-    site: Optional[str] = "default"
-    r"""Clustering site of the indexers from where indexers need to be discovered. In case of single site cluster, it defaults to 'default' site."""
-
-    refresh_interval_sec: Annotated[
-        Optional[float], pydantic.Field(alias="refreshIntervalSec")
-    ] = 300
+    refresh_interval_sec: Annotated[float, pydantic.Field(alias="refreshIntervalSec")]
     r"""Time interval, in seconds, between two consecutive indexer list fetches from cluster manager"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""During indexer discovery, reject cluster manager certificates that are not authorized by the system's CA. Disable to allow untrusted (for example, self-signed) certificates."""
 
     auth_tokens: Annotated[
@@ -109,10 +107,10 @@ class IndexerDiscoveryConfigs(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -128,45 +126,6 @@ class IndexerDiscoveryConfigs(BaseModel):
         return value
 
 
-class OutputSplunkLbHostTypedDict(TypedDict):
-    host: str
-    r"""The hostname of the receiver"""
-    port: NotRequired[float]
-    r"""The port to connect to on the provided host"""
-    tls: NotRequired[TLSOptionsHostsItems]
-    r"""Whether to inherit TLS configs from group setting or disable TLS"""
-    servername: NotRequired[str]
-    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
-    weight: NotRequired[float]
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-
-class OutputSplunkLbHost(BaseModel):
-    host: str
-    r"""The hostname of the receiver"""
-
-    port: Optional[float] = 9997
-    r"""The port to connect to on the provided host"""
-
-    tls: Optional[TLSOptionsHostsItems] = TLSOptionsHostsItems.INHERIT
-    r"""Whether to inherit TLS configs from group setting or disable TLS"""
-
-    servername: Optional[str] = None
-    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
-
-    weight: Optional[float] = 1
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-    @field_serializer("tls")
-    def serialize_tls(self, value):
-        if isinstance(value, str):
-            try:
-                return models.TLSOptionsHostsItems(value)
-            except ValueError:
-                return value
-        return value
-
-
 class OutputSplunkLbPqControlsTypedDict(TypedDict):
     pass
 
@@ -177,7 +136,7 @@ class OutputSplunkLbPqControls(BaseModel):
 
 class OutputSplunkLbTypedDict(TypedDict):
     type: OutputSplunkLbType
-    hosts: List[OutputSplunkLbHostTypedDict]
+    hosts: List[ItemsTypeHostsTypedDict]
     r"""Set of Splunk indexers to load-balance data to."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -259,7 +218,7 @@ class OutputSplunkLbTypedDict(TypedDict):
 class OutputSplunkLb(BaseModel):
     type: OutputSplunkLbType
 
-    hosts: List[OutputSplunkLbHost]
+    hosts: List[ItemsTypeHosts]
     r"""Set of Splunk indexers to load-balance data to."""
 
     id: Optional[str] = None
@@ -281,36 +240,36 @@ class OutputSplunkLb(BaseModel):
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     max_concurrent_senders: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentSenders")
-    ] = 0
+    ] = None
     r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
 
     nested_fields: Annotated[
         Optional[NestedFieldSerializationOptions], pydantic.Field(alias="nestedFields")
-    ] = NestedFieldSerializationOptions.NONE
+    ] = None
     r"""How to serialize nested fields into index-time fields"""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        60000
+        None
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
@@ -318,51 +277,51 @@ class OutputSplunkLb(BaseModel):
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
-    ] = False
+    ] = None
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
 
-    enable_ack: Annotated[Optional[bool], pydantic.Field(alias="enableACK")] = True
+    enable_ack: Annotated[Optional[bool], pydantic.Field(alias="enableACK")] = None
     r"""Check if indexer is shutting down and stop sending data. This helps minimize data loss during shutdown."""
 
     log_failed_requests: Annotated[
         Optional[bool], pydantic.Field(alias="logFailedRequests")
-    ] = False
+    ] = None
     r"""Use to troubleshoot issues with sending data"""
 
     max_s2_sversion: Annotated[
         Optional[MaxS2SVersionOptions], pydantic.Field(alias="maxS2Sversion")
-    ] = MaxS2SVersionOptions.V3
+    ] = None
     r"""The highest S2S protocol version to advertise during handshake"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     indexer_discovery: Annotated[
         Optional[bool], pydantic.Field(alias="indexerDiscovery")
-    ] = False
+    ] = None
     r"""Automatically discover indexers in indexer clustering environment."""
 
     sender_unhealthy_time_allowance: Annotated[
         Optional[float], pydantic.Field(alias="senderUnhealthyTimeAllowance")
-    ] = 100
+    ] = None
     r"""How long (in milliseconds) each LB endpoint can report blocked before the Destination reports unhealthy, blocking the sender. (Grace period for fluctuations.) Use 0 to disable; max 1 minute."""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
 
     max_failed_health_checks: Annotated[
         Optional[float], pydantic.Field(alias="maxFailedHealthChecks")
-    ] = 1
+    ] = None
     r"""Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur."""
 
-    compress: Optional[CompressionOptions] = CompressionOptions.DISABLED
+    compress: Optional[CompressionOptions] = None
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
 
     indexer_discovery_configs: Annotated[
@@ -371,62 +330,58 @@ class OutputSplunkLb(BaseModel):
     ] = None
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
         Optional[OutputSplunkLbPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None

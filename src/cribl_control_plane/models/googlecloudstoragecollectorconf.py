@@ -73,7 +73,7 @@ class GoogleCloudStorageAuthTypeSecret(BaseModel):
     auth_type: Annotated[
         Optional[GoogleCloudStorageAuthTypeSecretAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = GoogleCloudStorageAuthTypeSecretAuthenticationMethod.MANUAL
+    ] = None
     r"""Enter account credentials manually, select a secret that references your credentials, or use Google Application Default Credentials"""
 
     output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
@@ -90,25 +90,25 @@ class GoogleCloudStorageAuthTypeSecret(BaseModel):
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Used to disable Collector event time filtering when a date range is specified"""
 
-    recurse: Optional[bool] = True
+    recurse: Optional[bool] = None
     r"""Recurse through subdirectories"""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
-    ] = 5
+    ] = None
     r"""Maximum file size for each Parquet chunk"""
 
     parquet_chunk_download_timeout: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
-    ] = 600
+    ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
     @field_serializer("auth_type")
@@ -187,7 +187,7 @@ class GoogleCloudStorageAuthTypeManual(BaseModel):
     auth_type: Annotated[
         Optional[GoogleCloudStorageAuthTypeManualAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = GoogleCloudStorageAuthTypeManualAuthenticationMethod.MANUAL
+    ] = None
     r"""Enter account credentials manually, select a secret that references your credentials, or use Google Application Default Credentials"""
 
     output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
@@ -204,25 +204,25 @@ class GoogleCloudStorageAuthTypeManual(BaseModel):
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Used to disable Collector event time filtering when a date range is specified"""
 
-    recurse: Optional[bool] = True
+    recurse: Optional[bool] = None
     r"""Recurse through subdirectories"""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
-    ] = 5
+    ] = None
     r"""Maximum file size for each Parquet chunk"""
 
     parquet_chunk_download_timeout: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
-    ] = 600
+    ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
     @field_serializer("auth_type")
@@ -294,7 +294,7 @@ class GoogleCloudStorageAuthTypeAuto(BaseModel):
     auth_type: Annotated[
         Optional[GoogleCloudStorageAuthTypeAutoAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = GoogleCloudStorageAuthTypeAutoAuthenticationMethod.MANUAL
+    ] = None
     r"""Enter account credentials manually, select a secret that references your credentials, or use Google Application Default Credentials"""
 
     output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
@@ -311,25 +311,25 @@ class GoogleCloudStorageAuthTypeAuto(BaseModel):
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Used to disable Collector event time filtering when a date range is specified"""
 
-    recurse: Optional[bool] = True
+    recurse: Optional[bool] = None
     r"""Recurse through subdirectories"""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
-    ] = 5
+    ] = None
     r"""Maximum file size for each Parquet chunk"""
 
     parquet_chunk_download_timeout: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
-    ] = 600
+    ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
     @field_serializer("auth_type")

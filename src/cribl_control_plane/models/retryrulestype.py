@@ -13,7 +13,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class RetryRulesTypeTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
     r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
@@ -32,36 +32,34 @@ class RetryRulesTypeTypedDict(TypedDict):
 
 
 class RetryRulesType(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[float] = 1000
+    interval: Optional[float] = None
     r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[float] = 5
+    limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[float] = 2
+    multiplier: Optional[float] = None
     r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
     codes: Optional[List[float]] = None
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
-        True
+        None
     )
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_connect_timeout: Annotated[
         Optional[bool], pydantic.Field(alias="retryConnectTimeout")
-    ] = False
+    ] = None
     r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
         Optional[bool], pydantic.Field(alias="retryConnectReset")
-    ] = False
+    ] = None
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")

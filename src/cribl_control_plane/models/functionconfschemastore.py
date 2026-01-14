@@ -7,11 +7,11 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class MappingOfFieldNamesTypedDict(TypedDict):
+class FunctionConfSchemaStoreMappingOfFieldNamesTypedDict(TypedDict):
     r"""Mapping event property names to output field names"""
 
 
-class MappingOfFieldNames(BaseModel):
+class FunctionConfSchemaStoreMappingOfFieldNames(BaseModel):
     r"""Mapping event property names to output field names"""
 
 
@@ -22,7 +22,7 @@ class FunctionConfSchemaStoreTypedDict(TypedDict):
     r"""Configures where and how the data should be stored"""
     description: NotRequired[str]
     r"""The knowledge object's description"""
-    field_mapping: NotRequired[MappingOfFieldNamesTypedDict]
+    field_mapping: NotRequired[FunctionConfSchemaStoreMappingOfFieldNamesTypedDict]
     r"""Mapping event property names to output field names"""
     separator: NotRequired[str]
     r"""Character to be used as value delimiter in output"""
@@ -49,7 +49,8 @@ class FunctionConfSchemaStore(BaseModel):
     r"""The knowledge object's description"""
 
     field_mapping: Annotated[
-        Optional[MappingOfFieldNames], pydantic.Field(alias="fieldMapping")
+        Optional[FunctionConfSchemaStoreMappingOfFieldNames],
+        pydantic.Field(alias="fieldMapping"),
     ] = None
     r"""Mapping event property names to output field names"""
 

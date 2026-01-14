@@ -10,7 +10,7 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class TriggerType(str, Enum, metaclass=utils.OpenEnumMeta):
+class FunctionConfSchemaNotifyTriggerType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Type of the trigger condition. custom applies a kusto expression over the results, and results count applies a comparison over results count"""
 
     # Where
@@ -19,7 +19,7 @@ class TriggerType(str, Enum, metaclass=utils.OpenEnumMeta):
     RESULTS_COUNT = "resultsCount"
 
 
-class CountComparator(str, Enum, metaclass=utils.OpenEnumMeta):
+class FunctionConfSchemaNotifyCountComparator(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Operation to be applied over the results count"""
 
     # greater than
@@ -47,9 +47,9 @@ class FunctionConfSchemaNotifyTypedDict(TypedDict):
     r"""Id of the saved query"""
     trigger: NotRequired[str]
     r"""Js expression that filters events, a greater than 'Trigger Count' events will trigger the notification"""
-    trigger_type: NotRequired[TriggerType]
+    trigger_type: NotRequired[FunctionConfSchemaNotifyTriggerType]
     r"""Type of the trigger condition. custom applies a kusto expression over the results, and results count applies a comparison over results count"""
-    trigger_comparator: NotRequired[CountComparator]
+    trigger_comparator: NotRequired[FunctionConfSchemaNotifyCountComparator]
     r"""Operation to be applied over the results count"""
     trigger_count: NotRequired[float]
     r"""How many results that match trigger the condition"""
@@ -88,12 +88,14 @@ class FunctionConfSchemaNotify(BaseModel):
     r"""Js expression that filters events, a greater than 'Trigger Count' events will trigger the notification"""
 
     trigger_type: Annotated[
-        Optional[TriggerType], pydantic.Field(alias="triggerType")
+        Optional[FunctionConfSchemaNotifyTriggerType],
+        pydantic.Field(alias="triggerType"),
     ] = None
     r"""Type of the trigger condition. custom applies a kusto expression over the results, and results count applies a comparison over results count"""
 
     trigger_comparator: Annotated[
-        Optional[CountComparator], pydantic.Field(alias="triggerComparator")
+        Optional[FunctionConfSchemaNotifyCountComparator],
+        pydantic.Field(alias="triggerComparator"),
     ] = None
     r"""Operation to be applied over the results count"""
 
@@ -128,7 +130,7 @@ class FunctionConfSchemaNotify(BaseModel):
     def serialize_trigger_type(self, value):
         if isinstance(value, str):
             try:
-                return models.TriggerType(value)
+                return models.FunctionConfSchemaNotifyTriggerType(value)
             except ValueError:
                 return value
         return value
@@ -137,7 +139,7 @@ class FunctionConfSchemaNotify(BaseModel):
     def serialize_trigger_comparator(self, value):
         if isinstance(value, str):
             try:
-                return models.CountComparator(value)
+                return models.FunctionConfSchemaNotifyCountComparator(value)
             except ValueError:
                 return value
         return value

@@ -12,3 +12,5 @@ Authentication method for Discover and Collect REST calls
 | `BASIC_SECRET` | basicSecret    |
 | `TOKEN`        | token          |
 | `TOKEN_SECRET` | tokenSecret    |
+| `LOGIN`        | login          |
+| `LOGIN_SECRET` | loginSecret    |

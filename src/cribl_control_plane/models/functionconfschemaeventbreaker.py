@@ -10,9 +10,7 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class FunctionConfSchemaEventBreakerExistingOrNew(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class ExistingOrNew(str, Enum, metaclass=utils.OpenEnumMeta):
     # Use Existing
     EXISTING = "existing"
     # Create New
@@ -20,15 +18,14 @@ class FunctionConfSchemaEventBreakerExistingOrNew(
 
 
 class FunctionConfSchemaEventBreakerTypedDict(TypedDict):
-    existing_or_new: NotRequired[FunctionConfSchemaEventBreakerExistingOrNew]
+    existing_or_new: NotRequired[ExistingOrNew]
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
 
 
 class FunctionConfSchemaEventBreaker(BaseModel):
     existing_or_new: Annotated[
-        Optional[FunctionConfSchemaEventBreakerExistingOrNew],
-        pydantic.Field(alias="existingOrNew"),
+        Optional[ExistingOrNew], pydantic.Field(alias="existingOrNew")
     ] = None
 
     should_mark_cribl_breaker: Annotated[
@@ -40,7 +37,7 @@ class FunctionConfSchemaEventBreaker(BaseModel):
     def serialize_existing_or_new(self, value):
         if isinstance(value, str):
             try:
-                return models.FunctionConfSchemaEventBreakerExistingOrNew(value)
+                return models.ExistingOrNew(value)
             except ValueError:
                 return value
         return value

@@ -25,12 +25,12 @@ class FunctionConfSchemaSensitiveDataScannerRule(BaseModel):
     disabled: Optional[bool] = None
 
 
-class FunctionConfSchemaSensitiveDataScannerFlagTypedDict(TypedDict):
+class FlagTypedDict(TypedDict):
     value: str
     name: NotRequired[str]
 
 
-class FunctionConfSchemaSensitiveDataScannerFlag(BaseModel):
+class Flag(BaseModel):
     value: str
 
     name: Optional[str] = None
@@ -42,7 +42,7 @@ class FunctionConfSchemaSensitiveDataScannerTypedDict(TypedDict):
     r"""Rulesets act on the events contained in these fields. Mitigation expressions apply to the scan results. Supports wildcards (*)."""
     exclude_fields: NotRequired[List[str]]
     r"""Fields that the mitigation expression will not be applied to. Supports wildcards (*)."""
-    flags: NotRequired[List[FunctionConfSchemaSensitiveDataScannerFlagTypedDict]]
+    flags: NotRequired[List[FlagTypedDict]]
     r"""Fields to add when mitigation is applied to an event"""
     include_detected_rules: NotRequired[bool]
     r"""Add matching ruleset IDs to a field called \"__detected\" """
@@ -60,7 +60,7 @@ class FunctionConfSchemaSensitiveDataScanner(BaseModel):
     ] = None
     r"""Fields that the mitigation expression will not be applied to. Supports wildcards (*)."""
 
-    flags: Optional[List[FunctionConfSchemaSensitiveDataScannerFlag]] = None
+    flags: Optional[List[Flag]] = None
     r"""Fields to add when mitigation is applied to an event"""
 
     include_detected_rules: Annotated[

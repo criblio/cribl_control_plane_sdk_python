@@ -10,9 +10,7 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class FunctionConfSchemaDynamicSamplingSampleMode(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class SampleMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Defines how sample rate will be derived: log(previousPeriodCount) or sqrt(previousPeriodCount)"""
 
     # Logarithmic
@@ -22,7 +20,7 @@ class FunctionConfSchemaDynamicSamplingSampleMode(
 
 
 class FunctionConfSchemaDynamicSamplingTypedDict(TypedDict):
-    mode: NotRequired[FunctionConfSchemaDynamicSamplingSampleMode]
+    mode: NotRequired[SampleMode]
     r"""Defines how sample rate will be derived: log(previousPeriodCount) or sqrt(previousPeriodCount)"""
     key_expr: NotRequired[str]
     r"""Expression used to derive sample group key. Example:`${domain}:${status}`. Each sample group will have its own derived sampling rate based on volume. Defaults to `${host}`."""
@@ -35,7 +33,7 @@ class FunctionConfSchemaDynamicSamplingTypedDict(TypedDict):
 
 
 class FunctionConfSchemaDynamicSampling(BaseModel):
-    mode: Optional[FunctionConfSchemaDynamicSamplingSampleMode] = None
+    mode: Optional[SampleMode] = None
     r"""Defines how sample rate will be derived: log(previousPeriodCount) or sqrt(previousPeriodCount)"""
 
     key_expr: Annotated[Optional[str], pydantic.Field(alias="keyExpr")] = None
@@ -58,7 +56,7 @@ class FunctionConfSchemaDynamicSampling(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.FunctionConfSchemaDynamicSamplingSampleMode(value)
+                return models.SampleMode(value)
             except ValueError:
                 return value
         return value

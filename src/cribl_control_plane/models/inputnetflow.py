@@ -13,138 +13,15 @@ from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
-from typing import List, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputNetflowType(str, Enum):
     NETFLOW = "netflow"
 
 
-class InputNetflowPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
-    pq_enabled: bool
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    type: InputNetflowType
-    host: str
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-    port: float
-    r"""Port to listen on"""
-    pq: NotRequired[PqTypeTypedDict]
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    enable_pass_through: NotRequired[bool]
-    r"""Allow forwarding of events to a NetFlow destination. Enabling this feature will generate an extra event containing __netflowRaw which can be routed to a NetFlow destination. Note that these events will not count against ingest quota."""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    udp_socket_rx_buf_size: NotRequired[float]
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-    template_cache_minutes: NotRequired[float]
-    r"""Specifies how many minutes NetFlow v9 templates are cached before being discarded if not refreshed. Adjust based on your network's template update frequency to optimize performance and memory usage."""
-    v5_enabled: NotRequired[bool]
-    r"""Accept messages in Netflow V5 format."""
-    v9_enabled: NotRequired[bool]
-    r"""Accept messages in Netflow V9 format."""
-    ipfix_enabled: NotRequired[bool]
-    r"""Accept messages in IPFIX format."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-
-
-class InputNetflowPqEnabledTrueWithPqConstraint(BaseModel):
-    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    type: InputNetflowType
-
-    host: str
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
-    port: float
-    r"""Port to listen on"""
-
-    pq: Optional[PqType] = None
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = None
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        None
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    enable_pass_through: Annotated[
-        Optional[bool], pydantic.Field(alias="enablePassThrough")
-    ] = None
-    r"""Allow forwarding of events to a NetFlow destination. Enabling this feature will generate an extra event containing __netflowRaw which can be routed to a NetFlow destination. Note that these events will not count against ingest quota."""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = None
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = None
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    udp_socket_rx_buf_size: Annotated[
-        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
-    ] = None
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-
-    template_cache_minutes: Annotated[
-        Optional[float], pydantic.Field(alias="templateCacheMinutes")
-    ] = None
-    r"""Specifies how many minutes NetFlow v9 templates are cached before being discarded if not refreshed. Adjust based on your network's template update frequency to optimize performance and memory usage."""
-
-    v5_enabled: Annotated[Optional[bool], pydantic.Field(alias="v5Enabled")] = None
-    r"""Accept messages in Netflow V5 format."""
-
-    v9_enabled: Annotated[Optional[bool], pydantic.Field(alias="v9Enabled")] = None
-    r"""Accept messages in Netflow V9 format."""
-
-    ipfix_enabled: Annotated[Optional[bool], pydantic.Field(alias="ipfixEnabled")] = (
-        None
-    )
-    r"""Accept messages in IPFIX format."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-
-class InputNetflowPqEnabledFalseConstraintTypedDict(TypedDict):
-    pq_enabled: bool
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+class InputNetflowTypedDict(TypedDict):
     type: InputNetflowType
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -157,244 +34,6 @@ class InputNetflowPqEnabledFalseConstraintTypedDict(TypedDict):
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    enable_pass_through: NotRequired[bool]
-    r"""Allow forwarding of events to a NetFlow destination. Enabling this feature will generate an extra event containing __netflowRaw which can be routed to a NetFlow destination. Note that these events will not count against ingest quota."""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    udp_socket_rx_buf_size: NotRequired[float]
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-    template_cache_minutes: NotRequired[float]
-    r"""Specifies how many minutes NetFlow v9 templates are cached before being discarded if not refreshed. Adjust based on your network's template update frequency to optimize performance and memory usage."""
-    v5_enabled: NotRequired[bool]
-    r"""Accept messages in Netflow V5 format."""
-    v9_enabled: NotRequired[bool]
-    r"""Accept messages in Netflow V9 format."""
-    ipfix_enabled: NotRequired[bool]
-    r"""Accept messages in IPFIX format."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-
-
-class InputNetflowPqEnabledFalseConstraint(BaseModel):
-    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    type: InputNetflowType
-
-    host: str
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
-    port: float
-    r"""Port to listen on"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = None
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        None
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    enable_pass_through: Annotated[
-        Optional[bool], pydantic.Field(alias="enablePassThrough")
-    ] = None
-    r"""Allow forwarding of events to a NetFlow destination. Enabling this feature will generate an extra event containing __netflowRaw which can be routed to a NetFlow destination. Note that these events will not count against ingest quota."""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = None
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = None
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    udp_socket_rx_buf_size: Annotated[
-        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
-    ] = None
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-
-    template_cache_minutes: Annotated[
-        Optional[float], pydantic.Field(alias="templateCacheMinutes")
-    ] = None
-    r"""Specifies how many minutes NetFlow v9 templates are cached before being discarded if not refreshed. Adjust based on your network's template update frequency to optimize performance and memory usage."""
-
-    v5_enabled: Annotated[Optional[bool], pydantic.Field(alias="v5Enabled")] = None
-    r"""Accept messages in Netflow V5 format."""
-
-    v9_enabled: Annotated[Optional[bool], pydantic.Field(alias="v9Enabled")] = None
-    r"""Accept messages in Netflow V9 format."""
-
-    ipfix_enabled: Annotated[Optional[bool], pydantic.Field(alias="ipfixEnabled")] = (
-        None
-    )
-    r"""Accept messages in IPFIX format."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-
-class InputNetflowSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    send_to_routes: bool
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    type: InputNetflowType
-    host: str
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-    port: float
-    r"""Port to listen on"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    pq: NotRequired[PqTypeTypedDict]
-    enable_pass_through: NotRequired[bool]
-    r"""Allow forwarding of events to a NetFlow destination. Enabling this feature will generate an extra event containing __netflowRaw which can be routed to a NetFlow destination. Note that these events will not count against ingest quota."""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    udp_socket_rx_buf_size: NotRequired[float]
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-    template_cache_minutes: NotRequired[float]
-    r"""Specifies how many minutes NetFlow v9 templates are cached before being discarded if not refreshed. Adjust based on your network's template update frequency to optimize performance and memory usage."""
-    v5_enabled: NotRequired[bool]
-    r"""Accept messages in Netflow V5 format."""
-    v9_enabled: NotRequired[bool]
-    r"""Accept messages in Netflow V9 format."""
-    ipfix_enabled: NotRequired[bool]
-    r"""Accept messages in IPFIX format."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-
-
-class InputNetflowSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    type: InputNetflowType
-
-    host: str
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
-    port: float
-    r"""Port to listen on"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = None
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    enable_pass_through: Annotated[
-        Optional[bool], pydantic.Field(alias="enablePassThrough")
-    ] = None
-    r"""Allow forwarding of events to a NetFlow destination. Enabling this feature will generate an extra event containing __netflowRaw which can be routed to a NetFlow destination. Note that these events will not count against ingest quota."""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = None
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = None
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    udp_socket_rx_buf_size: Annotated[
-        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
-    ] = None
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-
-    template_cache_minutes: Annotated[
-        Optional[float], pydantic.Field(alias="templateCacheMinutes")
-    ] = None
-    r"""Specifies how many minutes NetFlow v9 templates are cached before being discarded if not refreshed. Adjust based on your network's template update frequency to optimize performance and memory usage."""
-
-    v5_enabled: Annotated[Optional[bool], pydantic.Field(alias="v5Enabled")] = None
-    r"""Accept messages in Netflow V5 format."""
-
-    v9_enabled: Annotated[Optional[bool], pydantic.Field(alias="v9Enabled")] = None
-    r"""Accept messages in Netflow V9 format."""
-
-    ipfix_enabled: Annotated[Optional[bool], pydantic.Field(alias="ipfixEnabled")] = (
-        None
-    )
-    r"""Accept messages in IPFIX format."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-
-class InputNetflowSendToRoutesTrueConstraintTypedDict(TypedDict):
-    send_to_routes: bool
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    type: InputNetflowType
-    host: str
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-    port: float
-    r"""Port to listen on"""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     pq_enabled: NotRequired[bool]
@@ -425,10 +64,7 @@ class InputNetflowSendToRoutesTrueConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputNetflowSendToRoutesTrueConstraint(BaseModel):
-    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
+class InputNetflow(BaseModel):
     type: InputNetflowType
 
     host: str
@@ -444,6 +80,11 @@ class InputNetflowSendToRoutesTrueConstraint(BaseModel):
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
@@ -499,25 +140,3 @@ class InputNetflowSendToRoutesTrueConstraint(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
-
-
-InputNetflowTypedDict = TypeAliasType(
-    "InputNetflowTypedDict",
-    Union[
-        InputNetflowSendToRoutesTrueConstraintTypedDict,
-        InputNetflowSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputNetflowPqEnabledFalseConstraintTypedDict,
-        InputNetflowPqEnabledTrueWithPqConstraintTypedDict,
-    ],
-)
-
-
-InputNetflow = TypeAliasType(
-    "InputNetflow",
-    Union[
-        InputNetflowSendToRoutesTrueConstraint,
-        InputNetflowSendToRoutesFalseWithConnectionsConstraint,
-        InputNetflowPqEnabledFalseConstraint,
-        InputNetflowPqEnabledTrueWithPqConstraint,
-    ],
-)

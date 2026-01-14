@@ -15,15 +15,15 @@ from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from typing import List, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputFilePqEnabledTrueWithPqConstraintType(str, Enum):
+class InputFileType(str, Enum):
     FILE = "file"
 
 
-class PqEnabledTrueWithPqConstraintMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputFileMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Choose how to discover files to monitor"""
 
     # Manual
@@ -32,11 +32,8 @@ class PqEnabledTrueWithPqConstraintMode(str, Enum, metaclass=utils.OpenEnumMeta)
     AUTO = "auto"
 
 
-class InputFilePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
-    pq_enabled: bool
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    type: InputFilePqEnabledTrueWithPqConstraintType
-    pq: NotRequired[PqTypeTypedDict]
+class InputFileTypedDict(TypedDict):
+    type: InputFileType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -46,11 +43,14 @@ class InputFilePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Select whether to send data to Routes, or directly to Destinations."""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    mode: NotRequired[PqEnabledTrueWithPqConstraintMode]
+    pq: NotRequired[PqTypeTypedDict]
+    mode: NotRequired[InputFileMode]
     r"""Choose how to discover files to monitor"""
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for files"""
@@ -90,13 +90,8 @@ class InputFilePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Stream binary files as Base64-encoded chunks."""
 
 
-class InputFilePqEnabledTrueWithPqConstraint(BaseModel):
-    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    type: InputFilePqEnabledTrueWithPqConstraintType
-
-    pq: Optional[PqType] = None
+class InputFile(BaseModel):
+    type: InputFileType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -114,542 +109,6 @@ class InputFilePqEnabledTrueWithPqConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    mode: Optional[PqEnabledTrueWithPqConstraintMode] = None
-    r"""Choose how to discover files to monitor"""
-
-    interval: Optional[float] = None
-    r"""Time, in seconds, between scanning for files"""
-
-    filenames: Optional[List[str]] = None
-    r"""The full path of discovered files are matched against this wildcard list"""
-
-    filter_archived_files: Annotated[
-        Optional[bool], pydantic.Field(alias="filterArchivedFiles")
-    ] = None
-    r"""Apply filename allowlist to file entries in archive file types, like tar or zip."""
-
-    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = None
-    r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
-
-    idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = None
-    r"""Time, in seconds, before an idle file is closed"""
-
-    min_age_dur: Annotated[Optional[str], pydantic.Field(alias="minAgeDur")] = None
-    r"""The minimum age of files to monitor. Format examples: 30s, 15m, 1h. Age is relative to file modification time. Leave empty to apply no age filters."""
-
-    max_age_dur: Annotated[Optional[str], pydantic.Field(alias="maxAgeDur")] = None
-    r"""The maximum age of event timestamps to collect. Format examples: 60s, 4h, 3d, 1w. Can be used in conjuction with \"Check file modification times\". Leave empty to apply no age filters."""
-
-    check_file_mod_time: Annotated[
-        Optional[bool], pydantic.Field(alias="checkFileModTime")
-    ] = None
-    r"""Skip files with modification times earlier than the maximum age duration"""
-
-    force_text: Annotated[Optional[bool], pydantic.Field(alias="forceText")] = None
-    r"""Forces files containing binary data to be streamed as text"""
-
-    hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = None
-    r"""Length of file header bytes to use in hash for unique file identification"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    breaker_rulesets: Annotated[
-        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
-    ] = None
-    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
-
-    stale_channel_flush_ms: Annotated[
-        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = None
-    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-
-    description: Optional[str] = None
-
-    path: Optional[str] = None
-    r"""Directory path to search for files. Environment variables will be resolved, e.g. $CRIBL_HOME/log/."""
-
-    depth: Optional[float] = None
-    r"""Set how many subdirectories deep to search. Use 0 to search only files in the given path, 1 to also look in its immediate subdirectories, etc. Leave it empty for unlimited depth."""
-
-    suppress_missing_path_errors: Annotated[
-        Optional[bool], pydantic.Field(alias="suppressMissingPathErrors")
-    ] = None
-
-    delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = None
-    r"""Delete files after they have been collected"""
-
-    include_unidentifiable_binary: Annotated[
-        Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
-    ] = None
-    r"""Stream binary files as Base64-encoded chunks."""
-
-    @field_serializer("mode")
-    def serialize_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.PqEnabledTrueWithPqConstraintMode(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputFilePqEnabledFalseConstraintType(str, Enum):
-    FILE = "file"
-
-
-class PqEnabledFalseConstraintMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Choose how to discover files to monitor"""
-
-    # Manual
-    MANUAL = "manual"
-    # Auto
-    AUTO = "auto"
-
-
-class InputFilePqEnabledFalseConstraintTypedDict(TypedDict):
-    pq_enabled: bool
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    type: InputFilePqEnabledFalseConstraintType
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    mode: NotRequired[PqEnabledFalseConstraintMode]
-    r"""Choose how to discover files to monitor"""
-    interval: NotRequired[float]
-    r"""Time, in seconds, between scanning for files"""
-    filenames: NotRequired[List[str]]
-    r"""The full path of discovered files are matched against this wildcard list"""
-    filter_archived_files: NotRequired[bool]
-    r"""Apply filename allowlist to file entries in archive file types, like tar or zip."""
-    tail_only: NotRequired[bool]
-    r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
-    idle_timeout: NotRequired[float]
-    r"""Time, in seconds, before an idle file is closed"""
-    min_age_dur: NotRequired[str]
-    r"""The minimum age of files to monitor. Format examples: 30s, 15m, 1h. Age is relative to file modification time. Leave empty to apply no age filters."""
-    max_age_dur: NotRequired[str]
-    r"""The maximum age of event timestamps to collect. Format examples: 60s, 4h, 3d, 1w. Can be used in conjuction with \"Check file modification times\". Leave empty to apply no age filters."""
-    check_file_mod_time: NotRequired[bool]
-    r"""Skip files with modification times earlier than the maximum age duration"""
-    force_text: NotRequired[bool]
-    r"""Forces files containing binary data to be streamed as text"""
-    hash_len: NotRequired[float]
-    r"""Length of file header bytes to use in hash for unique file identification"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    breaker_rulesets: NotRequired[List[str]]
-    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
-    stale_channel_flush_ms: NotRequired[float]
-    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    description: NotRequired[str]
-    path: NotRequired[str]
-    r"""Directory path to search for files. Environment variables will be resolved, e.g. $CRIBL_HOME/log/."""
-    depth: NotRequired[float]
-    r"""Set how many subdirectories deep to search. Use 0 to search only files in the given path, 1 to also look in its immediate subdirectories, etc. Leave it empty for unlimited depth."""
-    suppress_missing_path_errors: NotRequired[bool]
-    delete_files: NotRequired[bool]
-    r"""Delete files after they have been collected"""
-    include_unidentifiable_binary: NotRequired[bool]
-    r"""Stream binary files as Base64-encoded chunks."""
-
-
-class InputFilePqEnabledFalseConstraint(BaseModel):
-    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    type: InputFilePqEnabledFalseConstraintType
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = None
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        None
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    mode: Optional[PqEnabledFalseConstraintMode] = None
-    r"""Choose how to discover files to monitor"""
-
-    interval: Optional[float] = None
-    r"""Time, in seconds, between scanning for files"""
-
-    filenames: Optional[List[str]] = None
-    r"""The full path of discovered files are matched against this wildcard list"""
-
-    filter_archived_files: Annotated[
-        Optional[bool], pydantic.Field(alias="filterArchivedFiles")
-    ] = None
-    r"""Apply filename allowlist to file entries in archive file types, like tar or zip."""
-
-    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = None
-    r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
-
-    idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = None
-    r"""Time, in seconds, before an idle file is closed"""
-
-    min_age_dur: Annotated[Optional[str], pydantic.Field(alias="minAgeDur")] = None
-    r"""The minimum age of files to monitor. Format examples: 30s, 15m, 1h. Age is relative to file modification time. Leave empty to apply no age filters."""
-
-    max_age_dur: Annotated[Optional[str], pydantic.Field(alias="maxAgeDur")] = None
-    r"""The maximum age of event timestamps to collect. Format examples: 60s, 4h, 3d, 1w. Can be used in conjuction with \"Check file modification times\". Leave empty to apply no age filters."""
-
-    check_file_mod_time: Annotated[
-        Optional[bool], pydantic.Field(alias="checkFileModTime")
-    ] = None
-    r"""Skip files with modification times earlier than the maximum age duration"""
-
-    force_text: Annotated[Optional[bool], pydantic.Field(alias="forceText")] = None
-    r"""Forces files containing binary data to be streamed as text"""
-
-    hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = None
-    r"""Length of file header bytes to use in hash for unique file identification"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    breaker_rulesets: Annotated[
-        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
-    ] = None
-    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
-
-    stale_channel_flush_ms: Annotated[
-        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = None
-    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-
-    description: Optional[str] = None
-
-    path: Optional[str] = None
-    r"""Directory path to search for files. Environment variables will be resolved, e.g. $CRIBL_HOME/log/."""
-
-    depth: Optional[float] = None
-    r"""Set how many subdirectories deep to search. Use 0 to search only files in the given path, 1 to also look in its immediate subdirectories, etc. Leave it empty for unlimited depth."""
-
-    suppress_missing_path_errors: Annotated[
-        Optional[bool], pydantic.Field(alias="suppressMissingPathErrors")
-    ] = None
-
-    delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = None
-    r"""Delete files after they have been collected"""
-
-    include_unidentifiable_binary: Annotated[
-        Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
-    ] = None
-    r"""Stream binary files as Base64-encoded chunks."""
-
-    @field_serializer("mode")
-    def serialize_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.PqEnabledFalseConstraintMode(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputFileSendToRoutesFalseWithConnectionsConstraintType(str, Enum):
-    FILE = "file"
-
-
-class SendToRoutesFalseWithConnectionsConstraintMode(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Choose how to discover files to monitor"""
-
-    # Manual
-    MANUAL = "manual"
-    # Auto
-    AUTO = "auto"
-
-
-class InputFileSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    send_to_routes: bool
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    type: InputFileSendToRoutesFalseWithConnectionsConstraintType
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    pq: NotRequired[PqTypeTypedDict]
-    mode: NotRequired[SendToRoutesFalseWithConnectionsConstraintMode]
-    r"""Choose how to discover files to monitor"""
-    interval: NotRequired[float]
-    r"""Time, in seconds, between scanning for files"""
-    filenames: NotRequired[List[str]]
-    r"""The full path of discovered files are matched against this wildcard list"""
-    filter_archived_files: NotRequired[bool]
-    r"""Apply filename allowlist to file entries in archive file types, like tar or zip."""
-    tail_only: NotRequired[bool]
-    r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
-    idle_timeout: NotRequired[float]
-    r"""Time, in seconds, before an idle file is closed"""
-    min_age_dur: NotRequired[str]
-    r"""The minimum age of files to monitor. Format examples: 30s, 15m, 1h. Age is relative to file modification time. Leave empty to apply no age filters."""
-    max_age_dur: NotRequired[str]
-    r"""The maximum age of event timestamps to collect. Format examples: 60s, 4h, 3d, 1w. Can be used in conjuction with \"Check file modification times\". Leave empty to apply no age filters."""
-    check_file_mod_time: NotRequired[bool]
-    r"""Skip files with modification times earlier than the maximum age duration"""
-    force_text: NotRequired[bool]
-    r"""Forces files containing binary data to be streamed as text"""
-    hash_len: NotRequired[float]
-    r"""Length of file header bytes to use in hash for unique file identification"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    breaker_rulesets: NotRequired[List[str]]
-    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
-    stale_channel_flush_ms: NotRequired[float]
-    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    description: NotRequired[str]
-    path: NotRequired[str]
-    r"""Directory path to search for files. Environment variables will be resolved, e.g. $CRIBL_HOME/log/."""
-    depth: NotRequired[float]
-    r"""Set how many subdirectories deep to search. Use 0 to search only files in the given path, 1 to also look in its immediate subdirectories, etc. Leave it empty for unlimited depth."""
-    suppress_missing_path_errors: NotRequired[bool]
-    delete_files: NotRequired[bool]
-    r"""Delete files after they have been collected"""
-    include_unidentifiable_binary: NotRequired[bool]
-    r"""Stream binary files as Base64-encoded chunks."""
-
-
-class InputFileSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    type: InputFileSendToRoutesFalseWithConnectionsConstraintType
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = None
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    mode: Optional[SendToRoutesFalseWithConnectionsConstraintMode] = None
-    r"""Choose how to discover files to monitor"""
-
-    interval: Optional[float] = None
-    r"""Time, in seconds, between scanning for files"""
-
-    filenames: Optional[List[str]] = None
-    r"""The full path of discovered files are matched against this wildcard list"""
-
-    filter_archived_files: Annotated[
-        Optional[bool], pydantic.Field(alias="filterArchivedFiles")
-    ] = None
-    r"""Apply filename allowlist to file entries in archive file types, like tar or zip."""
-
-    tail_only: Annotated[Optional[bool], pydantic.Field(alias="tailOnly")] = None
-    r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
-
-    idle_timeout: Annotated[Optional[float], pydantic.Field(alias="idleTimeout")] = None
-    r"""Time, in seconds, before an idle file is closed"""
-
-    min_age_dur: Annotated[Optional[str], pydantic.Field(alias="minAgeDur")] = None
-    r"""The minimum age of files to monitor. Format examples: 30s, 15m, 1h. Age is relative to file modification time. Leave empty to apply no age filters."""
-
-    max_age_dur: Annotated[Optional[str], pydantic.Field(alias="maxAgeDur")] = None
-    r"""The maximum age of event timestamps to collect. Format examples: 60s, 4h, 3d, 1w. Can be used in conjuction with \"Check file modification times\". Leave empty to apply no age filters."""
-
-    check_file_mod_time: Annotated[
-        Optional[bool], pydantic.Field(alias="checkFileModTime")
-    ] = None
-    r"""Skip files with modification times earlier than the maximum age duration"""
-
-    force_text: Annotated[Optional[bool], pydantic.Field(alias="forceText")] = None
-    r"""Forces files containing binary data to be streamed as text"""
-
-    hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = None
-    r"""Length of file header bytes to use in hash for unique file identification"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    breaker_rulesets: Annotated[
-        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
-    ] = None
-    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
-
-    stale_channel_flush_ms: Annotated[
-        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = None
-    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-
-    description: Optional[str] = None
-
-    path: Optional[str] = None
-    r"""Directory path to search for files. Environment variables will be resolved, e.g. $CRIBL_HOME/log/."""
-
-    depth: Optional[float] = None
-    r"""Set how many subdirectories deep to search. Use 0 to search only files in the given path, 1 to also look in its immediate subdirectories, etc. Leave it empty for unlimited depth."""
-
-    suppress_missing_path_errors: Annotated[
-        Optional[bool], pydantic.Field(alias="suppressMissingPathErrors")
-    ] = None
-
-    delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = None
-    r"""Delete files after they have been collected"""
-
-    include_unidentifiable_binary: Annotated[
-        Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
-    ] = None
-    r"""Stream binary files as Base64-encoded chunks."""
-
-    @field_serializer("mode")
-    def serialize_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SendToRoutesFalseWithConnectionsConstraintMode(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputFileSendToRoutesTrueConstraintType(str, Enum):
-    FILE = "file"
-
-
-class SendToRoutesTrueConstraintMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Choose how to discover files to monitor"""
-
-    # Manual
-    MANUAL = "manual"
-    # Auto
-    AUTO = "auto"
-
-
-class InputFileSendToRoutesTrueConstraintTypedDict(TypedDict):
-    send_to_routes: bool
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    type: InputFileSendToRoutesTrueConstraintType
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    mode: NotRequired[SendToRoutesTrueConstraintMode]
-    r"""Choose how to discover files to monitor"""
-    interval: NotRequired[float]
-    r"""Time, in seconds, between scanning for files"""
-    filenames: NotRequired[List[str]]
-    r"""The full path of discovered files are matched against this wildcard list"""
-    filter_archived_files: NotRequired[bool]
-    r"""Apply filename allowlist to file entries in archive file types, like tar or zip."""
-    tail_only: NotRequired[bool]
-    r"""Read only new entries at the end of all files discovered at next startup. @{product} will then read newly discovered files from the head. Disable this to resume reading all files from head."""
-    idle_timeout: NotRequired[float]
-    r"""Time, in seconds, before an idle file is closed"""
-    min_age_dur: NotRequired[str]
-    r"""The minimum age of files to monitor. Format examples: 30s, 15m, 1h. Age is relative to file modification time. Leave empty to apply no age filters."""
-    max_age_dur: NotRequired[str]
-    r"""The maximum age of event timestamps to collect. Format examples: 60s, 4h, 3d, 1w. Can be used in conjuction with \"Check file modification times\". Leave empty to apply no age filters."""
-    check_file_mod_time: NotRequired[bool]
-    r"""Skip files with modification times earlier than the maximum age duration"""
-    force_text: NotRequired[bool]
-    r"""Forces files containing binary data to be streamed as text"""
-    hash_len: NotRequired[float]
-    r"""Length of file header bytes to use in hash for unique file identification"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    breaker_rulesets: NotRequired[List[str]]
-    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
-    stale_channel_flush_ms: NotRequired[float]
-    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    description: NotRequired[str]
-    path: NotRequired[str]
-    r"""Directory path to search for files. Environment variables will be resolved, e.g. $CRIBL_HOME/log/."""
-    depth: NotRequired[float]
-    r"""Set how many subdirectories deep to search. Use 0 to search only files in the given path, 1 to also look in its immediate subdirectories, etc. Leave it empty for unlimited depth."""
-    suppress_missing_path_errors: NotRequired[bool]
-    delete_files: NotRequired[bool]
-    r"""Delete files after they have been collected"""
-    include_unidentifiable_binary: NotRequired[bool]
-    r"""Stream binary files as Base64-encoded chunks."""
-
-
-class InputFileSendToRoutesTrueConstraint(BaseModel):
-    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    type: InputFileSendToRoutesTrueConstraintType
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = None
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
     pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
@@ -661,7 +120,7 @@ class InputFileSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    mode: Optional[SendToRoutesTrueConstraintMode] = None
+    mode: Optional[InputFileMode] = None
     r"""Choose how to discover files to monitor"""
 
     interval: Optional[float] = None
@@ -735,29 +194,7 @@ class InputFileSendToRoutesTrueConstraint(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.SendToRoutesTrueConstraintMode(value)
+                return models.InputFileMode(value)
             except ValueError:
                 return value
         return value
-
-
-InputFileTypedDict = TypeAliasType(
-    "InputFileTypedDict",
-    Union[
-        InputFileSendToRoutesTrueConstraintTypedDict,
-        InputFileSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputFilePqEnabledFalseConstraintTypedDict,
-        InputFilePqEnabledTrueWithPqConstraintTypedDict,
-    ],
-)
-
-
-InputFile = TypeAliasType(
-    "InputFile",
-    Union[
-        InputFileSendToRoutesTrueConstraint,
-        InputFileSendToRoutesFalseWithConnectionsConstraint,
-        InputFilePqEnabledFalseConstraint,
-        InputFilePqEnabledTrueWithPqConstraint,
-    ],
-)

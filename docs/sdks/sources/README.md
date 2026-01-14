@@ -75,11 +75,11 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.sources.create(request={
-        "send_to_routes": True,
         "id": "appscope-source",
-        "type": models.CreateInputInputAppscopeType.APPSCOPE,
+        "type": models.CreateInputTypeAppscope.APPSCOPE,
         "disabled": False,
         "pipeline": "<value>",
+        "send_to_routes": True,
         "environment": "<value>",
         "pq_enabled": False,
         "streamtags": [
@@ -248,11 +248,11 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.sources.update(id="<id>", input_={
-        "send_to_routes": True,
         "id": "appscope-source",
         "type": models.InputAppscopeType.APPSCOPE,
         "disabled": False,
         "pipeline": "<value>",
+        "send_to_routes": True,
         "environment": "<value>",
         "pq_enabled": False,
         "streamtags": [

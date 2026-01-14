@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1768396240770-60caa7b8
+  version: 4.16.0-alpha.1768408105528-07b61e99
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -10372,9 +10372,6 @@ components:
           description: Destination to send results to
       required:
         - type
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputKafka:
       type: object
       required:
@@ -10563,9 +10560,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputMsk:
       type: object
       required:
@@ -10805,9 +10799,6 @@ components:
           type: string
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputHttp:
       type: object
       required:
@@ -10956,9 +10947,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSplunk:
       type: object
       required:
@@ -11118,9 +11106,6 @@ components:
             - Automatic
             - Always
           x-speakeasy-unknown-values: allow
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSplunkSearch:
       type: object
       required:
@@ -11375,9 +11360,6 @@ components:
           description: Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
           items:
             $ref: "#/components/schemas/ItemsTypeOauthHeaders"
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSplunkHec:
       type: object
       required:
@@ -11595,9 +11577,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputAzureBlob:
       type: object
       required:
@@ -11749,9 +11728,6 @@ components:
           description: Select or create a stored text secret
         certificate:
           $ref: "#/components/schemas/CertificateTypeAzureBlobAuthTypeClientCert"
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputElastic:
       type: object
       required:
@@ -11980,9 +11956,6 @@ components:
           type: string
           title: Custom API Version
           description: Custom version information to respond to requests
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputConfluentCloud:
       type: object
       required:
@@ -12171,9 +12144,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputGrafana:
       type: object
       required:
@@ -12431,9 +12401,6 @@ components:
             - prometheusAPI
         - required:
             - lokiAPI
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputLoki:
       type: object
       required:
@@ -12617,9 +12584,6 @@ components:
           description: Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
           items:
             $ref: "#/components/schemas/ItemsTypeOauthHeaders"
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputPrometheusRw:
       type: object
       required:
@@ -12803,9 +12767,6 @@ components:
           description: Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
           items:
             $ref: "#/components/schemas/ItemsTypeOauthHeaders"
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputPrometheus:
       type: object
       required:
@@ -13040,9 +13001,6 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputEdgePrometheus:
       type: object
       required:
@@ -13300,9 +13258,6 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputOffice365Mgmt:
       type: object
       required:
@@ -13447,9 +13402,6 @@ components:
           type: string
           title: Client secret (text secret)
           description: Select or create a stored text secret
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputOffice365Service:
       type: object
       required:
@@ -13583,9 +13535,6 @@ components:
           type: string
           title: Client secret (text secret)
           description: Select or create a stored text secret
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputOffice365MsgTrace:
       type: object
       required:
@@ -13783,9 +13732,6 @@ components:
               type: string
               title: Certificate path
               description: Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS.
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputEventhub:
       type: object
       required:
@@ -13980,9 +13926,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputExec:
       type: object
       required:
@@ -14075,9 +14018,6 @@ components:
           type: string
           title: Schedule
           description: Cron schedule to execute the command on.
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputFirehose:
       type: object
       required:
@@ -14202,9 +14142,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputGooglePubsub:
       type: object
       required:
@@ -14315,9 +14252,6 @@ components:
           type: boolean
           title: Ordered delivery
           description: Receive events in the order they were added to the queue. The process sending events must have ordering enabled.
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCribl:
       type: object
       properties:
@@ -14374,9 +14308,6 @@ components:
           title: Description
       required:
         - type
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCriblTcp:
       type: object
       required:
@@ -14478,9 +14409,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCriblHttp:
       type: object
       required:
@@ -14605,9 +14533,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCriblLakeHttp:
       type: object
       required:
@@ -14791,9 +14716,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputTcpjson:
       type: object
       required:
@@ -14903,9 +14825,6 @@ components:
           type: string
           title: Auth token (text secret)
           description: Select or create a stored text secret
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSystemMetrics:
       type: object
       properties:
@@ -15208,9 +15127,6 @@ components:
           title: Description
       required:
         - type
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSystemState:
       type: object
       properties:
@@ -15392,9 +15308,6 @@ components:
           title: Description
       required:
         - type
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputKubeMetrics:
       type: object
       properties:
@@ -15488,9 +15401,6 @@ components:
           title: Description
       required:
         - type
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputKubeLogs:
       type: object
       properties:
@@ -15589,9 +15499,6 @@ components:
           title: Description
       required:
         - type
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputKubeEvents:
       type: object
       properties:
@@ -15652,9 +15559,6 @@ components:
           title: Description
       required:
         - type
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputWindowsMetrics:
       type: object
       properties:
@@ -15893,9 +15797,6 @@ components:
           title: Description
       required:
         - type
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCrowdstrike:
       type: object
       required:
@@ -16086,9 +15987,6 @@ components:
           type: string
           title: Tag value
           description: The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputDatadogAgent:
       type: object
       required:
@@ -16225,9 +16123,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputDatagen:
       type: object
       required:
@@ -16301,9 +16196,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputHttpRaw:
       type: object
       required:
@@ -16460,9 +16352,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputKinesis:
       type: object
       required:
@@ -16640,9 +16529,6 @@ components:
           type: string
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCriblmetrics:
       type: object
       properties:
@@ -16705,9 +16591,6 @@ components:
           title: Description
       required:
         - type
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputMetrics:
       type: object
       required:
@@ -16798,9 +16681,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputS3:
       type: object
       required:
@@ -17005,9 +16885,6 @@ components:
           type: string
           title: Tag value
           description: The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputS3Inventory:
       type: object
       required:
@@ -17219,9 +17096,6 @@ components:
           type: string
           title: Tag value
           description: The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSnmp:
       type: object
       required:
@@ -17362,9 +17236,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputOpenTelemetry:
       type: object
       required:
@@ -17571,9 +17442,6 @@ components:
           type: boolean
           title: Extract logs
           description: Enable to extract each incoming log record to a separate event
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputModelDrivenTelemetry:
       type: object
       required:
@@ -17651,9 +17519,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSqs:
       type: object
       required:
@@ -17808,9 +17673,6 @@ components:
           description: How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead.
           minimum: 1
           maximum: 100
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSyslog:
       type: object
       required:
@@ -17967,9 +17829,6 @@ components:
         - required:
             - host
             - tcpPort
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputFile:
       type: object
       properties:
@@ -18110,9 +17969,6 @@ components:
           description: Stream binary files as Base64-encoded chunks.
       required:
         - type
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputTcp:
       type: object
       required:
@@ -18236,9 +18092,6 @@ components:
           type: string
           title: Auth token (text secret)
           description: Select or create a stored text secret
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputAppscope:
       type: object
       required:
@@ -18423,9 +18276,6 @@ components:
           type: string
           title: Auth token (text secret)
           description: Select or create a stored text secret
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputWef:
       type: object
       required:
@@ -18719,9 +18569,6 @@ components:
           type: boolean
           title: Log CA fingerprint mismatch warning
           description: Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder.
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputWinEventLogs:
       type: object
       required:
@@ -18836,9 +18683,6 @@ components:
           type: boolean
           title: Render event message strings
           description: Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputRawUdp:
       type: object
       required:
@@ -18927,9 +18771,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputJournalFiles:
       type: object
       required:
@@ -19025,9 +18866,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputWiz:
       type: object
       required:
@@ -19214,9 +19052,6 @@ components:
           type: string
           title: Client Secret (text secret)
           description: Select or create a stored text secret
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputWizWebhook:
       type: object
       required:
@@ -19373,9 +19208,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputNetflow:
       type: object
       required:
@@ -19477,9 +19309,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputSecurityLake:
       type: object
       required:
@@ -19682,9 +19511,6 @@ components:
           type: string
           title: Tag value
           description: The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputZscalerHec:
       type: object
       required:
@@ -19877,9 +19703,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     InputCloudflareHec:
       type: object
       required:
@@ -20085,9 +19908,6 @@ components:
         description:
           type: string
           title: Description
-      allOf:
-        - $ref: "#/components/schemas/SendToRoutesUnionConstraint"
-        - $ref: "#/components/schemas/PqEnabledUnionConstraint"
     Input:
       oneOf:
         - $ref: "#/components/schemas/InputCollection"
@@ -36218,31 +36038,6 @@ components:
       title: Compression
       description: Codec to use to compress the persisted data
       x-speakeasy-unknown-values: allow
-    SendToRoutesTrueConstraint:
-      properties:
-        sendToRoutes:
-          enum:
-            - true
-      required:
-        - sendToRoutes
-    ItemsTypeConnections:
-      type: object
-      required:
-        - output
-      properties:
-        pipeline:
-          title: Pipeline or Pack
-          type: string
-        output:
-          title: Destination
-          type: string
-    PqEnabledFalseConstraint:
-      properties:
-        pqEnabled:
-          enum:
-            - false
-      required:
-        - pqEnabled
     AuthTypeKafkaSchemaRegistry:
       type: object
       description: Credentials to use when authenticating with the schema registry using basic HTTP authentication
@@ -37630,19 +37425,6 @@ components:
         pqControls:
           type: object
           title: ""
-    SendToRoutesFalseWithConnectionsConstraint:
-      properties:
-        sendToRoutes:
-          enum:
-            - false
-        connections:
-          type: array
-          title: Use QuickConnect
-          description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
-          items:
-            $ref: "#/components/schemas/ItemsTypeConnections"
-      required:
-        - sendToRoutes
     TlsSettingsClientSideTypeKafkaSchemaRegistry:
       type: object
       title: TLS settings (client side)
@@ -38281,19 +38063,6 @@ components:
 
                     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
           pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
-    SendToRoutesUnionConstraint:
-      oneOf:
-        - $ref: "#/components/schemas/SendToRoutesTrueConstraint"
-        - $ref: "#/components/schemas/SendToRoutesFalseWithConnectionsConstraint"
-    PqEnabledTrueWithPqConstraint:
-      properties:
-        pqEnabled:
-          enum:
-            - true
-        pq:
-          $ref: "#/components/schemas/PqType"
-      required:
-        - pqEnabled
     KafkaSchemaRegistryAuthenticationType:
       type: object
       title: Kafka Schema Registry Authentication
@@ -38372,10 +38141,6 @@ components:
           type: number
           title: Default value schema ID
           description: Used when __valueSchemaIdOut is not present, to transform _raw, leave blank if value transformation is not required by default.
-    PqEnabledUnionConstraint:
-      oneOf:
-        - $ref: "#/components/schemas/PqEnabledFalseConstraint"
-        - $ref: "#/components/schemas/PqEnabledTrueWithPqConstraint"
   examples:
     CreateGroupExamplesCloudWg:
       summary: Create a Worker Group in Cribl.Cloud

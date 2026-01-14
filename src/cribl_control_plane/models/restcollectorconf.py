@@ -1617,7 +1617,7 @@ class RestAuthenticationOauth(BaseModel):
         return value
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueAuthentication(
+class RestAuthenticationLoginSecretAuthentication(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
@@ -1634,7 +1634,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueAuthentication(
     HMAC = "hmac"
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscoverType(
+class RestAuthenticationLoginSecretDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -1645,17 +1645,14 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscoverType(
     NONE = "none"
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscoveryTypedDict(
-    TypedDict
-):
-    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscoverType
+class RestAuthenticationLoginSecretDiscoveryTypedDict(TypedDict):
+    discover_type: RestAuthenticationLoginSecretDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscovery(BaseModel):
+class RestAuthenticationLoginSecretDiscovery(BaseModel):
     discover_type: Annotated[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscoverType,
-        pydantic.Field(alias="discoverType"),
+        RestAuthenticationLoginSecretDiscoverType, pydantic.Field(alias="discoverType")
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
@@ -1663,15 +1660,13 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscovery(BaseModel
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscoverType(
-                    value
-                )
+                return models.RestAuthenticationLoginSecretDiscoverType(value)
             except ValueError:
                 return value
         return value
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueCollectMethod(
+class RestAuthenticationLoginSecretCollectMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # GET
@@ -1684,7 +1679,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueCollectMethod(
     OTHER = "other"
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePaginationEnum(
+class RestAuthenticationLoginSecretPaginationEnum(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # None
@@ -1701,30 +1696,24 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePaginationEnum(
     REQUEST_PAGE = "request_page"
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePaginationTypedDict(
-    TypedDict
-):
-    type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePaginationEnum
+class RestAuthenticationLoginSecretPaginationTypedDict(TypedDict):
+    type: RestAuthenticationLoginSecretPaginationEnum
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePagination(BaseModel):
-    type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePaginationEnum
+class RestAuthenticationLoginSecretPagination(BaseModel):
+    type: RestAuthenticationLoginSecretPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePaginationEnum(
-                    value
-                )
+                return models.RestAuthenticationLoginSecretPaginationEnum(value)
             except ValueError:
                 return value
         return value
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRetryRulesTypedDict(
-    TypedDict
-):
+class RestAuthenticationLoginSecretRetryRulesTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -1737,7 +1726,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRetryRulesTypedDict
     retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRetryRules(BaseModel):
+class RestAuthenticationLoginSecretRetryRules(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -1773,37 +1762,29 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRetryRules(BaseMode
         return value
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueStateTrackingTypedDict(
-    TypedDict
-):
+class RestAuthenticationLoginSecretStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueStateTracking(BaseModel):
+class RestAuthenticationLoginSecretStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueSchedulingTypedDict(
-    TypedDict
-):
-    state_tracking: NotRequired[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueStateTrackingTypedDict
-    ]
+class RestAuthenticationLoginSecretSchedulingTypedDict(TypedDict):
+    state_tracking: NotRequired[RestAuthenticationLoginSecretStateTrackingTypedDict]
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueScheduling(BaseModel):
+class RestAuthenticationLoginSecretScheduling(BaseModel):
     state_tracking: Annotated[
-        Optional[RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueStateTracking],
+        Optional[RestAuthenticationLoginSecretStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueTypedDict(TypedDict):
-    authentication: (
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueAuthentication
-    )
+class RestAuthenticationLoginSecretTypedDict(TypedDict):
+    authentication: RestAuthenticationLoginSecretAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     login_url: str
     r"""URL to use for login API call. This call is expected to be a POST."""
@@ -1815,7 +1796,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueTypedDict(TypedDict
     r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    collect_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueCollectMethod
+    collect_method: RestAuthenticationLoginSecretCollectMethod
     get_auth_token_from_header: NotRequired[bool]
     r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
     auth_header_key: NotRequired[str]
@@ -1823,18 +1804,14 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueTypedDict(TypedDict
     auth_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
-    discovery: NotRequired[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscoveryTypedDict
-    ]
+    discovery: NotRequired[RestAuthenticationLoginSecretDiscoveryTypedDict]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
-    pagination: NotRequired[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePaginationTypedDict
-    ]
+    pagination: NotRequired[RestAuthenticationLoginSecretPaginationTypedDict]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     use_round_robin_dns: NotRequired[bool]
@@ -1851,18 +1828,12 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueTypedDict(TypedDict
     r"""Stop pagination when the Event Breaker produces no events"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    retry_rules: NotRequired[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRetryRulesTypedDict
-    ]
-    scheduling: NotRequired[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueSchedulingTypedDict
-    ]
+    retry_rules: NotRequired[RestAuthenticationLoginSecretRetryRulesTypedDict]
+    scheduling: NotRequired[RestAuthenticationLoginSecretSchedulingTypedDict]
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue(BaseModel):
-    authentication: (
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueAuthentication
-    )
+class RestAuthenticationLoginSecret(BaseModel):
+    authentication: RestAuthenticationLoginSecretAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
@@ -1881,7 +1852,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue(BaseModel):
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
     collect_method: Annotated[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueCollectMethod,
+        RestAuthenticationLoginSecretCollectMethod,
         pydantic.Field(alias="collectMethod"),
     ]
 
@@ -1900,9 +1871,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue(BaseModel):
         pydantic.Field(alias="authRequestHeaders"),
     ] = None
 
-    discovery: Optional[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscovery
-    ] = None
+    discovery: Optional[RestAuthenticationLoginSecretDiscovery] = None
 
     collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
 
@@ -1917,9 +1886,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue(BaseModel):
         pydantic.Field(alias="collectRequestHeaders"),
     ] = None
 
-    pagination: Optional[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePagination
-    ] = None
+    pagination: Optional[RestAuthenticationLoginSecretPagination] = None
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -1958,12 +1925,12 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     retry_rules: Annotated[
-        Optional[RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRetryRules],
+        Optional[RestAuthenticationLoginSecretRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
 
     scheduling: Annotated[
-        Optional[RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueScheduling],
+        Optional[RestAuthenticationLoginSecretScheduling],
         pydantic.Field(alias="__scheduling"),
     ] = None
 
@@ -1971,9 +1938,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue(BaseModel):
     def serialize_authentication(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueAuthentication(
-                    value
-                )
+                return models.RestAuthenticationLoginSecretAuthentication(value)
             except ValueError:
                 return value
         return value
@@ -1982,17 +1947,13 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue(BaseModel):
     def serialize_collect_method(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueCollectMethod(
-                    value
-                )
+                return models.RestAuthenticationLoginSecretCollectMethod(value)
             except ValueError:
                 return value
         return value
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseAuthentication(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class RestAuthenticationLoginAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     NONE = "none"
@@ -2007,9 +1968,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseAuthentication(
     HMAC = "hmac"
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscoverType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class RestAuthenticationLoginDiscoverType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     HTTP = "http"
@@ -2018,17 +1977,14 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscoverType(
     NONE = "none"
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscoveryTypedDict(
-    TypedDict
-):
-    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscoverType
+class RestAuthenticationLoginDiscoveryTypedDict(TypedDict):
+    discover_type: RestAuthenticationLoginDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscovery(BaseModel):
+class RestAuthenticationLoginDiscovery(BaseModel):
     discover_type: Annotated[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscoverType,
-        pydantic.Field(alias="discoverType"),
+        RestAuthenticationLoginDiscoverType, pydantic.Field(alias="discoverType")
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
@@ -2036,17 +1992,13 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscovery(BaseMode
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscoverType(
-                    value
-                )
+                return models.RestAuthenticationLoginDiscoverType(value)
             except ValueError:
                 return value
         return value
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseCollectMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class RestAuthenticationLoginCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     # GET
     GET = "get"
     # POST
@@ -2057,9 +2009,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseCollectMethod(
     OTHER = "other"
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationEnum(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class RestAuthenticationLoginPaginationEnum(str, Enum, metaclass=utils.OpenEnumMeta):
     # None
     NONE = "none"
     # Response Body Attribute
@@ -2074,30 +2024,24 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationEnum(
     REQUEST_PAGE = "request_page"
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationTypedDict(
-    TypedDict
-):
-    type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationEnum
+class RestAuthenticationLoginPaginationTypedDict(TypedDict):
+    type: RestAuthenticationLoginPaginationEnum
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePagination(BaseModel):
-    type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationEnum
+class RestAuthenticationLoginPagination(BaseModel):
+    type: RestAuthenticationLoginPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationEnum(
-                    value
-                )
+                return models.RestAuthenticationLoginPaginationEnum(value)
             except ValueError:
                 return value
         return value
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRetryRulesTypedDict(
-    TypedDict
-):
+class RestAuthenticationLoginRetryRulesTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -2110,7 +2054,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRetryRulesTypedDic
     retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRetryRules(BaseModel):
+class RestAuthenticationLoginRetryRules(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -2146,72 +2090,56 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRetryRules(BaseMod
         return value
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseStateTrackingTypedDict(
-    TypedDict
-):
+class RestAuthenticationLoginStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseStateTracking(BaseModel):
+class RestAuthenticationLoginStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseSchedulingTypedDict(
-    TypedDict
-):
-    state_tracking: NotRequired[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseStateTrackingTypedDict
-    ]
+class RestAuthenticationLoginSchedulingTypedDict(TypedDict):
+    state_tracking: NotRequired[RestAuthenticationLoginStateTrackingTypedDict]
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseScheduling(BaseModel):
+class RestAuthenticationLoginScheduling(BaseModel):
     state_tracking: Annotated[
-        Optional[RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseStateTracking],
+        Optional[RestAuthenticationLoginStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseTypedDict(TypedDict):
-    authentication: (
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseAuthentication
-    )
+class RestAuthenticationLoginTypedDict(TypedDict):
+    authentication: RestAuthenticationLoginAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     login_url: str
     r"""URL to use for login API call. This call is expected to be a POST."""
-    credentials_secret: str
-    r"""Select or create a stored secret that references your login credentials"""
+    username: str
+    password: str
     login_body: str
     r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
     auth_header_expr: str
-    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    collect_method: (
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseCollectMethod
-    )
+    collect_method: RestAuthenticationLoginCollectMethod
     get_auth_token_from_header: NotRequired[bool]
     r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
-    token_resp_attribute: NotRequired[str]
-    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
     auth_header_key: NotRequired[str]
     r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
     auth_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
-    discovery: NotRequired[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscoveryTypedDict
-    ]
+    discovery: NotRequired[RestAuthenticationLoginDiscoveryTypedDict]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
-    pagination: NotRequired[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationTypedDict
-    ]
+    pagination: NotRequired[RestAuthenticationLoginPaginationTypedDict]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     use_round_robin_dns: NotRequired[bool]
@@ -2228,49 +2156,38 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseTypedDict(TypedDic
     r"""Stop pagination when the Event Breaker produces no events"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    retry_rules: NotRequired[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRetryRulesTypedDict
-    ]
-    scheduling: NotRequired[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseSchedulingTypedDict
-    ]
+    retry_rules: NotRequired[RestAuthenticationLoginRetryRulesTypedDict]
+    scheduling: NotRequired[RestAuthenticationLoginSchedulingTypedDict]
 
 
-class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse(BaseModel):
-    authentication: (
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseAuthentication
-    )
+class RestAuthenticationLogin(BaseModel):
+    authentication: RestAuthenticationLoginAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
     r"""URL to use for login API call. This call is expected to be a POST."""
 
-    credentials_secret: Annotated[str, pydantic.Field(alias="credentialsSecret")]
-    r"""Select or create a stored secret that references your login credentials"""
+    username: str
+
+    password: str
 
     login_body: Annotated[str, pydantic.Field(alias="loginBody")]
     r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
 
     auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
-    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
 
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
     collect_method: Annotated[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseCollectMethod,
-        pydantic.Field(alias="collectMethod"),
+        RestAuthenticationLoginCollectMethod, pydantic.Field(alias="collectMethod")
     ]
 
     get_auth_token_from_header: Annotated[
         Optional[bool], pydantic.Field(alias="getAuthTokenFromHeader")
     ] = None
     r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
-
-    token_resp_attribute: Annotated[
-        Optional[str], pydantic.Field(alias="tokenRespAttribute")
-    ] = None
-    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
 
     auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
         None
@@ -2282,9 +2199,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse(BaseModel):
         pydantic.Field(alias="authRequestHeaders"),
     ] = None
 
-    discovery: Optional[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscovery
-    ] = None
+    discovery: Optional[RestAuthenticationLoginDiscovery] = None
 
     collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
 
@@ -2299,9 +2214,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse(BaseModel):
         pydantic.Field(alias="collectRequestHeaders"),
     ] = None
 
-    pagination: Optional[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePagination
-    ] = None
+    pagination: Optional[RestAuthenticationLoginPagination] = None
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -2340,12 +2253,11 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     retry_rules: Annotated[
-        Optional[RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRetryRules],
-        pydantic.Field(alias="retryRules"),
+        Optional[RestAuthenticationLoginRetryRules], pydantic.Field(alias="retryRules")
     ] = None
 
     scheduling: Annotated[
-        Optional[RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseScheduling],
+        Optional[RestAuthenticationLoginScheduling],
         pydantic.Field(alias="__scheduling"),
     ] = None
 
@@ -2353,9 +2265,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse(BaseModel):
     def serialize_authentication(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseAuthentication(
-                    value
-                )
+                return models.RestAuthenticationLoginAuthentication(value)
             except ValueError:
                 return value
         return value
@@ -2364,779 +2274,10 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse(BaseModel):
     def serialize_collect_method(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseCollectMethod(
-                    value
-                )
+                return models.RestAuthenticationLoginCollectMethod(value)
             except ValueError:
                 return value
         return value
-
-
-RestAuthenticationLoginSecretTypedDict = TypeAliasType(
-    "RestAuthenticationLoginSecretTypedDict",
-    Union[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueTypedDict,
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseTypedDict,
-    ],
-)
-
-
-RestAuthenticationLoginSecret = TypeAliasType(
-    "RestAuthenticationLoginSecret",
-    Union[
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue,
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse,
-    ],
-)
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrueAuthentication(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-
-    NONE = "none"
-    BASIC = "basic"
-    BASIC_SECRET = "basicSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
-    OAUTH = "oauth"
-    OAUTH_SECRET = "oauthSecret"
-    GOOGLE_OAUTH = "google_oauth"
-    GOOGLE_OAUTH_SECRET = "google_oauthSecret"
-    HMAC = "hmac"
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscoverType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
-
-    HTTP = "http"
-    JSON = "json"
-    LIST = "list"
-    NONE = "none"
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscoveryTypedDict(TypedDict):
-    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscoverType
-    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscovery(BaseModel):
-    discover_type: Annotated[
-        RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscoverType,
-        pydantic.Field(alias="discoverType"),
-    ]
-    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
-
-    @field_serializer("discover_type")
-    def serialize_discover_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscoverType(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrueCollectMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    # GET
-    GET = "get"
-    # POST
-    POST = "post"
-    # POST with Body
-    POST_WITH_BODY = "post_with_body"
-    # Other
-    OTHER = "other"
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTruePaginationEnum(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    # None
-    NONE = "none"
-    # Response Body Attribute
-    RESPONSE_BODY = "response_body"
-    # Response Header Attribute
-    RESPONSE_HEADER = "response_header"
-    # RFC 5988 - Web Linking
-    RESPONSE_HEADER_LINK = "response_header_link"
-    # Offset/Limit
-    REQUEST_OFFSET = "request_offset"
-    # Page/Size
-    REQUEST_PAGE = "request_page"
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTruePaginationTypedDict(TypedDict):
-    type: RestAuthenticationLoginGetAuthTokenFromHeaderTruePaginationEnum
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTruePagination(BaseModel):
-    type: RestAuthenticationLoginGetAuthTokenFromHeaderTruePaginationEnum
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTruePaginationEnum(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRetryRulesTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRetryRules(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrueStateTrackingTypedDict(
-    TypedDict
-):
-    enabled: NotRequired[bool]
-    r"""Track collection progress between consecutive scheduled executions"""
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrueStateTracking(BaseModel):
-    enabled: Optional[bool] = None
-    r"""Track collection progress between consecutive scheduled executions"""
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrueSchedulingTypedDict(TypedDict):
-    state_tracking: NotRequired[
-        RestAuthenticationLoginGetAuthTokenFromHeaderTrueStateTrackingTypedDict
-    ]
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrueScheduling(BaseModel):
-    state_tracking: Annotated[
-        Optional[RestAuthenticationLoginGetAuthTokenFromHeaderTrueStateTracking],
-        pydantic.Field(alias="stateTracking"),
-    ] = None
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrueTypedDict(TypedDict):
-    authentication: RestAuthenticationLoginGetAuthTokenFromHeaderTrueAuthentication
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-    login_url: str
-    r"""URL to use for login API call. This call is expected to be a POST."""
-    username: str
-    password: str
-    login_body: str
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
-    auth_header_expr: str
-    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
-    collect_url: str
-    r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    collect_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueCollectMethod
-    get_auth_token_from_header: NotRequired[bool]
-    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
-    auth_header_key: NotRequired[str]
-    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
-    auth_request_headers: NotRequired[
-        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
-    ]
-    discovery: NotRequired[
-        RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscoveryTypedDict
-    ]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
-    collect_request_headers: NotRequired[
-        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
-    ]
-    pagination: NotRequired[
-        RestAuthenticationLoginGetAuthTokenFromHeaderTruePaginationTypedDict
-    ]
-    timeout: NotRequired[float]
-    r"""HTTP request inactivity timeout. Use 0 to disable."""
-    use_round_robin_dns: NotRequired[bool]
-    r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
-    disable_time_filter: NotRequired[bool]
-    r"""Disable Collector event time filtering when a date range is specified"""
-    decode_url: NotRequired[bool]
-    r"""Decode the URL before sending requests (including pagination requests)"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
-    capture_headers: NotRequired[bool]
-    r"""Enable to add response headers to the resHeaders field under the __collectible object"""
-    stop_on_empty_results: NotRequired[bool]
-    r"""Stop pagination when the Event Breaker produces no events"""
-    safe_headers: NotRequired[List[str]]
-    r"""List of headers that are safe to log in plain text"""
-    retry_rules: NotRequired[
-        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRetryRulesTypedDict
-    ]
-    scheduling: NotRequired[
-        RestAuthenticationLoginGetAuthTokenFromHeaderTrueSchedulingTypedDict
-    ]
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderTrue(BaseModel):
-    authentication: RestAuthenticationLoginGetAuthTokenFromHeaderTrueAuthentication
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-
-    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
-    r"""URL to use for login API call. This call is expected to be a POST."""
-
-    username: str
-
-    password: str
-
-    login_body: Annotated[str, pydantic.Field(alias="loginBody")]
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
-
-    auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
-    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
-
-    collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
-    r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-
-    collect_method: Annotated[
-        RestAuthenticationLoginGetAuthTokenFromHeaderTrueCollectMethod,
-        pydantic.Field(alias="collectMethod"),
-    ]
-
-    get_auth_token_from_header: Annotated[
-        Optional[bool], pydantic.Field(alias="getAuthTokenFromHeader")
-    ] = None
-    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
-
-    auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
-        None
-    )
-    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
-
-    auth_request_headers: Annotated[
-        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
-        pydantic.Field(alias="authRequestHeaders"),
-    ] = None
-
-    discovery: Optional[RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscovery] = (
-        None
-    )
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
-
-    collect_request_headers: Annotated[
-        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
-        pydantic.Field(alias="collectRequestHeaders"),
-    ] = None
-
-    pagination: Optional[
-        RestAuthenticationLoginGetAuthTokenFromHeaderTruePagination
-    ] = None
-
-    timeout: Optional[float] = None
-    r"""HTTP request inactivity timeout. Use 0 to disable."""
-
-    use_round_robin_dns: Annotated[
-        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = None
-    r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
-
-    disable_time_filter: Annotated[
-        Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = None
-    r"""Disable Collector event time filtering when a date range is specified"""
-
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
-    r"""Decode the URL before sending requests (including pagination requests)"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
-
-    capture_headers: Annotated[
-        Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = None
-    r"""Enable to add response headers to the resHeaders field under the __collectible object"""
-
-    stop_on_empty_results: Annotated[
-        Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = None
-    r"""Stop pagination when the Event Breaker produces no events"""
-
-    safe_headers: Annotated[
-        Optional[List[str]], pydantic.Field(alias="safeHeaders")
-    ] = None
-    r"""List of headers that are safe to log in plain text"""
-
-    retry_rules: Annotated[
-        Optional[RestAuthenticationLoginGetAuthTokenFromHeaderTrueRetryRules],
-        pydantic.Field(alias="retryRules"),
-    ] = None
-
-    scheduling: Annotated[
-        Optional[RestAuthenticationLoginGetAuthTokenFromHeaderTrueScheduling],
-        pydantic.Field(alias="__scheduling"),
-    ] = None
-
-    @field_serializer("authentication")
-    def serialize_authentication(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueAuthentication(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("collect_method")
-    def serialize_collect_method(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueCollectMethod(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalseAuthentication(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-
-    NONE = "none"
-    BASIC = "basic"
-    BASIC_SECRET = "basicSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
-    OAUTH = "oauth"
-    OAUTH_SECRET = "oauthSecret"
-    GOOGLE_OAUTH = "google_oauth"
-    GOOGLE_OAUTH_SECRET = "google_oauthSecret"
-    HMAC = "hmac"
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscoverType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
-
-    HTTP = "http"
-    JSON = "json"
-    LIST = "list"
-    NONE = "none"
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscoveryTypedDict(TypedDict):
-    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscoverType
-    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscovery(BaseModel):
-    discover_type: Annotated[
-        RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscoverType,
-        pydantic.Field(alias="discoverType"),
-    ]
-    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
-
-    @field_serializer("discover_type")
-    def serialize_discover_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscoverType(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalseCollectMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    # GET
-    GET = "get"
-    # POST
-    POST = "post"
-    # POST with Body
-    POST_WITH_BODY = "post_with_body"
-    # Other
-    OTHER = "other"
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalsePaginationEnum(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    # None
-    NONE = "none"
-    # Response Body Attribute
-    RESPONSE_BODY = "response_body"
-    # Response Header Attribute
-    RESPONSE_HEADER = "response_header"
-    # RFC 5988 - Web Linking
-    RESPONSE_HEADER_LINK = "response_header_link"
-    # Offset/Limit
-    REQUEST_OFFSET = "request_offset"
-    # Page/Size
-    REQUEST_PAGE = "request_page"
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalsePaginationTypedDict(TypedDict):
-    type: RestAuthenticationLoginGetAuthTokenFromHeaderFalsePaginationEnum
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalsePagination(BaseModel):
-    type: RestAuthenticationLoginGetAuthTokenFromHeaderFalsePaginationEnum
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalsePaginationEnum(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRetryRulesTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRetryRules(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalseStateTrackingTypedDict(
-    TypedDict
-):
-    enabled: NotRequired[bool]
-    r"""Track collection progress between consecutive scheduled executions"""
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalseStateTracking(BaseModel):
-    enabled: Optional[bool] = None
-    r"""Track collection progress between consecutive scheduled executions"""
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalseSchedulingTypedDict(TypedDict):
-    state_tracking: NotRequired[
-        RestAuthenticationLoginGetAuthTokenFromHeaderFalseStateTrackingTypedDict
-    ]
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalseScheduling(BaseModel):
-    state_tracking: Annotated[
-        Optional[RestAuthenticationLoginGetAuthTokenFromHeaderFalseStateTracking],
-        pydantic.Field(alias="stateTracking"),
-    ] = None
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalseTypedDict(TypedDict):
-    authentication: RestAuthenticationLoginGetAuthTokenFromHeaderFalseAuthentication
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-    login_url: str
-    r"""URL to use for login API call. This call is expected to be a POST."""
-    username: str
-    password: str
-    login_body: str
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
-    auth_header_expr: str
-    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
-    collect_url: str
-    r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    collect_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseCollectMethod
-    get_auth_token_from_header: NotRequired[bool]
-    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
-    token_resp_attribute: NotRequired[str]
-    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
-    auth_header_key: NotRequired[str]
-    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
-    auth_request_headers: NotRequired[
-        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
-    ]
-    discovery: NotRequired[
-        RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscoveryTypedDict
-    ]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
-    collect_request_headers: NotRequired[
-        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
-    ]
-    pagination: NotRequired[
-        RestAuthenticationLoginGetAuthTokenFromHeaderFalsePaginationTypedDict
-    ]
-    timeout: NotRequired[float]
-    r"""HTTP request inactivity timeout. Use 0 to disable."""
-    use_round_robin_dns: NotRequired[bool]
-    r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
-    disable_time_filter: NotRequired[bool]
-    r"""Disable Collector event time filtering when a date range is specified"""
-    decode_url: NotRequired[bool]
-    r"""Decode the URL before sending requests (including pagination requests)"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
-    capture_headers: NotRequired[bool]
-    r"""Enable to add response headers to the resHeaders field under the __collectible object"""
-    stop_on_empty_results: NotRequired[bool]
-    r"""Stop pagination when the Event Breaker produces no events"""
-    safe_headers: NotRequired[List[str]]
-    r"""List of headers that are safe to log in plain text"""
-    retry_rules: NotRequired[
-        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRetryRulesTypedDict
-    ]
-    scheduling: NotRequired[
-        RestAuthenticationLoginGetAuthTokenFromHeaderFalseSchedulingTypedDict
-    ]
-
-
-class RestAuthenticationLoginGetAuthTokenFromHeaderFalse(BaseModel):
-    authentication: RestAuthenticationLoginGetAuthTokenFromHeaderFalseAuthentication
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-
-    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
-    r"""URL to use for login API call. This call is expected to be a POST."""
-
-    username: str
-
-    password: str
-
-    login_body: Annotated[str, pydantic.Field(alias="loginBody")]
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
-
-    auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
-    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
-
-    collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
-    r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-
-    collect_method: Annotated[
-        RestAuthenticationLoginGetAuthTokenFromHeaderFalseCollectMethod,
-        pydantic.Field(alias="collectMethod"),
-    ]
-
-    get_auth_token_from_header: Annotated[
-        Optional[bool], pydantic.Field(alias="getAuthTokenFromHeader")
-    ] = None
-    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
-
-    token_resp_attribute: Annotated[
-        Optional[str], pydantic.Field(alias="tokenRespAttribute")
-    ] = None
-    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
-
-    auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
-        None
-    )
-    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
-
-    auth_request_headers: Annotated[
-        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
-        pydantic.Field(alias="authRequestHeaders"),
-    ] = None
-
-    discovery: Optional[RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscovery] = (
-        None
-    )
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
-
-    collect_request_headers: Annotated[
-        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
-        pydantic.Field(alias="collectRequestHeaders"),
-    ] = None
-
-    pagination: Optional[
-        RestAuthenticationLoginGetAuthTokenFromHeaderFalsePagination
-    ] = None
-
-    timeout: Optional[float] = None
-    r"""HTTP request inactivity timeout. Use 0 to disable."""
-
-    use_round_robin_dns: Annotated[
-        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = None
-    r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
-
-    disable_time_filter: Annotated[
-        Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = None
-    r"""Disable Collector event time filtering when a date range is specified"""
-
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
-    r"""Decode the URL before sending requests (including pagination requests)"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
-
-    capture_headers: Annotated[
-        Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = None
-    r"""Enable to add response headers to the resHeaders field under the __collectible object"""
-
-    stop_on_empty_results: Annotated[
-        Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = None
-    r"""Stop pagination when the Event Breaker produces no events"""
-
-    safe_headers: Annotated[
-        Optional[List[str]], pydantic.Field(alias="safeHeaders")
-    ] = None
-    r"""List of headers that are safe to log in plain text"""
-
-    retry_rules: Annotated[
-        Optional[RestAuthenticationLoginGetAuthTokenFromHeaderFalseRetryRules],
-        pydantic.Field(alias="retryRules"),
-    ] = None
-
-    scheduling: Annotated[
-        Optional[RestAuthenticationLoginGetAuthTokenFromHeaderFalseScheduling],
-        pydantic.Field(alias="__scheduling"),
-    ] = None
-
-    @field_serializer("authentication")
-    def serialize_authentication(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseAuthentication(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("collect_method")
-    def serialize_collect_method(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseCollectMethod(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-
-RestAuthenticationLoginTypedDict = TypeAliasType(
-    "RestAuthenticationLoginTypedDict",
-    Union[
-        RestAuthenticationLoginGetAuthTokenFromHeaderTrueTypedDict,
-        RestAuthenticationLoginGetAuthTokenFromHeaderFalseTypedDict,
-    ],
-)
-
-
-RestAuthenticationLogin = TypeAliasType(
-    "RestAuthenticationLogin",
-    Union[
-        RestAuthenticationLoginGetAuthTokenFromHeaderTrue,
-        RestAuthenticationLoginGetAuthTokenFromHeaderFalse,
-    ],
-)
 
 
 class RestAuthenticationBasicSecretAuthentication(
@@ -5167,10 +4308,10 @@ RestCollectorConfTypedDict = TypeAliasType(
         RestAuthenticationBasicTypedDict,
         RestAuthenticationGoogleOauthTypedDict,
         RestAuthenticationGoogleOauthSecretTypedDict,
+        RestAuthenticationLoginSecretTypedDict,
+        RestAuthenticationLoginTypedDict,
         RestAuthenticationOauthTypedDict,
         RestAuthenticationOauthSecretTypedDict,
-        RestAuthenticationLoginTypedDict,
-        RestAuthenticationLoginSecretTypedDict,
     ],
 )
 

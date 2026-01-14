@@ -7,7 +7,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class FunctionConfSchemaHandlebarsTemplateDefinitionTypedDict(TypedDict):
+class TemplateDefinitionTypedDict(TypedDict):
     id: str
     r"""Unique identifier for this template"""
     content: str
@@ -18,7 +18,7 @@ class FunctionConfSchemaHandlebarsTemplateDefinitionTypedDict(TypedDict):
     r"""Optional description of what this template is used for"""
 
 
-class FunctionConfSchemaHandlebarsTemplateDefinition(BaseModel):
+class TemplateDefinition(BaseModel):
     id: str
     r"""Unique identifier for this template"""
 
@@ -33,9 +33,7 @@ class FunctionConfSchemaHandlebarsTemplateDefinition(BaseModel):
 
 
 class FunctionConfSchemaHandlebarsTypedDict(TypedDict):
-    templates: NotRequired[
-        List[FunctionConfSchemaHandlebarsTemplateDefinitionTypedDict]
-    ]
+    templates: NotRequired[List[TemplateDefinitionTypedDict]]
     r"""Array of template definitions. Uses event.__template_id to select template at runtime."""
     target_field: NotRequired[str]
     r"""Field name to store the rendered template result. Defaults to _raw."""
@@ -46,7 +44,7 @@ class FunctionConfSchemaHandlebarsTypedDict(TypedDict):
 
 
 class FunctionConfSchemaHandlebars(BaseModel):
-    templates: Optional[List[FunctionConfSchemaHandlebarsTemplateDefinition]] = None
+    templates: Optional[List[TemplateDefinition]] = None
     r"""Array of template definitions. Uses event.__template_id to select template at runtime."""
 
     target_field: Annotated[Optional[str], pydantic.Field(alias="targetField")] = None

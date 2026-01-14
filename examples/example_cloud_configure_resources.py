@@ -28,7 +28,7 @@ from cribl_control_plane.models import (
     CompressionLevelOptions,
     Pipeline,
     RoutesRoute,
-    PipelineConf,
+    Conf,
     ConfInput,
     PipelineFunctionEval,
     PipelineFunctionEvalID,
@@ -87,7 +87,7 @@ s3_destination = CreateOutputOutputS3(
 # Pipeline configuration: filter events and keep only data in the "eventSource" and "eventID" fields
 pipeline = Pipeline(
     id="my_pipeline",
-    conf=PipelineConf(
+    conf=Conf(
         async_func_timeout=1000,
         functions=cast(
             List[PipelineFunctionConf],

@@ -7,12 +7,12 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class FunctionConfSchemaGrokPatternListTypedDict(TypedDict):
+class PatternListTypedDict(TypedDict):
     pattern: str
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
 
-class FunctionConfSchemaGrokPatternList(BaseModel):
+class PatternList(BaseModel):
     pattern: str
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
@@ -20,7 +20,7 @@ class FunctionConfSchemaGrokPatternList(BaseModel):
 class FunctionConfSchemaGrokTypedDict(TypedDict):
     pattern: NotRequired[str]
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
-    pattern_list: NotRequired[List[FunctionConfSchemaGrokPatternListTypedDict]]
+    pattern_list: NotRequired[List[PatternListTypedDict]]
     source: NotRequired[str]
     r"""Field on which to perform Grok extractions"""
 
@@ -30,8 +30,7 @@ class FunctionConfSchemaGrok(BaseModel):
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
     pattern_list: Annotated[
-        Optional[List[FunctionConfSchemaGrokPatternList]],
-        pydantic.Field(alias="patternList"),
+        Optional[List[PatternList]], pydantic.Field(alias="patternList")
     ] = None
 
     source: Optional[str] = None

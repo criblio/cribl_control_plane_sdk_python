@@ -7,14 +7,14 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class FunctionConfSchemaGeoipAdditionalFieldTypedDict(TypedDict):
+class AdditionalFieldTypedDict(TypedDict):
     extra_in_field: str
     r"""Field name in which to find an IP to look up. Can be nested."""
     extra_out_field: str
     r"""Field name in which to store the GeoIP lookup results"""
 
 
-class FunctionConfSchemaGeoipAdditionalField(BaseModel):
+class AdditionalField(BaseModel):
     extra_in_field: Annotated[str, pydantic.Field(alias="extraInField")]
     r"""Field name in which to find an IP to look up. Can be nested."""
 
@@ -22,11 +22,11 @@ class FunctionConfSchemaGeoipAdditionalField(BaseModel):
     r"""Field name in which to store the GeoIP lookup results"""
 
 
-class FunctionConfSchemaGeoipOutputFieldMappingsTypedDict(TypedDict):
+class OutputFieldMappingsTypedDict(TypedDict):
     r"""Search-specific mappings for granular control over event enrichment"""
 
 
-class FunctionConfSchemaGeoipOutputFieldMappings(BaseModel):
+class OutputFieldMappings(BaseModel):
     r"""Search-specific mappings for granular control over event enrichment"""
 
 
@@ -37,10 +37,8 @@ class FunctionConfSchemaGeoipTypedDict(TypedDict):
     r"""Field name in which to find an IP to look up. Can be nested."""
     out_field: NotRequired[str]
     r"""Field name in which to store the GeoIP lookup results"""
-    additional_fields: NotRequired[
-        List[FunctionConfSchemaGeoipAdditionalFieldTypedDict]
-    ]
-    out_field_mappings: NotRequired[FunctionConfSchemaGeoipOutputFieldMappingsTypedDict]
+    additional_fields: NotRequired[List[AdditionalFieldTypedDict]]
+    out_field_mappings: NotRequired[OutputFieldMappingsTypedDict]
     r"""Search-specific mappings for granular control over event enrichment"""
 
 
@@ -55,12 +53,10 @@ class FunctionConfSchemaGeoip(BaseModel):
     r"""Field name in which to store the GeoIP lookup results"""
 
     additional_fields: Annotated[
-        Optional[List[FunctionConfSchemaGeoipAdditionalField]],
-        pydantic.Field(alias="additionalFields"),
+        Optional[List[AdditionalField]], pydantic.Field(alias="additionalFields")
     ] = None
 
     out_field_mappings: Annotated[
-        Optional[FunctionConfSchemaGeoipOutputFieldMappings],
-        pydantic.Field(alias="outFieldMappings"),
+        Optional[OutputFieldMappings], pydantic.Field(alias="outFieldMappings")
     ] = None
     r"""Search-specific mappings for granular control over event enrichment"""

@@ -10,9 +10,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class FunctionConfSchemaMvExpandBagExpansionMode(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class BagExpansionMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""decides if bag-values are expanded to bags or arrays"""
 
     # Store as object
@@ -30,7 +28,7 @@ class FunctionConfSchemaMvExpandTypedDict(TypedDict):
     r"""max. number of rows generated out of every source events"""
     item_index_name: NotRequired[str]
     r"""name of an optional index property generated into the output"""
-    bag_expansion_mode: NotRequired[FunctionConfSchemaMvExpandBagExpansionMode]
+    bag_expansion_mode: NotRequired[BagExpansionMode]
     r"""decides if bag-values are expanded to bags or arrays"""
 
 
@@ -54,8 +52,7 @@ class FunctionConfSchemaMvExpand(BaseModel):
     r"""name of an optional index property generated into the output"""
 
     bag_expansion_mode: Annotated[
-        Optional[FunctionConfSchemaMvExpandBagExpansionMode],
-        pydantic.Field(alias="bagExpansionMode"),
+        Optional[BagExpansionMode], pydantic.Field(alias="bagExpansionMode")
     ] = None
     r"""decides if bag-values are expanded to bags or arrays"""
 
@@ -63,7 +60,7 @@ class FunctionConfSchemaMvExpand(BaseModel):
     def serialize_bag_expansion_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.FunctionConfSchemaMvExpandBagExpansionMode(value)
+                return models.BagExpansionMode(value)
             except ValueError:
                 return value
         return value

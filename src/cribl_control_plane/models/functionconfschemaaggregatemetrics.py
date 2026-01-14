@@ -24,14 +24,14 @@ class FunctionConfSchemaAggregateMetricsMetricType(
     TIMER = "timer"
 
 
-class FunctionConfSchemaAggregateMetricsAggregationTypedDict(TypedDict):
+class AggregationTypedDict(TypedDict):
     metric_type: FunctionConfSchemaAggregateMetricsMetricType
     r"""The output metric type"""
     agg: str
     r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
 
 
-class FunctionConfSchemaAggregateMetricsAggregation(BaseModel):
+class Aggregation(BaseModel):
     metric_type: Annotated[
         FunctionConfSchemaAggregateMetricsMetricType, pydantic.Field(alias="metricType")
     ]
@@ -74,9 +74,7 @@ class FunctionConfSchemaAggregateMetricsTypedDict(TypedDict):
     r"""A prefix that is prepended to all of the fields output by this Aggregations Function"""
     time_window: NotRequired[str]
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
-    aggregations: NotRequired[
-        List[FunctionConfSchemaAggregateMetricsAggregationTypedDict]
-    ]
+    aggregations: NotRequired[List[AggregationTypedDict]]
     r"""Combination of Aggregation function and output metric type"""
     groupbys: NotRequired[List[str]]
     r"""Optional: One or more dimensions to group aggregates by. Supports wildcard expressions. Wrap dimension names in quotes if using literal identifiers, such as 'service.name'. Warning: Using wildcard '*' causes all dimensions in the event to be included, which can result in high cardinality and increased memory usage. Exclude dimensions that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"""
@@ -114,7 +112,7 @@ class FunctionConfSchemaAggregateMetrics(BaseModel):
     time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
 
-    aggregations: Optional[List[FunctionConfSchemaAggregateMetricsAggregation]] = None
+    aggregations: Optional[List[Aggregation]] = None
     r"""Combination of Aggregation function and output metric type"""
 
     groupbys: Optional[List[str]] = None

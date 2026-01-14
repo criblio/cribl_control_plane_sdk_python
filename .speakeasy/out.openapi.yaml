@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1768420591615-34b394cb
+  version: 4.16.0-alpha.1768426593792-bfdc0894
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -5098,11 +5098,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaAggregateMetrics"
-          required:
-            - timeWindow
-            - aggregations
+          $ref: "#/components/schemas/FunctionConfSchemaAggregateMetrics"
         groupId:
           title: Group ID
           description: Group ID
@@ -5137,11 +5133,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaAggregation"
-          required:
-            - timeWindow
-            - aggregations
+          $ref: "#/components/schemas/FunctionConfSchemaAggregation"
         groupId:
           title: Group ID
           description: Group ID
@@ -5246,10 +5238,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaChain"
-          required:
-            - processor
+          $ref: "#/components/schemas/FunctionConfSchemaChain"
         groupId:
           title: Group ID
           description: Group ID
@@ -5389,10 +5378,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaDistinct"
-          required:
-            - groupBy
+          $ref: "#/components/schemas/FunctionConfSchemaDistinct"
         groupId:
           title: Group ID
           description: Group ID
@@ -5497,11 +5483,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaDropDimensions"
-          required:
-            - timeWindow
-            - dropDimensions
+          $ref: "#/components/schemas/FunctionConfSchemaDropDimensions"
         groupId:
           title: Group ID
           description: Group ID
@@ -5536,11 +5518,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaDynamicSampling"
-          required:
-            - mode
-            - keyExpr
+          $ref: "#/components/schemas/FunctionConfSchemaDynamicSampling"
         groupId:
           title: Group ID
           description: Group ID
@@ -5610,10 +5588,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaEventBreaker"
-          required:
-            - existingOrNew
+          $ref: "#/components/schemas/FunctionConfSchemaEventBreaker"
         groupId:
           title: Group ID
           description: Group ID
@@ -5648,10 +5623,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaEventstats"
-          required:
-            - aggregations
+          $ref: "#/components/schemas/FunctionConfSchemaEventstats"
         groupId:
           title: Group ID
           description: Group ID
@@ -5826,10 +5798,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaGeoip"
-          required:
-            - file
+          $ref: "#/components/schemas/FunctionConfSchemaGeoip"
         groupId:
           title: Group ID
           description: Group ID
@@ -5864,10 +5833,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaGrok"
-          required:
-            - pattern
+          $ref: "#/components/schemas/FunctionConfSchemaGrok"
         groupId:
           title: Group ID
           description: Group ID
@@ -5902,10 +5868,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaHandlebars"
-          required:
-            - templates
+          $ref: "#/components/schemas/FunctionConfSchemaHandlebars"
         groupId:
           title: Group ID
           description: Group ID
@@ -5940,10 +5903,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaJoin"
-          required:
-            - fieldConditions
+          $ref: "#/components/schemas/FunctionConfSchemaJoin"
         groupId:
           title: Group ID
           description: Group ID
@@ -5978,10 +5938,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaJsonUnroll"
-          required:
-            - path
+          $ref: "#/components/schemas/FunctionConfSchemaJsonUnroll"
         groupId:
           title: Group ID
           description: Group ID
@@ -6016,11 +5973,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaLakeExport"
-          required:
-            - dataset
-            - searchJobId
+          $ref: "#/components/schemas/FunctionConfSchemaLakeExport"
         groupId:
           title: Group ID
           description: Group ID
@@ -6160,10 +6113,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaLookup"
-          required:
-            - file
+          $ref: "#/components/schemas/FunctionConfSchemaLookup"
         groupId:
           title: Group ID
           description: Group ID
@@ -6198,10 +6148,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaMask"
-          required:
-            - rules
+          $ref: "#/components/schemas/FunctionConfSchemaMask"
         groupId:
           title: Group ID
           description: Group ID
@@ -6236,10 +6183,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaMvExpand"
-          required:
-            - sourceFields
+          $ref: "#/components/schemas/FunctionConfSchemaMvExpand"
         groupId:
           title: Group ID
           description: Group ID
@@ -6274,12 +6218,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaMvPull"
-          required:
-            - arrayPath
-            - relativeKeyPath
-            - relativeValuePath
+          $ref: "#/components/schemas/FunctionConfSchemaMvPull"
         groupId:
           title: Group ID
           description: Group ID
@@ -6349,12 +6288,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaNotifications"
-          required:
-            - id
-            - field
-            - deduplicate
+          $ref: "#/components/schemas/FunctionConfSchemaNotifications"
         groupId:
           title: Group ID
           description: Group ID
@@ -6389,16 +6323,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaNotify"
-          required:
-            - searchId
-            - notificationId
-            - savedQueryId
-            - group
-            - searchUrl
-            - messagesEndpoint
-            - authToken
+          $ref: "#/components/schemas/FunctionConfSchemaNotify"
         groupId:
           title: Group ID
           description: Group ID
@@ -6573,10 +6498,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaPack"
-          required:
-            - unpackedFields
+          $ref: "#/components/schemas/FunctionConfSchemaPack"
         groupId:
           title: Group ID
           description: Group ID
@@ -6611,12 +6533,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaPivot"
-          required:
-            - labelField
-            - dataFields
-            - qualifierFields
+          $ref: "#/components/schemas/FunctionConfSchemaPivot"
         groupId:
           title: Group ID
           description: Group ID
@@ -6686,10 +6603,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaRedis"
-          required:
-            - commands
+          $ref: "#/components/schemas/FunctionConfSchemaRedis"
         groupId:
           title: Group ID
           description: Group ID
@@ -6724,10 +6638,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaRegexExtract"
-          required:
-            - regex
+          $ref: "#/components/schemas/FunctionConfSchemaRegexExtract"
         groupId:
           title: Group ID
           description: Group ID
@@ -6902,10 +6813,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaSend"
-          required:
-            - searchId
+          $ref: "#/components/schemas/FunctionConfSchemaSend"
         groupId:
           title: Group ID
           description: Group ID
@@ -6940,10 +6848,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaSensitiveDataScanner"
-          required:
-            - rules
+          $ref: "#/components/schemas/FunctionConfSchemaSensitiveDataScanner"
         groupId:
           title: Group ID
           description: Group ID
@@ -6978,11 +6883,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaSerde"
-          required:
-            - mode
-            - type
+          $ref: "#/components/schemas/FunctionConfSchemaSerde"
         groupId:
           title: Group ID
           description: Group ID
@@ -7017,10 +6918,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaSerialize"
-          required:
-            - type
+          $ref: "#/components/schemas/FunctionConfSchemaSerialize"
         groupId:
           title: Group ID
           description: Group ID
@@ -7125,10 +7023,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaSort"
-          required:
-            - comparisonExpression
+          $ref: "#/components/schemas/FunctionConfSchemaSort"
         groupId:
           title: Group ID
           description: Group ID
@@ -7163,10 +7058,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaStore"
-          required:
-            - type
+          $ref: "#/components/schemas/FunctionConfSchemaStore"
         groupId:
           title: Group ID
           description: Group ID
@@ -7201,12 +7093,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaSuppress"
-          required:
-            - keyExpr
-            - allow
-            - suppressPeriodSec
+          $ref: "#/components/schemas/FunctionConfSchemaSuppress"
         groupId:
           title: Group ID
           description: Group ID
@@ -7241,10 +7128,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaTee"
-          required:
-            - command
+          $ref: "#/components/schemas/FunctionConfSchemaTee"
         groupId:
           title: Group ID
           description: Group ID
@@ -7314,11 +7198,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaUnion"
-          required:
-            - searchJobId
-            - stageIds
+          $ref: "#/components/schemas/FunctionConfSchemaUnion"
         groupId:
           title: Group ID
           description: Group ID
@@ -7353,11 +7233,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaUnroll"
-          required:
-            - srcExpr
-            - dstField
+          $ref: "#/components/schemas/FunctionConfSchemaUnroll"
         groupId:
           title: Group ID
           description: Group ID
@@ -7392,11 +7268,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaWindow"
-          required:
-            - eventWindowId
-            - registeredFunctions
+          $ref: "#/components/schemas/FunctionConfSchemaWindow"
         groupId:
           title: Group ID
           description: Group ID
@@ -7431,10 +7303,7 @@ components:
           description: If enabled, stops the results of this Function from being passed to the downstream Functions
           type: boolean
         conf:
-          allOf:
-            - $ref: "#/components/schemas/FunctionConfSchemaXmlUnroll"
-          required:
-            - unroll
+          $ref: "#/components/schemas/FunctionConfSchemaXmlUnroll"
         groupId:
           title: Group ID
           description: Group ID
@@ -8562,24 +8431,6 @@ components:
           description: Select or create a stored secret that references your credentials
       required:
         - credentialsSecret
-    RestAuthenticationLoginGetAuthTokenFromHeaderFalse:
-      type: object
-      properties:
-        getAuthTokenFromHeader:
-          type: boolean
-          enum:
-            - false
-        tokenRespAttribute:
-          type: string
-          title: Token attribute
-          description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
-    RestAuthenticationLoginGetAuthTokenFromHeaderTrue:
-      type: object
-      properties:
-        getAuthTokenFromHeader:
-          type: boolean
-          enum:
-            - true
     RestAuthenticationLogin:
       type: object
       properties:
@@ -8626,33 +8477,6 @@ components:
         - password
         - loginBody
         - authHeaderExpr
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/RestAuthenticationLoginGetAuthTokenFromHeaderFalse"
-            - $ref: "#/components/schemas/RestAuthenticationLoginGetAuthTokenFromHeaderTrue"
-          discriminator:
-            propertyName: getAuthTokenFromHeader
-            mapping:
-              "false": "#/components/schemas/RestAuthenticationLoginGetAuthTokenFromHeaderFalse"
-              "true": "#/components/schemas/RestAuthenticationLoginGetAuthTokenFromHeaderTrue"
-    RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse:
-      type: object
-      properties:
-        getAuthTokenFromHeader:
-          type: boolean
-          enum:
-            - false
-        tokenRespAttribute:
-          type: string
-          title: Token attribute
-          description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
-    RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue:
-      type: object
-      properties:
-        getAuthTokenFromHeader:
-          type: boolean
-          enum:
-            - true
     RestAuthenticationLoginSecret:
       type: object
       properties:
@@ -8694,15 +8518,6 @@ components:
         - credentialsSecret
         - loginBody
         - authHeaderExpr
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse"
-            - $ref: "#/components/schemas/RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue"
-          discriminator:
-            propertyName: getAuthTokenFromHeader
-            mapping:
-              "false": "#/components/schemas/RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse"
-              "true": "#/components/schemas/RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue"
     RestAuthenticationOauth:
       type: object
       properties:
@@ -9527,12 +9342,8 @@ components:
             - basicSecret
             - token
             - tokenSecret
-          x-speakeasy-enum-descriptions:
-            - None
-            - Basic
-            - Basic (credentials secret)
-            - Bearer Token
-            - Bearer Token (text secret)
+            - login
+            - loginSecret
           x-speakeasy-unknown-values: allow
         timeout:
           type: number

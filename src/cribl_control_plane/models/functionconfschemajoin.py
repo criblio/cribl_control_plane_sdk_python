@@ -7,14 +7,14 @@ from typing import Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class FunctionConfSchemaJoinFieldConditionTypedDict(TypedDict):
+class FieldConditionTypedDict(TypedDict):
     left_field_name: str
     r"""The field name to join on, on the left side."""
     right_field_name: str
     r"""The field name on the right side of the data, i.e. the stage results, that we are joining with"""
 
 
-class FunctionConfSchemaJoinFieldCondition(BaseModel):
+class FieldCondition(BaseModel):
     left_field_name: Annotated[str, pydantic.Field(alias="leftFieldName")]
     r"""The field name to join on, on the left side."""
 
@@ -27,7 +27,7 @@ class FunctionConfSchemaJoinTypedDict(TypedDict):
     r"""Join kind, e.g. inner"""
     hints: NotRequired[Dict[str, str]]
     r"""Hints passed to the join function"""
-    field_conditions: NotRequired[List[FunctionConfSchemaJoinFieldConditionTypedDict]]
+    field_conditions: NotRequired[List[FieldConditionTypedDict]]
     r"""Fields to use when joining"""
     search_job_id: NotRequired[str]
     r"""The id for this search job."""
@@ -43,8 +43,7 @@ class FunctionConfSchemaJoin(BaseModel):
     r"""Hints passed to the join function"""
 
     field_conditions: Annotated[
-        Optional[List[FunctionConfSchemaJoinFieldCondition]],
-        pydantic.Field(alias="fieldConditions"),
+        Optional[List[FieldCondition]], pydantic.Field(alias="fieldConditions")
     ] = None
     r"""Fields to use when joining"""
 

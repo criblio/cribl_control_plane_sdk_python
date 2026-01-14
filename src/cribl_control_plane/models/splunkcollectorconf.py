@@ -7,9 +7,10 @@ from .retrytypeoptionshealthcheckcollectorconfretryrules import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
+from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
+from pydantic import Discriminator, Tag, field_serializer
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -19,16 +20,13 @@ class SplunkAuthenticationLoginSecretAuthentication(
 ):
     r"""Authentication method for Discover and Collect REST calls"""
 
-    # None
     NONE = "none"
-    # Basic
     BASIC = "basic"
-    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
-    # Bearer Token
     TOKEN = "token"
-    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
+    LOGIN = "login"
+    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationLoginSecretCollectRequestParamTypedDict(TypedDict):
@@ -263,16 +261,13 @@ class SplunkAuthenticationLoginSecret(BaseModel):
 class SplunkAuthenticationLoginAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls"""
 
-    # None
     NONE = "none"
-    # Basic
     BASIC = "basic"
-    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
-    # Bearer Token
     TOKEN = "token"
-    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
+    LOGIN = "login"
+    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationLoginCollectRequestParamTypedDict(TypedDict):
@@ -510,16 +505,13 @@ class SplunkAuthenticationTokenSecretAuthentication(
 ):
     r"""Authentication method for Discover and Collect REST calls"""
 
-    # None
     NONE = "none"
-    # Basic
     BASIC = "basic"
-    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
-    # Bearer Token
     TOKEN = "token"
-    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
+    LOGIN = "login"
+    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationTokenSecretCollectRequestParamTypedDict(TypedDict):
@@ -726,16 +718,13 @@ class SplunkAuthenticationTokenSecret(BaseModel):
 class SplunkAuthenticationTokenAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls"""
 
-    # None
     NONE = "none"
-    # Basic
     BASIC = "basic"
-    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
-    # Bearer Token
     TOKEN = "token"
-    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
+    LOGIN = "login"
+    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationTokenCollectRequestParamTypedDict(TypedDict):
@@ -942,16 +931,13 @@ class SplunkAuthenticationBasicSecretAuthentication(
 ):
     r"""Authentication method for Discover and Collect REST calls"""
 
-    # None
     NONE = "none"
-    # Basic
     BASIC = "basic"
-    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
-    # Bearer Token
     TOKEN = "token"
-    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
+    LOGIN = "login"
+    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationBasicSecretCollectRequestParamTypedDict(TypedDict):
@@ -1158,16 +1144,13 @@ class SplunkAuthenticationBasicSecret(BaseModel):
 class SplunkAuthenticationBasicAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls"""
 
-    # None
     NONE = "none"
-    # Basic
     BASIC = "basic"
-    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
-    # Bearer Token
     TOKEN = "token"
-    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
+    LOGIN = "login"
+    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationBasicCollectRequestParamTypedDict(TypedDict):
@@ -1379,16 +1362,13 @@ class SplunkAuthenticationBasic(BaseModel):
 class SplunkAuthenticationNoneAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls"""
 
-    # None
     NONE = "none"
-    # Basic
     BASIC = "basic"
-    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
-    # Bearer Token
     TOKEN = "token"
-    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
+    LOGIN = "login"
+    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationNoneCollectRequestParamTypedDict(TypedDict):
@@ -1600,15 +1580,15 @@ SplunkCollectorConfTypedDict = TypeAliasType(
 )
 
 
-SplunkCollectorConf = TypeAliasType(
-    "SplunkCollectorConf",
+SplunkCollectorConf = Annotated[
     Union[
-        SplunkAuthenticationNone,
-        SplunkAuthenticationBasicSecret,
-        SplunkAuthenticationToken,
-        SplunkAuthenticationTokenSecret,
-        SplunkAuthenticationBasic,
-        SplunkAuthenticationLoginSecret,
-        SplunkAuthenticationLogin,
+        Annotated[SplunkAuthenticationNone, Tag("none")],
+        Annotated[SplunkAuthenticationBasic, Tag("basic")],
+        Annotated[SplunkAuthenticationBasicSecret, Tag("basicSecret")],
+        Annotated[SplunkAuthenticationToken, Tag("token")],
+        Annotated[SplunkAuthenticationTokenSecret, Tag("tokenSecret")],
+        Annotated[SplunkAuthenticationLogin, Tag("login")],
+        Annotated[SplunkAuthenticationLoginSecret, Tag("loginSecret")],
     ],
-)
+    Discriminator(lambda m: get_discriminator(m, "authentication", "authentication")),
+]

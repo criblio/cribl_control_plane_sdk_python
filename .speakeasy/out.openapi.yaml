@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1768420351318-8a7ec210
+  version: 4.16.0-alpha.1768426793879-c84f618e
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -8845,24 +8845,6 @@ components:
           description: Select or create a stored secret that references your credentials
       required:
         - credentialsSecret
-    RestAuthenticationLoginGetAuthTokenFromHeaderFalse:
-      type: object
-      properties:
-        getAuthTokenFromHeader:
-          type: boolean
-          enum:
-            - false
-        tokenRespAttribute:
-          type: string
-          title: Token attribute
-          description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
-    RestAuthenticationLoginGetAuthTokenFromHeaderTrue:
-      type: object
-      properties:
-        getAuthTokenFromHeader:
-          type: boolean
-          enum:
-            - true
     RestAuthenticationLogin:
       type: object
       properties:
@@ -8914,33 +8896,6 @@ components:
         - password
         - loginBody
         - authHeaderExpr
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/RestAuthenticationLoginGetAuthTokenFromHeaderFalse"
-            - $ref: "#/components/schemas/RestAuthenticationLoginGetAuthTokenFromHeaderTrue"
-          discriminator:
-            propertyName: getAuthTokenFromHeader
-            mapping:
-              "false": "#/components/schemas/RestAuthenticationLoginGetAuthTokenFromHeaderFalse"
-              "true": "#/components/schemas/RestAuthenticationLoginGetAuthTokenFromHeaderTrue"
-    RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse:
-      type: object
-      properties:
-        getAuthTokenFromHeader:
-          type: boolean
-          enum:
-            - false
-        tokenRespAttribute:
-          type: string
-          title: Token attribute
-          description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
-    RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue:
-      type: object
-      properties:
-        getAuthTokenFromHeader:
-          type: boolean
-          enum:
-            - true
     RestAuthenticationLoginSecret:
       type: object
       properties:
@@ -8987,15 +8942,6 @@ components:
         - credentialsSecret
         - loginBody
         - authHeaderExpr
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse"
-            - $ref: "#/components/schemas/RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue"
-          discriminator:
-            propertyName: getAuthTokenFromHeader
-            mapping:
-              "false": "#/components/schemas/RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse"
-              "true": "#/components/schemas/RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue"
     RestAuthenticationOauth:
       type: object
       properties:
@@ -9866,12 +9812,8 @@ components:
             - basicSecret
             - token
             - tokenSecret
-          x-speakeasy-enum-descriptions:
-            - None
-            - Basic
-            - Basic (credentials secret)
-            - Bearer Token
-            - Bearer Token (text secret)
+            - login
+            - loginSecret
           default: basic
           x-speakeasy-unknown-values: allow
         timeout:

@@ -18,8 +18,8 @@ from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from typing import List, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputSystemStateType(str, Enum):
@@ -262,86 +262,7 @@ class InputSystemStatePersistence(BaseModel):
         return value
 
 
-class InputSystemStatePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
-    pq_enabled: bool
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    type: InputSystemStateType
-    pq: NotRequired[PqTypeTypedDict]
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    interval: NotRequired[float]
-    r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    collectors: NotRequired[CollectorsTypedDict]
-    persistence: NotRequired[InputSystemStatePersistenceTypedDict]
-    disable_native_module: NotRequired[bool]
-    r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
-    description: NotRequired[str]
-
-
-class InputSystemStatePqEnabledTrueWithPqConstraint(BaseModel):
-    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    type: InputSystemStateType
-
-    pq: Optional[PqType] = None
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = None
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        None
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    interval: Optional[float] = None
-    r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    collectors: Optional[Collectors] = None
-
-    persistence: Optional[InputSystemStatePersistence] = None
-
-    disable_native_module: Annotated[
-        Optional[bool], pydantic.Field(alias="disableNativeModule")
-    ] = None
-    r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
-
-    description: Optional[str] = None
-
-
-class InputSystemStatePqEnabledFalseConstraintTypedDict(TypedDict):
-    pq_enabled: bool
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+class InputSystemStateTypedDict(TypedDict):
     type: InputSystemStateType
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -350,156 +271,6 @@ class InputSystemStatePqEnabledFalseConstraintTypedDict(TypedDict):
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
     r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    interval: NotRequired[float]
-    r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    collectors: NotRequired[CollectorsTypedDict]
-    persistence: NotRequired[InputSystemStatePersistenceTypedDict]
-    disable_native_module: NotRequired[bool]
-    r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
-    description: NotRequired[str]
-
-
-class InputSystemStatePqEnabledFalseConstraint(BaseModel):
-    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    type: InputSystemStateType
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = None
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        None
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    interval: Optional[float] = None
-    r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    collectors: Optional[Collectors] = None
-
-    persistence: Optional[InputSystemStatePersistence] = None
-
-    disable_native_module: Annotated[
-        Optional[bool], pydantic.Field(alias="disableNativeModule")
-    ] = None
-    r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
-
-    description: Optional[str] = None
-
-
-class InputSystemStateSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    send_to_routes: bool
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    type: InputSystemStateType
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    pq: NotRequired[PqTypeTypedDict]
-    interval: NotRequired[float]
-    r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    collectors: NotRequired[CollectorsTypedDict]
-    persistence: NotRequired[InputSystemStatePersistenceTypedDict]
-    disable_native_module: NotRequired[bool]
-    r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
-    description: NotRequired[str]
-
-
-class InputSystemStateSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    type: InputSystemStateType
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = None
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    interval: Optional[float] = None
-    r"""Time, in seconds, between consecutive state collections. Default is 300 seconds (5 minutes)."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    collectors: Optional[Collectors] = None
-
-    persistence: Optional[InputSystemStatePersistence] = None
-
-    disable_native_module: Annotated[
-        Optional[bool], pydantic.Field(alias="disableNativeModule")
-    ] = None
-    r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
-
-    description: Optional[str] = None
-
-
-class InputSystemStateSendToRoutesTrueConstraintTypedDict(TypedDict):
-    send_to_routes: bool
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    type: InputSystemStateType
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     pq_enabled: NotRequired[bool]
@@ -520,10 +291,7 @@ class InputSystemStateSendToRoutesTrueConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputSystemStateSendToRoutesTrueConstraint(BaseModel):
-    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
+class InputSystemState(BaseModel):
     type: InputSystemStateType
 
     id: Optional[str] = None
@@ -533,6 +301,11 @@ class InputSystemStateSendToRoutesTrueConstraint(BaseModel):
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
@@ -564,25 +337,3 @@ class InputSystemStateSendToRoutesTrueConstraint(BaseModel):
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
 
     description: Optional[str] = None
-
-
-InputSystemStateTypedDict = TypeAliasType(
-    "InputSystemStateTypedDict",
-    Union[
-        InputSystemStateSendToRoutesTrueConstraintTypedDict,
-        InputSystemStateSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputSystemStatePqEnabledFalseConstraintTypedDict,
-        InputSystemStatePqEnabledTrueWithPqConstraintTypedDict,
-    ],
-)
-
-
-InputSystemState = TypeAliasType(
-    "InputSystemState",
-    Union[
-        InputSystemStateSendToRoutesTrueConstraint,
-        InputSystemStateSendToRoutesFalseWithConnectionsConstraint,
-        InputSystemStatePqEnabledFalseConstraint,
-        InputSystemStatePqEnabledTrueWithPqConstraint,
-    ],
-)

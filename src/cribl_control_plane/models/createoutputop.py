@@ -24789,6 +24789,7 @@ r"""Output object"""
 
 CreateOutputRequest = Annotated[
     Union[
+        Annotated[CreateOutputOutputDefault, Tag("default")],
         Annotated[CreateOutputOutputWebhook, Tag("webhook")],
         Annotated[CreateOutputOutputSentinel, Tag("sentinel")],
         Annotated[CreateOutputOutputDevnull, Tag("devnull")],

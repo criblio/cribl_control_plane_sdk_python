@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1768408105528-07b61e99
+  version: 4.16.0-alpha.1768420591615-34b394cb
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -15303,6 +15303,10 @@ components:
           type: boolean
           title: Use Windows Tools
           description: Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)
+        disableNativeLastLogModule:
+          type: boolean
+          title: Use non-native API for LastLog
+          description: Enable to only use non-native API to collect LastLog events. This option will be unavailable in future releases. Please contact Support with any concerns about this deprecation. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)
         description:
           type: string
           title: Description
@@ -33709,6 +33713,7 @@ components:
       discriminator:
         propertyName: type
         mapping:
+          default: "#/components/schemas/OutputDefault"
           webhook: "#/components/schemas/OutputWebhook"
           sentinel: "#/components/schemas/OutputSentinel"
           devnull: "#/components/schemas/OutputDevnull"

@@ -1,6 +1,6 @@
-# AuthenticationMethodOptions2
+# AuthenticationMethodOptions3
 
-Enter client secret directly, or select a stored secret
+Enter API key directly, or select a stored secret
 
 
 ## Values

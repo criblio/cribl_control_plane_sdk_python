@@ -3,11 +3,9 @@
 from __future__ import annotations
 from .authenticationmethodoptions import AuthenticationMethodOptions
 from .authenticationmethodoptions1 import AuthenticationMethodOptions1
+from .authenticationmethodoptions2 import AuthenticationMethodOptions2
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
-)
-from .authenticationmethodoptionss3collectorconf import (
-    AuthenticationMethodOptionsS3CollectorConf,
 )
 from .authenticationmethodoptionssasl import AuthenticationMethodOptionsSasl
 from .authenticationprotocoloptionsv3user import AuthenticationProtocolOptionsV3User
@@ -1890,7 +1888,7 @@ class CreateInputInputSecurityLakePqEnabledTrueWithPqConstraintTypedDict(TypedDi
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -1994,9 +1992,9 @@ class CreateInputInputSecurityLakePqEnabledTrueWithPqConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -2134,7 +2132,7 @@ class CreateInputInputSecurityLakePqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -2182,7 +2180,7 @@ class CreateInputInputSecurityLakePqEnabledFalseConstraintTypedDict(TypedDict):
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -2286,9 +2284,9 @@ class CreateInputInputSecurityLakePqEnabledFalseConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -2426,7 +2424,7 @@ class CreateInputInputSecurityLakePqEnabledFalseConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -2476,7 +2474,7 @@ class CreateInputInputSecurityLakeSendToRoutesFalseWithConnectionsConstraintType
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -2580,9 +2578,9 @@ class CreateInputInputSecurityLakeSendToRoutesFalseWithConnectionsConstraint(Bas
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -2720,7 +2718,7 @@ class CreateInputInputSecurityLakeSendToRoutesFalseWithConnectionsConstraint(Bas
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -2768,7 +2766,7 @@ class CreateInputInputSecurityLakeSendToRoutesTrueConstraintTypedDict(TypedDict)
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -2872,9 +2870,9 @@ class CreateInputInputSecurityLakeSendToRoutesTrueConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -3012,7 +3010,7 @@ class CreateInputInputSecurityLakeSendToRoutesTrueConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -4516,7 +4514,7 @@ class CreateInputInputWizPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -4604,8 +4602,8 @@ class CreateInputInputWizPqEnabledTrueWithPqConstraint(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -4620,7 +4618,7 @@ class CreateInputInputWizPqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -4666,7 +4664,7 @@ class CreateInputInputWizPqEnabledFalseConstraintTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -4754,8 +4752,8 @@ class CreateInputInputWizPqEnabledFalseConstraint(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -4770,7 +4768,7 @@ class CreateInputInputWizPqEnabledFalseConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -4816,7 +4814,7 @@ class CreateInputInputWizSendToRoutesFalseWithConnectionsConstraintTypedDict(Typ
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -4904,8 +4902,8 @@ class CreateInputInputWizSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -4920,7 +4918,7 @@ class CreateInputInputWizSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -4966,7 +4964,7 @@ class CreateInputInputWizSendToRoutesTrueConstraintTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -5054,8 +5052,8 @@ class CreateInputInputWizSendToRoutesTrueConstraint(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -5070,7 +5068,7 @@ class CreateInputInputWizSendToRoutesTrueConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -10349,7 +10347,7 @@ class CreateInputInputSqsPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
     create_queue: NotRequired[bool]
     r"""Create queue if it does not exist"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -10431,9 +10429,9 @@ class CreateInputInputSqsPqEnabledTrueWithPqConstraint(BaseModel):
     r"""Create queue if it does not exist"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -10518,7 +10516,7 @@ class CreateInputInputSqsPqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -10559,7 +10557,7 @@ class CreateInputInputSqsPqEnabledFalseConstraintTypedDict(TypedDict):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
     create_queue: NotRequired[bool]
     r"""Create queue if it does not exist"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -10641,9 +10639,9 @@ class CreateInputInputSqsPqEnabledFalseConstraint(BaseModel):
     r"""Create queue if it does not exist"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -10728,7 +10726,7 @@ class CreateInputInputSqsPqEnabledFalseConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -10769,7 +10767,7 @@ class CreateInputInputSqsSendToRoutesFalseWithConnectionsConstraintTypedDict(Typ
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
     create_queue: NotRequired[bool]
     r"""Create queue if it does not exist"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -10851,9 +10849,9 @@ class CreateInputInputSqsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     r"""Create queue if it does not exist"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -10938,7 +10936,7 @@ class CreateInputInputSqsSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -10979,7 +10977,7 @@ class CreateInputInputSqsSendToRoutesTrueConstraintTypedDict(TypedDict):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
     create_queue: NotRequired[bool]
     r"""Create queue if it does not exist"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -11061,9 +11059,9 @@ class CreateInputInputSqsSendToRoutesTrueConstraint(BaseModel):
     r"""Create queue if it does not exist"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -11148,7 +11146,7 @@ class CreateInputInputSqsSendToRoutesTrueConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -13355,7 +13353,7 @@ class CreateInputInputS3InventoryPqEnabledTrueWithPqConstraintTypedDict(TypedDic
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -13463,9 +13461,9 @@ class CreateInputInputS3InventoryPqEnabledTrueWithPqConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -13615,7 +13613,7 @@ class CreateInputInputS3InventoryPqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -13663,7 +13661,7 @@ class CreateInputInputS3InventoryPqEnabledFalseConstraintTypedDict(TypedDict):
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -13771,9 +13769,9 @@ class CreateInputInputS3InventoryPqEnabledFalseConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -13923,7 +13921,7 @@ class CreateInputInputS3InventoryPqEnabledFalseConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -13973,7 +13971,7 @@ class CreateInputInputS3InventorySendToRoutesFalseWithConnectionsConstraintTyped
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -14081,9 +14079,9 @@ class CreateInputInputS3InventorySendToRoutesFalseWithConnectionsConstraint(Base
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -14233,7 +14231,7 @@ class CreateInputInputS3InventorySendToRoutesFalseWithConnectionsConstraint(Base
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -14281,7 +14279,7 @@ class CreateInputInputS3InventorySendToRoutesTrueConstraintTypedDict(TypedDict):
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -14389,9 +14387,9 @@ class CreateInputInputS3InventorySendToRoutesTrueConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -14541,7 +14539,7 @@ class CreateInputInputS3InventorySendToRoutesTrueConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -14615,7 +14613,7 @@ class CreateInputInputS3PqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -14720,9 +14718,9 @@ class CreateInputInputS3PqEnabledTrueWithPqConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -14861,7 +14859,7 @@ class CreateInputInputS3PqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -14900,7 +14898,7 @@ class CreateInputInputS3PqEnabledFalseConstraintTypedDict(TypedDict):
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -15005,9 +15003,9 @@ class CreateInputInputS3PqEnabledFalseConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -15146,7 +15144,7 @@ class CreateInputInputS3PqEnabledFalseConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -15185,7 +15183,7 @@ class CreateInputInputS3SendToRoutesFalseWithConnectionsConstraintTypedDict(Type
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -15290,9 +15288,9 @@ class CreateInputInputS3SendToRoutesFalseWithConnectionsConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -15431,7 +15429,7 @@ class CreateInputInputS3SendToRoutesFalseWithConnectionsConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -15470,7 +15468,7 @@ class CreateInputInputS3SendToRoutesTrueConstraintTypedDict(TypedDict):
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -15575,9 +15573,9 @@ class CreateInputInputS3SendToRoutesTrueConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -15716,7 +15714,7 @@ class CreateInputInputS3SendToRoutesTrueConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -16584,7 +16582,7 @@ class CreateInputInputKinesisPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
     load_balancing_algorithm: NotRequired[CreateInputShardLoadBalancing]
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -16687,9 +16685,9 @@ class CreateInputInputKinesisPqEnabledTrueWithPqConstraint(BaseModel):
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -16785,7 +16783,7 @@ class CreateInputInputKinesisPqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -16836,7 +16834,7 @@ class CreateInputInputKinesisPqEnabledFalseConstraintTypedDict(TypedDict):
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
     load_balancing_algorithm: NotRequired[CreateInputShardLoadBalancing]
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -16939,9 +16937,9 @@ class CreateInputInputKinesisPqEnabledFalseConstraint(BaseModel):
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -17037,7 +17035,7 @@ class CreateInputInputKinesisPqEnabledFalseConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -17090,7 +17088,7 @@ class CreateInputInputKinesisSendToRoutesFalseWithConnectionsConstraintTypedDict
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
     load_balancing_algorithm: NotRequired[CreateInputShardLoadBalancing]
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -17193,9 +17191,9 @@ class CreateInputInputKinesisSendToRoutesFalseWithConnectionsConstraint(BaseMode
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -17291,7 +17289,7 @@ class CreateInputInputKinesisSendToRoutesFalseWithConnectionsConstraint(BaseMode
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -17342,7 +17340,7 @@ class CreateInputInputKinesisSendToRoutesTrueConstraintTypedDict(TypedDict):
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
     load_balancing_algorithm: NotRequired[CreateInputShardLoadBalancing]
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -17445,9 +17443,9 @@ class CreateInputInputKinesisSendToRoutesTrueConstraint(BaseModel):
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -17543,7 +17541,7 @@ class CreateInputInputKinesisSendToRoutesTrueConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -19384,7 +19382,7 @@ class CreateInputInputCrowdstrikePqEnabledTrueWithPqConstraintTypedDict(TypedDic
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -19484,9 +19482,9 @@ class CreateInputInputCrowdstrikePqEnabledTrueWithPqConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -19614,7 +19612,7 @@ class CreateInputInputCrowdstrikePqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -19662,7 +19660,7 @@ class CreateInputInputCrowdstrikePqEnabledFalseConstraintTypedDict(TypedDict):
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -19762,9 +19760,9 @@ class CreateInputInputCrowdstrikePqEnabledFalseConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -19892,7 +19890,7 @@ class CreateInputInputCrowdstrikePqEnabledFalseConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -19942,7 +19940,7 @@ class CreateInputInputCrowdstrikeSendToRoutesFalseWithConnectionsConstraintTyped
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -20042,9 +20040,9 @@ class CreateInputInputCrowdstrikeSendToRoutesFalseWithConnectionsConstraint(Base
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -20172,7 +20170,7 @@ class CreateInputInputCrowdstrikeSendToRoutesFalseWithConnectionsConstraint(Base
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -20220,7 +20218,7 @@ class CreateInputInputCrowdstrikeSendToRoutesTrueConstraintTypedDict(TypedDict):
     r"""Regex matching file names to download and process. Defaults to: .*"""
     aws_account_id: NotRequired[str]
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -20320,9 +20318,9 @@ class CreateInputInputCrowdstrikeSendToRoutesTrueConstraint(BaseModel):
     r"""SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -20450,7 +20448,7 @@ class CreateInputInputCrowdstrikeSendToRoutesTrueConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -30301,7 +30299,7 @@ class CreateInputInputOffice365ServicePqEnabledTrueWithPqConstraintTypedDict(Typ
     ]
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -30389,8 +30387,8 @@ class CreateInputInputOffice365ServicePqEnabledTrueWithPqConstraint(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -30414,7 +30412,7 @@ class CreateInputInputOffice365ServicePqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -30463,7 +30461,7 @@ class CreateInputInputOffice365ServicePqEnabledFalseConstraintTypedDict(TypedDic
     ]
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -30551,8 +30549,8 @@ class CreateInputInputOffice365ServicePqEnabledFalseConstraint(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -30576,7 +30574,7 @@ class CreateInputInputOffice365ServicePqEnabledFalseConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -30627,7 +30625,7 @@ class CreateInputInputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint
     ]
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -30717,8 +30715,8 @@ class CreateInputInputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -30742,7 +30740,7 @@ class CreateInputInputOffice365ServiceSendToRoutesFalseWithConnectionsConstraint
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -30791,7 +30789,7 @@ class CreateInputInputOffice365ServiceSendToRoutesTrueConstraintTypedDict(TypedD
     ]
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -30879,8 +30877,8 @@ class CreateInputInputOffice365ServiceSendToRoutesTrueConstraint(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -30904,7 +30902,7 @@ class CreateInputInputOffice365ServiceSendToRoutesTrueConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -31020,7 +31018,7 @@ class CreateInputInputOffice365MgmtPqEnabledTrueWithPqConstraintTypedDict(TypedD
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -31116,8 +31114,8 @@ class CreateInputInputOffice365MgmtPqEnabledTrueWithPqConstraint(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -31141,7 +31139,7 @@ class CreateInputInputOffice365MgmtPqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -31194,7 +31192,7 @@ class CreateInputInputOffice365MgmtPqEnabledFalseConstraintTypedDict(TypedDict):
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -31290,8 +31288,8 @@ class CreateInputInputOffice365MgmtPqEnabledFalseConstraint(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -31315,7 +31313,7 @@ class CreateInputInputOffice365MgmtPqEnabledFalseConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -31370,7 +31368,7 @@ class CreateInputInputOffice365MgmtSendToRoutesFalseWithConnectionsConstraintTyp
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -31468,8 +31466,8 @@ class CreateInputInputOffice365MgmtSendToRoutesFalseWithConnectionsConstraint(
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -31493,7 +31491,7 @@ class CreateInputInputOffice365MgmtSendToRoutesFalseWithConnectionsConstraint(
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -31546,7 +31544,7 @@ class CreateInputInputOffice365MgmtSendToRoutesTrueConstraintTypedDict(TypedDict
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -31642,8 +31640,8 @@ class CreateInputInputOffice365MgmtSendToRoutesTrueConstraint(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions2.MANUAL
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -31667,7 +31665,7 @@ class CreateInputInputOffice365MgmtSendToRoutesTrueConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -31818,7 +31816,7 @@ class CreateInputInputEdgePrometheusPqEnabledTrueWithPqConstraintTypedDict(Typed
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
@@ -31950,9 +31948,9 @@ class CreateInputInputEdgePrometheusPqEnabledTrueWithPqConstraint(BaseModel):
     r"""Path to use when collecting metrics from discovered targets"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
@@ -32088,7 +32086,7 @@ class CreateInputInputEdgePrometheusPqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -32146,7 +32144,7 @@ class CreateInputInputEdgePrometheusPqEnabledFalseConstraintTypedDict(TypedDict)
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
@@ -32278,9 +32276,9 @@ class CreateInputInputEdgePrometheusPqEnabledFalseConstraint(BaseModel):
     r"""Path to use when collecting metrics from discovered targets"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
@@ -32416,7 +32414,7 @@ class CreateInputInputEdgePrometheusPqEnabledFalseConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -32476,7 +32474,7 @@ class CreateInputInputEdgePrometheusSendToRoutesFalseWithConnectionsConstraintTy
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
@@ -32610,9 +32608,9 @@ class CreateInputInputEdgePrometheusSendToRoutesFalseWithConnectionsConstraint(
     r"""Path to use when collecting metrics from discovered targets"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
@@ -32748,7 +32746,7 @@ class CreateInputInputEdgePrometheusSendToRoutesFalseWithConnectionsConstraint(
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -32806,7 +32804,7 @@ class CreateInputInputEdgePrometheusSendToRoutesTrueConstraintTypedDict(TypedDic
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
@@ -32938,9 +32936,9 @@ class CreateInputInputEdgePrometheusSendToRoutesTrueConstraint(BaseModel):
     r"""Path to use when collecting metrics from discovered targets"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
@@ -33076,7 +33074,7 @@ class CreateInputInputEdgePrometheusSendToRoutesTrueConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -33201,7 +33199,7 @@ class CreateInputInputPrometheusPqEnabledTrueWithPqConstraintTypedDict(TypedDict
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
@@ -33350,9 +33348,9 @@ class CreateInputInputPrometheusPqEnabledTrueWithPqConstraint(BaseModel):
     r"""Path to use when collecting metrics from discovered targets"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
@@ -33468,7 +33466,7 @@ class CreateInputInputPrometheusPqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -33540,7 +33538,7 @@ class CreateInputInputPrometheusPqEnabledFalseConstraintTypedDict(TypedDict):
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
@@ -33689,9 +33687,9 @@ class CreateInputInputPrometheusPqEnabledFalseConstraint(BaseModel):
     r"""Path to use when collecting metrics from discovered targets"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
@@ -33807,7 +33805,7 @@ class CreateInputInputPrometheusPqEnabledFalseConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -33881,7 +33879,7 @@ class CreateInputInputPrometheusSendToRoutesFalseWithConnectionsConstraintTypedD
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
@@ -34030,9 +34028,9 @@ class CreateInputInputPrometheusSendToRoutesFalseWithConnectionsConstraint(BaseM
     r"""Path to use when collecting metrics from discovered targets"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
@@ -34148,7 +34146,7 @@ class CreateInputInputPrometheusSendToRoutesFalseWithConnectionsConstraint(BaseM
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -34220,7 +34218,7 @@ class CreateInputInputPrometheusSendToRoutesTrueConstraintTypedDict(TypedDict):
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
@@ -34369,9 +34367,9 @@ class CreateInputInputPrometheusSendToRoutesTrueConstraint(BaseModel):
     r"""Path to use when collecting metrics from discovered targets"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
@@ -34487,7 +34485,7 @@ class CreateInputInputPrometheusSendToRoutesTrueConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -39309,7 +39307,7 @@ class CreateInputInputAzureBlobPqEnabledTrueWithPqConstraintTypedDict(TypedDict)
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
-    auth_type: NotRequired[AuthenticationMethodOptions]
+    auth_type: NotRequired[AuthenticationMethodOptions1]
     description: NotRequired[str]
     connection_string: NotRequired[str]
     r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
@@ -39411,8 +39409,8 @@ class CreateInputInputAzureBlobPqEnabledTrueWithPqConstraint(BaseModel):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions.MANUAL
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions1.MANUAL
 
     description: Optional[str] = None
 
@@ -39454,7 +39452,7 @@ class CreateInputInputAzureBlobPqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptions1(value)
             except ValueError:
                 return value
         return value
@@ -39502,7 +39500,7 @@ class CreateInputInputAzureBlobPqEnabledFalseConstraintTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
-    auth_type: NotRequired[AuthenticationMethodOptions]
+    auth_type: NotRequired[AuthenticationMethodOptions1]
     description: NotRequired[str]
     connection_string: NotRequired[str]
     r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
@@ -39604,8 +39602,8 @@ class CreateInputInputAzureBlobPqEnabledFalseConstraint(BaseModel):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions.MANUAL
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions1.MANUAL
 
     description: Optional[str] = None
 
@@ -39647,7 +39645,7 @@ class CreateInputInputAzureBlobPqEnabledFalseConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptions1(value)
             except ValueError:
                 return value
         return value
@@ -39697,7 +39695,7 @@ class CreateInputInputAzureBlobSendToRoutesFalseWithConnectionsConstraintTypedDi
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
-    auth_type: NotRequired[AuthenticationMethodOptions]
+    auth_type: NotRequired[AuthenticationMethodOptions1]
     description: NotRequired[str]
     connection_string: NotRequired[str]
     r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
@@ -39799,8 +39797,8 @@ class CreateInputInputAzureBlobSendToRoutesFalseWithConnectionsConstraint(BaseMo
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions.MANUAL
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions1.MANUAL
 
     description: Optional[str] = None
 
@@ -39842,7 +39840,7 @@ class CreateInputInputAzureBlobSendToRoutesFalseWithConnectionsConstraint(BaseMo
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptions1(value)
             except ValueError:
                 return value
         return value
@@ -39890,7 +39888,7 @@ class CreateInputInputAzureBlobSendToRoutesTrueConstraintTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
-    auth_type: NotRequired[AuthenticationMethodOptions]
+    auth_type: NotRequired[AuthenticationMethodOptions1]
     description: NotRequired[str]
     connection_string: NotRequired[str]
     r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
@@ -39992,8 +39990,8 @@ class CreateInputInputAzureBlobSendToRoutesTrueConstraint(BaseModel):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions.MANUAL
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions1.MANUAL
 
     description: Optional[str] = None
 
@@ -40035,7 +40033,7 @@ class CreateInputInputAzureBlobSendToRoutesTrueConstraint(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptions1(value)
             except ValueError:
                 return value
         return value
@@ -44037,7 +44035,7 @@ class CreateInputInputMskPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -44190,9 +44188,9 @@ class CreateInputInputMskPqEnabledTrueWithPqConstraint(BaseModel):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -44273,7 +44271,7 @@ class CreateInputInputMskPqEnabledTrueWithPqConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -44353,7 +44351,7 @@ class CreateInputInputMskPqEnabledFalseConstraintTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -44506,9 +44504,9 @@ class CreateInputInputMskPqEnabledFalseConstraint(BaseModel):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -44589,7 +44587,7 @@ class CreateInputInputMskPqEnabledFalseConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -44669,7 +44667,7 @@ class CreateInputInputMskSendToRoutesFalseWithConnectionsConstraintTypedDict(Typ
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -44822,9 +44820,9 @@ class CreateInputInputMskSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -44905,7 +44903,7 @@ class CreateInputInputMskSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -44985,7 +44983,7 @@ class CreateInputInputMskSendToRoutesTrueConstraintTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -45138,9 +45136,9 @@ class CreateInputInputMskSendToRoutesTrueConstraint(BaseModel):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -45221,7 +45219,7 @@ class CreateInputInputMskSendToRoutesTrueConstraint(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value

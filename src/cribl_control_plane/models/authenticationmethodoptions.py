@@ -6,7 +6,11 @@ from enum import Enum
 
 
 class AuthenticationMethodOptions(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    # Auto
+    AUTO = "auto"
+    # Manual
     MANUAL = "manual"
+    # Secret Key pair
     SECRET = "secret"
-    CLIENT_SECRET = "clientSecret"
-    CLIENT_CERT = "clientCert"

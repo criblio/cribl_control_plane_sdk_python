@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 from .acknowledgmentsoptions1 import AcknowledgmentsOptions1
-from .authenticationmethodoptionss3collectorconf import (
-    AuthenticationMethodOptionsS3CollectorConf,
-)
+from .authenticationmethodoptions import AuthenticationMethodOptions
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptions3 import CompressionOptions3
 from .compressionoptionspq import CompressionOptionsPq
@@ -88,7 +86,7 @@ class OutputMskTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -236,9 +234,9 @@ class OutputMsk(BaseModel):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -390,7 +388,7 @@ class OutputMsk(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value

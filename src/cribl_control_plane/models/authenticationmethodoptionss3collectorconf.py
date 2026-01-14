@@ -10,9 +10,6 @@ class AuthenticationMethodOptionsS3CollectorConf(
 ):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
-    # Auto
     AUTO = "auto"
-    # Manual
     MANUAL = "manual"
-    # Secret Key pair
     SECRET = "secret"

@@ -4,7 +4,8 @@ from __future__ import annotations
 from .acknowledgmentsoptions import AcknowledgmentsOptions
 from .acknowledgmentsoptions1 import AcknowledgmentsOptions1
 from .authenticationmethodoptions import AuthenticationMethodOptions
-from .authenticationmethodoptions2 import AuthenticationMethodOptions2
+from .authenticationmethodoptions1 import AuthenticationMethodOptions1
+from .authenticationmethodoptions3 import AuthenticationMethodOptions3
 from .authenticationmethodoptionsauth import AuthenticationMethodOptionsAuth
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
@@ -145,14 +146,6 @@ class CreateOutputTypeCloudflareR2(str, Enum):
     CLOUDFLARE_R2 = "cloudflare_r2"
 
 
-class AuthenticationMethodCloudflareR2(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-
-    AUTO = "auto"
-    SECRET = "secret"
-    MANUAL = "manual"
-
-
 class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
@@ -169,7 +162,7 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    aws_authentication_method: NotRequired[AuthenticationMethodCloudflareR2]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`)."""
@@ -293,9 +286,9 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodCloudflareR2],
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodCloudflareR2.AUTO
+    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -524,7 +517,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodCloudflareR2(value)
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value
@@ -4537,7 +4530,7 @@ class CreateOutputOutputSecurityLakeTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     aws_secret_key: NotRequired[str]
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     endpoint: NotRequired[str]
     r"""Amazon Security Lake service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Amazon Security Lake-compatible endpoint."""
@@ -4671,9 +4664,9 @@ class CreateOutputOutputSecurityLake(BaseModel):
     )
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     endpoint: Optional[str] = None
@@ -4897,7 +4890,7 @@ class CreateOutputOutputSecurityLake(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -4997,7 +4990,7 @@ class CreateOutputOutputDlS3TypedDict(TypedDict):
     r"""Region where the S3 bucket is located"""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     endpoint: NotRequired[str]
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
@@ -5137,9 +5130,9 @@ class CreateOutputOutputDlS3(BaseModel):
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     endpoint: Optional[str] = None
@@ -5395,7 +5388,7 @@ class CreateOutputOutputDlS3(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -7259,7 +7252,7 @@ class CreateOutputOutputDatasetTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[AuthenticationMethodOptions3]
     r"""Enter API key directly, or select a stored secret"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
@@ -7413,8 +7406,8 @@ class CreateOutputOutputDataset(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions2.MANUAL
+        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions3.MANUAL
     r"""Enter API key directly, or select a stored secret"""
 
     total_memory_limit_kb: Annotated[
@@ -7524,7 +7517,7 @@ class CreateOutputOutputDataset(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.AuthenticationMethodOptions3(value)
             except ValueError:
                 return value
         return value
@@ -10097,7 +10090,7 @@ class CreateOutputOutputDatadogTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[AuthenticationMethodOptions3]
     r"""Enter API key directly, or select a stored secret"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
@@ -10264,8 +10257,8 @@ class CreateOutputOutputDatadog(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions2.MANUAL
+        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions3.MANUAL
     r"""Enter API key directly, or select a stored secret"""
 
     total_memory_limit_kb: Annotated[
@@ -10384,7 +10377,7 @@ class CreateOutputOutputDatadog(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.AuthenticationMethodOptions3(value)
             except ValueError:
                 return value
         return value
@@ -10852,7 +10845,7 @@ class CreateOutputOutputSqsTypedDict(TypedDict):
     r"""This parameter applies only to FIFO queues. The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner. Use event field __messageGroupId to override this value."""
     create_queue: NotRequired[bool]
     r"""Create queue if it does not exist."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -10950,9 +10943,9 @@ class CreateOutputOutputSqs(BaseModel):
     r"""Create queue if it does not exist."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -11097,7 +11090,7 @@ class CreateOutputOutputSqs(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -11185,7 +11178,7 @@ class CreateOutputOutputSnsTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     max_retries: NotRequired[float]
     r"""Maximum number of retries before the output returns an error. Note that not all errors are retryable. The retries use an exponential backoff policy."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     region: NotRequired[str]
@@ -11265,9 +11258,9 @@ class CreateOutputOutputSns(BaseModel):
     r"""Maximum number of retries before the output returns an error. Note that not all errors are retryable. The retries use an exponential backoff policy."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -11383,7 +11376,7 @@ class CreateOutputOutputSns(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -12216,7 +12209,7 @@ class CreateOutputOutputMinioTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`)."""
@@ -12342,9 +12335,9 @@ class CreateOutputOutputMinio(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -12577,7 +12570,7 @@ class CreateOutputOutputMinio(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -12712,7 +12705,7 @@ class CreateOutputOutputCloudwatchTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -12794,9 +12787,9 @@ class CreateOutputOutputCloudwatch(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -12917,7 +12910,7 @@ class CreateOutputOutputCloudwatch(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -13470,7 +13463,7 @@ class CreateOutputOutputNewrelicEventsTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[AuthenticationMethodOptions3]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
     custom_url: NotRequired[str]
@@ -13605,8 +13598,8 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions2.MANUAL
+        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions3.MANUAL
     r"""Enter API key directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -13702,7 +13695,7 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.AuthenticationMethodOptions3(value)
             except ValueError:
                 return value
         return value
@@ -13828,7 +13821,7 @@ class CreateOutputOutputNewrelicTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[AuthenticationMethodOptions3]
     r"""Enter API key directly, or select a stored secret"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
@@ -13968,8 +13961,8 @@ class CreateOutputOutputNewrelic(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions2.MANUAL
+        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions3.MANUAL
     r"""Enter API key directly, or select a stored secret"""
 
     total_memory_limit_kb: Annotated[
@@ -14070,7 +14063,7 @@ class CreateOutputOutputNewrelic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.AuthenticationMethodOptions3(value)
             except ValueError:
                 return value
         return value
@@ -14975,7 +14968,7 @@ class CreateOutputOutputMskTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -15123,9 +15116,9 @@ class CreateOutputOutputMsk(BaseModel):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -15277,7 +15270,7 @@ class CreateOutputOutputMsk(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -18321,7 +18314,7 @@ class CreateOutputOutputHoneycombTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[AuthenticationMethodOptions3]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
@@ -18449,8 +18442,8 @@ class CreateOutputOutputHoneycomb(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions2.MANUAL
+        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions3.MANUAL
     r"""Enter API key directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -18535,7 +18528,7 @@ class CreateOutputOutputHoneycomb(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.AuthenticationMethodOptions3(value)
             except ValueError:
                 return value
         return value
@@ -18605,7 +18598,7 @@ class CreateOutputOutputKinesisTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
@@ -18694,9 +18687,9 @@ class CreateOutputOutputKinesis(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -18838,7 +18831,7 @@ class CreateOutputOutputKinesis(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -20082,7 +20075,7 @@ class CreateOutputOutputAzureBlobTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
-    auth_type: NotRequired[AuthenticationMethodOptions]
+    auth_type: NotRequired[AuthenticationMethodOptions1]
     storage_class: NotRequired[CreateOutputBlobAccessTier]
     description: NotRequired[str]
     compress: NotRequired[CompressionOptions2]
@@ -20259,8 +20252,8 @@ class CreateOutputOutputAzureBlob(BaseModel):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions.MANUAL
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
+    ] = AuthenticationMethodOptions1.MANUAL
 
     storage_class: Annotated[
         Optional[CreateOutputBlobAccessTier], pydantic.Field(alias="storageClass")
@@ -20415,7 +20408,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions(value)
+                return models.AuthenticationMethodOptions1(value)
             except ValueError:
                 return value
         return value
@@ -20488,7 +20481,7 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""Region where the S3 bucket is located"""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptions]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     endpoint: NotRequired[str]
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
@@ -20628,9 +20621,9 @@ class CreateOutputOutputS3(BaseModel):
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
 
     aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        Optional[AuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = AuthenticationMethodOptions.AUTO
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     endpoint: Optional[str] = None
@@ -20886,7 +20879,7 @@ class CreateOutputOutputS3(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+                return models.AuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value

@@ -65,13 +65,9 @@ class RestAuthenticationHmacDiscovery(BaseModel):
 
 
 class RestAuthenticationHmacCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -367,13 +363,9 @@ class RestAuthenticationGoogleOauthSecretDiscovery(BaseModel):
 class RestAuthenticationGoogleOauthSecretCollectMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -685,13 +677,9 @@ class RestAuthenticationGoogleOauthDiscovery(BaseModel):
 class RestAuthenticationGoogleOauthCollectMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -1003,13 +991,9 @@ class RestAuthenticationOauthSecretDiscovery(BaseModel):
 class RestAuthenticationOauthSecretCollectMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -1354,13 +1338,9 @@ class RestAuthenticationOauthDiscovery(BaseModel):
 
 
 class RestAuthenticationOauthCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -1710,13 +1690,9 @@ class RestAuthenticationLoginSecretDiscovery(BaseModel):
 class RestAuthenticationLoginSecretCollectMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -2053,13 +2029,9 @@ class RestAuthenticationLoginDiscovery(BaseModel):
 
 
 class RestAuthenticationLoginCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -2400,13 +2372,9 @@ class RestAuthenticationBasicSecretDiscovery(BaseModel):
 class RestAuthenticationBasicSecretCollectMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -2700,13 +2668,9 @@ class RestAuthenticationBasicDiscovery(BaseModel):
 
 
 class RestAuthenticationBasicCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -2998,13 +2962,9 @@ class RestAuthenticationNoneDiscovery(BaseModel):
 
 
 class RestAuthenticationNoneCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -3243,13 +3203,9 @@ class RestAuthenticationNone(BaseModel):
 
 
 class RestCollectMethodOtherCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -3536,13 +3492,9 @@ class RestCollectMethodOther(BaseModel):
 class RestCollectMethodPostWithBodyCollectMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -3835,13 +3787,9 @@ class RestCollectMethodPostWithBody(BaseModel):
 
 
 class RestCollectMethodPostCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 
@@ -4126,13 +4074,9 @@ class RestCollectMethodPost(BaseModel):
 
 
 class RestCollectMethodGetCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
-    # Other
     OTHER = "other"
 
 

@@ -22,9 +22,7 @@ class S3AwsAuthenticationMethodSecretPartitioningScheme(
 ):
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
-    # Defined in Path
     NONE = "none"
-    # DDSS
     DDSS = "ddss"
 
 
@@ -219,9 +217,7 @@ class S3AwsAuthenticationMethodManualPartitioningScheme(
 ):
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
-    # Defined in Path
     NONE = "none"
-    # DDSS
     DDSS = "ddss"
 
 
@@ -423,9 +419,7 @@ class S3AwsAuthenticationMethodAutoPartitioningScheme(
 ):
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
-    # Defined in Path
     NONE = "none"
-    # DDSS
     DDSS = "ddss"
 
 
@@ -615,9 +609,7 @@ class S3PartitioningSchemeNonePartitioningScheme(
 ):
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
-    # Defined in Path
     NONE = "none"
-    # DDSS
     DDSS = "ddss"
 
 
@@ -807,9 +799,7 @@ class S3PartitioningSchemeDdssPartitioningScheme(
 ):
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
-    # Defined in Path
     NONE = "none"
-    # DDSS
     DDSS = "ddss"
 
 

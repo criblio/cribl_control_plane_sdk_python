@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1768331926391-386f1652
+  version: 4.16.0-alpha.1768351970181-a2f12790
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -8630,10 +8630,6 @@ components:
             - get
             - post
             - post_with_body
-          x-speakeasy-enum-descriptions:
-            - GET
-            - POST
-            - POST with Body
           default: get
           x-speakeasy-unknown-values: allow
         collectRequestParams: {}
@@ -9152,11 +9148,6 @@ components:
             - post
             - post_with_body
             - other
-          x-speakeasy-enum-descriptions:
-            - GET
-            - POST
-            - POST with Body
-            - Other
           default: get
           x-speakeasy-unknown-values: allow
         collectVerb: {}
@@ -9425,9 +9416,6 @@ components:
           enum:
             - none
             - ddss
-          x-speakeasy-enum-descriptions:
-            - Defined in Path
-            - DDSS
           x-speakeasy-unknown-values: allow
         extractors:
           type: array
@@ -9812,12 +9800,8 @@ components:
             - basicSecret
             - token
             - tokenSecret
-          x-speakeasy-enum-descriptions:
-            - None
-            - Basic
-            - Basic (credentials secret)
-            - Bearer Token
-            - Bearer Token (text secret)
+            - login
+            - loginSecret
           default: basic
           x-speakeasy-unknown-values: allow
         timeout:
@@ -11075,7 +11059,7 @@ components:
           minimum: 1000
           maximum: 1.8e+06
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -12169,7 +12153,7 @@ components:
           maximum: 3600
           minimum: 1
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions"
+          $ref: "#/components/schemas/AuthenticationMethodOptions1"
         description:
           type: string
           title: Description
@@ -13576,7 +13560,7 @@ components:
           default: /metrics
           pattern: ^/.*
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsApiKey:
           type: string
           title: Access key
@@ -13821,7 +13805,7 @@ components:
           default: /metrics
           pattern: ^/.*
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsApiKey:
           type: string
           title: Access key
@@ -14108,7 +14092,7 @@ components:
         retryRules:
           $ref: "#/components/schemas/RetryRulesType1"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions1"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         description:
           type: string
           title: Description
@@ -14265,7 +14249,7 @@ components:
         retryRules:
           $ref: "#/components/schemas/RetryRulesType1"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions1"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         description:
           type: string
           title: Description
@@ -16930,7 +16914,7 @@ components:
           description: SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account.
           type: string
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -17617,7 +17601,7 @@ components:
           default: ConsistentHashing
           x-speakeasy-unknown-values: allow
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -17929,7 +17913,7 @@ components:
           description: SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account.
           type: string
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -18157,7 +18141,7 @@ components:
           description: SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account.
           type: string
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -18881,7 +18865,7 @@ components:
           description: Create queue if it does not exist
           default: false
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -20909,7 +20893,7 @@ components:
         retryRules:
           $ref: "#/components/schemas/RetryRulesType"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions1"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         description:
           type: string
           title: Description
@@ -21287,7 +21271,7 @@ components:
           description: SQS queue owner's AWS account ID. Leave empty if SQS queue is in same AWS account.
           type: string
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -24926,7 +24910,7 @@ components:
           title: Secret key
           description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         endpoint:
           type: string
           title: Endpoint
@@ -25321,7 +25305,7 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
           default: false
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions"
+          $ref: "#/components/schemas/AuthenticationMethodOptions1"
         storageClass:
           type: string
           title: Blob access tier
@@ -26232,7 +26216,7 @@ components:
           title: Stream Name
           description: Kinesis stream name to send events to.
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -26546,7 +26530,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         description:
           type: string
           title: Description
@@ -28591,7 +28575,7 @@ components:
           minimum: 1000
           maximum: 1.8e+06
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -29481,7 +29465,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -29705,7 +29689,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         description:
           type: string
           title: Description
@@ -30151,7 +30135,7 @@ components:
           title: Log stream prefix
           description: "Prefix for CloudWatch log stream name. This prefix will be used to generate a unique log stream name per cribl instance, for example: myStream_myHost_myOutputId"
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -30326,7 +30310,7 @@ components:
           title: MinIO bucket name
           description: "Name of the destination MinIO bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -31091,7 +31075,7 @@ components:
           title: Maximum number of retries
           description: Maximum number of retries before the output returns an error. Note that not all errors are retryable. The retries use an exponential backoff policy.
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -31275,7 +31259,7 @@ components:
           description: Create queue if it does not exist.
           default: true
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         awsSecretKey:
           type: string
           title: Secret key
@@ -31949,7 +31933,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -33617,7 +33601,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -34931,7 +34915,7 @@ components:
           title: Secret key
           description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         endpoint:
           type: string
           title: Endpoint
@@ -35236,7 +35220,7 @@ components:
           type: string
           title: Secret key
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+          $ref: "#/components/schemas/AuthenticationMethodOptions"
         endpoint:
           type: string
           title: Endpoint
@@ -38162,15 +38146,7 @@ components:
           title: R2 bucket name
           description: "Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
         awsAuthenticationMethod:
-          type: string
-          title: Authentication method
-          description: AWS authentication method. Choose Auto to use IAM roles.
-          default: auto
-          enum:
-            - auto
-            - secret
-            - manual
-          x-speakeasy-unknown-values: allow
+          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
         awsSecretKey:
           type: string
           title: Secret key
@@ -39961,6 +39937,16 @@ components:
       required:
         - name
         - value
+    CountedNumber:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            type: number
     CountedFunctionResponse:
       type: object
       properties:
@@ -40237,16 +40223,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/MasterWorkerEntry"
-    CountedNumber:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: number of items present in the items array
-        items:
-          type: array
-          items:
-            type: number
     CountedTeamAccessControlList:
       type: object
       properties:
@@ -40516,10 +40492,6 @@ components:
         - auto
         - manual
         - secret
-      x-speakeasy-enum-descriptions:
-        - Auto
-        - Manual
-        - Secret Key pair
       x-speakeasy-unknown-values: allow
     SignatureVersionOptionsS3CollectorConf:
       type: string
@@ -40954,6 +40926,20 @@ components:
         value:
           type: string
           title: Field Value
+    AuthenticationMethodOptions:
+      type: string
+      title: Authentication method
+      description: AWS authentication method. Choose Auto to use IAM roles.
+      default: auto
+      enum:
+        - auto
+        - manual
+        - secret
+      x-speakeasy-enum-descriptions:
+        - Auto
+        - Manual
+        - Secret Key pair
+      x-speakeasy-unknown-values: allow
     SignatureVersionOptions:
       type: string
       title: Signature version
@@ -41000,7 +40986,7 @@ components:
       default: manual
       description: Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions:
+    AuthenticationMethodOptions1:
       title: Authentication method
       type: string
       enum:
@@ -41129,7 +41115,7 @@ components:
         - debug
       description: Collector runtime Log Level
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions1:
+    AuthenticationMethodOptions2:
       title: Authentication method
       type: string
       enum:
@@ -41665,7 +41651,7 @@ components:
         - Amazon S3 Managed Key
         - AWS KMS Managed Key
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions2:
+    AuthenticationMethodOptions3:
       title: Authentication method
       type: string
       enum:

@@ -24,11 +24,11 @@ class ItemsTypeResponseRetrySettings(BaseModel):
 
     initial_backoff: Annotated[
         Optional[float], pydantic.Field(alias="initialBackoff")
-    ] = 1000
+    ] = None
     r"""How long, in milliseconds, Cribl Stream should wait before initiating backoff. Maximum interval is 600,000 ms (10 minutes)."""
 
-    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = 2
+    backoff_rate: Annotated[Optional[float], pydantic.Field(alias="backoffRate")] = None
     r"""Base for exponential backoff. A value of 2 (default) means Cribl Stream will retry after 2 seconds, then 4 seconds, then 8 seconds, etc."""
 
-    max_backoff: Annotated[Optional[float], pydantic.Field(alias="maxBackoff")] = 10000
+    max_backoff: Annotated[Optional[float], pydantic.Field(alias="maxBackoff")] = None
     r"""The maximum backoff interval, in milliseconds, Cribl Stream should apply. Default (and minimum) is 10,000 ms (10 seconds); maximum is 180,000 ms (180 seconds)."""

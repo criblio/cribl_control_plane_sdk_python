@@ -45,9 +45,7 @@ class FunctionConfSchemaMvExpand(BaseModel):
     ] = None
     r"""stores the value as new target field name"""
 
-    row_limit: Annotated[Optional[float], pydantic.Field(alias="rowLimit")] = (
-        9007199254740991
-    )
+    row_limit: Annotated[Optional[float], pydantic.Field(alias="rowLimit")] = None
     r"""max. number of rows generated out of every source events"""
 
     item_index_name: Annotated[Optional[str], pydantic.Field(alias="itemIndexName")] = (
@@ -58,7 +56,7 @@ class FunctionConfSchemaMvExpand(BaseModel):
     bag_expansion_mode: Annotated[
         Optional[FunctionConfSchemaMvExpandBagExpansionMode],
         pydantic.Field(alias="bagExpansionMode"),
-    ] = FunctionConfSchemaMvExpandBagExpansionMode.BAG
+    ] = None
     r"""decides if bag-values are expanded to bags or arrays"""
 
     @field_serializer("bag_expansion_mode")

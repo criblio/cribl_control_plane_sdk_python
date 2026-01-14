@@ -22,7 +22,9 @@ class S3AwsAuthenticationMethodSecretPartitioningScheme(
 ):
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
+    # Defined in Path
     NONE = "none"
+    # DDSS
     DDSS = "ddss"
 
 
@@ -94,7 +96,7 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
     aws_authentication_method: Annotated[
         Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
@@ -105,12 +107,12 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
-    ] = 5
+    ] = None
     r"""Maximum file size for each Parquet chunk"""
 
     parquet_chunk_download_timeout: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
-    ] = 600
+    ] = None
     r"""Maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     region: Optional[str] = None
@@ -122,7 +124,7 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
     partitioning_scheme: Annotated[
         Optional[S3AwsAuthenticationMethodSecretPartitioningScheme],
         pydantic.Field(alias="partitioningScheme"),
-    ] = S3AwsAuthenticationMethodSecretPartitioningScheme.NONE
+    ] = None
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
     extractors: Optional[List[S3AwsAuthenticationMethodSecretExtractor]] = None
@@ -134,12 +136,12 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
     signature_version: Annotated[
         Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
-    ] = SignatureVersionOptionsS3CollectorConf.V4
+    ] = None
     r"""Signature version to use for signing S3 requests"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use AssumeRole credentials"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -154,11 +156,11 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the Assumed Role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
@@ -166,22 +168,22 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests to improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as a self-signed certificate)"""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself. Resolves errors of the form \"discover task initialization failed...error: Forbidden\"."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
     @field_serializer("aws_authentication_method")
@@ -217,7 +219,9 @@ class S3AwsAuthenticationMethodManualPartitioningScheme(
 ):
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
+    # Defined in Path
     NONE = "none"
+    # DDSS
     DDSS = "ddss"
 
 
@@ -291,7 +295,7 @@ class S3AwsAuthenticationMethodManual(BaseModel):
     aws_authentication_method: Annotated[
         Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
@@ -307,12 +311,12 @@ class S3AwsAuthenticationMethodManual(BaseModel):
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
-    ] = 5
+    ] = None
     r"""Maximum file size for each Parquet chunk"""
 
     parquet_chunk_download_timeout: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
-    ] = 600
+    ] = None
     r"""Maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     region: Optional[str] = None
@@ -324,7 +328,7 @@ class S3AwsAuthenticationMethodManual(BaseModel):
     partitioning_scheme: Annotated[
         Optional[S3AwsAuthenticationMethodManualPartitioningScheme],
         pydantic.Field(alias="partitioningScheme"),
-    ] = S3AwsAuthenticationMethodManualPartitioningScheme.NONE
+    ] = None
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
     extractors: Optional[List[S3AwsAuthenticationMethodManualExtractor]] = None
@@ -336,12 +340,12 @@ class S3AwsAuthenticationMethodManual(BaseModel):
     signature_version: Annotated[
         Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
-    ] = SignatureVersionOptionsS3CollectorConf.V4
+    ] = None
     r"""Signature version to use for signing S3 requests"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use AssumeRole credentials"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -356,11 +360,11 @@ class S3AwsAuthenticationMethodManual(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the Assumed Role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
@@ -368,22 +372,22 @@ class S3AwsAuthenticationMethodManual(BaseModel):
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests to improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as a self-signed certificate)"""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself. Resolves errors of the form \"discover task initialization failed...error: Forbidden\"."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
     @field_serializer("aws_authentication_method")
@@ -419,7 +423,9 @@ class S3AwsAuthenticationMethodAutoPartitioningScheme(
 ):
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
+    # Defined in Path
     NONE = "none"
+    # DDSS
     DDSS = "ddss"
 
 
@@ -489,7 +495,7 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
     aws_authentication_method: Annotated[
         Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
@@ -497,12 +503,12 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
-    ] = 5
+    ] = None
     r"""Maximum file size for each Parquet chunk"""
 
     parquet_chunk_download_timeout: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
-    ] = 600
+    ] = None
     r"""Maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     region: Optional[str] = None
@@ -514,7 +520,7 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
     partitioning_scheme: Annotated[
         Optional[S3AwsAuthenticationMethodAutoPartitioningScheme],
         pydantic.Field(alias="partitioningScheme"),
-    ] = S3AwsAuthenticationMethodAutoPartitioningScheme.NONE
+    ] = None
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
     extractors: Optional[List[S3AwsAuthenticationMethodAutoExtractor]] = None
@@ -526,12 +532,12 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
     signature_version: Annotated[
         Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
-    ] = SignatureVersionOptionsS3CollectorConf.V4
+    ] = None
     r"""Signature version to use for signing S3 requests"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use AssumeRole credentials"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -546,11 +552,11 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the Assumed Role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
@@ -558,22 +564,22 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests to improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as a self-signed certificate)"""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself. Resolves errors of the form \"discover task initialization failed...error: Forbidden\"."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
     @field_serializer("aws_authentication_method")
@@ -609,7 +615,9 @@ class S3PartitioningSchemeNonePartitioningScheme(
 ):
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
+    # Defined in Path
     NONE = "none"
+    # DDSS
     DDSS = "ddss"
 
 
@@ -679,7 +687,7 @@ class S3PartitioningSchemeNone(BaseModel):
     partitioning_scheme: Annotated[
         Optional[S3PartitioningSchemeNonePartitioningScheme],
         pydantic.Field(alias="partitioningScheme"),
-    ] = S3PartitioningSchemeNonePartitioningScheme.NONE
+    ] = None
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
     recurse: Optional[Any] = None
@@ -689,12 +697,12 @@ class S3PartitioningSchemeNone(BaseModel):
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
-    ] = 5
+    ] = None
     r"""Maximum file size for each Parquet chunk"""
 
     parquet_chunk_download_timeout: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
-    ] = 600
+    ] = None
     r"""Maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     region: Optional[str] = None
@@ -709,7 +717,7 @@ class S3PartitioningSchemeNone(BaseModel):
     aws_authentication_method: Annotated[
         Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     endpoint: Optional[str] = None
@@ -718,12 +726,12 @@ class S3PartitioningSchemeNone(BaseModel):
     signature_version: Annotated[
         Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
-    ] = SignatureVersionOptionsS3CollectorConf.V4
+    ] = None
     r"""Signature version to use for signing S3 requests"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use AssumeRole credentials"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -738,32 +746,32 @@ class S3PartitioningSchemeNone(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the Assumed Role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests to improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as a self-signed certificate)"""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself. Resolves errors of the form \"discover task initialization failed...error: Forbidden\"."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
     @field_serializer("partitioning_scheme")
@@ -799,7 +807,9 @@ class S3PartitioningSchemeDdssPartitioningScheme(
 ):
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
+    # Defined in Path
     NONE = "none"
+    # DDSS
     DDSS = "ddss"
 
 
@@ -869,7 +879,7 @@ class S3PartitioningSchemeDdss(BaseModel):
     partitioning_scheme: Annotated[
         Optional[S3PartitioningSchemeDdssPartitioningScheme],
         pydantic.Field(alias="partitioningScheme"),
-    ] = S3PartitioningSchemeDdssPartitioningScheme.NONE
+    ] = None
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
     output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
@@ -877,12 +887,12 @@ class S3PartitioningSchemeDdss(BaseModel):
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
-    ] = 5
+    ] = None
     r"""Maximum file size for each Parquet chunk"""
 
     parquet_chunk_download_timeout: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
-    ] = 600
+    ] = None
     r"""Maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
 
     region: Optional[str] = None
@@ -897,7 +907,7 @@ class S3PartitioningSchemeDdss(BaseModel):
     aws_authentication_method: Annotated[
         Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     endpoint: Optional[str] = None
@@ -906,12 +916,12 @@ class S3PartitioningSchemeDdss(BaseModel):
     signature_version: Annotated[
         Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
-    ] = SignatureVersionOptionsS3CollectorConf.V4
+    ] = None
     r"""Signature version to use for signing S3 requests"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use AssumeRole credentials"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -926,11 +936,11 @@ class S3PartitioningSchemeDdss(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the Assumed Role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
@@ -938,22 +948,22 @@ class S3PartitioningSchemeDdss(BaseModel):
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests to improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as a self-signed certificate)"""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself. Resolves errors of the form \"discover task initialization failed...error: Forbidden\"."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
     @field_serializer("partitioning_scheme")

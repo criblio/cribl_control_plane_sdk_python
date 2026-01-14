@@ -15,17 +15,17 @@ class PipelineFunctionUnrollID(str, Enum):
 
 
 class PipelineFunctionUnrollConfTypedDict(TypedDict):
-    src_expr: NotRequired[str]
+    src_expr: str
     r"""Field in which to find/calculate the array to unroll. Example: _raw, _raw.split(/\n/)"""
-    dst_field: NotRequired[str]
+    dst_field: str
     r"""Field in destination event in which to place the unrolled value"""
 
 
 class PipelineFunctionUnrollConf(BaseModel):
-    src_expr: Annotated[Optional[str], pydantic.Field(alias="srcExpr")] = "_raw"
+    src_expr: Annotated[str, pydantic.Field(alias="srcExpr")]
     r"""Field in which to find/calculate the array to unroll. Example: _raw, _raw.split(/\n/)"""
 
-    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = "_raw"
+    dst_field: Annotated[str, pydantic.Field(alias="dstField")]
     r"""Field in destination event in which to place the unrolled value"""
 
 
@@ -51,7 +51,7 @@ class PipelineFunctionUnroll(BaseModel):
 
     conf: PipelineFunctionUnrollConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

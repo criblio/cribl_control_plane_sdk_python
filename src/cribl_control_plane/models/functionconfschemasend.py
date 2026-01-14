@@ -42,10 +42,10 @@ class FunctionConfSchemaSend(BaseModel):
     url: Optional[str] = None
     r"""Full URL to send search to."""
 
-    group: Optional[str] = "default"
+    group: Optional[str] = None
     r"""Group within the workspace we're sending to."""
 
-    workspace: Optional[str] = "main"
+    workspace: Optional[str] = None
     r"""Workspace within the deployment to send the search results to."""
 
     send_url_template: Annotated[
@@ -56,10 +56,10 @@ class FunctionConfSchemaSend(BaseModel):
     search_id: Annotated[Optional[str], pydantic.Field(alias="searchId")] = None
     r"""Id of the search this function is running on."""
 
-    tee: Optional[str] = "false"
+    tee: Optional[str] = None
     r"""Tee results to search. When set to true results will be shipped instead of stats"""
 
-    flush_ms: Annotated[Optional[float], pydantic.Field(alias="flushMs")] = 1000
+    flush_ms: Annotated[Optional[float], pydantic.Field(alias="flushMs")] = None
     r"""How often are stats flushed in ms"""
 
     suppress_previews: Annotated[

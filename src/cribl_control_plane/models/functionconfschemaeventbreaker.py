@@ -29,11 +29,11 @@ class FunctionConfSchemaEventBreaker(BaseModel):
     existing_or_new: Annotated[
         Optional[FunctionConfSchemaEventBreakerExistingOrNew],
         pydantic.Field(alias="existingOrNew"),
-    ] = FunctionConfSchemaEventBreakerExistingOrNew.EXISTING
+    ] = None
 
     should_mark_cribl_breaker: Annotated[
         Optional[bool], pydantic.Field(alias="shouldMarkCriblBreaker")
-    ] = True
+    ] = None
     r"""Add this Function name to the cribl_breaker field"""
 
     @field_serializer("existing_or_new")

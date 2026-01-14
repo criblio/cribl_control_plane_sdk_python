@@ -27,15 +27,15 @@ class FunctionConfSchemaOtlpMetrics(BaseModel):
 
     drop_non_metric_events: Annotated[
         Optional[bool], pydantic.Field(alias="dropNonMetricEvents")
-    ] = False
+    ] = None
 
     otlp_version: Annotated[
         Optional[OtlpVersionOptions], pydantic.Field(alias="otlpVersion")
-    ] = OtlpVersionOptions.ZERO_DOT_10_DOT_0
+    ] = None
 
     batch_otlp_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="batchOTLPMetrics")
-    ] = False
+    ] = None
     r"""Batch OTLP metrics by shared top-level `resource` attributes"""
 
     @field_serializer("otlp_version")

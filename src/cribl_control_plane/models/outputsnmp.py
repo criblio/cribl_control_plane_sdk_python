@@ -15,7 +15,7 @@ class OutputSnmpType(str, Enum):
 class OutputSnmpHostTypedDict(TypedDict):
     host: str
     r"""Destination host"""
-    port: NotRequired[float]
+    port: float
     r"""Destination port, default is 162"""
 
 
@@ -23,7 +23,7 @@ class OutputSnmpHost(BaseModel):
     host: str
     r"""Destination host"""
 
-    port: Optional[float] = 162
+    port: float
     r"""Destination port, default is 162"""
 
 
@@ -71,7 +71,7 @@ class OutputSnmp(BaseModel):
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 0
+    ] = None
     r"""How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every trap sent will incur a DNS lookup."""
 
     description: Optional[str] = None

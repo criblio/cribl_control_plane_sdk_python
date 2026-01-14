@@ -20,15 +20,15 @@ class FunctionConfSchemaOtlpTracesTypedDict(TypedDict):
 class FunctionConfSchemaOtlpTraces(BaseModel):
     drop_non_trace_events: Annotated[
         Optional[bool], pydantic.Field(alias="dropNonTraceEvents")
-    ] = False
+    ] = None
 
     otlp_version: Annotated[
         Optional[OtlpVersionOptions], pydantic.Field(alias="otlpVersion")
-    ] = OtlpVersionOptions.ZERO_DOT_10_DOT_0
+    ] = None
 
     batch_otlp_traces: Annotated[
         Optional[bool], pydantic.Field(alias="batchOTLPTraces")
-    ] = False
+    ] = None
     r"""Batch OTLP traces by shared top-level `resource` attributes"""
 
     @field_serializer("otlp_version")

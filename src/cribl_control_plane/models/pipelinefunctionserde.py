@@ -27,9 +27,9 @@ class PipelineFunctionSerdeOperationMode(str, Enum, metaclass=utils.OpenEnumMeta
 
 
 class PipelineFunctionSerdeConfTypedDict(TypedDict):
-    mode: NotRequired[PipelineFunctionSerdeOperationMode]
+    mode: PipelineFunctionSerdeOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
-    type: NotRequired[TypeOptions]
+    type: TypeOptions
     r"""Parser or formatter type to use"""
     delim_char: NotRequired[Any]
     quote_char: NotRequired[Any]
@@ -43,12 +43,10 @@ class PipelineFunctionSerdeConfTypedDict(TypedDict):
 
 
 class PipelineFunctionSerdeConf(BaseModel):
-    mode: Optional[PipelineFunctionSerdeOperationMode] = (
-        PipelineFunctionSerdeOperationMode.EXTRACT
-    )
+    mode: PipelineFunctionSerdeOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
-    type: Optional[TypeOptions] = TypeOptions.CSV
+    type: TypeOptions
     r"""Parser or formatter type to use"""
 
     delim_char: Annotated[Optional[Any], pydantic.Field(alias="delimChar")] = None
@@ -59,7 +57,7 @@ class PipelineFunctionSerdeConf(BaseModel):
 
     null_value: Annotated[Optional[Any], pydantic.Field(alias="nullValue")] = None
 
-    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = "_raw"
+    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
     r"""Field containing text to be parsed"""
 
     dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
@@ -108,7 +106,7 @@ class PipelineFunctionSerde(BaseModel):
 
     conf: PipelineFunctionSerdeConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

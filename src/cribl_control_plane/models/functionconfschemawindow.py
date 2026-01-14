@@ -31,10 +31,10 @@ class FunctionConfSchemaWindow(BaseModel):
 
     tail_event_count: Annotated[
         Optional[float], pydantic.Field(alias="tailEventCount")
-    ] = 0
+    ] = None
     r"""Number of events to keep before the current event in the window"""
 
     head_event_count: Annotated[
         Optional[float], pydantic.Field(alias="headEventCount")
-    ] = 0
+    ] = None
     r"""Number of events to keep after the current event in the window"""

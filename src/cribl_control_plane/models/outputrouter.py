@@ -33,7 +33,7 @@ class OutputRouterRule(BaseModel):
     description: Optional[str] = None
     r"""Description of this rule's purpose"""
 
-    final: Optional[bool] = True
+    final: Optional[bool] = None
     r"""Flag to control whether to stop the event from being checked against other rules"""
 
 

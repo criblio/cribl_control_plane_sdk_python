@@ -36,13 +36,13 @@ class LakeExportConfiguration(BaseModel):
     dataset: str
     r"""Name of the dataset"""
 
-    lake: Optional[str] = "default"
+    lake: Optional[str] = None
     r"""Name of the lake"""
 
-    tee: Optional[str] = "false"
+    tee: Optional[str] = None
     r"""Tee results to search. When set to true results will be shipped instead of stats"""
 
-    flush_ms: Annotated[Optional[float], pydantic.Field(alias="flushMs")] = 1000
+    flush_ms: Annotated[Optional[float], pydantic.Field(alias="flushMs")] = None
     r"""How often are stats flushed in ms"""
 
     suppress_previews: Annotated[
@@ -73,7 +73,7 @@ class PipelineFunctionLakeExport(BaseModel):
 
     conf: LakeExportConfiguration
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

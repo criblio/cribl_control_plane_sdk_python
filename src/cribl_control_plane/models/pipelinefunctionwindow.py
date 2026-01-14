@@ -36,12 +36,12 @@ class PipelineFunctionWindowConf(BaseModel):
 
     tail_event_count: Annotated[
         Optional[float], pydantic.Field(alias="tailEventCount")
-    ] = 0
+    ] = None
     r"""Number of events to keep before the current event in the window"""
 
     head_event_count: Annotated[
         Optional[float], pydantic.Field(alias="headEventCount")
-    ] = 0
+    ] = None
     r"""Number of events to keep after the current event in the window"""
 
 
@@ -67,7 +67,7 @@ class PipelineFunctionWindow(BaseModel):
 
     conf: PipelineFunctionWindowConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

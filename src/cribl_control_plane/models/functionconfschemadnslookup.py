@@ -50,7 +50,7 @@ class DNSLookupField(BaseModel):
 
     resource_record_type: Annotated[
         Optional[ResourceRecordType], pydantic.Field(alias="resourceRecordType")
-    ] = ResourceRecordType.A
+    ] = None
     r"""The DNS record type (RR) to return. Defaults to 'A'."""
 
     out_field_name: Annotated[Optional[str], pydantic.Field(alias="outFieldName")] = (
@@ -139,22 +139,22 @@ class FunctionConfSchemaDNSLookup(BaseModel):
     )
     r"""IPs, in RFC 5952 format, of the DNS servers to use for resolution. Examples: IPv4 1.1.1.1, 4.2.2.2:53, or IPv6 [2001:4860:4860::8888], [2001:4860:4860::8888]:1053. If not specified, system's DNS will be used."""
 
-    cache_ttl: Annotated[Optional[float], pydantic.Field(alias="cacheTTL")] = 30
+    cache_ttl: Annotated[Optional[float], pydantic.Field(alias="cacheTTL")] = None
     r"""How frequently to expire and refetch DNS cache. Use 0 to disable."""
 
     max_cache_size: Annotated[Optional[float], pydantic.Field(alias="maxCacheSize")] = (
-        5000
+        None
     )
     r"""The maximum number of DNS resolutions to be cached locally. Leave at default unless you understand the implications of changing."""
 
     use_resolv_conf: Annotated[
         Optional[bool], pydantic.Field(alias="useResolvConf")
-    ] = False
+    ] = None
     r"""Attempt to resolve DNS short names using the search or domain directive from /etc/resolv.conf"""
 
     lookup_fallback: Annotated[
         Optional[bool], pydantic.Field(alias="lookupFallback")
-    ] = False
+    ] = None
     r"""If unable to resolve a DNS short name, make a DNS.lookup() call to resolve it. Caution: This might degrade performance in unrelated areas of @{product}."""
 
     domain_overrides: Annotated[
@@ -164,7 +164,7 @@ class FunctionConfSchemaDNSLookup(BaseModel):
 
     lookup_fail_log_level: Annotated[
         Optional[LogLevelForFailedLookups], pydantic.Field(alias="lookupFailLogLevel")
-    ] = LogLevelForFailedLookups.ERROR
+    ] = None
 
     @property
     def additional_properties(self):

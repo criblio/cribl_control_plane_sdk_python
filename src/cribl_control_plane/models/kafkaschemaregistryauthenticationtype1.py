@@ -16,7 +16,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class KafkaSchemaRegistryAuthenticationType1TypedDict(TypedDict):
-    disabled: NotRequired[bool]
+    disabled: bool
     schema_registry_url: NotRequired[str]
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
     connection_timeout: NotRequired[float]
@@ -35,24 +35,24 @@ class KafkaSchemaRegistryAuthenticationType1TypedDict(TypedDict):
 
 
 class KafkaSchemaRegistryAuthenticationType1(BaseModel):
-    disabled: Optional[bool] = True
+    disabled: bool
 
     schema_registry_url: Annotated[
         Optional[str], pydantic.Field(alias="schemaRegistryURL")
-    ] = "http://localhost:8081"
+    ] = None
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 30000
+    ] = None
     r"""Maximum time to wait for a Schema Registry connection to complete successfully"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 30000
+    ] = None
     r"""Maximum time to wait for the Schema Registry to respond to a request"""
 
-    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = 1
+    max_retries: Annotated[Optional[float], pydantic.Field(alias="maxRetries")] = None
     r"""Maximum number of times to try fetching schemas from the Schema Registry"""
 
     auth: Optional[AuthTypeKafkaSchemaRegistry] = None

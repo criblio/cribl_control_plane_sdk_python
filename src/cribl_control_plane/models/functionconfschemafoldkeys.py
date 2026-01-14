@@ -19,10 +19,10 @@ class FunctionConfSchemaFoldkeysTypedDict(TypedDict):
 class FunctionConfSchemaFoldkeys(BaseModel):
     delete_original: Annotated[
         Optional[bool], pydantic.Field(alias="deleteOriginal")
-    ] = True
+    ] = None
     r"""When enabled (default), only the folded keys are kept. When disabled, the original entries are retained alongside the folded keys."""
 
-    separator: Optional[str] = "."
+    separator: Optional[str] = None
     r"""Character or string used to separate key levels to be folded. Defaults to the dot (.) character."""
 
     selection_reg_exp: Annotated[

@@ -27,6 +27,8 @@ class InputSyslogType2(str, Enum):
 
 class InputSyslogSyslog2TypedDict(TypedDict):
     type: InputSyslogType2
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     tcp_port: float
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""
     id: NotRequired[str]
@@ -45,8 +47,6 @@ class InputSyslogSyslog2TypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     udp_port: NotRequired[float]
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
     max_buffer_size: NotRequired[float]
@@ -92,26 +92,29 @@ class InputSyslogSyslog2TypedDict(TypedDict):
 class InputSyslogSyslog2(BaseModel):
     type: InputSyslogType2
 
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+
     tcp_port: Annotated[float, pydantic.Field(alias="tcpPort")]
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -122,35 +125,32 @@ class InputSyslogSyslog2(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
     udp_port: Annotated[Optional[float], pydantic.Field(alias="udpPort")] = None
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
 
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")
-    ] = 1000
+    ] = None
     r"""Maximum number of events to buffer when downstream is blocking. Only applies to UDP."""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to send data"""
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
-    ] = "local"
+    ] = None
     r"""Timezone to assign to timestamps without timezone info"""
 
     single_msg_udp_packets: Annotated[
         Optional[bool], pydantic.Field(alias="singleMsgUdpPackets")
-    ] = False
+    ] = None
     r"""Treat UDP packet data received as full syslog message"""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
 
     keep_fields_list: Annotated[
@@ -159,43 +159,43 @@ class InputSyslogSyslog2(BaseModel):
     r"""Wildcard list of fields to keep from source data; * = ALL (default)"""
 
     octet_counting: Annotated[Optional[bool], pydantic.Field(alias="octetCounting")] = (
-        False
+        None
     )
     r"""Enable if incoming messages use octet counting per RFC 6587."""
 
     infer_framing: Annotated[Optional[bool], pydantic.Field(alias="inferFraming")] = (
-        True
+        None
     )
     r"""Enable if we should infer the syslog framing of the incoming messages."""
 
     strictly_infer_octet_counting: Annotated[
         Optional[bool], pydantic.Field(alias="strictlyInferOctetCounting")
-    ] = True
+    ] = None
     r"""Enable if we should infer octet counting only if the messages comply with RFC 5424."""
 
     allow_non_standard_app_name: Annotated[
         Optional[bool], pydantic.Field(alias="allowNonStandardAppName")
-    ] = False
+    ] = None
     r"""Enable if RFC 3164-formatted messages have hyphens in the app name portion of the TAG section. If disabled, only alphanumeric characters and underscores are allowed. Ignored for RFC 5424-formatted messages."""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process for TCP connections. Use 0 for unlimited."""
 
     socket_idle_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
 
     socket_ending_max_wait: Annotated[
         Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
+    ] = None
     r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
 
     socket_max_lifespan: Annotated[
         Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
+    ] = None
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     tls: Optional[TLSSettingsServerSideType] = None
@@ -210,7 +210,7 @@ class InputSyslogSyslog2(BaseModel):
 
     enable_load_balancing: Annotated[
         Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
+    ] = None
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None
@@ -227,6 +227,8 @@ class InputSyslogType1(str, Enum):
 
 class InputSyslogSyslog1TypedDict(TypedDict):
     type: InputSyslogType1
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     udp_port: float
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
     id: NotRequired[str]
@@ -245,8 +247,6 @@ class InputSyslogSyslog1TypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     tcp_port: NotRequired[float]
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""
     max_buffer_size: NotRequired[float]
@@ -292,26 +292,29 @@ class InputSyslogSyslog1TypedDict(TypedDict):
 class InputSyslogSyslog1(BaseModel):
     type: InputSyslogType1
 
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+
     udp_port: Annotated[float, pydantic.Field(alias="udpPort")]
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -322,35 +325,32 @@ class InputSyslogSyslog1(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
     tcp_port: Annotated[Optional[float], pydantic.Field(alias="tcpPort")] = None
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""
 
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")
-    ] = 1000
+    ] = None
     r"""Maximum number of events to buffer when downstream is blocking. Only applies to UDP."""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to send data"""
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
-    ] = "local"
+    ] = None
     r"""Timezone to assign to timestamps without timezone info"""
 
     single_msg_udp_packets: Annotated[
         Optional[bool], pydantic.Field(alias="singleMsgUdpPackets")
-    ] = False
+    ] = None
     r"""Treat UDP packet data received as full syslog message"""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
 
     keep_fields_list: Annotated[
@@ -359,43 +359,43 @@ class InputSyslogSyslog1(BaseModel):
     r"""Wildcard list of fields to keep from source data; * = ALL (default)"""
 
     octet_counting: Annotated[Optional[bool], pydantic.Field(alias="octetCounting")] = (
-        False
+        None
     )
     r"""Enable if incoming messages use octet counting per RFC 6587."""
 
     infer_framing: Annotated[Optional[bool], pydantic.Field(alias="inferFraming")] = (
-        True
+        None
     )
     r"""Enable if we should infer the syslog framing of the incoming messages."""
 
     strictly_infer_octet_counting: Annotated[
         Optional[bool], pydantic.Field(alias="strictlyInferOctetCounting")
-    ] = True
+    ] = None
     r"""Enable if we should infer octet counting only if the messages comply with RFC 5424."""
 
     allow_non_standard_app_name: Annotated[
         Optional[bool], pydantic.Field(alias="allowNonStandardAppName")
-    ] = False
+    ] = None
     r"""Enable if RFC 3164-formatted messages have hyphens in the app name portion of the TAG section. If disabled, only alphanumeric characters and underscores are allowed. Ignored for RFC 5424-formatted messages."""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process for TCP connections. Use 0 for unlimited."""
 
     socket_idle_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
 
     socket_ending_max_wait: Annotated[
         Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
+    ] = None
     r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
 
     socket_max_lifespan: Annotated[
         Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
+    ] = None
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     tls: Optional[TLSSettingsServerSideType] = None
@@ -410,7 +410,7 @@ class InputSyslogSyslog1(BaseModel):
 
     enable_load_balancing: Annotated[
         Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
+    ] = None
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None

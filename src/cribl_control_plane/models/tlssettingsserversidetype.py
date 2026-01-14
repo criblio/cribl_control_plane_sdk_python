@@ -38,19 +38,19 @@ class TLSSettingsServerSideTypeTypedDict(TypedDict):
 
 
 class TLSSettingsServerSideType(BaseModel):
-    disabled: Optional[bool] = True
+    disabled: Optional[bool] = None
 
-    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = False
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = None
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
 
     common_name_regex: Annotated[
         Optional[str], pydantic.Field(alias="commonNameRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     certificate_name: Annotated[

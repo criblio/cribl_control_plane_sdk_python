@@ -68,12 +68,12 @@ class FunctionConfSchemaNotifyTypedDict(TypedDict):
 
 
 class FunctionConfSchemaNotify(BaseModel):
-    group: Optional[str] = "default"
+    group: Optional[str] = None
     r"""Group the notification belongs to"""
 
     notification_id: Annotated[
         Optional[str], pydantic.Field(alias="notificationId")
-    ] = "main"
+    ] = None
     r"""Workspace within the deployment to send the search results to."""
 
     search_id: Annotated[Optional[str], pydantic.Field(alias="searchId")] = None
@@ -99,10 +99,14 @@ class FunctionConfSchemaNotify(BaseModel):
     ] = None
     r"""Operation to be applied over the results count"""
 
-    trigger_count: Annotated[Optional[float], pydantic.Field(alias="triggerCount")] = 0
+    trigger_count: Annotated[Optional[float], pydantic.Field(alias="triggerCount")] = (
+        None
+    )
     r"""How many results that match trigger the condition"""
 
-    results_limit: Annotated[Optional[float], pydantic.Field(alias="resultsLimit")] = 50
+    results_limit: Annotated[Optional[float], pydantic.Field(alias="resultsLimit")] = (
+        None
+    )
     r"""Number of results to include in the notification event"""
 
     search_url: Annotated[Optional[str], pydantic.Field(alias="searchUrl")] = None

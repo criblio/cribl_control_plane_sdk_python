@@ -61,43 +61,43 @@ class FunctionConfSchemaAutoTimestampTypedDict(TypedDict):
 
 
 class FunctionConfSchemaAutoTimestamp(BaseModel):
-    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = "_raw"
+    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
     r"""Field to search for a timestamp"""
 
-    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = "_time"
+    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
     r"""Field to place timestamp in"""
 
     default_timezone: Annotated[
         Optional[str], pydantic.Field(alias="defaultTimezone")
-    ] = "local"
+    ] = None
     r"""Timezone to assign to timestamps without timezone info"""
 
     time_expression: Annotated[
         Optional[str], pydantic.Field(alias="timeExpression")
-    ] = "time.getTime() / 1000"
+    ] = None
     r"""Expression to use to format time. Current time, as a JavaScript Date object, is in global `time`. You can access other fields' values via __e.<fieldName>."""
 
-    offset: Optional[float] = 0
+    offset: Optional[float] = None
     r"""The offset into the string from which to look for a timestamp"""
 
-    max_len: Annotated[Optional[float], pydantic.Field(alias="maxLen")] = 150
+    max_len: Annotated[Optional[float], pydantic.Field(alias="maxLen")] = None
     r"""Maximum string length at which to look for a timestamp"""
 
     default_time: Annotated[
         Optional[DefaultTime], pydantic.Field(alias="defaultTime")
-    ] = DefaultTime.NOW
+    ] = None
     r"""How to set the time field if no timestamp is found"""
 
     latest_date_allowed: Annotated[
         Optional[str], pydantic.Field(alias="latestDateAllowed")
-    ] = "+1week"
+    ] = None
     r"""The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to the Default time."""
 
     spacer: Optional[str] = None
 
     earliest_date_allowed: Annotated[
         Optional[str], pydantic.Field(alias="earliestDateAllowed")
-    ] = "-420weeks"
+    ] = None
     r"""The earliest timestamp value allowed relative to now, such as -42years. Parsed values prior to this date will be set to the Default time."""
 
     timestamps: Optional[List[Timestamp]] = None

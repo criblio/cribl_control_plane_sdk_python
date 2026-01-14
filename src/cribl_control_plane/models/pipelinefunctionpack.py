@@ -25,7 +25,7 @@ class PipelineFunctionPackConf(BaseModel):
     unpacked_fields: Annotated[List[str], pydantic.Field(alias="unpackedFields")]
     r"""List of fields to keep, everything else will be packed"""
 
-    target: Optional[str] = "_pack"
+    target: Optional[str] = None
     r"""Name of the (packed) target field"""
 
 
@@ -51,7 +51,7 @@ class PipelineFunctionPack(BaseModel):
 
     conf: PipelineFunctionPackConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

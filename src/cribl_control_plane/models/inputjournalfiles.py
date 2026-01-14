@@ -37,13 +37,13 @@ class PqEnabledTrueWithPqConstraintRule(BaseModel):
 
 
 class InputJournalFilesPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputJournalFilesPqEnabledTrueWithPqConstraintType
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -72,6 +72,9 @@ class InputJournalFilesPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputJournalFilesPqEnabledTrueWithPqConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputJournalFilesPqEnabledTrueWithPqConstraintType
 
     path: str
@@ -80,21 +83,18 @@ class InputJournalFilesPqEnabledTrueWithPqConstraint(BaseModel):
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -107,13 +107,13 @@ class InputJournalFilesPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between scanning for journals."""
 
     rules: Optional[List[PqEnabledTrueWithPqConstraintRule]] = None
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
-    current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = False
+    current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = None
     r"""Skip log messages that are not part of the current boot session."""
 
     max_age_dur: Annotated[Optional[str], pydantic.Field(alias="maxAgeDur")] = None
@@ -145,13 +145,13 @@ class PqEnabledFalseConstraintRule(BaseModel):
 
 
 class InputJournalFilesPqEnabledFalseConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputJournalFilesPqEnabledFalseConstraintType
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -180,6 +180,9 @@ class InputJournalFilesPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputJournalFilesPqEnabledFalseConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputJournalFilesPqEnabledFalseConstraintType
 
     path: str
@@ -188,19 +191,16 @@ class InputJournalFilesPqEnabledFalseConstraint(BaseModel):
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -215,13 +215,13 @@ class InputJournalFilesPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between scanning for journals."""
 
     rules: Optional[List[PqEnabledFalseConstraintRule]] = None
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
-    current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = False
+    current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = None
     r"""Skip log messages that are not part of the current boot session."""
 
     max_age_dur: Annotated[Optional[str], pydantic.Field(alias="maxAgeDur")] = None
@@ -253,13 +253,13 @@ class SendToRoutesFalseWithConnectionsConstraintRule(BaseModel):
 
 
 class InputJournalFilesSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputJournalFilesSendToRoutesFalseWithConnectionsConstraintType
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -288,6 +288,9 @@ class InputJournalFilesSendToRoutesFalseWithConnectionsConstraintTypedDict(Typed
 
 
 class InputJournalFilesSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputJournalFilesSendToRoutesFalseWithConnectionsConstraintType
 
     path: str
@@ -296,18 +299,13 @@ class InputJournalFilesSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -315,7 +313,7 @@ class InputJournalFilesSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -323,13 +321,13 @@ class InputJournalFilesSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between scanning for journals."""
 
     rules: Optional[List[SendToRoutesFalseWithConnectionsConstraintRule]] = None
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
-    current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = False
+    current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = None
     r"""Skip log messages that are not part of the current boot session."""
 
     max_age_dur: Annotated[Optional[str], pydantic.Field(alias="maxAgeDur")] = None
@@ -361,13 +359,13 @@ class SendToRoutesTrueConstraintRule(BaseModel):
 
 
 class InputJournalFilesSendToRoutesTrueConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputJournalFilesSendToRoutesTrueConstraintType
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -396,6 +394,9 @@ class InputJournalFilesSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputJournalFilesSendToRoutesTrueConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputJournalFilesSendToRoutesTrueConstraintType
 
     path: str
@@ -404,15 +405,10 @@ class InputJournalFilesSendToRoutesTrueConstraint(BaseModel):
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -420,7 +416,7 @@ class InputJournalFilesSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -431,13 +427,13 @@ class InputJournalFilesSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    interval: Optional[float] = 10
+    interval: Optional[float] = None
     r"""Time, in seconds, between scanning for journals."""
 
     rules: Optional[List[SendToRoutesTrueConstraintRule]] = None
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
-    current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = False
+    current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = None
     r"""Skip log messages that are not part of the current boot session."""
 
     max_age_dur: Annotated[Optional[str], pydantic.Field(alias="maxAgeDur")] = None

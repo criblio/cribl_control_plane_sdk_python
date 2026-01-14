@@ -22,11 +22,13 @@ class InputRawUDPType(str, Enum):
 
 
 class InputRawUDPPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputRawUDPType
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: float
     r"""Port to listen on"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -41,8 +43,6 @@ class InputRawUDPPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    host: NotRequired[str]
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     max_buffer_size: NotRequired[float]
     r"""Maximum number of events to buffer when downstream is blocking."""
     ip_whitelist_regex: NotRequired[str]
@@ -59,26 +59,29 @@ class InputRawUDPPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputRawUDPPqEnabledTrueWithPqConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputRawUDPType
+
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
 
     port: float
     r"""Port to listen on"""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -91,27 +94,24 @@ class InputRawUDPPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")
-    ] = 1000
+    ] = None
     r"""Maximum number of events to buffer when downstream is blocking."""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to send data"""
 
     single_msg_udp_packets: Annotated[
         Optional[bool], pydantic.Field(alias="singleMsgUdpPackets")
-    ] = False
+    ] = None
     r"""If true, each UDP packet is assumed to contain a single message. If false, each UDP packet is assumed to contain multiple messages, separated by newlines."""
 
     ingest_raw_bytes: Annotated[
         Optional[bool], pydantic.Field(alias="ingestRawBytes")
-    ] = False
+    ] = None
     r"""If true, a __rawBytes field will be added to each event containing the raw bytes of the datagram."""
 
     udp_socket_rx_buf_size: Annotated[
@@ -126,11 +126,13 @@ class InputRawUDPPqEnabledTrueWithPqConstraint(BaseModel):
 
 
 class InputRawUDPPqEnabledFalseConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputRawUDPType
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: float
     r"""Port to listen on"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -145,8 +147,6 @@ class InputRawUDPPqEnabledFalseConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     max_buffer_size: NotRequired[float]
     r"""Maximum number of events to buffer when downstream is blocking."""
     ip_whitelist_regex: NotRequired[str]
@@ -163,24 +163,27 @@ class InputRawUDPPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputRawUDPPqEnabledFalseConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputRawUDPType
+
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
 
     port: float
     r"""Port to listen on"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -195,27 +198,24 @@ class InputRawUDPPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")
-    ] = 1000
+    ] = None
     r"""Maximum number of events to buffer when downstream is blocking."""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to send data"""
 
     single_msg_udp_packets: Annotated[
         Optional[bool], pydantic.Field(alias="singleMsgUdpPackets")
-    ] = False
+    ] = None
     r"""If true, each UDP packet is assumed to contain a single message. If false, each UDP packet is assumed to contain multiple messages, separated by newlines."""
 
     ingest_raw_bytes: Annotated[
         Optional[bool], pydantic.Field(alias="ingestRawBytes")
-    ] = False
+    ] = None
     r"""If true, a __rawBytes field will be added to each event containing the raw bytes of the datagram."""
 
     udp_socket_rx_buf_size: Annotated[
@@ -230,11 +230,13 @@ class InputRawUDPPqEnabledFalseConstraint(BaseModel):
 
 
 class InputRawUDPSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputRawUDPType
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: float
     r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -249,8 +251,6 @@ class InputRawUDPSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     max_buffer_size: NotRequired[float]
     r"""Maximum number of events to buffer when downstream is blocking."""
     ip_whitelist_regex: NotRequired[str]
@@ -267,15 +267,16 @@ class InputRawUDPSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
 
 
 class InputRawUDPSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputRawUDPType
+
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
 
     port: float
     r"""Port to listen on"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -283,7 +284,7 @@ class InputRawUDPSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -291,7 +292,7 @@ class InputRawUDPSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -299,27 +300,24 @@ class InputRawUDPSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")
-    ] = 1000
+    ] = None
     r"""Maximum number of events to buffer when downstream is blocking."""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to send data"""
 
     single_msg_udp_packets: Annotated[
         Optional[bool], pydantic.Field(alias="singleMsgUdpPackets")
-    ] = False
+    ] = None
     r"""If true, each UDP packet is assumed to contain a single message. If false, each UDP packet is assumed to contain multiple messages, separated by newlines."""
 
     ingest_raw_bytes: Annotated[
         Optional[bool], pydantic.Field(alias="ingestRawBytes")
-    ] = False
+    ] = None
     r"""If true, a __rawBytes field will be added to each event containing the raw bytes of the datagram."""
 
     udp_socket_rx_buf_size: Annotated[
@@ -334,11 +332,13 @@ class InputRawUDPSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
 
 class InputRawUDPSendToRoutesTrueConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputRawUDPType
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: float
     r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -353,8 +353,6 @@ class InputRawUDPSendToRoutesTrueConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     max_buffer_size: NotRequired[float]
     r"""Maximum number of events to buffer when downstream is blocking."""
     ip_whitelist_regex: NotRequired[str]
@@ -371,20 +369,21 @@ class InputRawUDPSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputRawUDPSendToRoutesTrueConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputRawUDPType
+
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
 
     port: float
     r"""Port to listen on"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -392,7 +391,7 @@ class InputRawUDPSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -403,27 +402,24 @@ class InputRawUDPSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")
-    ] = 1000
+    ] = None
     r"""Maximum number of events to buffer when downstream is blocking."""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to send data"""
 
     single_msg_udp_packets: Annotated[
         Optional[bool], pydantic.Field(alias="singleMsgUdpPackets")
-    ] = False
+    ] = None
     r"""If true, each UDP packet is assumed to contain a single message. If false, each UDP packet is assumed to contain multiple messages, separated by newlines."""
 
     ingest_raw_bytes: Annotated[
         Optional[bool], pydantic.Field(alias="ingestRawBytes")
-    ] = False
+    ] = None
     r"""If true, a __rawBytes field will be added to each event containing the raw bytes of the datagram."""
 
     udp_socket_rx_buf_size: Annotated[

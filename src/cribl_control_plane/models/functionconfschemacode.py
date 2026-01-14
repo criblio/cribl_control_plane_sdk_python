@@ -24,15 +24,15 @@ class FunctionConfSchemaCode(BaseModel):
 
     max_num_of_iterations: Annotated[
         Optional[float], pydantic.Field(alias="maxNumOfIterations")
-    ] = 5000
+    ] = None
     r"""The maximum number of allowed iterations within this Function. Defaults to 5,000."""
 
     active_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activeLogSampleRate")
-    ] = 1
+    ] = None
     r"""Rate at which this Function logs errors. For example, a value of 1 (the default) logs every error, a value of 10 logs every tenth error, and so on."""
 
     use_unique_log_channel: Annotated[
         Optional[bool], pydantic.Field(alias="useUniqueLogChannel")
-    ] = True
+    ] = None
     r"""Logs from this Function will be sent to a unique channel in the form `func:code:${pipelineName}:${functionIndex}`. Disable to use the generic `func:code` log channel instead."""

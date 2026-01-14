@@ -85,8 +85,8 @@ with CriblControlPlane(
                 ),
             ),
         ),
-        input=models.InputTypeSavedJobCollection(
-            type=models.TypeOptionsSavedJobCollectionInput.COLLECTION,
+        input=models.TypeCollectionWithBreakerRulesetsConstraint(
+            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
             ],
@@ -345,8 +345,8 @@ with CriblControlPlane(
                 ),
             ),
         ),
-        input=models.InputTypeSavedJobCollection(
-            type=models.TypeOptionsSavedJobCollectionInput.COLLECTION,
+        input=models.TypeCollectionWithBreakerRulesetsConstraint(
+            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",

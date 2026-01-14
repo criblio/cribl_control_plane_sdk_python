@@ -48,10 +48,10 @@ class FunctionConfSchemaGeoip(BaseModel):
     file: Optional[str] = None
     r"""Select an uploaded Maxmind database, or specify path to a Maxmind database with .mmdb extension"""
 
-    in_field: Annotated[Optional[str], pydantic.Field(alias="inField")] = "ip"
+    in_field: Annotated[Optional[str], pydantic.Field(alias="inField")] = None
     r"""Field name in which to find an IP to look up. Can be nested."""
 
-    out_field: Annotated[Optional[str], pydantic.Field(alias="outField")] = "geoip"
+    out_field: Annotated[Optional[str], pydantic.Field(alias="outField")] = None
     r"""Field name in which to store the GeoIP lookup results"""
 
     additional_fields: Annotated[

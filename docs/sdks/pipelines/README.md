@@ -76,6 +76,7 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.create(id="empty-pipeline", conf={
         "async_func_timeout": 1000,
+        "output": "default",
         "description": "",
         "streamtags": [],
         "functions": [],
@@ -173,6 +174,7 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.update(id_param="<value>", id="empty-pipeline", conf={
         "async_func_timeout": 1000,
+        "output": "default",
         "description": "",
         "streamtags": [],
         "functions": [],

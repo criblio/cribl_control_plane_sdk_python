@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 from .collector import Collector, CollectorTypedDict
-from .inputtypesavedjobcollection import (
-    InputTypeSavedJobCollection,
-    InputTypeSavedJobCollectionTypedDict,
-)
 from .jobtypeoptionssavedjobcollection import JobTypeOptionsSavedJobCollection
 from .scheduletypesavedjobcollection import (
     ScheduleTypeSavedJobCollection,
     ScheduleTypeSavedJobCollectionTypedDict,
+)
+from .typecollectionwithbreakerrulesetsconstraint import (
+    TypeCollectionWithBreakerRulesetsConstraint,
+    TypeCollectionWithBreakerRulesetsConstraintTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
@@ -42,7 +42,7 @@ class SavedJobCollectionTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[InputTypeSavedJobCollectionTypedDict]
+    input: NotRequired[TypeCollectionWithBreakerRulesetsConstraintTypedDict]
 
 
 class SavedJobCollection(BaseModel):
@@ -56,12 +56,12 @@ class SavedJobCollection(BaseModel):
 
     description: Optional[str] = None
 
-    ttl: Optional[str] = "4h"
+    ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
 
     ignore_group_jobs_limit: Annotated[
         Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
+    ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
     remove_fields: Annotated[
@@ -70,7 +70,7 @@ class SavedJobCollection(BaseModel):
     r"""List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface."""
 
     resume_on_boot: Annotated[Optional[bool], pydantic.Field(alias="resumeOnBoot")] = (
-        False
+        None
     )
     r"""Resume the ad hoc job if a failure condition causes Stream to restart during job execution"""
 
@@ -85,10 +85,10 @@ class SavedJobCollection(BaseModel):
 
     worker_affinity: Annotated[
         Optional[bool], pydantic.Field(alias="workerAffinity")
-    ] = False
+    ] = None
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[InputTypeSavedJobCollection] = None
+    input: Optional[TypeCollectionWithBreakerRulesetsConstraint] = None
 
     @field_serializer("type")
     def serialize_type(self, value):

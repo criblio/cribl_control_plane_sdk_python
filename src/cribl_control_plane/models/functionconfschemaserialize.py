@@ -43,9 +43,7 @@ class FunctionConfSchemaSerializeTypedDict(TypedDict):
 
 
 class FunctionConfSchemaSerialize(BaseModel):
-    type: Optional[FunctionConfSchemaSerializeType] = (
-        FunctionConfSchemaSerializeType.CSV
-    )
+    type: Optional[FunctionConfSchemaSerializeType] = None
     r"""Data output format"""
 
     delim_char: Annotated[Optional[Any], pydantic.Field(alias="delimChar")] = None
@@ -62,7 +60,7 @@ class FunctionConfSchemaSerialize(BaseModel):
     src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
     r"""Field containing object to serialize. Leave blank to serialize top-level event fields."""
 
-    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = "_raw"
+    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
     r"""Field to serialize data to"""
 
     @field_serializer("type")

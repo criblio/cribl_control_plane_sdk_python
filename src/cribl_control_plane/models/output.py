@@ -27,7 +27,7 @@ from .outputcrowdstrikenextgensiem import (
 from .outputdatabricks import OutputDatabricks, OutputDatabricksTypedDict
 from .outputdatadog import OutputDatadog, OutputDatadogTypedDict
 from .outputdataset import OutputDataset, OutputDatasetTypedDict
-from .outputdefault import OutputDefault, OutputDefaultTypedDict
+from .outputdefault import OutputDefaultTypedDict
 from .outputdevnull import OutputDevnull, OutputDevnullTypedDict
 from .outputdiskspool import OutputDiskSpool, OutputDiskSpoolTypedDict
 from .outputdls3 import OutputDlS3, OutputDlS3TypedDict
@@ -177,7 +177,6 @@ OutputTypedDict = TypeAliasType(
 
 Output = Annotated[
     Union[
-        Annotated[OutputDefault, Tag("default")],
         Annotated[OutputWebhook, Tag("webhook")],
         Annotated[OutputSentinel, Tag("sentinel")],
         Annotated[OutputDevnull, Tag("devnull")],

@@ -209,31 +209,31 @@ class OutputSyslog(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Optional[OutputSyslogProtocol] = OutputSyslogProtocol.TCP
+    protocol: Optional[OutputSyslogProtocol] = None
     r"""The network protocol to use for sending out syslog messages"""
 
-    facility: Optional[Facility] = Facility.ONE
+    facility: Optional[Facility] = None
     r"""Default value for message facility. Will be overwritten by value of __facility if set. Defaults to user."""
 
-    severity: Optional[OutputSyslogSeverity] = OutputSyslogSeverity.FIVE
+    severity: Optional[OutputSyslogSeverity] = None
     r"""Default value for message severity. Will be overwritten by value of __severity if set. Defaults to notice."""
 
-    app_name: Annotated[Optional[str], pydantic.Field(alias="appName")] = "Cribl"
+    app_name: Annotated[Optional[str], pydantic.Field(alias="appName")] = None
     r"""Default name for device or application that originated the message. Defaults to Cribl, but will be overwritten by value of __appname if set."""
 
     message_format: Annotated[
         Optional[MessageFormat], pydantic.Field(alias="messageFormat")
-    ] = MessageFormat.RFC3164
+    ] = None
     r"""The syslog message format depending on the receiver's support"""
 
     timestamp_format: Annotated[
         Optional[TimestampFormat], pydantic.Field(alias="timestampFormat")
-    ] = TimestampFormat.SYSLOG
+    ] = None
     r"""Timestamp format to use when serializing event's time field"""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     octet_count_framing: Annotated[
@@ -243,13 +243,13 @@ class OutputSyslog(BaseModel):
 
     log_failed_requests: Annotated[
         Optional[bool], pydantic.Field(alias="logFailedRequests")
-    ] = False
+    ] = None
     r"""Use to troubleshoot issues with sending data"""
 
     description: Optional[str] = None
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        True
+        None
     )
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs.  If this setting is disabled, consider enabling round-robin DNS."""
 
@@ -259,7 +259,7 @@ class OutputSyslog(BaseModel):
     port: Optional[float] = None
     r"""The port to connect to on the provided host"""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     hosts: Optional[List[ItemsTypeHosts]] = None
@@ -267,26 +267,26 @@ class OutputSyslog(BaseModel):
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     max_concurrent_senders: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentSenders")
-    ] = 0
+    ] = None
     r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        60000
+        None
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
@@ -294,70 +294,66 @@ class OutputSyslog(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     max_record_size: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSize")
-    ] = 1500
+    ] = None
     r"""Maximum size of syslog messages. Make sure this value is less than or equal to the MTU to avoid UDP packet fragmentation."""
 
     udp_dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="udpDnsResolvePeriodSec")
-    ] = 0
+    ] = None
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every message sent will incur a DNS lookup."""
 
     enable_ip_spoofing: Annotated[
         Optional[bool], pydantic.Field(alias="enableIpSpoofing")
-    ] = False
+    ] = None
     r"""Send Syslog traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[

@@ -41,5 +41,5 @@ class FunctionConfSchemaMvPull(BaseModel):
 
     delete_original: Annotated[
         Optional[bool], pydantic.Field(alias="deleteOriginal")
-    ] = False
+    ] = None
     r"""Toggle this on to remove each original array of data objects after extraction. If toggled off, arrays are retained."""

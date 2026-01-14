@@ -25,11 +25,13 @@ class InputGooglePubsubType(str, Enum):
 
 
 class InputGooglePubsubPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputGooglePubsubType
+    topic_name: str
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     subscription_name: str
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -44,8 +46,6 @@ class InputGooglePubsubPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    topic_name: NotRequired[str]
-    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     monitor_subscription: NotRequired[bool]
     r"""Use when the subscription is not created by this Source and topic is not known"""
     create_topic: NotRequired[bool]
@@ -74,26 +74,29 @@ class InputGooglePubsubPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputGooglePubsubPqEnabledTrueWithPqConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputGooglePubsubType
+
+    topic_name: Annotated[str, pydantic.Field(alias="topicName")]
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
 
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -106,20 +109,17 @@ class InputGooglePubsubPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
-    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
-
     monitor_subscription: Annotated[
         Optional[bool], pydantic.Field(alias="monitorSubscription")
-    ] = False
+    ] = None
     r"""Use when the subscription is not created by this Source and topic is not known"""
 
-    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = False
+    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = None
     r"""Create topic if it does not exist"""
 
     create_subscription: Annotated[
         Optional[bool], pydantic.Field(alias="createSubscription")
-    ] = True
+    ] = None
     r"""Create subscription if it does not exist"""
 
     region: Optional[str] = None
@@ -128,7 +128,7 @@ class InputGooglePubsubPqEnabledTrueWithPqConstraint(BaseModel):
     google_auth_method: Annotated[
         Optional[GoogleAuthenticationMethodOptions],
         pydantic.Field(alias="googleAuthMethod"),
-    ] = GoogleAuthenticationMethodOptions.MANUAL
+    ] = None
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
 
     service_account_credentials: Annotated[
@@ -139,15 +139,15 @@ class InputGooglePubsubPqEnabledTrueWithPqConstraint(BaseModel):
     secret: Optional[str] = None
     r"""Select or create a stored text secret"""
 
-    max_backlog: Annotated[Optional[float], pydantic.Field(alias="maxBacklog")] = 1000
+    max_backlog: Annotated[Optional[float], pydantic.Field(alias="maxBacklog")] = None
     r"""If Destination exerts backpressure, this setting limits how many inbound events Stream will queue for processing before it stops retrieving events"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Pull request timeout, in milliseconds"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -157,7 +157,7 @@ class InputGooglePubsubPqEnabledTrueWithPqConstraint(BaseModel):
 
     ordered_delivery: Annotated[
         Optional[bool], pydantic.Field(alias="orderedDelivery")
-    ] = False
+    ] = None
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
     @field_serializer("google_auth_method")
@@ -171,11 +171,13 @@ class InputGooglePubsubPqEnabledTrueWithPqConstraint(BaseModel):
 
 
 class InputGooglePubsubPqEnabledFalseConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputGooglePubsubType
+    topic_name: str
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     subscription_name: str
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -190,8 +192,6 @@ class InputGooglePubsubPqEnabledFalseConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    topic_name: NotRequired[str]
-    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     monitor_subscription: NotRequired[bool]
     r"""Use when the subscription is not created by this Source and topic is not known"""
     create_topic: NotRequired[bool]
@@ -220,24 +220,27 @@ class InputGooglePubsubPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputGooglePubsubPqEnabledFalseConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputGooglePubsubType
+
+    topic_name: Annotated[str, pydantic.Field(alias="topicName")]
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
 
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -252,20 +255,17 @@ class InputGooglePubsubPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
-    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
-
     monitor_subscription: Annotated[
         Optional[bool], pydantic.Field(alias="monitorSubscription")
-    ] = False
+    ] = None
     r"""Use when the subscription is not created by this Source and topic is not known"""
 
-    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = False
+    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = None
     r"""Create topic if it does not exist"""
 
     create_subscription: Annotated[
         Optional[bool], pydantic.Field(alias="createSubscription")
-    ] = True
+    ] = None
     r"""Create subscription if it does not exist"""
 
     region: Optional[str] = None
@@ -274,7 +274,7 @@ class InputGooglePubsubPqEnabledFalseConstraint(BaseModel):
     google_auth_method: Annotated[
         Optional[GoogleAuthenticationMethodOptions],
         pydantic.Field(alias="googleAuthMethod"),
-    ] = GoogleAuthenticationMethodOptions.MANUAL
+    ] = None
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
 
     service_account_credentials: Annotated[
@@ -285,15 +285,15 @@ class InputGooglePubsubPqEnabledFalseConstraint(BaseModel):
     secret: Optional[str] = None
     r"""Select or create a stored text secret"""
 
-    max_backlog: Annotated[Optional[float], pydantic.Field(alias="maxBacklog")] = 1000
+    max_backlog: Annotated[Optional[float], pydantic.Field(alias="maxBacklog")] = None
     r"""If Destination exerts backpressure, this setting limits how many inbound events Stream will queue for processing before it stops retrieving events"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Pull request timeout, in milliseconds"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -303,7 +303,7 @@ class InputGooglePubsubPqEnabledFalseConstraint(BaseModel):
 
     ordered_delivery: Annotated[
         Optional[bool], pydantic.Field(alias="orderedDelivery")
-    ] = False
+    ] = None
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
     @field_serializer("google_auth_method")
@@ -317,11 +317,13 @@ class InputGooglePubsubPqEnabledFalseConstraint(BaseModel):
 
 
 class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputGooglePubsubType
+    topic_name: str
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     subscription_name: str
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -336,8 +338,6 @@ class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraintTypedDict(Typed
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     pq: NotRequired[PqTypeTypedDict]
-    topic_name: NotRequired[str]
-    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     monitor_subscription: NotRequired[bool]
     r"""Use when the subscription is not created by this Source and topic is not known"""
     create_topic: NotRequired[bool]
@@ -366,15 +366,16 @@ class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraintTypedDict(Typed
 
 
 class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputGooglePubsubType
+
+    topic_name: Annotated[str, pydantic.Field(alias="topicName")]
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
 
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -382,7 +383,7 @@ class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -390,7 +391,7 @@ class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -398,20 +399,17 @@ class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
-    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
-
     monitor_subscription: Annotated[
         Optional[bool], pydantic.Field(alias="monitorSubscription")
-    ] = False
+    ] = None
     r"""Use when the subscription is not created by this Source and topic is not known"""
 
-    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = False
+    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = None
     r"""Create topic if it does not exist"""
 
     create_subscription: Annotated[
         Optional[bool], pydantic.Field(alias="createSubscription")
-    ] = True
+    ] = None
     r"""Create subscription if it does not exist"""
 
     region: Optional[str] = None
@@ -420,7 +418,7 @@ class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     google_auth_method: Annotated[
         Optional[GoogleAuthenticationMethodOptions],
         pydantic.Field(alias="googleAuthMethod"),
-    ] = GoogleAuthenticationMethodOptions.MANUAL
+    ] = None
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
 
     service_account_credentials: Annotated[
@@ -431,15 +429,15 @@ class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     secret: Optional[str] = None
     r"""Select or create a stored text secret"""
 
-    max_backlog: Annotated[Optional[float], pydantic.Field(alias="maxBacklog")] = 1000
+    max_backlog: Annotated[Optional[float], pydantic.Field(alias="maxBacklog")] = None
     r"""If Destination exerts backpressure, this setting limits how many inbound events Stream will queue for processing before it stops retrieving events"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Pull request timeout, in milliseconds"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -449,7 +447,7 @@ class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     ordered_delivery: Annotated[
         Optional[bool], pydantic.Field(alias="orderedDelivery")
-    ] = False
+    ] = None
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
     @field_serializer("google_auth_method")
@@ -463,11 +461,13 @@ class InputGooglePubsubSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
 
 class InputGooglePubsubSendToRoutesTrueConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputGooglePubsubType
+    topic_name: str
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     subscription_name: str
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -482,8 +482,6 @@ class InputGooglePubsubSendToRoutesTrueConstraintTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    topic_name: NotRequired[str]
-    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     monitor_subscription: NotRequired[bool]
     r"""Use when the subscription is not created by this Source and topic is not known"""
     create_topic: NotRequired[bool]
@@ -512,20 +510,21 @@ class InputGooglePubsubSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputGooglePubsubSendToRoutesTrueConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputGooglePubsubType
+
+    topic_name: Annotated[str, pydantic.Field(alias="topicName")]
+    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
 
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -533,7 +532,7 @@ class InputGooglePubsubSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -544,20 +543,17 @@ class InputGooglePubsubSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    topic_name: Annotated[Optional[str], pydantic.Field(alias="topicName")] = "cribl"
-    r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
-
     monitor_subscription: Annotated[
         Optional[bool], pydantic.Field(alias="monitorSubscription")
-    ] = False
+    ] = None
     r"""Use when the subscription is not created by this Source and topic is not known"""
 
-    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = False
+    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = None
     r"""Create topic if it does not exist"""
 
     create_subscription: Annotated[
         Optional[bool], pydantic.Field(alias="createSubscription")
-    ] = True
+    ] = None
     r"""Create subscription if it does not exist"""
 
     region: Optional[str] = None
@@ -566,7 +562,7 @@ class InputGooglePubsubSendToRoutesTrueConstraint(BaseModel):
     google_auth_method: Annotated[
         Optional[GoogleAuthenticationMethodOptions],
         pydantic.Field(alias="googleAuthMethod"),
-    ] = GoogleAuthenticationMethodOptions.MANUAL
+    ] = None
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
 
     service_account_credentials: Annotated[
@@ -577,15 +573,15 @@ class InputGooglePubsubSendToRoutesTrueConstraint(BaseModel):
     secret: Optional[str] = None
     r"""Select or create a stored text secret"""
 
-    max_backlog: Annotated[Optional[float], pydantic.Field(alias="maxBacklog")] = 1000
+    max_backlog: Annotated[Optional[float], pydantic.Field(alias="maxBacklog")] = None
     r"""If Destination exerts backpressure, this setting limits how many inbound events Stream will queue for processing before it stops retrieving events"""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 60000
+    ] = None
     r"""Pull request timeout, in milliseconds"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -595,7 +591,7 @@ class InputGooglePubsubSendToRoutesTrueConstraint(BaseModel):
 
     ordered_delivery: Annotated[
         Optional[bool], pydantic.Field(alias="orderedDelivery")
-    ] = False
+    ] = None
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
     @field_serializer("google_auth_method")

@@ -25,10 +25,10 @@ class FunctionConfSchemaEventstats(BaseModel):
     group_bys: Annotated[Optional[List[str]], pydantic.Field(alias="groupBys")] = None
     r"""Fields to group aggregates by, supports wildcard expressions."""
 
-    max_events: Annotated[Optional[float], pydantic.Field(alias="maxEvents")] = 50000
+    max_events: Annotated[Optional[float], pydantic.Field(alias="maxEvents")] = None
     r"""Specifies how many events are at max kept in memory to be enriched with aggregations"""
 
     flush_on_input_close: Annotated[
         Optional[bool], pydantic.Field(alias="flushOnInputClose")
-    ] = False
+    ] = None
     r"""Determines if aggregations should flush when an input stream is closed. If disabled, time window settings will control flush behavior."""

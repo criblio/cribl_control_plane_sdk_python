@@ -38,11 +38,11 @@ class TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict(TypedDict):
 
 
 class TLSSettingsClientSideTypeKafkaSchemaRegistry(BaseModel):
-    disabled: Optional[bool] = True
+    disabled: Optional[bool] = None
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
     trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
     """

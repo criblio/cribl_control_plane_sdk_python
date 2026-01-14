@@ -83,25 +83,21 @@ class InputAppscopePersistenceTypedDict(TypedDict):
 
 
 class InputAppscopePersistence(BaseModel):
-    enable: Optional[bool] = False
+    enable: Optional[bool] = None
     r"""Spool events and metrics on disk for Cribl Edge and Search"""
 
-    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10m"
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
     r"""Time span for each file bucket"""
 
-    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = "1GB"
+    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = None
     r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
 
-    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
+    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = None
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
-    compress: Optional[DataCompressionFormatOptionsPersistence] = (
-        DataCompressionFormatOptionsPersistence.GZIP
-    )
+    compress: Optional[DataCompressionFormatOptionsPersistence] = None
 
-    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = (
-        "$CRIBL_HOME/state/appscope"
-    )
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/appscope"""
 
     @field_serializer("compress")
@@ -115,9 +111,9 @@ class InputAppscopePersistence(BaseModel):
 
 
 class InputAppscopePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
-    type: InputAppscopeType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputAppscopeType
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -173,23 +169,23 @@ class InputAppscopePqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputAppscopePqEnabledTrueWithPqConstraint(BaseModel):
-    type: InputAppscopeType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputAppscopeType
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -204,32 +200,32 @@ class InputAppscopePqEnabledTrueWithPqConstraint(BaseModel):
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to establish a connection"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     socket_idle_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
 
     socket_ending_max_wait: Annotated[
         Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
+    ] = None
     r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
 
     socket_max_lifespan: Annotated[
         Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
+    ] = None
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -242,12 +238,12 @@ class InputAppscopePqEnabledTrueWithPqConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     enable_unix_path: Annotated[
         Optional[bool], pydantic.Field(alias="enableUnixPath")
-    ] = False
+    ] = None
     r"""Toggle to Yes to specify a file-backed UNIX domain socket connection, instead of a network host and port."""
 
     filter_: Annotated[
@@ -259,7 +255,7 @@ class InputAppscopePqEnabledTrueWithPqConstraint(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
@@ -274,7 +270,7 @@ class InputAppscopePqEnabledTrueWithPqConstraint(BaseModel):
 
     unix_socket_path: Annotated[
         Optional[str], pydantic.Field(alias="unixSocketPath")
-    ] = "$CRIBL_HOME/state/appscope.sock"
+    ] = None
     r"""Path to the UNIX domain socket to listen on."""
 
     unix_socket_perms: Annotated[
@@ -282,7 +278,7 @@ class InputAppscopePqEnabledTrueWithPqConstraint(BaseModel):
     ] = None
     r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -299,9 +295,9 @@ class InputAppscopePqEnabledTrueWithPqConstraint(BaseModel):
 
 
 class InputAppscopePqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputAppscopeType
-    pq_enabled: NotRequired[bool]
+    pq_enabled: bool
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    type: InputAppscopeType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -357,21 +353,21 @@ class InputAppscopePqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputAppscopePqEnabledFalseConstraint(BaseModel):
-    type: InputAppscopeType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    type: InputAppscopeType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -388,32 +384,32 @@ class InputAppscopePqEnabledFalseConstraint(BaseModel):
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to establish a connection"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     socket_idle_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
 
     socket_ending_max_wait: Annotated[
         Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
+    ] = None
     r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
 
     socket_max_lifespan: Annotated[
         Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
+    ] = None
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -426,12 +422,12 @@ class InputAppscopePqEnabledFalseConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     enable_unix_path: Annotated[
         Optional[bool], pydantic.Field(alias="enableUnixPath")
-    ] = False
+    ] = None
     r"""Toggle to Yes to specify a file-backed UNIX domain socket connection, instead of a network host and port."""
 
     filter_: Annotated[
@@ -443,7 +439,7 @@ class InputAppscopePqEnabledFalseConstraint(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
@@ -458,7 +454,7 @@ class InputAppscopePqEnabledFalseConstraint(BaseModel):
 
     unix_socket_path: Annotated[
         Optional[str], pydantic.Field(alias="unixSocketPath")
-    ] = "$CRIBL_HOME/state/appscope.sock"
+    ] = None
     r"""Path to the UNIX domain socket to listen on."""
 
     unix_socket_perms: Annotated[
@@ -466,7 +462,7 @@ class InputAppscopePqEnabledFalseConstraint(BaseModel):
     ] = None
     r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -483,9 +479,9 @@ class InputAppscopePqEnabledFalseConstraint(BaseModel):
 
 
 class InputAppscopeSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputAppscopeType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputAppscopeType
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -541,12 +537,10 @@ class InputAppscopeSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict
 
 
 class InputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputAppscopeType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    type: InputAppscopeType
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -554,7 +548,7 @@ class InputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -562,7 +556,7 @@ class InputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -572,32 +566,32 @@ class InputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to establish a connection"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     socket_idle_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
 
     socket_ending_max_wait: Annotated[
         Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
+    ] = None
     r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
 
     socket_max_lifespan: Annotated[
         Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
+    ] = None
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -610,12 +604,12 @@ class InputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     enable_unix_path: Annotated[
         Optional[bool], pydantic.Field(alias="enableUnixPath")
-    ] = False
+    ] = None
     r"""Toggle to Yes to specify a file-backed UNIX domain socket connection, instead of a network host and port."""
 
     filter_: Annotated[
@@ -627,7 +621,7 @@ class InputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
@@ -642,7 +636,7 @@ class InputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     unix_socket_path: Annotated[
         Optional[str], pydantic.Field(alias="unixSocketPath")
-    ] = "$CRIBL_HOME/state/appscope.sock"
+    ] = None
     r"""Path to the UNIX domain socket to listen on."""
 
     unix_socket_perms: Annotated[
@@ -650,7 +644,7 @@ class InputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     ] = None
     r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -667,9 +661,9 @@ class InputAppscopeSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
 
 class InputAppscopeSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputAppscopeType
-    send_to_routes: NotRequired[bool]
+    send_to_routes: bool
     r"""Select whether to send data to Routes, or directly to Destinations."""
+    type: InputAppscopeType
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -725,17 +719,15 @@ class InputAppscopeSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputAppscopeSendToRoutesTrueConstraint(BaseModel):
-    type: InputAppscopeType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
     r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    type: InputAppscopeType
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -743,7 +735,7 @@ class InputAppscopeSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -756,32 +748,32 @@ class InputAppscopeSendToRoutesTrueConstraint(BaseModel):
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to establish a connection"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     socket_idle_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
 
     socket_ending_max_wait: Annotated[
         Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
+    ] = None
     r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
 
     socket_max_lifespan: Annotated[
         Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
+    ] = None
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -794,12 +786,12 @@ class InputAppscopeSendToRoutesTrueConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     enable_unix_path: Annotated[
         Optional[bool], pydantic.Field(alias="enableUnixPath")
-    ] = False
+    ] = None
     r"""Toggle to Yes to specify a file-backed UNIX domain socket connection, instead of a network host and port."""
 
     filter_: Annotated[
@@ -811,7 +803,7 @@ class InputAppscopeSendToRoutesTrueConstraint(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
@@ -826,7 +818,7 @@ class InputAppscopeSendToRoutesTrueConstraint(BaseModel):
 
     unix_socket_path: Annotated[
         Optional[str], pydantic.Field(alias="unixSocketPath")
-    ] = "$CRIBL_HOME/state/appscope.sock"
+    ] = None
     r"""Path to the UNIX domain socket to listen on."""
 
     unix_socket_perms: Annotated[
@@ -834,7 +826,7 @@ class InputAppscopeSendToRoutesTrueConstraint(BaseModel):
     ] = None
     r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None

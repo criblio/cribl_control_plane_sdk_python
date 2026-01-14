@@ -76,16 +76,16 @@ class FunctionConfSchemaRedis(BaseModel):
     deployment_type: Annotated[
         Optional[FunctionConfSchemaRedisDeploymentType],
         pydantic.Field(alias="deploymentType"),
-    ] = FunctionConfSchemaRedisDeploymentType.STANDALONE
+    ] = None
     r"""How the Redis server is configured. Defaults to Standalone"""
 
     auth_type: Annotated[
         Optional[FunctionConfSchemaRedisAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = FunctionConfSchemaRedisAuthenticationMethod.NONE
+    ] = None
 
     max_block_secs: Annotated[Optional[float], pydantic.Field(alias="maxBlockSecs")] = (
-        60
+        None
     )
     r"""Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable."""
 

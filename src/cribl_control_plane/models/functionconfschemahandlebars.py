@@ -12,10 +12,10 @@ class FunctionConfSchemaHandlebarsTemplateDefinitionTypedDict(TypedDict):
     r"""Unique identifier for this template"""
     content: str
     r"""Handlebars template string"""
+    type: str
+    r"""Type categorization for the template (e.g., Universal, Email, Slack)"""
     description: NotRequired[str]
     r"""Optional description of what this template is used for"""
-    type: NotRequired[str]
-    r"""Type categorization for the template (e.g., Universal, Email, Slack)"""
 
 
 class FunctionConfSchemaHandlebarsTemplateDefinition(BaseModel):
@@ -25,11 +25,11 @@ class FunctionConfSchemaHandlebarsTemplateDefinition(BaseModel):
     content: str
     r"""Handlebars template string"""
 
+    type: str
+    r"""Type categorization for the template (e.g., Universal, Email, Slack)"""
+
     description: Optional[str] = None
     r"""Optional description of what this template is used for"""
-
-    type: Optional[str] = "Universal"
-    r"""Type categorization for the template (e.g., Universal, Email, Slack)"""
 
 
 class FunctionConfSchemaHandlebarsTypedDict(TypedDict):
@@ -49,13 +49,13 @@ class FunctionConfSchemaHandlebars(BaseModel):
     templates: Optional[List[FunctionConfSchemaHandlebarsTemplateDefinition]] = None
     r"""Array of template definitions. Uses event.__template_id to select template at runtime."""
 
-    target_field: Annotated[Optional[str], pydantic.Field(alias="targetField")] = "_raw"
+    target_field: Annotated[Optional[str], pydantic.Field(alias="targetField")] = None
     r"""Field name to store the rendered template result. Defaults to _raw."""
 
-    parse_json: Annotated[Optional[bool], pydantic.Field(alias="parseJson")] = False
+    parse_json: Annotated[Optional[bool], pydantic.Field(alias="parseJson")] = None
     r"""Parse the rendered template as JSON and store as an object instead of a string. Useful for building structured data like Slack blocks."""
 
     remove_on_null: Annotated[Optional[bool], pydantic.Field(alias="removeOnNull")] = (
-        True
+        None
     )
     r"""Remove the target field if the rendered result is empty or null."""

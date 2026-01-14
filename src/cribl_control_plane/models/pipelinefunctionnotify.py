@@ -43,6 +43,10 @@ class PipelineFunctionNotifyCountComparator(str, Enum, metaclass=utils.OpenEnumM
 
 
 class NotifyConfigurationTypedDict(TypedDict):
+    group: str
+    r"""Group the notification belongs to"""
+    notification_id: str
+    r"""Workspace within the deployment to send the search results to."""
     search_id: str
     r"""Id of the search this function is running on."""
     saved_query_id: str
@@ -53,10 +57,6 @@ class NotifyConfigurationTypedDict(TypedDict):
     r"""Auth token for sending notification messages"""
     messages_endpoint: str
     r"""System messages api endpoint"""
-    group: NotRequired[str]
-    r"""Group the notification belongs to"""
-    notification_id: NotRequired[str]
-    r"""Workspace within the deployment to send the search results to."""
     trigger: NotRequired[str]
     r"""Js expression that filters events, a greater than 'Trigger Count' events will trigger the notification"""
     trigger_type: NotRequired[PipelineFunctionNotifyTriggerType]
@@ -74,6 +74,12 @@ class NotifyConfigurationTypedDict(TypedDict):
 
 
 class NotifyConfiguration(BaseModel):
+    group: str
+    r"""Group the notification belongs to"""
+
+    notification_id: Annotated[str, pydantic.Field(alias="notificationId")]
+    r"""Workspace within the deployment to send the search results to."""
+
     search_id: Annotated[str, pydantic.Field(alias="searchId")]
     r"""Id of the search this function is running on."""
 
@@ -89,14 +95,6 @@ class NotifyConfiguration(BaseModel):
     messages_endpoint: Annotated[str, pydantic.Field(alias="messagesEndpoint")]
     r"""System messages api endpoint"""
 
-    group: Optional[str] = "default"
-    r"""Group the notification belongs to"""
-
-    notification_id: Annotated[
-        Optional[str], pydantic.Field(alias="notificationId")
-    ] = "main"
-    r"""Workspace within the deployment to send the search results to."""
-
     trigger: Optional[str] = None
     r"""Js expression that filters events, a greater than 'Trigger Count' events will trigger the notification"""
 
@@ -111,10 +109,14 @@ class NotifyConfiguration(BaseModel):
     ] = None
     r"""Operation to be applied over the results count"""
 
-    trigger_count: Annotated[Optional[float], pydantic.Field(alias="triggerCount")] = 0
+    trigger_count: Annotated[Optional[float], pydantic.Field(alias="triggerCount")] = (
+        None
+    )
     r"""How many results that match trigger the condition"""
 
-    results_limit: Annotated[Optional[float], pydantic.Field(alias="resultsLimit")] = 50
+    results_limit: Annotated[Optional[float], pydantic.Field(alias="resultsLimit")] = (
+        None
+    )
     r"""Number of results to include in the notification event"""
 
     message: Optional[str] = None
@@ -164,7 +166,7 @@ class PipelineFunctionNotify(BaseModel):
 
     conf: NotifyConfiguration
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

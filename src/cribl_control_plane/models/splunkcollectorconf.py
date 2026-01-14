@@ -7,10 +7,9 @@ from .retrytypeoptionshealthcheckcollectorconfretryrules import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer
+from pydantic import field_serializer
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -20,13 +19,16 @@ class SplunkAuthenticationLoginSecretAuthentication(
 ):
     r"""Authentication method for Discover and Collect REST calls"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # Bearer Token
     TOKEN = "token"
+    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationLoginSecretCollectRequestParamTypedDict(TypedDict):
@@ -56,7 +58,7 @@ class SplunkAuthenticationLoginSecretCollectRequestHeader(BaseModel):
 
 
 class SplunkAuthenticationLoginSecretRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -68,9 +70,7 @@ class SplunkAuthenticationLoginSecretRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationLoginSecretRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -102,30 +102,30 @@ class SplunkAuthenticationLoginSecretRetryRules(BaseModel):
 
 
 class SplunkAuthenticationLoginSecretTypedDict(TypedDict):
+    authentication: SplunkAuthenticationLoginSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
+    login_url: str
+    r"""URL to use for login API call, this call is expected to be a POST."""
     credentials_secret: str
     r"""Select or create a stored secret that references your login credentials"""
+    login_body: str
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+    token_resp_attribute: str
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+    auth_header_expr: str
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+    search_head: str
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    authentication: NotRequired[SplunkAuthenticationLoginSecretAuthentication]
-    r"""Authentication method for Discover and Collect REST calls"""
-    login_url: NotRequired[str]
-    r"""URL to use for login API call, this call is expected to be a POST."""
-    login_body: NotRequired[str]
-    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
-    token_resp_attribute: NotRequired[str]
-    r"""Path to token attribute in login response body. Nested attributes are allowed."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
-    search_head: NotRequired[str]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    endpoint: str
+    r"""REST API used to create a search"""
+    output_mode: OutputModeOptionsSplunkCollectorConf
+    r"""Format of the returned output"""
     earliest: NotRequired[str]
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    endpoint: NotRequired[str]
-    r"""REST API used to create a search"""
-    output_mode: NotRequired[OutputModeOptionsSplunkCollectorConf]
-    r"""Format of the returned output"""
     collect_request_params: NotRequired[
         List[SplunkAuthenticationLoginSecretCollectRequestParamTypedDict]
     ]
@@ -148,56 +148,43 @@ class SplunkAuthenticationLoginSecretTypedDict(TypedDict):
 
 
 class SplunkAuthenticationLoginSecret(BaseModel):
+    authentication: SplunkAuthenticationLoginSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
+
+    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
+    r"""URL to use for login API call, this call is expected to be a POST."""
+
     credentials_secret: Annotated[str, pydantic.Field(alias="credentialsSecret")]
     r"""Select or create a stored secret that references your login credentials"""
+
+    login_body: Annotated[str, pydantic.Field(alias="loginBody")]
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+
+    token_resp_attribute: Annotated[str, pydantic.Field(alias="tokenRespAttribute")]
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+
+    auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
 
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Optional[SplunkAuthenticationLoginSecretAuthentication] = (
-        SplunkAuthenticationLoginSecretAuthentication.BASIC
-    )
-    r"""Authentication method for Discover and Collect REST calls"""
+    endpoint: str
+    r"""REST API used to create a search"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = (
-        "`https://localhost:9000/api/v1/auth/login`"
-    )
-    r"""URL to use for login API call, this call is expected to be a POST."""
-
-    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = (
-        '`{ "username": "${username}", "password": "${password}" }`'
-    )
-    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
-
-    token_resp_attribute: Annotated[
-        Optional[str], pydantic.Field(alias="tokenRespAttribute")
-    ] = "token"
-    r"""Path to token attribute in login response body. Nested attributes are allowed."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
-    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
-
-    search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
-        "https://localhost:8089"
-    )
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    output_mode: Annotated[
+        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
+    ]
+    r"""Format of the returned output"""
 
     earliest: Optional[str] = None
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
 
     latest: Optional[str] = None
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    endpoint: Optional[str] = "/services/search/v2/jobs/export"
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        Optional[OutputModeOptionsSplunkCollectorConf],
-        pydantic.Field(alias="outputMode"),
-    ] = OutputModeOptionsSplunkCollectorConf.JSON
-    r"""Format of the returned output"""
 
     collect_request_params: Annotated[
         Optional[List[SplunkAuthenticationLoginSecretCollectRequestParam]],
@@ -211,27 +198,27 @@ class SplunkAuthenticationLoginSecret(BaseModel):
     ] = None
     r"""Optional collect request headers"""
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = True
+    ] = None
     r"""Disable collector event time filtering when a date range is specified"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     handle_escaped_chars: Annotated[
         Optional[bool], pydantic.Field(alias="handleEscapedChars")
-    ] = False
+    ] = None
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
 
     retry_rules: Annotated[
@@ -261,13 +248,16 @@ class SplunkAuthenticationLoginSecret(BaseModel):
 class SplunkAuthenticationLoginAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # Bearer Token
     TOKEN = "token"
+    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationLoginCollectRequestParamTypedDict(TypedDict):
@@ -297,7 +287,7 @@ class SplunkAuthenticationLoginCollectRequestHeader(BaseModel):
 
 
 class SplunkAuthenticationLoginRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -309,9 +299,7 @@ class SplunkAuthenticationLoginRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationLoginRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -343,30 +331,30 @@ class SplunkAuthenticationLoginRetryRules(BaseModel):
 
 
 class SplunkAuthenticationLoginTypedDict(TypedDict):
+    authentication: SplunkAuthenticationLoginAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
+    login_url: str
+    r"""URL to use for login API call. This call is expected to be a POST."""
     username: str
     password: str
+    login_body: str
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    token_resp_attribute: str
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+    auth_header_expr: str
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+    search_head: str
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    authentication: NotRequired[SplunkAuthenticationLoginAuthentication]
-    r"""Authentication method for Discover and Collect REST calls"""
-    login_url: NotRequired[str]
-    r"""URL to use for login API call. This call is expected to be a POST."""
-    login_body: NotRequired[str]
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
-    token_resp_attribute: NotRequired[str]
-    r"""Path to token attribute in login response body. Nested attributes are allowed."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
-    search_head: NotRequired[str]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    endpoint: str
+    r"""REST API used to create a search"""
+    output_mode: OutputModeOptionsSplunkCollectorConf
+    r"""Format of the returned output"""
     earliest: NotRequired[str]
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    endpoint: NotRequired[str]
-    r"""REST API used to create a search"""
-    output_mode: NotRequired[OutputModeOptionsSplunkCollectorConf]
-    r"""Format of the returned output"""
     collect_request_params: NotRequired[
         List[SplunkAuthenticationLoginCollectRequestParamTypedDict]
     ]
@@ -389,57 +377,44 @@ class SplunkAuthenticationLoginTypedDict(TypedDict):
 
 
 class SplunkAuthenticationLogin(BaseModel):
+    authentication: SplunkAuthenticationLoginAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
+
+    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
     username: str
 
     password: str
 
+    login_body: Annotated[str, pydantic.Field(alias="loginBody")]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+
+    token_resp_attribute: Annotated[str, pydantic.Field(alias="tokenRespAttribute")]
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+
+    auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Optional[SplunkAuthenticationLoginAuthentication] = (
-        SplunkAuthenticationLoginAuthentication.BASIC
-    )
-    r"""Authentication method for Discover and Collect REST calls"""
+    endpoint: str
+    r"""REST API used to create a search"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = (
-        "`https://localhost:9000/api/v1/auth/login`"
-    )
-    r"""URL to use for login API call. This call is expected to be a POST."""
-
-    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = (
-        '`{ "username": "${username}", "password": "${password}" }`'
-    )
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
-
-    token_resp_attribute: Annotated[
-        Optional[str], pydantic.Field(alias="tokenRespAttribute")
-    ] = "token"
-    r"""Path to token attribute in login response body. Nested attributes are allowed."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
-    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
-
-    search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
-        "https://localhost:8089"
-    )
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    output_mode: Annotated[
+        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
+    ]
+    r"""Format of the returned output"""
 
     earliest: Optional[str] = None
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
 
     latest: Optional[str] = None
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    endpoint: Optional[str] = "/services/search/v2/jobs/export"
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        Optional[OutputModeOptionsSplunkCollectorConf],
-        pydantic.Field(alias="outputMode"),
-    ] = OutputModeOptionsSplunkCollectorConf.JSON
-    r"""Format of the returned output"""
 
     collect_request_params: Annotated[
         Optional[List[SplunkAuthenticationLoginCollectRequestParam]],
@@ -453,27 +428,27 @@ class SplunkAuthenticationLogin(BaseModel):
     ] = None
     r"""Optional collect request headers"""
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = True
+    ] = None
     r"""Disable collector event time filtering when a date range is specified"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     handle_escaped_chars: Annotated[
         Optional[bool], pydantic.Field(alias="handleEscapedChars")
-    ] = False
+    ] = None
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
 
     retry_rules: Annotated[
@@ -505,13 +480,16 @@ class SplunkAuthenticationTokenSecretAuthentication(
 ):
     r"""Authentication method for Discover and Collect REST calls"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # Bearer Token
     TOKEN = "token"
+    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationTokenSecretCollectRequestParamTypedDict(TypedDict):
@@ -541,7 +519,7 @@ class SplunkAuthenticationTokenSecretCollectRequestHeader(BaseModel):
 
 
 class SplunkAuthenticationTokenSecretRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -553,9 +531,7 @@ class SplunkAuthenticationTokenSecretRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationTokenSecretRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -587,22 +563,22 @@ class SplunkAuthenticationTokenSecretRetryRules(BaseModel):
 
 
 class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
+    authentication: SplunkAuthenticationTokenSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
     token_secret: str
     r"""Select or create a stored secret that references your Bearer token"""
+    search_head: str
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    authentication: NotRequired[SplunkAuthenticationTokenSecretAuthentication]
-    r"""Authentication method for Discover and Collect REST calls"""
-    search_head: NotRequired[str]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    endpoint: str
+    r"""REST API used to create a search"""
+    output_mode: OutputModeOptionsSplunkCollectorConf
+    r"""Format of the returned output"""
     earliest: NotRequired[str]
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    endpoint: NotRequired[str]
-    r"""REST API used to create a search"""
-    output_mode: NotRequired[OutputModeOptionsSplunkCollectorConf]
-    r"""Format of the returned output"""
     collect_request_params: NotRequired[
         List[SplunkAuthenticationTokenSecretCollectRequestParamTypedDict]
     ]
@@ -625,36 +601,31 @@ class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
 
 
 class SplunkAuthenticationTokenSecret(BaseModel):
+    authentication: SplunkAuthenticationTokenSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
+
     token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
     r"""Select or create a stored secret that references your Bearer token"""
+
+    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
 
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Optional[SplunkAuthenticationTokenSecretAuthentication] = (
-        SplunkAuthenticationTokenSecretAuthentication.BASIC
-    )
-    r"""Authentication method for Discover and Collect REST calls"""
+    endpoint: str
+    r"""REST API used to create a search"""
 
-    search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
-        "https://localhost:8089"
-    )
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    output_mode: Annotated[
+        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
+    ]
+    r"""Format of the returned output"""
 
     earliest: Optional[str] = None
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
 
     latest: Optional[str] = None
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    endpoint: Optional[str] = "/services/search/v2/jobs/export"
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        Optional[OutputModeOptionsSplunkCollectorConf],
-        pydantic.Field(alias="outputMode"),
-    ] = OutputModeOptionsSplunkCollectorConf.JSON
-    r"""Format of the returned output"""
 
     collect_request_params: Annotated[
         Optional[List[SplunkAuthenticationTokenSecretCollectRequestParam]],
@@ -668,27 +639,27 @@ class SplunkAuthenticationTokenSecret(BaseModel):
     ] = None
     r"""Optional collect request headers"""
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = True
+    ] = None
     r"""Disable collector event time filtering when a date range is specified"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     handle_escaped_chars: Annotated[
         Optional[bool], pydantic.Field(alias="handleEscapedChars")
-    ] = False
+    ] = None
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
 
     retry_rules: Annotated[
@@ -718,13 +689,16 @@ class SplunkAuthenticationTokenSecret(BaseModel):
 class SplunkAuthenticationTokenAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # Bearer Token
     TOKEN = "token"
+    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationTokenCollectRequestParamTypedDict(TypedDict):
@@ -754,7 +728,7 @@ class SplunkAuthenticationTokenCollectRequestHeader(BaseModel):
 
 
 class SplunkAuthenticationTokenRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -766,9 +740,7 @@ class SplunkAuthenticationTokenRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationTokenRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -800,21 +772,21 @@ class SplunkAuthenticationTokenRetryRules(BaseModel):
 
 
 class SplunkAuthenticationTokenTypedDict(TypedDict):
+    authentication: SplunkAuthenticationTokenAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
     token: str
+    search_head: str
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    authentication: NotRequired[SplunkAuthenticationTokenAuthentication]
-    r"""Authentication method for Discover and Collect REST calls"""
-    search_head: NotRequired[str]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    endpoint: str
+    r"""REST API used to create a search"""
+    output_mode: OutputModeOptionsSplunkCollectorConf
+    r"""Format of the returned output"""
     earliest: NotRequired[str]
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    endpoint: NotRequired[str]
-    r"""REST API used to create a search"""
-    output_mode: NotRequired[OutputModeOptionsSplunkCollectorConf]
-    r"""Format of the returned output"""
     collect_request_params: NotRequired[
         List[SplunkAuthenticationTokenCollectRequestParamTypedDict]
     ]
@@ -837,35 +809,30 @@ class SplunkAuthenticationTokenTypedDict(TypedDict):
 
 
 class SplunkAuthenticationToken(BaseModel):
+    authentication: SplunkAuthenticationTokenAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
+
     token: str
+
+    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
 
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Optional[SplunkAuthenticationTokenAuthentication] = (
-        SplunkAuthenticationTokenAuthentication.BASIC
-    )
-    r"""Authentication method for Discover and Collect REST calls"""
+    endpoint: str
+    r"""REST API used to create a search"""
 
-    search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
-        "https://localhost:8089"
-    )
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    output_mode: Annotated[
+        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
+    ]
+    r"""Format of the returned output"""
 
     earliest: Optional[str] = None
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
 
     latest: Optional[str] = None
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    endpoint: Optional[str] = "/services/search/v2/jobs/export"
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        Optional[OutputModeOptionsSplunkCollectorConf],
-        pydantic.Field(alias="outputMode"),
-    ] = OutputModeOptionsSplunkCollectorConf.JSON
-    r"""Format of the returned output"""
 
     collect_request_params: Annotated[
         Optional[List[SplunkAuthenticationTokenCollectRequestParam]],
@@ -879,27 +846,27 @@ class SplunkAuthenticationToken(BaseModel):
     ] = None
     r"""Optional collect request headers"""
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = True
+    ] = None
     r"""Disable collector event time filtering when a date range is specified"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     handle_escaped_chars: Annotated[
         Optional[bool], pydantic.Field(alias="handleEscapedChars")
-    ] = False
+    ] = None
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
 
     retry_rules: Annotated[
@@ -931,13 +898,16 @@ class SplunkAuthenticationBasicSecretAuthentication(
 ):
     r"""Authentication method for Discover and Collect REST calls"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # Bearer Token
     TOKEN = "token"
+    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationBasicSecretCollectRequestParamTypedDict(TypedDict):
@@ -967,7 +937,7 @@ class SplunkAuthenticationBasicSecretCollectRequestHeader(BaseModel):
 
 
 class SplunkAuthenticationBasicSecretRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -979,9 +949,7 @@ class SplunkAuthenticationBasicSecretRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationBasicSecretRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1013,22 +981,22 @@ class SplunkAuthenticationBasicSecretRetryRules(BaseModel):
 
 
 class SplunkAuthenticationBasicSecretTypedDict(TypedDict):
+    authentication: SplunkAuthenticationBasicSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
     credentials_secret: str
     r"""Select or create a stored secret that references your credentials"""
+    search_head: str
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    authentication: NotRequired[SplunkAuthenticationBasicSecretAuthentication]
-    r"""Authentication method for Discover and Collect REST calls"""
-    search_head: NotRequired[str]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    endpoint: str
+    r"""REST API used to create a search"""
+    output_mode: OutputModeOptionsSplunkCollectorConf
+    r"""Format of the returned output"""
     earliest: NotRequired[str]
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    endpoint: NotRequired[str]
-    r"""REST API used to create a search"""
-    output_mode: NotRequired[OutputModeOptionsSplunkCollectorConf]
-    r"""Format of the returned output"""
     collect_request_params: NotRequired[
         List[SplunkAuthenticationBasicSecretCollectRequestParamTypedDict]
     ]
@@ -1051,36 +1019,31 @@ class SplunkAuthenticationBasicSecretTypedDict(TypedDict):
 
 
 class SplunkAuthenticationBasicSecret(BaseModel):
+    authentication: SplunkAuthenticationBasicSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
+
     credentials_secret: Annotated[str, pydantic.Field(alias="credentialsSecret")]
     r"""Select or create a stored secret that references your credentials"""
+
+    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
 
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Optional[SplunkAuthenticationBasicSecretAuthentication] = (
-        SplunkAuthenticationBasicSecretAuthentication.BASIC
-    )
-    r"""Authentication method for Discover and Collect REST calls"""
+    endpoint: str
+    r"""REST API used to create a search"""
 
-    search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
-        "https://localhost:8089"
-    )
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    output_mode: Annotated[
+        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
+    ]
+    r"""Format of the returned output"""
 
     earliest: Optional[str] = None
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
 
     latest: Optional[str] = None
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    endpoint: Optional[str] = "/services/search/v2/jobs/export"
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        Optional[OutputModeOptionsSplunkCollectorConf],
-        pydantic.Field(alias="outputMode"),
-    ] = OutputModeOptionsSplunkCollectorConf.JSON
-    r"""Format of the returned output"""
 
     collect_request_params: Annotated[
         Optional[List[SplunkAuthenticationBasicSecretCollectRequestParam]],
@@ -1094,27 +1057,27 @@ class SplunkAuthenticationBasicSecret(BaseModel):
     ] = None
     r"""Optional collect request headers"""
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = True
+    ] = None
     r"""Disable collector event time filtering when a date range is specified"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     handle_escaped_chars: Annotated[
         Optional[bool], pydantic.Field(alias="handleEscapedChars")
-    ] = False
+    ] = None
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
 
     retry_rules: Annotated[
@@ -1144,13 +1107,16 @@ class SplunkAuthenticationBasicSecret(BaseModel):
 class SplunkAuthenticationBasicAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # Bearer Token
     TOKEN = "token"
+    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationBasicCollectRequestParamTypedDict(TypedDict):
@@ -1180,7 +1146,7 @@ class SplunkAuthenticationBasicCollectRequestHeader(BaseModel):
 
 
 class SplunkAuthenticationBasicRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -1192,9 +1158,7 @@ class SplunkAuthenticationBasicRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationBasicRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1226,24 +1190,24 @@ class SplunkAuthenticationBasicRetryRules(BaseModel):
 
 
 class SplunkAuthenticationBasicTypedDict(TypedDict):
+    authentication: SplunkAuthenticationBasicAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
     username: str
     r"""Basic authentication username"""
     password: str
     r"""Basic authentication password"""
+    search_head: str
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    authentication: NotRequired[SplunkAuthenticationBasicAuthentication]
-    r"""Authentication method for Discover and Collect REST calls"""
-    search_head: NotRequired[str]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    endpoint: str
+    r"""REST API used to create a search"""
+    output_mode: OutputModeOptionsSplunkCollectorConf
+    r"""Format of the returned output"""
     earliest: NotRequired[str]
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    endpoint: NotRequired[str]
-    r"""REST API used to create a search"""
-    output_mode: NotRequired[OutputModeOptionsSplunkCollectorConf]
-    r"""Format of the returned output"""
     collect_request_params: NotRequired[
         List[SplunkAuthenticationBasicCollectRequestParamTypedDict]
     ]
@@ -1266,39 +1230,34 @@ class SplunkAuthenticationBasicTypedDict(TypedDict):
 
 
 class SplunkAuthenticationBasic(BaseModel):
+    authentication: SplunkAuthenticationBasicAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
+
     username: str
     r"""Basic authentication username"""
 
     password: str
     r"""Basic authentication password"""
 
+    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Optional[SplunkAuthenticationBasicAuthentication] = (
-        SplunkAuthenticationBasicAuthentication.BASIC
-    )
-    r"""Authentication method for Discover and Collect REST calls"""
+    endpoint: str
+    r"""REST API used to create a search"""
 
-    search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
-        "https://localhost:8089"
-    )
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    output_mode: Annotated[
+        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
+    ]
+    r"""Format of the returned output"""
 
     earliest: Optional[str] = None
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
 
     latest: Optional[str] = None
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    endpoint: Optional[str] = "/services/search/v2/jobs/export"
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        Optional[OutputModeOptionsSplunkCollectorConf],
-        pydantic.Field(alias="outputMode"),
-    ] = OutputModeOptionsSplunkCollectorConf.JSON
-    r"""Format of the returned output"""
 
     collect_request_params: Annotated[
         Optional[List[SplunkAuthenticationBasicCollectRequestParam]],
@@ -1312,27 +1271,27 @@ class SplunkAuthenticationBasic(BaseModel):
     ] = None
     r"""Optional collect request headers"""
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = True
+    ] = None
     r"""Disable collector event time filtering when a date range is specified"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     handle_escaped_chars: Annotated[
         Optional[bool], pydantic.Field(alias="handleEscapedChars")
-    ] = False
+    ] = None
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
 
     retry_rules: Annotated[
@@ -1362,13 +1321,16 @@ class SplunkAuthenticationBasic(BaseModel):
 class SplunkAuthenticationNoneAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # Bearer Token
     TOKEN = "token"
+    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationNoneCollectRequestParamTypedDict(TypedDict):
@@ -1398,7 +1360,7 @@ class SplunkAuthenticationNoneCollectRequestHeader(BaseModel):
 
 
 class SplunkAuthenticationNoneRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -1410,9 +1372,7 @@ class SplunkAuthenticationNoneRetryRulesTypedDict(TypedDict):
 
 
 class SplunkAuthenticationNoneRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1444,20 +1404,20 @@ class SplunkAuthenticationNoneRetryRules(BaseModel):
 
 
 class SplunkAuthenticationNoneTypedDict(TypedDict):
+    authentication: SplunkAuthenticationNoneAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
+    search_head: str
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    authentication: NotRequired[SplunkAuthenticationNoneAuthentication]
-    r"""Authentication method for Discover and Collect REST calls"""
-    search_head: NotRequired[str]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    endpoint: str
+    r"""REST API used to create a search"""
+    output_mode: OutputModeOptionsSplunkCollectorConf
+    r"""Format of the returned output"""
     earliest: NotRequired[str]
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    endpoint: NotRequired[str]
-    r"""REST API used to create a search"""
-    output_mode: NotRequired[OutputModeOptionsSplunkCollectorConf]
-    r"""Format of the returned output"""
     collect_request_params: NotRequired[
         List[SplunkAuthenticationNoneCollectRequestParamTypedDict]
     ]
@@ -1480,33 +1440,28 @@ class SplunkAuthenticationNoneTypedDict(TypedDict):
 
 
 class SplunkAuthenticationNone(BaseModel):
+    authentication: SplunkAuthenticationNoneAuthentication
+    r"""Authentication method for Discover and Collect REST calls"""
+
+    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
+    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+
     search: str
     r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
 
-    authentication: Optional[SplunkAuthenticationNoneAuthentication] = (
-        SplunkAuthenticationNoneAuthentication.BASIC
-    )
-    r"""Authentication method for Discover and Collect REST calls"""
+    endpoint: str
+    r"""REST API used to create a search"""
 
-    search_head: Annotated[Optional[str], pydantic.Field(alias="searchHead")] = (
-        "https://localhost:8089"
-    )
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
+    output_mode: Annotated[
+        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
+    ]
+    r"""Format of the returned output"""
 
     earliest: Optional[str] = None
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
 
     latest: Optional[str] = None
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    endpoint: Optional[str] = "/services/search/v2/jobs/export"
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        Optional[OutputModeOptionsSplunkCollectorConf],
-        pydantic.Field(alias="outputMode"),
-    ] = OutputModeOptionsSplunkCollectorConf.JSON
-    r"""Format of the returned output"""
 
     collect_request_params: Annotated[
         Optional[List[SplunkAuthenticationNoneCollectRequestParam]],
@@ -1520,27 +1475,27 @@ class SplunkAuthenticationNone(BaseModel):
     ] = None
     r"""Optional collect request headers"""
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = True
+    ] = None
     r"""Disable collector event time filtering when a date range is specified"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     handle_escaped_chars: Annotated[
         Optional[bool], pydantic.Field(alias="handleEscapedChars")
-    ] = False
+    ] = None
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
 
     retry_rules: Annotated[
@@ -1580,15 +1535,15 @@ SplunkCollectorConfTypedDict = TypeAliasType(
 )
 
 
-SplunkCollectorConf = Annotated[
+SplunkCollectorConf = TypeAliasType(
+    "SplunkCollectorConf",
     Union[
-        Annotated[SplunkAuthenticationNone, Tag("none")],
-        Annotated[SplunkAuthenticationBasic, Tag("basic")],
-        Annotated[SplunkAuthenticationBasicSecret, Tag("basicSecret")],
-        Annotated[SplunkAuthenticationToken, Tag("token")],
-        Annotated[SplunkAuthenticationTokenSecret, Tag("tokenSecret")],
-        Annotated[SplunkAuthenticationLogin, Tag("login")],
-        Annotated[SplunkAuthenticationLoginSecret, Tag("loginSecret")],
+        SplunkAuthenticationNone,
+        SplunkAuthenticationBasicSecret,
+        SplunkAuthenticationToken,
+        SplunkAuthenticationTokenSecret,
+        SplunkAuthenticationBasic,
+        SplunkAuthenticationLoginSecret,
+        SplunkAuthenticationLogin,
     ],
-    Discriminator(lambda m: get_discriminator(m, "authentication", "authentication")),
-]
+)

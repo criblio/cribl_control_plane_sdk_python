@@ -15,24 +15,24 @@ class PipelineFunctionDropDimensionsID(str, Enum):
 
 
 class PipelineFunctionDropDimensionsConfTypedDict(TypedDict):
+    time_window: str
+    r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
     drop_dimensions: List[str]
     r"""One or more dimensions to be dropped. Supports wildcard expressions. Warning: Using wildcard '*' causes all dimensions in the event to be dropped."""
-    time_window: NotRequired[str]
-    r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
     flush_on_input_close: NotRequired[bool]
     r"""Flush aggregations when an input stream is closed. If disabled, aggregations are flushed based on Time Window Settings instead."""
 
 
 class PipelineFunctionDropDimensionsConf(BaseModel):
+    time_window: Annotated[str, pydantic.Field(alias="timeWindow")]
+    r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
+
     drop_dimensions: Annotated[List[str], pydantic.Field(alias="dropDimensions")]
     r"""One or more dimensions to be dropped. Supports wildcard expressions. Warning: Using wildcard '*' causes all dimensions in the event to be dropped."""
 
-    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10s"
-    r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
-
     flush_on_input_close: Annotated[
         Optional[bool], pydantic.Field(alias="flushOnInputClose")
-    ] = True
+    ] = None
     r"""Flush aggregations when an input stream is closed. If disabled, aggregations are flushed based on Time Window Settings instead."""
 
 
@@ -58,7 +58,7 @@ class PipelineFunctionDropDimensions(BaseModel):
 
     conf: PipelineFunctionDropDimensionsConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

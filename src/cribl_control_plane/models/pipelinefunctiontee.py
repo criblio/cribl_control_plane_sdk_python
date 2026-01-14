@@ -32,7 +32,7 @@ class PipelineFunctionTeeConf(BaseModel):
 
     restart_on_exit: Annotated[
         Optional[bool], pydantic.Field(alias="restartOnExit")
-    ] = True
+    ] = None
     r"""Restart the process if it exits and/or we fail to write to it"""
 
     env: Optional[Dict[str, str]] = None
@@ -61,7 +61,7 @@ class PipelineFunctionTee(BaseModel):
 
     conf: PipelineFunctionTeeConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

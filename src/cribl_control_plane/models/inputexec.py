@@ -33,11 +33,11 @@ class PqEnabledTrueWithPqConstraintScheduleType(
 
 
 class InputExecPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputExecPqEnabledTrueWithPqConstraintType
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -70,26 +70,26 @@ class InputExecPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
 
 
 class InputExecPqEnabledTrueWithPqConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputExecPqEnabledTrueWithPqConstraintType
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     pq: Optional[PqType] = None
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -102,13 +102,13 @@ class InputExecPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    retries: Optional[float] = 10
+    retries: Optional[float] = None
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
         Optional[PqEnabledTrueWithPqConstraintScheduleType],
         pydantic.Field(alias="scheduleType"),
-    ] = PqEnabledTrueWithPqConstraintScheduleType.INTERVAL
+    ] = None
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     breaker_rulesets: Annotated[
@@ -118,7 +118,7 @@ class InputExecPqEnabledTrueWithPqConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -126,12 +126,10 @@ class InputExecPqEnabledTrueWithPqConstraint(BaseModel):
 
     description: Optional[str] = None
 
-    interval: Optional[float] = 60
+    interval: Optional[float] = None
     r"""Interval between command executions in seconds."""
 
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
-        "* * * * *"
-    )
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
     r"""Cron schedule to execute the command on."""
 
     @field_serializer("schedule_type")
@@ -156,11 +154,11 @@ class PqEnabledFalseConstraintScheduleType(str, Enum, metaclass=utils.OpenEnumMe
 
 
 class InputExecPqEnabledFalseConstraintTypedDict(TypedDict):
+    pq_enabled: bool
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     type: InputExecPqEnabledFalseConstraintType
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -193,24 +191,24 @@ class InputExecPqEnabledFalseConstraintTypedDict(TypedDict):
 
 
 class InputExecPqEnabledFalseConstraint(BaseModel):
+    pq_enabled: Annotated[bool, pydantic.Field(alias="pqEnabled")]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
     type: InputExecPqEnabledFalseConstraintType
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
@@ -225,13 +223,13 @@ class InputExecPqEnabledFalseConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    retries: Optional[float] = 10
+    retries: Optional[float] = None
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
         Optional[PqEnabledFalseConstraintScheduleType],
         pydantic.Field(alias="scheduleType"),
-    ] = PqEnabledFalseConstraintScheduleType.INTERVAL
+    ] = None
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     breaker_rulesets: Annotated[
@@ -241,7 +239,7 @@ class InputExecPqEnabledFalseConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -249,12 +247,10 @@ class InputExecPqEnabledFalseConstraint(BaseModel):
 
     description: Optional[str] = None
 
-    interval: Optional[float] = 60
+    interval: Optional[float] = None
     r"""Interval between command executions in seconds."""
 
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
-        "* * * * *"
-    )
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
     r"""Cron schedule to execute the command on."""
 
     @field_serializer("schedule_type")
@@ -281,11 +277,11 @@ class SendToRoutesFalseWithConnectionsConstraintScheduleType(
 
 
 class InputExecSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputExecSendToRoutesFalseWithConnectionsConstraintType
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     id: NotRequired[str]
@@ -318,15 +314,13 @@ class InputExecSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
 
 
 class InputExecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputExecSendToRoutesFalseWithConnectionsConstraintType
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
 
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -334,7 +328,7 @@ class InputExecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -342,7 +336,7 @@ class InputExecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -350,13 +344,13 @@ class InputExecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    retries: Optional[float] = 10
+    retries: Optional[float] = None
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
         Optional[SendToRoutesFalseWithConnectionsConstraintScheduleType],
         pydantic.Field(alias="scheduleType"),
-    ] = SendToRoutesFalseWithConnectionsConstraintScheduleType.INTERVAL
+    ] = None
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     breaker_rulesets: Annotated[
@@ -366,7 +360,7 @@ class InputExecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -374,12 +368,10 @@ class InputExecSendToRoutesFalseWithConnectionsConstraint(BaseModel):
 
     description: Optional[str] = None
 
-    interval: Optional[float] = 60
+    interval: Optional[float] = None
     r"""Interval between command executions in seconds."""
 
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
-        "* * * * *"
-    )
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
     r"""Cron schedule to execute the command on."""
 
     @field_serializer("schedule_type")
@@ -406,11 +398,11 @@ class SendToRoutesTrueConstraintScheduleType(str, Enum, metaclass=utils.OpenEnum
 
 
 class InputExecSendToRoutesTrueConstraintTypedDict(TypedDict):
+    send_to_routes: bool
+    r"""Select whether to send data to Routes, or directly to Destinations."""
     type: InputExecSendToRoutesTrueConstraintType
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -443,20 +435,18 @@ class InputExecSendToRoutesTrueConstraintTypedDict(TypedDict):
 
 
 class InputExecSendToRoutesTrueConstraint(BaseModel):
+    send_to_routes: Annotated[bool, pydantic.Field(alias="sendToRoutes")]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
     type: InputExecSendToRoutesTrueConstraintType
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
 
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -464,7 +454,7 @@ class InputExecSendToRoutesTrueConstraint(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -475,13 +465,13 @@ class InputExecSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    retries: Optional[float] = 10
+    retries: Optional[float] = None
     r"""Maximum number of retry attempts in the event that the command fails"""
 
     schedule_type: Annotated[
         Optional[SendToRoutesTrueConstraintScheduleType],
         pydantic.Field(alias="scheduleType"),
-    ] = SendToRoutesTrueConstraintScheduleType.INTERVAL
+    ] = None
     r"""Select a schedule type; either an interval (in seconds) or a cron-style schedule."""
 
     breaker_rulesets: Annotated[
@@ -491,7 +481,7 @@ class InputExecSendToRoutesTrueConstraint(BaseModel):
 
     stale_channel_flush_ms: Annotated[
         Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = 10000
+    ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -499,12 +489,10 @@ class InputExecSendToRoutesTrueConstraint(BaseModel):
 
     description: Optional[str] = None
 
-    interval: Optional[float] = 60
+    interval: Optional[float] = None
     r"""Interval between command executions in seconds."""
 
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
-        "* * * * *"
-    )
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
     r"""Cron schedule to execute the command on."""
 
     @field_serializer("schedule_type")

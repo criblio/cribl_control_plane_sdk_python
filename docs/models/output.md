@@ -3,12 +3,6 @@
 
 ## Supported Types
 
-### `models.OutputDefault`
-
-```python
-value: models.OutputDefault = /* values here */
-```
-
 ### `models.OutputWebhook`
 
 ```python

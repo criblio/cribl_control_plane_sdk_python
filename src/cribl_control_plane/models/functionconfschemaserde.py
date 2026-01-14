@@ -37,12 +37,10 @@ class FunctionConfSchemaSerdeTypedDict(TypedDict):
 
 
 class FunctionConfSchemaSerde(BaseModel):
-    mode: Optional[FunctionConfSchemaSerdeOperationMode] = (
-        FunctionConfSchemaSerdeOperationMode.EXTRACT
-    )
+    mode: Optional[FunctionConfSchemaSerdeOperationMode] = None
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
-    type: Optional[TypeOptions] = TypeOptions.CSV
+    type: Optional[TypeOptions] = None
     r"""Parser or formatter type to use"""
 
     delim_char: Annotated[Optional[Any], pydantic.Field(alias="delimChar")] = None
@@ -53,7 +51,7 @@ class FunctionConfSchemaSerde(BaseModel):
 
     null_value: Annotated[Optional[Any], pydantic.Field(alias="nullValue")] = None
 
-    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = "_raw"
+    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
     r"""Field containing text to be parsed"""
 
     dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None

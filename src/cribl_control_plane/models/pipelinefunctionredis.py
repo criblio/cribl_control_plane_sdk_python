@@ -82,16 +82,16 @@ class PipelineFunctionRedisConf(BaseModel):
     deployment_type: Annotated[
         Optional[PipelineFunctionRedisDeploymentType],
         pydantic.Field(alias="deploymentType"),
-    ] = PipelineFunctionRedisDeploymentType.STANDALONE
+    ] = None
     r"""How the Redis server is configured. Defaults to Standalone"""
 
     auth_type: Annotated[
         Optional[PipelineFunctionRedisAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = PipelineFunctionRedisAuthenticationMethod.NONE
+    ] = None
 
     max_block_secs: Annotated[Optional[float], pydantic.Field(alias="maxBlockSecs")] = (
-        60
+        None
     )
     r"""Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable."""
 
@@ -141,7 +141,7 @@ class PipelineFunctionRedis(BaseModel):
 
     conf: PipelineFunctionRedisConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

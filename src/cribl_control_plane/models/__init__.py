@@ -24,6 +24,7 @@ if TYPE_CHECKING:
     from .authenticationmethodoptions import AuthenticationMethodOptions
     from .authenticationmethodoptions1 import AuthenticationMethodOptions1
     from .authenticationmethodoptions2 import AuthenticationMethodOptions2
+    from .authenticationmethodoptions3 import AuthenticationMethodOptions3
     from .authenticationmethodoptionsauth import AuthenticationMethodOptionsAuth
     from .authenticationmethodoptionsauthtokensitems import (
         AuthenticationMethodOptionsAuthTokensItems,
@@ -1127,7 +1128,6 @@ if TYPE_CHECKING:
         AuthenticationMethodAzureDataExplorer,
         AuthenticationMethodAzureLogs,
         AuthenticationMethodChronicle,
-        AuthenticationMethodCloudflareR2,
         AuthenticationMethodGoogleChronicle,
         AuthenticationMethodGoogleCloudStorage,
         AuthenticationMethodMicrosoftFabric,
@@ -3741,7 +3741,6 @@ if TYPE_CHECKING:
     )
     from .outputcloudflarer2 import (
         OutputCloudflareR2,
-        OutputCloudflareR2AuthenticationMethod,
         OutputCloudflareR2Type,
         OutputCloudflareR2TypedDict,
     )
@@ -5325,13 +5324,13 @@ __all__ = [
     "AuthenticationMethodAzureDataExplorer",
     "AuthenticationMethodAzureLogs",
     "AuthenticationMethodChronicle",
-    "AuthenticationMethodCloudflareR2",
     "AuthenticationMethodGoogleChronicle",
     "AuthenticationMethodGoogleCloudStorage",
     "AuthenticationMethodMicrosoftFabric",
     "AuthenticationMethodOptions",
     "AuthenticationMethodOptions1",
     "AuthenticationMethodOptions2",
+    "AuthenticationMethodOptions3",
     "AuthenticationMethodOptionsAuth",
     "AuthenticationMethodOptionsAuthTokensItems",
     "AuthenticationMethodOptionsS3CollectorConf",
@@ -8385,7 +8384,6 @@ __all__ = [
     "OutputClickHouseType",
     "OutputClickHouseTypedDict",
     "OutputCloudflareR2",
-    "OutputCloudflareR2AuthenticationMethod",
     "OutputCloudflareR2Type",
     "OutputCloudflareR2TypedDict",
     "OutputCloudwatch",
@@ -9787,6 +9785,7 @@ _dynamic_imports: dict[str, str] = {
     "AuthenticationMethodOptions": ".authenticationmethodoptions",
     "AuthenticationMethodOptions1": ".authenticationmethodoptions1",
     "AuthenticationMethodOptions2": ".authenticationmethodoptions2",
+    "AuthenticationMethodOptions3": ".authenticationmethodoptions3",
     "AuthenticationMethodOptionsAuth": ".authenticationmethodoptionsauth",
     "AuthenticationMethodOptionsAuthTokensItems": ".authenticationmethodoptionsauthtokensitems",
     "AuthenticationMethodOptionsS3CollectorConf": ".authenticationmethodoptionss3collectorconf",
@@ -10831,7 +10830,6 @@ _dynamic_imports: dict[str, str] = {
     "AuthenticationMethodAzureDataExplorer": ".createoutputop",
     "AuthenticationMethodAzureLogs": ".createoutputop",
     "AuthenticationMethodChronicle": ".createoutputop",
-    "AuthenticationMethodCloudflareR2": ".createoutputop",
     "AuthenticationMethodGoogleChronicle": ".createoutputop",
     "AuthenticationMethodGoogleCloudStorage": ".createoutputop",
     "AuthenticationMethodMicrosoftFabric": ".createoutputop",
@@ -13018,7 +13016,6 @@ _dynamic_imports: dict[str, str] = {
     "StatsDestination": ".outputclickhouse",
     "StatsDestinationTypedDict": ".outputclickhouse",
     "OutputCloudflareR2": ".outputcloudflarer2",
-    "OutputCloudflareR2AuthenticationMethod": ".outputcloudflarer2",
     "OutputCloudflareR2Type": ".outputcloudflarer2",
     "OutputCloudflareR2TypedDict": ".outputcloudflarer2",
     "OutputCloudwatch": ".outputcloudwatch",

@@ -1,11 +1,12 @@
 # AuthenticationMethodOptions
 
+AWS authentication method. Choose Auto to use IAM roles.
+
 
 ## Values
 
-| Name            | Value           |
-| --------------- | --------------- |
-| `MANUAL`        | manual          |
-| `SECRET`        | secret          |
-| `CLIENT_SECRET` | clientSecret    |
-| `CLIENT_CERT`   | clientCert      |
+| Name     | Value    |
+| -------- | -------- |
+| `AUTO`   | auto     |
+| `MANUAL` | manual   |
+| `SECRET` | secret   |

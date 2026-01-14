@@ -5,8 +5,8 @@ from cribl_control_plane import utils
 from enum import Enum
 
 
-class AuthenticationMethodOptions1(str, Enum, metaclass=utils.OpenEnumMeta):
+class AuthenticationMethodOptions3(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Enter API key directly, or select a stored secret"""
+
     MANUAL = "manual"
     SECRET = "secret"
-    CLIENT_SECRET = "clientSecret"
-    CLIENT_CERT = "clientCert"

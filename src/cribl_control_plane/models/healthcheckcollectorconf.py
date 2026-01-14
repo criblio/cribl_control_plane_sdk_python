@@ -85,11 +85,8 @@ class HealthCheckAuthenticationOauthSecretHealthCheckMethod(
 ):
     r"""Health check HTTP method."""
 
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
 
 
@@ -364,11 +361,8 @@ class HealthCheckAuthenticationOauthHealthCheckMethod(
 ):
     r"""Health check HTTP method."""
 
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
 
 
@@ -643,11 +637,8 @@ class HealthCheckAuthenticationLoginSecretHealthCheckMethod(
 ):
     r"""Health check HTTP method."""
 
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
 
 
@@ -914,11 +905,8 @@ class HealthCheckAuthenticationLoginHealthCheckMethod(
 ):
     r"""Health check HTTP method."""
 
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
 
 
@@ -1188,11 +1176,8 @@ class HealthCheckAuthenticationBasicSecretHealthCheckMethod(
 ):
     r"""Health check HTTP method."""
 
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
 
 
@@ -1421,11 +1406,8 @@ class HealthCheckAuthenticationBasicHealthCheckMethod(
 ):
     r"""Health check HTTP method."""
 
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
 
 
@@ -1657,11 +1639,8 @@ class HealthCheckAuthenticationNoneHealthCheckMethod(
 ):
     r"""Health check HTTP method."""
 
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
 
 
@@ -1832,11 +1811,8 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckMethod(
 ):
     r"""Health check HTTP method."""
 
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
 
 
@@ -2060,11 +2036,8 @@ class HealthCheckCollectMethodPostHealthCheckMethod(
 ):
     r"""Health check HTTP method."""
 
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
 
 
@@ -2284,11 +2257,8 @@ class HealthCheckCollectMethodGetHealthCheckMethod(
 ):
     r"""Health check HTTP method."""
 
-    # GET
     GET = "get"
-    # POST
     POST = "post"
-    # POST with Body
     POST_WITH_BODY = "post_with_body"
 
 

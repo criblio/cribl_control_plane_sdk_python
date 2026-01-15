@@ -16,7 +16,7 @@ class PipelineFunctionNotifyID(str, Enum):
     NOTIFY = "notify"
 
 
-class PipelineFunctionNotifyTriggerType(str, Enum, metaclass=utils.OpenEnumMeta):
+class TriggerType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Type of the trigger condition. custom applies a kusto expression over the results, and results count applies a comparison over results count"""
 
     # Where
@@ -25,7 +25,7 @@ class PipelineFunctionNotifyTriggerType(str, Enum, metaclass=utils.OpenEnumMeta)
     RESULTS_COUNT = "resultsCount"
 
 
-class PipelineFunctionNotifyCountComparator(str, Enum, metaclass=utils.OpenEnumMeta):
+class CountComparator(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Operation to be applied over the results count"""
 
     # greater than
@@ -59,9 +59,9 @@ class NotifyConfigurationTypedDict(TypedDict):
     r"""System messages api endpoint"""
     trigger: NotRequired[str]
     r"""Js expression that filters events, a greater than 'Trigger Count' events will trigger the notification"""
-    trigger_type: NotRequired[PipelineFunctionNotifyTriggerType]
+    trigger_type: NotRequired[TriggerType]
     r"""Type of the trigger condition. custom applies a kusto expression over the results, and results count applies a comparison over results count"""
-    trigger_comparator: NotRequired[PipelineFunctionNotifyCountComparator]
+    trigger_comparator: NotRequired[CountComparator]
     r"""Operation to be applied over the results count"""
     trigger_count: NotRequired[float]
     r"""How many results that match trigger the condition"""
@@ -99,13 +99,12 @@ class NotifyConfiguration(BaseModel):
     r"""Js expression that filters events, a greater than 'Trigger Count' events will trigger the notification"""
 
     trigger_type: Annotated[
-        Optional[PipelineFunctionNotifyTriggerType], pydantic.Field(alias="triggerType")
+        Optional[TriggerType], pydantic.Field(alias="triggerType")
     ] = None
     r"""Type of the trigger condition. custom applies a kusto expression over the results, and results count applies a comparison over results count"""
 
     trigger_comparator: Annotated[
-        Optional[PipelineFunctionNotifyCountComparator],
-        pydantic.Field(alias="triggerComparator"),
+        Optional[CountComparator], pydantic.Field(alias="triggerComparator")
     ] = None
     r"""Operation to be applied over the results count"""
 
@@ -129,7 +128,7 @@ class NotifyConfiguration(BaseModel):
     def serialize_trigger_type(self, value):
         if isinstance(value, str):
             try:
-                return models.PipelineFunctionNotifyTriggerType(value)
+                return models.TriggerType(value)
             except ValueError:
                 return value
         return value
@@ -138,7 +137,7 @@ class NotifyConfiguration(BaseModel):
     def serialize_trigger_comparator(self, value):
         if isinstance(value, str):
             try:
-                return models.PipelineFunctionNotifyCountComparator(value)
+                return models.CountComparator(value)
             except ValueError:
                 return value
         return value

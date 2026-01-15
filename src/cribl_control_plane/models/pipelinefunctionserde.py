@@ -17,7 +17,7 @@ class PipelineFunctionSerdeID(str, Enum):
     SERDE = "serde"
 
 
-class PipelineFunctionSerdeOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class OperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
     # Extract
@@ -27,7 +27,7 @@ class PipelineFunctionSerdeOperationMode(str, Enum, metaclass=utils.OpenEnumMeta
 
 
 class PipelineFunctionSerdeConfTypedDict(TypedDict):
-    mode: PipelineFunctionSerdeOperationMode
+    mode: OperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
     type: TypeOptions
     r"""Parser or formatter type to use"""
@@ -43,7 +43,7 @@ class PipelineFunctionSerdeConfTypedDict(TypedDict):
 
 
 class PipelineFunctionSerdeConf(BaseModel):
-    mode: PipelineFunctionSerdeOperationMode
+    mode: OperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
     type: TypeOptions
@@ -69,7 +69,7 @@ class PipelineFunctionSerdeConf(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.PipelineFunctionSerdeOperationMode(value)
+                return models.OperationMode(value)
             except ValueError:
                 return value
         return value

@@ -16,9 +16,7 @@ class PipelineFunctionEventBreakerID(str, Enum):
     EVENT_BREAKER = "event_breaker"
 
 
-class PipelineFunctionEventBreakerExistingOrNew(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class ExistingOrNew(str, Enum, metaclass=utils.OpenEnumMeta):
     # Use Existing
     EXISTING = "existing"
     # Create New
@@ -26,15 +24,13 @@ class PipelineFunctionEventBreakerExistingOrNew(
 
 
 class PipelineFunctionEventBreakerConfTypedDict(TypedDict):
-    existing_or_new: PipelineFunctionEventBreakerExistingOrNew
+    existing_or_new: ExistingOrNew
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
 
 
 class PipelineFunctionEventBreakerConf(BaseModel):
-    existing_or_new: Annotated[
-        PipelineFunctionEventBreakerExistingOrNew, pydantic.Field(alias="existingOrNew")
-    ]
+    existing_or_new: Annotated[ExistingOrNew, pydantic.Field(alias="existingOrNew")]
 
     should_mark_cribl_breaker: Annotated[
         Optional[bool], pydantic.Field(alias="shouldMarkCriblBreaker")
@@ -45,7 +41,7 @@ class PipelineFunctionEventBreakerConf(BaseModel):
     def serialize_existing_or_new(self, value):
         if isinstance(value, str):
             try:
-                return models.PipelineFunctionEventBreakerExistingOrNew(value)
+                return models.ExistingOrNew(value)
             except ValueError:
                 return value
         return value

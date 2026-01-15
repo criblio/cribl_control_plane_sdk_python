@@ -14,14 +14,14 @@ class PipelineFunctionGeoipID(str, Enum):
     GEOIP = "geoip"
 
 
-class PipelineFunctionGeoipAdditionalFieldTypedDict(TypedDict):
+class AdditionalFieldTypedDict(TypedDict):
     extra_in_field: str
     r"""Field name in which to find an IP to look up. Can be nested."""
     extra_out_field: str
     r"""Field name in which to store the GeoIP lookup results"""
 
 
-class PipelineFunctionGeoipAdditionalField(BaseModel):
+class AdditionalField(BaseModel):
     extra_in_field: Annotated[str, pydantic.Field(alias="extraInField")]
     r"""Field name in which to find an IP to look up. Can be nested."""
 
@@ -29,11 +29,11 @@ class PipelineFunctionGeoipAdditionalField(BaseModel):
     r"""Field name in which to store the GeoIP lookup results"""
 
 
-class PipelineFunctionGeoipOutputFieldMappingsTypedDict(TypedDict):
+class OutputFieldMappingsTypedDict(TypedDict):
     r"""Search-specific mappings for granular control over event enrichment"""
 
 
-class PipelineFunctionGeoipOutputFieldMappings(BaseModel):
+class OutputFieldMappings(BaseModel):
     r"""Search-specific mappings for granular control over event enrichment"""
 
 
@@ -44,8 +44,8 @@ class PipelineFunctionGeoipConfTypedDict(TypedDict):
     r"""Field name in which to find an IP to look up. Can be nested."""
     out_field: NotRequired[str]
     r"""Field name in which to store the GeoIP lookup results"""
-    additional_fields: NotRequired[List[PipelineFunctionGeoipAdditionalFieldTypedDict]]
-    out_field_mappings: NotRequired[PipelineFunctionGeoipOutputFieldMappingsTypedDict]
+    additional_fields: NotRequired[List[AdditionalFieldTypedDict]]
+    out_field_mappings: NotRequired[OutputFieldMappingsTypedDict]
     r"""Search-specific mappings for granular control over event enrichment"""
 
 
@@ -60,13 +60,11 @@ class PipelineFunctionGeoipConf(BaseModel):
     r"""Field name in which to store the GeoIP lookup results"""
 
     additional_fields: Annotated[
-        Optional[List[PipelineFunctionGeoipAdditionalField]],
-        pydantic.Field(alias="additionalFields"),
+        Optional[List[AdditionalField]], pydantic.Field(alias="additionalFields")
     ] = None
 
     out_field_mappings: Annotated[
-        Optional[PipelineFunctionGeoipOutputFieldMappings],
-        pydantic.Field(alias="outFieldMappings"),
+        Optional[OutputFieldMappings], pydantic.Field(alias="outFieldMappings")
     ] = None
     r"""Search-specific mappings for granular control over event enrichment"""
 

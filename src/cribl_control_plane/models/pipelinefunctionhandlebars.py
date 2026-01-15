@@ -14,7 +14,7 @@ class PipelineFunctionHandlebarsID(str, Enum):
     HANDLEBARS = "handlebars"
 
 
-class PipelineFunctionHandlebarsTemplateDefinitionTypedDict(TypedDict):
+class TemplateDefinitionTypedDict(TypedDict):
     id: str
     r"""Unique identifier for this template"""
     content: str
@@ -25,7 +25,7 @@ class PipelineFunctionHandlebarsTemplateDefinitionTypedDict(TypedDict):
     r"""Optional description of what this template is used for"""
 
 
-class PipelineFunctionHandlebarsTemplateDefinition(BaseModel):
+class TemplateDefinition(BaseModel):
     id: str
     r"""Unique identifier for this template"""
 
@@ -40,7 +40,7 @@ class PipelineFunctionHandlebarsTemplateDefinition(BaseModel):
 
 
 class PipelineFunctionHandlebarsConfTypedDict(TypedDict):
-    templates: List[PipelineFunctionHandlebarsTemplateDefinitionTypedDict]
+    templates: List[TemplateDefinitionTypedDict]
     r"""Array of template definitions. Uses event.__template_id to select template at runtime."""
     target_field: NotRequired[str]
     r"""Field name to store the rendered template result. Defaults to _raw."""
@@ -51,7 +51,7 @@ class PipelineFunctionHandlebarsConfTypedDict(TypedDict):
 
 
 class PipelineFunctionHandlebarsConf(BaseModel):
-    templates: List[PipelineFunctionHandlebarsTemplateDefinition]
+    templates: List[TemplateDefinition]
     r"""Array of template definitions. Uses event.__template_id to select template at runtime."""
 
     target_field: Annotated[Optional[str], pydantic.Field(alias="targetField")] = None

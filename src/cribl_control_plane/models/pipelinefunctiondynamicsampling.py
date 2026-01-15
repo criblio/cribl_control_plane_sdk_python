@@ -16,9 +16,7 @@ class PipelineFunctionDynamicSamplingID(str, Enum):
     DYNAMIC_SAMPLING = "dynamic_sampling"
 
 
-class PipelineFunctionDynamicSamplingSampleMode(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class SampleMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Defines how sample rate will be derived: log(previousPeriodCount) or sqrt(previousPeriodCount)"""
 
     # Logarithmic
@@ -28,7 +26,7 @@ class PipelineFunctionDynamicSamplingSampleMode(
 
 
 class PipelineFunctionDynamicSamplingConfTypedDict(TypedDict):
-    mode: PipelineFunctionDynamicSamplingSampleMode
+    mode: SampleMode
     r"""Defines how sample rate will be derived: log(previousPeriodCount) or sqrt(previousPeriodCount)"""
     key_expr: str
     r"""Expression used to derive sample group key. Example:`${domain}:${status}`. Each sample group will have its own derived sampling rate based on volume. Defaults to `${host}`."""
@@ -41,7 +39,7 @@ class PipelineFunctionDynamicSamplingConfTypedDict(TypedDict):
 
 
 class PipelineFunctionDynamicSamplingConf(BaseModel):
-    mode: PipelineFunctionDynamicSamplingSampleMode
+    mode: SampleMode
     r"""Defines how sample rate will be derived: log(previousPeriodCount) or sqrt(previousPeriodCount)"""
 
     key_expr: Annotated[str, pydantic.Field(alias="keyExpr")]
@@ -64,7 +62,7 @@ class PipelineFunctionDynamicSamplingConf(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.PipelineFunctionDynamicSamplingSampleMode(value)
+                return models.SampleMode(value)
             except ValueError:
                 return value
         return value

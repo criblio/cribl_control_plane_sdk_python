@@ -28,7 +28,7 @@ class FunctionConfSchemaSendTypedDict(TypedDict):
     r"""Template to build the URL to send from."""
     search_id: NotRequired[str]
     r"""Id of the search this function is running on."""
-    tee: NotRequired[str]
+    tee: NotRequired[bool]
     r"""Tee results to search. When set to true results will be shipped instead of stats"""
     flush_ms: NotRequired[float]
     r"""How often are stats flushed in ms"""
@@ -56,7 +56,7 @@ class FunctionConfSchemaSend(BaseModel):
     search_id: Annotated[Optional[str], pydantic.Field(alias="searchId")] = None
     r"""Id of the search this function is running on."""
 
-    tee: Optional[str] = None
+    tee: Optional[bool] = None
     r"""Tee results to search. When set to true results will be shipped instead of stats"""
 
     flush_ms: Annotated[Optional[float], pydantic.Field(alias="flushMs")] = None

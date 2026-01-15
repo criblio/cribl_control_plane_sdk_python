@@ -21,7 +21,7 @@ class LakeExportConfigurationTypedDict(TypedDict):
     r"""Name of the dataset"""
     lake: NotRequired[str]
     r"""Name of the lake"""
-    tee: NotRequired[str]
+    tee: NotRequired[bool]
     r"""Tee results to search. When set to true results will be shipped instead of stats"""
     flush_ms: NotRequired[float]
     r"""How often are stats flushed in ms"""
@@ -39,7 +39,7 @@ class LakeExportConfiguration(BaseModel):
     lake: Optional[str] = None
     r"""Name of the lake"""
 
-    tee: Optional[str] = None
+    tee: Optional[bool] = None
     r"""Tee results to search. When set to true results will be shipped instead of stats"""
 
     flush_ms: Annotated[Optional[float], pydantic.Field(alias="flushMs")] = None

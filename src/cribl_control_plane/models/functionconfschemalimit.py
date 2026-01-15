@@ -12,5 +12,5 @@ class FunctionConfSchemaLimitTypedDict(TypedDict):
 
 
 class FunctionConfSchemaLimit(BaseModel):
-    limit: Optional[int] = 100
+    limit: Optional[int] = None
     r"""Number of qualifying events to pass through"""

@@ -17,9 +17,9 @@ class PipelineFunctionSuppressID(str, Enum):
 class PipelineFunctionSuppressConfTypedDict(TypedDict):
     key_expr: str
     r"""Suppression key expression used to uniquely identify events to suppress. For example, `${ip}:${port}` will use fields ip and port from each event to generate the key."""
-    allow: NotRequired[float]
+    allow: float
     r"""The number of events to allow per time period"""
-    suppress_period_sec: NotRequired[float]
+    suppress_period_sec: float
     r"""The number of seconds to suppress events after 'Number to allow' events are received"""
     drop_events_mode: NotRequired[bool]
     r"""If disabled, suppressed events will be tagged with suppress=1 but not dropped"""
@@ -35,32 +35,30 @@ class PipelineFunctionSuppressConf(BaseModel):
     key_expr: Annotated[str, pydantic.Field(alias="keyExpr")]
     r"""Suppression key expression used to uniquely identify events to suppress. For example, `${ip}:${port}` will use fields ip and port from each event to generate the key."""
 
-    allow: Optional[float] = 1
+    allow: float
     r"""The number of events to allow per time period"""
 
-    suppress_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="suppressPeriodSec")
-    ] = 30
+    suppress_period_sec: Annotated[float, pydantic.Field(alias="suppressPeriodSec")]
     r"""The number of seconds to suppress events after 'Number to allow' events are received"""
 
     drop_events_mode: Annotated[
         Optional[bool], pydantic.Field(alias="dropEventsMode")
-    ] = True
+    ] = None
     r"""If disabled, suppressed events will be tagged with suppress=1 but not dropped"""
 
     max_cache_size: Annotated[Optional[float], pydantic.Field(alias="maxCacheSize")] = (
-        50000
+        None
     )
     r"""The maximum number of keys that can be cached before idle entries are removed. Leave at default unless you understand the implications of changing."""
 
     cache_idle_timeout_periods: Annotated[
         Optional[float], pydantic.Field(alias="cacheIdleTimeoutPeriods")
-    ] = 2
+    ] = None
     r"""The number of suppression periods 'Suppression Period' of inactivity before a cache entry is considered idle. Leave at default unless you understand the implications of changing."""
 
     num_events_idle_timeout_trigger: Annotated[
         Optional[float], pydantic.Field(alias="numEventsIdleTimeoutTrigger")
-    ] = 10000
+    ] = None
     r"""Check cache for idle sessions every N events when cache size is > 'Maximum Cache Size'. Leave at default unless you understand the implications of changing."""
 
 
@@ -86,7 +84,7 @@ class PipelineFunctionSuppress(BaseModel):
 
     conf: PipelineFunctionSuppressConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

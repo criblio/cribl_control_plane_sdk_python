@@ -64,6 +64,14 @@ class OutputDynatraceOtlpPqControls(BaseModel):
 
 class OutputDynatraceOtlpTypedDict(TypedDict):
     type: OutputDynatraceOtlpType
+    protocol: OutputDynatraceOtlpProtocol
+    r"""Select a transport option for Dynatrace"""
+    endpoint: str
+    r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
+    otlp_version: OtlpVersionOptions1
+    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
+    endpoint_type: EndpointType
+    r"""Select the type of Dynatrace endpoint configured"""
     token_secret: str
     r"""Select or create a stored text secret"""
     id: NotRequired[str]
@@ -76,12 +84,6 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    protocol: NotRequired[OutputDynatraceOtlpProtocol]
-    r"""Select a transport option for Dynatrace"""
-    endpoint: NotRequired[str]
-    r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
-    otlp_version: NotRequired[OtlpVersionOptions1]
-    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
     compress: NotRequired[CompressionOptions4]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_compress: NotRequired[CompressionOptions5]
@@ -110,8 +112,6 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
     r"""How often the sender should ping the peer to keep the connection open"""
     keep_alive: NotRequired[bool]
     r"""Disable to close the connection immediately after sending the outgoing request"""
-    endpoint_type: NotRequired[EndpointType]
-    r"""Select the type of Dynatrace endpoint configured"""
     auth_token_name: NotRequired[str]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
@@ -158,6 +158,18 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
 class OutputDynatraceOtlp(BaseModel):
     type: OutputDynatraceOtlpType
 
+    protocol: OutputDynatraceOtlpProtocol
+    r"""Select a transport option for Dynatrace"""
+
+    endpoint: str
+    r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
+
+    otlp_version: Annotated[OtlpVersionOptions1, pydantic.Field(alias="otlpVersion")]
+    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
+
+    endpoint_type: Annotated[EndpointType, pydantic.Field(alias="endpointType")]
+    r"""Select the type of Dynatrace endpoint configured"""
+
     token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
     r"""Select or create a stored text secret"""
 
@@ -178,25 +190,12 @@ class OutputDynatraceOtlp(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    protocol: Optional[OutputDynatraceOtlpProtocol] = OutputDynatraceOtlpProtocol.HTTP
-    r"""Select a transport option for Dynatrace"""
-
-    endpoint: Optional[str] = (
-        "https://{your-environment-id}.live.dynatrace.com/api/v2/otlp"
-    )
-    r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
-
-    otlp_version: Annotated[
-        Optional[OtlpVersionOptions1], pydantic.Field(alias="otlpVersion")
-    ] = OtlpVersionOptions1.ONE_DOT_3_DOT_1
-    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
-
-    compress: Optional[CompressionOptions4] = CompressionOptions4.GZIP
+    compress: Optional[CompressionOptions4] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
         Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
-    ] = CompressionOptions5.GZIP
+    ] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_traces_endpoint_override: Annotated[
@@ -217,60 +216,55 @@ class OutputDynatraceOtlp(BaseModel):
     metadata: Optional[List[ItemsTypeKeyValueMetadata]] = None
     r"""List of key-value pairs to send with each gRPC request. Value supports JavaScript expressions that are evaluated just once, when the destination gets started. To pass credentials as metadata, use 'C.Secret'."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 2048
+    ] = None
     r"""Maximum size (in KB) of the request body. The maximum payload size is 4 MB. If this limit is exceeded, the entire OTLP message is dropped"""
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often the sender should ping the peer to keep the connection open"""
 
-    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = True
+    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
     r"""Disable to close the connection immediately after sending the outgoing request"""
 
-    endpoint_type: Annotated[
-        Optional[EndpointType], pydantic.Field(alias="endpointType")
-    ] = EndpointType.SAAS
-    r"""Select the type of Dynatrace endpoint configured"""
-
     auth_token_name: Annotated[Optional[str], pydantic.Field(alias="authTokenName")] = (
-        "Authorization"
+        None
     )
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
@@ -278,7 +272,7 @@ class OutputDynatraceOtlp(BaseModel):
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     extra_http_headers: Annotated[
@@ -304,55 +298,51 @@ class OutputDynatraceOtlp(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[

@@ -20,7 +20,7 @@ class FunctionConfSchemaEvalAdd(BaseModel):
 
     name: Optional[str] = None
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
     r"""Set to No to disable the evaluation of an individual expression"""
 
 

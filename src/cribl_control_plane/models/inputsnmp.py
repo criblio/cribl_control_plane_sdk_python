@@ -16,8 +16,8 @@ from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from typing import List, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputSnmpType(str, Enum):
@@ -51,13 +51,13 @@ class InputSnmpV3User(BaseModel):
     auth_protocol: Annotated[
         Optional[AuthenticationProtocolOptionsV3User],
         pydantic.Field(alias="authProtocol"),
-    ] = AuthenticationProtocolOptionsV3User.NONE
+    ] = None
 
     auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
 
     priv_protocol: Annotated[
         Optional[PrivacyProtocol], pydantic.Field(alias="privProtocol")
-    ] = PrivacyProtocol.NONE
+    ] = None
 
     priv_key: Annotated[Optional[str], pydantic.Field(alias="privKey")] = None
 
@@ -83,7 +83,7 @@ class InputSnmpV3User(BaseModel):
 class SNMPv3AuthenticationTypedDict(TypedDict):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 
-    v3_auth_enabled: NotRequired[bool]
+    v3_auth_enabled: bool
     allow_unmatched_trap: NotRequired[bool]
     r"""Pass through traps that don't match any of the configured users. @{product} will not attempt to decrypt these traps."""
     v3_users: NotRequired[List[InputSnmpV3UserTypedDict]]
@@ -93,13 +93,11 @@ class SNMPv3AuthenticationTypedDict(TypedDict):
 class SNMPv3Authentication(BaseModel):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 
-    v3_auth_enabled: Annotated[
-        Optional[bool], pydantic.Field(alias="v3AuthEnabled")
-    ] = False
+    v3_auth_enabled: Annotated[bool, pydantic.Field(alias="v3AuthEnabled")]
 
     allow_unmatched_trap: Annotated[
         Optional[bool], pydantic.Field(alias="allowUnmatchedTrap")
-    ] = False
+    ] = None
     r"""Pass through traps that don't match any of the configured users. @{product} will not attempt to decrypt these traps."""
 
     v3_users: Annotated[
@@ -108,11 +106,12 @@ class SNMPv3Authentication(BaseModel):
     r"""User credentials for receiving v3 traps"""
 
 
-class InputSnmpPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+class InputSnmpTypedDict(TypedDict):
     type: InputSnmpType
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
+    port: float
+    r"""UDP port to receive SNMP traps on. Defaults to 162."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -122,14 +121,13 @@ class InputSnmpPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Select whether to send data to Routes, or directly to Destinations."""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    host: NotRequired[str]
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-    port: NotRequired[float]
-    r"""UDP port to receive SNMP traps on. Defaults to 162."""
+    pq: NotRequired[PqTypeTypedDict]
     snmp_v3_auth: NotRequired[SNMPv3AuthenticationTypedDict]
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
     max_buffer_size: NotRequired[float]
@@ -147,29 +145,33 @@ class InputSnmpPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputSnmpPqEnabledTrueWithPqConstraint(BaseModel):
+class InputSnmp(BaseModel):
     type: InputSnmpType
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    host: str
+    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
 
-    pq: Optional[PqType] = None
+    port: float
+    r"""UDP port to receive SNMP traps on. Defaults to 162."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
@@ -177,11 +179,7 @@ class InputSnmpPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
-    port: Optional[float] = 162
-    r"""UDP port to receive SNMP traps on. Defaults to 162."""
+    pq: Optional[PqType] = None
 
     snmp_v3_auth: Annotated[
         Optional[SNMPv3Authentication], pydantic.Field(alias="snmpV3Auth")
@@ -190,12 +188,12 @@ class InputSnmpPqEnabledTrueWithPqConstraint(BaseModel):
 
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")
-    ] = 1000
+    ] = None
     r"""Maximum number of events to buffer when downstream is blocking."""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching IP addresses that are allowed to send data"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -208,367 +206,12 @@ class InputSnmpPqEnabledTrueWithPqConstraint(BaseModel):
 
     varbinds_with_types: Annotated[
         Optional[bool], pydantic.Field(alias="varbindsWithTypes")
-    ] = False
+    ] = None
     r"""If enabled, parses varbinds as an array of objects that include OID, value, and type"""
 
     best_effort_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="bestEffortParsing")
-    ] = False
+    ] = None
     r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
 
     description: Optional[str] = None
-
-
-class InputSnmpPqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputSnmpType
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-    port: NotRequired[float]
-    r"""UDP port to receive SNMP traps on. Defaults to 162."""
-    snmp_v3_auth: NotRequired[SNMPv3AuthenticationTypedDict]
-    r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
-    max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to buffer when downstream is blocking."""
-    ip_whitelist_regex: NotRequired[str]
-    r"""Regex matching IP addresses that are allowed to send data"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    udp_socket_rx_buf_size: NotRequired[float]
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-    varbinds_with_types: NotRequired[bool]
-    r"""If enabled, parses varbinds as an array of objects that include OID, value, and type"""
-    best_effort_parsing: NotRequired[bool]
-    r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
-    description: NotRequired[str]
-
-
-class InputSnmpPqEnabledFalseConstraint(BaseModel):
-    type: InputSnmpType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
-    port: Optional[float] = 162
-    r"""UDP port to receive SNMP traps on. Defaults to 162."""
-
-    snmp_v3_auth: Annotated[
-        Optional[SNMPv3Authentication], pydantic.Field(alias="snmpV3Auth")
-    ] = None
-    r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
-
-    max_buffer_size: Annotated[
-        Optional[float], pydantic.Field(alias="maxBufferSize")
-    ] = 1000
-    r"""Maximum number of events to buffer when downstream is blocking."""
-
-    ip_whitelist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
-    r"""Regex matching IP addresses that are allowed to send data"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    udp_socket_rx_buf_size: Annotated[
-        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
-    ] = None
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-
-    varbinds_with_types: Annotated[
-        Optional[bool], pydantic.Field(alias="varbindsWithTypes")
-    ] = False
-    r"""If enabled, parses varbinds as an array of objects that include OID, value, and type"""
-
-    best_effort_parsing: Annotated[
-        Optional[bool], pydantic.Field(alias="bestEffortParsing")
-    ] = False
-    r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
-
-    description: Optional[str] = None
-
-
-class InputSnmpSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputSnmpType
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-    port: NotRequired[float]
-    r"""UDP port to receive SNMP traps on. Defaults to 162."""
-    snmp_v3_auth: NotRequired[SNMPv3AuthenticationTypedDict]
-    r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
-    max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to buffer when downstream is blocking."""
-    ip_whitelist_regex: NotRequired[str]
-    r"""Regex matching IP addresses that are allowed to send data"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    udp_socket_rx_buf_size: NotRequired[float]
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-    varbinds_with_types: NotRequired[bool]
-    r"""If enabled, parses varbinds as an array of objects that include OID, value, and type"""
-    best_effort_parsing: NotRequired[bool]
-    r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
-    description: NotRequired[str]
-
-
-class InputSnmpSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputSnmpType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
-    port: Optional[float] = 162
-    r"""UDP port to receive SNMP traps on. Defaults to 162."""
-
-    snmp_v3_auth: Annotated[
-        Optional[SNMPv3Authentication], pydantic.Field(alias="snmpV3Auth")
-    ] = None
-    r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
-
-    max_buffer_size: Annotated[
-        Optional[float], pydantic.Field(alias="maxBufferSize")
-    ] = 1000
-    r"""Maximum number of events to buffer when downstream is blocking."""
-
-    ip_whitelist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
-    r"""Regex matching IP addresses that are allowed to send data"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    udp_socket_rx_buf_size: Annotated[
-        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
-    ] = None
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-
-    varbinds_with_types: Annotated[
-        Optional[bool], pydantic.Field(alias="varbindsWithTypes")
-    ] = False
-    r"""If enabled, parses varbinds as an array of objects that include OID, value, and type"""
-
-    best_effort_parsing: Annotated[
-        Optional[bool], pydantic.Field(alias="bestEffortParsing")
-    ] = False
-    r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
-
-    description: Optional[str] = None
-
-
-class InputSnmpSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputSnmpType
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-    port: NotRequired[float]
-    r"""UDP port to receive SNMP traps on. Defaults to 162."""
-    snmp_v3_auth: NotRequired[SNMPv3AuthenticationTypedDict]
-    r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
-    max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to buffer when downstream is blocking."""
-    ip_whitelist_regex: NotRequired[str]
-    r"""Regex matching IP addresses that are allowed to send data"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    udp_socket_rx_buf_size: NotRequired[float]
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-    varbinds_with_types: NotRequired[bool]
-    r"""If enabled, parses varbinds as an array of objects that include OID, value, and type"""
-    best_effort_parsing: NotRequired[bool]
-    r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
-    description: NotRequired[str]
-
-
-class InputSnmpSendToRoutesTrueConstraint(BaseModel):
-    type: InputSnmpType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
-
-    port: Optional[float] = 162
-    r"""UDP port to receive SNMP traps on. Defaults to 162."""
-
-    snmp_v3_auth: Annotated[
-        Optional[SNMPv3Authentication], pydantic.Field(alias="snmpV3Auth")
-    ] = None
-    r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
-
-    max_buffer_size: Annotated[
-        Optional[float], pydantic.Field(alias="maxBufferSize")
-    ] = 1000
-    r"""Maximum number of events to buffer when downstream is blocking."""
-
-    ip_whitelist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = "/.*/"
-    r"""Regex matching IP addresses that are allowed to send data"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    udp_socket_rx_buf_size: Annotated[
-        Optional[float], pydantic.Field(alias="udpSocketRxBufSize")
-    ] = None
-    r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
-
-    varbinds_with_types: Annotated[
-        Optional[bool], pydantic.Field(alias="varbindsWithTypes")
-    ] = False
-    r"""If enabled, parses varbinds as an array of objects that include OID, value, and type"""
-
-    best_effort_parsing: Annotated[
-        Optional[bool], pydantic.Field(alias="bestEffortParsing")
-    ] = False
-    r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
-
-    description: Optional[str] = None
-
-
-InputSnmpTypedDict = TypeAliasType(
-    "InputSnmpTypedDict",
-    Union[
-        InputSnmpSendToRoutesTrueConstraintTypedDict,
-        InputSnmpSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputSnmpPqEnabledFalseConstraintTypedDict,
-        InputSnmpPqEnabledTrueWithPqConstraintTypedDict,
-    ],
-)
-
-
-InputSnmp = TypeAliasType(
-    "InputSnmp",
-    Union[
-        InputSnmpSendToRoutesTrueConstraint,
-        InputSnmpSendToRoutesFalseWithConnectionsConstraint,
-        InputSnmpPqEnabledFalseConstraint,
-        InputSnmpPqEnabledTrueWithPqConstraint,
-    ],
-)

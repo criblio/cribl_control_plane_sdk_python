@@ -136,7 +136,7 @@ class OutputSns(BaseModel):
     aws_authentication_method: Annotated[
         Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -151,22 +151,22 @@ class OutputSns(BaseModel):
 
     signature_version: Annotated[
         Optional[OutputSnsSignatureVersion], pydantic.Field(alias="signatureVersion")
-    ] = OutputSnsSignatureVersion.V4
+    ] = None
     r"""Signature version to use for signing SNS requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access SNS"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -181,12 +181,12 @@ class OutputSns(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -198,50 +198,46 @@ class OutputSns(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[

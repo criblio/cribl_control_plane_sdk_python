@@ -17,8 +17,10 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class TLSSettingsClientSideType2TypedDict(TypedDict):
     disabled: NotRequired[bool]
-    servername: NotRequired[str]
-    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
     certificate_name: NotRequired[str]
     r"""The name of the predefined certificate"""
     ca_path: NotRequired[str]
@@ -34,10 +36,14 @@ class TLSSettingsClientSideType2TypedDict(TypedDict):
 
 
 class TLSSettingsClientSideType2(BaseModel):
-    disabled: Optional[bool] = True
+    disabled: Optional[bool] = None
 
-    servername: Optional[str] = None
-    r"""Server name for the SNI (Server Name Indication) TLS extension. It must be a host name, and not an IP address."""
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that are not authorized by a CA in the CA certificate path, or by another
+    trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+    """
 
     certificate_name: Annotated[
         Optional[str], pydantic.Field(alias="certificateName")

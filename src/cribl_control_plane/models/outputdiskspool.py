@@ -60,18 +60,16 @@ class OutputDiskSpool(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "10m"
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
     r"""Time period for grouping spooled events. Default is 10m."""
 
-    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = "1GB"
+    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = None
     r"""Maximum disk space that can be consumed before older buckets are deleted. Examples: 420MB, 4GB. Default is 1GB."""
 
-    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = "24h"
+    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = None
     r"""Maximum amount of time to retain data before older buckets are deleted. Examples: 2h, 4d. Default is 24h."""
 
-    compress: Optional[CompressionOptionsPersistence] = (
-        CompressionOptionsPersistence.GZIP
-    )
+    compress: Optional[CompressionOptionsPersistence] = None
     r"""Data compression format. Default is gzip."""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (

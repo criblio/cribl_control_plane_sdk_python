@@ -42,6 +42,8 @@ class OutputCloudflareR2TypedDict(TypedDict):
     r"""Cloudflare R2 service URL (example: https://<ACCOUNT_ID>.r2.cloudflarestorage.com)"""
     bucket: str
     r"""Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -57,8 +59,6 @@ class OutputCloudflareR2TypedDict(TypedDict):
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`)."""
     region: NotRequired[Any]
-    stage_path: NotRequired[str]
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     dest_path: NotRequired[str]
@@ -158,6 +158,9 @@ class OutputCloudflareR2(BaseModel):
     bucket: str
     r"""Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
+
     id: Optional[str] = None
     r"""Unique ID for this output"""
 
@@ -178,7 +181,7 @@ class OutputCloudflareR2(BaseModel):
     aws_authentication_method: Annotated[
         Optional[OutputCloudflareR2AuthenticationMethod],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = OutputCloudflareR2AuthenticationMethod.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -188,14 +191,9 @@ class OutputCloudflareR2(BaseModel):
 
     region: Optional[Any] = None
 
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
-
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
@@ -203,7 +201,7 @@ class OutputCloudflareR2(BaseModel):
 
     signature_version: Annotated[
         Optional[SignatureVersionOptions5], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions5.V4
+    ] = None
     r"""Signature version to use for signing MinIO requests"""
 
     object_acl: Annotated[Optional[Any], pydantic.Field(alias="objectACL")] = None
@@ -221,96 +219,96 @@ class OutputCloudflareR2(BaseModel):
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates)"""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
-        "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')"
+        None
     )
     r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
-        DataFormatOptions.JSON
+        None
     )
     r"""Format of the output data"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
-        "`CriblOut`"
+        None
     )
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 32
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
-    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = ""
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
     r"""If set, this line will be written to the beginning of each output file"""
 
     write_high_water_mark: Annotated[
         Optional[float], pydantic.Field(alias="writeHighWaterMark")
-    ] = 64
+    ] = None
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     force_close_on_shutdown: Annotated[
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
-    ] = False
+    ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
-    ] = 4
+    ] = None
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
 
     description: Optional[str] = None
@@ -321,17 +319,17 @@ class OutputCloudflareR2(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Optional[CompressionOptions2] = CompressionOptions2.GZIP
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
         Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
-    ] = CompressionLevelOptions.BEST_SPEED
+    ] = None
     r"""Compression level to apply before moving files to final destination"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
-    ] = False
+    ] = None
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
 
     parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
@@ -341,22 +339,22 @@ class OutputCloudflareR2(BaseModel):
 
     parquet_version: Annotated[
         Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
-    ] = ParquetVersionOptions.PARQUET_2_6
+    ] = None
     r"""Determines which data types are supported and how they are represented"""
 
     parquet_data_page_version: Annotated[
         Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
-    ] = DataPageVersionOptions.DATA_PAGE_V2
+    ] = None
     r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
 
     parquet_row_group_length: Annotated[
         Optional[float], pydantic.Field(alias="parquetRowGroupLength")
-    ] = 10000
+    ] = None
     r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
 
     parquet_page_size: Annotated[
         Optional[str], pydantic.Field(alias="parquetPageSize")
-    ] = "1MB"
+    ] = None
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
 
     should_log_invalid_rows: Annotated[
@@ -372,35 +370,37 @@ class OutputCloudflareR2(BaseModel):
 
     enable_statistics: Annotated[
         Optional[bool], pydantic.Field(alias="enableStatistics")
-    ] = True
+    ] = None
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
 
     enable_write_page_index: Annotated[
         Optional[bool], pydantic.Field(alias="enableWritePageIndex")
-    ] = True
+    ] = None
     r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
 
     enable_page_checksum: Annotated[
         Optional[bool], pydantic.Field(alias="enablePageChecksum")
-    ] = False
+    ] = None
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     @field_serializer("aws_authentication_method")

@@ -5,9 +5,9 @@ from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptions1 import CompressionOptions1
 from .compressionoptionspq import CompressionOptionsPq
 from .itemstypeauthtokens import ItemsTypeAuthTokens, ItemsTypeAuthTokensTypedDict
+from .itemstypehosts import ItemsTypeHosts, ItemsTypeHostsTypedDict
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .tlsoptionshostsitems import TLSOptionsHostsItems
 from .tlssettingsclientsidetypekafkaschemaregistry import (
     TLSSettingsClientSideTypeKafkaSchemaRegistry,
     TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
@@ -23,45 +23,6 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class OutputCriblTCPType(str, Enum):
     CRIBL_TCP = "cribl_tcp"
-
-
-class OutputCriblTCPHostTypedDict(TypedDict):
-    host: str
-    r"""The hostname of the receiver"""
-    port: NotRequired[float]
-    r"""The port to connect to on the provided host"""
-    tls: NotRequired[TLSOptionsHostsItems]
-    r"""Whether to inherit TLS configs from group setting or disable TLS"""
-    servername: NotRequired[str]
-    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
-    weight: NotRequired[float]
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-
-class OutputCriblTCPHost(BaseModel):
-    host: str
-    r"""The hostname of the receiver"""
-
-    port: Optional[float] = 10300
-    r"""The port to connect to on the provided host"""
-
-    tls: Optional[TLSOptionsHostsItems] = TLSOptionsHostsItems.INHERIT
-    r"""Whether to inherit TLS configs from group setting or disable TLS"""
-
-    servername: Optional[str] = None
-    r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
-
-    weight: Optional[float] = 1
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-    @field_serializer("tls")
-    def serialize_tls(self, value):
-        if isinstance(value, str):
-            try:
-                return models.TLSOptionsHostsItems(value)
-            except ValueError:
-                return value
-        return value
 
 
 class OutputCriblTCPPqControlsTypedDict(TypedDict):
@@ -112,7 +73,7 @@ class OutputCriblTCPTypedDict(TypedDict):
     r"""The port to connect to on the provided host"""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    hosts: NotRequired[List[OutputCriblTCPHostTypedDict]]
+    hosts: NotRequired[List[ItemsTypeHostsTypedDict]]
     r"""Set of hosts to load-balance data to"""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
@@ -164,38 +125,38 @@ class OutputCriblTCP(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        True
+        None
     )
     r"""Use load-balanced destinations"""
 
-    compression: Optional[CompressionOptions1] = CompressionOptions1.GZIP
+    compression: Optional[CompressionOptions1] = None
     r"""Codec to use to compress the data before sending"""
 
     log_failed_requests: Annotated[
         Optional[bool], pydantic.Field(alias="logFailedRequests")
-    ] = False
+    ] = None
     r"""Use to troubleshoot issues with sending data"""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        60000
+        None
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
     token_ttl_minutes: Annotated[
         Optional[float], pydantic.Field(alias="tokenTTLMinutes")
-    ] = 60
+    ] = None
     r"""The number of minutes before the internally generated authentication token expires, valid values between 1 and 60"""
 
     auth_tokens: Annotated[
@@ -210,7 +171,7 @@ class OutputCriblTCP(BaseModel):
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -218,76 +179,72 @@ class OutputCriblTCP(BaseModel):
     host: Optional[str] = None
     r"""The hostname of the receiver"""
 
-    port: Optional[float] = 10300
+    port: Optional[float] = None
     r"""The port to connect to on the provided host"""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
-    hosts: Optional[List[OutputCriblTCPHost]] = None
+    hosts: Optional[List[ItemsTypeHosts]] = None
     r"""Set of hosts to load-balance data to"""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     max_concurrent_senders: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentSenders")
-    ] = 0
+    ] = None
     r"""Maximum number of concurrent connections (per Worker Process). A random set of IPs will be picked on every DNS resolution period. Use 0 for unlimited."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[

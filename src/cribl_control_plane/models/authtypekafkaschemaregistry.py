@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class AuthTypeKafkaSchemaRegistryTypedDict(TypedDict):
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
-    disabled: NotRequired[bool]
+    disabled: bool
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
 
@@ -18,7 +18,7 @@ class AuthTypeKafkaSchemaRegistryTypedDict(TypedDict):
 class AuthTypeKafkaSchemaRegistry(BaseModel):
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
 
-    disabled: Optional[bool] = True
+    disabled: bool
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")

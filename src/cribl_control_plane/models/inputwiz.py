@@ -17,8 +17,8 @@ from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from typing import List, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputWizType(str, Enum):
@@ -48,6 +48,12 @@ class InputWizContentConfigTypedDict(TypedDict):
     r"""The name of the Wiz query"""
     content_query: str
     r"""Template for POST body to send with the Collect request. Reference global variables, or functions using template params: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`."""
+    cron_schedule: str
+    r"""A cron schedule on which to run this job"""
+    earliest: str
+    r"""Earliest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
+    latest: str
+    r"""Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
     content_description: NotRequired[str]
     enabled: NotRequired[bool]
     state_tracking: NotRequired[bool]
@@ -57,12 +63,6 @@ class InputWizContentConfigTypedDict(TypedDict):
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[ManageStateTypedDict]
-    cron_schedule: NotRequired[str]
-    r"""A cron schedule on which to run this job"""
-    earliest: NotRequired[str]
-    r"""Earliest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
-    latest: NotRequired[str]
-    r"""Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
     log_level: NotRequired[InputWizLogLevel]
@@ -78,51 +78,49 @@ class InputWizContentConfig(BaseModel):
     content_query: Annotated[str, pydantic.Field(alias="contentQuery")]
     r"""Template for POST body to send with the Collect request. Reference global variables, or functions using template params: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`."""
 
+    cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
+    r"""A cron schedule on which to run this job"""
+
+    earliest: str
+    r"""Earliest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
+
+    latest: str
+    r"""Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
+
     content_description: Annotated[
         Optional[str], pydantic.Field(alias="contentDescription")
     ] = None
 
-    enabled: Optional[bool] = False
+    enabled: Optional[bool] = None
 
     state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
-        False
+        None
     )
     r"""Track collection progress between consecutive scheduled executions"""
 
     state_update_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateUpdateExpression")
-    ] = "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}"
+    ] = None
     r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
 
     state_merge_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateMergeExpression")
-    ] = "prevState.latestTime > newState.latestTime ? prevState : newState"
+    ] = None
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
         Optional[ManageState], pydantic.Field(alias="manageState")
     ] = None
 
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
-        "0 */12 * * *"
-    )
-    r"""A cron schedule on which to run this job"""
-
-    earliest: Optional[str] = "-12h@h"
-    r"""Earliest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
-
-    latest: Optional[str] = "now"
-    r"""Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
-
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
 
     log_level: Annotated[
         Optional[InputWizLogLevel], pydantic.Field(alias="logLevel")
-    ] = InputWizLogLevel.INFO
+    ] = None
     r"""Collector runtime log level"""
 
-    max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = 0
+    max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
     r"""Maximum number of pages to retrieve per collection task. Defaults to 0. Set to 0 to retrieve all pages."""
 
     @field_serializer("log_level")
@@ -135,16 +133,15 @@ class InputWizContentConfig(BaseModel):
         return value
 
 
-class InputWizPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+class InputWizTypedDict(TypedDict):
     type: InputWizType
+    endpoint: str
+    r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
     auth_url: str
     r"""The authentication URL to generate an OAuth token"""
     client_id: str
     r"""The client ID of the Wiz application"""
     content_config: List[InputWizContentConfigTypedDict]
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -154,12 +151,13 @@ class InputWizPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Select whether to send data to Routes, or directly to Destinations."""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    endpoint: NotRequired[str]
-    r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
+    pq: NotRequired[PqTypeTypedDict]
     auth_audience_override: NotRequired[str]
     r"""The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used."""
     request_timeout: NotRequired[float]
@@ -184,8 +182,11 @@ class InputWizPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class InputWizPqEnabledTrueWithPqConstraint(BaseModel):
+class InputWiz(BaseModel):
     type: InputWizType
+
+    endpoint: str
+    r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
 
     auth_url: Annotated[str, pydantic.Field(alias="authUrl")]
     r"""The authentication URL to generate an OAuth token"""
@@ -197,26 +198,24 @@ class InputWizPqEnabledTrueWithPqConstraint(BaseModel):
         List[InputWizContentConfig], pydantic.Field(alias="contentConfig")
     ]
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
@@ -224,8 +223,7 @@ class InputWizPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    endpoint: Optional[str] = "https://api.<region>.app.wiz.io/graphql"
-    r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
+    pq: Optional[PqType] = None
 
     auth_audience_override: Annotated[
         Optional[str], pydantic.Field(alias="authAudienceOverride")
@@ -234,25 +232,25 @@ class InputWizPqEnabledTrueWithPqConstraint(BaseModel):
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 300
+    ] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
+    ] = None
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
 
     max_missed_keep_alives: Annotated[
         Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
+    ] = None
     r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
 
-    ttl: Optional[str] = "4h"
+    ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
 
     ignore_group_jobs_limit: Annotated[
         Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
+    ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -264,7 +262,7 @@ class InputWizPqEnabledTrueWithPqConstraint(BaseModel):
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
+    ] = None
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
@@ -283,475 +281,3 @@ class InputWizPqEnabledTrueWithPqConstraint(BaseModel):
             except ValueError:
                 return value
         return value
-
-
-class InputWizPqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputWizType
-    auth_url: str
-    r"""The authentication URL to generate an OAuth token"""
-    client_id: str
-    r"""The client ID of the Wiz application"""
-    content_config: List[InputWizContentConfigTypedDict]
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    endpoint: NotRequired[str]
-    r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
-    auth_audience_override: NotRequired[str]
-    r"""The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used."""
-    request_timeout: NotRequired[float]
-    r"""HTTP request inactivity timeout. Use 0 to disable."""
-    keep_alive_time: NotRequired[float]
-    r"""How often workers should check in with the scheduler to keep job subscription alive"""
-    max_missed_keep_alives: NotRequired[float]
-    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
-    ttl: NotRequired[str]
-    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
-    ignore_group_jobs_limit: NotRequired[bool]
-    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    retry_rules: NotRequired[RetryRulesTypeTypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
-    r"""Enter client secret directly, or select a stored secret"""
-    description: NotRequired[str]
-    client_secret: NotRequired[str]
-    r"""The client secret of the Wiz application"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-
-
-class InputWizPqEnabledFalseConstraint(BaseModel):
-    type: InputWizType
-
-    auth_url: Annotated[str, pydantic.Field(alias="authUrl")]
-    r"""The authentication URL to generate an OAuth token"""
-
-    client_id: Annotated[str, pydantic.Field(alias="clientId")]
-    r"""The client ID of the Wiz application"""
-
-    content_config: Annotated[
-        List[InputWizContentConfig], pydantic.Field(alias="contentConfig")
-    ]
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    endpoint: Optional[str] = "https://api.<region>.app.wiz.io/graphql"
-    r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
-
-    auth_audience_override: Annotated[
-        Optional[str], pydantic.Field(alias="authAudienceOverride")
-    ] = None
-    r"""The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used."""
-
-    request_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 300
-    r"""HTTP request inactivity timeout. Use 0 to disable."""
-
-    keep_alive_time: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
-    r"""How often workers should check in with the scheduler to keep job subscription alive"""
-
-    max_missed_keep_alives: Annotated[
-        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
-    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
-
-    ttl: Optional[str] = "4h"
-    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
-
-    ignore_group_jobs_limit: Annotated[
-        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
-    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    retry_rules: Annotated[
-        Optional[RetryRulesType], pydantic.Field(alias="retryRules")
-    ] = None
-
-    auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
-    r"""Enter client secret directly, or select a stored secret"""
-
-    description: Optional[str] = None
-
-    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
-    r"""The client secret of the Wiz application"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptions1(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputWizSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputWizType
-    auth_url: str
-    r"""The authentication URL to generate an OAuth token"""
-    client_id: str
-    r"""The client ID of the Wiz application"""
-    content_config: List[InputWizContentConfigTypedDict]
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    pq: NotRequired[PqTypeTypedDict]
-    endpoint: NotRequired[str]
-    r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
-    auth_audience_override: NotRequired[str]
-    r"""The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used."""
-    request_timeout: NotRequired[float]
-    r"""HTTP request inactivity timeout. Use 0 to disable."""
-    keep_alive_time: NotRequired[float]
-    r"""How often workers should check in with the scheduler to keep job subscription alive"""
-    max_missed_keep_alives: NotRequired[float]
-    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
-    ttl: NotRequired[str]
-    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
-    ignore_group_jobs_limit: NotRequired[bool]
-    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    retry_rules: NotRequired[RetryRulesTypeTypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
-    r"""Enter client secret directly, or select a stored secret"""
-    description: NotRequired[str]
-    client_secret: NotRequired[str]
-    r"""The client secret of the Wiz application"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-
-
-class InputWizSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputWizType
-
-    auth_url: Annotated[str, pydantic.Field(alias="authUrl")]
-    r"""The authentication URL to generate an OAuth token"""
-
-    client_id: Annotated[str, pydantic.Field(alias="clientId")]
-    r"""The client ID of the Wiz application"""
-
-    content_config: Annotated[
-        List[InputWizContentConfig], pydantic.Field(alias="contentConfig")
-    ]
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    endpoint: Optional[str] = "https://api.<region>.app.wiz.io/graphql"
-    r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
-
-    auth_audience_override: Annotated[
-        Optional[str], pydantic.Field(alias="authAudienceOverride")
-    ] = None
-    r"""The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used."""
-
-    request_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 300
-    r"""HTTP request inactivity timeout. Use 0 to disable."""
-
-    keep_alive_time: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
-    r"""How often workers should check in with the scheduler to keep job subscription alive"""
-
-    max_missed_keep_alives: Annotated[
-        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
-    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
-
-    ttl: Optional[str] = "4h"
-    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
-
-    ignore_group_jobs_limit: Annotated[
-        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
-    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    retry_rules: Annotated[
-        Optional[RetryRulesType], pydantic.Field(alias="retryRules")
-    ] = None
-
-    auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
-    r"""Enter client secret directly, or select a stored secret"""
-
-    description: Optional[str] = None
-
-    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
-    r"""The client secret of the Wiz application"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptions1(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputWizSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputWizType
-    auth_url: str
-    r"""The authentication URL to generate an OAuth token"""
-    client_id: str
-    r"""The client ID of the Wiz application"""
-    content_config: List[InputWizContentConfigTypedDict]
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    endpoint: NotRequired[str]
-    r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
-    auth_audience_override: NotRequired[str]
-    r"""The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used."""
-    request_timeout: NotRequired[float]
-    r"""HTTP request inactivity timeout. Use 0 to disable."""
-    keep_alive_time: NotRequired[float]
-    r"""How often workers should check in with the scheduler to keep job subscription alive"""
-    max_missed_keep_alives: NotRequired[float]
-    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
-    ttl: NotRequired[str]
-    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
-    ignore_group_jobs_limit: NotRequired[bool]
-    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    retry_rules: NotRequired[RetryRulesTypeTypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
-    r"""Enter client secret directly, or select a stored secret"""
-    description: NotRequired[str]
-    client_secret: NotRequired[str]
-    r"""The client secret of the Wiz application"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-
-
-class InputWizSendToRoutesTrueConstraint(BaseModel):
-    type: InputWizType
-
-    auth_url: Annotated[str, pydantic.Field(alias="authUrl")]
-    r"""The authentication URL to generate an OAuth token"""
-
-    client_id: Annotated[str, pydantic.Field(alias="clientId")]
-    r"""The client ID of the Wiz application"""
-
-    content_config: Annotated[
-        List[InputWizContentConfig], pydantic.Field(alias="contentConfig")
-    ]
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    endpoint: Optional[str] = "https://api.<region>.app.wiz.io/graphql"
-    r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
-
-    auth_audience_override: Annotated[
-        Optional[str], pydantic.Field(alias="authAudienceOverride")
-    ] = None
-    r"""The audience to use when requesting an OAuth token for a custom auth URL. When not specified, `wiz-api` will be used."""
-
-    request_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 300
-    r"""HTTP request inactivity timeout. Use 0 to disable."""
-
-    keep_alive_time: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTime")
-    ] = 30
-    r"""How often workers should check in with the scheduler to keep job subscription alive"""
-
-    max_missed_keep_alives: Annotated[
-        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
-    ] = 3
-    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
-
-    ttl: Optional[str] = "4h"
-    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
-
-    ignore_group_jobs_limit: Annotated[
-        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
-    ] = False
-    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    retry_rules: Annotated[
-        Optional[RetryRulesType], pydantic.Field(alias="retryRules")
-    ] = None
-
-    auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptions1.MANUAL
-    r"""Enter client secret directly, or select a stored secret"""
-
-    description: Optional[str] = None
-
-    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
-    r"""The client secret of the Wiz application"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptions1(value)
-            except ValueError:
-                return value
-        return value
-
-
-InputWizTypedDict = TypeAliasType(
-    "InputWizTypedDict",
-    Union[
-        InputWizSendToRoutesTrueConstraintTypedDict,
-        InputWizSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputWizPqEnabledFalseConstraintTypedDict,
-        InputWizPqEnabledTrueWithPqConstraintTypedDict,
-    ],
-)
-
-
-InputWiz = TypeAliasType(
-    "InputWiz",
-    Union[
-        InputWizSendToRoutesTrueConstraint,
-        InputWizSendToRoutesFalseWithConnectionsConstraint,
-        InputWizPqEnabledFalseConstraint,
-        InputWizPqEnabledTrueWithPqConstraint,
-    ],
-)

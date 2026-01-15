@@ -18,21 +18,20 @@ from .tlssettingsserversidetype import (
 from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
-from typing import List, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputCriblTCPType(str, Enum):
     CRIBL_TCP = "cribl_tcp"
 
 
-class InputCriblTCPPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+class InputCriblTCPTypedDict(TypedDict):
     type: InputCriblTCPType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -42,12 +41,13 @@ class InputCriblTCPPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Select whether to send data to Routes, or directly to Destinations."""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     max_active_cxn: NotRequired[float]
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
@@ -68,392 +68,32 @@ class InputCriblTCPPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class InputCriblTCPPqEnabledTrueWithPqConstraint(BaseModel):
+class InputCriblTCP(BaseModel):
     type: InputCriblTCPType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
-    )
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-
-    socket_idle_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
-
-    socket_ending_max_wait: Annotated[
-        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
-    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
-
-    socket_max_lifespan: Annotated[
-        Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
-    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
-    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    enable_load_balancing: Annotated[
-        Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
-    r"""Load balance traffic across all Worker Processes"""
-
-    auth_tokens: Annotated[
-        Optional[List[ItemsTypeAuthTokens]], pydantic.Field(alias="authTokens")
-    ] = None
-    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
-
-    description: Optional[str] = None
-
-
-class InputCriblTCPPqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputCriblTCPType
-    port: float
-    r"""Port to listen on"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    max_active_cxn: NotRequired[float]
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-    socket_idle_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
-    socket_ending_max_wait: NotRequired[float]
-    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
-    socket_max_lifespan: NotRequired[float]
-    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
-    enable_proxy_header: NotRequired[bool]
-    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    enable_load_balancing: NotRequired[bool]
-    r"""Load balance traffic across all Worker Processes"""
-    auth_tokens: NotRequired[List[ItemsTypeAuthTokensTypedDict]]
-    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
-    description: NotRequired[str]
-
-
-class InputCriblTCPPqEnabledFalseConstraint(BaseModel):
-    type: InputCriblTCPType
-
-    port: float
-    r"""Port to listen on"""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
-    )
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-
-    socket_idle_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
-
-    socket_ending_max_wait: Annotated[
-        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
-    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
-
-    socket_max_lifespan: Annotated[
-        Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
-    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
-    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    enable_load_balancing: Annotated[
-        Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
-    r"""Load balance traffic across all Worker Processes"""
-
-    auth_tokens: Annotated[
-        Optional[List[ItemsTypeAuthTokens]], pydantic.Field(alias="authTokens")
-    ] = None
-    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
-
-    description: Optional[str] = None
-
-
-class InputCriblTCPSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputCriblTCPType
-    port: float
-    r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    max_active_cxn: NotRequired[float]
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-    socket_idle_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
-    socket_ending_max_wait: NotRequired[float]
-    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
-    socket_max_lifespan: NotRequired[float]
-    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
-    enable_proxy_header: NotRequired[bool]
-    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    enable_load_balancing: NotRequired[bool]
-    r"""Load balance traffic across all Worker Processes"""
-    auth_tokens: NotRequired[List[ItemsTypeAuthTokensTypedDict]]
-    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
-    description: NotRequired[str]
-
-
-class InputCriblTCPSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputCriblTCPType
-
-    port: float
-    r"""Port to listen on"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
-    )
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-
-    socket_idle_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
-
-    socket_ending_max_wait: Annotated[
-        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
-    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
-
-    socket_max_lifespan: Annotated[
-        Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
-    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
-    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    enable_load_balancing: Annotated[
-        Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
-    r"""Load balance traffic across all Worker Processes"""
-
-    auth_tokens: Annotated[
-        Optional[List[ItemsTypeAuthTokens]], pydantic.Field(alias="authTokens")
-    ] = None
-    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
-
-    description: Optional[str] = None
-
-
-class InputCriblTCPSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputCriblTCPType
-    port: float
-    r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    max_active_cxn: NotRequired[float]
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-    socket_idle_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
-    socket_ending_max_wait: NotRequired[float]
-    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
-    socket_max_lifespan: NotRequired[float]
-    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
-    enable_proxy_header: NotRequired[bool]
-    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    enable_load_balancing: NotRequired[bool]
-    r"""Load balance traffic across all Worker Processes"""
-    auth_tokens: NotRequired[List[ItemsTypeAuthTokensTypedDict]]
-    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
-    description: NotRequired[str]
-
-
-class InputCriblTCPSendToRoutesTrueConstraint(BaseModel):
-    type: InputCriblTCPType
-
-    port: float
-    r"""Port to listen on"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
@@ -464,34 +104,31 @@ class InputCriblTCPSendToRoutesTrueConstraint(BaseModel):
 
     pq: Optional[PqType] = None
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
     tls: Optional[TLSSettingsServerSideType] = None
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     socket_idle_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
 
     socket_ending_max_wait: Annotated[
         Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = 30
+    ] = None
     r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
 
     socket_max_lifespan: Annotated[
         Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = 0
+    ] = None
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -499,7 +136,7 @@ class InputCriblTCPSendToRoutesTrueConstraint(BaseModel):
 
     enable_load_balancing: Annotated[
         Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = False
+    ] = None
     r"""Load balance traffic across all Worker Processes"""
 
     auth_tokens: Annotated[
@@ -508,25 +145,3 @@ class InputCriblTCPSendToRoutesTrueConstraint(BaseModel):
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
 
     description: Optional[str] = None
-
-
-InputCriblTCPTypedDict = TypeAliasType(
-    "InputCriblTCPTypedDict",
-    Union[
-        InputCriblTCPSendToRoutesTrueConstraintTypedDict,
-        InputCriblTCPSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputCriblTCPPqEnabledFalseConstraintTypedDict,
-        InputCriblTCPPqEnabledTrueWithPqConstraintTypedDict,
-    ],
-)
-
-
-InputCriblTCP = TypeAliasType(
-    "InputCriblTCP",
-    Union[
-        InputCriblTCPSendToRoutesTrueConstraint,
-        InputCriblTCPSendToRoutesFalseWithConnectionsConstraint,
-        InputCriblTCPPqEnabledFalseConstraint,
-        InputCriblTCPPqEnabledTrueWithPqConstraint,
-    ],
-)

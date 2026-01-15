@@ -57,6 +57,7 @@ group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 syslog_source = CreateInputInputSyslogSyslog2(
     id="in-syslog-9021",
     type=CreateInputInputSyslogType2.SYSLOG,
+    host="0.0.0.0",
     tcp_port=SYSLOG_PORT,
     tls=TLSSettingsServerSideType(disabled=True),
 )
@@ -66,6 +67,7 @@ s3_destination = CreateOutputOutputS3(
     id="out_s3",
     type=CreateOutputTypeS3.S3,
     bucket=AWS_BUCKET_NAME,
+    stage_path="/tmp/cribl_stage",
     region=AWS_REGION,
     aws_secret_key=AWS_SECRET_KEY,
     aws_api_key=AWS_API_KEY,

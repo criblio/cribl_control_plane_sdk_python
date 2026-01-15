@@ -68,7 +68,7 @@ class PipelineFunctionSort(BaseModel):
 
     conf: SortConfiguration
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

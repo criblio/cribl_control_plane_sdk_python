@@ -7,15 +7,15 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class CheckpointingTypeTypedDict(TypedDict):
-    enabled: NotRequired[bool]
+    enabled: bool
     r"""Resume processing files after an interruption"""
     retries: NotRequired[float]
     r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""
 
 
 class CheckpointingType(BaseModel):
-    enabled: Optional[bool] = False
+    enabled: bool
     r"""Resume processing files after an interruption"""
 
-    retries: Optional[float] = 5
+    retries: Optional[float] = None
     r"""The number of times to retry processing when a processing error occurs. If Skip file on error is enabled, this setting is ignored."""

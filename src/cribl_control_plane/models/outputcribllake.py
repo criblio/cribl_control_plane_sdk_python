@@ -4,6 +4,7 @@ from __future__ import annotations
 from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
 from .formatoptionscribllakedataset import FormatOptionsCriblLakeDataset
+from .methodoptionscredentials import MethodOptionsCredentials
 from .objectacloptions import ObjectACLOptions
 from .serversideencryptionforuploadedobjectsoptions import (
     ServerSideEncryptionForUploadedObjectsOptions,
@@ -12,7 +13,7 @@ from .signatureversionoptionss3collectorconf import (
     SignatureVersionOptionsS3CollectorConf,
 )
 from .storageclassoptions import StorageClassOptions
-from cribl_control_plane import models, utils
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
@@ -23,12 +24,6 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class OutputCriblLakeType(str, Enum):
     CRIBL_LAKE = "cribl_lake"
-
-
-class AwsAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
-    AUTO = "auto"
-    AUTO_RPC = "auto_rpc"
-    MANUAL = "manual"
 
 
 class OutputCriblLakeTypedDict(TypedDict):
@@ -108,7 +103,7 @@ class OutputCriblLakeTypedDict(TypedDict):
     r"""Disable if you can access files within the bucket but not the bucket itself"""
     max_closing_files_to_backpressure: NotRequired[float]
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
-    aws_authentication_method: NotRequired[AwsAuthenticationMethod]
+    aws_authentication_method: NotRequired[MethodOptionsCredentials]
     format_: NotRequired[FormatOptionsCriblLakeDataset]
     max_concurrent_file_parts: NotRequired[float]
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
@@ -160,22 +155,22 @@ class OutputCriblLake(BaseModel):
     signature_version: Annotated[
         Optional[SignatureVersionOptionsS3CollectorConf],
         pydantic.Field(alias="signatureVersion"),
-    ] = SignatureVersionOptionsS3CollectorConf.V4
+    ] = None
     r"""Signature version to use for signing S3 requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access S3"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -190,17 +185,15 @@ class OutputCriblLake(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
+    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = None
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
@@ -208,7 +201,7 @@ class OutputCriblLake(BaseModel):
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
-    ] = ObjectACLOptions.PRIVATE
+    ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
@@ -226,82 +219,82 @@ class OutputCriblLake(BaseModel):
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
-        "`CriblOut`"
+        None
     )
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
 
     file_name_suffix: Annotated[
         Optional[str], pydantic.Field(alias="fileNameSuffix")
-    ] = '`.${C.env["CRIBL_WORKER_ID"]}.${__format}${__compression === "gzip" ? ".gz" : ""}`'
+    ] = None
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 64
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
-    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = ""
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
     r"""If set, this line will be written to the beginning of each output file"""
 
     write_high_water_mark: Annotated[
         Optional[float], pydantic.Field(alias="writeHighWaterMark")
-    ] = 64
+    ] = None
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     force_close_on_shutdown: Annotated[
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
-    ] = False
+    ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = True
+    ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself"""
 
     max_closing_files_to_backpressure: Annotated[
         Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
-    ] = 100
+    ] = None
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
 
     aws_authentication_method: Annotated[
-        Optional[AwsAuthenticationMethod],
+        Optional[MethodOptionsCredentials],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AwsAuthenticationMethod.AUTO
+    ] = None
 
     format_: Annotated[
         Optional[FormatOptionsCriblLakeDataset], pydantic.Field(alias="format")
@@ -309,27 +302,29 @@ class OutputCriblLake(BaseModel):
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
-    ] = 1
+    ] = None
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
 
     description: Optional[str] = None
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     @field_serializer("signature_version")
@@ -390,7 +385,7 @@ class OutputCriblLake(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AwsAuthenticationMethod(value)
+                return models.MethodOptionsCredentials(value)
             except ValueError:
                 return value
         return value

@@ -22,21 +22,22 @@ from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from typing import List, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputLokiType(str, Enum):
     LOKI = "loki"
 
 
-class InputLokiPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+class InputLokiTypedDict(TypedDict):
     type: InputLokiType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
+    loki_api: str
+    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -46,12 +47,13 @@ class InputLokiPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Select whether to send data to Routes, or directly to Destinations."""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
@@ -75,8 +77,6 @@ class InputLokiPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    loki_api: NotRequired[str]
-    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
     r"""Loki logs authentication type"""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
@@ -108,32 +108,36 @@ class InputLokiPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
-class InputLokiPqEnabledTrueWithPqConstraint(BaseModel):
+class InputLoki(BaseModel):
     type: InputLokiType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
     port: float
     r"""Port to listen on"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
+    loki_api: Annotated[str, pydantic.Field(alias="lokiAPI")]
+    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
@@ -141,74 +145,68 @@ class InputLokiPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
+        None
     )
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
 
     max_requests_per_socket: Annotated[
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
+    ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Add request headers to events, in the __headers field"""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = 100
+    ] = None
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
 
     keep_alive_timeout: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 5
+    ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
     enable_health_check: Annotated[
         Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
+    ] = None
     r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
 
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
 
     ip_denylist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
+    ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    loki_api: Annotated[Optional[str], pydantic.Field(alias="lokiAPI")] = (
-        "/loki/api/v1/push"
-    )
-    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
 
     auth_type: Annotated[
         Optional[AuthenticationTypeOptionsLokiAuth], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeOptionsLokiAuth.NONE
+    ] = None
     r"""Loki logs authentication type"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -249,12 +247,12 @@ class InputLokiPqEnabledTrueWithPqConstraint(BaseModel):
 
     auth_header_expr: Annotated[
         Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
+    ] = None
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
 
     token_timeout_secs: Annotated[
         Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
+    ] = None
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
@@ -275,766 +273,3 @@ class InputLokiPqEnabledTrueWithPqConstraint(BaseModel):
             except ValueError:
                 return value
         return value
-
-
-class InputLokiPqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputLokiType
-    port: float
-    r"""Port to listen on"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    max_active_req: NotRequired[float]
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-    max_requests_per_socket: NotRequired[int]
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[bool]
-    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
-    capture_headers: NotRequired[bool]
-    r"""Add request headers to events, in the __headers field"""
-    activity_log_sample_rate: NotRequired[float]
-    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
-    request_timeout: NotRequired[float]
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-    socket_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-    keep_alive_timeout: NotRequired[float]
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[bool]
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    loki_api: NotRequired[str]
-    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
-    auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
-    r"""Loki logs authentication type"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-    username: NotRequired[str]
-    password: NotRequired[str]
-    token: NotRequired[str]
-    r"""Bearer token to include in the authorization header"""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-
-class InputLokiPqEnabledFalseConstraint(BaseModel):
-    type: InputLokiType
-
-    port: float
-    r"""Port to listen on"""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
-    )
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-
-    max_requests_per_socket: Annotated[
-        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
-    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
-
-    capture_headers: Annotated[
-        Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
-    r"""Add request headers to events, in the __headers field"""
-
-    activity_log_sample_rate: Annotated[
-        Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = 100
-    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
-
-    request_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-
-    socket_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-
-    keep_alive_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 5
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-
-    enable_health_check: Annotated[
-        Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    loki_api: Annotated[Optional[str], pydantic.Field(alias="lokiAPI")] = (
-        "/loki/api/v1/push"
-    )
-    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
-
-    auth_type: Annotated[
-        Optional[AuthenticationTypeOptionsLokiAuth], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeOptionsLokiAuth.NONE
-    r"""Loki logs authentication type"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-    username: Optional[str] = None
-
-    password: Optional[str] = None
-
-    token: Optional[str] = None
-    r"""Bearer token to include in the authorization header"""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationTypeOptionsLokiAuth(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputLokiSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputLokiType
-    port: float
-    r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    max_active_req: NotRequired[float]
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-    max_requests_per_socket: NotRequired[int]
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[bool]
-    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
-    capture_headers: NotRequired[bool]
-    r"""Add request headers to events, in the __headers field"""
-    activity_log_sample_rate: NotRequired[float]
-    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
-    request_timeout: NotRequired[float]
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-    socket_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-    keep_alive_timeout: NotRequired[float]
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[bool]
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    loki_api: NotRequired[str]
-    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
-    auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
-    r"""Loki logs authentication type"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-    username: NotRequired[str]
-    password: NotRequired[str]
-    token: NotRequired[str]
-    r"""Bearer token to include in the authorization header"""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-
-class InputLokiSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputLokiType
-
-    port: float
-    r"""Port to listen on"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
-    )
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-
-    max_requests_per_socket: Annotated[
-        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
-    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
-
-    capture_headers: Annotated[
-        Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
-    r"""Add request headers to events, in the __headers field"""
-
-    activity_log_sample_rate: Annotated[
-        Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = 100
-    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
-
-    request_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-
-    socket_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-
-    keep_alive_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 5
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-
-    enable_health_check: Annotated[
-        Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    loki_api: Annotated[Optional[str], pydantic.Field(alias="lokiAPI")] = (
-        "/loki/api/v1/push"
-    )
-    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
-
-    auth_type: Annotated[
-        Optional[AuthenticationTypeOptionsLokiAuth], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeOptionsLokiAuth.NONE
-    r"""Loki logs authentication type"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-    username: Optional[str] = None
-
-    password: Optional[str] = None
-
-    token: Optional[str] = None
-    r"""Bearer token to include in the authorization header"""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationTypeOptionsLokiAuth(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputLokiSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputLokiType
-    port: float
-    r"""Port to listen on"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    max_active_req: NotRequired[float]
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-    max_requests_per_socket: NotRequired[int]
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[bool]
-    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
-    capture_headers: NotRequired[bool]
-    r"""Add request headers to events, in the __headers field"""
-    activity_log_sample_rate: NotRequired[float]
-    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
-    request_timeout: NotRequired[float]
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-    socket_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-    keep_alive_timeout: NotRequired[float]
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[bool]
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    loki_api: NotRequired[str]
-    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
-    auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
-    r"""Loki logs authentication type"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-    username: NotRequired[str]
-    password: NotRequired[str]
-    token: NotRequired[str]
-    r"""Bearer token to include in the authorization header"""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-
-class InputLokiSendToRoutesTrueConstraint(BaseModel):
-    type: InputLokiType
-
-    port: float
-    r"""Port to listen on"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
-    )
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-
-    max_requests_per_socket: Annotated[
-        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
-    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
-
-    capture_headers: Annotated[
-        Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
-    r"""Add request headers to events, in the __headers field"""
-
-    activity_log_sample_rate: Annotated[
-        Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = 100
-    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
-
-    request_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-
-    socket_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-
-    keep_alive_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 5
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-
-    enable_health_check: Annotated[
-        Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    loki_api: Annotated[Optional[str], pydantic.Field(alias="lokiAPI")] = (
-        "/loki/api/v1/push"
-    )
-    r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
-
-    auth_type: Annotated[
-        Optional[AuthenticationTypeOptionsLokiAuth], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeOptionsLokiAuth.NONE
-    r"""Loki logs authentication type"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-    username: Optional[str] = None
-
-    password: Optional[str] = None
-
-    token: Optional[str] = None
-    r"""Bearer token to include in the authorization header"""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationTypeOptionsLokiAuth(value)
-            except ValueError:
-                return value
-        return value
-
-
-InputLokiTypedDict = TypeAliasType(
-    "InputLokiTypedDict",
-    Union[
-        InputLokiSendToRoutesTrueConstraintTypedDict,
-        InputLokiSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputLokiPqEnabledFalseConstraintTypedDict,
-        InputLokiPqEnabledTrueWithPqConstraintTypedDict,
-    ],
-)
-
-
-InputLoki = TypeAliasType(
-    "InputLoki",
-    Union[
-        InputLokiSendToRoutesTrueConstraint,
-        InputLokiSendToRoutesFalseWithConnectionsConstraint,
-        InputLokiPqEnabledFalseConstraint,
-        InputLokiPqEnabledTrueWithPqConstraint,
-    ],
-)

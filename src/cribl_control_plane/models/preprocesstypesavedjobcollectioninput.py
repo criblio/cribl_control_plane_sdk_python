@@ -7,7 +7,7 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class PreprocessTypeSavedJobCollectionInputTypedDict(TypedDict):
-    disabled: NotRequired[bool]
+    disabled: bool
     command: NotRequired[str]
     r"""Command to feed the data through (via stdin) and process its output (stdout)"""
     args: NotRequired[List[str]]
@@ -15,7 +15,7 @@ class PreprocessTypeSavedJobCollectionInputTypedDict(TypedDict):
 
 
 class PreprocessTypeSavedJobCollectionInput(BaseModel):
-    disabled: Optional[bool] = True
+    disabled: bool
 
     command: Optional[str] = None
     r"""Command to feed the data through (via stdin) and process its output (stdout)"""

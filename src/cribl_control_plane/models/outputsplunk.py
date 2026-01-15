@@ -40,6 +40,8 @@ class OutputSplunkTypedDict(TypedDict):
     type: OutputSplunkType
     host: str
     r"""The hostname of the receiver"""
+    port: float
+    r"""The port to connect to on the provided host"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -50,8 +52,6 @@ class OutputSplunkTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    port: NotRequired[float]
-    r"""The port to connect to on the provided host"""
     nested_fields: NotRequired[NestedFieldSerializationOptions]
     r"""How to serialize nested fields into index-time fields"""
     throttle_rate_per_sec: NotRequired[str]
@@ -111,6 +111,9 @@ class OutputSplunk(BaseModel):
     host: str
     r"""The hostname of the receiver"""
 
+    port: float
+    r"""The port to connect to on the provided host"""
+
     id: Optional[str] = None
     r"""Unique ID for this output"""
 
@@ -128,26 +131,23 @@ class OutputSplunk(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    port: Optional[float] = 9997
-    r"""The port to connect to on the provided host"""
-
     nested_fields: Annotated[
         Optional[NestedFieldSerializationOptions], pydantic.Field(alias="nestedFields")
-    ] = NestedFieldSerializationOptions.NONE
+    ] = None
     r"""How to serialize nested fields into index-time fields"""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = "0"
+    ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = 10000
+    ] = None
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
 
     write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        60000
+        None
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
@@ -155,96 +155,92 @@ class OutputSplunk(BaseModel):
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
-    ] = False
+    ] = None
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
 
-    enable_ack: Annotated[Optional[bool], pydantic.Field(alias="enableACK")] = True
+    enable_ack: Annotated[Optional[bool], pydantic.Field(alias="enableACK")] = None
     r"""Check if indexer is shutting down and stop sending data. This helps minimize data loss during shutdown."""
 
     log_failed_requests: Annotated[
         Optional[bool], pydantic.Field(alias="logFailedRequests")
-    ] = False
+    ] = None
     r"""Use to troubleshoot issues with sending data"""
 
     max_s2_sversion: Annotated[
         Optional[MaxS2SVersionOptions], pydantic.Field(alias="maxS2Sversion")
-    ] = MaxS2SVersionOptions.V3
+    ] = None
     r"""The highest S2S protocol version to advertise during handshake"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
 
     max_failed_health_checks: Annotated[
         Optional[float], pydantic.Field(alias="maxFailedHealthChecks")
-    ] = 1
+    ] = None
     r"""Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur."""
 
-    compress: Optional[CompressionOptions] = CompressionOptions.DISABLED
+    compress: Optional[CompressionOptions] = None
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
         Optional[OutputSplunkPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = ""
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None

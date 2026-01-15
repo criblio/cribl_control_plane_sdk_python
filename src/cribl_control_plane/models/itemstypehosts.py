@@ -29,13 +29,13 @@ class ItemsTypeHosts(BaseModel):
     port: float
     r"""The port to connect to on the provided host"""
 
-    tls: Optional[TLSOptionsHostsItems] = TLSOptionsHostsItems.INHERIT
+    tls: Optional[TLSOptionsHostsItems] = None
     r"""Whether to inherit TLS configs from group setting or disable TLS"""
 
     servername: Optional[str] = None
     r"""Servername to use if establishing a TLS connection. If not specified, defaults to connection host (if not an IP); otherwise, uses the global TLS settings."""
 
-    weight: Optional[float] = 1
+    weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
     @field_serializer("tls")

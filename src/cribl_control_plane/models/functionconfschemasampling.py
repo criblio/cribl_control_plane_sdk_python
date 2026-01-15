@@ -8,17 +8,17 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class FunctionConfSchemaSamplingRuleTypedDict(TypedDict):
-    filter_: NotRequired[str]
+    filter_: str
     r"""JavaScript filter expression matching events to be sampled. Use true to match all."""
-    rate: NotRequired[int]
+    rate: int
     r"""Sampling rate; picks one out of N matching events"""
 
 
 class FunctionConfSchemaSamplingRule(BaseModel):
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript filter expression matching events to be sampled. Use true to match all."""
 
-    rate: Optional[int] = 1
+    rate: int
     r"""Sampling rate; picks one out of N matching events"""
 
 

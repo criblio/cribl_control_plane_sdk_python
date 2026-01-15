@@ -22,8 +22,8 @@ from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from typing import Any, List, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+from typing import Any, List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputOpenTelemetryType(str, Enum):
@@ -48,11 +48,12 @@ class InputOpenTelemetryOTLPVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     ONE_DOT_3_DOT_1 = "1.3.1"
 
 
-class InputOpenTelemetryPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+class InputOpenTelemetryTypedDict(TypedDict):
     type: InputOpenTelemetryType
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: float
+    r"""Port to listen on"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -62,14 +63,13 @@ class InputOpenTelemetryPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Select whether to send data to Routes, or directly to Destinations."""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: NotRequired[float]
-    r"""Port to listen on"""
+    pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
@@ -133,29 +133,33 @@ class InputOpenTelemetryPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Enable to extract each incoming log record to a separate event"""
 
 
-class InputOpenTelemetryPqEnabledTrueWithPqConstraint(BaseModel):
+class InputOpenTelemetry(BaseModel):
     type: InputOpenTelemetryType
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
 
-    pq: Optional[PqType] = None
+    port: float
+    r"""Port to listen on"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
@@ -163,22 +167,18 @@ class InputOpenTelemetryPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: Optional[float] = 4317
-    r"""Port to listen on"""
+    pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
+        None
     )
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
 
     max_requests_per_socket: Annotated[
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
+    ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
 
     enable_proxy_header: Annotated[
@@ -195,62 +195,62 @@ class InputOpenTelemetryPqEnabledTrueWithPqConstraint(BaseModel):
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
+    ] = None
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
 
     keep_alive_timeout: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 15
+    ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 sec.; maximum 600 sec. (10 min.)."""
 
     enable_health_check: Annotated[
         Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
+    ] = None
     r"""Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
 
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
 
     ip_denylist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
+    ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    protocol: Optional[InputOpenTelemetryProtocol] = InputOpenTelemetryProtocol.GRPC
+    protocol: Optional[InputOpenTelemetryProtocol] = None
     r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
 
     extract_spans: Annotated[Optional[bool], pydantic.Field(alias="extractSpans")] = (
-        False
+        None
     )
     r"""Enable to extract each incoming span to a separate event"""
 
     extract_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="extractMetrics")
-    ] = False
+    ] = None
     r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
 
     otlp_version: Annotated[
         Optional[InputOpenTelemetryOTLPVersion], pydantic.Field(alias="otlpVersion")
-    ] = InputOpenTelemetryOTLPVersion.ZERO_DOT_10_DOT_0
+    ] = None
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
 
     auth_type: Annotated[
         Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeOptions.NONE
+    ] = None
     r"""OpenTelemetry authentication type"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to events from this input"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
+        None
     )
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
@@ -289,12 +289,12 @@ class InputOpenTelemetryPqEnabledTrueWithPqConstraint(BaseModel):
 
     auth_header_expr: Annotated[
         Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
+    ] = None
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
 
     token_timeout_secs: Annotated[
         Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
+    ] = None
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
@@ -307,7 +307,7 @@ class InputOpenTelemetryPqEnabledTrueWithPqConstraint(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
-    extract_logs: Annotated[Optional[bool], pydantic.Field(alias="extractLogs")] = False
+    extract_logs: Annotated[Optional[bool], pydantic.Field(alias="extractLogs")] = None
     r"""Enable to extract each incoming log record to a separate event"""
 
     @field_serializer("protocol")
@@ -336,895 +336,3 @@ class InputOpenTelemetryPqEnabledTrueWithPqConstraint(BaseModel):
             except ValueError:
                 return value
         return value
-
-
-class InputOpenTelemetryPqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputOpenTelemetryType
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: NotRequired[float]
-    r"""Port to listen on"""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    max_active_req: NotRequired[float]
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-    max_requests_per_socket: NotRequired[int]
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[Any]
-    capture_headers: NotRequired[Any]
-    activity_log_sample_rate: NotRequired[Any]
-    request_timeout: NotRequired[float]
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-    socket_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-    keep_alive_timeout: NotRequired[float]
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 sec.; maximum 600 sec. (10 min.)."""
-    enable_health_check: NotRequired[bool]
-    r"""Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    protocol: NotRequired[InputOpenTelemetryProtocol]
-    r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
-    extract_spans: NotRequired[bool]
-    r"""Enable to extract each incoming span to a separate event"""
-    extract_metrics: NotRequired[bool]
-    r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
-    otlp_version: NotRequired[InputOpenTelemetryOTLPVersion]
-    r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
-    auth_type: NotRequired[AuthenticationTypeOptions]
-    r"""OpenTelemetry authentication type"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    max_active_cxn: NotRequired[float]
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-    description: NotRequired[str]
-    username: NotRequired[str]
-    password: NotRequired[str]
-    token: NotRequired[str]
-    r"""Bearer token to include in the authorization header"""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    extract_logs: NotRequired[bool]
-    r"""Enable to extract each incoming log record to a separate event"""
-
-
-class InputOpenTelemetryPqEnabledFalseConstraint(BaseModel):
-    type: InputOpenTelemetryType
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: Optional[float] = 4317
-    r"""Port to listen on"""
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
-    )
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-
-    max_requests_per_socket: Annotated[
-        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[Any], pydantic.Field(alias="enableProxyHeader")
-    ] = None
-
-    capture_headers: Annotated[
-        Optional[Any], pydantic.Field(alias="captureHeaders")
-    ] = None
-
-    activity_log_sample_rate: Annotated[
-        Optional[Any], pydantic.Field(alias="activityLogSampleRate")
-    ] = None
-
-    request_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-
-    socket_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-
-    keep_alive_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 15
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 sec.; maximum 600 sec. (10 min.)."""
-
-    enable_health_check: Annotated[
-        Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
-    r"""Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    protocol: Optional[InputOpenTelemetryProtocol] = InputOpenTelemetryProtocol.GRPC
-    r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
-
-    extract_spans: Annotated[Optional[bool], pydantic.Field(alias="extractSpans")] = (
-        False
-    )
-    r"""Enable to extract each incoming span to a separate event"""
-
-    extract_metrics: Annotated[
-        Optional[bool], pydantic.Field(alias="extractMetrics")
-    ] = False
-    r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
-
-    otlp_version: Annotated[
-        Optional[InputOpenTelemetryOTLPVersion], pydantic.Field(alias="otlpVersion")
-    ] = InputOpenTelemetryOTLPVersion.ZERO_DOT_10_DOT_0
-    r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
-
-    auth_type: Annotated[
-        Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeOptions.NONE
-    r"""OpenTelemetry authentication type"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
-    )
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-
-    description: Optional[str] = None
-
-    username: Optional[str] = None
-
-    password: Optional[str] = None
-
-    token: Optional[str] = None
-    r"""Bearer token to include in the authorization header"""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    extract_logs: Annotated[Optional[bool], pydantic.Field(alias="extractLogs")] = False
-    r"""Enable to extract each incoming log record to a separate event"""
-
-    @field_serializer("protocol")
-    def serialize_protocol(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputOpenTelemetryProtocol(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("otlp_version")
-    def serialize_otlp_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputOpenTelemetryOTLPVersion(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationTypeOptions(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputOpenTelemetrySendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputOpenTelemetryType
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: NotRequired[float]
-    r"""Port to listen on"""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    max_active_req: NotRequired[float]
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-    max_requests_per_socket: NotRequired[int]
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[Any]
-    capture_headers: NotRequired[Any]
-    activity_log_sample_rate: NotRequired[Any]
-    request_timeout: NotRequired[float]
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-    socket_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-    keep_alive_timeout: NotRequired[float]
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 sec.; maximum 600 sec. (10 min.)."""
-    enable_health_check: NotRequired[bool]
-    r"""Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    protocol: NotRequired[InputOpenTelemetryProtocol]
-    r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
-    extract_spans: NotRequired[bool]
-    r"""Enable to extract each incoming span to a separate event"""
-    extract_metrics: NotRequired[bool]
-    r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
-    otlp_version: NotRequired[InputOpenTelemetryOTLPVersion]
-    r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
-    auth_type: NotRequired[AuthenticationTypeOptions]
-    r"""OpenTelemetry authentication type"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    max_active_cxn: NotRequired[float]
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-    description: NotRequired[str]
-    username: NotRequired[str]
-    password: NotRequired[str]
-    token: NotRequired[str]
-    r"""Bearer token to include in the authorization header"""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    extract_logs: NotRequired[bool]
-    r"""Enable to extract each incoming log record to a separate event"""
-
-
-class InputOpenTelemetrySendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputOpenTelemetryType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: Optional[float] = 4317
-    r"""Port to listen on"""
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
-    )
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-
-    max_requests_per_socket: Annotated[
-        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[Any], pydantic.Field(alias="enableProxyHeader")
-    ] = None
-
-    capture_headers: Annotated[
-        Optional[Any], pydantic.Field(alias="captureHeaders")
-    ] = None
-
-    activity_log_sample_rate: Annotated[
-        Optional[Any], pydantic.Field(alias="activityLogSampleRate")
-    ] = None
-
-    request_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-
-    socket_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-
-    keep_alive_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 15
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 sec.; maximum 600 sec. (10 min.)."""
-
-    enable_health_check: Annotated[
-        Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
-    r"""Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    protocol: Optional[InputOpenTelemetryProtocol] = InputOpenTelemetryProtocol.GRPC
-    r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
-
-    extract_spans: Annotated[Optional[bool], pydantic.Field(alias="extractSpans")] = (
-        False
-    )
-    r"""Enable to extract each incoming span to a separate event"""
-
-    extract_metrics: Annotated[
-        Optional[bool], pydantic.Field(alias="extractMetrics")
-    ] = False
-    r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
-
-    otlp_version: Annotated[
-        Optional[InputOpenTelemetryOTLPVersion], pydantic.Field(alias="otlpVersion")
-    ] = InputOpenTelemetryOTLPVersion.ZERO_DOT_10_DOT_0
-    r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
-
-    auth_type: Annotated[
-        Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeOptions.NONE
-    r"""OpenTelemetry authentication type"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
-    )
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-
-    description: Optional[str] = None
-
-    username: Optional[str] = None
-
-    password: Optional[str] = None
-
-    token: Optional[str] = None
-    r"""Bearer token to include in the authorization header"""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    extract_logs: Annotated[Optional[bool], pydantic.Field(alias="extractLogs")] = False
-    r"""Enable to extract each incoming log record to a separate event"""
-
-    @field_serializer("protocol")
-    def serialize_protocol(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputOpenTelemetryProtocol(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("otlp_version")
-    def serialize_otlp_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputOpenTelemetryOTLPVersion(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationTypeOptions(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputOpenTelemetrySendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputOpenTelemetryType
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: NotRequired[float]
-    r"""Port to listen on"""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    max_active_req: NotRequired[float]
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-    max_requests_per_socket: NotRequired[int]
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[Any]
-    capture_headers: NotRequired[Any]
-    activity_log_sample_rate: NotRequired[Any]
-    request_timeout: NotRequired[float]
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-    socket_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-    keep_alive_timeout: NotRequired[float]
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 sec.; maximum 600 sec. (10 min.)."""
-    enable_health_check: NotRequired[bool]
-    r"""Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    protocol: NotRequired[InputOpenTelemetryProtocol]
-    r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
-    extract_spans: NotRequired[bool]
-    r"""Enable to extract each incoming span to a separate event"""
-    extract_metrics: NotRequired[bool]
-    r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
-    otlp_version: NotRequired[InputOpenTelemetryOTLPVersion]
-    r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
-    auth_type: NotRequired[AuthenticationTypeOptions]
-    r"""OpenTelemetry authentication type"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    max_active_cxn: NotRequired[float]
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-    description: NotRequired[str]
-    username: NotRequired[str]
-    password: NotRequired[str]
-    token: NotRequired[str]
-    r"""Bearer token to include in the authorization header"""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    extract_logs: NotRequired[bool]
-    r"""Enable to extract each incoming log record to a separate event"""
-
-
-class InputOpenTelemetrySendToRoutesTrueConstraint(BaseModel):
-    type: InputOpenTelemetryType
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: Optional[float] = 4317
-    r"""Port to listen on"""
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
-    )
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-
-    max_requests_per_socket: Annotated[
-        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[Any], pydantic.Field(alias="enableProxyHeader")
-    ] = None
-
-    capture_headers: Annotated[
-        Optional[Any], pydantic.Field(alias="captureHeaders")
-    ] = None
-
-    activity_log_sample_rate: Annotated[
-        Optional[Any], pydantic.Field(alias="activityLogSampleRate")
-    ] = None
-
-    request_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = 0
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-
-    socket_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-
-    keep_alive_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 15
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 sec.; maximum 600 sec. (10 min.)."""
-
-    enable_health_check: Annotated[
-        Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
-    r"""Enable to expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    protocol: Optional[InputOpenTelemetryProtocol] = InputOpenTelemetryProtocol.GRPC
-    r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
-
-    extract_spans: Annotated[Optional[bool], pydantic.Field(alias="extractSpans")] = (
-        False
-    )
-    r"""Enable to extract each incoming span to a separate event"""
-
-    extract_metrics: Annotated[
-        Optional[bool], pydantic.Field(alias="extractMetrics")
-    ] = False
-    r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
-
-    otlp_version: Annotated[
-        Optional[InputOpenTelemetryOTLPVersion], pydantic.Field(alias="otlpVersion")
-    ] = InputOpenTelemetryOTLPVersion.ZERO_DOT_10_DOT_0
-    r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
-
-    auth_type: Annotated[
-        Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
-    ] = AuthenticationTypeOptions.NONE
-    r"""OpenTelemetry authentication type"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        1000
-    )
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-
-    description: Optional[str] = None
-
-    username: Optional[str] = None
-
-    password: Optional[str] = None
-
-    token: Optional[str] = None
-    r"""Bearer token to include in the authorization header"""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = 3600
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    extract_logs: Annotated[Optional[bool], pydantic.Field(alias="extractLogs")] = False
-    r"""Enable to extract each incoming log record to a separate event"""
-
-    @field_serializer("protocol")
-    def serialize_protocol(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputOpenTelemetryProtocol(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("otlp_version")
-    def serialize_otlp_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputOpenTelemetryOTLPVersion(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationTypeOptions(value)
-            except ValueError:
-                return value
-        return value
-
-
-InputOpenTelemetryTypedDict = TypeAliasType(
-    "InputOpenTelemetryTypedDict",
-    Union[
-        InputOpenTelemetrySendToRoutesTrueConstraintTypedDict,
-        InputOpenTelemetrySendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputOpenTelemetryPqEnabledFalseConstraintTypedDict,
-        InputOpenTelemetryPqEnabledTrueWithPqConstraintTypedDict,
-    ],
-)
-
-
-InputOpenTelemetry = TypeAliasType(
-    "InputOpenTelemetry",
-    Union[
-        InputOpenTelemetrySendToRoutesTrueConstraint,
-        InputOpenTelemetrySendToRoutesFalseWithConnectionsConstraint,
-        InputOpenTelemetryPqEnabledFalseConstraint,
-        InputOpenTelemetryPqEnabledTrueWithPqConstraint,
-    ],
-)

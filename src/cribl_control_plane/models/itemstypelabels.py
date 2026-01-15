@@ -2,16 +2,15 @@
 
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
-from typing import Optional
-from typing_extensions import NotRequired, TypedDict
+from typing_extensions import TypedDict
 
 
 class ItemsTypeLabelsTypedDict(TypedDict):
+    name: str
     value: str
-    name: NotRequired[str]
 
 
 class ItemsTypeLabels(BaseModel):
-    value: str
+    name: str
 
-    name: Optional[str] = ""
+    value: str

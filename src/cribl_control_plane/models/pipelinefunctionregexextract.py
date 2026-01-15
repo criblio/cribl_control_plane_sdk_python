@@ -47,10 +47,10 @@ class PipelineFunctionRegexExtractConf(BaseModel):
         pydantic.Field(alias="regexList"),
     ] = None
 
-    source: Optional[str] = "_raw"
+    source: Optional[str] = None
     r"""Field on which to perform regex field extraction"""
 
-    iterations: Optional[float] = 100
+    iterations: Optional[float] = None
     r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
 
     field_name_expression: Annotated[
@@ -58,7 +58,7 @@ class PipelineFunctionRegexExtractConf(BaseModel):
     ] = None
     r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
 
-    overwrite: Optional[bool] = False
+    overwrite: Optional[bool] = None
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
 
 
@@ -84,7 +84,7 @@ class PipelineFunctionRegexExtract(BaseModel):
 
     conf: PipelineFunctionRegexExtractConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

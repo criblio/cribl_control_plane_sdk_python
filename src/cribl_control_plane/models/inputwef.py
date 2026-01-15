@@ -21,8 +21,8 @@ from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from typing import Any, List, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+from typing import Any, List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputWefType(str, Enum):
@@ -77,15 +77,15 @@ class MTLSSettings(BaseModel):
     ca_path: Annotated[str, pydantic.Field(alias="caPath")]
     r"""Server path containing CA certificates (in PEM format) to use. Can reference $ENV_VARS. If multiple certificates are present in a .pem, each must directly certify the one preceding it."""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
     r"""Enable TLS"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Required for WEF certificate authentication"""
 
-    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = True
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = None
     r"""Required for WEF certificate authentication"""
 
     certificate_name: Annotated[
@@ -98,7 +98,7 @@ class MTLSSettings(BaseModel):
 
     common_name_regex: Annotated[
         Optional[str], pydantic.Field(alias="commonNameRegex")
-    ] = "/.*/"
+    ] = None
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     min_version: Annotated[
@@ -111,7 +111,7 @@ class MTLSSettings(BaseModel):
         pydantic.Field(alias="maxVersion"),
     ] = None
 
-    ocsp_check: Annotated[Optional[bool], pydantic.Field(alias="ocspCheck")] = False
+    ocsp_check: Annotated[Optional[bool], pydantic.Field(alias="ocspCheck")] = None
     r"""Enable OCSP check of certificate"""
 
     keytab: Optional[Any] = None
@@ -120,7 +120,7 @@ class MTLSSettings(BaseModel):
 
     ocsp_check_fail_close: Annotated[
         Optional[bool], pydantic.Field(alias="ocspCheckFailClose")
-    ] = False
+    ] = None
     r"""If enabled, checks will fail on any OCSP error. Otherwise, checks will fail only when a certificate is revoked, ignoring other errors."""
 
     @field_serializer("min_version")
@@ -171,16 +171,16 @@ class Query(BaseModel):
 
 class SubscriptionTypedDict(TypedDict):
     subscription_name: str
+    content_format: InputWefFormat
+    r"""Content format in which the endpoint should deliver events"""
+    heartbeat_interval: float
+    r"""Maximum time (in seconds) between endpoint checkins before considering it unavailable"""
+    batch_timeout: float
+    r"""Interval (in seconds) over which the endpoint should collect events before sending them to Stream"""
     targets: List[str]
     r"""The DNS names of the endpoints that should forward these events. You may use wildcards, such as *.mydomain.com"""
     version: NotRequired[str]
     r"""Version UUID for this subscription. If any subscription parameters are modified, this value will change."""
-    content_format: NotRequired[InputWefFormat]
-    r"""Content format in which the endpoint should deliver events"""
-    heartbeat_interval: NotRequired[float]
-    r"""Maximum time (in seconds) between endpoint checkins before considering it unavailable"""
-    batch_timeout: NotRequired[float]
-    r"""Interval (in seconds) over which the endpoint should collect events before sending them to Stream"""
     read_existing_events: NotRequired[bool]
     r"""Newly subscribed endpoints will send previously existing events. Disable to receive new events only."""
     send_bookmarks: NotRequired[bool]
@@ -200,44 +200,40 @@ class SubscriptionTypedDict(TypedDict):
 class Subscription(BaseModel):
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
 
+    content_format: Annotated[InputWefFormat, pydantic.Field(alias="contentFormat")]
+    r"""Content format in which the endpoint should deliver events"""
+
+    heartbeat_interval: Annotated[float, pydantic.Field(alias="heartbeatInterval")]
+    r"""Maximum time (in seconds) between endpoint checkins before considering it unavailable"""
+
+    batch_timeout: Annotated[float, pydantic.Field(alias="batchTimeout")]
+    r"""Interval (in seconds) over which the endpoint should collect events before sending them to Stream"""
+
     targets: List[str]
     r"""The DNS names of the endpoints that should forward these events. You may use wildcards, such as *.mydomain.com"""
 
     version: Optional[str] = None
     r"""Version UUID for this subscription. If any subscription parameters are modified, this value will change."""
 
-    content_format: Annotated[
-        Optional[InputWefFormat], pydantic.Field(alias="contentFormat")
-    ] = InputWefFormat.RAW
-    r"""Content format in which the endpoint should deliver events"""
-
-    heartbeat_interval: Annotated[
-        Optional[float], pydantic.Field(alias="heartbeatInterval")
-    ] = 60
-    r"""Maximum time (in seconds) between endpoint checkins before considering it unavailable"""
-
-    batch_timeout: Annotated[Optional[float], pydantic.Field(alias="batchTimeout")] = 60
-    r"""Interval (in seconds) over which the endpoint should collect events before sending them to Stream"""
-
     read_existing_events: Annotated[
         Optional[bool], pydantic.Field(alias="readExistingEvents")
-    ] = False
+    ] = None
     r"""Newly subscribed endpoints will send previously existing events. Disable to receive new events only."""
 
     send_bookmarks: Annotated[Optional[bool], pydantic.Field(alias="sendBookmarks")] = (
-        True
+        None
     )
     r"""Keep track of which events have been received, resuming from that point after a re-subscription. This setting takes precedence over 'Read existing events'. See [Cribl Docs](https://docs.cribl.io/stream/sources-wef/#subscriptions) for more details."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Receive compressed events from the source"""
 
-    locale: Optional[str] = "en-US"
+    locale: Optional[str] = None
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
 
     query_selector: Annotated[
         Optional[QueryBuilderMode], pydantic.Field(alias="querySelector")
-    ] = QueryBuilderMode.SIMPLE
+    ] = None
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to events ingested under this subscription"""
@@ -266,13 +262,14 @@ class Subscription(BaseModel):
         return value
 
 
-class InputWefPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+class InputWefTypedDict(TypedDict):
     type: InputWefType
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: float
+    r"""Port to listen on"""
     subscriptions: List[SubscriptionTypedDict]
     r"""Subscriptions to events on forwarding endpoints"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -282,14 +279,13 @@ class InputWefPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Select whether to send data to Routes, or directly to Destinations."""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: NotRequired[float]
-    r"""Port to listen on"""
+    pq: NotRequired[PqTypeTypedDict]
     auth_method: NotRequired[InputWefAuthenticationMethod]
     r"""How to authenticate incoming client connections"""
     tls: NotRequired[MTLSSettingsTypedDict]
@@ -326,32 +322,36 @@ class InputWefPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
 
 
-class InputWefPqEnabledTrueWithPqConstraint(BaseModel):
+class InputWef(BaseModel):
     type: InputWefType
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: float
+    r"""Port to listen on"""
 
     subscriptions: List[Subscription]
     r"""Subscriptions to events on forwarding endpoints"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
@@ -359,62 +359,58 @@ class InputWefPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: Optional[float] = 5986
-    r"""Port to listen on"""
+    pq: Optional[PqType] = None
 
     auth_method: Annotated[
         Optional[InputWefAuthenticationMethod], pydantic.Field(alias="authMethod")
-    ] = InputWefAuthenticationMethod.CLIENT_CERT
+    ] = None
     r"""How to authenticate incoming client connections"""
 
     tls: Optional[MTLSSettings] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
+        None
     )
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
 
     max_requests_per_socket: Annotated[
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
+    ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
 
     enable_proxy_header: Annotated[
         Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
+    ] = None
     r"""Preserve the client’s original IP address in the __srcIpPort field when connecting through an HTTP proxy that supports the X-Forwarded-For header. This does not apply to TCP-layer Proxy Protocol v1/v2."""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Add request headers to events in the __headers field"""
 
     keep_alive_timeout: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 90
+    ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
     enable_health_check: Annotated[
         Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
+    ] = None
     r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
 
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
+    ] = None
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
 
     ip_denylist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
+    ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
+    ] = None
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
 
     ca_fingerprint: Annotated[Optional[str], pydantic.Field(alias="caFingerprint")] = (
@@ -430,7 +426,7 @@ class InputWefPqEnabledTrueWithPqConstraint(BaseModel):
 
     allow_machine_id_mismatch: Annotated[
         Optional[bool], pydantic.Field(alias="allowMachineIdMismatch")
-    ] = False
+    ] = None
     r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -440,7 +436,7 @@ class InputWefPqEnabledTrueWithPqConstraint(BaseModel):
 
     log_fingerprint_mismatch: Annotated[
         Optional[bool], pydantic.Field(alias="logFingerprintMismatch")
-    ] = False
+    ] = None
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
 
     @field_serializer("auth_method")
@@ -451,586 +447,3 @@ class InputWefPqEnabledTrueWithPqConstraint(BaseModel):
             except ValueError:
                 return value
         return value
-
-
-class InputWefPqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputWefType
-    subscriptions: List[SubscriptionTypedDict]
-    r"""Subscriptions to events on forwarding endpoints"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: NotRequired[float]
-    r"""Port to listen on"""
-    auth_method: NotRequired[InputWefAuthenticationMethod]
-    r"""How to authenticate incoming client connections"""
-    tls: NotRequired[MTLSSettingsTypedDict]
-    max_active_req: NotRequired[float]
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-    max_requests_per_socket: NotRequired[int]
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[bool]
-    r"""Preserve the client’s original IP address in the __srcIpPort field when connecting through an HTTP proxy that supports the X-Forwarded-For header. This does not apply to TCP-layer Proxy Protocol v1/v2."""
-    capture_headers: NotRequired[bool]
-    r"""Add request headers to events in the __headers field"""
-    keep_alive_timeout: NotRequired[float]
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[bool]
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    socket_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-    ca_fingerprint: NotRequired[str]
-    r"""SHA1 fingerprint expected by the client, if it does not match the first certificate in the configured CA chain"""
-    keytab: NotRequired[str]
-    r"""Path to the keytab file containing the service principal credentials. @{product} will use `/etc/krb5.keytab` if not provided."""
-    principal: NotRequired[str]
-    r"""Kerberos principal used for authentication, typically in the form HTTP/<hostname>@<REALM>"""
-    allow_machine_id_mismatch: NotRequired[bool]
-    r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-    log_fingerprint_mismatch: NotRequired[bool]
-    r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
-
-
-class InputWefPqEnabledFalseConstraint(BaseModel):
-    type: InputWefType
-
-    subscriptions: List[Subscription]
-    r"""Subscriptions to events on forwarding endpoints"""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: Optional[float] = 5986
-    r"""Port to listen on"""
-
-    auth_method: Annotated[
-        Optional[InputWefAuthenticationMethod], pydantic.Field(alias="authMethod")
-    ] = InputWefAuthenticationMethod.CLIENT_CERT
-    r"""How to authenticate incoming client connections"""
-
-    tls: Optional[MTLSSettings] = None
-
-    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
-    )
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-
-    max_requests_per_socket: Annotated[
-        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
-    r"""Preserve the client’s original IP address in the __srcIpPort field when connecting through an HTTP proxy that supports the X-Forwarded-For header. This does not apply to TCP-layer Proxy Protocol v1/v2."""
-
-    capture_headers: Annotated[
-        Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
-    r"""Add request headers to events in the __headers field"""
-
-    keep_alive_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 90
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-
-    enable_health_check: Annotated[
-        Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    socket_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-
-    ca_fingerprint: Annotated[Optional[str], pydantic.Field(alias="caFingerprint")] = (
-        None
-    )
-    r"""SHA1 fingerprint expected by the client, if it does not match the first certificate in the configured CA chain"""
-
-    keytab: Optional[str] = None
-    r"""Path to the keytab file containing the service principal credentials. @{product} will use `/etc/krb5.keytab` if not provided."""
-
-    principal: Optional[str] = None
-    r"""Kerberos principal used for authentication, typically in the form HTTP/<hostname>@<REALM>"""
-
-    allow_machine_id_mismatch: Annotated[
-        Optional[bool], pydantic.Field(alias="allowMachineIdMismatch")
-    ] = False
-    r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-    log_fingerprint_mismatch: Annotated[
-        Optional[bool], pydantic.Field(alias="logFingerprintMismatch")
-    ] = False
-    r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
-
-    @field_serializer("auth_method")
-    def serialize_auth_method(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputWefAuthenticationMethod(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputWefSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputWefType
-    subscriptions: List[SubscriptionTypedDict]
-    r"""Subscriptions to events on forwarding endpoints"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: NotRequired[float]
-    r"""Port to listen on"""
-    auth_method: NotRequired[InputWefAuthenticationMethod]
-    r"""How to authenticate incoming client connections"""
-    tls: NotRequired[MTLSSettingsTypedDict]
-    max_active_req: NotRequired[float]
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-    max_requests_per_socket: NotRequired[int]
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[bool]
-    r"""Preserve the client’s original IP address in the __srcIpPort field when connecting through an HTTP proxy that supports the X-Forwarded-For header. This does not apply to TCP-layer Proxy Protocol v1/v2."""
-    capture_headers: NotRequired[bool]
-    r"""Add request headers to events in the __headers field"""
-    keep_alive_timeout: NotRequired[float]
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[bool]
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    socket_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-    ca_fingerprint: NotRequired[str]
-    r"""SHA1 fingerprint expected by the client, if it does not match the first certificate in the configured CA chain"""
-    keytab: NotRequired[str]
-    r"""Path to the keytab file containing the service principal credentials. @{product} will use `/etc/krb5.keytab` if not provided."""
-    principal: NotRequired[str]
-    r"""Kerberos principal used for authentication, typically in the form HTTP/<hostname>@<REALM>"""
-    allow_machine_id_mismatch: NotRequired[bool]
-    r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-    log_fingerprint_mismatch: NotRequired[bool]
-    r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
-
-
-class InputWefSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputWefType
-
-    subscriptions: List[Subscription]
-    r"""Subscriptions to events on forwarding endpoints"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: Optional[float] = 5986
-    r"""Port to listen on"""
-
-    auth_method: Annotated[
-        Optional[InputWefAuthenticationMethod], pydantic.Field(alias="authMethod")
-    ] = InputWefAuthenticationMethod.CLIENT_CERT
-    r"""How to authenticate incoming client connections"""
-
-    tls: Optional[MTLSSettings] = None
-
-    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
-    )
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-
-    max_requests_per_socket: Annotated[
-        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
-    r"""Preserve the client’s original IP address in the __srcIpPort field when connecting through an HTTP proxy that supports the X-Forwarded-For header. This does not apply to TCP-layer Proxy Protocol v1/v2."""
-
-    capture_headers: Annotated[
-        Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
-    r"""Add request headers to events in the __headers field"""
-
-    keep_alive_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 90
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-
-    enable_health_check: Annotated[
-        Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    socket_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-
-    ca_fingerprint: Annotated[Optional[str], pydantic.Field(alias="caFingerprint")] = (
-        None
-    )
-    r"""SHA1 fingerprint expected by the client, if it does not match the first certificate in the configured CA chain"""
-
-    keytab: Optional[str] = None
-    r"""Path to the keytab file containing the service principal credentials. @{product} will use `/etc/krb5.keytab` if not provided."""
-
-    principal: Optional[str] = None
-    r"""Kerberos principal used for authentication, typically in the form HTTP/<hostname>@<REALM>"""
-
-    allow_machine_id_mismatch: Annotated[
-        Optional[bool], pydantic.Field(alias="allowMachineIdMismatch")
-    ] = False
-    r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-    log_fingerprint_mismatch: Annotated[
-        Optional[bool], pydantic.Field(alias="logFingerprintMismatch")
-    ] = False
-    r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
-
-    @field_serializer("auth_method")
-    def serialize_auth_method(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputWefAuthenticationMethod(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputWefSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputWefType
-    subscriptions: List[SubscriptionTypedDict]
-    r"""Subscriptions to events on forwarding endpoints"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    host: NotRequired[str]
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: NotRequired[float]
-    r"""Port to listen on"""
-    auth_method: NotRequired[InputWefAuthenticationMethod]
-    r"""How to authenticate incoming client connections"""
-    tls: NotRequired[MTLSSettingsTypedDict]
-    max_active_req: NotRequired[float]
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-    max_requests_per_socket: NotRequired[int]
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[bool]
-    r"""Preserve the client’s original IP address in the __srcIpPort field when connecting through an HTTP proxy that supports the X-Forwarded-For header. This does not apply to TCP-layer Proxy Protocol v1/v2."""
-    capture_headers: NotRequired[bool]
-    r"""Add request headers to events in the __headers field"""
-    keep_alive_timeout: NotRequired[float]
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[bool]
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    socket_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-    ca_fingerprint: NotRequired[str]
-    r"""SHA1 fingerprint expected by the client, if it does not match the first certificate in the configured CA chain"""
-    keytab: NotRequired[str]
-    r"""Path to the keytab file containing the service principal credentials. @{product} will use `/etc/krb5.keytab` if not provided."""
-    principal: NotRequired[str]
-    r"""Kerberos principal used for authentication, typically in the form HTTP/<hostname>@<REALM>"""
-    allow_machine_id_mismatch: NotRequired[bool]
-    r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-    log_fingerprint_mismatch: NotRequired[bool]
-    r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
-
-
-class InputWefSendToRoutesTrueConstraint(BaseModel):
-    type: InputWefType
-
-    subscriptions: List[Subscription]
-    r"""Subscriptions to events on forwarding endpoints"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    host: Optional[str] = "0.0.0.0"
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: Optional[float] = 5986
-    r"""Port to listen on"""
-
-    auth_method: Annotated[
-        Optional[InputWefAuthenticationMethod], pydantic.Field(alias="authMethod")
-    ] = InputWefAuthenticationMethod.CLIENT_CERT
-    r"""How to authenticate incoming client connections"""
-
-    tls: Optional[MTLSSettings] = None
-
-    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        256
-    )
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-
-    max_requests_per_socket: Annotated[
-        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = 0
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = False
-    r"""Preserve the client’s original IP address in the __srcIpPort field when connecting through an HTTP proxy that supports the X-Forwarded-For header. This does not apply to TCP-layer Proxy Protocol v1/v2."""
-
-    capture_headers: Annotated[
-        Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
-    r"""Add request headers to events in the __headers field"""
-
-    keep_alive_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = 90
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-
-    enable_health_check: Annotated[
-        Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = False
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = "/.*/"
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = "/^$/"
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    socket_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = 0
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-
-    ca_fingerprint: Annotated[Optional[str], pydantic.Field(alias="caFingerprint")] = (
-        None
-    )
-    r"""SHA1 fingerprint expected by the client, if it does not match the first certificate in the configured CA chain"""
-
-    keytab: Optional[str] = None
-    r"""Path to the keytab file containing the service principal credentials. @{product} will use `/etc/krb5.keytab` if not provided."""
-
-    principal: Optional[str] = None
-    r"""Kerberos principal used for authentication, typically in the form HTTP/<hostname>@<REALM>"""
-
-    allow_machine_id_mismatch: Annotated[
-        Optional[bool], pydantic.Field(alias="allowMachineIdMismatch")
-    ] = False
-    r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-    log_fingerprint_mismatch: Annotated[
-        Optional[bool], pydantic.Field(alias="logFingerprintMismatch")
-    ] = False
-    r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
-
-    @field_serializer("auth_method")
-    def serialize_auth_method(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputWefAuthenticationMethod(value)
-            except ValueError:
-                return value
-        return value
-
-
-InputWefTypedDict = TypeAliasType(
-    "InputWefTypedDict",
-    Union[
-        InputWefSendToRoutesTrueConstraintTypedDict,
-        InputWefSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputWefPqEnabledFalseConstraintTypedDict,
-        InputWefPqEnabledTrueWithPqConstraintTypedDict,
-    ],
-)
-
-
-InputWef = TypeAliasType(
-    "InputWef",
-    Union[
-        InputWefSendToRoutesTrueConstraint,
-        InputWefSendToRoutesFalseWithConnectionsConstraint,
-        InputWefPqEnabledFalseConstraint,
-        InputWefPqEnabledTrueWithPqConstraint,
-    ],
-)

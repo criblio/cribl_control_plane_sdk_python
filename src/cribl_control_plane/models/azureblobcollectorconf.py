@@ -95,7 +95,7 @@ class AzureBlobAuthTypeClientCert(BaseModel):
     auth_type: Annotated[
         Optional[AzureBlobAuthTypeClientCertAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = AzureBlobAuthTypeClientCertAuthenticationMethod.MANUAL
+    ] = None
     r"""Enter authentication data directly, or select a secret referencing your auth data"""
 
     azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
@@ -115,30 +115,30 @@ class AzureBlobAuthTypeClientCert(BaseModel):
     extractors: Optional[List[AzureBlobAuthTypeClientCertExtractor]] = None
     r"""Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable \"date\" field."""
 
-    recurse: Optional[bool] = True
+    recurse: Optional[bool] = None
     r"""Recurse through subdirectories"""
 
     include_metadata: Annotated[
         Optional[bool], pydantic.Field(alias="includeMetadata")
-    ] = True
+    ] = None
     r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
 
-    include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = True
+    include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = None
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
-    ] = 5
+    ] = None
     r"""Maximum file size for each Parquet chunk"""
 
     parquet_chunk_download_timeout: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
-    ] = 600
+    ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
     @field_serializer("auth_type")
@@ -233,7 +233,7 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
     auth_type: Annotated[
         Optional[AzureBlobAuthTypeClientSecretAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = AzureBlobAuthTypeClientSecretAuthenticationMethod.MANUAL
+    ] = None
     r"""Enter authentication data directly, or select a secret referencing your auth data"""
 
     endpoint_suffix: Annotated[
@@ -241,7 +241,7 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
     ] = None
     r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
 
-    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = "azure"
+    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
     r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
 
     output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
@@ -253,30 +253,30 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
     extractors: Optional[List[AzureBlobAuthTypeClientSecretExtractor]] = None
     r"""Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable \"date\" field."""
 
-    recurse: Optional[bool] = True
+    recurse: Optional[bool] = None
     r"""Recurse through subdirectories"""
 
     include_metadata: Annotated[
         Optional[bool], pydantic.Field(alias="includeMetadata")
-    ] = True
+    ] = None
     r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
 
-    include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = True
+    include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = None
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
-    ] = 5
+    ] = None
     r"""Maximum file size for each Parquet chunk"""
 
     parquet_chunk_download_timeout: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
-    ] = 600
+    ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
     @field_serializer("auth_type")
@@ -352,7 +352,7 @@ class AzureBlobAuthTypeSecret(BaseModel):
     auth_type: Annotated[
         Optional[AzureBlobAuthTypeSecretAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = AzureBlobAuthTypeSecretAuthenticationMethod.MANUAL
+    ] = None
     r"""Enter authentication data directly, or select a secret referencing your auth data"""
 
     output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
@@ -364,30 +364,30 @@ class AzureBlobAuthTypeSecret(BaseModel):
     extractors: Optional[List[AzureBlobAuthTypeSecretExtractor]] = None
     r"""Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable \"date\" field."""
 
-    recurse: Optional[bool] = True
+    recurse: Optional[bool] = None
     r"""Recurse through subdirectories"""
 
     include_metadata: Annotated[
         Optional[bool], pydantic.Field(alias="includeMetadata")
-    ] = True
+    ] = None
     r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
 
-    include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = True
+    include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = None
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
-    ] = 5
+    ] = None
     r"""Maximum file size for each Parquet chunk"""
 
     parquet_chunk_download_timeout: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
-    ] = 600
+    ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
     @field_serializer("auth_type")
@@ -463,7 +463,7 @@ class AzureBlobAuthTypeManual(BaseModel):
     auth_type: Annotated[
         Optional[AzureBlobAuthTypeManualAuthenticationMethod],
         pydantic.Field(alias="authType"),
-    ] = AzureBlobAuthTypeManualAuthenticationMethod.MANUAL
+    ] = None
     r"""Enter authentication data directly, or select a secret referencing your auth data"""
 
     output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
@@ -475,30 +475,30 @@ class AzureBlobAuthTypeManual(BaseModel):
     extractors: Optional[List[AzureBlobAuthTypeManualExtractor]] = None
     r"""Extractors allow use of template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)} will enrich discovery results with a human-readable \"date\" field."""
 
-    recurse: Optional[bool] = True
+    recurse: Optional[bool] = None
     r"""Recurse through subdirectories"""
 
     include_metadata: Annotated[
         Optional[bool], pydantic.Field(alias="includeMetadata")
-    ] = True
+    ] = None
     r"""Include Azure Blob metadata in collected events. In each event, metadata will be located at: __collectible.metadata."""
 
-    include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = True
+    include_tags: Annotated[Optional[bool], pydantic.Field(alias="includeTags")] = None
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
 
     max_batch_size: Annotated[Optional[float], pydantic.Field(alias="maxBatchSize")] = (
-        10
+        None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
-    ] = 5
+    ] = None
     r"""Maximum file size for each Parquet chunk"""
 
     parquet_chunk_download_timeout: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkDownloadTimeout")
-    ] = 600
+    ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
     @field_serializer("auth_type")

@@ -45,5 +45,7 @@ class FunctionConfSchemaRename(BaseModel):
     rename_expr: Annotated[Optional[str], pydantic.Field(alias="renameExpr")] = None
     r"""Optional JavaScript expression whose returned value will be used to rename fields. Use the 'name' and 'value' global variables to access field names/values. Example: `name.startsWith('data') ? name.toUpperCase() : name`. You can access other field values via __e.<fieldName>."""
 
-    wildcard_depth: Annotated[Optional[int], pydantic.Field(alias="wildcardDepth")] = 5
+    wildcard_depth: Annotated[Optional[int], pydantic.Field(alias="wildcardDepth")] = (
+        None
+    )
     r"""For wildcards specified in Parent fields, sets the maximum depth within events to match and rename fields. Enter `0` to match only top-level fields. Defaults to `5` levels down."""

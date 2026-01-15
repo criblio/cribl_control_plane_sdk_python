@@ -18,7 +18,7 @@ class PipelineFunctionMaskID(str, Enum):
 class PipelineFunctionMaskRuleTypedDict(TypedDict):
     match_regex: str
     r"""Pattern to replace. Use /g to replace all matches."""
-    replace_expr: NotRequired[str]
+    replace_expr: str
     r"""A JavaScript expression or literal to replace the matching content. Capturing groups can be referenced as g1, g2, and so on, and event fields as event.<fieldName>."""
     disabled: NotRequired[bool]
     r"""Set to No to disable the evaluation of an individual rule"""
@@ -28,10 +28,10 @@ class PipelineFunctionMaskRule(BaseModel):
     match_regex: Annotated[str, pydantic.Field(alias="matchRegex")]
     r"""Pattern to replace. Use /g to replace all matches."""
 
-    replace_expr: Annotated[Optional[str], pydantic.Field(alias="replaceExpr")] = "''"
+    replace_expr: Annotated[str, pydantic.Field(alias="replaceExpr")]
     r"""A JavaScript expression or literal to replace the matching content. Capturing groups can be referenced as g1, g2, and so on, and event fields as event.<fieldName>."""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
     r"""Set to No to disable the evaluation of an individual rule"""
 
 
@@ -51,7 +51,7 @@ class PipelineFunctionMaskConf(BaseModel):
     fields: Optional[List[str]] = None
     r"""Fields on which to apply the masking rules. Supports * wildcards, except when used on internal fields."""
 
-    depth: Optional[int] = 5
+    depth: Optional[int] = None
     r"""Depth to which the Mask Function will search for fields to mask"""
 
     flags: Optional[List[ItemsTypeAdd]] = None
@@ -80,7 +80,7 @@ class PipelineFunctionMask(BaseModel):
 
     conf: PipelineFunctionMaskConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

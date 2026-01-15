@@ -48,7 +48,7 @@ class FunctionConfSchemaLocalSearchRulesetRunner(BaseModel):
 
     mark_and_include_dropped_events: Annotated[
         Optional[bool], pydantic.Field(alias="markAndIncludeDroppedEvents")
-    ] = False
+    ] = None
     r"""Only for use with live data capture. Mark events that were dropped by dataset rules and still include them for capture"""
 
     @field_serializer("ruleset_type")

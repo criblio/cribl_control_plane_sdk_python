@@ -17,7 +17,7 @@ class PipelineFunctionSensitiveDataScannerID(str, Enum):
 class PipelineFunctionSensitiveDataScannerRuleTypedDict(TypedDict):
     ruleset_id: str
     r"""The ID of the ruleset to use for the scan"""
-    replace_expr: NotRequired[str]
+    replace_expr: str
     r"""A JavaScript expression or literal to replace the matching content. Capturing groups can be referenced as g1, g2, and so on, and event fields as event.<fieldName>."""
     disabled: NotRequired[bool]
 
@@ -26,20 +26,18 @@ class PipelineFunctionSensitiveDataScannerRule(BaseModel):
     ruleset_id: Annotated[str, pydantic.Field(alias="rulesetId")]
     r"""The ID of the ruleset to use for the scan"""
 
-    replace_expr: Annotated[Optional[str], pydantic.Field(alias="replaceExpr")] = (
-        "'REDACTED'"
-    )
+    replace_expr: Annotated[str, pydantic.Field(alias="replaceExpr")]
     r"""A JavaScript expression or literal to replace the matching content. Capturing groups can be referenced as g1, g2, and so on, and event fields as event.<fieldName>."""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
 
-class PipelineFunctionSensitiveDataScannerFlagTypedDict(TypedDict):
+class FlagTypedDict(TypedDict):
     value: str
     name: NotRequired[str]
 
 
-class PipelineFunctionSensitiveDataScannerFlag(BaseModel):
+class Flag(BaseModel):
     value: str
 
     name: Optional[str] = None
@@ -51,7 +49,7 @@ class PipelineFunctionSensitiveDataScannerConfTypedDict(TypedDict):
     r"""Rulesets act on the events contained in these fields. Mitigation expressions apply to the scan results. Supports wildcards (*)."""
     exclude_fields: NotRequired[List[str]]
     r"""Fields that the mitigation expression will not be applied to. Supports wildcards (*)."""
-    flags: NotRequired[List[PipelineFunctionSensitiveDataScannerFlagTypedDict]]
+    flags: NotRequired[List[FlagTypedDict]]
     r"""Fields to add when mitigation is applied to an event"""
     include_detected_rules: NotRequired[bool]
     r"""Add matching ruleset IDs to a field called \"__detected\" """
@@ -69,17 +67,17 @@ class PipelineFunctionSensitiveDataScannerConf(BaseModel):
     ] = None
     r"""Fields that the mitigation expression will not be applied to. Supports wildcards (*)."""
 
-    flags: Optional[List[PipelineFunctionSensitiveDataScannerFlag]] = None
+    flags: Optional[List[Flag]] = None
     r"""Fields to add when mitigation is applied to an event"""
 
     include_detected_rules: Annotated[
         Optional[bool], pydantic.Field(alias="includeDetectedRules")
-    ] = True
+    ] = None
     r"""Add matching ruleset IDs to a field called \"__detected\" """
 
     background_detection: Annotated[
         Optional[bool], pydantic.Field(alias="backgroundDetection")
-    ] = False
+    ] = None
 
 
 class PipelineFunctionSensitiveDataScannerTypedDict(TypedDict):
@@ -104,7 +102,7 @@ class PipelineFunctionSensitiveDataScanner(BaseModel):
 
     conf: PipelineFunctionSensitiveDataScannerConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

@@ -21,11 +21,11 @@ class FunctionConfSchemaFlatten(BaseModel):
     fields: Optional[List[str]] = None
     r"""List of top-level fields to include for flattening. Supports * wildcards, except when used on internal fields. Defaults to empty array, which means all fields."""
 
-    prefix: Optional[str] = ""
+    prefix: Optional[str] = None
     r"""Prefix string for flattened field names. Defaults to empty."""
 
-    depth: Optional[float] = 5
+    depth: Optional[float] = None
     r"""Number representing the nested levels to consider for flattening. Defaults to 5. Minimum should be 1."""
 
-    delimiter: Optional[str] = "_"
+    delimiter: Optional[str] = None
     r"""Delimiter to be used for flattening. Defaults to underscore."""

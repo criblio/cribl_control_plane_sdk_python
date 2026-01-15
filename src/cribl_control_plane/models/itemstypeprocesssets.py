@@ -20,4 +20,4 @@ class ItemsTypeProcessSets(BaseModel):
 
     include_children: Annotated[
         Optional[bool], pydantic.Field(alias="includeChildren")
-    ] = False
+    ] = None

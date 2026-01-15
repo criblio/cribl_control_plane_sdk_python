@@ -42,12 +42,12 @@ class RoutesRoute(BaseModel):
     disabled: Optional[bool] = None
     r"""Disable this routing rule"""
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""JavaScript expression to select data to route"""
 
     enable_output_expression: Annotated[
         Optional[bool], pydantic.Field(alias="enableOutputExpression")
-    ] = False
+    ] = None
     r"""Enable to use a JavaScript expression that evaluates to the name of the Description below"""
 
     output: Optional[Any] = None
@@ -58,7 +58,7 @@ class RoutesRoute(BaseModel):
 
     description: Optional[str] = None
 
-    final: Optional[bool] = True
+    final: Optional[bool] = None
     r"""Flag to control whether the event gets consumed by this Route (Final), or cloned into it"""
 
     @property

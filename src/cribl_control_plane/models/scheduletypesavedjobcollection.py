@@ -33,6 +33,8 @@ class TimeWarning(BaseModel):
 
 
 class ScheduleTypeSavedJobCollectionRunSettingsTypedDict(TypedDict):
+    mode: str
+    r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
     type: NotRequired[ScheduleTypeSavedJobCollectionType]
     reschedule_dropped_tasks: NotRequired[bool]
     r"""Reschedule tasks that failed with non-fatal errors"""
@@ -42,8 +44,6 @@ class ScheduleTypeSavedJobCollectionRunSettingsTypedDict(TypedDict):
     r"""Level at which to set task logging"""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-    mode: NotRequired[str]
-    r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
     time_range_type: NotRequired[str]
     earliest: NotRequired[float]
     r"""Earliest time to collect data for the selected timezone"""
@@ -68,32 +68,32 @@ class ScheduleTypeSavedJobCollectionRunSettingsTypedDict(TypedDict):
 
 
 class ScheduleTypeSavedJobCollectionRunSettings(BaseModel):
+    mode: str
+    r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
+
     type: Optional[ScheduleTypeSavedJobCollectionType] = None
 
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
-    ] = True
+    ] = None
     r"""Reschedule tasks that failed with non-fatal errors"""
 
     max_task_reschedule: Annotated[
         Optional[float], pydantic.Field(alias="maxTaskReschedule")
-    ] = 1
+    ] = None
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
         Optional[ScheduleTypeSavedJobCollectionLogLevel],
         pydantic.Field(alias="logLevel"),
-    ] = ScheduleTypeSavedJobCollectionLogLevel.INFO
+    ] = None
     r"""Level at which to set task logging"""
 
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = "0"
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
-    mode: Optional[str] = "list"
-    r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
-
     time_range_type: Annotated[Optional[str], pydantic.Field(alias="timeRangeType")] = (
-        "relative"
+        None
     )
 
     earliest: Optional[float] = None
@@ -110,19 +110,17 @@ class ScheduleTypeSavedJobCollectionRunSettings(BaseModel):
         Optional[TimeWarning], pydantic.Field(alias="timeWarning")
     ] = None
 
-    expression: Optional[str] = "true"
+    expression: Optional[str] = None
     r"""A filter for tokens in the provided collect path and/or the events being collected"""
 
-    min_task_size: Annotated[Optional[str], pydantic.Field(alias="minTaskSize")] = "1MB"
+    min_task_size: Annotated[Optional[str], pydantic.Field(alias="minTaskSize")] = None
     r"""Limits the bundle size for small tasks. For example,
 
 
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
 
-    max_task_size: Annotated[Optional[str], pydantic.Field(alias="maxTaskSize")] = (
-        "10MB"
-    )
+    max_task_size: Annotated[Optional[str], pydantic.Field(alias="maxTaskSize")] = None
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
 
 
@@ -170,22 +168,20 @@ class ScheduleTypeSavedJobCollection(BaseModel):
     enabled: Optional[bool] = None
     r"""Enable to configure scheduling for this Collector"""
 
-    skippable: Optional[bool] = True
+    skippable: Optional[bool] = None
     r"""Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits"""
 
     resume_missed: Annotated[Optional[bool], pydantic.Field(alias="resumeMissed")] = (
-        False
+        None
     )
     r"""If Stream Leader (or single instance) restarts, run all missed jobs according to their original schedules"""
 
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = (
-        "*/5 * * * *"
-    )
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
     r"""A cron schedule on which to run this job"""
 
     max_concurrent_runs: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentRuns")
-    ] = 1
+    ] = None
     r"""The maximum number of instances of this scheduled job that may be running at any time"""
 
     run: Optional[ScheduleTypeSavedJobCollectionRunSettings] = None

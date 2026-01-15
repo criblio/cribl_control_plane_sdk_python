@@ -36,12 +36,12 @@ class FunctionConfSchemaRollupMetrics(BaseModel):
     dimensions: Optional[List[str]] = None
     r"""List of dimensions across which to perform rollups. Supports wildcards. Defaults to all original dimensions."""
 
-    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = "30s"
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
     r"""The time span of the rollup window. Must be a valid time string (such as 10s)."""
 
     gauge_rollup: Annotated[
         Optional[GaugeUpdate], pydantic.Field(alias="gaugeRollup")
-    ] = GaugeUpdate.LAST
+    ] = None
     r"""The operation to use when rolling up gauge metrics. Defaults to last."""
 
     @field_serializer("gauge_rollup")

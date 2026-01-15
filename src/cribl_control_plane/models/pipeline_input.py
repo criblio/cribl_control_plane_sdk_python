@@ -34,7 +34,7 @@ class ConfInput(BaseModel):
     ] = None
     r"""Time (in ms) to wait for an async function to complete processing of a data item"""
 
-    output: Optional[str] = "default"
+    output: Optional[str] = None
     r"""The output destination for events processed by this Pipeline"""
 
     description: Optional[str] = None

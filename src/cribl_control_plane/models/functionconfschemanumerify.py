@@ -32,7 +32,7 @@ class FunctionConfSchemaNumerifyTypedDict(TypedDict):
 
 
 class FunctionConfSchemaNumerify(BaseModel):
-    depth: Optional[int] = 5
+    depth: Optional[int] = None
     r"""Depth to which the Numerify Function will search within a nested event. Depth greater than 5 (the default) could decrease performance."""
 
     ignore_fields: Annotated[
@@ -45,7 +45,7 @@ class FunctionConfSchemaNumerify(BaseModel):
 
     format_: Annotated[
         Optional[FunctionConfSchemaNumerifyFormat], pydantic.Field(alias="format")
-    ] = FunctionConfSchemaNumerifyFormat.NONE
+    ] = None
 
     @field_serializer("format_")
     def serialize_format_(self, value):

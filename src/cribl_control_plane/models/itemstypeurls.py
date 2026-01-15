@@ -17,5 +17,5 @@ class ItemsTypeUrls(BaseModel):
     url: str
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
 
-    weight: Optional[float] = 1
+    weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""

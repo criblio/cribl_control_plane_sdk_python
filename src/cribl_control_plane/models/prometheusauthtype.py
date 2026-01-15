@@ -30,7 +30,7 @@ class PrometheusAuthType(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationTypeOptionsPrometheusAuth1],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationTypeOptionsPrometheusAuth1.BASIC
+    ] = None
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header. In Grafana Cloud, this is generally built by concatenating the username and the API key, separated by a colon. Example: <your-username>:<your-api-key>"""

@@ -18,7 +18,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class AuthenticationType1TypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    disabled: NotRequired[bool]
+    disabled: bool
     auth_type: NotRequired[AuthenticationMethodOptionsSasl1]
     r"""Enter password directly, or select a stored secret"""
     password: NotRequired[str]
@@ -51,11 +51,11 @@ class AuthenticationType1TypedDict(TypedDict):
 class AuthenticationType1(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    disabled: Optional[bool] = False
+    disabled: bool
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsSasl1], pydantic.Field(alias="authType")
-    ] = AuthenticationMethodOptionsSasl1.MANUAL
+    ] = None
     r"""Enter password directly, or select a stored secret"""
 
     password: Optional[str] = None
@@ -64,15 +64,15 @@ class AuthenticationType1(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    mechanism: Optional[SaslMechanismOptionsSasl1] = SaslMechanismOptionsSasl1.PLAIN
+    mechanism: Optional[SaslMechanismOptionsSasl1] = None
 
-    username: Optional[str] = "$ConnectionString"
+    username: Optional[str] = None
     r"""The username for authentication. For Event Hubs, this should always be $ConnectionString."""
 
     client_secret_auth_type: Annotated[
         Optional[AuthenticationMethodOptionsSasl2],
         pydantic.Field(alias="clientSecretAuthType"),
-    ] = AuthenticationMethodOptionsSasl2.MANUAL
+    ] = None
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""client_secret to pass in the OAuth request parameter"""
@@ -96,7 +96,7 @@ class AuthenticationType1(BaseModel):
     oauth_endpoint: Annotated[
         Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
         pydantic.Field(alias="oauthEndpoint"),
-    ] = MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM
+    ] = None
     r"""Endpoint used to acquire authentication tokens from Azure"""
 
     client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None

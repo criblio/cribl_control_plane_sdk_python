@@ -124,9 +124,11 @@ with CriblControlPlane(
             disabled=True,
             filter_="source == \"access.log\"",
             pipeline="main",
+            enable_output_expression=False,
             output="<value>",
             output_expression="<value>",
             description="Route access logs to main pipeline",
+            final=True,
         ),
     ], id="default", groups={
         "key": {

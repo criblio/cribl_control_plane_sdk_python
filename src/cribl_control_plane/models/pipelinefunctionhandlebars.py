@@ -14,33 +14,33 @@ class PipelineFunctionHandlebarsID(str, Enum):
     HANDLEBARS = "handlebars"
 
 
-class PipelineFunctionHandlebarsTemplateDefinitionTypedDict(TypedDict):
+class TemplateDefinitionTypedDict(TypedDict):
     id: str
     r"""Unique identifier for this template"""
     content: str
     r"""Handlebars template string"""
+    type: str
+    r"""Type categorization for the template (e.g., Universal, Email, Slack)"""
     description: NotRequired[str]
     r"""Optional description of what this template is used for"""
-    type: NotRequired[str]
-    r"""Type categorization for the template (e.g., Universal, Email, Slack)"""
 
 
-class PipelineFunctionHandlebarsTemplateDefinition(BaseModel):
+class TemplateDefinition(BaseModel):
     id: str
     r"""Unique identifier for this template"""
 
     content: str
     r"""Handlebars template string"""
+
+    type: str
+    r"""Type categorization for the template (e.g., Universal, Email, Slack)"""
 
     description: Optional[str] = None
     r"""Optional description of what this template is used for"""
 
-    type: Optional[str] = "Universal"
-    r"""Type categorization for the template (e.g., Universal, Email, Slack)"""
-
 
 class PipelineFunctionHandlebarsConfTypedDict(TypedDict):
-    templates: List[PipelineFunctionHandlebarsTemplateDefinitionTypedDict]
+    templates: List[TemplateDefinitionTypedDict]
     r"""Array of template definitions. Uses event.__template_id to select template at runtime."""
     target_field: NotRequired[str]
     r"""Field name to store the rendered template result. Defaults to _raw."""
@@ -51,17 +51,17 @@ class PipelineFunctionHandlebarsConfTypedDict(TypedDict):
 
 
 class PipelineFunctionHandlebarsConf(BaseModel):
-    templates: List[PipelineFunctionHandlebarsTemplateDefinition]
+    templates: List[TemplateDefinition]
     r"""Array of template definitions. Uses event.__template_id to select template at runtime."""
 
-    target_field: Annotated[Optional[str], pydantic.Field(alias="targetField")] = "_raw"
+    target_field: Annotated[Optional[str], pydantic.Field(alias="targetField")] = None
     r"""Field name to store the rendered template result. Defaults to _raw."""
 
-    parse_json: Annotated[Optional[bool], pydantic.Field(alias="parseJson")] = False
+    parse_json: Annotated[Optional[bool], pydantic.Field(alias="parseJson")] = None
     r"""Parse the rendered template as JSON and store as an object instead of a string. Useful for building structured data like Slack blocks."""
 
     remove_on_null: Annotated[Optional[bool], pydantic.Field(alias="removeOnNull")] = (
-        True
+        None
     )
     r"""Remove the target field if the rendered result is empty or null."""
 
@@ -88,7 +88,7 @@ class PipelineFunctionHandlebars(BaseModel):
 
     conf: PipelineFunctionHandlebarsConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

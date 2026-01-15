@@ -14,14 +14,14 @@ class PipelineFunctionLookupID(str, Enum):
     LOOKUP = "lookup"
 
 
-class PipelineFunctionLookupInFieldTypedDict(TypedDict):
+class InFieldTypedDict(TypedDict):
     event_field: str
     r"""Field name as it appears in events"""
     lookup_field: NotRequired[str]
     r"""Optional: The field name as it appears in the lookup file. Defaults to event field name"""
 
 
-class PipelineFunctionLookupInField(BaseModel):
+class InField(BaseModel):
     event_field: Annotated[str, pydantic.Field(alias="eventField")]
     r"""Field name as it appears in events"""
 
@@ -29,7 +29,7 @@ class PipelineFunctionLookupInField(BaseModel):
     r"""Optional: The field name as it appears in the lookup file. Defaults to event field name"""
 
 
-class PipelineFunctionLookupOutFieldTypedDict(TypedDict):
+class OutFieldTypedDict(TypedDict):
     lookup_field: str
     r"""The field name as it appears in the lookup file"""
     event_field: NotRequired[str]
@@ -38,7 +38,7 @@ class PipelineFunctionLookupOutFieldTypedDict(TypedDict):
     r"""Optional: Value to assign if lookup entry is not found"""
 
 
-class PipelineFunctionLookupOutField(BaseModel):
+class OutField(BaseModel):
     lookup_field: Annotated[str, pydantic.Field(alias="lookupField")]
     r"""The field name as it appears in the lookup file"""
 
@@ -57,9 +57,9 @@ class PipelineFunctionLookupConfTypedDict(TypedDict):
     match_mode: NotRequired[Any]
     match_type: NotRequired[Any]
     reload_period_sec: NotRequired[Any]
-    in_fields: NotRequired[List[PipelineFunctionLookupInFieldTypedDict]]
+    in_fields: NotRequired[List[InFieldTypedDict]]
     r"""Fields that should be used to key into the lookup table"""
-    out_fields: NotRequired[List[PipelineFunctionLookupOutFieldTypedDict]]
+    out_fields: NotRequired[List[OutFieldTypedDict]]
     r"""Fields to add to events after matching lookup. Defaults to all if not specified."""
     add_to_event: NotRequired[bool]
     r"""Add the looked-up values to _raw, as key=value pairs"""
@@ -70,7 +70,7 @@ class PipelineFunctionLookupConf(BaseModel):
     file: str
     r"""Path to the lookup file. Reference environment variables via $. Example: $HOME/file.csv"""
 
-    db_lookup: Annotated[Optional[bool], pydantic.Field(alias="dbLookup")] = False
+    db_lookup: Annotated[Optional[bool], pydantic.Field(alias="dbLookup")] = None
     r"""Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups."""
 
     match_mode: Annotated[Optional[Any], pydantic.Field(alias="matchMode")] = None
@@ -81,18 +81,17 @@ class PipelineFunctionLookupConf(BaseModel):
         Optional[Any], pydantic.Field(alias="reloadPeriodSec")
     ] = None
 
-    in_fields: Annotated[
-        Optional[List[PipelineFunctionLookupInField]], pydantic.Field(alias="inFields")
-    ] = None
+    in_fields: Annotated[Optional[List[InField]], pydantic.Field(alias="inFields")] = (
+        None
+    )
     r"""Fields that should be used to key into the lookup table"""
 
     out_fields: Annotated[
-        Optional[List[PipelineFunctionLookupOutField]],
-        pydantic.Field(alias="outFields"),
+        Optional[List[OutField]], pydantic.Field(alias="outFields")
     ] = None
     r"""Fields to add to events after matching lookup. Defaults to all if not specified."""
 
-    add_to_event: Annotated[Optional[bool], pydantic.Field(alias="addToEvent")] = False
+    add_to_event: Annotated[Optional[bool], pydantic.Field(alias="addToEvent")] = None
     r"""Add the looked-up values to _raw, as key=value pairs"""
 
     ignore_case: Annotated[Optional[Any], pydantic.Field(alias="ignoreCase")] = None
@@ -120,7 +119,7 @@ class PipelineFunctionLookup(BaseModel):
 
     conf: PipelineFunctionLookupConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

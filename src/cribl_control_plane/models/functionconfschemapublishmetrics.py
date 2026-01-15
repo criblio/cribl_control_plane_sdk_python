@@ -30,24 +30,23 @@ class FunctionConfSchemaPublishMetricsMetricType(
 class FunctionConfSchemaPublishMetricsFieldTypedDict(TypedDict):
     in_field_name: str
     r"""The name of the field in the event that contains the metric value"""
+    metric_type: FunctionConfSchemaPublishMetricsMetricType
     out_field_expr: NotRequired[str]
     r"""JavaScript expression to evaluate the metric field name. Defaults to Event Field Name."""
-    metric_type: NotRequired[FunctionConfSchemaPublishMetricsMetricType]
 
 
 class FunctionConfSchemaPublishMetricsField(BaseModel):
     in_field_name: Annotated[str, pydantic.Field(alias="inFieldName")]
     r"""The name of the field in the event that contains the metric value"""
 
+    metric_type: Annotated[
+        FunctionConfSchemaPublishMetricsMetricType, pydantic.Field(alias="metricType")
+    ]
+
     out_field_expr: Annotated[Optional[str], pydantic.Field(alias="outFieldExpr")] = (
         None
     )
     r"""JavaScript expression to evaluate the metric field name. Defaults to Event Field Name."""
-
-    metric_type: Annotated[
-        Optional[FunctionConfSchemaPublishMetricsMetricType],
-        pydantic.Field(alias="metricType"),
-    ] = FunctionConfSchemaPublishMetricsMetricType.GAUGE
 
     @field_serializer("metric_type")
     def serialize_metric_type(self, value):
@@ -76,7 +75,7 @@ class FunctionConfSchemaPublishMetrics(BaseModel):
     fields: Optional[List[FunctionConfSchemaPublishMetricsField]] = None
     r"""List of metrics from event to extract and format. Formatted metrics can be used by a destination to pass metrics to a metrics aggregation platform."""
 
-    overwrite: Optional[bool] = False
+    overwrite: Optional[bool] = None
     r"""Overwrite previous metric specs. Leave disabled to append."""
 
     dimensions: Optional[List[str]] = None

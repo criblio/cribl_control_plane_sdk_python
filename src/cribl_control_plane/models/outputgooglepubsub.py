@@ -114,12 +114,12 @@ class OutputGooglePubsub(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = False
+    create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = None
     r"""If enabled, create topic if it does not exist."""
 
     ordered_delivery: Annotated[
         Optional[bool], pydantic.Field(alias="orderedDelivery")
-    ] = False
+    ] = None
     r"""If enabled, send events in the order they were added to the queue. For this to work correctly, the process receiving events must have ordering enabled."""
 
     region: Optional[str] = None
@@ -128,7 +128,7 @@ class OutputGooglePubsub(BaseModel):
     google_auth_method: Annotated[
         Optional[GoogleAuthenticationMethodOptions],
         pydantic.Field(alias="googleAuthMethod"),
-    ] = GoogleAuthenticationMethodOptions.MANUAL
+    ] = None
     r"""Choose Auto to use Google Application Default Credentials (ADC), Manual to enter Google service account credentials directly, or Secret to select or create a stored secret that references Google service account credentials."""
 
     service_account_credentials: Annotated[
@@ -139,85 +139,81 @@ class OutputGooglePubsub(BaseModel):
     secret: Optional[str] = None
     r"""Select or create a stored text secret"""
 
-    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = 1000
+    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = None
     r"""The maximum number of items the Google API should batch before it sends them to the topic."""
 
     batch_timeout: Annotated[Optional[float], pydantic.Field(alias="batchTimeout")] = (
-        100
+        None
     )
     r"""The maximum amount of time, in milliseconds, that the Google API should wait to send a batch (if the Batch size is not reached)."""
 
     max_queue_size: Annotated[Optional[float], pydantic.Field(alias="maxQueueSize")] = (
-        100
+        None
     )
     r"""Maximum number of queued batches before blocking."""
 
     max_record_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSizeKB")
-    ] = 256
+    ] = None
     r"""Maximum size (KB) of batches to send."""
 
-    flush_period: Annotated[Optional[float], pydantic.Field(alias="flushPeriod")] = 1
+    flush_period: Annotated[Optional[float], pydantic.Field(alias="flushPeriod")] = None
     r"""Maximum time to wait before sending a batch (when batch size limit is not reached)"""
 
     max_in_progress: Annotated[
         Optional[float], pydantic.Field(alias="maxInProgress")
-    ] = 10
+    ] = None
     r"""The maximum number of in-progress API requests before backpressure is applied."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[

@@ -43,15 +43,14 @@ class RestAuthenticationHmacDiscoverType(str, Enum, metaclass=utils.OpenEnumMeta
 
 
 class RestAuthenticationHmacDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestAuthenticationHmacDiscoverType]
+    discover_type: RestAuthenticationHmacDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestAuthenticationHmacDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestAuthenticationHmacDiscoverType],
-        pydantic.Field(alias="discoverType"),
-    ] = RestAuthenticationHmacDiscoverType.NONE
+        RestAuthenticationHmacDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -91,13 +90,11 @@ class RestAuthenticationHmacPaginationEnum(str, Enum, metaclass=utils.OpenEnumMe
 
 
 class RestAuthenticationHmacPaginationTypedDict(TypedDict):
-    type: NotRequired[RestAuthenticationHmacPaginationEnum]
+    type: RestAuthenticationHmacPaginationEnum
 
 
 class RestAuthenticationHmacPagination(BaseModel):
-    type: Optional[RestAuthenticationHmacPaginationEnum] = (
-        RestAuthenticationHmacPaginationEnum.NONE
-    )
+    type: RestAuthenticationHmacPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -110,7 +107,7 @@ class RestAuthenticationHmacPagination(BaseModel):
 
 
 class RestAuthenticationHmacRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -123,9 +120,7 @@ class RestAuthenticationHmacRetryRulesTypedDict(TypedDict):
 
 
 class RestAuthenticationHmacRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -182,14 +177,14 @@ class RestAuthenticationHmacScheduling(BaseModel):
 
 
 class RestAuthenticationHmacTypedDict(TypedDict):
+    authentication: RestAuthenticationHmacAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     hmac_function_id: str
     r"""Select or create an HMAC Function to use with authentication"""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    authentication: NotRequired[RestAuthenticationHmacAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    collect_method: RestAuthenticationHmacCollectMethod
     discovery: NotRequired[RestAuthenticationHmacDiscoveryTypedDict]
-    collect_method: NotRequired[RestAuthenticationHmacCollectMethod]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     collect_body: NotRequired[Any]
@@ -218,23 +213,20 @@ class RestAuthenticationHmacTypedDict(TypedDict):
 
 
 class RestAuthenticationHmac(BaseModel):
+    authentication: RestAuthenticationHmacAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
     hmac_function_id: Annotated[str, pydantic.Field(alias="hmacFunctionId")]
     r"""Select or create an HMAC Function to use with authentication"""
 
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    authentication: Optional[RestAuthenticationHmacAuthentication] = (
-        RestAuthenticationHmacAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    collect_method: Annotated[
+        RestAuthenticationHmacCollectMethod, pydantic.Field(alias="collectMethod")
+    ]
 
     discovery: Optional[RestAuthenticationHmacDiscovery] = None
-
-    collect_method: Annotated[
-        Optional[RestAuthenticationHmacCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestAuthenticationHmacCollectMethod.GET
 
     collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
 
@@ -251,35 +243,35 @@ class RestAuthenticationHmac(BaseModel):
 
     pagination: Optional[RestAuthenticationHmacPagination] = None
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -343,15 +335,15 @@ class RestAuthenticationGoogleOauthSecretDiscoverType(
 
 
 class RestAuthenticationGoogleOauthSecretDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestAuthenticationGoogleOauthSecretDiscoverType]
+    discover_type: RestAuthenticationGoogleOauthSecretDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestAuthenticationGoogleOauthSecretDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestAuthenticationGoogleOauthSecretDiscoverType],
+        RestAuthenticationGoogleOauthSecretDiscoverType,
         pydantic.Field(alias="discoverType"),
-    ] = RestAuthenticationGoogleOauthSecretDiscoverType.NONE
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -395,13 +387,11 @@ class RestAuthenticationGoogleOauthSecretPaginationEnum(
 
 
 class RestAuthenticationGoogleOauthSecretPaginationTypedDict(TypedDict):
-    type: NotRequired[RestAuthenticationGoogleOauthSecretPaginationEnum]
+    type: RestAuthenticationGoogleOauthSecretPaginationEnum
 
 
 class RestAuthenticationGoogleOauthSecretPagination(BaseModel):
-    type: Optional[RestAuthenticationGoogleOauthSecretPaginationEnum] = (
-        RestAuthenticationGoogleOauthSecretPaginationEnum.NONE
-    )
+    type: RestAuthenticationGoogleOauthSecretPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -414,7 +404,7 @@ class RestAuthenticationGoogleOauthSecretPagination(BaseModel):
 
 
 class RestAuthenticationGoogleOauthSecretRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -427,9 +417,7 @@ class RestAuthenticationGoogleOauthSecretRetryRulesTypedDict(TypedDict):
 
 
 class RestAuthenticationGoogleOauthSecretRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -488,6 +476,8 @@ class RestAuthenticationGoogleOauthSecretScheduling(BaseModel):
 
 
 class RestAuthenticationGoogleOauthSecretTypedDict(TypedDict):
+    authentication: RestAuthenticationGoogleOauthSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     scopes: List[str]
     r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
     text_secret: str
@@ -496,10 +486,8 @@ class RestAuthenticationGoogleOauthSecretTypedDict(TypedDict):
     r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    authentication: NotRequired[RestAuthenticationGoogleOauthSecretAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    collect_method: RestAuthenticationGoogleOauthSecretCollectMethod
     discovery: NotRequired[RestAuthenticationGoogleOauthSecretDiscoveryTypedDict]
-    collect_method: NotRequired[RestAuthenticationGoogleOauthSecretCollectMethod]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     collect_body: NotRequired[Any]
@@ -528,6 +516,9 @@ class RestAuthenticationGoogleOauthSecretTypedDict(TypedDict):
 
 
 class RestAuthenticationGoogleOauthSecret(BaseModel):
+    authentication: RestAuthenticationGoogleOauthSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
     scopes: List[str]
     r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
 
@@ -540,17 +531,12 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    authentication: Optional[RestAuthenticationGoogleOauthSecretAuthentication] = (
-        RestAuthenticationGoogleOauthSecretAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    collect_method: Annotated[
+        RestAuthenticationGoogleOauthSecretCollectMethod,
+        pydantic.Field(alias="collectMethod"),
+    ]
 
     discovery: Optional[RestAuthenticationGoogleOauthSecretDiscovery] = None
-
-    collect_method: Annotated[
-        Optional[RestAuthenticationGoogleOauthSecretCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestAuthenticationGoogleOauthSecretCollectMethod.GET
 
     collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
 
@@ -567,35 +553,35 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
 
     pagination: Optional[RestAuthenticationGoogleOauthSecretPagination] = None
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -661,15 +647,14 @@ class RestAuthenticationGoogleOauthDiscoverType(
 
 
 class RestAuthenticationGoogleOauthDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestAuthenticationGoogleOauthDiscoverType]
+    discover_type: RestAuthenticationGoogleOauthDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestAuthenticationGoogleOauthDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestAuthenticationGoogleOauthDiscoverType],
-        pydantic.Field(alias="discoverType"),
-    ] = RestAuthenticationGoogleOauthDiscoverType.NONE
+        RestAuthenticationGoogleOauthDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -713,13 +698,11 @@ class RestAuthenticationGoogleOauthPaginationEnum(
 
 
 class RestAuthenticationGoogleOauthPaginationTypedDict(TypedDict):
-    type: NotRequired[RestAuthenticationGoogleOauthPaginationEnum]
+    type: RestAuthenticationGoogleOauthPaginationEnum
 
 
 class RestAuthenticationGoogleOauthPagination(BaseModel):
-    type: Optional[RestAuthenticationGoogleOauthPaginationEnum] = (
-        RestAuthenticationGoogleOauthPaginationEnum.NONE
-    )
+    type: RestAuthenticationGoogleOauthPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -732,7 +715,7 @@ class RestAuthenticationGoogleOauthPagination(BaseModel):
 
 
 class RestAuthenticationGoogleOauthRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -745,9 +728,7 @@ class RestAuthenticationGoogleOauthRetryRulesTypedDict(TypedDict):
 
 
 class RestAuthenticationGoogleOauthRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -804,6 +785,8 @@ class RestAuthenticationGoogleOauthScheduling(BaseModel):
 
 
 class RestAuthenticationGoogleOauthTypedDict(TypedDict):
+    authentication: RestAuthenticationGoogleOauthAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     scopes: List[str]
     r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
     service_account_credentials: str
@@ -812,10 +795,8 @@ class RestAuthenticationGoogleOauthTypedDict(TypedDict):
     r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    authentication: NotRequired[RestAuthenticationGoogleOauthAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    collect_method: RestAuthenticationGoogleOauthCollectMethod
     discovery: NotRequired[RestAuthenticationGoogleOauthDiscoveryTypedDict]
-    collect_method: NotRequired[RestAuthenticationGoogleOauthCollectMethod]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     collect_body: NotRequired[Any]
@@ -844,6 +825,9 @@ class RestAuthenticationGoogleOauthTypedDict(TypedDict):
 
 
 class RestAuthenticationGoogleOauth(BaseModel):
+    authentication: RestAuthenticationGoogleOauthAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
     scopes: List[str]
     r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
 
@@ -858,17 +842,12 @@ class RestAuthenticationGoogleOauth(BaseModel):
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    authentication: Optional[RestAuthenticationGoogleOauthAuthentication] = (
-        RestAuthenticationGoogleOauthAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    collect_method: Annotated[
+        RestAuthenticationGoogleOauthCollectMethod,
+        pydantic.Field(alias="collectMethod"),
+    ]
 
     discovery: Optional[RestAuthenticationGoogleOauthDiscovery] = None
-
-    collect_method: Annotated[
-        Optional[RestAuthenticationGoogleOauthCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestAuthenticationGoogleOauthCollectMethod.GET
 
     collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
 
@@ -885,35 +864,35 @@ class RestAuthenticationGoogleOauth(BaseModel):
 
     pagination: Optional[RestAuthenticationGoogleOauthPagination] = None
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -979,15 +958,14 @@ class RestAuthenticationOauthSecretDiscoverType(
 
 
 class RestAuthenticationOauthSecretDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestAuthenticationOauthSecretDiscoverType]
+    discover_type: RestAuthenticationOauthSecretDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestAuthenticationOauthSecretDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestAuthenticationOauthSecretDiscoverType],
-        pydantic.Field(alias="discoverType"),
-    ] = RestAuthenticationOauthSecretDiscoverType.NONE
+        RestAuthenticationOauthSecretDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -1031,13 +1009,11 @@ class RestAuthenticationOauthSecretPaginationEnum(
 
 
 class RestAuthenticationOauthSecretPaginationTypedDict(TypedDict):
-    type: NotRequired[RestAuthenticationOauthSecretPaginationEnum]
+    type: RestAuthenticationOauthSecretPaginationEnum
 
 
 class RestAuthenticationOauthSecretPagination(BaseModel):
-    type: Optional[RestAuthenticationOauthSecretPaginationEnum] = (
-        RestAuthenticationOauthSecretPaginationEnum.NONE
-    )
+    type: RestAuthenticationOauthSecretPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -1050,7 +1026,7 @@ class RestAuthenticationOauthSecretPagination(BaseModel):
 
 
 class RestAuthenticationOauthSecretRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -1063,9 +1039,7 @@ class RestAuthenticationOauthSecretRetryRulesTypedDict(TypedDict):
 
 
 class RestAuthenticationOauthSecretRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1122,22 +1096,23 @@ class RestAuthenticationOauthSecretScheduling(BaseModel):
 
 
 class RestAuthenticationOauthSecretTypedDict(TypedDict):
+    authentication: RestAuthenticationOauthSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    login_url: str
+    r"""URL to use for the OAuth API call. This call is expected to be a POST."""
+    auth_header_expr: str
+    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+    client_secret_param_name: str
+    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
     text_secret: str
     r"""Select or create a text secret that contains the client secret's value"""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    authentication: NotRequired[RestAuthenticationOauthSecretAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-    login_url: NotRequired[str]
-    r"""URL to use for the OAuth API call. This call is expected to be a POST."""
+    collect_method: RestAuthenticationOauthSecretCollectMethod
     token_resp_attribute: NotRequired[str]
     r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
     auth_header_key: NotRequired[str]
     r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
-    client_secret_param_name: NotRequired[str]
-    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
     auth_request_params: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -1146,7 +1121,6 @@ class RestAuthenticationOauthSecretTypedDict(TypedDict):
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     discovery: NotRequired[RestAuthenticationOauthSecretDiscoveryTypedDict]
-    collect_method: NotRequired[RestAuthenticationOauthSecretCollectMethod]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     collect_body: NotRequired[Any]
@@ -1175,19 +1149,30 @@ class RestAuthenticationOauthSecretTypedDict(TypedDict):
 
 
 class RestAuthenticationOauthSecret(BaseModel):
+    authentication: RestAuthenticationOauthSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
+    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
+    r"""URL to use for the OAuth API call. This call is expected to be a POST."""
+
+    auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
+    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    client_secret_param_name: Annotated[
+        str, pydantic.Field(alias="clientSecretParamName")
+    ]
+    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
+
     text_secret: Annotated[str, pydantic.Field(alias="textSecret")]
     r"""Select or create a text secret that contains the client secret's value"""
 
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    authentication: Optional[RestAuthenticationOauthSecretAuthentication] = (
-        RestAuthenticationOauthSecretAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = ""
-    r"""URL to use for the OAuth API call. This call is expected to be a POST."""
+    collect_method: Annotated[
+        RestAuthenticationOauthSecretCollectMethod,
+        pydantic.Field(alias="collectMethod"),
+    ]
 
     token_resp_attribute: Annotated[
         Optional[str], pydantic.Field(alias="tokenRespAttribute")
@@ -1195,19 +1180,9 @@ class RestAuthenticationOauthSecret(BaseModel):
     r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
 
     auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
-        "Authorization"
+        None
     )
     r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
-    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
-
-    client_secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="clientSecretParamName")
-    ] = "client_secret"
-    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
 
     auth_request_params: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -1221,11 +1196,6 @@ class RestAuthenticationOauthSecret(BaseModel):
     ] = None
 
     discovery: Optional[RestAuthenticationOauthSecretDiscovery] = None
-
-    collect_method: Annotated[
-        Optional[RestAuthenticationOauthSecretCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestAuthenticationOauthSecretCollectMethod.GET
 
     collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
 
@@ -1242,35 +1212,35 @@ class RestAuthenticationOauthSecret(BaseModel):
 
     pagination: Optional[RestAuthenticationOauthSecretPagination] = None
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -1332,15 +1302,14 @@ class RestAuthenticationOauthDiscoverType(str, Enum, metaclass=utils.OpenEnumMet
 
 
 class RestAuthenticationOauthDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestAuthenticationOauthDiscoverType]
+    discover_type: RestAuthenticationOauthDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestAuthenticationOauthDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestAuthenticationOauthDiscoverType],
-        pydantic.Field(alias="discoverType"),
-    ] = RestAuthenticationOauthDiscoverType.NONE
+        RestAuthenticationOauthDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -1380,13 +1349,11 @@ class RestAuthenticationOauthPaginationEnum(str, Enum, metaclass=utils.OpenEnumM
 
 
 class RestAuthenticationOauthPaginationTypedDict(TypedDict):
-    type: NotRequired[RestAuthenticationOauthPaginationEnum]
+    type: RestAuthenticationOauthPaginationEnum
 
 
 class RestAuthenticationOauthPagination(BaseModel):
-    type: Optional[RestAuthenticationOauthPaginationEnum] = (
-        RestAuthenticationOauthPaginationEnum.NONE
-    )
+    type: RestAuthenticationOauthPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -1399,7 +1366,7 @@ class RestAuthenticationOauthPagination(BaseModel):
 
 
 class RestAuthenticationOauthRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -1412,9 +1379,7 @@ class RestAuthenticationOauthRetryRulesTypedDict(TypedDict):
 
 
 class RestAuthenticationOauthRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1471,22 +1436,23 @@ class RestAuthenticationOauthScheduling(BaseModel):
 
 
 class RestAuthenticationOauthTypedDict(TypedDict):
+    authentication: RestAuthenticationOauthAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    login_url: str
+    r"""URL to use for the OAuth API call. This call is expected to be a POST."""
+    auth_header_expr: str
+    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+    client_secret_param_name: str
+    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
     client_secret_param_value: str
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    authentication: NotRequired[RestAuthenticationOauthAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-    login_url: NotRequired[str]
-    r"""URL to use for the OAuth API call. This call is expected to be a POST."""
+    collect_method: RestAuthenticationOauthCollectMethod
     token_resp_attribute: NotRequired[str]
     r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
     auth_header_key: NotRequired[str]
     r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
-    client_secret_param_name: NotRequired[str]
-    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
     auth_request_params: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -1495,7 +1461,6 @@ class RestAuthenticationOauthTypedDict(TypedDict):
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     discovery: NotRequired[RestAuthenticationOauthDiscoveryTypedDict]
-    collect_method: NotRequired[RestAuthenticationOauthCollectMethod]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     collect_body: NotRequired[Any]
@@ -1524,6 +1489,20 @@ class RestAuthenticationOauthTypedDict(TypedDict):
 
 
 class RestAuthenticationOauth(BaseModel):
+    authentication: RestAuthenticationOauthAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
+    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
+    r"""URL to use for the OAuth API call. This call is expected to be a POST."""
+
+    auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
+    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    client_secret_param_name: Annotated[
+        str, pydantic.Field(alias="clientSecretParamName")
+    ]
+    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
+
     client_secret_param_value: Annotated[
         str, pydantic.Field(alias="clientSecretParamValue")
     ]
@@ -1532,13 +1511,9 @@ class RestAuthenticationOauth(BaseModel):
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    authentication: Optional[RestAuthenticationOauthAuthentication] = (
-        RestAuthenticationOauthAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = ""
-    r"""URL to use for the OAuth API call. This call is expected to be a POST."""
+    collect_method: Annotated[
+        RestAuthenticationOauthCollectMethod, pydantic.Field(alias="collectMethod")
+    ]
 
     token_resp_attribute: Annotated[
         Optional[str], pydantic.Field(alias="tokenRespAttribute")
@@ -1546,19 +1521,9 @@ class RestAuthenticationOauth(BaseModel):
     r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
 
     auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
-        "Authorization"
+        None
     )
     r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
-    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
-
-    client_secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="clientSecretParamName")
-    ] = "client_secret"
-    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
 
     auth_request_params: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -1572,11 +1537,6 @@ class RestAuthenticationOauth(BaseModel):
     ] = None
 
     discovery: Optional[RestAuthenticationOauthDiscovery] = None
-
-    collect_method: Annotated[
-        Optional[RestAuthenticationOauthCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestAuthenticationOauthCollectMethod.GET
 
     collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
 
@@ -1593,35 +1553,35 @@ class RestAuthenticationOauth(BaseModel):
 
     pagination: Optional[RestAuthenticationOauthPagination] = None
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -1686,15 +1646,14 @@ class RestAuthenticationLoginSecretDiscoverType(
 
 
 class RestAuthenticationLoginSecretDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestAuthenticationLoginSecretDiscoverType]
+    discover_type: RestAuthenticationLoginSecretDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestAuthenticationLoginSecretDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestAuthenticationLoginSecretDiscoverType],
-        pydantic.Field(alias="discoverType"),
-    ] = RestAuthenticationLoginSecretDiscoverType.NONE
+        RestAuthenticationLoginSecretDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -1738,13 +1697,11 @@ class RestAuthenticationLoginSecretPaginationEnum(
 
 
 class RestAuthenticationLoginSecretPaginationTypedDict(TypedDict):
-    type: NotRequired[RestAuthenticationLoginSecretPaginationEnum]
+    type: RestAuthenticationLoginSecretPaginationEnum
 
 
 class RestAuthenticationLoginSecretPagination(BaseModel):
-    type: Optional[RestAuthenticationLoginSecretPaginationEnum] = (
-        RestAuthenticationLoginSecretPaginationEnum.NONE
-    )
+    type: RestAuthenticationLoginSecretPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -1757,7 +1714,7 @@ class RestAuthenticationLoginSecretPagination(BaseModel):
 
 
 class RestAuthenticationLoginSecretRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -1770,9 +1727,7 @@ class RestAuthenticationLoginSecretRetryRulesTypedDict(TypedDict):
 
 
 class RestAuthenticationLoginSecretRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -1829,27 +1784,27 @@ class RestAuthenticationLoginSecretScheduling(BaseModel):
 
 
 class RestAuthenticationLoginSecretTypedDict(TypedDict):
+    authentication: RestAuthenticationLoginSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    login_url: str
+    r"""URL to use for login API call. This call is expected to be a POST."""
     credentials_secret: str
     r"""Select or create a stored secret that references your login credentials"""
+    login_body: str
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    auth_header_expr: str
+    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    authentication: NotRequired[RestAuthenticationLoginSecretAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-    login_url: NotRequired[str]
-    r"""URL to use for login API call. This call is expected to be a POST."""
-    login_body: NotRequired[str]
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    collect_method: RestAuthenticationLoginSecretCollectMethod
     get_auth_token_from_header: NotRequired[bool]
     r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
     auth_header_key: NotRequired[str]
     r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
     auth_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     discovery: NotRequired[RestAuthenticationLoginSecretDiscoveryTypedDict]
-    collect_method: NotRequired[RestAuthenticationLoginSecretCollectMethod]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     collect_body: NotRequired[Any]
@@ -1878,41 +1833,38 @@ class RestAuthenticationLoginSecretTypedDict(TypedDict):
 
 
 class RestAuthenticationLoginSecret(BaseModel):
+    authentication: RestAuthenticationLoginSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
+    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
     credentials_secret: Annotated[str, pydantic.Field(alias="credentialsSecret")]
     r"""Select or create a stored secret that references your login credentials"""
+
+    login_body: Annotated[str, pydantic.Field(alias="loginBody")]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+
+    auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
+    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
 
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    authentication: Optional[RestAuthenticationLoginSecretAuthentication] = (
-        RestAuthenticationLoginSecretAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = (
-        "`https://localhost:9000/api/v1/auth/login`"
-    )
-    r"""URL to use for login API call. This call is expected to be a POST."""
-
-    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = (
-        '`{ "username": "${username}", "password": "${password}" }`'
-    )
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    collect_method: Annotated[
+        RestAuthenticationLoginSecretCollectMethod,
+        pydantic.Field(alias="collectMethod"),
+    ]
 
     get_auth_token_from_header: Annotated[
         Optional[bool], pydantic.Field(alias="getAuthTokenFromHeader")
-    ] = False
+    ] = None
     r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
 
     auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
-        "Authorization"
+        None
     )
     r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
-    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
 
     auth_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -1920,11 +1872,6 @@ class RestAuthenticationLoginSecret(BaseModel):
     ] = None
 
     discovery: Optional[RestAuthenticationLoginSecretDiscovery] = None
-
-    collect_method: Annotated[
-        Optional[RestAuthenticationLoginSecretCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestAuthenticationLoginSecretCollectMethod.GET
 
     collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
 
@@ -1941,35 +1888,35 @@ class RestAuthenticationLoginSecret(BaseModel):
 
     pagination: Optional[RestAuthenticationLoginSecretPagination] = None
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -2031,15 +1978,14 @@ class RestAuthenticationLoginDiscoverType(str, Enum, metaclass=utils.OpenEnumMet
 
 
 class RestAuthenticationLoginDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestAuthenticationLoginDiscoverType]
+    discover_type: RestAuthenticationLoginDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestAuthenticationLoginDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestAuthenticationLoginDiscoverType],
-        pydantic.Field(alias="discoverType"),
-    ] = RestAuthenticationLoginDiscoverType.NONE
+        RestAuthenticationLoginDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -2079,13 +2025,11 @@ class RestAuthenticationLoginPaginationEnum(str, Enum, metaclass=utils.OpenEnumM
 
 
 class RestAuthenticationLoginPaginationTypedDict(TypedDict):
-    type: NotRequired[RestAuthenticationLoginPaginationEnum]
+    type: RestAuthenticationLoginPaginationEnum
 
 
 class RestAuthenticationLoginPagination(BaseModel):
-    type: Optional[RestAuthenticationLoginPaginationEnum] = (
-        RestAuthenticationLoginPaginationEnum.NONE
-    )
+    type: RestAuthenticationLoginPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2098,7 +2042,7 @@ class RestAuthenticationLoginPagination(BaseModel):
 
 
 class RestAuthenticationLoginRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -2111,9 +2055,7 @@ class RestAuthenticationLoginRetryRulesTypedDict(TypedDict):
 
 
 class RestAuthenticationLoginRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -2170,27 +2112,27 @@ class RestAuthenticationLoginScheduling(BaseModel):
 
 
 class RestAuthenticationLoginTypedDict(TypedDict):
+    authentication: RestAuthenticationLoginAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    login_url: str
+    r"""URL to use for login API call. This call is expected to be a POST."""
     username: str
     password: str
+    login_body: str
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    auth_header_expr: str
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    authentication: NotRequired[RestAuthenticationLoginAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-    login_url: NotRequired[str]
-    r"""URL to use for login API call. This call is expected to be a POST."""
-    login_body: NotRequired[str]
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    collect_method: RestAuthenticationLoginCollectMethod
     get_auth_token_from_header: NotRequired[bool]
     r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
     auth_header_key: NotRequired[str]
     r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
     auth_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     discovery: NotRequired[RestAuthenticationLoginDiscoveryTypedDict]
-    collect_method: NotRequired[RestAuthenticationLoginCollectMethod]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     collect_body: NotRequired[Any]
@@ -2219,42 +2161,38 @@ class RestAuthenticationLoginTypedDict(TypedDict):
 
 
 class RestAuthenticationLogin(BaseModel):
+    authentication: RestAuthenticationLoginAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
+    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
     username: str
 
     password: str
 
+    login_body: Annotated[str, pydantic.Field(alias="loginBody")]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+
+    auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    authentication: Optional[RestAuthenticationLoginAuthentication] = (
-        RestAuthenticationLoginAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = (
-        "`https://localhost:9000/api/v1/auth/login`"
-    )
-    r"""URL to use for login API call. This call is expected to be a POST."""
-
-    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = (
-        '`{ "username": "${username}", "password": "${password}" }`'
-    )
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    collect_method: Annotated[
+        RestAuthenticationLoginCollectMethod, pydantic.Field(alias="collectMethod")
+    ]
 
     get_auth_token_from_header: Annotated[
         Optional[bool], pydantic.Field(alias="getAuthTokenFromHeader")
-    ] = False
+    ] = None
     r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
 
     auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
-        "Authorization"
+        None
     )
     r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = "`Bearer ${token}`"
-    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
 
     auth_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -2262,11 +2200,6 @@ class RestAuthenticationLogin(BaseModel):
     ] = None
 
     discovery: Optional[RestAuthenticationLoginDiscovery] = None
-
-    collect_method: Annotated[
-        Optional[RestAuthenticationLoginCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestAuthenticationLoginCollectMethod.GET
 
     collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
 
@@ -2283,35 +2216,35 @@ class RestAuthenticationLogin(BaseModel):
 
     pagination: Optional[RestAuthenticationLoginPagination] = None
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -2376,15 +2309,14 @@ class RestAuthenticationBasicSecretDiscoverType(
 
 
 class RestAuthenticationBasicSecretDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestAuthenticationBasicSecretDiscoverType]
+    discover_type: RestAuthenticationBasicSecretDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestAuthenticationBasicSecretDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestAuthenticationBasicSecretDiscoverType],
-        pydantic.Field(alias="discoverType"),
-    ] = RestAuthenticationBasicSecretDiscoverType.NONE
+        RestAuthenticationBasicSecretDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -2428,13 +2360,11 @@ class RestAuthenticationBasicSecretPaginationEnum(
 
 
 class RestAuthenticationBasicSecretPaginationTypedDict(TypedDict):
-    type: NotRequired[RestAuthenticationBasicSecretPaginationEnum]
+    type: RestAuthenticationBasicSecretPaginationEnum
 
 
 class RestAuthenticationBasicSecretPagination(BaseModel):
-    type: Optional[RestAuthenticationBasicSecretPaginationEnum] = (
-        RestAuthenticationBasicSecretPaginationEnum.NONE
-    )
+    type: RestAuthenticationBasicSecretPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2447,7 +2377,7 @@ class RestAuthenticationBasicSecretPagination(BaseModel):
 
 
 class RestAuthenticationBasicSecretRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -2460,9 +2390,7 @@ class RestAuthenticationBasicSecretRetryRulesTypedDict(TypedDict):
 
 
 class RestAuthenticationBasicSecretRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -2519,14 +2447,14 @@ class RestAuthenticationBasicSecretScheduling(BaseModel):
 
 
 class RestAuthenticationBasicSecretTypedDict(TypedDict):
+    authentication: RestAuthenticationBasicSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     credentials_secret: str
     r"""Select or create a stored secret that references your credentials"""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    authentication: NotRequired[RestAuthenticationBasicSecretAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    collect_method: RestAuthenticationBasicSecretCollectMethod
     discovery: NotRequired[RestAuthenticationBasicSecretDiscoveryTypedDict]
-    collect_method: NotRequired[RestAuthenticationBasicSecretCollectMethod]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     collect_body: NotRequired[Any]
@@ -2555,23 +2483,21 @@ class RestAuthenticationBasicSecretTypedDict(TypedDict):
 
 
 class RestAuthenticationBasicSecret(BaseModel):
+    authentication: RestAuthenticationBasicSecretAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
     credentials_secret: Annotated[str, pydantic.Field(alias="credentialsSecret")]
     r"""Select or create a stored secret that references your credentials"""
 
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    authentication: Optional[RestAuthenticationBasicSecretAuthentication] = (
-        RestAuthenticationBasicSecretAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    collect_method: Annotated[
+        RestAuthenticationBasicSecretCollectMethod,
+        pydantic.Field(alias="collectMethod"),
+    ]
 
     discovery: Optional[RestAuthenticationBasicSecretDiscovery] = None
-
-    collect_method: Annotated[
-        Optional[RestAuthenticationBasicSecretCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestAuthenticationBasicSecretCollectMethod.GET
 
     collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
 
@@ -2588,35 +2514,35 @@ class RestAuthenticationBasicSecret(BaseModel):
 
     pagination: Optional[RestAuthenticationBasicSecretPagination] = None
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -2678,15 +2604,14 @@ class RestAuthenticationBasicDiscoverType(str, Enum, metaclass=utils.OpenEnumMet
 
 
 class RestAuthenticationBasicDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestAuthenticationBasicDiscoverType]
+    discover_type: RestAuthenticationBasicDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestAuthenticationBasicDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestAuthenticationBasicDiscoverType],
-        pydantic.Field(alias="discoverType"),
-    ] = RestAuthenticationBasicDiscoverType.NONE
+        RestAuthenticationBasicDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -2726,13 +2651,11 @@ class RestAuthenticationBasicPaginationEnum(str, Enum, metaclass=utils.OpenEnumM
 
 
 class RestAuthenticationBasicPaginationTypedDict(TypedDict):
-    type: NotRequired[RestAuthenticationBasicPaginationEnum]
+    type: RestAuthenticationBasicPaginationEnum
 
 
 class RestAuthenticationBasicPagination(BaseModel):
-    type: Optional[RestAuthenticationBasicPaginationEnum] = (
-        RestAuthenticationBasicPaginationEnum.NONE
-    )
+    type: RestAuthenticationBasicPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2745,7 +2668,7 @@ class RestAuthenticationBasicPagination(BaseModel):
 
 
 class RestAuthenticationBasicRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -2758,9 +2681,7 @@ class RestAuthenticationBasicRetryRulesTypedDict(TypedDict):
 
 
 class RestAuthenticationBasicRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -2817,14 +2738,14 @@ class RestAuthenticationBasicScheduling(BaseModel):
 
 
 class RestAuthenticationBasicTypedDict(TypedDict):
+    authentication: RestAuthenticationBasicAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     username: str
     password: str
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    authentication: NotRequired[RestAuthenticationBasicAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    collect_method: RestAuthenticationBasicCollectMethod
     discovery: NotRequired[RestAuthenticationBasicDiscoveryTypedDict]
-    collect_method: NotRequired[RestAuthenticationBasicCollectMethod]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     collect_body: NotRequired[Any]
@@ -2853,6 +2774,9 @@ class RestAuthenticationBasicTypedDict(TypedDict):
 
 
 class RestAuthenticationBasic(BaseModel):
+    authentication: RestAuthenticationBasicAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
     username: str
 
     password: str
@@ -2860,17 +2784,11 @@ class RestAuthenticationBasic(BaseModel):
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    authentication: Optional[RestAuthenticationBasicAuthentication] = (
-        RestAuthenticationBasicAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    collect_method: Annotated[
+        RestAuthenticationBasicCollectMethod, pydantic.Field(alias="collectMethod")
+    ]
 
     discovery: Optional[RestAuthenticationBasicDiscovery] = None
-
-    collect_method: Annotated[
-        Optional[RestAuthenticationBasicCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestAuthenticationBasicCollectMethod.GET
 
     collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
 
@@ -2887,35 +2805,35 @@ class RestAuthenticationBasic(BaseModel):
 
     pagination: Optional[RestAuthenticationBasicPagination] = None
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -2976,15 +2894,14 @@ class RestAuthenticationNoneDiscoverType(str, Enum, metaclass=utils.OpenEnumMeta
 
 
 class RestAuthenticationNoneDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestAuthenticationNoneDiscoverType]
+    discover_type: RestAuthenticationNoneDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestAuthenticationNoneDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestAuthenticationNoneDiscoverType],
-        pydantic.Field(alias="discoverType"),
-    ] = RestAuthenticationNoneDiscoverType.NONE
+        RestAuthenticationNoneDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -3024,13 +2941,11 @@ class RestAuthenticationNonePaginationEnum(str, Enum, metaclass=utils.OpenEnumMe
 
 
 class RestAuthenticationNonePaginationTypedDict(TypedDict):
-    type: NotRequired[RestAuthenticationNonePaginationEnum]
+    type: RestAuthenticationNonePaginationEnum
 
 
 class RestAuthenticationNonePagination(BaseModel):
-    type: Optional[RestAuthenticationNonePaginationEnum] = (
-        RestAuthenticationNonePaginationEnum.NONE
-    )
+    type: RestAuthenticationNonePaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -3043,7 +2958,7 @@ class RestAuthenticationNonePagination(BaseModel):
 
 
 class RestAuthenticationNoneRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -3056,9 +2971,7 @@ class RestAuthenticationNoneRetryRulesTypedDict(TypedDict):
 
 
 class RestAuthenticationNoneRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -3115,12 +3028,12 @@ class RestAuthenticationNoneScheduling(BaseModel):
 
 
 class RestAuthenticationNoneTypedDict(TypedDict):
+    authentication: RestAuthenticationNoneAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    authentication: NotRequired[RestAuthenticationNoneAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    collect_method: RestAuthenticationNoneCollectMethod
     discovery: NotRequired[RestAuthenticationNoneDiscoveryTypedDict]
-    collect_method: NotRequired[RestAuthenticationNoneCollectMethod]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     collect_body: NotRequired[Any]
@@ -3149,20 +3062,17 @@ class RestAuthenticationNoneTypedDict(TypedDict):
 
 
 class RestAuthenticationNone(BaseModel):
+    authentication: RestAuthenticationNoneAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    authentication: Optional[RestAuthenticationNoneAuthentication] = (
-        RestAuthenticationNoneAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    collect_method: Annotated[
+        RestAuthenticationNoneCollectMethod, pydantic.Field(alias="collectMethod")
+    ]
 
     discovery: Optional[RestAuthenticationNoneDiscovery] = None
-
-    collect_method: Annotated[
-        Optional[RestAuthenticationNoneCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestAuthenticationNoneCollectMethod.GET
 
     collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
 
@@ -3179,35 +3089,35 @@ class RestAuthenticationNone(BaseModel):
 
     pagination: Optional[RestAuthenticationNonePagination] = None
 
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -3263,15 +3173,14 @@ class RestCollectMethodOtherDiscoverType(str, Enum, metaclass=utils.OpenEnumMeta
 
 
 class RestCollectMethodOtherDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestCollectMethodOtherDiscoverType]
+    discover_type: RestCollectMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestCollectMethodOtherDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestCollectMethodOtherDiscoverType],
-        pydantic.Field(alias="discoverType"),
-    ] = RestCollectMethodOtherDiscoverType.NONE
+        RestCollectMethodOtherDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -3300,13 +3209,11 @@ class RestCollectMethodOtherPaginationEnum(str, Enum, metaclass=utils.OpenEnumMe
 
 
 class RestCollectMethodOtherPaginationTypedDict(TypedDict):
-    type: NotRequired[RestCollectMethodOtherPaginationEnum]
+    type: RestCollectMethodOtherPaginationEnum
 
 
 class RestCollectMethodOtherPagination(BaseModel):
-    type: Optional[RestCollectMethodOtherPaginationEnum] = (
-        RestCollectMethodOtherPaginationEnum.NONE
-    )
+    type: RestCollectMethodOtherPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -3334,7 +3241,7 @@ class RestCollectMethodOtherAuthentication(str, Enum, metaclass=utils.OpenEnumMe
 
 
 class RestCollectMethodOtherRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -3347,9 +3254,7 @@ class RestCollectMethodOtherRetryRulesTypedDict(TypedDict):
 
 
 class RestCollectMethodOtherRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -3406,10 +3311,12 @@ class RestCollectMethodOtherScheduling(BaseModel):
 
 
 class RestCollectMethodOtherTypedDict(TypedDict):
+    collect_method: RestCollectMethodOtherCollectMethod
     collect_verb: Any
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    collect_method: NotRequired[RestCollectMethodOtherCollectMethod]
+    authentication: RestCollectMethodOtherAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     collect_body: NotRequired[Any]
     collect_request_params: NotRequired[Any]
     discovery: NotRequired[RestCollectMethodOtherDiscoveryTypedDict]
@@ -3417,8 +3324,6 @@ class RestCollectMethodOtherTypedDict(TypedDict):
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     pagination: NotRequired[RestCollectMethodOtherPaginationTypedDict]
-    authentication: NotRequired[RestCollectMethodOtherAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     use_round_robin_dns: NotRequired[bool]
@@ -3440,15 +3345,17 @@ class RestCollectMethodOtherTypedDict(TypedDict):
 
 
 class RestCollectMethodOther(BaseModel):
+    collect_method: Annotated[
+        RestCollectMethodOtherCollectMethod, pydantic.Field(alias="collectMethod")
+    ]
+
     collect_verb: Annotated[Any, pydantic.Field(alias="collectVerb")]
 
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    collect_method: Annotated[
-        Optional[RestCollectMethodOtherCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestCollectMethodOtherCollectMethod.GET
+    authentication: RestCollectMethodOtherAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
@@ -3465,40 +3372,35 @@ class RestCollectMethodOther(BaseModel):
 
     pagination: Optional[RestCollectMethodOtherPagination] = None
 
-    authentication: Optional[RestCollectMethodOtherAuthentication] = (
-        RestCollectMethodOtherAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -3558,15 +3460,14 @@ class RestCollectMethodPostWithBodyDiscoverType(
 
 
 class RestCollectMethodPostWithBodyDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestCollectMethodPostWithBodyDiscoverType]
+    discover_type: RestCollectMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestCollectMethodPostWithBodyDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestCollectMethodPostWithBodyDiscoverType],
-        pydantic.Field(alias="discoverType"),
-    ] = RestCollectMethodPostWithBodyDiscoverType.NONE
+        RestCollectMethodPostWithBodyDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -3597,13 +3498,11 @@ class RestCollectMethodPostWithBodyPaginationEnum(
 
 
 class RestCollectMethodPostWithBodyPaginationTypedDict(TypedDict):
-    type: NotRequired[RestCollectMethodPostWithBodyPaginationEnum]
+    type: RestCollectMethodPostWithBodyPaginationEnum
 
 
 class RestCollectMethodPostWithBodyPagination(BaseModel):
-    type: Optional[RestCollectMethodPostWithBodyPaginationEnum] = (
-        RestCollectMethodPostWithBodyPaginationEnum.NONE
-    )
+    type: RestCollectMethodPostWithBodyPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -3633,7 +3532,7 @@ class RestCollectMethodPostWithBodyAuthentication(
 
 
 class RestCollectMethodPostWithBodyRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -3646,9 +3545,7 @@ class RestCollectMethodPostWithBodyRetryRulesTypedDict(TypedDict):
 
 
 class RestCollectMethodPostWithBodyRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -3705,10 +3602,12 @@ class RestCollectMethodPostWithBodyScheduling(BaseModel):
 
 
 class RestCollectMethodPostWithBodyTypedDict(TypedDict):
+    collect_method: RestCollectMethodPostWithBodyCollectMethod
     collect_body: Any
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    collect_method: NotRequired[RestCollectMethodPostWithBodyCollectMethod]
+    authentication: RestCollectMethodPostWithBodyAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     discovery: NotRequired[RestCollectMethodPostWithBodyDiscoveryTypedDict]
     collect_verb: NotRequired[Any]
     collect_request_params: NotRequired[Any]
@@ -3716,8 +3615,6 @@ class RestCollectMethodPostWithBodyTypedDict(TypedDict):
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     pagination: NotRequired[RestCollectMethodPostWithBodyPaginationTypedDict]
-    authentication: NotRequired[RestCollectMethodPostWithBodyAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     use_round_robin_dns: NotRequired[bool]
@@ -3739,15 +3636,18 @@ class RestCollectMethodPostWithBodyTypedDict(TypedDict):
 
 
 class RestCollectMethodPostWithBody(BaseModel):
+    collect_method: Annotated[
+        RestCollectMethodPostWithBodyCollectMethod,
+        pydantic.Field(alias="collectMethod"),
+    ]
+
     collect_body: Annotated[Any, pydantic.Field(alias="collectBody")]
 
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    collect_method: Annotated[
-        Optional[RestCollectMethodPostWithBodyCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestCollectMethodPostWithBodyCollectMethod.GET
+    authentication: RestCollectMethodPostWithBodyAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     discovery: Optional[RestCollectMethodPostWithBodyDiscovery] = None
 
@@ -3764,40 +3664,35 @@ class RestCollectMethodPostWithBody(BaseModel):
 
     pagination: Optional[RestCollectMethodPostWithBodyPagination] = None
 
-    authentication: Optional[RestCollectMethodPostWithBodyAuthentication] = (
-        RestCollectMethodPostWithBodyAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -3855,15 +3750,14 @@ class RestCollectMethodPostDiscoverType(str, Enum, metaclass=utils.OpenEnumMeta)
 
 
 class RestCollectMethodPostDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestCollectMethodPostDiscoverType]
+    discover_type: RestCollectMethodPostDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestCollectMethodPostDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestCollectMethodPostDiscoverType],
-        pydantic.Field(alias="discoverType"),
-    ] = RestCollectMethodPostDiscoverType.NONE
+        RestCollectMethodPostDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -3892,13 +3786,11 @@ class RestCollectMethodPostPaginationEnum(str, Enum, metaclass=utils.OpenEnumMet
 
 
 class RestCollectMethodPostPaginationTypedDict(TypedDict):
-    type: NotRequired[RestCollectMethodPostPaginationEnum]
+    type: RestCollectMethodPostPaginationEnum
 
 
 class RestCollectMethodPostPagination(BaseModel):
-    type: Optional[RestCollectMethodPostPaginationEnum] = (
-        RestCollectMethodPostPaginationEnum.NONE
-    )
+    type: RestCollectMethodPostPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -3926,7 +3818,7 @@ class RestCollectMethodPostAuthentication(str, Enum, metaclass=utils.OpenEnumMet
 
 
 class RestCollectMethodPostRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -3939,9 +3831,7 @@ class RestCollectMethodPostRetryRulesTypedDict(TypedDict):
 
 
 class RestCollectMethodPostRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -3998,9 +3888,11 @@ class RestCollectMethodPostScheduling(BaseModel):
 
 
 class RestCollectMethodPostTypedDict(TypedDict):
+    collect_method: RestCollectMethodPostCollectMethod
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    collect_method: NotRequired[RestCollectMethodPostCollectMethod]
+    authentication: RestCollectMethodPostAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     collect_request_params: NotRequired[Any]
     discovery: NotRequired[RestCollectMethodPostDiscoveryTypedDict]
     collect_verb: NotRequired[Any]
@@ -4009,8 +3901,6 @@ class RestCollectMethodPostTypedDict(TypedDict):
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     pagination: NotRequired[RestCollectMethodPostPaginationTypedDict]
-    authentication: NotRequired[RestCollectMethodPostAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     use_round_robin_dns: NotRequired[bool]
@@ -4032,13 +3922,15 @@ class RestCollectMethodPostTypedDict(TypedDict):
 
 
 class RestCollectMethodPost(BaseModel):
+    collect_method: Annotated[
+        RestCollectMethodPostCollectMethod, pydantic.Field(alias="collectMethod")
+    ]
+
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    collect_method: Annotated[
-        Optional[RestCollectMethodPostCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestCollectMethodPostCollectMethod.GET
+    authentication: RestCollectMethodPostAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     collect_request_params: Annotated[
         Optional[Any], pydantic.Field(alias="collectRequestParams")
@@ -4057,40 +3949,35 @@ class RestCollectMethodPost(BaseModel):
 
     pagination: Optional[RestCollectMethodPostPagination] = None
 
-    authentication: Optional[RestCollectMethodPostAuthentication] = (
-        RestCollectMethodPostAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[
@@ -4146,14 +4033,14 @@ class RestCollectMethodGetDiscoverType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class RestCollectMethodGetDiscoveryTypedDict(TypedDict):
-    discover_type: NotRequired[RestCollectMethodGetDiscoverType]
+    discover_type: RestCollectMethodGetDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
 class RestCollectMethodGetDiscovery(BaseModel):
     discover_type: Annotated[
-        Optional[RestCollectMethodGetDiscoverType], pydantic.Field(alias="discoverType")
-    ] = RestCollectMethodGetDiscoverType.NONE
+        RestCollectMethodGetDiscoverType, pydantic.Field(alias="discoverType")
+    ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
     @field_serializer("discover_type")
@@ -4182,13 +4069,11 @@ class RestCollectMethodGetPaginationEnum(str, Enum, metaclass=utils.OpenEnumMeta
 
 
 class RestCollectMethodGetPaginationTypedDict(TypedDict):
-    type: NotRequired[RestCollectMethodGetPaginationEnum]
+    type: RestCollectMethodGetPaginationEnum
 
 
 class RestCollectMethodGetPagination(BaseModel):
-    type: Optional[RestCollectMethodGetPaginationEnum] = (
-        RestCollectMethodGetPaginationEnum.NONE
-    )
+    type: RestCollectMethodGetPaginationEnum
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -4216,7 +4101,7 @@ class RestCollectMethodGetAuthentication(str, Enum, metaclass=utils.OpenEnumMeta
 
 
 class RestCollectMethodGetRetryRulesTypedDict(TypedDict):
-    type: NotRequired[RetryTypeOptionsHealthCheckCollectorConfRetryRules]
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
     limit: NotRequired[Any]
@@ -4229,9 +4114,7 @@ class RestCollectMethodGetRetryRulesTypedDict(TypedDict):
 
 
 class RestCollectMethodGetRetryRules(BaseModel):
-    type: Optional[RetryTypeOptionsHealthCheckCollectorConfRetryRules] = (
-        RetryTypeOptionsHealthCheckCollectorConfRetryRules.BACKOFF
-    )
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
@@ -4288,9 +4171,11 @@ class RestCollectMethodGetScheduling(BaseModel):
 
 
 class RestCollectMethodGetTypedDict(TypedDict):
+    collect_method: RestCollectMethodGetCollectMethod
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    collect_method: NotRequired[RestCollectMethodGetCollectMethod]
+    authentication: RestCollectMethodGetAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     collect_request_params: NotRequired[Any]
     discovery: NotRequired[RestCollectMethodGetDiscoveryTypedDict]
     collect_verb: NotRequired[Any]
@@ -4299,8 +4184,6 @@ class RestCollectMethodGetTypedDict(TypedDict):
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     pagination: NotRequired[RestCollectMethodGetPaginationTypedDict]
-    authentication: NotRequired[RestCollectMethodGetAuthentication]
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     use_round_robin_dns: NotRequired[bool]
@@ -4322,13 +4205,15 @@ class RestCollectMethodGetTypedDict(TypedDict):
 
 
 class RestCollectMethodGet(BaseModel):
+    collect_method: Annotated[
+        RestCollectMethodGetCollectMethod, pydantic.Field(alias="collectMethod")
+    ]
+
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
-    collect_method: Annotated[
-        Optional[RestCollectMethodGetCollectMethod],
-        pydantic.Field(alias="collectMethod"),
-    ] = RestCollectMethodGetCollectMethod.GET
+    authentication: RestCollectMethodGetAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     collect_request_params: Annotated[
         Optional[Any], pydantic.Field(alias="collectRequestParams")
@@ -4347,40 +4232,35 @@ class RestCollectMethodGet(BaseModel):
 
     pagination: Optional[RestCollectMethodGetPagination] = None
 
-    authentication: Optional[RestCollectMethodGetAuthentication] = (
-        RestCollectMethodGetAuthentication.NONE
-    )
-    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-
-    timeout: Optional[float] = 0
+    timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
 
     disable_time_filter: Annotated[
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = False
+    ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
-    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = True
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
     r"""Decode the URL before sending requests (including pagination requests)"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = False
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     capture_headers: Annotated[
         Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = False
+    ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
-    ] = False
+    ] = None
     r"""Stop pagination when the Event Breaker produces no events"""
 
     safe_headers: Annotated[

@@ -47,7 +47,7 @@ class OutputXsiamURLTypedDict(TypedDict):
 class OutputXsiamURL(BaseModel):
     url: Any
 
-    weight: Optional[float] = 1
+    weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
@@ -167,37 +167,37 @@ class OutputXsiam(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        False
+        None
     )
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
 
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 9500
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 1
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -209,7 +209,7 @@ class OutputXsiam(BaseModel):
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -219,7 +219,7 @@ class OutputXsiam(BaseModel):
 
     auth_type: Annotated[
         Optional[OutputXsiamAuthenticationMethod], pydantic.Field(alias="authType")
-    ] = OutputXsiamAuthenticationMethod.TOKEN
+    ] = None
     r"""Enter a token directly, or provide a secret referencing a token"""
 
     response_retry_settings: Annotated[
@@ -234,17 +234,17 @@ class OutputXsiam(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     throttle_rate_req_per_sec: Annotated[
         Optional[int], pydantic.Field(alias="throttleRateReqPerSec")
-    ] = 400
+    ] = None
     r"""Maximum number of requests to limit to per second"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     total_memory_limit_kb: Annotated[
@@ -254,27 +254,27 @@ class OutputXsiam(BaseModel):
 
     description: Optional[str] = None
 
-    url: Optional[str] = "http://localhost:8088/logs/v1/event"
+    url: Optional[str] = None
     r"""XSIAM endpoint URL to send events to, such as https://api-{tenant external URL}/logs/v1/event"""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = False
+    ] = None
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = False
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[OutputXsiamURL]] = None
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 600
+    ] = None
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
 
     load_balance_stats_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = 300
+    ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     token: Optional[str] = None
@@ -285,50 +285,46 @@ class OutputXsiam(BaseModel):
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[

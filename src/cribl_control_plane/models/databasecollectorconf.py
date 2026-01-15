@@ -53,7 +53,7 @@ class DatabaseCollectorConf(BaseModel):
 
     query_validation_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="queryValidationEnabled")
-    ] = True
+    ] = None
     r"""Enforces a basic query validation that allows only a single 'select' statement. Disable for more complex queries or when using semicolons. Caution: Disabling query validation allows DDL and DML statements to be executed, which could be destructive to your database."""
 
     default_breakers: Annotated[

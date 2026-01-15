@@ -63,6 +63,10 @@ class OutputSentinelOneAiSiemPqControls(BaseModel):
 
 class OutputSentinelOneAiSiemTypedDict(TypedDict):
     type: OutputSentinelOneAiSiemType
+    region: Region
+    r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
+    endpoint: AISIEMEndpointPath
+    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -73,10 +77,6 @@ class OutputSentinelOneAiSiemTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    region: NotRequired[Region]
-    r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
-    endpoint: NotRequired[AISIEMEndpointPath]
-    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -170,6 +170,12 @@ class OutputSentinelOneAiSiemTypedDict(TypedDict):
 class OutputSentinelOneAiSiem(BaseModel):
     type: OutputSentinelOneAiSiemType
 
+    region: Region
+    r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
+
+    endpoint: AISIEMEndpointPath
+    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
+
     id: Optional[str] = None
     r"""Unique ID for this output"""
 
@@ -187,44 +193,36 @@ class OutputSentinelOneAiSiem(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    region: Optional[Region] = Region.US
-    r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
-
-    endpoint: Optional[AISIEMEndpointPath] = (
-        AISIEMEndpointPath.ROOT_SERVICES_COLLECTOR_EVENT
-    )
-    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
-
-    concurrency: Optional[float] = 5
+    concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = 5120
+    ] = None
     r"""Maximum size, in KB, of the request body"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = 0
+    ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
-    compress: Optional[bool] = True
+    compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
     that value will take precedence.
     """
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = 30
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = 5
+    ] = None
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
@@ -236,7 +234,7 @@ class OutputSentinelOneAiSiem(BaseModel):
     failed_request_logging_mode: Annotated[
         Optional[FailedRequestLoggingModeOptions],
         pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = FailedRequestLoggingModeOptions.NONE
+    ] = None
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
 
     safe_headers: Annotated[
@@ -247,7 +245,7 @@ class OutputSentinelOneAiSiem(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
         pydantic.Field(alias="authType"),
-    ] = AuthenticationMethodOptionsAuthTokensItems.MANUAL
+    ] = None
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     response_retry_settings: Annotated[
@@ -262,12 +260,12 @@ class OutputSentinelOneAiSiem(BaseModel):
 
     response_honor_retry_after_header: Annotated[
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = True
+    ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
@@ -278,121 +276,113 @@ class OutputSentinelOneAiSiem(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    base_url: Annotated[Optional[str], pydantic.Field(alias="baseUrl")] = (
-        "https://<Your-S1-Tenant>.sentinelone.net"
-    )
+    base_url: Annotated[Optional[str], pydantic.Field(alias="baseUrl")] = None
     r"""Base URL of the endpoint used to send events to, such as https://<Your-S1-Tenant>.sentinelone.net. Must begin with http:// or https://, can include a port number, and no trailing slashes. Matches pattern: ^https?://[a-zA-Z0-9.-]+(:[0-9]+)?$."""
 
     host_expression: Annotated[
         Optional[str], pydantic.Field(alias="hostExpression")
-    ] = "__e.host || C.os.hostname()"
+    ] = None
     r"""Define serverHost for events using a JavaScript expression. You must enclose text constants in quotes (such as, 'myServer')."""
 
     source_expression: Annotated[
         Optional[str], pydantic.Field(alias="sourceExpression")
-    ] = "__e.source || (__e.__criblMetrics ? 'metrics' : 'cribl')"
+    ] = None
     r"""Define logFile for events using a JavaScript expression. You must enclose text constants in quotes (such as, 'myLogFile.txt')."""
 
     source_type_expression: Annotated[
         Optional[str], pydantic.Field(alias="sourceTypeExpression")
-    ] = "__e.sourcetype || 'dottedJson'"
+    ] = None
     r"""Define the parser for events using a JavaScript expression. This value helps parse data into AI SIEM. You must enclose text constants in quotes (such as, 'dottedJson'). For custom parsers, substitute 'dottedJson' with your parser's name."""
 
     data_source_category_expression: Annotated[
         Optional[str], pydantic.Field(alias="dataSourceCategoryExpression")
-    ] = "'security'"
+    ] = None
     r"""Define the dataSource.category for events using a JavaScript expression. This value helps categorize data and helps enable extra features in SentinelOne AI SIEM. You must enclose text constants in quotes. The default value is 'security'."""
 
     data_source_name_expression: Annotated[
         Optional[str], pydantic.Field(alias="dataSourceNameExpression")
-    ] = "__e.__dataSourceName || 'cribl'"
+    ] = None
     r"""Define the dataSource.name for events using a JavaScript expression. This value should reflect the type of data being inserted into AI SIEM. You must enclose text constants in quotes (such as, 'networkActivity' or 'authLogs')."""
 
     data_source_vendor_expression: Annotated[
         Optional[str], pydantic.Field(alias="dataSourceVendorExpression")
-    ] = "__e.__dataSourceVendor || 'cribl'"
+    ] = None
     r"""Define the dataSource.vendor for events using a JavaScript expression. This value should reflect the vendor of the data being inserted into AI SIEM. You must enclose text constants in quotes (such as, 'Cisco' or 'Microsoft')."""
 
     event_type_expression: Annotated[
         Optional[str], pydantic.Field(alias="eventTypeExpression")
-    ] = ""
+    ] = None
     r"""Optionally, define the event.type for events using a JavaScript expression. This value acts as a label, grouping events into meaningful categories. You must enclose text constants in quotes (such as, 'Process Creation' or 'Network Connection')."""
 
-    host: Optional[str] = "C.os.hostname()"
+    host: Optional[str] = None
     r"""Define the serverHost for events using a JavaScript expression. This value will be passed to AI SIEM. You must enclose text constants in quotes (such as, 'myServerName')."""
 
-    source: Optional[str] = "cribl"
+    source: Optional[str] = None
     r"""Specify the logFile value to pass as a parameter to SentinelOne AI SIEM. Don't quote this value. The default is cribl."""
 
-    source_type: Annotated[Optional[str], pydantic.Field(alias="sourceType")] = (
-        "hecRawParser"
-    )
+    source_type: Annotated[Optional[str], pydantic.Field(alias="sourceType")] = None
     r"""Specify the sourcetype parameter for SentinelOne AI SIEM, which determines the parser. Don't quote this value. For custom parsers, substitute hecRawParser with your parser's name. The default is hecRawParser."""
 
     data_source_category: Annotated[
         Optional[str], pydantic.Field(alias="dataSourceCategory")
-    ] = "security"
+    ] = None
     r"""Specify the dataSource.category value to pass as a parameter to SentinelOne AI SIEM. This value helps categorize data and enables additional features. Don't quote this value. The default is security."""
 
     data_source_name: Annotated[
         Optional[str], pydantic.Field(alias="dataSourceName")
-    ] = "cribl"
+    ] = None
     r"""Specify the dataSource.name value to pass as a parameter to AI SIEM. This value should reflect the type of data being inserted. Don't quote this value. The default is cribl."""
 
     data_source_vendor: Annotated[
         Optional[str], pydantic.Field(alias="dataSourceVendor")
-    ] = "cribl"
+    ] = None
     r"""Specify the dataSource.vendorvalue to pass as a parameter to AI SIEM. This value should reflect the vendor of the data being inserted. Don't quote this value. The default is cribl."""
 
-    event_type: Annotated[Optional[str], pydantic.Field(alias="eventType")] = ""
+    event_type: Annotated[Optional[str], pydantic.Field(alias="eventType")] = None
     r"""Specify the event.type value to pass as an optional parameter to AI SIEM. This value acts as a label, grouping events into meaningful categories like Process Creation, File Modification, or Network Connection. Don't quote this value. By default, this field is empty."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = True
+    ] = None
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
 
     pq_rate_per_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = 0
+    ] = None
     r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
 
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = (
-        ModeOptions.ERROR
-    )
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
 
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = 42
+    ] = None
     r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = 30
+    ] = None
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
 
     pq_max_file_size: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = "1 MB"
+    ] = None
     r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
 
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = "5GB"
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
     r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
 
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = (
-        "$CRIBL_HOME/state/queues"
-    )
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
     r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
 
     pq_compress: Annotated[
         Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = CompressionOptionsPq.NONE
+    ] = None
     r"""Codec to use to compress the persisted data"""
 
     pq_on_backpressure: Annotated[
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = QueueFullBehaviorOptions.BLOCK
+    ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[

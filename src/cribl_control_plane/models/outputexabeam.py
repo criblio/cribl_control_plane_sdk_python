@@ -25,6 +25,10 @@ class OutputExabeamTypedDict(TypedDict):
     r"""Name of the destination bucket. A constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a JavaScript Global Variable: `myBucket-${C.vars.myVar}`."""
     region: str
     r"""Region where the bucket is located"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+    endpoint: str
+    r"""Google Cloud Storage service endpoint"""
     collector_instance_id: str
     r"""ID of the Exabeam Collector where data should be sent. Example: 11112222-3333-4444-5555-666677778888
 
@@ -39,10 +43,6 @@ class OutputExabeamTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    stage_path: NotRequired[str]
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-    endpoint: NotRequired[str]
-    r"""Google Cloud Storage service endpoint"""
     signature_version: NotRequired[SignatureVersionOptions4]
     r"""Signature version to use for signing Google Cloud Storage requests"""
     object_acl: NotRequired[ObjectACLOptions1]
@@ -102,6 +102,12 @@ class OutputExabeam(BaseModel):
     region: str
     r"""Region where the bucket is located"""
 
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+
+    endpoint: str
+    r"""Google Cloud Storage service endpoint"""
+
     collector_instance_id: Annotated[str, pydantic.Field(alias="collectorInstanceId")]
     r"""ID of the Exabeam Collector where data should be sent. Example: 11112222-3333-4444-5555-666677778888
 
@@ -124,22 +130,14 @@ class OutputExabeam(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = (
-        "$CRIBL_HOME/state/outputs/staging"
-    )
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-
-    endpoint: Optional[str] = "https://storage.googleapis.com"
-    r"""Google Cloud Storage service endpoint"""
-
     signature_version: Annotated[
         Optional[SignatureVersionOptions4], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions4.V4
+    ] = None
     r"""Signature version to use for signing Google Cloud Storage requests"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptions1], pydantic.Field(alias="objectACL")
-    ] = ObjectACLOptions1.PRIVATE
+    ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
@@ -149,58 +147,58 @@ class OutputExabeam(BaseModel):
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = True
+    ] = None
     r"""Add the Output ID value to staging location"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
-    ] = True
+    ] = None
     r"""Remove empty staging directories after moving files"""
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = 300
+    ] = None
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
 
     max_file_idle_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
-    ] = 30
+    ] = None
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
-        100
+        None
     )
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
-    ] = BackpressureBehaviorOptions1.BLOCK
+    ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     deadletter_enabled: Annotated[
         Optional[bool], pydantic.Field(alias="deadletterEnabled")
-    ] = False
+    ] = None
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
 
     on_disk_full_backpressure: Annotated[
         Optional[DiskSpaceProtectionOptions],
         pydantic.Field(alias="onDiskFullBackpressure"),
-    ] = DiskSpaceProtectionOptions.BLOCK
+    ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
-    ] = 10
+    ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
     encoded_configuration: Annotated[
@@ -230,20 +228,22 @@ class OutputExabeam(BaseModel):
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
-    ] = 300
+    ] = None
     r"""How frequently, in seconds, to clean up empty directories"""
 
     directory_batch_size: Annotated[
         Optional[float], pydantic.Field(alias="directoryBatchSize")
-    ] = 1000
+    ] = None
     r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
 
     deadletter_path: Annotated[
         Optional[str], pydantic.Field(alias="deadletterPath")
-    ] = "$CRIBL_HOME/state/outputs/dead-letter"
+    ] = None
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
 
-    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = 20
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
     @field_serializer("signature_version")

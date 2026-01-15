@@ -25,7 +25,7 @@ class ExecutorTypeSavedJobExecutor(BaseModel):
 
     store_task_results: Annotated[
         Optional[bool], pydantic.Field(alias="storeTaskResults")
-    ] = True
+    ] = None
     r"""Determines whether or not to write task results to disk"""
 
     conf: Optional[ExecutorSpecificSettingsTypeSavedJobExecutorExecutor] = None

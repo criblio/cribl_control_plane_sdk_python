@@ -16,9 +16,9 @@ class FunctionConfSchemaOtlpLogsTypedDict(TypedDict):
 class FunctionConfSchemaOtlpLogs(BaseModel):
     drop_non_log_events: Annotated[
         Optional[bool], pydantic.Field(alias="dropNonLogEvents")
-    ] = False
+    ] = None
 
     batch_otlp_logs: Annotated[
         Optional[bool], pydantic.Field(alias="batchOTLPLogs")
-    ] = False
+    ] = None
     r"""Batch OTLP log records by shared top-level `resource` attributes"""

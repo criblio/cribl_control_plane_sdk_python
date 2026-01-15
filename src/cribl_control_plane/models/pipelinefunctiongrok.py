@@ -14,12 +14,12 @@ class PipelineFunctionGrokID(str, Enum):
     GROK = "grok"
 
 
-class PipelineFunctionGrokPatternListTypedDict(TypedDict):
+class PatternListTypedDict(TypedDict):
     pattern: str
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
 
-class PipelineFunctionGrokPatternList(BaseModel):
+class PatternList(BaseModel):
     pattern: str
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
@@ -27,7 +27,7 @@ class PipelineFunctionGrokPatternList(BaseModel):
 class PipelineFunctionGrokConfTypedDict(TypedDict):
     pattern: str
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
-    pattern_list: NotRequired[List[PipelineFunctionGrokPatternListTypedDict]]
+    pattern_list: NotRequired[List[PatternListTypedDict]]
     source: NotRequired[str]
     r"""Field on which to perform Grok extractions"""
 
@@ -37,11 +37,10 @@ class PipelineFunctionGrokConf(BaseModel):
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
     pattern_list: Annotated[
-        Optional[List[PipelineFunctionGrokPatternList]],
-        pydantic.Field(alias="patternList"),
+        Optional[List[PatternList]], pydantic.Field(alias="patternList")
     ] = None
 
-    source: Optional[str] = "_raw"
+    source: Optional[str] = None
     r"""Field on which to perform Grok extractions"""
 
 
@@ -67,7 +66,7 @@ class PipelineFunctionGrok(BaseModel):
 
     conf: PipelineFunctionGrokConf
 
-    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = "true"
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
     r"""Filter that selects data to be fed through this Function"""
 
     description: Optional[str] = None

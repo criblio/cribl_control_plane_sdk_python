@@ -19,8 +19,8 @@ from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from typing import List, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputKinesisType(str, Enum):
@@ -58,15 +58,12 @@ class ShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
     ROUND_ROBIN = "RoundRobin"
 
 
-class InputKinesisPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
+class InputKinesisTypedDict(TypedDict):
     type: InputKinesisType
     stream_name: str
     r"""Kinesis Data Stream to read data from"""
     region: str
     r"""Region where the Kinesis stream is located"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    pq: NotRequired[PqTypeTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -76,10 +73,13 @@ class InputKinesisPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Select whether to send data to Routes, or directly to Destinations."""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
     service_interval: NotRequired[float]
     r"""Time interval in minutes between consecutive service calls"""
     shard_expr: NotRequired[str]
@@ -125,7 +125,7 @@ class InputKinesisPqEnabledTrueWithPqConstraintTypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
 
 
-class InputKinesisPqEnabledTrueWithPqConstraint(BaseModel):
+class InputKinesis(BaseModel):
     type: InputKinesisType
 
     stream_name: Annotated[str, pydantic.Field(alias="streamName")]
@@ -134,26 +134,24 @@ class InputKinesisPqEnabledTrueWithPqConstraint(BaseModel):
     region: str
     r"""Region where the Kinesis stream is located"""
 
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    pq: Optional[PqType] = None
-
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
-    disabled: Optional[bool] = False
+    disabled: Optional[bool] = None
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
 
     send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
+        None
     )
     r"""Select whether to send data to Routes, or directly to Destinations."""
 
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
@@ -161,43 +159,45 @@ class InputKinesisPqEnabledTrueWithPqConstraint(BaseModel):
     connections: Optional[List[ItemsTypeConnectionsOptional]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
+    pq: Optional[PqType] = None
+
     service_interval: Annotated[
         Optional[float], pydantic.Field(alias="serviceInterval")
-    ] = 1
+    ] = None
     r"""Time interval in minutes between consecutive service calls"""
 
-    shard_expr: Annotated[Optional[str], pydantic.Field(alias="shardExpr")] = "true"
+    shard_expr: Annotated[Optional[str], pydantic.Field(alias="shardExpr")] = None
     r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
 
     shard_iterator_type: Annotated[
         Optional[ShardIteratorStart], pydantic.Field(alias="shardIteratorType")
-    ] = ShardIteratorStart.TRIM_HORIZON
+    ] = None
     r"""Location at which to start reading a shard for the first time"""
 
     payload_format: Annotated[
         Optional[RecordDataFormat], pydantic.Field(alias="payloadFormat")
-    ] = RecordDataFormat.CRIBL
+    ] = None
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
 
     get_records_limit: Annotated[
         Optional[float], pydantic.Field(alias="getRecordsLimit")
-    ] = 5000
+    ] = None
     r"""Maximum number of records per getRecords call"""
 
     get_records_limit_total: Annotated[
         Optional[float], pydantic.Field(alias="getRecordsLimitTotal")
-    ] = 20000
+    ] = None
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
 
     load_balancing_algorithm: Annotated[
         Optional[ShardLoadBalancing], pydantic.Field(alias="loadBalancingAlgorithm")
-    ] = ShardLoadBalancing.CONSISTENT_HASHING
+    ] = None
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     aws_authentication_method: Annotated[
         Optional[AuthenticationMethodOptionsS3CollectorConf],
         pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
+    ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
@@ -209,22 +209,22 @@ class InputKinesisPqEnabledTrueWithPqConstraint(BaseModel):
 
     signature_version: Annotated[
         Optional[SignatureVersionOptions2], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions2.V4
+    ] = None
     r"""Signature version to use for signing Kinesis stream requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
+    ] = None
     r"""Reuse connections between requests, which can improve performance"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
+    ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
+    ] = None
     r"""Use Assume Role credentials to access Kinesis stream"""
 
     assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
@@ -239,17 +239,17 @@ class InputKinesisPqEnabledTrueWithPqConstraint(BaseModel):
 
     duration_seconds: Annotated[
         Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
+    ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     verify_kpl_check_sums: Annotated[
         Optional[bool], pydantic.Field(alias="verifyKPLCheckSums")
-    ] = False
+    ] = None
     r"""Verify Kinesis Producer Library (KPL) event checksums"""
 
     avoid_duplicates: Annotated[
         Optional[bool], pydantic.Field(alias="avoidDuplicates")
-    ] = False
+    ] = None
     r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
@@ -306,775 +306,3 @@ class InputKinesisPqEnabledTrueWithPqConstraint(BaseModel):
             except ValueError:
                 return value
         return value
-
-
-class InputKinesisPqEnabledFalseConstraintTypedDict(TypedDict):
-    type: InputKinesisType
-    stream_name: str
-    r"""Kinesis Data Stream to read data from"""
-    region: str
-    r"""Region where the Kinesis stream is located"""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    service_interval: NotRequired[float]
-    r"""Time interval in minutes between consecutive service calls"""
-    shard_expr: NotRequired[str]
-    r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
-    shard_iterator_type: NotRequired[ShardIteratorStart]
-    r"""Location at which to start reading a shard for the first time"""
-    payload_format: NotRequired[RecordDataFormat]
-    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
-    get_records_limit: NotRequired[float]
-    r"""Maximum number of records per getRecords call"""
-    get_records_limit_total: NotRequired[float]
-    r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
-    load_balancing_algorithm: NotRequired[ShardLoadBalancing]
-    r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-    aws_secret_key: NotRequired[str]
-    endpoint: NotRequired[str]
-    r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions2]
-    r"""Signature version to use for signing Kinesis stream requests"""
-    reuse_connections: NotRequired[bool]
-    r"""Reuse connections between requests, which can improve performance"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-    enable_assume_role: NotRequired[bool]
-    r"""Use Assume Role credentials to access Kinesis stream"""
-    assume_role_arn: NotRequired[str]
-    r"""Amazon Resource Name (ARN) of the role to assume"""
-    assume_role_external_id: NotRequired[str]
-    r"""External ID to use when assuming role"""
-    duration_seconds: NotRequired[float]
-    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    verify_kpl_check_sums: NotRequired[bool]
-    r"""Verify Kinesis Producer Library (KPL) event checksums"""
-    avoid_duplicates: NotRequired[bool]
-    r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-    aws_api_key: NotRequired[str]
-    aws_secret: NotRequired[str]
-    r"""Select or create a stored secret that references your access key and secret key"""
-
-
-class InputKinesisPqEnabledFalseConstraint(BaseModel):
-    type: InputKinesisType
-
-    stream_name: Annotated[str, pydantic.Field(alias="streamName")]
-    r"""Kinesis Data Stream to read data from"""
-
-    region: str
-    r"""Region where the Kinesis stream is located"""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    service_interval: Annotated[
-        Optional[float], pydantic.Field(alias="serviceInterval")
-    ] = 1
-    r"""Time interval in minutes between consecutive service calls"""
-
-    shard_expr: Annotated[Optional[str], pydantic.Field(alias="shardExpr")] = "true"
-    r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
-
-    shard_iterator_type: Annotated[
-        Optional[ShardIteratorStart], pydantic.Field(alias="shardIteratorType")
-    ] = ShardIteratorStart.TRIM_HORIZON
-    r"""Location at which to start reading a shard for the first time"""
-
-    payload_format: Annotated[
-        Optional[RecordDataFormat], pydantic.Field(alias="payloadFormat")
-    ] = RecordDataFormat.CRIBL
-    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
-
-    get_records_limit: Annotated[
-        Optional[float], pydantic.Field(alias="getRecordsLimit")
-    ] = 5000
-    r"""Maximum number of records per getRecords call"""
-
-    get_records_limit_total: Annotated[
-        Optional[float], pydantic.Field(alias="getRecordsLimitTotal")
-    ] = 20000
-    r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
-
-    load_balancing_algorithm: Annotated[
-        Optional[ShardLoadBalancing], pydantic.Field(alias="loadBalancingAlgorithm")
-    ] = ShardLoadBalancing.CONSISTENT_HASHING
-    r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
-
-    aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
-        pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-
-    endpoint: Optional[str] = None
-    r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptions2], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions2.V4
-    r"""Signature version to use for signing Kinesis stream requests"""
-
-    reuse_connections: Annotated[
-        Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
-    r"""Reuse connections between requests, which can improve performance"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-
-    enable_assume_role: Annotated[
-        Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
-    r"""Use Assume Role credentials to access Kinesis stream"""
-
-    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
-        None
-    )
-    r"""Amazon Resource Name (ARN) of the role to assume"""
-
-    assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
-    ] = None
-    r"""External ID to use when assuming role"""
-
-    duration_seconds: Annotated[
-        Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
-    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-
-    verify_kpl_check_sums: Annotated[
-        Optional[bool], pydantic.Field(alias="verifyKPLCheckSums")
-    ] = False
-    r"""Verify Kinesis Producer Library (KPL) event checksums"""
-
-    avoid_duplicates: Annotated[
-        Optional[bool], pydantic.Field(alias="avoidDuplicates")
-    ] = False
-    r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-
-    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
-    r"""Select or create a stored secret that references your access key and secret key"""
-
-    @field_serializer("shard_iterator_type")
-    def serialize_shard_iterator_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ShardIteratorStart(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("payload_format")
-    def serialize_payload_format(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RecordDataFormat(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("load_balancing_algorithm")
-    def serialize_load_balancing_algorithm(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ShardLoadBalancing(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("aws_authentication_method")
-    def serialize_aws_authentication_method(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptions2(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputKinesisSendToRoutesFalseWithConnectionsConstraintTypedDict(TypedDict):
-    type: InputKinesisType
-    stream_name: str
-    r"""Kinesis Data Stream to read data from"""
-    region: str
-    r"""Region where the Kinesis stream is located"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    pq: NotRequired[PqTypeTypedDict]
-    service_interval: NotRequired[float]
-    r"""Time interval in minutes between consecutive service calls"""
-    shard_expr: NotRequired[str]
-    r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
-    shard_iterator_type: NotRequired[ShardIteratorStart]
-    r"""Location at which to start reading a shard for the first time"""
-    payload_format: NotRequired[RecordDataFormat]
-    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
-    get_records_limit: NotRequired[float]
-    r"""Maximum number of records per getRecords call"""
-    get_records_limit_total: NotRequired[float]
-    r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
-    load_balancing_algorithm: NotRequired[ShardLoadBalancing]
-    r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-    aws_secret_key: NotRequired[str]
-    endpoint: NotRequired[str]
-    r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions2]
-    r"""Signature version to use for signing Kinesis stream requests"""
-    reuse_connections: NotRequired[bool]
-    r"""Reuse connections between requests, which can improve performance"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-    enable_assume_role: NotRequired[bool]
-    r"""Use Assume Role credentials to access Kinesis stream"""
-    assume_role_arn: NotRequired[str]
-    r"""Amazon Resource Name (ARN) of the role to assume"""
-    assume_role_external_id: NotRequired[str]
-    r"""External ID to use when assuming role"""
-    duration_seconds: NotRequired[float]
-    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    verify_kpl_check_sums: NotRequired[bool]
-    r"""Verify Kinesis Producer Library (KPL) event checksums"""
-    avoid_duplicates: NotRequired[bool]
-    r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-    aws_api_key: NotRequired[str]
-    aws_secret: NotRequired[str]
-    r"""Select or create a stored secret that references your access key and secret key"""
-
-
-class InputKinesisSendToRoutesFalseWithConnectionsConstraint(BaseModel):
-    type: InputKinesisType
-
-    stream_name: Annotated[str, pydantic.Field(alias="streamName")]
-    r"""Kinesis Data Stream to read data from"""
-
-    region: str
-    r"""Region where the Kinesis stream is located"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    pq: Optional[PqType] = None
-
-    service_interval: Annotated[
-        Optional[float], pydantic.Field(alias="serviceInterval")
-    ] = 1
-    r"""Time interval in minutes between consecutive service calls"""
-
-    shard_expr: Annotated[Optional[str], pydantic.Field(alias="shardExpr")] = "true"
-    r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
-
-    shard_iterator_type: Annotated[
-        Optional[ShardIteratorStart], pydantic.Field(alias="shardIteratorType")
-    ] = ShardIteratorStart.TRIM_HORIZON
-    r"""Location at which to start reading a shard for the first time"""
-
-    payload_format: Annotated[
-        Optional[RecordDataFormat], pydantic.Field(alias="payloadFormat")
-    ] = RecordDataFormat.CRIBL
-    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
-
-    get_records_limit: Annotated[
-        Optional[float], pydantic.Field(alias="getRecordsLimit")
-    ] = 5000
-    r"""Maximum number of records per getRecords call"""
-
-    get_records_limit_total: Annotated[
-        Optional[float], pydantic.Field(alias="getRecordsLimitTotal")
-    ] = 20000
-    r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
-
-    load_balancing_algorithm: Annotated[
-        Optional[ShardLoadBalancing], pydantic.Field(alias="loadBalancingAlgorithm")
-    ] = ShardLoadBalancing.CONSISTENT_HASHING
-    r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
-
-    aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
-        pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-
-    endpoint: Optional[str] = None
-    r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptions2], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions2.V4
-    r"""Signature version to use for signing Kinesis stream requests"""
-
-    reuse_connections: Annotated[
-        Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
-    r"""Reuse connections between requests, which can improve performance"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-
-    enable_assume_role: Annotated[
-        Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
-    r"""Use Assume Role credentials to access Kinesis stream"""
-
-    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
-        None
-    )
-    r"""Amazon Resource Name (ARN) of the role to assume"""
-
-    assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
-    ] = None
-    r"""External ID to use when assuming role"""
-
-    duration_seconds: Annotated[
-        Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
-    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-
-    verify_kpl_check_sums: Annotated[
-        Optional[bool], pydantic.Field(alias="verifyKPLCheckSums")
-    ] = False
-    r"""Verify Kinesis Producer Library (KPL) event checksums"""
-
-    avoid_duplicates: Annotated[
-        Optional[bool], pydantic.Field(alias="avoidDuplicates")
-    ] = False
-    r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-
-    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
-    r"""Select or create a stored secret that references your access key and secret key"""
-
-    @field_serializer("shard_iterator_type")
-    def serialize_shard_iterator_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ShardIteratorStart(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("payload_format")
-    def serialize_payload_format(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RecordDataFormat(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("load_balancing_algorithm")
-    def serialize_load_balancing_algorithm(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ShardLoadBalancing(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("aws_authentication_method")
-    def serialize_aws_authentication_method(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptions2(value)
-            except ValueError:
-                return value
-        return value
-
-
-class InputKinesisSendToRoutesTrueConstraintTypedDict(TypedDict):
-    type: InputKinesisType
-    stream_name: str
-    r"""Kinesis Data Stream to read data from"""
-    region: str
-    r"""Region where the Kinesis stream is located"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    id: NotRequired[str]
-    r"""Unique ID for this input"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    service_interval: NotRequired[float]
-    r"""Time interval in minutes between consecutive service calls"""
-    shard_expr: NotRequired[str]
-    r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
-    shard_iterator_type: NotRequired[ShardIteratorStart]
-    r"""Location at which to start reading a shard for the first time"""
-    payload_format: NotRequired[RecordDataFormat]
-    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
-    get_records_limit: NotRequired[float]
-    r"""Maximum number of records per getRecords call"""
-    get_records_limit_total: NotRequired[float]
-    r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
-    load_balancing_algorithm: NotRequired[ShardLoadBalancing]
-    r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-    aws_secret_key: NotRequired[str]
-    endpoint: NotRequired[str]
-    r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions2]
-    r"""Signature version to use for signing Kinesis stream requests"""
-    reuse_connections: NotRequired[bool]
-    r"""Reuse connections between requests, which can improve performance"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-    enable_assume_role: NotRequired[bool]
-    r"""Use Assume Role credentials to access Kinesis stream"""
-    assume_role_arn: NotRequired[str]
-    r"""Amazon Resource Name (ARN) of the role to assume"""
-    assume_role_external_id: NotRequired[str]
-    r"""External ID to use when assuming role"""
-    duration_seconds: NotRequired[float]
-    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    verify_kpl_check_sums: NotRequired[bool]
-    r"""Verify Kinesis Producer Library (KPL) event checksums"""
-    avoid_duplicates: NotRequired[bool]
-    r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    description: NotRequired[str]
-    aws_api_key: NotRequired[str]
-    aws_secret: NotRequired[str]
-    r"""Select or create a stored secret that references your access key and secret key"""
-
-
-class InputKinesisSendToRoutesTrueConstraint(BaseModel):
-    type: InputKinesisType
-
-    stream_name: Annotated[str, pydantic.Field(alias="streamName")]
-    r"""Kinesis Data Stream to read data from"""
-
-    region: str
-    r"""Region where the Kinesis stream is located"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        True
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this input"""
-
-    disabled: Optional[bool] = False
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = False
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    service_interval: Annotated[
-        Optional[float], pydantic.Field(alias="serviceInterval")
-    ] = 1
-    r"""Time interval in minutes between consecutive service calls"""
-
-    shard_expr: Annotated[Optional[str], pydantic.Field(alias="shardExpr")] = "true"
-    r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
-
-    shard_iterator_type: Annotated[
-        Optional[ShardIteratorStart], pydantic.Field(alias="shardIteratorType")
-    ] = ShardIteratorStart.TRIM_HORIZON
-    r"""Location at which to start reading a shard for the first time"""
-
-    payload_format: Annotated[
-        Optional[RecordDataFormat], pydantic.Field(alias="payloadFormat")
-    ] = RecordDataFormat.CRIBL
-    r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
-
-    get_records_limit: Annotated[
-        Optional[float], pydantic.Field(alias="getRecordsLimit")
-    ] = 5000
-    r"""Maximum number of records per getRecords call"""
-
-    get_records_limit_total: Annotated[
-        Optional[float], pydantic.Field(alias="getRecordsLimitTotal")
-    ] = 20000
-    r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
-
-    load_balancing_algorithm: Annotated[
-        Optional[ShardLoadBalancing], pydantic.Field(alias="loadBalancingAlgorithm")
-    ] = ShardLoadBalancing.CONSISTENT_HASHING
-    r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
-
-    aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
-        pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = AuthenticationMethodOptionsS3CollectorConf.AUTO
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-
-    endpoint: Optional[str] = None
-    r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptions2], pydantic.Field(alias="signatureVersion")
-    ] = SignatureVersionOptions2.V4
-    r"""Signature version to use for signing Kinesis stream requests"""
-
-    reuse_connections: Annotated[
-        Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = True
-    r"""Reuse connections between requests, which can improve performance"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = True
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-
-    enable_assume_role: Annotated[
-        Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = False
-    r"""Use Assume Role credentials to access Kinesis stream"""
-
-    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
-        None
-    )
-    r"""Amazon Resource Name (ARN) of the role to assume"""
-
-    assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
-    ] = None
-    r"""External ID to use when assuming role"""
-
-    duration_seconds: Annotated[
-        Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = 3600
-    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-
-    verify_kpl_check_sums: Annotated[
-        Optional[bool], pydantic.Field(alias="verifyKPLCheckSums")
-    ] = False
-    r"""Verify Kinesis Producer Library (KPL) event checksums"""
-
-    avoid_duplicates: Annotated[
-        Optional[bool], pydantic.Field(alias="avoidDuplicates")
-    ] = False
-    r"""When resuming streaming from a stored state, Stream will read the next available record, rather than rereading the last-read record. Enabling this setting can cause data loss after a Worker Node's unexpected shutdown or restart."""
-
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    description: Optional[str] = None
-
-    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-
-    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
-    r"""Select or create a stored secret that references your access key and secret key"""
-
-    @field_serializer("shard_iterator_type")
-    def serialize_shard_iterator_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ShardIteratorStart(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("payload_format")
-    def serialize_payload_format(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RecordDataFormat(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("load_balancing_algorithm")
-    def serialize_load_balancing_algorithm(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ShardLoadBalancing(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("aws_authentication_method")
-    def serialize_aws_authentication_method(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptions2(value)
-            except ValueError:
-                return value
-        return value
-
-
-InputKinesisTypedDict = TypeAliasType(
-    "InputKinesisTypedDict",
-    Union[
-        InputKinesisSendToRoutesTrueConstraintTypedDict,
-        InputKinesisSendToRoutesFalseWithConnectionsConstraintTypedDict,
-        InputKinesisPqEnabledFalseConstraintTypedDict,
-        InputKinesisPqEnabledTrueWithPqConstraintTypedDict,
-    ],
-)
-
-
-InputKinesis = TypeAliasType(
-    "InputKinesis",
-    Union[
-        InputKinesisSendToRoutesTrueConstraint,
-        InputKinesisSendToRoutesFalseWithConnectionsConstraint,
-        InputKinesisPqEnabledFalseConstraint,
-        InputKinesisPqEnabledTrueWithPqConstraint,
-    ],
-)

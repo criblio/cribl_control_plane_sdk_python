@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1768430719255-b10f5aae
+  version: 4.16.0-alpha.1768436694809-0b67ac7a
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -2024,7 +2024,7 @@ components:
         tee:
           title: Tee
           description: Tee results to search. When set to true results will be shipped instead of stats
-          type: string
+          type: boolean
         flushMs:
           title: Flush period
           description: How often are stats flushed in ms
@@ -3889,7 +3889,7 @@ components:
         tee:
           title: Tee
           description: Tee results to search. When set to true results will be shipped instead of stats
-          type: string
+          type: boolean
         flushMs:
           title: Flush period
           description: How often are stats flushed in ms

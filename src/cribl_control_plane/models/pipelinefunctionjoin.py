@@ -14,14 +14,14 @@ class PipelineFunctionJoinID(str, Enum):
     JOIN = "join"
 
 
-class PipelineFunctionJoinFieldConditionTypedDict(TypedDict):
+class FieldConditionTypedDict(TypedDict):
     left_field_name: str
     r"""The field name to join on, on the left side."""
     right_field_name: str
     r"""The field name on the right side of the data, i.e. the stage results, that we are joining with"""
 
 
-class PipelineFunctionJoinFieldCondition(BaseModel):
+class FieldCondition(BaseModel):
     left_field_name: Annotated[str, pydantic.Field(alias="leftFieldName")]
     r"""The field name to join on, on the left side."""
 
@@ -30,7 +30,7 @@ class PipelineFunctionJoinFieldCondition(BaseModel):
 
 
 class JoinConfigurationTypedDict(TypedDict):
-    field_conditions: List[PipelineFunctionJoinFieldConditionTypedDict]
+    field_conditions: List[FieldConditionTypedDict]
     r"""Fields to use when joining"""
     kind: NotRequired[str]
     r"""Join kind, e.g. inner"""
@@ -44,8 +44,7 @@ class JoinConfigurationTypedDict(TypedDict):
 
 class JoinConfiguration(BaseModel):
     field_conditions: Annotated[
-        List[PipelineFunctionJoinFieldCondition],
-        pydantic.Field(alias="fieldConditions"),
+        List[FieldCondition], pydantic.Field(alias="fieldConditions")
     ]
     r"""Fields to use when joining"""
 

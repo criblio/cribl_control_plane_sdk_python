@@ -34,7 +34,7 @@ class SendConfigurationTypedDict(TypedDict):
     r"""Workspace within the deployment to send the search results to."""
     send_url_template: NotRequired[str]
     r"""Template to build the URL to send from."""
-    tee: NotRequired[bool]
+    tee: NotRequired[str]
     r"""Tee results to search. When set to true results will be shipped instead of stats"""
     flush_ms: NotRequired[float]
     r"""How often are stats flushed in ms"""
@@ -62,7 +62,7 @@ class SendConfiguration(BaseModel):
     ] = None
     r"""Template to build the URL to send from."""
 
-    tee: Optional[bool] = None
+    tee: Optional[str] = None
     r"""Tee results to search. When set to true results will be shipped instead of stats"""
 
     flush_ms: Annotated[Optional[float], pydantic.Field(alias="flushMs")] = None

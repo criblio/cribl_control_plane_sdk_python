@@ -16,7 +16,7 @@ class PipelineFunctionMvExpandID(str, Enum):
     MV_EXPAND = "mv_expand"
 
 
-class PipelineFunctionMvExpandBagExpansionMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class BagExpansionMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""decides if bag-values are expanded to bags or arrays"""
 
     # Store as object
@@ -34,7 +34,7 @@ class PipelineFunctionMvExpandConfTypedDict(TypedDict):
     r"""max. number of rows generated out of every source events"""
     item_index_name: NotRequired[str]
     r"""name of an optional index property generated into the output"""
-    bag_expansion_mode: NotRequired[PipelineFunctionMvExpandBagExpansionMode]
+    bag_expansion_mode: NotRequired[BagExpansionMode]
     r"""decides if bag-values are expanded to bags or arrays"""
 
 
@@ -56,8 +56,7 @@ class PipelineFunctionMvExpandConf(BaseModel):
     r"""name of an optional index property generated into the output"""
 
     bag_expansion_mode: Annotated[
-        Optional[PipelineFunctionMvExpandBagExpansionMode],
-        pydantic.Field(alias="bagExpansionMode"),
+        Optional[BagExpansionMode], pydantic.Field(alias="bagExpansionMode")
     ] = None
     r"""decides if bag-values are expanded to bags or arrays"""
 
@@ -65,7 +64,7 @@ class PipelineFunctionMvExpandConf(BaseModel):
     def serialize_bag_expansion_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.PipelineFunctionMvExpandBagExpansionMode(value)
+                return models.BagExpansionMode(value)
             except ValueError:
                 return value
         return value

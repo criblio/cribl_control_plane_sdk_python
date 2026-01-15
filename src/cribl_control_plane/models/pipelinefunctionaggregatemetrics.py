@@ -30,14 +30,14 @@ class PipelineFunctionAggregateMetricsMetricType(
     TIMER = "timer"
 
 
-class PipelineFunctionAggregateMetricsAggregationTypedDict(TypedDict):
+class AggregationTypedDict(TypedDict):
     metric_type: PipelineFunctionAggregateMetricsMetricType
     r"""The output metric type"""
     agg: str
     r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
 
 
-class PipelineFunctionAggregateMetricsAggregation(BaseModel):
+class Aggregation(BaseModel):
     metric_type: Annotated[
         PipelineFunctionAggregateMetricsMetricType, pydantic.Field(alias="metricType")
     ]
@@ -72,7 +72,7 @@ class PipelineFunctionAggregateMetricsAdd(BaseModel):
 class PipelineFunctionAggregateMetricsConfTypedDict(TypedDict):
     time_window: str
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
-    aggregations: List[PipelineFunctionAggregateMetricsAggregationTypedDict]
+    aggregations: List[AggregationTypedDict]
     r"""Combination of Aggregation function and output metric type"""
     passthrough: NotRequired[bool]
     r"""Pass through the original events along with the aggregation events"""
@@ -102,7 +102,7 @@ class PipelineFunctionAggregateMetricsConf(BaseModel):
     time_window: Annotated[str, pydantic.Field(alias="timeWindow")]
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
 
-    aggregations: List[PipelineFunctionAggregateMetricsAggregation]
+    aggregations: List[Aggregation]
     r"""Combination of Aggregation function and output metric type"""
 
     passthrough: Optional[bool] = None

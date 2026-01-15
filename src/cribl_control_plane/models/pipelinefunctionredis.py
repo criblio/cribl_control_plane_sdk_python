@@ -16,7 +16,7 @@ class PipelineFunctionRedisID(str, Enum):
     REDIS = "redis"
 
 
-class PipelineFunctionRedisCommandTypedDict(TypedDict):
+class CommandTypedDict(TypedDict):
     command: str
     r"""Redis command to perform. For a complete list visit: https://redis.io/commands"""
     key_expr: str
@@ -27,7 +27,7 @@ class PipelineFunctionRedisCommandTypedDict(TypedDict):
     r"""A JavaScript expression to compute arguments to the operation. Can return an array."""
 
 
-class PipelineFunctionRedisCommand(BaseModel):
+class Command(BaseModel):
     command: str
     r"""Redis command to perform. For a complete list visit: https://redis.io/commands"""
 
@@ -41,7 +41,7 @@ class PipelineFunctionRedisCommand(BaseModel):
     r"""A JavaScript expression to compute arguments to the operation. Can return an array."""
 
 
-class PipelineFunctionRedisDeploymentType(str, Enum, metaclass=utils.OpenEnumMeta):
+class DeploymentType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How the Redis server is configured. Defaults to Standalone"""
 
     # Standalone
@@ -66,8 +66,8 @@ class PipelineFunctionRedisAuthenticationMethod(
 
 
 class PipelineFunctionRedisConfTypedDict(TypedDict):
-    commands: List[PipelineFunctionRedisCommandTypedDict]
-    deployment_type: NotRequired[PipelineFunctionRedisDeploymentType]
+    commands: List[CommandTypedDict]
+    deployment_type: NotRequired[DeploymentType]
     r"""How the Redis server is configured. Defaults to Standalone"""
     auth_type: NotRequired[PipelineFunctionRedisAuthenticationMethod]
     max_block_secs: NotRequired[float]
@@ -77,11 +77,10 @@ class PipelineFunctionRedisConfTypedDict(TypedDict):
 
 
 class PipelineFunctionRedisConf(BaseModel):
-    commands: List[PipelineFunctionRedisCommand]
+    commands: List[Command]
 
     deployment_type: Annotated[
-        Optional[PipelineFunctionRedisDeploymentType],
-        pydantic.Field(alias="deploymentType"),
+        Optional[DeploymentType], pydantic.Field(alias="deploymentType")
     ] = None
     r"""How the Redis server is configured. Defaults to Standalone"""
 
@@ -104,7 +103,7 @@ class PipelineFunctionRedisConf(BaseModel):
     def serialize_deployment_type(self, value):
         if isinstance(value, str):
             try:
-                return models.PipelineFunctionRedisDeploymentType(value)
+                return models.DeploymentType(value)
             except ValueError:
                 return value
         return value

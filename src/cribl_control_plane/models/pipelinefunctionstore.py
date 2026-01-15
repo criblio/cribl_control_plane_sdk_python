@@ -14,11 +14,11 @@ class PipelineFunctionStoreID(str, Enum):
     STORE = "store"
 
 
-class PipelineFunctionStoreMappingOfFieldNamesTypedDict(TypedDict):
+class MappingOfFieldNamesTypedDict(TypedDict):
     r"""Mapping event property names to output field names"""
 
 
-class PipelineFunctionStoreMappingOfFieldNames(BaseModel):
+class MappingOfFieldNames(BaseModel):
     r"""Mapping event property names to output field names"""
 
 
@@ -29,7 +29,7 @@ class StoreFunctionConfigurationTypedDict(TypedDict):
     r"""Configures where and how the data should be stored"""
     description: NotRequired[str]
     r"""The knowledge object's description"""
-    field_mapping: NotRequired[PipelineFunctionStoreMappingOfFieldNamesTypedDict]
+    field_mapping: NotRequired[MappingOfFieldNamesTypedDict]
     r"""Mapping event property names to output field names"""
     separator: NotRequired[str]
     r"""Character to be used as value delimiter in output"""
@@ -56,8 +56,7 @@ class StoreFunctionConfiguration(BaseModel):
     r"""The knowledge object's description"""
 
     field_mapping: Annotated[
-        Optional[PipelineFunctionStoreMappingOfFieldNames],
-        pydantic.Field(alias="fieldMapping"),
+        Optional[MappingOfFieldNames], pydantic.Field(alias="fieldMapping")
     ] = None
     r"""Mapping event property names to output field names"""
 

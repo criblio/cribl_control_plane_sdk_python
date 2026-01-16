@@ -17,10 +17,10 @@ from .minimumtlsversionoptionskafkaschemaregistrytls import (
 )
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
-from pydantic import field_serializer, model_serializer
+from pydantic import field_serializer
 from typing import Any, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -141,37 +141,6 @@ class MTLSSettings(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "disabled",
-                "rejectUnauthorized",
-                "requestCert",
-                "certificateName",
-                "passphrase",
-                "commonNameRegex",
-                "minVersion",
-                "maxVersion",
-                "ocspCheck",
-                "keytab",
-                "principal",
-                "ocspCheckFailClose",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class InputWefFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Content format in which the endpoint should deliver events"""
@@ -291,34 +260,6 @@ class Subscription(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "version",
-                "readExistingEvents",
-                "sendBookmarks",
-                "compress",
-                "locale",
-                "querySelector",
-                "metadata",
-                "queries",
-                "xmlQuery",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class InputWefTypedDict(TypedDict):
@@ -506,49 +447,3 @@ class InputWef(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "id",
-                "disabled",
-                "pipeline",
-                "sendToRoutes",
-                "environment",
-                "pqEnabled",
-                "streamtags",
-                "connections",
-                "pq",
-                "authMethod",
-                "tls",
-                "maxActiveReq",
-                "maxRequestsPerSocket",
-                "enableProxyHeader",
-                "captureHeaders",
-                "keepAliveTimeout",
-                "enableHealthCheck",
-                "ipAllowlistRegex",
-                "ipDenylistRegex",
-                "socketTimeout",
-                "caFingerprint",
-                "keytab",
-                "principal",
-                "allowMachineIdMismatch",
-                "metadata",
-                "description",
-                "logFingerprintMismatch",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

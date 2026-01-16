@@ -7,10 +7,9 @@ from .functionconfschemacef import (
     FunctionConfSchemaCefInputTypedDict,
     FunctionConfSchemaCefTypedDict,
 )
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
-from pydantic import model_serializer
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -58,22 +57,6 @@ class PipelineFunctionCef(BaseModel):
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""Group ID"""
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["filter", "description", "disabled", "final", "groupId"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class PipelineFunctionCefInputTypedDict(TypedDict):
     id: PipelineFunctionCefID
@@ -111,19 +94,3 @@ class PipelineFunctionCefInput(BaseModel):
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""Group ID"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["filter", "description", "disabled", "final", "groupId"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

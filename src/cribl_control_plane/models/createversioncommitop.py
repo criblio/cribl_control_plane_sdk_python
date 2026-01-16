@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 from .gitcommitparams import GitCommitParams, GitCommitParamsTypedDict
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata, RequestMetadata
 import pydantic
-from pydantic import model_serializer
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -30,19 +29,3 @@ class CreateVersionCommitRequest(BaseModel):
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""The <code>id</code> of the Worker Group or Edge Fleet to create a new commit for."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["groupId"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

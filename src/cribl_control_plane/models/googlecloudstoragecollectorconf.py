@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer, model_serializer
+from pydantic import Discriminator, Tag, field_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -122,35 +122,6 @@ class GoogleCloudStorageAuthTypeSecret(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "authType",
-                "outputName",
-                "path",
-                "extractors",
-                "endpoint",
-                "disableTimeFilter",
-                "recurse",
-                "maxBatchSize",
-                "parquetChunkSizeMB",
-                "parquetChunkDownloadTimeout",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class GoogleCloudStorageAuthTypeManualAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -265,35 +236,6 @@ class GoogleCloudStorageAuthTypeManual(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "authType",
-                "outputName",
-                "path",
-                "extractors",
-                "endpoint",
-                "disableTimeFilter",
-                "recurse",
-                "maxBatchSize",
-                "parquetChunkSizeMB",
-                "parquetChunkDownloadTimeout",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class GoogleCloudStorageAuthTypeAutoAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -398,35 +340,6 @@ class GoogleCloudStorageAuthTypeAuto(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "authType",
-                "outputName",
-                "path",
-                "extractors",
-                "endpoint",
-                "disableTimeFilter",
-                "recurse",
-                "maxBatchSize",
-                "parquetChunkSizeMB",
-                "parquetChunkDownloadTimeout",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 GoogleCloudStorageCollectorConfTypedDict = TypeAliasType(

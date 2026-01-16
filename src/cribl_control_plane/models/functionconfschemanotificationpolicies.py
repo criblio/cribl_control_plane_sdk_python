@@ -6,10 +6,10 @@ from .itemstypepoliciesitemstemplatetargetpairs import (
     ItemsTypePoliciesItemsTemplateTargetPairsTypedDict,
 )
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
-from pydantic import field_serializer, model_serializer
+from pydantic import field_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -111,24 +111,6 @@ class Policy(BaseModel):
     final: Optional[bool] = None
     r"""If true, stop evaluating further policies after this one matches"""
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["disabled", "waitToGroup", "groupByLabels", "conditions", "final"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class FunctionConfSchemaNotificationPoliciesTypedDict(TypedDict):
     policies: NotRequired[List[PolicyTypedDict]]
@@ -138,19 +120,3 @@ class FunctionConfSchemaNotificationPoliciesTypedDict(TypedDict):
 class FunctionConfSchemaNotificationPolicies(BaseModel):
     policies: Optional[List[Policy]] = None
     r"""List of notification routing policies evaluated in order"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["policies"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

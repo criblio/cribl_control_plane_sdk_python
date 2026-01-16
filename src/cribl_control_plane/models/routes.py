@@ -6,9 +6,9 @@ from .additionalpropertiestypepipelineconfgroups import (
     AdditionalPropertiesTypePipelineConfGroupsTypedDict,
 )
 from .routesroute import RoutesRoute, RoutesRouteTypedDict
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 import pydantic
-from pydantic import ConfigDict, model_serializer
+from pydantic import ConfigDict
 from typing import Any, Dict, List, Optional
 from typing_extensions import NotRequired, TypedDict
 
@@ -35,25 +35,6 @@ class Comment(BaseModel):
     def additional_properties(self, value):
         self.__pydantic_extra__ = value  # pyright: ignore[reportIncompatibleVariableOverride]
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["comment"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-            serialized.pop(k, None)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-        for k, v in serialized.items():
-            m[k] = v
-
-        return m
-
 
 class RoutesTypedDict(TypedDict):
     routes: List[RoutesRouteTypedDict]
@@ -76,19 +57,3 @@ class Routes(BaseModel):
 
     comments: Optional[List[Comment]] = None
     r"""Comments"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["id", "groups", "comments"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

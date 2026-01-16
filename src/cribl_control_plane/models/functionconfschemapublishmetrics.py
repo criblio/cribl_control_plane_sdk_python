@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
-from pydantic import field_serializer, model_serializer
+from pydantic import field_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -57,22 +57,6 @@ class FunctionConfSchemaPublishMetricsField(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["outFieldExpr"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class FunctionConfSchemaPublishMetricsTypedDict(TypedDict):
     fields: NotRequired[List[FunctionConfSchemaPublishMetricsFieldTypedDict]]
@@ -106,21 +90,3 @@ class FunctionConfSchemaPublishMetrics(BaseModel):
         Optional[List[str]], pydantic.Field(alias="removeDimensions")
     ] = None
     r"""Optional list of dimensions to remove from every metric found in the event. Wildcards supported."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["fields", "overwrite", "dimensions", "removeMetrics", "removeDimensions"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

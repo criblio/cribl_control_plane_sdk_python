@@ -5,10 +5,10 @@ from .heartbeatmetadata import HeartbeatMetadata, HeartbeatMetadataTypedDict
 from .nodeprovidedinfo import NodeProvidedInfo, NodeProvidedInfoTypedDict
 from .nodeupgradestatus import NodeUpgradeStatus, NodeUpgradeStatusTypedDict
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
-from pydantic import field_serializer, model_serializer
+from pydantic import field_serializer
 from typing import Any, Dict, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -85,30 +85,3 @@ class MasterWorkerEntry(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "deployable",
-                "disconnected",
-                "lastMetrics",
-                "metadata",
-                "nodeUpgradeStatus",
-                "status",
-                "type",
-                "workers",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

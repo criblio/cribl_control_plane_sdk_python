@@ -4,6 +4,7 @@ from __future__ import annotations
 from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
 from .objectacloptions1 import ObjectACLOptions1
+from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .signatureversionoptions4 import SignatureVersionOptions4
 from .storageclassoptions1 import StorageClassOptions1
 from cribl_control_plane import models
@@ -69,6 +70,7 @@ class OutputExabeamTypedDict(TypedDict):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
     on_disk_full_backpressure: NotRequired[DiskSpaceProtectionOptions]
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     max_file_size_mb: NotRequired[float]
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
     encoded_configuration: NotRequired[str]
@@ -91,6 +93,8 @@ class OutputExabeamTypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
 
 class OutputExabeam(BaseModel):
@@ -196,6 +200,10 @@ class OutputExabeam(BaseModel):
     ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
 
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
+
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
     ] = None
@@ -245,6 +253,11 @@ class OutputExabeam(BaseModel):
         None
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
     @field_serializer("signature_version")
     def serialize_signature_version(self, value):

@@ -12,6 +12,7 @@ from .itemstypekeyvaluemetadata import (
     ItemsTypeKeyValueMetadataTypedDict,
 )
 from .parquetversionoptions import ParquetVersionOptions
+from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
 from enum import Enum
@@ -73,6 +74,7 @@ class OutputFilesystemTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     description: NotRequired[str]
     compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -108,6 +110,8 @@ class OutputFilesystemTypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    template_format: NotRequired[str]
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
 
 
 class OutputFilesystem(BaseModel):
@@ -215,6 +219,10 @@ class OutputFilesystem(BaseModel):
     ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
 
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
+
     description: Optional[str] = None
 
     compress: Optional[CompressionOptions2] = None
@@ -300,6 +308,11 @@ class OutputFilesystem(BaseModel):
         None
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+
+    template_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_format")
+    ] = None
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
 
     @field_serializer("format_")
     def serialize_format_(self, value):

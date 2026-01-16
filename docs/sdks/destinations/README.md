@@ -119,6 +119,8 @@ with CriblControlPlane(
                 "tls": models.TLSOptionsHostsItems.INHERIT,
                 "servername": "<value>",
                 "weight": 1,
+                "template_host": "<value>",
+                "template_port": "<value>",
             },
         ],
         "dns_resolve_period_sec": 600,
@@ -137,6 +139,8 @@ with CriblControlPlane(
         "pq_controls": {},
         "auth_token": "",
         "text_secret": "<value>",
+        "template_host": "<value>",
+        "template_port": "<value>",
     })
 
     # Handle response

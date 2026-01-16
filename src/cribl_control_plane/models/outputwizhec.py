@@ -40,6 +40,8 @@ class OutputWizHecURLTypedDict(TypedDict):
     r"""URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event"""
     weight: NotRequired[float]
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputWizHecURL(BaseModel):
@@ -48,6 +50,11 @@ class OutputWizHecURL(BaseModel):
 
     weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputWizHecTypedDict(TypedDict):
@@ -119,6 +126,8 @@ class OutputWizHecTypedDict(TypedDict):
     r"""Wiz Defender Auth token"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputWizHec(BaseModel):
@@ -264,6 +273,11 @@ class OutputWizHec(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
     @field_serializer("failed_request_logging_mode")
     def serialize_failed_request_logging_mode(self, value):

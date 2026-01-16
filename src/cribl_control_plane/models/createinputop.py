@@ -2781,6 +2781,8 @@ class CreateInputInputFileTypedDict(TypedDict):
     suppress_missing_path_errors: NotRequired[bool]
     delete_files: NotRequired[bool]
     r"""Delete files after they have been collected"""
+    salt_hash: NotRequired[bool]
+    r"""Salt the file hash with the Source file path. Ensures that all files with the same header hash, such as CSV files, are ingested. Moving or renaming the file, or toggling this after starting the Source will cause re-ingestion."""
     include_unidentifiable_binary: NotRequired[bool]
     r"""Stream binary files as Base64-encoded chunks."""
 
@@ -2879,6 +2881,9 @@ class CreateInputInputFile(BaseModel):
 
     delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = None
     r"""Delete files after they have been collected"""
+
+    salt_hash: Annotated[Optional[bool], pydantic.Field(alias="saltHash")] = None
+    r"""Salt the file hash with the Source file path. Ensures that all files with the same header hash, such as CSV files, are ingested. Moving or renaming the file, or toggling this after starting the Source will cause re-ingestion."""
 
     include_unidentifiable_binary: Annotated[
         Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
@@ -14018,37 +14023,37 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputDatadogAgentTypedDict,
         CreateInputInputTCPTypedDict,
         CreateInputInputSplunkTypedDict,
-        CreateInputInputFileTypedDict,
         CreateInputInputWefTypedDict,
         CreateInputInputAppscopeTypedDict,
+        CreateInputInputFileTypedDict,
         CreateInputInputWizWebhookTypedDict,
         CreateInputInputHTTPTypedDict,
-        CreateInputInputHTTPRawTypedDict,
         CreateInputInputCriblLakeHTTPTypedDict,
+        CreateInputInputHTTPRawTypedDict,
         CreateInputInputAzureBlobTypedDict,
         CreateInputInputZscalerHecTypedDict,
         CreateInputInputSqsTypedDict,
         CreateInputInputCloudflareHecTypedDict,
+        CreateInputInputKinesisTypedDict,
+        CreateInputInputEventhubTypedDict,
         CreateInputInputConfluentCloudTypedDict,
         CreateInputInputKafkaTypedDict,
-        CreateInputInputEventhubTypedDict,
-        CreateInputInputKinesisTypedDict,
         CreateInputInputElasticTypedDict,
-        CreateInputInputOffice365MsgTraceTypedDict,
         CreateInputInputSplunkHecTypedDict,
+        CreateInputInputOffice365MsgTraceTypedDict,
         CreateInputInputPrometheusRwTypedDict,
         CreateInputInputLokiTypedDict,
         CreateInputInputCrowdstrikeTypedDict,
-        CreateInputInputEdgePrometheusTypedDict,
         CreateInputInputOpenTelemetryTypedDict,
-        CreateInputInputS3TypedDict,
+        CreateInputInputEdgePrometheusTypedDict,
         CreateInputInputSecurityLakeTypedDict,
+        CreateInputInputS3TypedDict,
         CreateInputInputMskTypedDict,
         CreateInputInputPrometheusTypedDict,
-        CreateInputInputS3InventoryTypedDict,
         CreateInputInputSplunkSearchTypedDict,
-        CreateInputInputSyslogUnionTypedDict,
+        CreateInputInputS3InventoryTypedDict,
         CreateInputInputGrafanaUnionTypedDict,
+        CreateInputInputSyslogUnionTypedDict,
     ],
 )
 r"""Input object"""

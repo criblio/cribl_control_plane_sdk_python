@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1768483143772-4850b2b2
+  version: 4.16.0-alpha.1768518246968-56b63ce7
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -2049,7 +2049,7 @@ components:
         tee:
           title: Tee
           description: Tee results to search. When set to true results will be shipped instead of stats
-          type: string
+          type: boolean
         flushMs:
           title: Flush period
           description: How often are stats flushed in ms
@@ -3938,7 +3938,7 @@ components:
         tee:
           title: Tee
           description: Tee results to search. When set to true results will be shipped instead of stats
-          type: string
+          type: boolean
         flushMs:
           title: Flush period
           description: How often are stats flushed in ms
@@ -17973,6 +17973,10 @@ components:
           type: boolean
           title: Delete files
           description: Delete files after they have been collected
+        saltHash:
+          type: boolean
+          title: Salt file hash
+          description: Salt the file hash with the Source file path. Ensures that all files with the same header hash, such as CSV files, are ingested. Moving or renaming the file, or toggling this after starting the Source will cause re-ingestion.
         includeUnidentifiableBinary:
           type: boolean
           title: Enable binary files
@@ -22337,6 +22341,8 @@ components:
           type: boolean
           title: Force close on shutdown
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
         description:
           type: string
           title: Description
@@ -22567,6 +22573,8 @@ components:
           type: boolean
           title: Force close on shutdown
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -22801,6 +22809,8 @@ components:
           type: boolean
           title: Force close on shutdown
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
         authType:
           $ref: "#/components/schemas/AuthenticationMethodOptions"
         storageClass:
@@ -23188,6 +23198,8 @@ components:
           type: boolean
           title: Add output ID
           description: Add the Output ID value to staging location
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
         timeoutSec:
           type: number
           minimum: 1
@@ -24464,6 +24476,8 @@ components:
           type: boolean
           title: Force close on shutdown
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
         description:
           type: string
           title: Description
@@ -25103,6 +25117,8 @@ components:
           description: If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors
         onDiskFullBackpressure:
           $ref: "#/components/schemas/DiskSpaceProtectionOptions"
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
         maxFileSizeMB:
           type: number
           title: File size limit (MB)
@@ -27087,6 +27103,8 @@ components:
           type: boolean
           title: Force close on shutdown
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -30829,6 +30847,8 @@ components:
           type: boolean
           title: Force close on shutdown
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -31096,6 +31116,8 @@ components:
           type: boolean
           title: Force close on shutdown
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -31354,6 +31376,8 @@ components:
           type: boolean
           title: Force close on shutdown
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -33082,6 +33106,8 @@ components:
           type: boolean
           title: Force close on shutdown
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
         workspaceId:
           type: string
           title: Workspace ID
@@ -33545,6 +33571,8 @@ components:
           type: boolean
           title: Force close on shutdown
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -36672,6 +36700,29 @@ components:
         - Block
         - Drop
       x-speakeasy-unknown-values: allow
+    RetrySettingsType:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          title: Enable retry backoff
+          description: Apply exponential backoff with jitter when file uploads fail repeatedly.
+        initialBackoffMs:
+          type: number
+          title: Initial backoff (ms)
+          description: "Initial delay before first retry attempt. Valid range: 1s-5min (1000-300000ms). Values outside this range will be clamped to the nearest valid value."
+        backoffMultiplier:
+          type: number
+          title: Backoff multiplier
+          description: "Multiplier applied to backoff delay after each retry. Valid range: 1-10. Values outside this range will be clamped to the nearest valid value."
+        maxBackoffMs:
+          type: number
+          title: Max backoff (ms)
+          description: "Maximum delay between retry attempts. Valid range: 1s-10min (1000-600000ms). Values outside this range will be clamped to the nearest valid value."
+        jitterPercent:
+          type: number
+          title: Jitter (%)
+          description: "Random jitter percentage added to backoff delay to prevent thundering herd. Valid range: 0-100. Values outside this range will be clamped to the nearest valid value."
     CompressionOptions2:
       type: string
       title: Compression

@@ -6,6 +6,7 @@ from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
 from .formatoptionscribllakedataset import FormatOptionsCriblLakeDataset
 from .methodoptionscredentials import MethodOptionsCredentials
 from .objectacloptions import ObjectACLOptions
+from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .serversideencryptionforuploadedobjectsoptions import (
     ServerSideEncryptionForUploadedObjectsOptions,
 )
@@ -95,6 +96,7 @@ class OutputCriblLakeTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     max_file_open_time_sec: NotRequired[float]
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
     max_file_idle_time_sec: NotRequired[float]
@@ -270,6 +272,10 @@ class OutputCriblLake(BaseModel):
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
     ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")

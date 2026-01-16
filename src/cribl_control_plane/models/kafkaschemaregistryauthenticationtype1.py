@@ -9,9 +9,8 @@ from .tlssettingsclientsidetypekafkaschemaregistry import (
     TLSSettingsClientSideTypeKafkaSchemaRegistry,
     TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
 )
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 import pydantic
-from pydantic import model_serializer
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -70,30 +69,3 @@ class KafkaSchemaRegistryAuthenticationType1(BaseModel):
         Optional[float], pydantic.Field(alias="defaultValueSchemaId")
     ] = None
     r"""Used when __valueSchemaIdOut is not present, to transform _raw, leave blank if value transformation is not required by default."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "schemaRegistryURL",
-                "connectionTimeout",
-                "requestTimeout",
-                "maxRetries",
-                "auth",
-                "tls",
-                "defaultKeySchemaId",
-                "defaultValueSchemaId",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

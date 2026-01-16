@@ -2,7 +2,6 @@
 
 import hashlib
 import httpx
-import threading
 import time
 from .types import (
     SDKInitHook,
@@ -12,7 +11,7 @@ from .types import (
     AfterErrorHook,
     HookContext,
 )
-from typing import Any, ClassVar, Dict, List, Tuple, Union, Optional
+from typing import Any, Dict, List, Tuple, Union, Optional
 from urllib.parse import urlparse, urljoin
 from cribl_control_plane.httpclient import HttpClient
 from cribl_control_plane.sdkconfiguration import SDKConfiguration
@@ -61,17 +60,7 @@ class Session:
 
 class ClientCredentialsHook(SDKInitHook, BeforeRequestHook, AfterErrorHook):
     client: HttpClient
-    _global_lock: ClassVar[threading.Lock] = threading.Lock()
-    _client_locks: ClassVar[Dict[str, threading.Lock]] = {}
-    _sessions: ClassVar[Dict[str, Dict[str, Session]]] = {}
-
-    @classmethod
-    def _get_client_lock(cls, client_key: str) -> threading.Lock:
-        """Get or create a lock for a specific client key (thread-safe)."""
-        with cls._global_lock:
-            if client_key not in cls._client_locks:
-                cls._client_locks[client_key] = threading.Lock()
-            return cls._client_locks[client_key]
+    sessions: Dict[str, Dict[str, Session]] = {}
 
     def sdk_init(self, config: SDKConfiguration) -> SDKConfiguration:
         if config.client is None:
@@ -105,7 +94,11 @@ class ClientCredentialsHook(SDKInitHook, BeforeRequestHook, AfterErrorHook):
                 scopes,
             )
 
-            self._store_session(session_key, scopes, session)
+            if session_key not in self.sessions:
+                self.sessions[session_key] = {}
+
+            scope_key = self.get_scope_key(scopes)
+            self.sessions[session_key][scope_key] = session
 
         request.headers["Authorization"] = f"Bearer {session.token}"
 
@@ -233,71 +226,40 @@ class ClientCredentialsHook(SDKInitHook, BeforeRequestHook, AfterErrorHook):
         sorted_scopes = sorted(scopes)
         return "&".join(sorted_scopes)
 
-    def _store_session(
-        self, client_key: str, scopes: List[str], session: Session
-    ) -> None:
-        """Store a session in the cache (thread-safe with per-client locking)."""
-        scope_key = self.get_scope_key(scopes)
-        lock = self._get_client_lock(client_key)
-        with lock:
-            if client_key not in self._sessions:
-                self._sessions[client_key] = {}
-            self._sessions[client_key][scope_key] = session
-
     def remove_session(self, client_key: str, scope_key: str) -> None:
-        """Remove a session and clean up empty client session maps (thread-safe with per-client locking)."""
-        lock = self._get_client_lock(client_key)
-        with lock:
-            if client_key in self._sessions and scope_key in self._sessions[client_key]:
-                del self._sessions[client_key][scope_key]
+        """Remove a session and clean up empty client session maps."""
+        if client_key in self.sessions and scope_key in self.sessions[client_key]:
+            del self.sessions[client_key][scope_key]
 
-                # Clean up empty client sessions
-                if not self._sessions[client_key]:
-                    del self._sessions[client_key]
+            # Clean up empty client sessions
+            if not self.sessions[client_key]:
+                del self.sessions[client_key]
 
     def get_existing_session(
         self, client_key: str, required_scopes: List[str]
     ) -> Optional[Session]:
-        """Find the best session for the required scopes (thread-safe with per-client locking)."""
+        """Find the best session for the required scopes."""
+        if client_key not in self.sessions:
+            return None
+
+        client_sessions = self.sessions[client_key]
         scope_key = self.get_scope_key(required_scopes)
-        expired_keys: List[str] = []
-        result: Optional[Session] = None
 
-        lock = self._get_client_lock(client_key)
-        with lock:
-            if client_key not in self._sessions:
-                return None
+        if scope_key in client_sessions:
+            exact_match = client_sessions[scope_key]
+            if self.has_token_expired(exact_match.expires_at):
+                self.remove_session(client_key, scope_key)
+            else:
+                return exact_match
 
-            client_sessions = self._sessions[client_key]
+        # If no exact match was found, look for a superset match
+        for key, session in client_sessions.items():
+            if self.has_token_expired(session.expires_at):
+                self.remove_session(client_key, key)
+            elif self.has_required_scopes(session.scopes, required_scopes):
+                return session
 
-            # Check for exact scope match first
-            if scope_key in client_sessions:
-                exact_match = client_sessions[scope_key]
-                if self.has_token_expired(exact_match.expires_at):
-                    expired_keys.append(scope_key)
-                else:
-                    result = exact_match
-
-            # If no exact match, look for a superset match
-            if result is None:
-                for key, session in client_sessions.items():
-                    if self.has_token_expired(session.expires_at):
-                        expired_keys.append(key)
-                    elif result is None and self.has_required_scopes(
-                        session.scopes, required_scopes
-                    ):
-                        result = session
-
-            # Clean up expired sessions (safe: we collected keys first, not iterating while modifying)
-            for key in expired_keys:
-                if key in client_sessions:
-                    del client_sessions[key]
-
-            # Clean up empty client sessions
-            if client_key in self._sessions and not self._sessions[client_key]:
-                del self._sessions[client_key]
-
-        return result
+        return None
 
     def has_required_scopes(
         self, scopes: List[str], required_scopes: List[str]

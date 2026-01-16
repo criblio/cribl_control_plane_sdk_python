@@ -11,10 +11,9 @@ from .itemstypenotificationmetadata import (
     ItemsTypeNotificationMetadataTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
-from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -36,22 +35,6 @@ class InputKubeLogsRule(BaseModel):
 
     description: Optional[str] = None
     r"""Optional description of this rule's purpose"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["description"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class InputKubeLogsTypedDict(TypedDict):
@@ -150,40 +133,3 @@ class InputKubeLogs(BaseModel):
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "id",
-                "disabled",
-                "pipeline",
-                "sendToRoutes",
-                "environment",
-                "pqEnabled",
-                "streamtags",
-                "connections",
-                "pq",
-                "interval",
-                "rules",
-                "timestamps",
-                "metadata",
-                "persistence",
-                "breakerRulesets",
-                "staleChannelFlushMs",
-                "enableLoadBalancing",
-                "description",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

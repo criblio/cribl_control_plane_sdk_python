@@ -3,9 +3,9 @@
 from __future__ import annotations
 from .authenticationprotocoloptionsv3user import AuthenticationProtocolOptionsV3User
 from cribl_control_plane import models
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 import pydantic
-from pydantic import field_serializer, model_serializer
+from pydantic import field_serializer
 from typing import Any, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -38,22 +38,6 @@ class FunctionConfSchemaSnmpTrapSerializeV3User(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["name", "authProtocol", "authKey", "privProtocol"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class FunctionConfSchemaSnmpTrapSerializeTypedDict(TypedDict):
     strict: NotRequired[bool]
@@ -76,19 +60,3 @@ class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
         Optional[FunctionConfSchemaSnmpTrapSerializeV3User],
         pydantic.Field(alias="v3User"),
     ] = None
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["strict", "dropFailedEvents", "v3User"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

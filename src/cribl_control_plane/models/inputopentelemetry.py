@@ -18,10 +18,10 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideTypeTypedDict,
 )
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
-from pydantic import field_serializer, model_serializer
+from pydantic import field_serializer
 from typing import Any, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -336,65 +336,3 @@ class InputOpenTelemetry(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "id",
-                "disabled",
-                "pipeline",
-                "sendToRoutes",
-                "environment",
-                "pqEnabled",
-                "streamtags",
-                "connections",
-                "pq",
-                "tls",
-                "maxActiveReq",
-                "maxRequestsPerSocket",
-                "enableProxyHeader",
-                "captureHeaders",
-                "activityLogSampleRate",
-                "requestTimeout",
-                "socketTimeout",
-                "keepAliveTimeout",
-                "enableHealthCheck",
-                "ipAllowlistRegex",
-                "ipDenylistRegex",
-                "protocol",
-                "extractSpans",
-                "extractMetrics",
-                "otlpVersion",
-                "authType",
-                "metadata",
-                "maxActiveCxn",
-                "description",
-                "username",
-                "password",
-                "token",
-                "credentialsSecret",
-                "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
-                "extractLogs",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

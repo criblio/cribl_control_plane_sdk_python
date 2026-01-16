@@ -4,9 +4,9 @@ from __future__ import annotations
 from .hbleaderinfo import HBLeaderInfo, HBLeaderInfoTypedDict
 from .modeoptionsinstancesettingsschema import ModeOptionsInstanceSettingsSchema
 from cribl_control_plane import models
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 import pydantic
-from pydantic import field_serializer, model_serializer
+from pydantic import field_serializer
 from typing import Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -33,24 +33,6 @@ class Config(BaseModel):
     policy_rev: Annotated[Optional[str], pydantic.Field(alias="policyRev")] = None
 
     version: Optional[str] = None
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["featuresRev", "hbPeriodSeconds", "logStreamEnv", "policyRev", "version"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class HBCriblInfoTypedDict(TypedDict):
@@ -118,31 +100,3 @@ class HBCriblInfo(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "deploymentId",
-                "disableSNIRouting",
-                "edgeNodes",
-                "installType",
-                "lookupVersions",
-                "master",
-                "pid",
-                "socksEnabled",
-                "version",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

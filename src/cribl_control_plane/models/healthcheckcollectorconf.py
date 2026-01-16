@@ -20,11 +20,11 @@ from .retrytypeoptionshealthcheckcollectorconfretryrules import (
     RetryTypeOptionsHealthCheckCollectorConfRetryRules,
 )
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer, model_serializer
+from pydantic import Discriminator, Tag, field_serializer
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -140,24 +140,6 @@ class HealthCheckAuthenticationOauthSecretRetryRules(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
@@ -319,38 +301,6 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "tokenRespAttribute",
-                "authRequestParams",
-                "authRequestHeaders",
-                "discovery",
-                "collectRequestParams",
-                "collectBody",
-                "collectRequestHeaders",
-                "authenticateCollect",
-                "timeout",
-                "rejectUnauthorized",
-                "defaultBreakers",
-                "safeHeaders",
-                "retryRules",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class HealthCheckAuthenticationOauthAuthentication(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -462,24 +412,6 @@ class HealthCheckAuthenticationOauthRetryRules(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class HealthCheckAuthenticationOauthTypedDict(TypedDict):
@@ -641,38 +573,6 @@ class HealthCheckAuthenticationOauth(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "tokenRespAttribute",
-                "authRequestParams",
-                "authRequestHeaders",
-                "discovery",
-                "collectRequestParams",
-                "collectBody",
-                "collectRequestHeaders",
-                "authenticateCollect",
-                "timeout",
-                "rejectUnauthorized",
-                "defaultBreakers",
-                "safeHeaders",
-                "retryRules",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class HealthCheckAuthenticationLoginSecretAuthentication(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -785,24 +685,6 @@ class HealthCheckAuthenticationLoginSecretRetryRules(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
@@ -952,37 +834,6 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "tokenRespAttribute",
-                "authRequestHeaders",
-                "discovery",
-                "collectRequestParams",
-                "collectBody",
-                "collectRequestHeaders",
-                "authenticateCollect",
-                "timeout",
-                "rejectUnauthorized",
-                "defaultBreakers",
-                "safeHeaders",
-                "retryRules",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class HealthCheckAuthenticationLoginAuthentication(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -1094,24 +945,6 @@ class HealthCheckAuthenticationLoginRetryRules(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class HealthCheckAuthenticationLoginTypedDict(TypedDict):
@@ -1264,37 +1097,6 @@ class HealthCheckAuthenticationLogin(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "tokenRespAttribute",
-                "authRequestHeaders",
-                "discovery",
-                "collectRequestParams",
-                "collectBody",
-                "collectRequestHeaders",
-                "authenticateCollect",
-                "timeout",
-                "rejectUnauthorized",
-                "defaultBreakers",
-                "safeHeaders",
-                "retryRules",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class HealthCheckAuthenticationBasicSecretAuthentication(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -1407,24 +1209,6 @@ class HealthCheckAuthenticationBasicSecretRetryRules(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class HealthCheckAuthenticationBasicSecretTypedDict(TypedDict):
@@ -1542,35 +1326,6 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "discovery",
-                "collectRequestParams",
-                "collectBody",
-                "collectRequestHeaders",
-                "authenticateCollect",
-                "timeout",
-                "rejectUnauthorized",
-                "defaultBreakers",
-                "safeHeaders",
-                "retryRules",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class HealthCheckAuthenticationBasicAuthentication(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -1682,24 +1437,6 @@ class HealthCheckAuthenticationBasicRetryRules(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class HealthCheckAuthenticationBasicTypedDict(TypedDict):
@@ -1820,35 +1557,6 @@ class HealthCheckAuthenticationBasic(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "discovery",
-                "collectRequestParams",
-                "collectBody",
-                "collectRequestHeaders",
-                "authenticateCollect",
-                "timeout",
-                "rejectUnauthorized",
-                "defaultBreakers",
-                "safeHeaders",
-                "retryRules",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class HealthCheckAuthenticationNoneAuthentication(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -1961,24 +1669,6 @@ class HealthCheckAuthenticationNoneRetryRules(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class HealthCheckAuthenticationNoneTypedDict(TypedDict):
     authentication: HealthCheckAuthenticationNoneAuthentication
@@ -2087,35 +1777,6 @@ class HealthCheckAuthenticationNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "discovery",
-                "collectRequestParams",
-                "collectBody",
-                "collectRequestHeaders",
-                "authenticateCollect",
-                "timeout",
-                "rejectUnauthorized",
-                "defaultBreakers",
-                "safeHeaders",
-                "retryRules",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class HealthCheckCollectMethodPostWithBodyHealthCheckMethod(
@@ -2230,24 +1891,6 @@ class HealthCheckCollectMethodPostWithBodyRetryRules(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
     collect_method: HealthCheckCollectMethodPostWithBodyHealthCheckMethod
@@ -2359,35 +2002,6 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "collectBody",
-                "discovery",
-                "collectRequestParams",
-                "collectRequestHeaders",
-                "authenticateCollect",
-                "timeout",
-                "rejectUnauthorized",
-                "defaultBreakers",
-                "safeHeaders",
-                "retryRules",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class HealthCheckCollectMethodPostHealthCheckMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -2498,24 +2112,6 @@ class HealthCheckCollectMethodPostRetryRules(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class HealthCheckCollectMethodPostTypedDict(TypedDict):
     collect_method: HealthCheckCollectMethodPostHealthCheckMethod
@@ -2624,35 +2220,6 @@ class HealthCheckCollectMethodPost(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "collectRequestParams",
-                "discovery",
-                "collectBody",
-                "collectRequestHeaders",
-                "authenticateCollect",
-                "timeout",
-                "rejectUnauthorized",
-                "defaultBreakers",
-                "safeHeaders",
-                "retryRules",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class HealthCheckCollectMethodGetHealthCheckMethod(
@@ -2764,24 +2331,6 @@ class HealthCheckCollectMethodGetRetryRules(BaseModel):
                 return value
         return value
 
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
 
 class HealthCheckCollectMethodGetTypedDict(TypedDict):
     collect_method: HealthCheckCollectMethodGetHealthCheckMethod
@@ -2890,35 +2439,6 @@ class HealthCheckCollectMethodGet(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "collectRequestParams",
-                "discovery",
-                "collectBody",
-                "collectRequestHeaders",
-                "authenticateCollect",
-                "timeout",
-                "rejectUnauthorized",
-                "defaultBreakers",
-                "safeHeaders",
-                "retryRules",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 HealthCheckCollectorConfTypedDict = TypeAliasType(

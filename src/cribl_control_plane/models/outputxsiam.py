@@ -19,10 +19,10 @@ from .timeoutretrysettingstype import (
     TimeoutRetrySettingsTypeTypedDict,
 )
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
-from pydantic import field_serializer, model_serializer
+from pydantic import field_serializer
 from typing import Any, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -49,22 +49,6 @@ class OutputXsiamURL(BaseModel):
 
     weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["weight"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class OutputXsiamPqControlsTypedDict(TypedDict):
@@ -400,64 +384,3 @@ class OutputXsiam(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "id",
-                "pipeline",
-                "systemFields",
-                "environment",
-                "streamtags",
-                "loadBalanced",
-                "concurrency",
-                "maxPayloadSizeKB",
-                "maxPayloadEvents",
-                "rejectUnauthorized",
-                "timeoutSec",
-                "flushPeriodSec",
-                "extraHttpHeaders",
-                "failedRequestLoggingMode",
-                "safeHeaders",
-                "authType",
-                "responseRetrySettings",
-                "timeoutRetrySettings",
-                "responseHonorRetryAfterHeader",
-                "throttleRateReqPerSec",
-                "onBackpressure",
-                "totalMemoryLimitKB",
-                "description",
-                "url",
-                "useRoundRobinDns",
-                "excludeSelf",
-                "urls",
-                "dnsResolvePeriodSec",
-                "loadBalanceStatsPeriodSec",
-                "token",
-                "textSecret",
-                "pqStrictOrdering",
-                "pqRatePerSec",
-                "pqMode",
-                "pqMaxBufferSize",
-                "pqMaxBackpressureSec",
-                "pqMaxFileSize",
-                "pqMaxSize",
-                "pqPath",
-                "pqCompress",
-                "pqOnBackpressure",
-                "pqControls",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

@@ -2,26 +2,18 @@
 
 from __future__ import annotations
 from .cacheconnection import CacheConnection, CacheConnectionTypedDict
+from .formatoptionscribllakedataset import FormatOptionsCriblLakeDataset
 from .lakedatasetmetrics import LakeDatasetMetrics, LakeDatasetMetricsTypedDict
 from .lakedatasetsearchconfig import (
     LakeDatasetSearchConfig,
     LakeDatasetSearchConfigTypedDict,
 )
-from cribl_control_plane import models, utils
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
-from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class CriblLakeDatasetFormat(str, Enum, metaclass=utils.OpenEnumMeta):
-    JSON = "json"
-    DDSS = "ddss"
-    PARQUET = "parquet"
 
 
 class CriblLakeDatasetTypedDict(TypedDict):
@@ -31,7 +23,7 @@ class CriblLakeDatasetTypedDict(TypedDict):
     cache_connection: NotRequired[CacheConnectionTypedDict]
     deletion_started_at: NotRequired[float]
     description: NotRequired[str]
-    format_: NotRequired[CriblLakeDatasetFormat]
+    format_: NotRequired[FormatOptionsCriblLakeDataset]
     http_da_used: NotRequired[bool]
     metrics: NotRequired[LakeDatasetMetricsTypedDict]
     retention_period_in_days: NotRequired[float]
@@ -60,10 +52,7 @@ class CriblLakeDataset(BaseModel):
     description: Optional[str] = None
 
     format_: Annotated[
-        Annotated[
-            Optional[CriblLakeDatasetFormat], PlainValidator(validate_open_enum(False))
-        ],
-        pydantic.Field(alias="format"),
+        Optional[FormatOptionsCriblLakeDataset], pydantic.Field(alias="format")
     ] = None
 
     http_da_used: Annotated[Optional[bool], pydantic.Field(alias="httpDAUsed")] = None
@@ -88,7 +77,7 @@ class CriblLakeDataset(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.CriblLakeDatasetFormat(value)
+                return models.FormatOptionsCriblLakeDataset(value)
             except ValueError:
                 return value
         return value

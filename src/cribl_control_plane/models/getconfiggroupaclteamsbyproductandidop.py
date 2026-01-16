@@ -3,44 +3,41 @@
 from __future__ import annotations
 from .productscore import ProductsCore
 from .rbacresource import RbacResource
-from .teamaccesscontrollist import TeamAccessControlList, TeamAccessControlListTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import (
     FieldMetadata,
     PathParamMetadata,
     QueryParamMetadata,
-    validate_open_enum,
 )
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetConfigGroupACLTeamsByProductAndIDRequestTypedDict(TypedDict):
     product: ProductsCore
-    r"""Name of the Cribl product that contains the Worker Group or Edge Fleet."""
+    r"""Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet."""
     id: str
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for."""
+    r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for."""
     type: NotRequired[RbacResource]
     r"""Filter for limiting the response to ACL entries for the specified RBAC resource type."""
 
 
 class GetConfigGroupACLTeamsByProductAndIDRequest(BaseModel):
     product: Annotated[
-        Annotated[ProductsCore, PlainValidator(validate_open_enum(False))],
+        ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Name of the Cribl product that contains the Worker Group or Edge Fleet."""
+    r"""Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet."""
 
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for."""
+    r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for."""
 
     type: Annotated[
-        Annotated[Optional[RbacResource], PlainValidator(validate_open_enum(False))],
+        Optional[RbacResource],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""Filter for limiting the response to ACL entries for the specified RBAC resource type."""
@@ -62,20 +59,3 @@ class GetConfigGroupACLTeamsByProductAndIDRequest(BaseModel):
             except ValueError:
                 return value
         return value
-
-
-class GetConfigGroupACLTeamsByProductAndIDResponseTypedDict(TypedDict):
-    r"""a list of TeamAccessControlList objects"""
-
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[TeamAccessControlListTypedDict]]
-
-
-class GetConfigGroupACLTeamsByProductAndIDResponse(BaseModel):
-    r"""a list of TeamAccessControlList objects"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[TeamAccessControlList]] = None

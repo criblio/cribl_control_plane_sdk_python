@@ -26,12 +26,12 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.hec_tokens.create(id="<id>", token="<value>", allowed_indexes_at_token=[
+    res = ccp_client.sources.hec_tokens.create(id="<id>", token="12345678901", allowed_indexes_at_token=[
         "<value 1>",
-    ], description="bah ick stingy", enabled=False, metadata=[
+    ], description="toward precedent merry vaguely across ha fooey ingratiate jealously outlying", enabled=True, metadata=[
         {
-            "name": "<value>",
-            "value": "<value>",
+            "name": "fieldX",
+            "value": "valueX",
         },
     ])
 
@@ -42,19 +42,19 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                               | Type                                                                                    | Required                                                                                | Description                                                                             |
-| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `id`                                                                                    | *str*                                                                                   | :heavy_check_mark:                                                                      | The <code>id</code> of the Splunk HEC Source.                                           |
-| `token`                                                                                 | *str*                                                                                   | :heavy_check_mark:                                                                      | N/A                                                                                     |
-| `allowed_indexes_at_token`                                                              | List[*str*]                                                                             | :heavy_minus_sign:                                                                      | N/A                                                                                     |
-| `description`                                                                           | *Optional[str]*                                                                         | :heavy_minus_sign:                                                                      | N/A                                                                                     |
-| `enabled`                                                                               | *Optional[bool]*                                                                        | :heavy_minus_sign:                                                                      | N/A                                                                                     |
-| `metadata`                                                                              | List[[models.AddHecTokenRequestMetadatum](../../models/addhectokenrequestmetadatum.md)] | :heavy_minus_sign:                                                                      | N/A                                                                                     |
-| `retries`                                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                        | :heavy_minus_sign:                                                                      | Configuration to override the default retry behavior of the client.                     |
+| Parameter                                                                     | Type                                                                          | Required                                                                      | Description                                                                   |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `id`                                                                          | *str*                                                                         | :heavy_check_mark:                                                            | The <code>id</code> of the Splunk HEC Source.                                 |
+| `token`                                                                       | *str*                                                                         | :heavy_check_mark:                                                            | N/A                                                                           |
+| `allowed_indexes_at_token`                                                    | List[*str*]                                                                   | :heavy_minus_sign:                                                            | N/A                                                                           |
+| `description`                                                                 | *Optional[str]*                                                               | :heavy_minus_sign:                                                            | N/A                                                                           |
+| `enabled`                                                                     | *Optional[bool]*                                                              | :heavy_minus_sign:                                                            | N/A                                                                           |
+| `metadata`                                                                    | List[[models.EventBreakerRuleFields](../../models/eventbreakerrulefields.md)] | :heavy_minus_sign:                                                            | N/A                                                                           |
+| `retries`                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)              | :heavy_minus_sign:                                                            | Configuration to override the default retry behavior of the client.           |
 
 ### Response
 
-**[models.CreateInputHecTokenByIDResponse](../../models/createinputhectokenbyidresponse.md)**
+**[models.CountedInputSplunkHec](../../models/countedinputsplunkhec.md)**
 
 ### Errors
 
@@ -84,10 +84,10 @@ with CriblControlPlane(
 
     res = ccp_client.sources.hec_tokens.update(id="<id>", token="<value>", allowed_indexes_at_token=[
         "<value 1>",
-    ], description="by bleakly fortunately phew barring", enabled=False, metadata=[
+    ], description="once lively fooey who though while dampen please denitrify pish", enabled=True, metadata=[
         {
-            "name": "<value>",
-            "value": "<value>",
+            "name": "fieldX",
+            "value": "valueX",
         },
     ])
 
@@ -98,19 +98,19 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                     | Type                                                                                          | Required                                                                                      | Description                                                                                   |
-| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `id`                                                                                          | *str*                                                                                         | :heavy_check_mark:                                                                            | The <code>id</code> of the Splunk HEC Source.                                                 |
-| `token`                                                                                       | *str*                                                                                         | :heavy_check_mark:                                                                            | The <code>id</code> of the HEC token to update.                                               |
-| `allowed_indexes_at_token`                                                                    | List[*str*]                                                                                   | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `description`                                                                                 | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `enabled`                                                                                     | *Optional[bool]*                                                                              | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `metadata`                                                                                    | List[[models.UpdateHecTokenRequestMetadatum](../../models/updatehectokenrequestmetadatum.md)] | :heavy_minus_sign:                                                                            | N/A                                                                                           |
-| `retries`                                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                              | :heavy_minus_sign:                                                                            | Configuration to override the default retry behavior of the client.                           |
+| Parameter                                                                     | Type                                                                          | Required                                                                      | Description                                                                   |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `id`                                                                          | *str*                                                                         | :heavy_check_mark:                                                            | The <code>id</code> of the Splunk HEC Source.                                 |
+| `token`                                                                       | *str*                                                                         | :heavy_check_mark:                                                            | The <code>id</code> of the HEC token to update.                               |
+| `allowed_indexes_at_token`                                                    | List[*str*]                                                                   | :heavy_minus_sign:                                                            | N/A                                                                           |
+| `description`                                                                 | *Optional[str]*                                                               | :heavy_minus_sign:                                                            | N/A                                                                           |
+| `enabled`                                                                     | *Optional[bool]*                                                              | :heavy_minus_sign:                                                            | N/A                                                                           |
+| `metadata`                                                                    | List[[models.EventBreakerRuleFields](../../models/eventbreakerrulefields.md)] | :heavy_minus_sign:                                                            | N/A                                                                           |
+| `retries`                                                                     | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)              | :heavy_minus_sign:                                                            | Configuration to override the default retry behavior of the client.           |
 
 ### Response
 
-**[models.UpdateInputHecTokenByIDAndTokenResponse](../../models/updateinputhectokenbyidandtokenresponse.md)**
+**[models.CountedInputSplunkHec](../../models/countedinputsplunkhec.md)**
 
 ### Errors
 

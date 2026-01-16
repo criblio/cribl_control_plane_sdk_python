@@ -4,11 +4,9 @@ from __future__ import annotations
 from .rbacresource import RbacResource
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import NotRequired, TypedDict
 
 
 class ResourcePolicyTypedDict(TypedDict):
@@ -23,7 +21,7 @@ class ResourcePolicy(BaseModel):
 
     policy: str
 
-    type: Annotated[RbacResource, PlainValidator(validate_open_enum(False))]
+    type: RbacResource
 
     id: Optional[str] = None
 

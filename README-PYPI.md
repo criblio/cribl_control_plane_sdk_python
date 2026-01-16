@@ -131,7 +131,7 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
         "current_size_bytes": 6170.04,
         "metrics_date": "<value>",
     }, retention_period_in_days=456.37, search_config={
@@ -192,7 +192,7 @@ async def main():
             "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
             "migration_query_id": "<id>",
             "retention_in_days": 1466.58,
-        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
             "current_size_bytes": 6170.04,
             "metrics_date": "<value>",
         }, retention_period_in_days=456.37, search_config={
@@ -262,7 +262,7 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
         "current_size_bytes": 6170.04,
         "metrics_date": "<value>",
     }, retention_period_in_days=456.37, search_config={
@@ -302,6 +302,14 @@ with CriblControlPlane(
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/tokens/README.md#get) - Log in and fetch an authentication token
 
+### [Collectors](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md)
+
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#create) - Create a Collector
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#list) - List all Collectors
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#delete) - Delete a Collector
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#get) - Get a Collector
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#update) - Update a Collector
+
 ### [Destinations](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md)
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#list) - List all Destinations
@@ -310,36 +318,41 @@ with CriblControlPlane(
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#update) - Update a Destination
 * [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#delete) - Delete a Destination
 
-#### [Destinations.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationspq/README.md)
+#### [Destinations.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pq/README.md)
 
-* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationspq/README.md#clear) - Clear the persistent queue for a Destination
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
+* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pq/README.md#clear) - Clear the persistent queue for a Destination
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
 
 #### [Destinations.Samples](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/samples/README.md)
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/samples/README.md#get) - Get sample event data for a Destination
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/samples/README.md#create) - Send sample event data to a Destination
 
+### [Functions](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/functions/README.md)
+
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/functions/README.md#get) - Get a Function
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/functions/README.md#list) - List all Functions
+
 ### [Groups](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md)
 
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#list) - List all Worker Groups or Edge Fleets for the specified Cribl product
-* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#create) - Create a Worker Group or Edge Fleet for the specified Cribl product
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get) - Get a Worker Group or Edge Fleet
-* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#update) - Update a Worker Group or Edge Fleet
-* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#delete) - Delete a Worker Group or Edge Fleet
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#list) - List all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#create) - Create a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get) - Get a Worker Group, Outpost Group, or Edge Fleet
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#update) - Update a Worker Group, Outpost Group, or Edge Fleet
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#delete) - Delete a Worker Group, Outpost Group, or Edge Fleet
 * [deploy](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#deploy) - Deploy commits to a Worker Group or Edge Fleet
 
 #### [Groups.Acl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/acl/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/acl/README.md#get) - Get the Access Control List for a Worker Group or Edge Fleet
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/acl/README.md#get) - Get the Access Control List for a Worker Group, Outpost Group, or Edge Fleet
 
 ##### [Groups.Acl.Teams](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/teams/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/teams/README.md#get) - Get the Access Control List for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/teams/README.md#get) - Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
 
 #### [Groups.Configs.Versions](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/configsversions/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/configsversions/README.md#get) - Get the configuration version for a Worker Group or Edge Fleet
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/configsversions/README.md#get) - Get the configuration version for a Worker Group, Outpost Group, or Edge Fleet
 
 ### [Health](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md)
 
@@ -399,6 +412,11 @@ with CriblControlPlane(
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/hectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/hectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source
 
+### [System.Settings.Cribl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md)
+
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#list) - Get Cribl system settings
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#update) - Update Cribl system settings
+
 ### [Versions.Branches](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/branches/README.md)
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/branches/README.md#list) - List all branches in the Git repository used for Cribl configuration
@@ -414,10 +432,10 @@ with CriblControlPlane(
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commits/README.md#get) - Get the diff and log message for a commit
 * [undo](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commits/README.md#undo) - Discard uncommitted (staged) changes
 
-#### [Versions.Commits.Files](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commitsfiles/README.md)
+#### [Versions.Commits.Files](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/files/README.md)
 
-* [count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commitsfiles/README.md#count) - Get a count of files that changed since a commit
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commitsfiles/README.md#list) - Get the names and statuses of files that changed since a commit
+* [count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/files/README.md#count) - Get a count of files that changed since a commit
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/files/README.md#list) - Get the names and statuses of files that changed since a commit
 
 ### [Versions.Configs](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versionsconfigs/README.md)
 
@@ -493,7 +511,7 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
         "current_size_bytes": 6170.04,
         "metrics_date": "<value>",
     }, retention_period_in_days=456.37, search_config={
@@ -552,7 +570,7 @@ with CriblControlPlane(
         "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
         "migration_query_id": "<id>",
         "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
         "current_size_bytes": 6170.04,
         "metrics_date": "<value>",
     }, retention_period_in_days=456.37, search_config={
@@ -625,7 +643,7 @@ with CriblControlPlane(
             "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
             "migration_query_id": "<id>",
             "retention_in_days": 1466.58,
-        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.CriblLakeDatasetFormat.DDSS, http_da_used=True, metrics={
+        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
             "current_size_bytes": 6170.04,
             "metrics_date": "<value>",
         }, retention_period_in_days=456.37, search_config={
@@ -682,7 +700,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthServerStatusError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 63 methods.*
+* [`HealthServerStatusError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 72 methods.*
 * [`ResponseValidationError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

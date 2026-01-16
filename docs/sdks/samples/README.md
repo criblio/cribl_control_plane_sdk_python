@@ -42,7 +42,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetOutputSamplesByIDResponse](../../models/getoutputsamplesbyidresponse.md)**
+**[models.CountedOutputSamplesResponse](../../models/countedoutputsamplesresponse.md)**
 
 ### Errors
 
@@ -72,7 +72,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.samples.create(id="<id>", events=[
         {
-            "raw": "<value>",
+            "_raw": "<value>",
         },
     ])
 
@@ -86,12 +86,12 @@ with CriblControlPlane(
 | Parameter                                                            | Type                                                                 | Required                                                             | Description                                                          |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
 | `id`                                                                 | *str*                                                                | :heavy_check_mark:                                                   | The <code>id</code> of the Destination to send sample event data to. |
-| `events`                                                             | List[[models.CriblEvent](../../models/criblevent.md)]                | :heavy_check_mark:                                                   | N/A                                                                  |
+| `events`                                                             | List[Dict[str, *Any*]]                                               | :heavy_check_mark:                                                   | N/A                                                                  |
 | `retries`                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)     | :heavy_minus_sign:                                                   | Configuration to override the default retry behavior of the client.  |
 
 ### Response
 
-**[models.CreateOutputTestByIDResponse](../../models/createoutputtestbyidresponse.md)**
+**[models.CountedOutputTestResponse](../../models/countedoutputtestresponse.md)**
 
 ### Errors
 

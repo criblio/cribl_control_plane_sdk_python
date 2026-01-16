@@ -2,15 +2,12 @@
 
 from __future__ import annotations
 from .hbleaderinfo import HBLeaderInfo, HBLeaderInfoTypedDict
-from .lookupversions import LookupVersions, LookupVersionsTypedDict
-from cribl_control_plane import models, utils
+from .modeoptionsinstancesettingsschema import ModeOptionsInstanceSettingsSchema
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
-from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing import List, Optional
+from typing import Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -38,19 +35,9 @@ class Config(BaseModel):
     version: Optional[str] = None
 
 
-class DistMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    EDGE = "edge"
-    WORKER = "worker"
-    SINGLE = "single"
-    MASTER = "master"
-    MANAGED_EDGE = "managed-edge"
-    OUTPOST = "outpost"
-    SEARCH_SUPERVISOR = "search-supervisor"
-
-
 class HBCriblInfoTypedDict(TypedDict):
     config: ConfigTypedDict
-    dist_mode: DistMode
+    dist_mode: ModeOptionsInstanceSettingsSchema
     group: str
     guid: str
     start_time: float
@@ -59,7 +46,7 @@ class HBCriblInfoTypedDict(TypedDict):
     disable_sni_routing: NotRequired[bool]
     edge_nodes: NotRequired[float]
     install_type: NotRequired[str]
-    lookup_versions: NotRequired[LookupVersionsTypedDict]
+    lookup_versions: NotRequired[Dict[str, Dict[str, str]]]
     master: NotRequired[HBLeaderInfoTypedDict]
     pid: NotRequired[float]
     socks_enabled: NotRequired[bool]
@@ -70,8 +57,7 @@ class HBCriblInfo(BaseModel):
     config: Config
 
     dist_mode: Annotated[
-        Annotated[DistMode, PlainValidator(validate_open_enum(False))],
-        pydantic.Field(alias="distMode"),
+        ModeOptionsInstanceSettingsSchema, pydantic.Field(alias="distMode")
     ]
 
     group: str
@@ -93,7 +79,7 @@ class HBCriblInfo(BaseModel):
     install_type: Annotated[Optional[str], pydantic.Field(alias="installType")] = None
 
     lookup_versions: Annotated[
-        Optional[LookupVersions], pydantic.Field(alias="lookupVersions")
+        Optional[Dict[str, Dict[str, str]]], pydantic.Field(alias="lookupVersions")
     ] = None
 
     master: Optional[HBLeaderInfo] = None
@@ -110,7 +96,7 @@ class HBCriblInfo(BaseModel):
     def serialize_dist_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.DistMode(value)
+                return models.ModeOptionsInstanceSettingsSchema(value)
             except ValueError:
                 return value
         return value

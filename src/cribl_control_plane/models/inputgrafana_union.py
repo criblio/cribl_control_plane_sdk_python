@@ -60,6 +60,10 @@ class PrometheusAuth2TypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_secret: NotRequired[str]
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class PrometheusAuth2(BaseModel):
@@ -120,6 +124,16 @@ class PrometheusAuth2(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    template_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_secret")
+    ] = None
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -157,6 +171,10 @@ class LokiAuth2TypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_secret: NotRequired[str]
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class LokiAuth2(BaseModel):
@@ -215,6 +233,16 @@ class LokiAuth2(BaseModel):
         Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    template_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_secret")
+    ] = None
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -280,6 +308,10 @@ class InputGrafanaGrafana2TypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class InputGrafanaGrafana2(BaseModel):
@@ -394,6 +426,16 @@ class InputGrafanaGrafana2(BaseModel):
 
     description: Optional[str] = None
 
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
 
 class InputGrafanaType1(str, Enum):
     GRAFANA = "grafana"
@@ -426,6 +468,10 @@ class PrometheusAuth1TypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_secret: NotRequired[str]
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class PrometheusAuth1(BaseModel):
@@ -486,6 +532,16 @@ class PrometheusAuth1(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    template_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_secret")
+    ] = None
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -523,6 +579,10 @@ class LokiAuth1TypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_secret: NotRequired[str]
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class LokiAuth1(BaseModel):
@@ -581,6 +641,16 @@ class LokiAuth1(BaseModel):
         Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    template_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_secret")
+    ] = None
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -646,6 +716,10 @@ class InputGrafanaGrafana1TypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class InputGrafanaGrafana1(BaseModel):
@@ -757,6 +831,16 @@ class InputGrafanaGrafana1(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 InputGrafanaUnionTypedDict = TypeAliasType(

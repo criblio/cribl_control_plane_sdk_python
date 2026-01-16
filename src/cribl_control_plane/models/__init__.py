@@ -3705,6 +3705,7 @@ if TYPE_CHECKING:
     )
     from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
     from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
+    from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
     from .retrytypeoptionshealthcheckcollectorconfretryrules import (
         RetryTypeOptionsHealthCheckCollectorConfRetryRules,
     )
@@ -7078,6 +7079,8 @@ __all__ = [
     "RetryRulesType1",
     "RetryRulesType1TypedDict",
     "RetryRulesTypeTypedDict",
+    "RetrySettingsType",
+    "RetrySettingsTypeTypedDict",
     "RetryTypeOptionsHealthCheckCollectorConfRetryRules",
     "ReverseLookupField",
     "ReverseLookupFieldTypedDict",
@@ -10520,6 +10523,8 @@ _dynamic_imports: dict[str, str] = {
     "RetryRulesTypeTypedDict": ".retryrulestype",
     "RetryRulesType1": ".retryrulestype1",
     "RetryRulesType1TypedDict": ".retryrulestype1",
+    "RetrySettingsType": ".retrysettingstype",
+    "RetrySettingsTypeTypedDict": ".retrysettingstype",
     "RetryTypeOptionsHealthCheckCollectorConfRetryRules": ".retrytypeoptionshealthcheckcollectorconfretryrules",
     "RollbackSettings1": ".rollbacksettings_union",
     "RollbackSettings1TypedDict": ".rollbacksettings_union",

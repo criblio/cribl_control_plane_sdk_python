@@ -120,6 +120,14 @@ class OutputNewrelicEventsTypedDict(TypedDict):
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_account_id: NotRequired[str]
+    r"""Binds 'accountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accountId' at runtime."""
+    template_event_type: NotRequired[str]
+    r"""Binds 'eventType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'eventType' at runtime."""
+    template_custom_url: NotRequired[str]
+    r"""Binds 'customUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customUrl' at runtime."""
 
 
 class OutputNewrelicEvents(BaseModel):
@@ -287,6 +295,26 @@ class OutputNewrelicEvents(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_account_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accountId")
+    ] = None
+    r"""Binds 'accountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accountId' at runtime."""
+
+    template_event_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_eventType")
+    ] = None
+    r"""Binds 'eventType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'eventType' at runtime."""
+
+    template_custom_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_customUrl")
+    ] = None
+    r"""Binds 'customUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customUrl' at runtime."""
 
     @field_serializer("region")
     def serialize_region(self, value):

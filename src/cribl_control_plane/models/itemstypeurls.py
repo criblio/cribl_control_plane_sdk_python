@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel
+import pydantic
 from typing import Optional
-from typing_extensions import NotRequired, TypedDict
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class ItemsTypeUrlsTypedDict(TypedDict):
@@ -11,6 +12,8 @@ class ItemsTypeUrlsTypedDict(TypedDict):
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
     weight: NotRequired[float]
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class ItemsTypeUrls(BaseModel):
@@ -19,3 +22,8 @@ class ItemsTypeUrls(BaseModel):
 
     weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""

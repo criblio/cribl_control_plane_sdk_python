@@ -61,6 +61,12 @@ class InputMetricsTypedDict(TypedDict):
     udp_socket_rx_buf_size: NotRequired[float]
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_udp_port: NotRequired[str]
+    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
+    template_tcp_port: NotRequired[str]
+    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
 
 class InputMetrics(BaseModel):
@@ -128,3 +134,18 @@ class InputMetrics(BaseModel):
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
 
     description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_udp_port: Annotated[
+        Optional[str], pydantic.Field(alias="__template_udpPort")
+    ] = None
+    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
+
+    template_tcp_port: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tcpPort")
+    ] = None
+    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""

@@ -119,6 +119,8 @@ class OutputHumioHecTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[OutputHumioHecPqControlsTypedDict]
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputHumioHec(BaseModel):
@@ -282,6 +284,11 @@ class OutputHumioHec(BaseModel):
     pq_controls: Annotated[
         Optional[OutputHumioHecPqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
     @field_serializer("failed_request_logging_mode")
     def serialize_failed_request_logging_mode(self, value):

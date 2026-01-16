@@ -5,8 +5,9 @@ from .tagstypepackinstallinfo import (
     TagsTypePackInstallInfo,
     TagsTypePackInstallInfoTypedDict,
 )
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
+from pydantic import model_serializer
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -64,3 +65,36 @@ class PackInstallInfo(BaseModel):
     version: Optional[str] = None
 
     warnings: Optional[List[str]] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "author",
+                "dependencies",
+                "description",
+                "displayName",
+                "exports",
+                "inputs",
+                "isDisabled",
+                "minLogStreamVersion",
+                "outputs",
+                "settings",
+                "spec",
+                "tags",
+                "version",
+                "warnings",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

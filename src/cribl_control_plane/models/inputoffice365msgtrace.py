@@ -13,10 +13,10 @@ from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
 from .subscriptionplanoptions import SubscriptionPlanOptions
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
+from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -72,6 +72,22 @@ class CertOptions(BaseModel):
 
     passphrase: Optional[str] = None
     r"""Passphrase to use to decrypt the private key."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["certificateName", "passphrase"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class InputOffice365MsgTraceTypedDict(TypedDict):
@@ -309,3 +325,57 @@ class InputOffice365MsgTrace(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "startDate",
+                "endDate",
+                "timeout",
+                "disableTimeFilter",
+                "authType",
+                "rescheduleDroppedTasks",
+                "maxTaskReschedule",
+                "logLevel",
+                "jobTimeout",
+                "keepAliveTime",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "retryRules",
+                "description",
+                "username",
+                "password",
+                "credentialsSecret",
+                "clientSecret",
+                "tenantId",
+                "clientId",
+                "resource",
+                "planType",
+                "textSecret",
+                "certOptions",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

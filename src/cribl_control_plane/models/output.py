@@ -15,6 +15,10 @@ from .outputcloudwatch import OutputCloudwatch, OutputCloudwatchTypedDict
 from .outputconfluentcloud import OutputConfluentCloud, OutputConfluentCloudTypedDict
 from .outputcriblhttp import OutputCriblHTTP, OutputCriblHTTPTypedDict
 from .outputcribllake import OutputCriblLake, OutputCriblLakeTypedDict
+from .outputcriblsearchengine import (
+    OutputCriblSearchEngine,
+    OutputCriblSearchEngineTypedDict,
+)
 from .outputcribltcp import OutputCriblTCP, OutputCriblTCPTypedDict
 from .outputcrowdstrikenextgensiem import (
     OutputCrowdstrikeNextGenSiem,
@@ -43,7 +47,10 @@ from .outputgooglecloudstorage import (
     OutputGoogleCloudStorageTypedDict,
 )
 from .outputgooglepubsub import OutputGooglePubsub, OutputGooglePubsubTypedDict
-from .outputgrafanacloud import OutputGrafanaCloud, OutputGrafanaCloudTypedDict
+from .outputgrafanacloud_union import (
+    OutputGrafanaCloudUnion,
+    OutputGrafanaCloudUnionTypedDict,
+)
 from .outputgraphite import OutputGraphite, OutputGraphiteTypedDict
 from .outputhoneycomb import OutputHoneycomb, OutputHoneycombTypedDict
 from .outputhumiohec import OutputHumioHec, OutputHumioHecTypedDict
@@ -83,6 +90,7 @@ from .outputsyslog import OutputSyslog, OutputSyslogTypedDict
 from .outputtcpjson import OutputTcpjson, OutputTcpjsonTypedDict
 from .outputwavefront import OutputWavefront, OutputWavefrontTypedDict
 from .outputwebhook import OutputWebhook, OutputWebhookTypedDict
+from .outputwizhec import OutputWizHec, OutputWizHecTypedDict
 from .outputxsiam import OutputXsiam, OutputXsiamTypedDict
 from cribl_control_plane.utils import get_discriminator
 from pydantic import Discriminator, Tag
@@ -101,58 +109,60 @@ OutputTypedDict = TypeAliasType(
         OutputDiskSpoolTypedDict,
         OutputRingTypedDict,
         OutputGraphiteTypedDict,
-        OutputStatsdExtTypedDict,
         OutputStatsdTypedDict,
+        OutputStatsdExtTypedDict,
         OutputGooglePubsubTypedDict,
+        OutputWizHecTypedDict,
         OutputSplunkTypedDict,
         OutputSnsTypedDict,
         OutputCriblTCPTypedDict,
         OutputAzureEventhubTypedDict,
         OutputCloudwatchTypedDict,
-        OutputExabeamTypedDict,
         OutputMicrosoftFabricTypedDict,
         OutputHoneycombTypedDict,
         OutputSignalfxTypedDict,
         OutputWavefrontTypedDict,
-        OutputSumoLogicTypedDict,
-        OutputCrowdstrikeNextGenSiemTypedDict,
-        OutputHumioHecTypedDict,
-        OutputTcpjsonTypedDict,
+        OutputExabeamTypedDict,
         OutputElasticCloudTypedDict,
-        OutputKinesisTypedDict,
-        OutputConfluentCloudTypedDict,
+        OutputSumoLogicTypedDict,
+        OutputTcpjsonTypedDict,
+        OutputHumioHecTypedDict,
+        OutputCrowdstrikeNextGenSiemTypedDict,
+        OutputAzureLogsTypedDict,
         OutputKafkaTypedDict,
         OutputNewrelicEventsTypedDict,
-        OutputAzureLogsTypedDict,
+        OutputKinesisTypedDict,
+        OutputConfluentCloudTypedDict,
         OutputSplunkLbTypedDict,
         OutputSqsTypedDict,
-        OutputNewrelicTypedDict,
-        OutputFilesystemTypedDict,
         OutputSyslogTypedDict,
+        OutputNewrelicTypedDict,
         OutputXsiamTypedDict,
+        OutputFilesystemTypedDict,
+        OutputCriblSearchEngineTypedDict,
         OutputCriblHTTPTypedDict,
         OutputDatasetTypedDict,
         OutputDynatraceHTTPTypedDict,
         OutputLokiTypedDict,
-        OutputChronicleTypedDict,
-        OutputDynatraceOtlpTypedDict,
-        OutputServiceNowTypedDict,
         OutputSplunkHecTypedDict,
+        OutputServiceNowTypedDict,
+        OutputDynatraceOtlpTypedDict,
+        OutputChronicleTypedDict,
         OutputCriblLakeTypedDict,
         OutputElasticTypedDict,
-        OutputDatadogTypedDict,
         OutputGoogleChronicleTypedDict,
+        OutputDatadogTypedDict,
         OutputPrometheusTypedDict,
         OutputDatabricksTypedDict,
-        OutputSentinelOneAiSiemTypedDict,
         OutputMskTypedDict,
+        OutputSentinelOneAiSiemTypedDict,
         OutputSentinelTypedDict,
-        OutputGoogleCloudStorageTypedDict,
         OutputInfluxdbTypedDict,
+        OutputGoogleCloudStorageTypedDict,
         OutputAzureBlobTypedDict,
-        OutputCloudflareR2TypedDict,
         OutputMinioTypedDict,
         OutputOpenTelemetryTypedDict,
+        OutputCloudflareR2TypedDict,
         OutputSecurityLakeTypedDict,
         OutputClickHouseTypedDict,
         OutputDlS3TypedDict,
@@ -160,7 +170,7 @@ OutputTypedDict = TypeAliasType(
         OutputWebhookTypedDict,
         OutputGoogleCloudLoggingTypedDict,
         OutputAzureDataExplorerTypedDict,
-        OutputGrafanaCloudTypedDict,
+        OutputGrafanaCloudUnionTypedDict,
     ],
 )
 
@@ -175,6 +185,7 @@ Output = Annotated[
         Annotated[OutputSplunk, Tag("splunk")],
         Annotated[OutputSplunkLb, Tag("splunk_lb")],
         Annotated[OutputSplunkHec, Tag("splunk_hec")],
+        Annotated[OutputWizHec, Tag("wiz_hec")],
         Annotated[OutputTcpjson, Tag("tcpjson")],
         Annotated[OutputWavefront, Tag("wavefront")],
         Annotated[OutputSignalfx, Tag("signalfx")],
@@ -210,7 +221,7 @@ Output = Annotated[
         Annotated[OutputSnmp, Tag("snmp")],
         Annotated[OutputSumoLogic, Tag("sumo_logic")],
         Annotated[OutputDatadog, Tag("datadog")],
-        Annotated[OutputGrafanaCloud, Tag("grafana_cloud")],
+        Annotated[OutputGrafanaCloudUnion, Tag("grafana_cloud")],
         Annotated[OutputLoki, Tag("loki")],
         Annotated[OutputPrometheus, Tag("prometheus")],
         Annotated[OutputRing, Tag("ring")],
@@ -219,6 +230,7 @@ Output = Annotated[
         Annotated[OutputDataset, Tag("dataset")],
         Annotated[OutputCriblTCP, Tag("cribl_tcp")],
         Annotated[OutputCriblHTTP, Tag("cribl_http")],
+        Annotated[OutputCriblSearchEngine, Tag("cribl_search_engine")],
         Annotated[OutputHumioHec, Tag("humio_hec")],
         Annotated[OutputCrowdstrikeNextGenSiem, Tag("crowdstrike_next_gen_siem")],
         Annotated[OutputDlS3, Tag("dl_s3")],

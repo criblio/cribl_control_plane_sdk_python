@@ -1,0 +1,12 @@
+# CustomSystemMetrics
+
+
+## Fields
+
+| Field                                                                      | Type                                                                       | Required                                                                   | Description                                                                |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `system`                                                                   | [Optional[models.SystemSystemMetrics]](../models/systemsystemmetrics.md)   | :heavy_minus_sign:                                                         | N/A                                                                        |
+| `cpu`                                                                      | [Optional[models.CPUSystemMetrics]](../models/cpusystemmetrics.md)         | :heavy_minus_sign:                                                         | N/A                                                                        |
+| `memory`                                                                   | [Optional[models.MemorySystemMetrics]](../models/memorysystemmetrics.md)   | :heavy_minus_sign:                                                         | N/A                                                                        |
+| `network`                                                                  | [Optional[models.NetworkSystemMetrics]](../models/networksystemmetrics.md) | :heavy_minus_sign:                                                         | N/A                                                                        |
+| `disk`                                                                     | [Optional[models.DiskSystemMetrics]](../models/disksystemmetrics.md)       | :heavy_minus_sign:                                                         | N/A                                                                        |

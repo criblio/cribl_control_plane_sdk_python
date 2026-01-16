@@ -21,7 +21,7 @@ from .inputexec import InputExec, InputExecTypedDict
 from .inputfile import InputFile, InputFileTypedDict
 from .inputfirehose import InputFirehose, InputFirehoseTypedDict
 from .inputgooglepubsub import InputGooglePubsub, InputGooglePubsubTypedDict
-from .inputgrafana import InputGrafana, InputGrafanaTypedDict
+from .inputgrafana_union import InputGrafanaUnion, InputGrafanaUnionTypedDict
 from .inputhttp import InputHTTP, InputHTTPTypedDict
 from .inputhttpraw import InputHTTPRaw, InputHTTPRawTypedDict
 from .inputjournalfiles import InputJournalFiles, InputJournalFilesTypedDict
@@ -56,7 +56,7 @@ from .inputsplunk import InputSplunk, InputSplunkTypedDict
 from .inputsplunkhec import InputSplunkHec, InputSplunkHecTypedDict
 from .inputsplunksearch import InputSplunkSearch, InputSplunkSearchTypedDict
 from .inputsqs import InputSqs, InputSqsTypedDict
-from .inputsyslog import InputSyslog, InputSyslogTypedDict
+from .inputsyslog_union import InputSyslogUnion, InputSyslogUnionTypedDict
 from .inputsystemmetrics import InputSystemMetrics, InputSystemMetricsTypedDict
 from .inputsystemstate import InputSystemState, InputSystemStateTypedDict
 from .inputtcp import InputTCP, InputTCPTypedDict
@@ -81,17 +81,17 @@ InputTypedDict = TypeAliasType(
         InputDatagenTypedDict,
         InputCriblmetricsTypedDict,
         InputKubeMetricsTypedDict,
-        InputSystemStateTypedDict,
         InputCollectionTypedDict,
         InputModelDrivenTelemetryTypedDict,
         InputWindowsMetricsTypedDict,
         InputSystemMetricsTypedDict,
+        InputSystemStateTypedDict,
         InputJournalFilesTypedDict,
-        InputRawUDPTypedDict,
-        InputKubeLogsTypedDict,
         InputExecTypedDict,
-        InputMetricsTypedDict,
+        InputKubeLogsTypedDict,
+        InputRawUDPTypedDict,
         InputSnmpTypedDict,
+        InputMetricsTypedDict,
         InputWinEventLogsTypedDict,
         InputCriblTCPTypedDict,
         InputNetflowTypedDict,
@@ -105,37 +105,37 @@ InputTypedDict = TypeAliasType(
         InputDatadogAgentTypedDict,
         InputTCPTypedDict,
         InputSplunkTypedDict,
-        InputFileTypedDict,
         InputWefTypedDict,
         InputAppscopeTypedDict,
+        InputFileTypedDict,
         InputWizWebhookTypedDict,
         InputHTTPTypedDict,
-        InputHTTPRawTypedDict,
         InputCriblLakeHTTPTypedDict,
+        InputHTTPRawTypedDict,
         InputAzureBlobTypedDict,
         InputZscalerHecTypedDict,
         InputSqsTypedDict,
         InputCloudflareHecTypedDict,
+        InputKinesisTypedDict,
+        InputEventhubTypedDict,
         InputConfluentCloudTypedDict,
         InputKafkaTypedDict,
-        InputEventhubTypedDict,
-        InputKinesisTypedDict,
         InputElasticTypedDict,
-        InputOffice365MsgTraceTypedDict,
         InputSplunkHecTypedDict,
+        InputOffice365MsgTraceTypedDict,
         InputPrometheusRwTypedDict,
         InputLokiTypedDict,
         InputCrowdstrikeTypedDict,
-        InputEdgePrometheusTypedDict,
         InputOpenTelemetryTypedDict,
-        InputPrometheusTypedDict,
-        InputS3TypedDict,
+        InputEdgePrometheusTypedDict,
         InputSecurityLakeTypedDict,
+        InputS3TypedDict,
         InputMskTypedDict,
-        InputS3InventoryTypedDict,
+        InputPrometheusTypedDict,
         InputSplunkSearchTypedDict,
-        InputSyslogTypedDict,
-        InputGrafanaTypedDict,
+        InputS3InventoryTypedDict,
+        InputGrafanaUnionTypedDict,
+        InputSyslogUnionTypedDict,
     ],
 )
 
@@ -152,7 +152,7 @@ Input = Annotated[
         Annotated[InputAzureBlob, Tag("azure_blob")],
         Annotated[InputElastic, Tag("elastic")],
         Annotated[InputConfluentCloud, Tag("confluent_cloud")],
-        Annotated[InputGrafana, Tag("grafana")],
+        Annotated[InputGrafanaUnion, Tag("grafana")],
         Annotated[InputLoki, Tag("loki")],
         Annotated[InputPrometheusRw, Tag("prometheus_rw")],
         Annotated[InputPrometheus, Tag("prometheus")],
@@ -188,7 +188,7 @@ Input = Annotated[
         Annotated[InputOpenTelemetry, Tag("open_telemetry")],
         Annotated[InputModelDrivenTelemetry, Tag("model_driven_telemetry")],
         Annotated[InputSqs, Tag("sqs")],
-        Annotated[InputSyslog, Tag("syslog")],
+        Annotated[InputSyslogUnion, Tag("syslog")],
         Annotated[InputFile, Tag("file")],
         Annotated[InputTCP, Tag("tcp")],
         Annotated[InputAppscope, Tag("appscope")],

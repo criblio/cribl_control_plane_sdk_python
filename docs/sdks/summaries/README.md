@@ -41,7 +41,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetSummaryResponse](../../models/getsummaryresponse.md)**
+**[models.CountedDistributedSummary](../../models/counteddistributedsummary.md)**
 
 ### Errors
 

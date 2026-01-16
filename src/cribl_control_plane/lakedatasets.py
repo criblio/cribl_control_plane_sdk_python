@@ -22,7 +22,7 @@ class LakeDatasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.CriblLakeDatasetFormat] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
@@ -39,7 +39,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateCriblLakeDatasetByLakeIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Create a Lake Dataset
 
         Create a new Lake Dataset in the specified Lake.
@@ -125,10 +125,14 @@ class LakeDatasets(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = self.do_request(
             hook_ctx=HookContext(
@@ -147,9 +151,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CreateCriblLakeDatasetByLakeIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -174,7 +176,7 @@ class LakeDatasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.CriblLakeDatasetFormat] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
@@ -191,7 +193,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CreateCriblLakeDatasetByLakeIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Create a Lake Dataset
 
         Create a new Lake Dataset in the specified Lake.
@@ -277,10 +279,14 @@ class LakeDatasets(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
@@ -299,9 +305,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CreateCriblLakeDatasetByLakeIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -328,7 +332,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCriblLakeDatasetByLakeIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""List all Lake Datasets
 
         Get a list of all Lake Datasets in the specified Lake.
@@ -385,10 +389,14 @@ class LakeDatasets(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = self.do_request(
             hook_ctx=HookContext(
@@ -407,9 +415,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetCriblLakeDatasetByLakeIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -436,7 +442,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCriblLakeDatasetByLakeIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""List all Lake Datasets
 
         Get a list of all Lake Datasets in the specified Lake.
@@ -493,10 +499,14 @@ class LakeDatasets(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
@@ -515,9 +525,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetCriblLakeDatasetByLakeIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -539,7 +547,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.DeleteCriblLakeDatasetByLakeIDAndIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Delete a Lake Dataset
 
         Delete the specified Lake Dataset in the specified Lake
@@ -586,10 +594,14 @@ class LakeDatasets(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = self.do_request(
             hook_ctx=HookContext(
@@ -608,9 +620,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.DeleteCriblLakeDatasetByLakeIDAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -632,7 +642,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.DeleteCriblLakeDatasetByLakeIDAndIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Delete a Lake Dataset
 
         Delete the specified Lake Dataset in the specified Lake
@@ -679,10 +689,14 @@ class LakeDatasets(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
@@ -701,9 +715,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.DeleteCriblLakeDatasetByLakeIDAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -725,7 +737,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCriblLakeDatasetByLakeIDAndIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Get a Lake Dataset
 
         Get the specified Lake Dataset in the specified Lake.
@@ -772,10 +784,14 @@ class LakeDatasets(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = self.do_request(
             hook_ctx=HookContext(
@@ -794,9 +810,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetCriblLakeDatasetByLakeIDAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -818,7 +832,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetCriblLakeDatasetByLakeIDAndIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Get a Lake Dataset
 
         Get the specified Lake Dataset in the specified Lake.
@@ -865,10 +879,14 @@ class LakeDatasets(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
@@ -887,9 +905,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.GetCriblLakeDatasetByLakeIDAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -914,7 +930,7 @@ class LakeDatasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.CriblLakeDatasetUpdateFormat] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         id: Optional[str] = None,
         metrics: Optional[
@@ -932,7 +948,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateCriblLakeDatasetByLakeIDAndIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Update a Lake Dataset
 
         Update the specified Lake Dataset in the specified Lake.
@@ -1020,10 +1036,14 @@ class LakeDatasets(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = self.do_request(
             hook_ctx=HookContext(
@@ -1042,9 +1062,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.UpdateCriblLakeDatasetByLakeIDAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -1069,7 +1087,7 @@ class LakeDatasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.CriblLakeDatasetUpdateFormat] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         id: Optional[str] = None,
         metrics: Optional[
@@ -1087,7 +1105,7 @@ class LakeDatasets(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.UpdateCriblLakeDatasetByLakeIDAndIDResponse:
+    ) -> models.CountedCriblLakeDataset:
         r"""Update a Lake Dataset
 
         Update the specified Lake Dataset in the specified Lake.
@@ -1175,10 +1193,14 @@ class LakeDatasets(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
@@ -1197,9 +1219,7 @@ class LakeDatasets(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.UpdateCriblLakeDatasetByLakeIDAndIDResponse, http_res
-            )
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

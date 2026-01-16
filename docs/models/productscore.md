@@ -3,7 +3,8 @@
 
 ## Values
 
-| Name     | Value    |
-| -------- | -------- |
-| `STREAM` | stream   |
-| `EDGE`   | edge     |
+| Name      | Value     |
+| --------- | --------- |
+| `STREAM`  | stream    |
+| `EDGE`    | edge      |
+| `OUTPOST` | outpost   |

@@ -15,7 +15,7 @@ class OutputNetflowType(str, Enum):
 class OutputNetflowHostTypedDict(TypedDict):
     host: str
     r"""Destination host"""
-    port: NotRequired[float]
+    port: float
     r"""Destination port, default is 2055"""
 
 
@@ -23,14 +23,14 @@ class OutputNetflowHost(BaseModel):
     host: str
     r"""Destination host"""
 
-    port: Optional[float] = 2055
+    port: float
     r"""Destination port, default is 2055"""
 
 
 class OutputNetflowTypedDict(TypedDict):
     type: OutputNetflowType
     hosts: List[OutputNetflowHostTypedDict]
-    r"""One or more NetFlow destinations to forward events to"""
+    r"""One or more NetFlow Destinations to forward events to"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -43,14 +43,18 @@ class OutputNetflowTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     dns_resolve_period_sec: NotRequired[float]
     r"""How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every datagram sent will incur a DNS lookup."""
+    enable_ip_spoofing: NotRequired[bool]
+    r"""Send NetFlow traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
     description: NotRequired[str]
+    max_record_size: NotRequired[float]
+    r"""MTU in bytes. The actual maximum NetFlow payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). For example, with the default MTU of 1500, the max payload is 1472 bytes for IPv4. Payloads exceeding this limit will be dropped."""
 
 
 class OutputNetflow(BaseModel):
     type: OutputNetflowType
 
     hosts: List[OutputNetflowHost]
-    r"""One or more NetFlow destinations to forward events to"""
+    r"""One or more NetFlow Destinations to forward events to"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -71,7 +75,17 @@ class OutputNetflow(BaseModel):
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = 0
+    ] = None
     r"""How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every datagram sent will incur a DNS lookup."""
 
+    enable_ip_spoofing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableIpSpoofing")
+    ] = None
+    r"""Send NetFlow traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
+
     description: Optional[str] = None
+
+    max_record_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxRecordSize")
+    ] = None
+    r"""MTU in bytes. The actual maximum NetFlow payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). For example, with the default MTU of 1500, the max payload is 1472 bytes for IPv4. Payloads exceeding this limit will be dropped."""

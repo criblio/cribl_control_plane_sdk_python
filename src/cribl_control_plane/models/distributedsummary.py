@@ -6,7 +6,7 @@ import pydantic
 from typing_extensions import Annotated, TypedDict
 
 
-class DistributedSummaryGroupsTypedDict(TypedDict):
+class GroupsTypedDict(TypedDict):
     count: float
     destinations: float
     packs: float
@@ -16,7 +16,7 @@ class DistributedSummaryGroupsTypedDict(TypedDict):
     sources: float
 
 
-class DistributedSummaryGroups(BaseModel):
+class Groups(BaseModel):
     count: float
 
     destinations: float
@@ -59,11 +59,11 @@ class DistributedSummaryWorkers(BaseModel):
 
 
 class DistributedSummaryTypedDict(TypedDict):
-    groups: DistributedSummaryGroupsTypedDict
+    groups: GroupsTypedDict
     workers: DistributedSummaryWorkersTypedDict
 
 
 class DistributedSummary(BaseModel):
-    groups: DistributedSummaryGroups
+    groups: Groups
 
     workers: DistributedSummaryWorkers

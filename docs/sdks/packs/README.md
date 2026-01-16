@@ -50,13 +50,13 @@ with CriblControlPlane(
                 "delectable-transom.com",
                 "radiant-sightseeing.info",
             ],
-            "technology": [
-                "<value 1>",
-            ],
             "streamtags": [
                 "<value 1>",
                 "<value 2>",
                 "<value 3>",
+            ],
+            "technology": [
+                "<value 1>",
             ],
         },
         "allow_custom_functions": True,
@@ -77,7 +77,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreatePacksResponse](../../models/createpacksresponse.md)**
+**[models.CountedPackInstallInfo](../../models/countedpackinstallinfo.md)**
 
 ### Errors
 
@@ -121,7 +121,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetPacksResponse](../../models/getpacksresponse.md)**
+**[models.CountedPackInfo](../../models/countedpackinfo.md)**
 
 ### Errors
 
@@ -210,7 +210,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeletePacksByIDResponse](../../models/deletepacksbyidresponse.md)**
+**[models.CountedPackUninstallInfo](../../models/countedpackuninstallinfo.md)**
 
 ### Errors
 
@@ -254,7 +254,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetPacksByIDResponse](../../models/getpacksbyidresponse.md)**
+**[models.CountedPackInfo](../../models/countedpackinfo.md)**
 
 ### Errors
 
@@ -302,7 +302,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdatePacksByIDResponse](../../models/updatepacksbyidresponse.md)**
+**[models.CountedPackInfo](../../models/countedpackinfo.md)**
 
 ### Errors
 

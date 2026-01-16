@@ -18,7 +18,7 @@ from cribl_control_plane.models import (
     CloudProvider,
     ConfigGroup,
     ConfigGroupCloud,
-    GroupCreateRequestEstimatedIngestRate,
+    EstimatedIngestRateOptionsConfigGroup,
     ProductsCore,
     SchemeClientOauth,
     Security,
@@ -81,7 +81,7 @@ def replicate_worker_group(
         is_fleet=False,
         is_search=False,
         on_prem=False,
-        estimated_ingest_rate=GroupCreateRequestEstimatedIngestRate.RATE24_MB_PER_SEC,  # Equivalent to 24 MB/s maximum estimated ingest rate with 9 Worker Processes
+        estimated_ingest_rate=EstimatedIngestRateOptionsConfigGroup.RATE24_MB_PER_SEC,  # Equivalent to 24 MB/s maximum estimated ingest rate with 9 Worker Processes
         source_group_id=source_id,
     )
     print(f"✅ Worker Group replicated: {REPLICA_WORKER_GROUP_ID} (cloned from {source_id})")

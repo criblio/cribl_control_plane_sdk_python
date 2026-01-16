@@ -8,11 +8,11 @@ from .signatureversionoptionss3collectorconf import (
     SignatureVersionOptionsS3CollectorConf,
 )
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer
+from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -212,6 +212,46 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "awsAuthenticationMethod",
+                "awsSecret",
+                "outputName",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "region",
+                "path",
+                "partitioningScheme",
+                "extractors",
+                "endpoint",
+                "signatureVersion",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "maxBatchSize",
+                "recurse",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "verifyPermissions",
+                "disableTimeFilter",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class S3AwsAuthenticationMethodManualPartitioningScheme(
@@ -417,6 +457,47 @@ class S3AwsAuthenticationMethodManual(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "awsAuthenticationMethod",
+                "awsApiKey",
+                "awsSecretKey",
+                "outputName",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "region",
+                "path",
+                "partitioningScheme",
+                "extractors",
+                "endpoint",
+                "signatureVersion",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "maxBatchSize",
+                "recurse",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "verifyPermissions",
+                "disableTimeFilter",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class S3AwsAuthenticationMethodAutoPartitioningScheme(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -608,6 +689,45 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "awsAuthenticationMethod",
+                "outputName",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "region",
+                "path",
+                "partitioningScheme",
+                "extractors",
+                "endpoint",
+                "signatureVersion",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "maxBatchSize",
+                "recurse",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "verifyPermissions",
+                "disableTimeFilter",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class S3PartitioningSchemeNonePartitioningScheme(
@@ -801,6 +921,45 @@ class S3PartitioningSchemeNone(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "partitioningScheme",
+                "recurse",
+                "outputName",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "region",
+                "path",
+                "extractors",
+                "awsAuthenticationMethod",
+                "endpoint",
+                "signatureVersion",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "maxBatchSize",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "verifyPermissions",
+                "disableTimeFilter",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class S3PartitioningSchemeDdssPartitioningScheme(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -992,6 +1151,45 @@ class S3PartitioningSchemeDdss(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "partitioningScheme",
+                "outputName",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "region",
+                "path",
+                "extractors",
+                "awsAuthenticationMethod",
+                "endpoint",
+                "signatureVersion",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "maxBatchSize",
+                "recurse",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "verifyPermissions",
+                "disableTimeFilter",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 S3CollectorConfTypedDict = TypeAliasType(

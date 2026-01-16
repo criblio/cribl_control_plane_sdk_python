@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 from .diffline import DiffLine, DiffLineTypedDict
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
+from pydantic import model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -30,6 +31,22 @@ class Block(BaseModel):
     old_start_line2: Annotated[
         Optional[float], pydantic.Field(alias="oldStartLine2")
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["oldStartLine2"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 ChecksumBeforeTypedDict = TypeAliasType(
@@ -128,3 +145,37 @@ class DiffFiles(BaseModel):
     unchanged_percentage: Annotated[
         Optional[float], pydantic.Field(alias="unchangedPercentage")
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "changedPercentage",
+                "checksumAfter",
+                "checksumBefore",
+                "deletedFileMode",
+                "isBinary",
+                "isCopy",
+                "isDeleted",
+                "isNew",
+                "isRename",
+                "isTooBig",
+                "mode",
+                "newFileMode",
+                "newMode",
+                "oldMode",
+                "unchangedPercentage",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

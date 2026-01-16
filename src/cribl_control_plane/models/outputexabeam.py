@@ -4,6 +4,7 @@ from __future__ import annotations
 from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
 from .objectacloptions1 import ObjectACLOptions1
+from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .signatureversionoptions4 import SignatureVersionOptions4
 from .storageclassoptions1 import StorageClassOptions1
 from cribl_control_plane import models
@@ -69,6 +70,7 @@ class OutputExabeamTypedDict(TypedDict):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
     on_disk_full_backpressure: NotRequired[DiskSpaceProtectionOptions]
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     max_file_size_mb: NotRequired[float]
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
     encoded_configuration: NotRequired[str]
@@ -195,6 +197,10 @@ class OutputExabeam(BaseModel):
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")

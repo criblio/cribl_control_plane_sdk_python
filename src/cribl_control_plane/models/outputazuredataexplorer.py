@@ -22,6 +22,7 @@ from .microsoftentraidauthenticationendpointoptionssasl import (
 from .modeoptions import ModeOptions
 from .parquetversionoptions import ParquetVersionOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -252,6 +253,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_immediately: NotRequired[bool]
@@ -542,6 +544,10 @@ class OutputAzureDataExplorer(BaseModel):
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
     ] = None
     r"""Add the Output ID value to staging location"""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""

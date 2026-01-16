@@ -94,6 +94,7 @@ from .recorddataformatoptions import RecordDataFormatOptions
 from .recorddataformatoptions1 import RecordDataFormatOptions1
 from .regionoptions import RegionOptions
 from .requestformatoptions import RequestFormatOptions
+from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .saslmechanismoptionssasl1 import SaslMechanismOptionsSasl1
 from .serversideencryptionforuploadedobjectsoptions import (
     ServerSideEncryptionForUploadedObjectsOptions,
@@ -218,6 +219,7 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     max_file_open_time_sec: NotRequired[float]
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
     max_file_idle_time_sec: NotRequired[float]
@@ -411,6 +413,10 @@ class CreateOutputOutputCloudflareR2(BaseModel):
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
     ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
@@ -1075,6 +1081,7 @@ class CreateOutputOutputDatabricksTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     description: NotRequired[str]
@@ -1239,6 +1246,10 @@ class CreateOutputOutputDatabricks(BaseModel):
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
     ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
@@ -4145,6 +4156,7 @@ class CreateOutputOutputCriblLakeTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     max_file_open_time_sec: NotRequired[float]
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
     max_file_idle_time_sec: NotRequired[float]
@@ -4320,6 +4332,10 @@ class CreateOutputOutputCriblLake(BaseModel):
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
     ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
@@ -4531,6 +4547,7 @@ class CreateOutputOutputSecurityLakeTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     max_file_open_time_sec: NotRequired[float]
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
     max_file_idle_time_sec: NotRequired[float]
@@ -4730,6 +4747,10 @@ class CreateOutputOutputSecurityLake(BaseModel):
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
     ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
@@ -4999,6 +5020,7 @@ class CreateOutputOutputDlS3TypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     max_file_open_time_sec: NotRequired[float]
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
     max_file_idle_time_sec: NotRequired[float]
@@ -5215,6 +5237,10 @@ class CreateOutputOutputDlS3(BaseModel):
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
     ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
@@ -12078,6 +12104,7 @@ class CreateOutputOutputMinioTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     max_file_open_time_sec: NotRequired[float]
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
     max_file_idle_time_sec: NotRequired[float]
@@ -12275,6 +12302,10 @@ class CreateOutputOutputMinio(BaseModel):
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
     ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
@@ -15698,6 +15729,7 @@ class CreateOutputOutputExabeamTypedDict(TypedDict):
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
     on_disk_full_backpressure: NotRequired[DiskSpaceProtectionOptions]
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     max_file_size_mb: NotRequired[float]
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
     encoded_configuration: NotRequired[str]
@@ -15824,6 +15856,10 @@ class CreateOutputOutputExabeam(BaseModel):
         pydantic.Field(alias="onDiskFullBackpressure"),
     ] = None
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
@@ -16798,6 +16834,7 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     description: NotRequired[str]
     compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -16989,6 +17026,10 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
     ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     description: Optional[str] = None
 
@@ -19079,6 +19120,7 @@ class CreateOutputOutputAzureDataExplorerTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_immediately: NotRequired[bool]
@@ -19369,6 +19411,10 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
     ] = None
     r"""Add the Output ID value to staging location"""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
@@ -19714,6 +19760,7 @@ class CreateOutputOutputAzureBlobTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     auth_type: NotRequired[AuthenticationMethodOptions]
     storage_class: NotRequired[CreateOutputBlobAccessTier]
     description: NotRequired[str]
@@ -19887,6 +19934,10 @@ class CreateOutputOutputAzureBlob(BaseModel):
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
     ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
@@ -20177,6 +20228,7 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     max_file_open_time_sec: NotRequired[float]
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
     max_file_idle_time_sec: NotRequired[float]
@@ -20396,6 +20448,10 @@ class CreateOutputOutputS3(BaseModel):
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
     ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
@@ -20675,6 +20731,7 @@ class CreateOutputOutputFilesystemTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     description: NotRequired[str]
     compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -20816,6 +20873,10 @@ class CreateOutputOutputFilesystem(BaseModel):
         Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
     ] = None
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
 
     description: Optional[str] = None
 
@@ -24719,21 +24780,21 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputNetflowTypedDict,
         CreateOutputOutputDiskSpoolTypedDict,
         CreateOutputOutputRingTypedDict,
-        CreateOutputOutputStatsdExtTypedDict,
-        CreateOutputOutputStatsdTypedDict,
         CreateOutputOutputGraphiteTypedDict,
+        CreateOutputOutputStatsdTypedDict,
+        CreateOutputOutputStatsdExtTypedDict,
         CreateOutputOutputGooglePubsubTypedDict,
         CreateOutputOutputWizHecTypedDict,
         CreateOutputOutputSplunkTypedDict,
         CreateOutputOutputSnsTypedDict,
         CreateOutputOutputCriblTCPTypedDict,
-        CreateOutputOutputExabeamTypedDict,
         CreateOutputOutputAzureEventhubTypedDict,
         CreateOutputOutputCloudwatchTypedDict,
         CreateOutputOutputMicrosoftFabricTypedDict,
         CreateOutputOutputHoneycombTypedDict,
         CreateOutputOutputSignalfxTypedDict,
         CreateOutputOutputWavefrontTypedDict,
+        CreateOutputOutputExabeamTypedDict,
         CreateOutputOutputElasticCloudTypedDict,
         CreateOutputOutputSumoLogicTypedDict,
         CreateOutputOutputTcpjsonTypedDict,
@@ -24747,9 +24808,9 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputSplunkLbTypedDict,
         CreateOutputOutputSqsTypedDict,
         CreateOutputOutputSyslogTypedDict,
-        CreateOutputOutputFilesystemTypedDict,
         CreateOutputOutputNewrelicTypedDict,
         CreateOutputOutputXsiamTypedDict,
+        CreateOutputOutputFilesystemTypedDict,
         CreateOutputOutputCriblSearchEngineTypedDict,
         CreateOutputOutputCriblHTTPTypedDict,
         CreateOutputOutputDatasetTypedDict,
@@ -24763,17 +24824,17 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputElasticTypedDict,
         CreateOutputOutputGoogleChronicleTypedDict,
         CreateOutputOutputDatadogTypedDict,
-        CreateOutputOutputDatabricksTypedDict,
         CreateOutputOutputPrometheusTypedDict,
+        CreateOutputOutputDatabricksTypedDict,
         CreateOutputOutputMskTypedDict,
         CreateOutputOutputSentinelOneAiSiemTypedDict,
         CreateOutputOutputSentinelTypedDict,
-        CreateOutputOutputGoogleCloudStorageTypedDict,
         CreateOutputOutputInfluxdbTypedDict,
+        CreateOutputOutputGoogleCloudStorageTypedDict,
         CreateOutputOutputAzureBlobTypedDict,
         CreateOutputOutputMinioTypedDict,
-        CreateOutputOutputCloudflareR2TypedDict,
         CreateOutputOutputOpenTelemetryTypedDict,
+        CreateOutputOutputCloudflareR2TypedDict,
         CreateOutputOutputSecurityLakeTypedDict,
         CreateOutputOutputClickHouseTypedDict,
         CreateOutputOutputDlS3TypedDict,

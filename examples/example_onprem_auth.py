@@ -52,7 +52,7 @@ async def main():
         response = client.auth.tokens.get(
             username=ONPREM_USERNAME, password=ONPREM_PASSWORD
         )
-        token = response.token
+        token = response.result.token
         _token_expires_at = _get_jwt_exp(token)
         _cached_token = token
         return Security(bearer_auth=token)
@@ -74,7 +74,5 @@ if __name__ == "__main__":
         status_code = getattr(error, "status_code", None)
         if status_code == 401:
             print("⚠️ Authentication failed! Check your USERNAME and PASSWORD.")
-        elif status_code == 429:
-            print("⚠️ Uh oh, you've reached the rate limit! Try again in a few seconds.")
         else:
             print(f"❌ Something went wrong: {error}")

@@ -1048,8 +1048,6 @@ if TYPE_CHECKING:
         URLSplunkHecTypedDict,
         URLWebhook,
         URLWebhookTypedDict,
-        URLWizHec,
-        URLWizHecTypedDict,
         URLXsiam,
         URLXsiamTypedDict,
     )
@@ -1379,6 +1377,10 @@ if TYPE_CHECKING:
         FunctionConfSchemaSidlookupFieldTypedDict,
         FunctionConfSchemaSidlookupTypedDict,
     )
+    from .functionconfschemasignalfilter import (
+        FunctionConfSchemaSignalFilter,
+        FunctionConfSchemaSignalFilterTypedDict,
+    )
     from .functionconfschemasnmptrapserialize import (
         FunctionConfSchemaSnmpTrapSerialize,
         FunctionConfSchemaSnmpTrapSerializeTypedDict,
@@ -1571,6 +1573,11 @@ if TYPE_CHECKING:
         FunctionSidlookup,
         FunctionSidlookupID,
         FunctionSidlookupTypedDict,
+    )
+    from .functionsignalfilter import (
+        FunctionSignalFilter,
+        FunctionSignalFilterID,
+        FunctionSignalFilterTypedDict,
     )
     from .functionsnmptrapserialize import (
         FunctionSnmpTrapSerialize,
@@ -2951,13 +2958,7 @@ if TYPE_CHECKING:
         OutputWebhookURL,
         OutputWebhookURLTypedDict,
     )
-    from .outputwizhec import (
-        OutputWizHec,
-        OutputWizHecType,
-        OutputWizHecTypedDict,
-        OutputWizHecURL,
-        OutputWizHecURLTypedDict,
-    )
+    from .outputwizhec import OutputWizHec, OutputWizHecType, OutputWizHecTypedDict
     from .outputxsiam import (
         OutputXsiam,
         OutputXsiamAuthenticationMethod,
@@ -3379,6 +3380,11 @@ if TYPE_CHECKING:
         PipelineFunctionSidlookup,
         PipelineFunctionSidlookupID,
         PipelineFunctionSidlookupTypedDict,
+    )
+    from .pipelinefunctionsignalfilter import (
+        PipelineFunctionSignalFilter,
+        PipelineFunctionSignalFilterID,
+        PipelineFunctionSignalFilterTypedDict,
     )
     from .pipelinefunctionsnmptrapserialize import (
         PipelineFunctionSnmpTrapSerialize,
@@ -5132,6 +5138,8 @@ __all__ = [
     "FunctionConfSchemaSidlookupField",
     "FunctionConfSchemaSidlookupFieldTypedDict",
     "FunctionConfSchemaSidlookupTypedDict",
+    "FunctionConfSchemaSignalFilter",
+    "FunctionConfSchemaSignalFilterTypedDict",
     "FunctionConfSchemaSnmpTrapSerialize",
     "FunctionConfSchemaSnmpTrapSerializeTypedDict",
     "FunctionConfSchemaSnmpTrapSerializeV3User",
@@ -5278,6 +5286,9 @@ __all__ = [
     "FunctionSidlookup",
     "FunctionSidlookupID",
     "FunctionSidlookupTypedDict",
+    "FunctionSignalFilter",
+    "FunctionSignalFilterID",
+    "FunctionSignalFilterTypedDict",
     "FunctionSnmpTrapSerialize",
     "FunctionSnmpTrapSerializeID",
     "FunctionSnmpTrapSerializeTypedDict",
@@ -6379,8 +6390,6 @@ __all__ = [
     "OutputWizHec",
     "OutputWizHecType",
     "OutputWizHecTypedDict",
-    "OutputWizHecURL",
-    "OutputWizHecURLTypedDict",
     "OutputXsiam",
     "OutputXsiamAuthenticationMethod",
     "OutputXsiamPqControls",
@@ -6650,6 +6659,9 @@ __all__ = [
     "PipelineFunctionSidlookup",
     "PipelineFunctionSidlookupID",
     "PipelineFunctionSidlookupTypedDict",
+    "PipelineFunctionSignalFilter",
+    "PipelineFunctionSignalFilterID",
+    "PipelineFunctionSignalFilterTypedDict",
     "PipelineFunctionSnmpTrapSerialize",
     "PipelineFunctionSnmpTrapSerializeID",
     "PipelineFunctionSnmpTrapSerializeTypedDict",
@@ -7354,8 +7366,6 @@ __all__ = [
     "URLSplunkHecTypedDict",
     "URLWebhook",
     "URLWebhookTypedDict",
-    "URLWizHec",
-    "URLWizHecTypedDict",
     "URLXsiam",
     "URLXsiamTypedDict",
     "UnionConfiguration",
@@ -8390,8 +8400,6 @@ _dynamic_imports: dict[str, str] = {
     "URLSplunkHecTypedDict": ".createoutputop",
     "URLWebhook": ".createoutputop",
     "URLWebhookTypedDict": ".createoutputop",
-    "URLWizHec": ".createoutputop",
-    "URLWizHecTypedDict": ".createoutputop",
     "URLXsiam": ".createoutputop",
     "URLXsiamTypedDict": ".createoutputop",
     "CreateOutputTestByIDRequest": ".createoutputtestbyidop",
@@ -8614,6 +8622,8 @@ _dynamic_imports: dict[str, str] = {
     "FunctionConfSchemaSidlookupField": ".functionconfschemasidlookup",
     "FunctionConfSchemaSidlookupFieldTypedDict": ".functionconfschemasidlookup",
     "FunctionConfSchemaSidlookupTypedDict": ".functionconfschemasidlookup",
+    "FunctionConfSchemaSignalFilter": ".functionconfschemasignalfilter",
+    "FunctionConfSchemaSignalFilterTypedDict": ".functionconfschemasignalfilter",
     "FunctionConfSchemaSnmpTrapSerialize": ".functionconfschemasnmptrapserialize",
     "FunctionConfSchemaSnmpTrapSerializeTypedDict": ".functionconfschemasnmptrapserialize",
     "FunctionConfSchemaSnmpTrapSerializeV3User": ".functionconfschemasnmptrapserialize",
@@ -8760,6 +8770,9 @@ _dynamic_imports: dict[str, str] = {
     "FunctionSidlookup": ".functionsidlookup",
     "FunctionSidlookupID": ".functionsidlookup",
     "FunctionSidlookupTypedDict": ".functionsidlookup",
+    "FunctionSignalFilter": ".functionsignalfilter",
+    "FunctionSignalFilterID": ".functionsignalfilter",
+    "FunctionSignalFilterTypedDict": ".functionsignalfilter",
     "FunctionSnmpTrapSerialize": ".functionsnmptrapserialize",
     "FunctionSnmpTrapSerializeID": ".functionsnmptrapserialize",
     "FunctionSnmpTrapSerializeTypedDict": ".functionsnmptrapserialize",
@@ -9917,8 +9930,6 @@ _dynamic_imports: dict[str, str] = {
     "OutputWizHec": ".outputwizhec",
     "OutputWizHecType": ".outputwizhec",
     "OutputWizHecTypedDict": ".outputwizhec",
-    "OutputWizHecURL": ".outputwizhec",
-    "OutputWizHecURLTypedDict": ".outputwizhec",
     "OutputXsiam": ".outputxsiam",
     "OutputXsiamAuthenticationMethod": ".outputxsiam",
     "OutputXsiamPqControls": ".outputxsiam",
@@ -10221,6 +10232,9 @@ _dynamic_imports: dict[str, str] = {
     "PipelineFunctionSidlookup": ".pipelinefunctionsidlookup",
     "PipelineFunctionSidlookupID": ".pipelinefunctionsidlookup",
     "PipelineFunctionSidlookupTypedDict": ".pipelinefunctionsidlookup",
+    "PipelineFunctionSignalFilter": ".pipelinefunctionsignalfilter",
+    "PipelineFunctionSignalFilterID": ".pipelinefunctionsignalfilter",
+    "PipelineFunctionSignalFilterTypedDict": ".pipelinefunctionsignalfilter",
     "PipelineFunctionSnmpTrapSerialize": ".pipelinefunctionsnmptrapserialize",
     "PipelineFunctionSnmpTrapSerializeID": ".pipelinefunctionsnmptrapserialize",
     "PipelineFunctionSnmpTrapSerializeTypedDict": ".pipelinefunctionsnmptrapserialize",

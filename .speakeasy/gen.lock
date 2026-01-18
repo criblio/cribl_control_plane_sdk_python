@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 7fffd29703cb2523043270a2d6ce3221
-  docVersion: 4.16.0-alpha.1768518246968-56b63ce7
+  docChecksum: ad5635bc500c75a9a09ba5e90ea2d36e
+  docVersion: 4.17.0-alpha.1768691073650-d1087de6
   speakeasyVersion: 1.685.0
   generationVersion: 2.794.1
-  releaseVersion: 0.5.0b25
-  configChecksum: 57ada0922ee6f99c0e241cc06b92630d
+  releaseVersion: 0.5.0b26
+  configChecksum: 69eb2f7d8679948ed973d0f5c42f647f
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 18631116-7e29-40e7-934d-421643033922
-  pristine_commit_hash: 1c745ca0bf2b12cb85ed9d6c744f090f3deca685
-  pristine_tree_hash: 800f14a852771b9b8d1273052f2310d8d8e4722c
+  generation_id: f83c9d70-ad5d-4e1a-90bf-5c69b94cc8d5
+  pristine_commit_hash: 5e3eda5e85f90e2efe3a47bd6365d5aa9553541c
+  pristine_tree_hash: f3eb9c03db0d68489e671cb8ea82b056f568ae01
 features:
   python:
     additionalDependencies: 1.0.0
@@ -634,6 +634,10 @@ trackedFiles:
     id: 6bd413f9b941
     last_write_checksum: sha1:07c58f56e63e9cb7ee675c9a907ce4846879cff7
     pristine_git_object: e8836c70e389bc96b166c4f42130f6340320eb1c
+  docs/models/counteddatabaseconnectionconfig.md:
+    id: 8a7666ff0f13
+    last_write_checksum: sha1:07b47ca204a5e9d69476b3259794e04971819657
+    pristine_git_object: 35aa35cdb33ac1896e1e4fef5b1e34244395ea74
   docs/models/counteddistributedsummary.md:
     id: 75c410ab1d94
     last_write_checksum: sha1:a750cd3b59856470dbae2a745c9b1bb41f132c4c
@@ -1912,8 +1916,8 @@ trackedFiles:
     pristine_git_object: 500b04dd627192a488fab082229b4f89eb7cbe7f
   docs/models/createoutputoutputwizhec.md:
     id: ba48fd6bb3e7
-    last_write_checksum: sha1:b6f08a5d54d0ac52660b3ac3699ab1e95756ca6b
-    pristine_git_object: 3bfe9b5b067a0bae559cd2d217a786a362f90ed5
+    last_write_checksum: sha1:341c60d7eb8375d6c8e49defe7a0316ffed4378f
+    pristine_git_object: d1de38a556b4ecfa55b7984fe0c10cb96557945f
   docs/models/createoutputoutputxsiam.md:
     id: a974b174772b
     last_write_checksum: sha1:1351a85c4a5b764e4e211863147a14f274ffef05
@@ -2326,6 +2330,14 @@ trackedFiles:
     id: eabf07bf9864
     last_write_checksum: sha1:9056cbe1e1c4b203edf9f0dfc2cca49de7f23f52
     pristine_git_object: fd11b7492e91ce74aeda223f82cf09838892752e
+  docs/models/databaseconnectionconfig.md:
+    id: 5cd25395d120
+    last_write_checksum: sha1:ba57a49bb102efa717f2e71a16bc93a97f76890a
+    pristine_git_object: bcdd4ca7321a1f51096fec17cf1e296bd953fed1
+  docs/models/databaseconnectiontype.md:
+    id: 7545a6ba8134
+    last_write_checksum: sha1:e2a50230bb203462e977897fef85ace93cad9c4e
+    pristine_git_object: a31c7a3577ffd4c39e68bada8a69bd084971c517
   docs/models/datacompressionformatoptionspersistence.md:
     id: 2bbcbd9d303a
     last_write_checksum: sha1:e1c112449089a71f7df00c8b8787de857486e4a9
@@ -2374,6 +2386,10 @@ trackedFiles:
     id: fb2fb9d18aa0
     last_write_checksum: sha1:d99c172fa9a19b3d7d16bd528ec49b0bb842ee45
     pristine_git_object: 173a1366154188e5f90902f01f5d92159596bedf
+  docs/models/deletedatabaseconnectionconfigbyidrequest.md:
+    id: 10582f460dfe
+    last_write_checksum: sha1:f8cef1b949962bdeadfb0cbdb3e1e27fe73411aa
+    pristine_git_object: 9fabd04fbeb6d944a19c15e08d2e1d6d5c2ffe27
   docs/models/deleteinputbyidrequest.md:
     id: 21b5754ebc6d
     last_write_checksum: sha1:5ef1ab46792d7a31f5871ff0619804d7a6c0c905
@@ -2850,6 +2866,10 @@ trackedFiles:
     id: b6dc7e9931fd
     last_write_checksum: sha1:01734097bfe435679bc9e496e45e80929c85d07a
     pristine_git_object: 1f82dc940f3bf8a4cd871debfaae23a64cda54df
+  docs/models/functionconfschemasignalfilter.md:
+    id: a15f361215b6
+    last_write_checksum: sha1:80f08670b8a1b2513b094c6ceff7d5078a1a72e0
+    pristine_git_object: d0b4f1142404ad737228d6e2ce9be42c5422a81d
   docs/models/functionconfschemasnmptrapserialize.md:
     id: 357c94daa165
     last_write_checksum: sha1:b35d2b567cb83ebc9d8bdd23d29ffa10fe3b8215
@@ -3176,8 +3196,8 @@ trackedFiles:
     pristine_git_object: b78c5a9b4fbbb5775f041c812a2a2f56394df5f6
   docs/models/functionresponse.md:
     id: d96ffd7d2c6e
-    last_write_checksum: sha1:ff457e2edfceedb514a820b783f8d99d3c34249b
-    pristine_git_object: e82e5b34809d98a12e0e928d8b047da28915209a
+    last_write_checksum: sha1:c47b01a9f88948a8e7f8d4550e868dfb33413742
+    pristine_git_object: 92da3d42381b79cfbbd0c302eb7e1d10e4200d5e
   docs/models/functionrollupmetrics.md:
     id: 29db8a39cff1
     last_write_checksum: sha1:7f15fd7bd62f2a4f7faf41fbe1a15f592aa7c1b1
@@ -3234,6 +3254,14 @@ trackedFiles:
     id: 6a6cd5a39fd5
     last_write_checksum: sha1:dc0484da1eed97b68f82f815ab1de72293d4064d
     pristine_git_object: 311ca99ccf141f10e12432f9c2530801182375a0
+  docs/models/functionsignalfilter.md:
+    id: b0f24b95f5d1
+    last_write_checksum: sha1:cb1d70703e41f39ec1b3635e85d2323264922c4c
+    pristine_git_object: 619e7126a8aaf97fb7bc0955d0a5bd2ca408058a
+  docs/models/functionsignalfilterid.md:
+    id: ba7d10376975
+    last_write_checksum: sha1:d79b6f6954ea2a9ae70ea15a0b8105e2581011c1
+    pristine_git_object: d32c084b1106e5a6d0b2d3f62378f2a326ca5c08
   docs/models/functionsnmptrapserialize.md:
     id: 144d271afd43
     last_write_checksum: sha1:76e09c0b8901bddfe0cce821f959fb2a3ddde003
@@ -3342,6 +3370,10 @@ trackedFiles:
     id: ee28c307ffd4
     last_write_checksum: sha1:da4fdb4c2c88c28c184aece55539c429f0ec9f78
     pristine_git_object: e03ed488b833b796b0041d2268c36f8c3f4c28a8
+  docs/models/getdatabaseconnectionconfigbyidrequest.md:
+    id: 86c7f91d6e3a
+    last_write_checksum: sha1:82e66665fd77d3c55fc49f24dec4982195f650c1
+    pristine_git_object: 3b0af776a65600d948e1b963343d372e73f931d1
   docs/models/getfunctionsbyidrequest.md:
     id: 94c36486739d
     last_write_checksum: sha1:3af61124effd7f3c4290e5ca414a9443894b123a
@@ -5992,16 +6024,12 @@ trackedFiles:
     pristine_git_object: bf60579f9777cbe8b1a5ec80d2e400ada3f270c9
   docs/models/outputwizhec.md:
     id: 199fdc64c53d
-    last_write_checksum: sha1:e9506075432a0be3d12c8cfc151b69a2b5110dfb
-    pristine_git_object: 59a3223305b859997f8c714ccab2dc9f543fc1e9
+    last_write_checksum: sha1:adc780e86c70c001fb8165829ba322bb0d0341b8
+    pristine_git_object: 4b83a053d7f0bfda9d2557d39ca58c7127b91b54
   docs/models/outputwizhectype.md:
     id: 967aec60be76
     last_write_checksum: sha1:6bd47f69e3eeea5903d3233889a981522ea990b2
     pristine_git_object: 97558dfe315a833430172f4827d67a2c96dd3c01
-  docs/models/outputwizhecurl.md:
-    id: 74f495cfd8de
-    last_write_checksum: sha1:e67d8e7c8906cdbf6c7ce7791fdc4839c3f57e1b
-    pristine_git_object: 8ffbdc61ed583c75cb8430652d929026924e1aec
   docs/models/outputxsiam.md:
     id: 9bad986249b3
     last_write_checksum: sha1:5bbadec6ad555e715875fff1aaab76d285de0807
@@ -6196,12 +6224,12 @@ trackedFiles:
     pristine_git_object: e0d738e6e65c293f4f0b6266e665cf2eeb7e920c
   docs/models/pipelinefunctionconf.md:
     id: 52478e5b129d
-    last_write_checksum: sha1:919672588bc062382f25666dd6ac9a64e370a571
-    pristine_git_object: c219249c53d77723499cf87fb9d2f6602086af02
+    last_write_checksum: sha1:f97a78ba3bc8b4537433fe3efc5c300ba61c1d2a
+    pristine_git_object: df32408d98f4232f79b96c693548aa11c5a1ed09
   docs/models/pipelinefunctionconfinput.md:
     id: 8775804bf22e
-    last_write_checksum: sha1:708f38d6d1ce873450de404024164bcca56e5b23
-    pristine_git_object: 445b1b51afca1ea6068ff874315b0e2b89ea3b1b
+    last_write_checksum: sha1:1cc3671300ef3a86fc21b1dd246672e9982a3147
+    pristine_git_object: 83085d73aabb8adbb4133685c94be1cd2691f5e9
   docs/models/pipelinefunctiondistinct.md:
     id: ee40702875ea
     last_write_checksum: sha1:ab81fd070baf3e70e0d97ed7c8df10191de3f773
@@ -6666,6 +6694,14 @@ trackedFiles:
     id: 0e776cba4c84
     last_write_checksum: sha1:9b290b543231e0c0d10ca4b36c78a2dd01ed5543
     pristine_git_object: 55ec1091eaf7bc11e0cb0df7b147a13ef9be0b6e
+  docs/models/pipelinefunctionsignalfilter.md:
+    id: 01497ae60677
+    last_write_checksum: sha1:da8a4a5e46f4b723f3ac9b51a707d9279f00c2d0
+    pristine_git_object: 1051bfd266229db190e9c27e5b43b0285b32d174
+  docs/models/pipelinefunctionsignalfilterid.md:
+    id: e9562fc513a4
+    last_write_checksum: sha1:6da16b7de945553d5a0b194d6955c9d8a7b7252b
+    pristine_git_object: a5125c37d4b584f02211e2a8b6457f1eb30963d2
   docs/models/pipelinefunctionsnmptrapserialize.md:
     id: 7f0fdc3d3828
     last_write_checksum: sha1:17ccaef3457247f9ed8c95ca73b910d0995e08b7
@@ -7728,8 +7764,8 @@ trackedFiles:
     pristine_git_object: b544c0672932455667932931aee261eaaff6776b
   docs/models/routeconf.md:
     id: 6b5e005c057d
-    last_write_checksum: sha1:01790fb8aae4fa3ae248595381c7d7e8abe09cbc
-    pristine_git_object: 444bad90daf9934928988ff241452474ebd5382a
+    last_write_checksum: sha1:ddaecbaef538ecaab823133733d9566156332a85
+    pristine_git_object: 1540ca6f578634274baf15cbe37ef7d1b49f1eb4
   docs/models/routes.md:
     id: 7b56d6da5562
     last_write_checksum: sha1:80e36eee47239b41aeeb10a591e1b1948bf27bb3
@@ -8374,6 +8410,10 @@ trackedFiles:
     id: 1913cc55ccf5
     last_write_checksum: sha1:5625d460b4c5689c6b3fac91595ada451fdf3296
     pristine_git_object: d6e1d4195903097969d5139d0e33cc62fb807b03
+  docs/models/updatedatabaseconnectionconfigbyidrequest.md:
+    id: 82baca131860
+    last_write_checksum: sha1:16ec1dc56049c52493a6dd65d60c080128cefced
+    pristine_git_object: 8fcf4fbde370b0786ff0f1ba72a14e55bdc06d67
   docs/models/updatehectokenrequest.md:
     id: 67e5f25a434a
     last_write_checksum: sha1:8794cc9f14545811de813f2dedd0028d697af47f
@@ -8450,10 +8490,6 @@ trackedFiles:
     id: 2abe58e7dcbe
     last_write_checksum: sha1:f338d9328bc8a332e8a1de352f43502790749066
     pristine_git_object: 19669c77e2f6d168c23f8c5b086d5613c8c2df74
-  docs/models/urlwizhec.md:
-    id: dab4fb51b82a
-    last_write_checksum: sha1:c7d2b04990ff1463d0b38f6d76d6d4b4b580320c
-    pristine_git_object: 67408be0e501e92afa9f262e9c920ce110027ec6
   docs/models/urlxsiam.md:
     id: 3d4079e51751
     last_write_checksum: sha1:9b2465c4edeceb77030e997944af2cf41aa5c7e8
@@ -8514,6 +8550,10 @@ trackedFiles:
     id: 18ac8b824441
     last_write_checksum: sha1:3ed94df3d972736ffa353acacf6d406753f0d7db
     pristine_git_object: adf95e205ba2721bb6a1b389c98004fc94b35574
+  docs/sdks/databaseconnections/README.md:
+    id: ef33daf326f1
+    last_write_checksum: sha1:6f8352df2e7ca8fc0235166563d06185d2221abe
+    pristine_git_object: 481121c0ac6f7c4a5819b3ecbcf7007b59e8577d
   docs/sdks/destinations/README.md:
     id: e83d288899aa
     last_write_checksum: sha1:c4670a7bc3b6d8976b3b61b1574f59288fee4842
@@ -8560,8 +8600,8 @@ trackedFiles:
     pristine_git_object: 134cde206e1123617da7f5e82cdd8b0b96f54f9e
   docs/sdks/routessdk/README.md:
     id: 7c151891b0a4
-    last_write_checksum: sha1:a53b690f3c18b4b74059cc0f80f1b0a24acd7921
-    pristine_git_object: d3c3ab357b68d78775c92a83216f23a88cc65631
+    last_write_checksum: sha1:630cdf1a6113d8a38e3ed80eaccbd22b0fb3315a
+    pristine_git_object: 35e185e0339cde3a84126841ff0bdc1811ef1656
   docs/sdks/samples/README.md:
     id: 2b3e67e9f9a5
     last_write_checksum: sha1:a53acb0d2735404448c545e76abe3803bd43b93d
@@ -8604,8 +8644,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:369150a3ce3f7bf5154280524c7689d4b64253d0
-    pristine_git_object: e5c91eb832f03df72890cdd84cc2ea117d8fa111
+    last_write_checksum: sha1:b259f04d953fd3781a3fd49c7502605c388c1766
+    pristine_git_object: 8fc5817cb954f9bbcb7583c09827966311b1f440
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -8636,8 +8676,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:16b7c718151edcff4348fb7b3609a7b2d2aa3e9f
-    pristine_git_object: 78946012f9c7e16ac4ff803b1b203da2c6c15015
+    last_write_checksum: sha1:51282ec837016d91a477890d2060456c735715b5
+    pristine_git_object: 1117d580b9f25ade796eb24b723ed91b42aaefcb
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -8670,6 +8710,10 @@ trackedFiles:
     id: e77153ef9ff7
     last_write_checksum: sha1:9baa0637aabd46aec0ff371ed4634478df5935f1
     pristine_git_object: 36dafc3c2168eef8ff9997969610c9678a1108b4
+  src/cribl_control_plane/databaseconnections.py:
+    id: 96bb56ae9234
+    last_write_checksum: sha1:56831e3bab05675f85d8939f242e96d84eeb4dff
+    pristine_git_object: bac098fb9b15103313af70950d7d619545cb961a
   src/cribl_control_plane/destinations.py:
     id: 36ffc53f2f7d
     last_write_checksum: sha1:6838a5c487ceb1b0f9e99e1cb5c8cccf35394bd8
@@ -8736,8 +8780,8 @@ trackedFiles:
     pristine_git_object: c0d118580fd3166b17ca06888733605534e83905
   src/cribl_control_plane/models/__init__.py:
     id: 558fbe1bf6ca
-    last_write_checksum: sha1:c5268cb7ae588773dddb568e58d512aa4cb90096
-    pristine_git_object: d1b379735c075ba2e20c1d9517133b2f4da1e696
+    last_write_checksum: sha1:c6e404df47d1afccdb7d104a714008e3cc295833
+    pristine_git_object: 5b1316c5eb1c031e29652395d98a822fc9ce57fa
   src/cribl_control_plane/models/acknowledgmentsoptions.py:
     id: 2537877f09eb
     last_write_checksum: sha1:4d96487823456aeba81ac18813b05570968697e3
@@ -8994,6 +9038,10 @@ trackedFiles:
     id: 50d88c37bc12
     last_write_checksum: sha1:fc711bd9d48a657b690dbd4ea321176d90ad4cd5
     pristine_git_object: 789bca1272cf384375eaa9f3bbaf18fac7f63c60
+  src/cribl_control_plane/models/counteddatabaseconnectionconfig.py:
+    id: 61f7367beb04
+    last_write_checksum: sha1:a99fefb759ef7c7b39d87c7d4cfa2d6d832a2278
+    pristine_git_object: 7300665d28f11cc2fd75062c036093fabaaefdd7
   src/cribl_control_plane/models/counteddistributedsummary.py:
     id: 43000533afde
     last_write_checksum: sha1:3ca2b9e031d5323d6e1ec93a5ac48aa5bde37ddd
@@ -9136,8 +9184,8 @@ trackedFiles:
     pristine_git_object: 379fd934084a65f1ecdb16e9c2b6492fb506bc53
   src/cribl_control_plane/models/createoutputop.py:
     id: dd9442d8fc8c
-    last_write_checksum: sha1:fcd67f66944832ea68ef8afba6dc9c4b5fc20000
-    pristine_git_object: 40196bbfee03bf8732858577516c5e2657f937c5
+    last_write_checksum: sha1:f27c5f3c1fe1b09e2cbec3d57ffae6d88608c1ba
+    pristine_git_object: 9f6ecf63203feed2ca4ac2692c9eba0056c411b6
   src/cribl_control_plane/models/createoutputtestbyidop.py:
     id: 884e2bc55e79
     last_write_checksum: sha1:92b15e137c7108df0ab6d6f4982c3e460a193f66
@@ -9186,6 +9234,14 @@ trackedFiles:
     id: 456d20a6b723
     last_write_checksum: sha1:4fca83a9faa09b48312500dfbda237823bfdb82f
     pristine_git_object: c4ed8803636313d5304aa961be223f777ae84557
+  src/cribl_control_plane/models/databaseconnectionconfig.py:
+    id: 648e0cece0e2
+    last_write_checksum: sha1:2bb69d30dc09480146d13a101065c920222e2185
+    pristine_git_object: e1c999f333f0a57ec18dba73b11d450ca643391c
+  src/cribl_control_plane/models/databaseconnectiontype.py:
+    id: b01c5eca12e8
+    last_write_checksum: sha1:479f7056aa95bf7475aacb42636405df63887a3a
+    pristine_git_object: f0d98aebf78d8a9ba9ee5529cfff21b29e0a208a
   src/cribl_control_plane/models/datacompressionformatoptionspersistence.py:
     id: 318958348d3f
     last_write_checksum: sha1:005cc2320061613615361d2e7ec15eeef4d5467e
@@ -9214,6 +9270,10 @@ trackedFiles:
     id: 1fafa2ed1bb8
     last_write_checksum: sha1:ce9cc5df4ff079a50544d37e82ddb09d7398fe5f
     pristine_git_object: e7635928ae3807655f15e928dfbefd0da9e0fd94
+  src/cribl_control_plane/models/deletedatabaseconnectionconfigbyidop.py:
+    id: 44748dff765b
+    last_write_checksum: sha1:dfec638f9f9f3be4edccc7776d3f722eb1915809
+    pristine_git_object: 73b8aed3e9c49f5ebd7e9d2edf3a6edff63cdcfb
   src/cribl_control_plane/models/deleteinputbyidop.py:
     id: f770760493a8
     last_write_checksum: sha1:32ed5f44eeb036de8f8d146d8a41518c37601a33
@@ -9450,6 +9510,10 @@ trackedFiles:
     id: c46f07a38394
     last_write_checksum: sha1:25663f67361c76d2d6b65f439e5b7ea5b0d9ebd4
     pristine_git_object: d96643fca1196bfc2fb9afb8be23338a1ca817e5
+  src/cribl_control_plane/models/functionconfschemasignalfilter.py:
+    id: e94607dbd969
+    last_write_checksum: sha1:40a373f287c8dc027eeda369e2602adfbe4c73aa
+    pristine_git_object: acd7cd7a6eb852999d67b8b2afc14f483a428ed1
   src/cribl_control_plane/models/functionconfschemasnmptrapserialize.py:
     id: 2ec2a6ac12ae
     last_write_checksum: sha1:2f5a774dd17035fc03601d185f59cae8bf2604e7
@@ -9616,8 +9680,8 @@ trackedFiles:
     pristine_git_object: 71bafe0891d0c2c27613674802cfdccbd8643f6c
   src/cribl_control_plane/models/functionresponse.py:
     id: dc3a23fe3539
-    last_write_checksum: sha1:ff00092bd716e8f26fdae792072810e48453ec4e
-    pristine_git_object: bf55b4770e76a97be42493522f50df26ad4fe238
+    last_write_checksum: sha1:2f245026f0fd43ba53724ccd6941c6b0e20a3671
+    pristine_git_object: 5b2b80e156229da8f9683c7fe91cc45f5eaabb4c
   src/cribl_control_plane/models/functionrollupmetrics.py:
     id: b049bbc2bbc7
     last_write_checksum: sha1:0b199defd4b03904a58dcb5d42b05461fc63ddda
@@ -9646,6 +9710,10 @@ trackedFiles:
     id: bd0c5445b2d9
     last_write_checksum: sha1:d6cacee2015dc03661fe01f7f6cfa0dcc089bfbc
     pristine_git_object: f57ee16dbc38442d25349d9a6218d92ed0a0b21c
+  src/cribl_control_plane/models/functionsignalfilter.py:
+    id: e16149bfac26
+    last_write_checksum: sha1:30976da42b391c8a33ec3833062fe31453f7f4c7
+    pristine_git_object: 92a35a00f1499f76d149ad394b7ed30319916ff8
   src/cribl_control_plane/models/functionsnmptrapserialize.py:
     id: b92ada35b30f
     last_write_checksum: sha1:e6a991dd8084fd5eafafcba727446adf08e2d01b
@@ -9710,6 +9778,10 @@ trackedFiles:
     id: 2bf0d8c8f207
     last_write_checksum: sha1:4cebab8c2d40357a1d55f031b29ecb036dfca420
     pristine_git_object: c295eb9d9f35348baff9e775daad050464ce00c3
+  src/cribl_control_plane/models/getdatabaseconnectionconfigbyidop.py:
+    id: c28fe8c2f294
+    last_write_checksum: sha1:54a5079215e8cf1bd2d3e62f98e43a54bcf72348
+    pristine_git_object: 3b99e8f4a5c89626bef5483e02e98b455ad08154
   src/cribl_control_plane/models/getfunctionsbyidop.py:
     id: bc51786995a6
     last_write_checksum: sha1:ec77c173500e97ba7114d898fb2fd69f523fad3f
@@ -10676,8 +10748,8 @@ trackedFiles:
     pristine_git_object: 7f265a9e782a4944cb9f337678e186200a17b864
   src/cribl_control_plane/models/outputwizhec.py:
     id: f0a40a7a4458
-    last_write_checksum: sha1:56fb40aece426b571b00db4665d5f3220b2a350a
-    pristine_git_object: 826e1c1c62d4c103e4000f35d5594df1891ec5a0
+    last_write_checksum: sha1:e034b44475d5597ce9c49edc299d693050c86cb6
+    pristine_git_object: c0f86392a6dfa1014ae39fa45c7aebc1c4294878
   src/cribl_control_plane/models/outputxsiam.py:
     id: 6c1c39431130
     last_write_checksum: sha1:c759c6d0d854e356139f506fa571c069c3d19bd7
@@ -10756,12 +10828,12 @@ trackedFiles:
     pristine_git_object: 69898e1a44fb6a6e1187946488fba13de8fe31dc
   src/cribl_control_plane/models/pipelinefunctionconf.py:
     id: ad399d52be46
-    last_write_checksum: sha1:058d33398d53607e692ecbd0ca154186a6c88e03
-    pristine_git_object: 70e585fd323e379e0222309416ce45099a440f28
+    last_write_checksum: sha1:831967c82ea3abf9dfba4c40971399fb67b4e61e
+    pristine_git_object: af23e54e4372e94a460f9da69a0fdc2b414bafea
   src/cribl_control_plane/models/pipelinefunctionconf_input.py:
     id: ec8986c64e7a
-    last_write_checksum: sha1:769645005b5c53e07ff8ab4d9de341692963141c
-    pristine_git_object: 05a5612ab5f20134ec529f50b68e2099ba8c19dd
+    last_write_checksum: sha1:f6941e0100a5c3a3579750fccc7ba504bbd3f094
+    pristine_git_object: 160a320d5b7a17707596b9b90651dfa3ca2623ee
   src/cribl_control_plane/models/pipelinefunctiondistinct.py:
     id: 9fd8d6382c8c
     last_write_checksum: sha1:559b3609e7fb0fffb0e2ea74f4520b41e2d58159
@@ -10946,6 +11018,10 @@ trackedFiles:
     id: b397803e1837
     last_write_checksum: sha1:c69070b9302fd43f091e7243ca6f5f4d64dc6c96
     pristine_git_object: 6e205d324f7f256e9b373d11e9b3ae6da84bef75
+  src/cribl_control_plane/models/pipelinefunctionsignalfilter.py:
+    id: 1f3da32feacd
+    last_write_checksum: sha1:f6a0b19a79d92d39e9534adfc0aa6e5758d581fa
+    pristine_git_object: 79be18464aad439e165e542712d8d9fc4a39c756
   src/cribl_control_plane/models/pipelinefunctionsnmptrapserialize.py:
     id: 57733556d5e6
     last_write_checksum: sha1:1c4ca7d781bdedcc7bf1db1b83656433cd570b06
@@ -11076,8 +11152,8 @@ trackedFiles:
     pristine_git_object: 9cc69592c1e39d98da9a3d499c40356f46242c8a
   src/cribl_control_plane/models/routeconf.py:
     id: 99f8023759b2
-    last_write_checksum: sha1:cd1ced7675ca0a1de428760758ed0bb5c2d3f97e
-    pristine_git_object: 1da230e02c35d912064f783e4b4fcaeaaf1392e5
+    last_write_checksum: sha1:ee126fe14b5f66e0677ff8342176d3c046cdd288
+    pristine_git_object: 8b0823dd34a09daa019bbf693f78344dd1e342b9
   src/cribl_control_plane/models/routes.py:
     id: 3dda91ee470c
     last_write_checksum: sha1:0075fe144c7e74d47ac5fde1b1004652da1084f9
@@ -11302,6 +11378,10 @@ trackedFiles:
     id: 67f1c4445d6d
     last_write_checksum: sha1:a48306bfaa15202cf71136109ac62113462cbf4f
     pristine_git_object: d43bd16e83ef60f906fddd537bac107d093bfc2c
+  src/cribl_control_plane/models/updatedatabaseconnectionconfigbyidop.py:
+    id: 04a6c5d064b0
+    last_write_checksum: sha1:95b6b021988512d2fa88e269f2f57f966ba9c9bd
+    pristine_git_object: 900b4e2cf414b720b117db6e996e686639a128f1
   src/cribl_control_plane/models/updatehectokenrequest.py:
     id: 74b0801e5d2f
     last_write_checksum: sha1:a5dc9b4ec6137f610869ba337649ccc3f89cc7ef
@@ -11400,8 +11480,8 @@ trackedFiles:
     pristine_git_object: 1f972658b100b5e536bc27a119498258c9051a65
   src/cribl_control_plane/sdk.py:
     id: ee02d2b5889e
-    last_write_checksum: sha1:a5401456fcfc9f5e4fd692e1720c6932c9b8afb8
-    pristine_git_object: eaa4fc3d84bc2f959412cdc10986cf8525cefabd
+    last_write_checksum: sha1:41b2395de03e61b322fee9350e270b9407fe7156
+    pristine_git_object: b43a807be6cafe782840494c20f3b860322cf262
   src/cribl_control_plane/sdkconfiguration.py:
     id: bfdcc08a1a6c
     last_write_checksum: sha1:cce8b1ddee973ae520d66a7623d9e37588c0a008
@@ -13332,7 +13412,7 @@ examples:
           application/json: {"message": "<value>"}
     OutputCreateExamplesWizHec:
       requestBody:
-        application/json: {"id": "wiz-hec-output", "type": "wiz_hec", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>"], "loadBalanced": true, "nextQueue": "indexQueue", "tcpRouting": "nowhere", "tls": {"disabled": true, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1"}, "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>", "<value 2>"], "enableMultiMetrics": false, "authType": "manual", "responseRetrySettings": [{"httpStatus": 7295.73, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "description": "hourly about into", "url": "http://localhost:8088/services/collector/event", "useRoundRobinDns": false, "excludeSelf": false, "urls": [{"url": "http://localhost:8088/services/collector/event", "weight": 1}], "dnsResolvePeriodSec": 600, "loadBalanceStatsPeriodSec": 300, "token": "<value>", "textSecret": "<value>"}
+        application/json: {"id": "wiz-hec-output", "type": "wiz_hec", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>"], "loadBalanced": true, "nextQueue": "indexQueue", "tcpRouting": "nowhere", "tls": {"disabled": true, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1"}, "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>", "<value 2>"], "enableMultiMetrics": false, "authType": "manual", "responseRetrySettings": [{"httpStatus": 7295.73, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "wiz_connector_id": "00000000-0000-0000-0000-000000000000", "wiz_environment": "test", "data_center": "us1", "wiz_sourcetype": "placeholder", "description": "hourly about into", "token": "<value>", "textSecret": "<value>"}
       responses:
         "200":
           application/json: {"count": 578974, "items": [{"id": "<id>", "type": "disk_spool", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>"], "timeWindow": "10m", "maxDataSize": "1GB", "maxDataTime": "24h", "compress": "gzip", "partitionExpr": "<value>", "description": "misfire afore suddenly openly huzzah"}]}
@@ -14113,7 +14193,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "wiz-hec-output", "type": "wiz_hec", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>"], "loadBalanced": true, "nextQueue": "indexQueue", "tcpRouting": "nowhere", "tls": {"disabled": true, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.2", "maxVersion": "TLSv1.2"}, "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "enableMultiMetrics": false, "authType": "manual", "responseRetrySettings": [{"httpStatus": 2924.72, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "description": "phooey positively a consequently meh until", "url": "http://localhost:8088/services/collector/event", "useRoundRobinDns": false, "excludeSelf": false, "urls": [{"url": "http://localhost:8088/services/collector/event", "weight": 1}], "dnsResolvePeriodSec": 600, "loadBalanceStatsPeriodSec": 300, "token": "<value>", "textSecret": "<value>"}
+        application/json: {"id": "wiz-hec-output", "type": "wiz_hec", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>"], "loadBalanced": true, "nextQueue": "indexQueue", "tcpRouting": "nowhere", "tls": {"disabled": true, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.2", "maxVersion": "TLSv1.2"}, "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "enableMultiMetrics": false, "authType": "manual", "responseRetrySettings": [{"httpStatus": 2924.72, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "wiz_connector_id": "00000000-0000-0000-0000-000000000000", "wiz_environment": "test", "data_center": "us1", "wiz_sourcetype": "placeholder", "description": "phooey positively a consequently meh until", "token": "<value>", "textSecret": "<value>"}
       responses:
         "200":
           application/json: {"count": 85742, "items": [{"id": "<id>", "type": "google_chronicle", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>"], "apiVersion": "v1", "authenticationMethod": "serviceAccount", "responseRetrySettings": [{"httpStatus": 1271.28, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": false, "logFormatType": "unstructured", "region": "<value>", "concurrency": 5, "maxPayloadSizeKB": 1024, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 90, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "useRoundRobinDns": false, "onBackpressure": "block", "totalMemoryLimitKB": 3612.5, "description": "yum tomatillo off tune-up", "extraLogTypes": [{"logType": "<value>", "description": "busy for concerned buck grandiose dreamily what solder"}], "logType": "<value>", "logTextField": "<value>", "customerId": "<id>", "namespace": "<value>", "customLabels": [{"key": "<key>", "value": "<value>"}], "udmType": "logs", "apiKey": "<value>", "apiKeySecret": "<value>", "serviceAccountCredentials": "<value>", "serviceAccountCredentialsSecret": "<value>", "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}}]}
@@ -14252,7 +14332,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: [{"clones": [{"key": "<value>"}, {}], "context": "<value>", "description": "Route new logs to main pipeline", "disabled": true, "enableOutputExpression": true, "filter": "source == \"new.log\"", "final": true, "groupId": "<id>", "id": "route-new", "name": "new-route", "output": "<value>", "outputExpression": "<value>", "pipeline": "main"}]
+        application/json: [{"clones": [{"key": "<value>"}, {}], "context": "<value>", "description": "Route new logs to main pipeline", "disabled": true, "enableOutputExpression": true, "filter": "source == \"new.log\"", "final": true, "groupId": "<id>", "id": "route-new", "name": "new-route", "output": "<value>", "outputExpression": "<value>", "pipeline": "main", "toGroupContext": true}]
       responses:
         "200":
           application/json: {"count": 486469, "items": [{"id": "<id>", "routes": [], "groups": {"key": {"name": "<value>", "description": "dirty finally helpless", "disabled": false}}, "comments": [{"comment": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart"}]}]}
@@ -14263,7 +14343,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: [{"clones": [{"key": "<value>", "key1": "<value>"}], "context": "<value>", "description": "Route audit logs", "disabled": false, "enableOutputExpression": false, "filter": "source == \"audit.log\"", "final": false, "groupId": "<id>", "id": "route-audit", "name": "audit", "output": "default", "outputExpression": "<value>", "pipeline": "main"}, {"clones": [{}, {}, {}], "context": "<value>", "description": "Route security logs", "disabled": true, "enableOutputExpression": false, "filter": "source == \"security.log\"", "final": false, "groupId": "<id>", "id": "route-security", "name": "security", "output": "devnull", "outputExpression": "<value>", "pipeline": "passthru"}]
+        application/json: [{"clones": [{"key": "<value>", "key1": "<value>"}], "context": "<value>", "description": "Route audit logs", "disabled": false, "enableOutputExpression": false, "filter": "source == \"audit.log\"", "final": false, "groupId": "<id>", "id": "route-audit", "name": "audit", "output": "default", "outputExpression": "<value>", "pipeline": "main", "toGroupContext": true}, {"clones": [{}, {}, {}], "context": "<value>", "description": "Route security logs", "disabled": true, "enableOutputExpression": false, "filter": "source == \"security.log\"", "final": false, "groupId": "<id>", "id": "route-security", "name": "security", "output": "devnull", "outputExpression": "<value>", "pipeline": "passthru", "toGroupContext": true}]
       responses:
         "200":
           application/json: {"count": 486469, "items": [{"id": "<id>", "routes": [], "groups": {"key": {"name": "<value>", "description": "dirty finally helpless", "disabled": false}}, "comments": [{"comment": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart"}]}]}
@@ -14274,7 +14354,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: [{"clones": [{"key": "<value>", "key1": "<value>"}], "context": "<value>", "description": "Route with dynamic Destination based on environment", "disabled": false, "enableOutputExpression": true, "filter": "source == \"dynamic.log\"", "final": true, "groupId": "<id>", "id": "route-dynamic-append", "name": "dynamic-append", "output": "<value>", "outputExpression": "`myDest_${C.logStreamEnv}`", "pipeline": "main"}]
+        application/json: [{"clones": [{"key": "<value>", "key1": "<value>"}], "context": "<value>", "description": "Route with dynamic Destination based on environment", "disabled": false, "enableOutputExpression": true, "filter": "source == \"dynamic.log\"", "final": true, "groupId": "<id>", "id": "route-dynamic-append", "name": "dynamic-append", "output": "<value>", "outputExpression": "`myDest_${C.logStreamEnv}`", "pipeline": "main", "toGroupContext": true}]
       responses:
         "200":
           application/json: {"count": 486469, "items": [{"id": "<id>", "routes": [], "groups": {"key": {"name": "<value>", "description": "dirty finally helpless", "disabled": false}}, "comments": [{"comment": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart"}]}]}
@@ -16108,6 +16188,218 @@ examples:
           application/json: {"count": 752131, "items": [{"id": "<id>", "description": "decriminalize below inasmuch until", "type": "executor", "ttl": "4h", "ignoreGroupJobsLimit": false, "removeFields": ["<value 1>", "<value 2>"], "resumeOnBoot": false, "environment": "<value>", "schedule": {"enabled": false, "skippable": true, "resumeMissed": false, "cronSchedule": "*/5 * * * *", "maxConcurrentRuns": 1, "run": {"type": "collection", "rescheduleDroppedTasks": true, "maxTaskReschedule": 1, "logLevel": "info", "jobTimeout": "0", "mode": "list", "timeRangeType": "relative", "earliest": 6033.18, "latest": 6852.51, "timestampTimezone": "<value>", "timeWarning": {}, "expression": "true", "minTaskSize": "1MB", "maxTaskSize": "10MB"}}, "streamtags": ["<value 1>", "<value 2>"], "savedQueryId": "<id>"}]}
         "500":
           application/json: {"message": "<value>"}
+  createDatabaseConnectionConfig:
+    DatabaseConnectionExamplesMySQLWithConnectionString:
+      requestBody:
+        application/json: {"authType": "connectionString", "configObj": "<value>", "connectionString": "mysql://admin:password123@mysql.example.com:3306/production?ssl=true", "connectionTimeout": 10000, "credsSecrets": "<value>", "databaseType": "mysql", "description": "Production MySQL database for customer data", "id": "mysql-prod-db", "password": "QpvMa8DI_lUJL_b", "requestTimeout": 4657.19, "tags": "production,mysql,customer-data", "user": "Dolores.Feil"}
+      responses:
+        "200":
+          application/json: {"count": 417517, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 8361.88, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "oh calmly carnival", "id": "<id>", "password": "xJf1J0K9sey1cpg", "requestTimeout": 330.85, "tags": "<value>", "user": "Tressie71"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesMySQLWithSecret:
+      requestBody:
+        application/json: {"authType": "secret", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 15000, "credsSecrets": "<value>", "databaseType": "mysql", "description": "Analytics MySQL database", "id": "mysql-analytics-db", "password": "QdEG1YZma4X6Q0d", "requestTimeout": 8016.38, "tags": "analytics,mysql", "user": "Deon.Zulauf40"}
+      responses:
+        "200":
+          application/json: {"count": 417517, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 8361.88, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "oh calmly carnival", "id": "<id>", "password": "xJf1J0K9sey1cpg", "requestTimeout": 330.85, "tags": "<value>", "user": "Tressie71"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesPostgreSQLWithConnectionString:
+      requestBody:
+        application/json: {"authType": "connectionString", "configObj": "<value>", "connectionString": "postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", "connectionTimeout": 15000, "credsSecrets": "<value>", "databaseType": "postgres", "description": "Data warehouse PostgreSQL database", "id": "postgres-warehouse", "password": "iRpyPXc98_8DDCo", "requestTimeout": 6489.43, "tags": "warehouse,postgres,reporting", "user": "Ashlynn_Cassin"}
+      responses:
+        "200":
+          application/json: {"count": 417517, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 8361.88, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "oh calmly carnival", "id": "<id>", "password": "xJf1J0K9sey1cpg", "requestTimeout": 330.85, "tags": "<value>", "user": "Tressie71"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesPostgreSQLWithSecret:
+      requestBody:
+        application/json: {"authType": "secret", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 10000, "credsSecrets": "<value>", "databaseType": "postgres", "description": "Logs PostgreSQL database", "id": "postgres-logs", "password": "S_R5PzDp3_vEzJr", "requestTimeout": 3972.05, "tags": "logs,postgres", "user": "Eldon53"}
+      responses:
+        "200":
+          application/json: {"count": 417517, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 8361.88, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "oh calmly carnival", "id": "<id>", "password": "xJf1J0K9sey1cpg", "requestTimeout": 330.85, "tags": "<value>", "user": "Tressie71"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesSQLServerWithConnectionString:
+      requestBody:
+        application/json: {"authType": "connectionString", "configObj": "<value>", "connectionString": "Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", "connectionTimeout": 15000, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "ERP SQL Server database", "id": "sqlserver-erp", "password": "KdnOen49IaSDMY2", "requestTimeout": 30000, "tags": "erp,sqlserver,finance", "user": "Jessika_Smitham"}
+      responses:
+        "200":
+          application/json: {"count": 417517, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 8361.88, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "oh calmly carnival", "id": "<id>", "password": "xJf1J0K9sey1cpg", "requestTimeout": 330.85, "tags": "<value>", "user": "Tressie71"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesSQLServerWithSecret:
+      requestBody:
+        application/json: {"authType": "secret", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 15000, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "CRM SQL Server database", "id": "sqlserver-crm", "password": "Ua8rfhO1uYnrBPC", "requestTimeout": 15000, "tags": "crm,sqlserver,sales", "user": "Genevieve.Douglas13"}
+      responses:
+        "200":
+          application/json: {"count": 417517, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 8361.88, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "oh calmly carnival", "id": "<id>", "password": "xJf1J0K9sey1cpg", "requestTimeout": 330.85, "tags": "<value>", "user": "Tressie71"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesSQLServerWithConfigObject:
+      requestBody:
+        application/json: {"authType": "configObj", "configObj": "{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", "connectionString": "<value>", "connectionTimeout": 4499.78, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "Reporting SQL Server database with custom config", "id": "sqlserver-reporting", "password": "g9Dv7PtDzLx0pmQ", "requestTimeout": 60000, "tags": "reporting,sqlserver,analytics", "user": "Aubree_Herman32"}
+      responses:
+        "200":
+          application/json: {"count": 417517, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 8361.88, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "oh calmly carnival", "id": "<id>", "password": "xJf1J0K9sey1cpg", "requestTimeout": 330.85, "tags": "<value>", "user": "Tressie71"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesOracleWithConnectionString:
+      requestBody:
+        application/json: {"authType": "connectionString", "configObj": "<value>", "connectionString": "oracle.example.com:1521/ORCL", "connectionTimeout": 15000, "credsSecrets": "<value>", "databaseType": "oracle", "description": "Oracle ERP database", "id": "oracle-erp", "password": "Oracle_Pass456!", "requestTimeout": 8432.44, "tags": "erp,oracle,finance", "user": "erp_user"}
+      responses:
+        "200":
+          application/json: {"count": 417517, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 8361.88, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "oh calmly carnival", "id": "<id>", "password": "xJf1J0K9sey1cpg", "requestTimeout": 330.85, "tags": "<value>", "user": "Tressie71"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesOracleWithSecret:
+      requestBody:
+        application/json: {"authType": "secret", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 20000, "credsSecrets": "<value>", "databaseType": "oracle", "description": "Oracle data warehouse", "id": "oracle-warehouse", "password": "Warehouse_Pass789!", "requestTimeout": 1474.54, "tags": "warehouse,oracle,reporting", "user": "warehouse_user"}
+      responses:
+        "200":
+          application/json: {"count": 417517, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 8361.88, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "oh calmly carnival", "id": "<id>", "password": "xJf1J0K9sey1cpg", "requestTimeout": 330.85, "tags": "<value>", "user": "Tressie71"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesOracleWithCredentialsSecrets:
+      requestBody:
+        application/json: {"authType": "secrets", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 15000, "credsSecrets": "oracle-secure-credentials", "databaseType": "oracle", "description": "High-security Oracle database with credential secrets", "id": "oracle-secure-db", "password": "O0ma5h_gwqFSiXO", "requestTimeout": 5552.27, "tags": "secure,oracle,sensitive-data", "user": "Alek_Dibbert"}
+      responses:
+        "200":
+          application/json: {"count": 417517, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 8361.88, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "oh calmly carnival", "id": "<id>", "password": "xJf1J0K9sey1cpg", "requestTimeout": 330.85, "tags": "<value>", "user": "Tressie71"}]}
+        "500":
+          application/json: {"message": "<value>"}
+  deleteDatabaseConnectionConfigById:
+    speakeasy-default-delete-database-connection-config-by-id:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"count": 756578, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 4547.11, "credsSecrets": "<value>", "databaseType": "mysql", "description": "supposing humidity amid insignificant free rapidly blissfully curl", "id": "<id>", "password": "7_L3Un5tqeTFW13", "requestTimeout": 9997.84, "tags": "<value>", "user": "Raleigh.Russel57"}]}
+        "500":
+          application/json: {"message": "<value>"}
+  getDatabaseConnectionConfigById:
+    speakeasy-default-get-database-connection-config-by-id:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"count": 886783, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 8820.68, "credsSecrets": "<value>", "databaseType": "oracle", "description": "plus oof hmph co-producer innocently whenever ah annual", "id": "<id>", "password": "DMzcAPJFmJGavIM", "requestTimeout": 9867.28, "tags": "<value>", "user": "Edd44"}]}
+        "500":
+          application/json: {"message": "<value>"}
+  updateDatabaseConnectionConfigById:
+    DatabaseConnectionExamplesMySQLWithConnectionString:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "connectionString", "configObj": "<value>", "connectionString": "mysql://admin:password123@mysql.example.com:3306/production?ssl=true", "connectionTimeout": 10000, "credsSecrets": "<value>", "databaseType": "mysql", "description": "Production MySQL database for customer data", "id": "mysql-prod-db", "password": "Fu8u0O8uNNPcA9S", "requestTimeout": 7946.16, "tags": "production,mysql,customer-data", "user": "Rubie93"}
+      responses:
+        "200":
+          application/json: {"count": 129463, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 5919.77, "credsSecrets": "<value>", "databaseType": "postgres", "description": "bah flint rationale pike justly below blowgun aha past", "id": "<id>", "password": "WaF3L54SuWsTJFm", "requestTimeout": 3768.53, "tags": "<value>", "user": "Bailee.Ward"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesMySQLWithSecret:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "secret", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 15000, "credsSecrets": "<value>", "databaseType": "mysql", "description": "Analytics MySQL database", "id": "mysql-analytics-db", "password": "I4rBabWGYRpCqjN", "requestTimeout": 3077.93, "tags": "analytics,mysql", "user": "Gunnar_Hickle-Davis"}
+      responses:
+        "200":
+          application/json: {"count": 129463, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 5919.77, "credsSecrets": "<value>", "databaseType": "postgres", "description": "bah flint rationale pike justly below blowgun aha past", "id": "<id>", "password": "WaF3L54SuWsTJFm", "requestTimeout": 3768.53, "tags": "<value>", "user": "Bailee.Ward"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesPostgreSQLWithConnectionString:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "connectionString", "configObj": "<value>", "connectionString": "postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", "connectionTimeout": 15000, "credsSecrets": "<value>", "databaseType": "postgres", "description": "Data warehouse PostgreSQL database", "id": "postgres-warehouse", "password": "SJ185mzGNnaospV", "requestTimeout": 4073.17, "tags": "warehouse,postgres,reporting", "user": "Charlene27"}
+      responses:
+        "200":
+          application/json: {"count": 129463, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 5919.77, "credsSecrets": "<value>", "databaseType": "postgres", "description": "bah flint rationale pike justly below blowgun aha past", "id": "<id>", "password": "WaF3L54SuWsTJFm", "requestTimeout": 3768.53, "tags": "<value>", "user": "Bailee.Ward"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesPostgreSQLWithSecret:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "secret", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 10000, "credsSecrets": "<value>", "databaseType": "postgres", "description": "Logs PostgreSQL database", "id": "postgres-logs", "password": "bJaM8xGlX7QHy5k", "requestTimeout": 145.27, "tags": "logs,postgres", "user": "Ulices_Morar85"}
+      responses:
+        "200":
+          application/json: {"count": 129463, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 5919.77, "credsSecrets": "<value>", "databaseType": "postgres", "description": "bah flint rationale pike justly below blowgun aha past", "id": "<id>", "password": "WaF3L54SuWsTJFm", "requestTimeout": 3768.53, "tags": "<value>", "user": "Bailee.Ward"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesSQLServerWithConnectionString:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "connectionString", "configObj": "<value>", "connectionString": "Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", "connectionTimeout": 15000, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "ERP SQL Server database", "id": "sqlserver-erp", "password": "gAICi7pHE7tEZAQ", "requestTimeout": 30000, "tags": "erp,sqlserver,finance", "user": "Jennifer60"}
+      responses:
+        "200":
+          application/json: {"count": 129463, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 5919.77, "credsSecrets": "<value>", "databaseType": "postgres", "description": "bah flint rationale pike justly below blowgun aha past", "id": "<id>", "password": "WaF3L54SuWsTJFm", "requestTimeout": 3768.53, "tags": "<value>", "user": "Bailee.Ward"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesSQLServerWithSecret:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "secret", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 15000, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "CRM SQL Server database", "id": "sqlserver-crm", "password": "uplhN8ZaDm8LRt_", "requestTimeout": 15000, "tags": "crm,sqlserver,sales", "user": "Millie.Dickens93"}
+      responses:
+        "200":
+          application/json: {"count": 129463, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 5919.77, "credsSecrets": "<value>", "databaseType": "postgres", "description": "bah flint rationale pike justly below blowgun aha past", "id": "<id>", "password": "WaF3L54SuWsTJFm", "requestTimeout": 3768.53, "tags": "<value>", "user": "Bailee.Ward"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesSQLServerWithConfigObject:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "configObj", "configObj": "{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", "connectionString": "<value>", "connectionTimeout": 1192.73, "credsSecrets": "<value>", "databaseType": "sqlserver", "description": "Reporting SQL Server database with custom config", "id": "sqlserver-reporting", "password": "uj_P5dL_oZDsm0P", "requestTimeout": 60000, "tags": "reporting,sqlserver,analytics", "user": "Retta_Welch"}
+      responses:
+        "200":
+          application/json: {"count": 129463, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 5919.77, "credsSecrets": "<value>", "databaseType": "postgres", "description": "bah flint rationale pike justly below blowgun aha past", "id": "<id>", "password": "WaF3L54SuWsTJFm", "requestTimeout": 3768.53, "tags": "<value>", "user": "Bailee.Ward"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesOracleWithConnectionString:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "connectionString", "configObj": "<value>", "connectionString": "oracle.example.com:1521/ORCL", "connectionTimeout": 15000, "credsSecrets": "<value>", "databaseType": "oracle", "description": "Oracle ERP database", "id": "oracle-erp", "password": "Oracle_Pass456!", "requestTimeout": 4812.37, "tags": "erp,oracle,finance", "user": "erp_user"}
+      responses:
+        "200":
+          application/json: {"count": 129463, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 5919.77, "credsSecrets": "<value>", "databaseType": "postgres", "description": "bah flint rationale pike justly below blowgun aha past", "id": "<id>", "password": "WaF3L54SuWsTJFm", "requestTimeout": 3768.53, "tags": "<value>", "user": "Bailee.Ward"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesOracleWithSecret:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "secret", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 20000, "credsSecrets": "<value>", "databaseType": "oracle", "description": "Oracle data warehouse", "id": "oracle-warehouse", "password": "Warehouse_Pass789!", "requestTimeout": 2147.18, "tags": "warehouse,oracle,reporting", "user": "warehouse_user"}
+      responses:
+        "200":
+          application/json: {"count": 129463, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 5919.77, "credsSecrets": "<value>", "databaseType": "postgres", "description": "bah flint rationale pike justly below blowgun aha past", "id": "<id>", "password": "WaF3L54SuWsTJFm", "requestTimeout": 3768.53, "tags": "<value>", "user": "Bailee.Ward"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    DatabaseConnectionExamplesOracleWithCredentialsSecrets:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "secrets", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 15000, "credsSecrets": "oracle-secure-credentials", "databaseType": "oracle", "description": "High-security Oracle database with credential secrets", "id": "oracle-secure-db", "password": "h2R8xU7uFdKI0S6", "requestTimeout": 9629.77, "tags": "secure,oracle,sensitive-data", "user": "Kay83"}
+      responses:
+        "200":
+          application/json: {"count": 129463, "items": [{"authType": "<value>", "configObj": "<value>", "connectionString": "<value>", "connectionTimeout": 5919.77, "credsSecrets": "<value>", "databaseType": "postgres", "description": "bah flint rationale pike justly below blowgun aha past", "id": "<id>", "password": "WaF3L54SuWsTJFm", "requestTimeout": 3768.53, "tags": "<value>", "user": "Bailee.Ward"}]}
+        "500":
+          application/json: {"message": "<value>"}
 examplesVersion: 1.0.2
 generatedTests:
   getHealthInfo: "2025-07-02T19:12:56+02:00"
@@ -16173,6 +16465,7 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[wiz_hec]` **Changed** **Breaking** :warning:\n  *  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[wiz_hec]` **Changed** **Breaking** :warning:\n  *  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.pipelines.list()`:  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.database_connections.update()`: **Added**\n* `cribl_control_plane.database_connections.get()`: **Added**\n* `cribl_control_plane.database_connections.delete()`: **Added**\n* `cribl_control_plane.pipelines.create()`: \n  *  `request.conf.functions.[].[signal_filter]` **Added**\n  *  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.database_connections.create()`: **Added**\n* `cribl_control_plane.pipelines.get()`:  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.pipelines.update()`: \n  *  `request.conf.functions.[].[signal_filter]` **Added**\n  *  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.pipelines.delete()`:  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.routes.append()`: \n  *  `request_body.[].to_group_context` **Added**\n* `cribl_control_plane.functions.get()`:  `response.items.[].[signal_filter]` **Added**\n* `cribl_control_plane.functions.list()`:  `response.items.[].[signal_filter]` **Added**\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1768553599722-cf7e66a0
+  version: 4.16.0-alpha.1768691071776-8e903b53
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -4329,6 +4329,61 @@ components:
         - name
         - uischema
         - version
+    FunctionConfSchemaSignalFilter:
+      type: object
+      title: Signal Filter Configuration
+      additionalProperties: false
+      properties:
+        signals:
+          type: array
+          title: Signal event types to filter
+          description: List of signal event types to filter
+          items:
+            type: string
+    FunctionSignalFilter:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - signal_filter
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          additionalProperties: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
     FunctionConfSchemaSnmpTrapSerialize:
       type: object
       properties:
@@ -5055,6 +5110,7 @@ components:
         - $ref: "#/components/schemas/FunctionSerde"
         - $ref: "#/components/schemas/FunctionSerialize"
         - $ref: "#/components/schemas/FunctionSidlookup"
+        - $ref: "#/components/schemas/FunctionSignalFilter"
         - $ref: "#/components/schemas/FunctionSnmpTrapSerialize"
         - $ref: "#/components/schemas/FunctionSort"
         - $ref: "#/components/schemas/FunctionStore"
@@ -5122,6 +5178,7 @@ components:
           serde: "#/components/schemas/FunctionSerde"
           serialize: "#/components/schemas/FunctionSerialize"
           sidlookup: "#/components/schemas/FunctionSidlookup"
+          signal_filter: "#/components/schemas/FunctionSignalFilter"
           snmp_trap_serialize: "#/components/schemas/FunctionSnmpTrapSerialize"
           sort: "#/components/schemas/FunctionSort"
           store: "#/components/schemas/FunctionStore"
@@ -7124,6 +7181,41 @@ components:
           title: Group ID
           description: Group ID
           type: string
+    PipelineFunctionSignalFilter:
+      type: object
+      required:
+        - id
+        - conf
+      additionalProperties: false
+      properties:
+        filter:
+          title: Filter
+          description: Filter that selects data to be fed through this Function
+          type: string
+        id:
+          title: ID
+          description: Function ID
+          type: string
+          enum:
+            - signal_filter
+        description:
+          title: Description
+          description: Simple description of this step
+          type: string
+        disabled:
+          title: Disabled
+          description: If true, data will not be pushed through this function
+          type: boolean
+        final:
+          title: Final
+          description: If enabled, stops the results of this Function from being passed to the downstream Functions
+          type: boolean
+        conf:
+          $ref: "#/components/schemas/FunctionConfSchemaSignalFilter"
+        groupId:
+          title: Group ID
+          description: Group ID
+          type: string
     PipelineFunctionSnmpTrapSerialize:
       type: object
       required:
@@ -7559,6 +7651,7 @@ components:
         - $ref: "#/components/schemas/PipelineFunctionSerde"
         - $ref: "#/components/schemas/PipelineFunctionSerialize"
         - $ref: "#/components/schemas/PipelineFunctionSidlookup"
+        - $ref: "#/components/schemas/PipelineFunctionSignalFilter"
         - $ref: "#/components/schemas/PipelineFunctionSnmpTrapSerialize"
         - $ref: "#/components/schemas/PipelineFunctionSort"
         - $ref: "#/components/schemas/PipelineFunctionStore"
@@ -7626,6 +7719,7 @@ components:
           serde: "#/components/schemas/PipelineFunctionSerde"
           serialize: "#/components/schemas/PipelineFunctionSerialize"
           sidlookup: "#/components/schemas/PipelineFunctionSidlookup"
+          signal_filter: "#/components/schemas/PipelineFunctionSignalFilter"
           snmp_trap_serialize: "#/components/schemas/PipelineFunctionSnmpTrapSerialize"
           sort: "#/components/schemas/PipelineFunctionSort"
           store: "#/components/schemas/PipelineFunctionStore"
@@ -18682,7 +18776,7 @@ components:
             $ref: "#/components/schemas/ItemsTypeNotificationMetadata"
         maxEventBytes:
           type: number
-          title: Max event bytes
+          title: Event byte limit
           description: The maximum number of bytes in an event before it is flushed to the pipelines
           minimum: 1
           maximum: 1.34217728e+08
@@ -21414,7 +21508,7 @@ components:
           title: Body size limit (KB)
           description: Maximum size, in KB, of the request body
           minimum: 1024
-          maximum: 2.097152e+06
+          maximum: 9000
         maxPayloadEvents:
           type: number
           title: Events-per-request limit
@@ -21604,10 +21698,7 @@ components:
           description: Tags for filtering and grouping in @{product}
           items:
             type: string
-        loadBalanced:
-          type: boolean
-          title: Load balancing
-          description: Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS.
+        loadBalanced: {}
         nextQueue:
           type: string
           title: Next Processing Queue
@@ -21629,7 +21720,7 @@ components:
           title: Body size limit (KB)
           description: Maximum size, in KB, of the request body
           minimum: 1024
-          maximum: 2.097152e+06
+          maximum: 9000
         maxPayloadEvents:
           type: number
           title: Events-per-request limit
@@ -21667,10 +21758,7 @@ components:
           description: List of headers that are safe to log in plain text
           items:
             type: string
-        enableMultiMetrics:
-          type: boolean
-          title: Output multi-metrics
-          description: Output metrics in multiple-metric format
+        enableMultiMetrics: {}
         authType:
           $ref: "#/components/schemas/AuthenticationMethodOptionsAuthTokensItems"
         responseRetrySettings:
@@ -21688,53 +21776,25 @@ components:
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
+        wiz_connector_id:
+          type: string
+          title: Wiz Connector ID
+          description: The unique identifier for the specific Cribl connector defined in your Wiz Settings. This is used to cross-validate the bearer token and ensure traffic is originating from the authorized integration.
+        wiz_environment:
+          type: string
+          title: Wiz Environment
+          description: Your Wiz deployment environment.
+        data_center:
+          type: string
+          title: Wiz Data Center
+          description: Your Wiz deployment data center (e.g., us1, us8, eu1). From Tenant Info → Data Center and Regions → Tenant Data Center in your Wiz console.
+        wiz_sourcetype:
+          type: string
+          title: Wiz Defend Source Type
+          description: ""
         description:
           type: string
           title: Description
-        url:
-          type: string
-          title: Endpoint
-          description: URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event
-          pattern: ^https?://.*
-        useRoundRobinDns:
-          type: boolean
-          title: Round-robin DNS
-          description: Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations.
-        excludeSelf:
-          type: boolean
-          title: Exclude current host IPs
-          description: Exclude all IPs of the current host from the list of any resolved hostnames
-        urls:
-          type: array
-          title: Endpoints
-          description: ""
-          minItems: 1
-          items:
-            type: object
-            required:
-              - url
-            properties:
-              url:
-                type: string
-                title: Endpoint
-                description: URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event
-                pattern: ^https?://.*
-              weight:
-                type: number
-                title: Load Weight
-                description: Assign a weight (>0) to each endpoint to indicate its traffic-handling capability
-                minimum: 0
-        dnsResolvePeriodSec:
-          type: number
-          minimum: 0
-          maximum: 86400
-          title: DNS resolution period (seconds)
-          description: The interval in which to re-resolve any hostnames and pick up destinations from A records
-        loadBalanceStatsPeriodSec:
-          type: number
-          minimum: 10
-          title: Load balance stats period (seconds)
-          description: How far back in time to keep traffic stats for load balancing purposes
         token:
           type: string
           title: Authentication token
@@ -21745,6 +21805,10 @@ components:
           description: Select or create a stored text secret
       required:
         - type
+        - wiz_connector_id
+        - wiz_environment
+        - data_center
+        - wiz_sourcetype
     OutputTcpjson:
       type: object
       properties:
@@ -39491,8 +39555,10 @@ components:
       value:
         id: wiz-hec-output
         type: wiz_hec
-        host: localhost
-        port: 8088
+        data_center: us1
+        wiz_sourcetype: placeholder
+        wiz_connector_id: 00000000-0000-0000-0000-000000000000
+        wiz_environment: test
         authType: manual
         hecToken: your-hec-token
     OutputCreateExamplesHumioHec:

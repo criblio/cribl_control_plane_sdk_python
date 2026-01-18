@@ -27,7 +27,7 @@ from cribl_control_plane.types import BaseModel
 from enum import Enum
 import pydantic
 from pydantic import field_serializer
-from typing import List, Optional
+from typing import Any, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -35,23 +35,15 @@ class OutputWizHecType(str, Enum):
     WIZ_HEC = "wiz_hec"
 
 
-class OutputWizHecURLTypedDict(TypedDict):
-    url: str
-    r"""URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event"""
-    weight: NotRequired[float]
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-
-class OutputWizHecURL(BaseModel):
-    url: str
-    r"""URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event"""
-
-    weight: Optional[float] = None
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-
 class OutputWizHecTypedDict(TypedDict):
     type: OutputWizHecType
+    wiz_connector_id: str
+    r"""The unique identifier for the specific Cribl connector defined in your Wiz Settings. This is used to cross-validate the bearer token and ensure traffic is originating from the authorized integration."""
+    wiz_environment: str
+    r"""Your Wiz deployment environment."""
+    data_center: str
+    r"""Your Wiz deployment data center (e.g., us1, us8, eu1). From Tenant Info → Data Center and Regions → Tenant Data Center in your Wiz console."""
+    wiz_sourcetype: str
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -62,8 +54,7 @@ class OutputWizHecTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    load_balanced: NotRequired[bool]
-    r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
+    load_balanced: NotRequired[Any]
     next_queue: NotRequired[str]
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
     tcp_routing: NotRequired[str]
@@ -92,8 +83,7 @@ class OutputWizHecTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    enable_multi_metrics: NotRequired[bool]
-    r"""Output metrics in multiple-metric format"""
+    enable_multi_metrics: NotRequired[Any]
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
@@ -104,17 +94,6 @@ class OutputWizHecTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
-    url: NotRequired[str]
-    r"""URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event"""
-    use_round_robin_dns: NotRequired[bool]
-    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
-    exclude_self: NotRequired[bool]
-    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    urls: NotRequired[List[OutputWizHecURLTypedDict]]
-    dns_resolve_period_sec: NotRequired[float]
-    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
-    load_balance_stats_period_sec: NotRequired[float]
-    r"""How far back in time to keep traffic stats for load balancing purposes"""
     token: NotRequired[str]
     r"""Wiz Defender Auth token"""
     text_secret: NotRequired[str]
@@ -123,6 +102,17 @@ class OutputWizHecTypedDict(TypedDict):
 
 class OutputWizHec(BaseModel):
     type: OutputWizHecType
+
+    wiz_connector_id: str
+    r"""The unique identifier for the specific Cribl connector defined in your Wiz Settings. This is used to cross-validate the bearer token and ensure traffic is originating from the authorized integration."""
+
+    wiz_environment: str
+    r"""Your Wiz deployment environment."""
+
+    data_center: str
+    r"""Your Wiz deployment data center (e.g., us1, us8, eu1). From Tenant Info → Data Center and Regions → Tenant Data Center in your Wiz console."""
+
+    wiz_sourcetype: str
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -141,10 +131,7 @@ class OutputWizHec(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        None
-    )
-    r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
+    load_balanced: Annotated[Optional[Any], pydantic.Field(alias="loadBalanced")] = None
 
     next_queue: Annotated[Optional[str], pydantic.Field(alias="nextQueue")] = None
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
@@ -204,9 +191,8 @@ class OutputWizHec(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     enable_multi_metrics: Annotated[
-        Optional[bool], pydantic.Field(alias="enableMultiMetrics")
+        Optional[Any], pydantic.Field(alias="enableMultiMetrics")
     ] = None
-    r"""Output metrics in multiple-metric format"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
@@ -235,29 +221,6 @@ class OutputWizHec(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
-
-    url: Optional[str] = None
-    r"""URL to an endpoint to send events to, such as http://localhost:8088/services/collector/event"""
-
-    use_round_robin_dns: Annotated[
-        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = None
-    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
-
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
-    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-
-    urls: Optional[List[OutputWizHecURL]] = None
-
-    dns_resolve_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = None
-    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
-
-    load_balance_stats_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = None
-    r"""How far back in time to keep traffic stats for load balancing purposes"""
 
     token: Optional[str] = None
     r"""Wiz Defender Auth token"""

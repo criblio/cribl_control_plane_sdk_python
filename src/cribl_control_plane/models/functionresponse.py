@@ -79,6 +79,7 @@ from .functionsensitivedatascanner import (
 from .functionserde import FunctionSerde, FunctionSerdeTypedDict
 from .functionserialize import FunctionSerialize, FunctionSerializeTypedDict
 from .functionsidlookup import FunctionSidlookup, FunctionSidlookupTypedDict
+from .functionsignalfilter import FunctionSignalFilter, FunctionSignalFilterTypedDict
 from .functionsnmptrapserialize import (
     FunctionSnmpTrapSerialize,
     FunctionSnmpTrapSerializeTypedDict,
@@ -155,6 +156,7 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionSerdeTypedDict,
         FunctionSerializeTypedDict,
         FunctionSidlookupTypedDict,
+        FunctionSignalFilterTypedDict,
         FunctionSnmpTrapSerializeTypedDict,
         FunctionSortTypedDict,
         FunctionStoreTypedDict,
@@ -227,6 +229,7 @@ FunctionResponse = Annotated[
         Annotated[FunctionSerde, Tag("serde")],
         Annotated[FunctionSerialize, Tag("serialize")],
         Annotated[FunctionSidlookup, Tag("sidlookup")],
+        Annotated[FunctionSignalFilter, Tag("signal_filter")],
         Annotated[FunctionSnmpTrapSerialize, Tag("snmp_trap_serialize")],
         Annotated[FunctionSort, Tag("sort")],
         Annotated[FunctionStore, Tag("store")],

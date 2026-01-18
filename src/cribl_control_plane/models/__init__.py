@@ -169,6 +169,10 @@ if TYPE_CHECKING:
         CountedCriblLakeDataset,
         CountedCriblLakeDatasetTypedDict,
     )
+    from .counteddatabaseconnectionconfig import (
+        CountedDatabaseConnectionConfig,
+        CountedDatabaseConnectionConfigTypedDict,
+    )
     from .counteddistributedsummary import (
         CountedDistributedSummary,
         CountedDistributedSummaryTypedDict,
@@ -1048,8 +1052,6 @@ if TYPE_CHECKING:
         URLSplunkHecTypedDict,
         URLWebhook,
         URLWebhookTypedDict,
-        URLWizHec,
-        URLWizHecTypedDict,
         URLXsiam,
         URLXsiamTypedDict,
     )
@@ -1096,6 +1098,11 @@ if TYPE_CHECKING:
         DatabaseCollectorConfStateTrackingTypedDict,
         DatabaseCollectorConfTypedDict,
     )
+    from .databaseconnectionconfig import (
+        DatabaseConnectionConfig,
+        DatabaseConnectionConfigTypedDict,
+    )
+    from .databaseconnectiontype import DatabaseConnectionType
     from .datacompressionformatoptionspersistence import (
         DataCompressionFormatOptionsPersistence,
     )
@@ -1113,6 +1120,10 @@ if TYPE_CHECKING:
     from .deletecribllakedatasetbylakeidandidop import (
         DeleteCriblLakeDatasetByLakeIDAndIDRequest,
         DeleteCriblLakeDatasetByLakeIDAndIDRequestTypedDict,
+    )
+    from .deletedatabaseconnectionconfigbyidop import (
+        DeleteDatabaseConnectionConfigByIDRequest,
+        DeleteDatabaseConnectionConfigByIDRequestTypedDict,
     )
     from .deleteinputbyidop import (
         DeleteInputByIDRequest,
@@ -1379,6 +1390,10 @@ if TYPE_CHECKING:
         FunctionConfSchemaSidlookupFieldTypedDict,
         FunctionConfSchemaSidlookupTypedDict,
     )
+    from .functionconfschemasignalfilter import (
+        FunctionConfSchemaSignalFilter,
+        FunctionConfSchemaSignalFilterTypedDict,
+    )
     from .functionconfschemasnmptrapserialize import (
         FunctionConfSchemaSnmpTrapSerialize,
         FunctionConfSchemaSnmpTrapSerializeTypedDict,
@@ -1572,6 +1587,11 @@ if TYPE_CHECKING:
         FunctionSidlookupID,
         FunctionSidlookupTypedDict,
     )
+    from .functionsignalfilter import (
+        FunctionSignalFilter,
+        FunctionSignalFilterID,
+        FunctionSignalFilterTypedDict,
+    )
     from .functionsnmptrapserialize import (
         FunctionSnmpTrapSerialize,
         FunctionSnmpTrapSerializeID,
@@ -1629,6 +1649,10 @@ if TYPE_CHECKING:
     from .getcribllakedatasetbylakeidop import (
         GetCriblLakeDatasetByLakeIDRequest,
         GetCriblLakeDatasetByLakeIDRequestTypedDict,
+    )
+    from .getdatabaseconnectionconfigbyidop import (
+        GetDatabaseConnectionConfigByIDRequest,
+        GetDatabaseConnectionConfigByIDRequestTypedDict,
     )
     from .getfunctionsbyidop import (
         GetFunctionsByIDRequest,
@@ -2951,13 +2975,7 @@ if TYPE_CHECKING:
         OutputWebhookURL,
         OutputWebhookURLTypedDict,
     )
-    from .outputwizhec import (
-        OutputWizHec,
-        OutputWizHecType,
-        OutputWizHecTypedDict,
-        OutputWizHecURL,
-        OutputWizHecURLTypedDict,
-    )
+    from .outputwizhec import OutputWizHec, OutputWizHecType, OutputWizHecTypedDict
     from .outputxsiam import (
         OutputXsiam,
         OutputXsiamAuthenticationMethod,
@@ -3379,6 +3397,11 @@ if TYPE_CHECKING:
         PipelineFunctionSidlookup,
         PipelineFunctionSidlookupID,
         PipelineFunctionSidlookupTypedDict,
+    )
+    from .pipelinefunctionsignalfilter import (
+        PipelineFunctionSignalFilter,
+        PipelineFunctionSignalFilterID,
+        PipelineFunctionSignalFilterTypedDict,
     )
     from .pipelinefunctionsnmptrapserialize import (
         PipelineFunctionSnmpTrapSerialize,
@@ -3979,6 +4002,10 @@ if TYPE_CHECKING:
         UpdateCriblLakeDatasetByLakeIDAndIDRequest,
         UpdateCriblLakeDatasetByLakeIDAndIDRequestTypedDict,
     )
+    from .updatedatabaseconnectionconfigbyidop import (
+        UpdateDatabaseConnectionConfigByIDRequest,
+        UpdateDatabaseConnectionConfigByIDRequestTypedDict,
+    )
     from .updatehectokenrequest import (
         UpdateHecTokenRequest,
         UpdateHecTokenRequestTypedDict,
@@ -4256,6 +4283,8 @@ __all__ = [
     "CountedConfigGroupTypedDict",
     "CountedCriblLakeDataset",
     "CountedCriblLakeDatasetTypedDict",
+    "CountedDatabaseConnectionConfig",
+    "CountedDatabaseConnectionConfigTypedDict",
     "CountedDistributedSummary",
     "CountedDistributedSummaryTypedDict",
     "CountedFunctionResponse",
@@ -4923,6 +4952,9 @@ __all__ = [
     "DatabaseCollectorConfStateTracking",
     "DatabaseCollectorConfStateTrackingTypedDict",
     "DatabaseCollectorConfTypedDict",
+    "DatabaseConnectionConfig",
+    "DatabaseConnectionConfigTypedDict",
+    "DatabaseConnectionType",
     "DatadogSite",
     "DatasetMetadata",
     "DatasetMetadataRunInfo",
@@ -4933,6 +4965,8 @@ __all__ = [
     "DeleteConfigGroupByProductAndIDRequestTypedDict",
     "DeleteCriblLakeDatasetByLakeIDAndIDRequest",
     "DeleteCriblLakeDatasetByLakeIDAndIDRequestTypedDict",
+    "DeleteDatabaseConnectionConfigByIDRequest",
+    "DeleteDatabaseConnectionConfigByIDRequestTypedDict",
     "DeleteInputByIDRequest",
     "DeleteInputByIDRequestTypedDict",
     "DeleteOutputByIDRequest",
@@ -5132,6 +5166,8 @@ __all__ = [
     "FunctionConfSchemaSidlookupField",
     "FunctionConfSchemaSidlookupFieldTypedDict",
     "FunctionConfSchemaSidlookupTypedDict",
+    "FunctionConfSchemaSignalFilter",
+    "FunctionConfSchemaSignalFilterTypedDict",
     "FunctionConfSchemaSnmpTrapSerialize",
     "FunctionConfSchemaSnmpTrapSerializeTypedDict",
     "FunctionConfSchemaSnmpTrapSerializeV3User",
@@ -5278,6 +5314,9 @@ __all__ = [
     "FunctionSidlookup",
     "FunctionSidlookupID",
     "FunctionSidlookupTypedDict",
+    "FunctionSignalFilter",
+    "FunctionSignalFilterID",
+    "FunctionSignalFilterTypedDict",
     "FunctionSnmpTrapSerialize",
     "FunctionSnmpTrapSerializeID",
     "FunctionSnmpTrapSerializeTypedDict",
@@ -5321,6 +5360,8 @@ __all__ = [
     "GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict",
     "GetCriblLakeDatasetByLakeIDRequest",
     "GetCriblLakeDatasetByLakeIDRequestTypedDict",
+    "GetDatabaseConnectionConfigByIDRequest",
+    "GetDatabaseConnectionConfigByIDRequestTypedDict",
     "GetFunctionsByIDRequest",
     "GetFunctionsByIDRequestTypedDict",
     "GetInputByIDRequest",
@@ -6379,8 +6420,6 @@ __all__ = [
     "OutputWizHec",
     "OutputWizHecType",
     "OutputWizHecTypedDict",
-    "OutputWizHecURL",
-    "OutputWizHecURLTypedDict",
     "OutputXsiam",
     "OutputXsiamAuthenticationMethod",
     "OutputXsiamPqControls",
@@ -6650,6 +6689,9 @@ __all__ = [
     "PipelineFunctionSidlookup",
     "PipelineFunctionSidlookupID",
     "PipelineFunctionSidlookupTypedDict",
+    "PipelineFunctionSignalFilter",
+    "PipelineFunctionSignalFilterID",
+    "PipelineFunctionSignalFilterTypedDict",
     "PipelineFunctionSnmpTrapSerialize",
     "PipelineFunctionSnmpTrapSerializeID",
     "PipelineFunctionSnmpTrapSerializeTypedDict",
@@ -7354,8 +7396,6 @@ __all__ = [
     "URLSplunkHecTypedDict",
     "URLWebhook",
     "URLWebhookTypedDict",
-    "URLWizHec",
-    "URLWizHecTypedDict",
     "URLXsiam",
     "URLXsiamTypedDict",
     "UnionConfiguration",
@@ -7366,6 +7406,8 @@ __all__ = [
     "UpdateConfigGroupDeployByProductAndIDRequestTypedDict",
     "UpdateCriblLakeDatasetByLakeIDAndIDRequest",
     "UpdateCriblLakeDatasetByLakeIDAndIDRequestTypedDict",
+    "UpdateDatabaseConnectionConfigByIDRequest",
+    "UpdateDatabaseConnectionConfigByIDRequestTypedDict",
     "UpdateHecTokenRequest",
     "UpdateHecTokenRequestTypedDict",
     "UpdateInputByIDRequest",
@@ -7546,6 +7588,8 @@ _dynamic_imports: dict[str, str] = {
     "CountedConfigGroupTypedDict": ".countedconfiggroup",
     "CountedCriblLakeDataset": ".countedcribllakedataset",
     "CountedCriblLakeDatasetTypedDict": ".countedcribllakedataset",
+    "CountedDatabaseConnectionConfig": ".counteddatabaseconnectionconfig",
+    "CountedDatabaseConnectionConfigTypedDict": ".counteddatabaseconnectionconfig",
     "CountedDistributedSummary": ".counteddistributedsummary",
     "CountedDistributedSummaryTypedDict": ".counteddistributedsummary",
     "CountedFunctionResponse": ".countedfunctionresponse",
@@ -8390,8 +8434,6 @@ _dynamic_imports: dict[str, str] = {
     "URLSplunkHecTypedDict": ".createoutputop",
     "URLWebhook": ".createoutputop",
     "URLWebhookTypedDict": ".createoutputop",
-    "URLWizHec": ".createoutputop",
-    "URLWizHecTypedDict": ".createoutputop",
     "URLXsiam": ".createoutputop",
     "URLXsiamTypedDict": ".createoutputop",
     "CreateOutputTestByIDRequest": ".createoutputtestbyidop",
@@ -8422,6 +8464,9 @@ _dynamic_imports: dict[str, str] = {
     "DatabaseCollectorConfStateTracking": ".databasecollectorconf",
     "DatabaseCollectorConfStateTrackingTypedDict": ".databasecollectorconf",
     "DatabaseCollectorConfTypedDict": ".databasecollectorconf",
+    "DatabaseConnectionConfig": ".databaseconnectionconfig",
+    "DatabaseConnectionConfigTypedDict": ".databaseconnectionconfig",
+    "DatabaseConnectionType": ".databaseconnectiontype",
     "DataCompressionFormatOptionsPersistence": ".datacompressionformatoptionspersistence",
     "DataFormatOptions": ".dataformatoptions",
     "DataPageVersionOptions": ".datapageversionoptions",
@@ -8434,6 +8479,8 @@ _dynamic_imports: dict[str, str] = {
     "DeleteConfigGroupByProductAndIDRequestTypedDict": ".deleteconfiggroupbyproductandidop",
     "DeleteCriblLakeDatasetByLakeIDAndIDRequest": ".deletecribllakedatasetbylakeidandidop",
     "DeleteCriblLakeDatasetByLakeIDAndIDRequestTypedDict": ".deletecribllakedatasetbylakeidandidop",
+    "DeleteDatabaseConnectionConfigByIDRequest": ".deletedatabaseconnectionconfigbyidop",
+    "DeleteDatabaseConnectionConfigByIDRequestTypedDict": ".deletedatabaseconnectionconfigbyidop",
     "DeleteInputByIDRequest": ".deleteinputbyidop",
     "DeleteInputByIDRequestTypedDict": ".deleteinputbyidop",
     "DeleteOutputByIDRequest": ".deleteoutputbyidop",
@@ -8614,6 +8661,8 @@ _dynamic_imports: dict[str, str] = {
     "FunctionConfSchemaSidlookupField": ".functionconfschemasidlookup",
     "FunctionConfSchemaSidlookupFieldTypedDict": ".functionconfschemasidlookup",
     "FunctionConfSchemaSidlookupTypedDict": ".functionconfschemasidlookup",
+    "FunctionConfSchemaSignalFilter": ".functionconfschemasignalfilter",
+    "FunctionConfSchemaSignalFilterTypedDict": ".functionconfschemasignalfilter",
     "FunctionConfSchemaSnmpTrapSerialize": ".functionconfschemasnmptrapserialize",
     "FunctionConfSchemaSnmpTrapSerializeTypedDict": ".functionconfschemasnmptrapserialize",
     "FunctionConfSchemaSnmpTrapSerializeV3User": ".functionconfschemasnmptrapserialize",
@@ -8760,6 +8809,9 @@ _dynamic_imports: dict[str, str] = {
     "FunctionSidlookup": ".functionsidlookup",
     "FunctionSidlookupID": ".functionsidlookup",
     "FunctionSidlookupTypedDict": ".functionsidlookup",
+    "FunctionSignalFilter": ".functionsignalfilter",
+    "FunctionSignalFilterID": ".functionsignalfilter",
+    "FunctionSignalFilterTypedDict": ".functionsignalfilter",
     "FunctionSnmpTrapSerialize": ".functionsnmptrapserialize",
     "FunctionSnmpTrapSerializeID": ".functionsnmptrapserialize",
     "FunctionSnmpTrapSerializeTypedDict": ".functionsnmptrapserialize",
@@ -8802,6 +8854,8 @@ _dynamic_imports: dict[str, str] = {
     "GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict": ".getcribllakedatasetbylakeidandidop",
     "GetCriblLakeDatasetByLakeIDRequest": ".getcribllakedatasetbylakeidop",
     "GetCriblLakeDatasetByLakeIDRequestTypedDict": ".getcribllakedatasetbylakeidop",
+    "GetDatabaseConnectionConfigByIDRequest": ".getdatabaseconnectionconfigbyidop",
+    "GetDatabaseConnectionConfigByIDRequestTypedDict": ".getdatabaseconnectionconfigbyidop",
     "GetFunctionsByIDRequest": ".getfunctionsbyidop",
     "GetFunctionsByIDRequestTypedDict": ".getfunctionsbyidop",
     "GetInputByIDRequest": ".getinputbyidop",
@@ -9917,8 +9971,6 @@ _dynamic_imports: dict[str, str] = {
     "OutputWizHec": ".outputwizhec",
     "OutputWizHecType": ".outputwizhec",
     "OutputWizHecTypedDict": ".outputwizhec",
-    "OutputWizHecURL": ".outputwizhec",
-    "OutputWizHecURLTypedDict": ".outputwizhec",
     "OutputXsiam": ".outputxsiam",
     "OutputXsiamAuthenticationMethod": ".outputxsiam",
     "OutputXsiamPqControls": ".outputxsiam",
@@ -10221,6 +10273,9 @@ _dynamic_imports: dict[str, str] = {
     "PipelineFunctionSidlookup": ".pipelinefunctionsidlookup",
     "PipelineFunctionSidlookupID": ".pipelinefunctionsidlookup",
     "PipelineFunctionSidlookupTypedDict": ".pipelinefunctionsidlookup",
+    "PipelineFunctionSignalFilter": ".pipelinefunctionsignalfilter",
+    "PipelineFunctionSignalFilterID": ".pipelinefunctionsignalfilter",
+    "PipelineFunctionSignalFilterTypedDict": ".pipelinefunctionsignalfilter",
     "PipelineFunctionSnmpTrapSerialize": ".pipelinefunctionsnmptrapserialize",
     "PipelineFunctionSnmpTrapSerializeID": ".pipelinefunctionsnmptrapserialize",
     "PipelineFunctionSnmpTrapSerializeTypedDict": ".pipelinefunctionsnmptrapserialize",
@@ -10746,6 +10801,8 @@ _dynamic_imports: dict[str, str] = {
     "UpdateConfigGroupDeployByProductAndIDRequestTypedDict": ".updateconfiggroupdeploybyproductandidop",
     "UpdateCriblLakeDatasetByLakeIDAndIDRequest": ".updatecribllakedatasetbylakeidandidop",
     "UpdateCriblLakeDatasetByLakeIDAndIDRequestTypedDict": ".updatecribllakedatasetbylakeidandidop",
+    "UpdateDatabaseConnectionConfigByIDRequest": ".updatedatabaseconnectionconfigbyidop",
+    "UpdateDatabaseConnectionConfigByIDRequestTypedDict": ".updatedatabaseconnectionconfigbyidop",
     "UpdateHecTokenRequest": ".updatehectokenrequest",
     "UpdateHecTokenRequestTypedDict": ".updatehectokenrequest",
     "UpdateInputByIDRequest": ".updateinputbyidop",

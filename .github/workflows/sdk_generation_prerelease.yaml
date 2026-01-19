@@ -89,7 +89,7 @@ jobs:
 
   generate:
     needs: [check-branch, compute-version]
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@822d97c4e41b91bab028ced6a651c0be3bacdea2
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@cbbd708ac51038cf9743b3b8bffe1556d8603f10
     with:
       force: true
       mode: pr

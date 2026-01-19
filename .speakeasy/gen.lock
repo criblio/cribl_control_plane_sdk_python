@@ -5,15 +5,15 @@ management:
   docVersion: 4.16.0-alpha.1768691071776-8e903b53
   speakeasyVersion: 1.685.0
   generationVersion: 2.794.1
-  releaseVersion: 0.5.0a6
-  configChecksum: 7eaab1a8643081dbd94d21cdef6ce4df
+  releaseVersion: 0.5.0a7
+  configChecksum: 42a9f68450a51e2c532f8bce36046d7a
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 7703a4a8-73eb-4f54-a81a-4985eeb8131e
-  pristine_commit_hash: fcf6b2d9097e772cde0d237df8da440df9e850a7
-  pristine_tree_hash: fd27064672d2bae09a378109adacd5d20c223cab
+  generation_id: 3aae7556-fe1a-496b-801f-9d6ef65586c2
+  pristine_commit_hash: e48bd467d2da952b6ce93908c204fdcf5d2f5664
+  pristine_tree_hash: 5ef70205fd3b9964ccefdec1505327d7426c0a98
 features:
   python:
     additionalDependencies: 1.0.0
@@ -8616,8 +8616,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:d24dffaaf8afeee500cbaf600a219a2efcd840b0
-    pristine_git_object: fe7a26b24324ed462afdf4f5d76363f1a37c9fc3
+    last_write_checksum: sha1:baaebd6260d52ae8002e4d902d64d0ba064e154b
+    pristine_git_object: 8990df945bb9577b3d304b474f4efe2779a65873
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -8648,8 +8648,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:06331554800580ad8730c7712a9905c95ce7cac3
-    pristine_git_object: 25f0b12fb9bfb65aa5782e389b2a02ba183838ad
+    last_write_checksum: sha1:787a0527fb8fa3fa9ecfb912156c6317c1eb3447
+    pristine_git_object: f600e308cce6bab86a1134585d22142caf02f25e
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -16180,7 +16180,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[wiz_hec]` **Changed** **Breaking** :warning:\n  *  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[wiz_hec]` **Changed** **Breaking** :warning:\n  *  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.pipelines.list()`:  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.pipelines.create()`: \n  *  `request.conf.functions.[].[signal_filter]` **Added**\n  *  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.pipelines.get()`:  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.pipelines.update()`: \n  *  `request.conf.functions.[].[signal_filter]` **Added**\n  *  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.pipelines.delete()`:  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.functions.get()`:  `response.items.[].[signal_filter]` **Added**\n* `cribl_control_plane.functions.list()`:  `response.items.[].[signal_filter]` **Added**\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

@@ -5,15 +5,15 @@ management:
   docVersion: 4.17.0-alpha.1768691073650-d1087de6
   speakeasyVersion: 1.685.0
   generationVersion: 2.794.1
-  releaseVersion: 0.5.0b26
-  configChecksum: 69eb2f7d8679948ed973d0f5c42f647f
+  releaseVersion: 0.5.0b27
+  configChecksum: 11da85a31bd797e505be1814037cc844
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: f83c9d70-ad5d-4e1a-90bf-5c69b94cc8d5
-  pristine_commit_hash: 5e3eda5e85f90e2efe3a47bd6365d5aa9553541c
-  pristine_tree_hash: f3eb9c03db0d68489e671cb8ea82b056f568ae01
+  generation_id: 311673b1-3123-4b2e-b9c3-c921625143f3
+  pristine_commit_hash: 9351b74255d6cb4d9755436af8cd542cb33f6dc9
+  pristine_tree_hash: 870a356e9b7a036fa8be3e55b57623d215d9d439
 features:
   python:
     additionalDependencies: 1.0.0
@@ -8644,8 +8644,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:b259f04d953fd3781a3fd49c7502605c388c1766
-    pristine_git_object: 8fc5817cb954f9bbcb7583c09827966311b1f440
+    last_write_checksum: sha1:ba4245ac6b6e865b29dbe578a2ec4999fe15627f
+    pristine_git_object: dfb9498138f61f57dcfd7ffb93d2afee6ef47067
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -8676,8 +8676,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:51282ec837016d91a477890d2060456c735715b5
-    pristine_git_object: 1117d580b9f25ade796eb24b723ed91b42aaefcb
+    last_write_checksum: sha1:c2d15a4314912810b3fee8c45287eb0be7c2588b
+    pristine_git_object: 1a892a56afa5b2f7bb543727f35b38fa228e1472
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -16465,7 +16465,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[wiz_hec]` **Changed** **Breaking** :warning:\n  *  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[wiz_hec]` **Changed** **Breaking** :warning:\n  *  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[wiz_hec]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.pipelines.list()`:  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.database_connections.update()`: **Added**\n* `cribl_control_plane.database_connections.get()`: **Added**\n* `cribl_control_plane.database_connections.delete()`: **Added**\n* `cribl_control_plane.pipelines.create()`: \n  *  `request.conf.functions.[].[signal_filter]` **Added**\n  *  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.database_connections.create()`: **Added**\n* `cribl_control_plane.pipelines.get()`:  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.pipelines.update()`: \n  *  `request.conf.functions.[].[signal_filter]` **Added**\n  *  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.pipelines.delete()`:  `response.items.[].conf.functions.[].[signal_filter]` **Added**\n* `cribl_control_plane.routes.append()`: \n  *  `request_body.[].to_group_context` **Added**\n* `cribl_control_plane.functions.get()`:  `response.items.[].[signal_filter]` **Added**\n* `cribl_control_plane.functions.list()`:  `response.items.[].[signal_filter]` **Added**\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

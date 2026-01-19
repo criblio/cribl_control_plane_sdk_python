@@ -34,7 +34,7 @@ jobs:
 
   generate:
     needs: check-branch
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@cbbd708ac51038cf9743b3b8bffe1556d8603f10
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@aff0e9167c46e30b08e9622cc6188f6488ed6117
     with:
       force: ${{ github.event.inputs.force }}
       mode: pr

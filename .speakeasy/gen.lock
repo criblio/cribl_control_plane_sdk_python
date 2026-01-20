@@ -10707,7 +10707,30 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.lake_datasets.list()`:  `request` **Changed**\n* `cribl_control_plane.sources.hec_tokens.create()`:  `request.allowed_indexes_at_token` **Added**\n* `cribl_control_plane.sources.hec_tokens.update()`:  `request.allowed_indexes_at_token` **Added**\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[cribl_http].throttle_rate_per_sec` **Added**\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[cribl_http].throttle_rate_per_sec` **Added**\n  *  `response.items.[].[cribl_http].throttle_rate_per_sec` **Added**\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[cribl_http].throttle_rate_per_sec` **Added**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[cribl_http].throttle_rate_per_sec` **Added**\n  *  `response.items.[].[cribl_http].throttle_rate_per_sec` **Added**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[cribl_http].throttle_rate_per_sec` **Added**\n"
+releaseNotes: |
+  ## Python SDK Changes
+
+  This version of the SDK is generated for Cribl version 4.16.0.
+
+  ### Added new endpoints
+  * Functions:
+    * `criblcontrolplane.functions.list()`
+    * `criblcontrolplane.functions.get()`
+  * System Settings:
+    * `criblcontrolplane.system.settings.cribl.list()`
+    * `criblcontrolplane.system.settings.cribl.update()`
+  * Collectors:
+    * `criblcontrolplane.collectors.list()`
+    * `criblcontrolplane.collectors.create()`
+    * `criblcontrolplane.collectors.get()`
+    * `criblcontrolplane.collectors.update()`
+    * `criblcontrolplane.collectors.delete()`
+
+  ### Added request body examples
+    * Sources
+    * Destinations
+    * Pipelines
+    * Collectors
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

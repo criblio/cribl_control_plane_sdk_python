@@ -16,10 +16,10 @@ from .typecollectionwithbreakerrulesetsconstraint import (
     TypeCollectionWithBreakerRulesetsConstraintTypedDict,
 )
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
+from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -73,6 +73,22 @@ class CaptureSettings(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["duration", "maxEvents", "level"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RunnableJobCollectionRunTypedDict(TypedDict):
@@ -206,6 +222,39 @@ class RunnableJobCollectionRun(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "rescheduleDroppedTasks",
+                "maxTaskReschedule",
+                "logLevel",
+                "jobTimeout",
+                "timeRangeType",
+                "earliest",
+                "latest",
+                "timestampTimezone",
+                "timeWarning",
+                "expression",
+                "minTaskSize",
+                "maxTaskSize",
+                "discoverToRoutes",
+                "capture",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RunnableJobCollectionTypedDict(TypedDict):
     collector: CollectorTypedDict
@@ -289,3 +338,34 @@ class RunnableJobCollection(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "description",
+                "type",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "removeFields",
+                "resumeOnBoot",
+                "environment",
+                "schedule",
+                "streamtags",
+                "workerAffinity",
+                "input",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

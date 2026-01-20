@@ -9,11 +9,11 @@ from .retrytypeoptionshealthcheckcollectorconfretryrules import (
     RetryTypeOptionsHealthCheckCollectorConfRetryRules,
 )
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer
+from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -154,6 +154,33 @@ class RestAuthenticationHmacRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationHmacStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -163,6 +190,22 @@ class RestAuthenticationHmacStateTrackingTypedDict(TypedDict):
 class RestAuthenticationHmacStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationHmacSchedulingTypedDict(TypedDict):
@@ -174,6 +217,22 @@ class RestAuthenticationHmacScheduling(BaseModel):
         Optional[RestAuthenticationHmacStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationHmacTypedDict(TypedDict):
@@ -304,6 +363,41 @@ class RestAuthenticationHmac(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discovery",
+                "collectVerb",
+                "collectRequestParams",
+                "collectBody",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationGoogleOauthSecretAuthentication(
@@ -451,6 +545,33 @@ class RestAuthenticationGoogleOauthSecretRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationGoogleOauthSecretStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -460,6 +581,22 @@ class RestAuthenticationGoogleOauthSecretStateTrackingTypedDict(TypedDict):
 class RestAuthenticationGoogleOauthSecretStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationGoogleOauthSecretSchedulingTypedDict(TypedDict):
@@ -473,6 +610,22 @@ class RestAuthenticationGoogleOauthSecretScheduling(BaseModel):
         Optional[RestAuthenticationGoogleOauthSecretStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationGoogleOauthSecretTypedDict(TypedDict):
@@ -616,6 +769,41 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discovery",
+                "collectVerb",
+                "collectRequestParams",
+                "collectBody",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationGoogleOauthAuthentication(
@@ -762,6 +950,33 @@ class RestAuthenticationGoogleOauthRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationGoogleOauthStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -771,6 +986,22 @@ class RestAuthenticationGoogleOauthStateTrackingTypedDict(TypedDict):
 class RestAuthenticationGoogleOauthStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationGoogleOauthSchedulingTypedDict(TypedDict):
@@ -782,6 +1013,22 @@ class RestAuthenticationGoogleOauthScheduling(BaseModel):
         Optional[RestAuthenticationGoogleOauthStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationGoogleOauthTypedDict(TypedDict):
@@ -928,6 +1175,41 @@ class RestAuthenticationGoogleOauth(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discovery",
+                "collectVerb",
+                "collectRequestParams",
+                "collectBody",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationOauthSecretAuthentication(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -1073,6 +1355,33 @@ class RestAuthenticationOauthSecretRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationOauthSecretStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -1082,6 +1391,22 @@ class RestAuthenticationOauthSecretStateTrackingTypedDict(TypedDict):
 class RestAuthenticationOauthSecretStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationOauthSecretSchedulingTypedDict(TypedDict):
@@ -1093,6 +1418,22 @@ class RestAuthenticationOauthSecretScheduling(BaseModel):
         Optional[RestAuthenticationOauthSecretStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationOauthSecretTypedDict(TypedDict):
@@ -1276,6 +1617,45 @@ class RestAuthenticationOauthSecret(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "tokenRespAttribute",
+                "authHeaderKey",
+                "authRequestParams",
+                "authRequestHeaders",
+                "discovery",
+                "collectVerb",
+                "collectRequestParams",
+                "collectBody",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationOauthAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
@@ -1413,6 +1793,33 @@ class RestAuthenticationOauthRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationOauthStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -1422,6 +1829,22 @@ class RestAuthenticationOauthStateTrackingTypedDict(TypedDict):
 class RestAuthenticationOauthStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationOauthSchedulingTypedDict(TypedDict):
@@ -1433,6 +1856,22 @@ class RestAuthenticationOauthScheduling(BaseModel):
         Optional[RestAuthenticationOauthStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationOauthTypedDict(TypedDict):
@@ -1616,6 +2055,45 @@ class RestAuthenticationOauth(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "tokenRespAttribute",
+                "authHeaderKey",
+                "authRequestParams",
+                "authRequestHeaders",
+                "discovery",
+                "collectVerb",
+                "collectRequestParams",
+                "collectBody",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationLoginSecretAuthentication(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -1761,6 +2239,33 @@ class RestAuthenticationLoginSecretRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationLoginSecretStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -1770,6 +2275,22 @@ class RestAuthenticationLoginSecretStateTrackingTypedDict(TypedDict):
 class RestAuthenticationLoginSecretStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationLoginSecretSchedulingTypedDict(TypedDict):
@@ -1781,6 +2302,22 @@ class RestAuthenticationLoginSecretScheduling(BaseModel):
         Optional[RestAuthenticationLoginSecretStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationLoginSecretTypedDict(TypedDict):
@@ -1952,6 +2489,44 @@ class RestAuthenticationLoginSecret(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "getAuthTokenFromHeader",
+                "authHeaderKey",
+                "authRequestHeaders",
+                "discovery",
+                "collectVerb",
+                "collectRequestParams",
+                "collectBody",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationLoginAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
@@ -2089,6 +2664,33 @@ class RestAuthenticationLoginRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationLoginStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -2098,6 +2700,22 @@ class RestAuthenticationLoginStateTrackingTypedDict(TypedDict):
 class RestAuthenticationLoginStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationLoginSchedulingTypedDict(TypedDict):
@@ -2109,6 +2727,22 @@ class RestAuthenticationLoginScheduling(BaseModel):
         Optional[RestAuthenticationLoginStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationLoginTypedDict(TypedDict):
@@ -2279,6 +2913,44 @@ class RestAuthenticationLogin(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "getAuthTokenFromHeader",
+                "authHeaderKey",
+                "authRequestHeaders",
+                "discovery",
+                "collectVerb",
+                "collectRequestParams",
+                "collectBody",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationBasicSecretAuthentication(
     str, Enum, metaclass=utils.OpenEnumMeta
@@ -2424,6 +3096,33 @@ class RestAuthenticationBasicSecretRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationBasicSecretStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -2433,6 +3132,22 @@ class RestAuthenticationBasicSecretStateTrackingTypedDict(TypedDict):
 class RestAuthenticationBasicSecretStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationBasicSecretSchedulingTypedDict(TypedDict):
@@ -2444,6 +3159,22 @@ class RestAuthenticationBasicSecretScheduling(BaseModel):
         Optional[RestAuthenticationBasicSecretStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationBasicSecretTypedDict(TypedDict):
@@ -2577,6 +3308,41 @@ class RestAuthenticationBasicSecret(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discovery",
+                "collectVerb",
+                "collectRequestParams",
+                "collectBody",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationBasicAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -2715,6 +3481,33 @@ class RestAuthenticationBasicRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationBasicStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -2724,6 +3517,22 @@ class RestAuthenticationBasicStateTrackingTypedDict(TypedDict):
 class RestAuthenticationBasicStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationBasicSchedulingTypedDict(TypedDict):
@@ -2735,6 +3544,22 @@ class RestAuthenticationBasicScheduling(BaseModel):
         Optional[RestAuthenticationBasicStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationBasicTypedDict(TypedDict):
@@ -2867,6 +3692,41 @@ class RestAuthenticationBasic(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discovery",
+                "collectVerb",
+                "collectRequestParams",
+                "collectBody",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationNoneAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -3005,6 +3865,33 @@ class RestAuthenticationNoneRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestAuthenticationNoneStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -3014,6 +3901,22 @@ class RestAuthenticationNoneStateTrackingTypedDict(TypedDict):
 class RestAuthenticationNoneStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationNoneSchedulingTypedDict(TypedDict):
@@ -3025,6 +3928,22 @@ class RestAuthenticationNoneScheduling(BaseModel):
         Optional[RestAuthenticationNoneStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestAuthenticationNoneTypedDict(TypedDict):
@@ -3150,6 +4069,41 @@ class RestAuthenticationNone(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discovery",
+                "collectVerb",
+                "collectRequestParams",
+                "collectBody",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestCollectMethodOtherCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -3288,6 +4242,33 @@ class RestCollectMethodOtherRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestCollectMethodOtherStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -3297,6 +4278,22 @@ class RestCollectMethodOtherStateTrackingTypedDict(TypedDict):
 class RestCollectMethodOtherStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestCollectMethodOtherSchedulingTypedDict(TypedDict):
@@ -3308,6 +4305,22 @@ class RestCollectMethodOtherScheduling(BaseModel):
         Optional[RestCollectMethodOtherStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestCollectMethodOtherTypedDict(TypedDict):
@@ -3433,6 +4446,40 @@ class RestCollectMethodOther(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "collectBody",
+                "collectRequestParams",
+                "discovery",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestCollectMethodPostWithBodyCollectMethod(
@@ -3579,6 +4626,33 @@ class RestCollectMethodPostWithBodyRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestCollectMethodPostWithBodyStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -3588,6 +4662,22 @@ class RestCollectMethodPostWithBodyStateTrackingTypedDict(TypedDict):
 class RestCollectMethodPostWithBodyStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestCollectMethodPostWithBodySchedulingTypedDict(TypedDict):
@@ -3599,6 +4689,22 @@ class RestCollectMethodPostWithBodyScheduling(BaseModel):
         Optional[RestCollectMethodPostWithBodyStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestCollectMethodPostWithBodyTypedDict(TypedDict):
@@ -3727,6 +4833,40 @@ class RestCollectMethodPostWithBody(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discovery",
+                "collectVerb",
+                "collectRequestParams",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestCollectMethodPostCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -3865,6 +5005,33 @@ class RestCollectMethodPostRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestCollectMethodPostStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -3874,6 +5041,22 @@ class RestCollectMethodPostStateTrackingTypedDict(TypedDict):
 class RestCollectMethodPostStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestCollectMethodPostSchedulingTypedDict(TypedDict):
@@ -3885,6 +5068,22 @@ class RestCollectMethodPostScheduling(BaseModel):
         Optional[RestCollectMethodPostStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestCollectMethodPostTypedDict(TypedDict):
@@ -4010,6 +5209,41 @@ class RestCollectMethodPost(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "collectRequestParams",
+                "discovery",
+                "collectVerb",
+                "collectBody",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestCollectMethodGetCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -4148,6 +5382,33 @@ class RestCollectMethodGetRetryRules(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class RestCollectMethodGetStateTrackingTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -4157,6 +5418,22 @@ class RestCollectMethodGetStateTrackingTypedDict(TypedDict):
 class RestCollectMethodGetStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestCollectMethodGetSchedulingTypedDict(TypedDict):
@@ -4168,6 +5445,22 @@ class RestCollectMethodGetScheduling(BaseModel):
         Optional[RestCollectMethodGetStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RestCollectMethodGetTypedDict(TypedDict):
@@ -4293,6 +5586,41 @@ class RestCollectMethodGet(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "collectRequestParams",
+                "discovery",
+                "collectVerb",
+                "collectBody",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 RestCollectorConfTypedDict = TypeAliasType(

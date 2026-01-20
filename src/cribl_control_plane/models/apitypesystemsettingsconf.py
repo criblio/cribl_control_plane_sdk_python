@@ -5,8 +5,9 @@ from .ssltypesystemsettingsconfapi import (
     SslTypeSystemSettingsConfAPI,
     SslTypeSystemSettingsConfAPITypedDict,
 )
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
+from pydantic import model_serializer
 from typing import Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -73,3 +74,34 @@ class APITypeSystemSettingsConf(BaseModel):
     worker_remote_access: Annotated[
         Optional[bool], pydantic.Field(alias="workerRemoteAccess")
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "baseUrl",
+                "disableApiCache",
+                "headers",
+                "idleSessionTTL",
+                "listenOnPort",
+                "loginRateLimit",
+                "protocol",
+                "scripts",
+                "sensitiveFields",
+                "ssl",
+                "ssoRateLimit",
+                "workerRemoteAccess",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

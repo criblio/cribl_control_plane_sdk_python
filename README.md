@@ -281,6 +281,13 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](docs/sdks/collectorssdk/README.md#get) - Get a Collector
 * [update](docs/sdks/collectorssdk/README.md#update) - Update a Collector
 
+### [DatabaseConnections](docs/sdks/databaseconnections/README.md)
+
+* [create](docs/sdks/databaseconnections/README.md#create) - Create Database Connection
+* [delete](docs/sdks/databaseconnections/README.md#delete) - Delete a Database Connection
+* [get](docs/sdks/databaseconnections/README.md#get) - Get a Database Connection
+* [update](docs/sdks/databaseconnections/README.md#update) - Update a Database Connection
+
 ### [Destinations](docs/sdks/destinations/README.md)
 
 * [list](docs/sdks/destinations/README.md#list) - List all Destinations
@@ -671,7 +678,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthServerStatusError`](./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 72 methods.*
+* [`HealthServerStatusError`](./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 76 methods.*
 * [`ResponseValidationError`](./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

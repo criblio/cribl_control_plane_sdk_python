@@ -159,6 +159,8 @@ with CriblControlPlane(
         "unix_socket_perms": "<value>",
         "auth_token": "",
         "text_secret": "<value>",
+        "template_host": "<value>",
+        "template_port": "<value>",
     })
 
     # Handle response
@@ -331,6 +333,8 @@ with CriblControlPlane(
         "unix_socket_perms": "<value>",
         "auth_token": "",
         "text_secret": "<value>",
+        "template_host": "<value>",
+        "template_port": "<value>",
     })
 
     # Handle response

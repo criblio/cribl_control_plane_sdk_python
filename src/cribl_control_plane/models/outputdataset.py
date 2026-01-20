@@ -157,6 +157,8 @@ class OutputDatasetTypedDict(TypedDict):
     r"""A 'Log Write Access' API key for the DataSet account"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_custom_url: NotRequired[str]
+    r"""Binds 'customUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customUrl' at runtime."""
 
 
 class OutputDataset(BaseModel):
@@ -346,6 +348,11 @@ class OutputDataset(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_custom_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_customUrl")
+    ] = None
+    r"""Binds 'customUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customUrl' at runtime."""
 
     @field_serializer("default_severity")
     def serialize_default_severity(self, value):

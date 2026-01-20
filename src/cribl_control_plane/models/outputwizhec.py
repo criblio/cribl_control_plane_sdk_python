@@ -98,6 +98,12 @@ class OutputWizHecTypedDict(TypedDict):
     r"""Wiz Defender Auth token"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_wiz_environment: NotRequired[str]
+    r"""Binds 'wiz_environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'wiz_environment' at runtime."""
+    template_data_center: NotRequired[str]
+    r"""Binds 'data_center' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'data_center' at runtime."""
+    template_wiz_sourcetype: NotRequired[str]
+    r"""Binds 'wiz_sourcetype' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'wiz_sourcetype' at runtime."""
 
 
 class OutputWizHec(BaseModel):
@@ -227,6 +233,21 @@ class OutputWizHec(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_wiz_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_wiz_environment")
+    ] = None
+    r"""Binds 'wiz_environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'wiz_environment' at runtime."""
+
+    template_data_center: Annotated[
+        Optional[str], pydantic.Field(alias="__template_data_center")
+    ] = None
+    r"""Binds 'data_center' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'data_center' at runtime."""
+
+    template_wiz_sourcetype: Annotated[
+        Optional[str], pydantic.Field(alias="__template_wiz_sourcetype")
+    ] = None
+    r"""Binds 'wiz_sourcetype' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'wiz_sourcetype' at runtime."""
 
     @field_serializer("failed_request_logging_mode")
     def serialize_failed_request_logging_mode(self, value):

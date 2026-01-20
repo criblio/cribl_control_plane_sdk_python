@@ -18704,7 +18704,30 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.pipelines.create()`: \n  *  `request.conf` **Changed** **Breaking** :warning:\n  *  `response.items.[].conf` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.nodes.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.files.list()`:  `request` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.files.count()`:  `request` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.pipelines.delete()`:  `response.items.[].conf` **Changed** **Breaking** :warning:\n* `cribl_control_plane.pipelines.update()`: \n  *  `request.conf` **Changed** **Breaking** :warning:\n  *  `response.items.[].conf` **Changed** **Breaking** :warning:\n* `cribl_control_plane.pipelines.get()`:  `response.items.[].conf` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.pipelines.list()`:  `response.items.[].conf` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.hec_tokens.create()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.hec_tokens.update()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.samples.create()`: \n  *  `request.events.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.pq.get()`:  `response.items.[].args` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.collectors.delete()`: **Added**\n* `cribl_control_plane.groups.delete()`:  `request.product` **Changed**\n* `cribl_control_plane.collectors.list()`: **Added**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.versions.commits.get()`:  `response.items.[].diff_json.[].blocks.[].lines.[]` **Changed**\n* `cribl_control_plane.functions.list()`: **Added**\n* `cribl_control_plane.functions.get()`: **Added**\n* `cribl_control_plane.system.settings.cribl.update()`: **Added**\n* `cribl_control_plane.routes.list()`:  `response.items.[].routes.[]` **Changed**\n* `cribl_control_plane.routes.get()`:  `response.items.[].routes.[]` **Changed**\n* `cribl_control_plane.routes.update()`: \n  *  `request.routes.[]` **Changed**\n  *  `response.items.[].routes.[]` **Changed**\n* `cribl_control_plane.routes.append()`:  `response.items.[].routes.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.system.settings.cribl.list()`: **Added**\n* `cribl_control_plane.collectors.create()`: **Added**\n* `cribl_control_plane.versions.commits.create()`:  `response.items.[].files` **Changed**\n* `cribl_control_plane.collectors.update()`: **Added**\n* `cribl_control_plane.collectors.get()`: **Added**\n* `cribl_control_plane.versions.commits.diff()`:  `response.items.[].diff_json.[].blocks.[].lines.[]` **Changed**\n* `cribl_control_plane.groups.list()`:  `request.product` **Changed**\n* `cribl_control_plane.groups.create()`:  `request.product` **Changed**\n* `cribl_control_plane.groups.get()`:  `request.product` **Changed**\n* `cribl_control_plane.groups.update()`:  `request.product` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.groups.deploy()`:  `request.product` **Changed**\n* `cribl_control_plane.groups.configs.versions.get()`:  `request.product` **Changed**\n* `cribl_control_plane.groups.acl.get()`:  `request.product` **Changed**\n* `cribl_control_plane.groups.acl.teams.get()`:  `request.product` **Changed**\n"
+releaseNotes: |
+  ## Python SDK Changes
+
+  This version of the SDK is generated for Cribl version 4.16.0.
+
+  ### Added new endpoints
+  * Functions:
+    * `criblcontrolplane.functions.list()`
+    * `criblcontrolplane.functions.get()`
+  * System Settings:
+    * `criblcontrolplane.system.settings.cribl.list()`
+    * `criblcontrolplane.system.settings.cribl.update()`
+  * Collectors:
+    * `criblcontrolplane.collectors.list()`
+    * `criblcontrolplane.collectors.create()`
+    * `criblcontrolplane.collectors.get()`
+    * `criblcontrolplane.collectors.update()`
+    * `criblcontrolplane.collectors.delete()`
+
+  ### Added request body examples
+    * Sources
+    * Destinations
+    * Pipelines
+    * Collectors
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

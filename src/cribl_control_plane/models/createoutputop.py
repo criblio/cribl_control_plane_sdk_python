@@ -132,11 +132,11 @@ from .tlssettingsclientsidetypekafkaschemaregistry import (
     TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
 )
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer
+from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -624,6 +624,78 @@ class CreateOutputOutputCloudflareR2(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "addIdToStagePath",
+                "destPath",
+                "signatureVersion",
+                "objectACL",
+                "storageClass",
+                "serverSideEncryption",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "verifyPermissions",
+                "removeEmptyDirs",
+                "partitionExpr",
+                "format",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxConcurrentFileParts",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "compress",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeMicrosoftFabric(str, Enum):
     MICROSOFT_FABRIC = "microsoft_fabric"
@@ -736,6 +808,38 @@ class CreateOutputAuthentication(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "mechanism",
+                "username",
+                "textSecret",
+                "clientSecretAuthType",
+                "clientTextSecret",
+                "certificateName",
+                "certPath",
+                "privKeyPath",
+                "passphrase",
+                "oauthEndpoint",
+                "clientId",
+                "tenantId",
+                "scope",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class PqControlsMicrosoftFabricTypedDict(TypedDict):
@@ -1013,6 +1117,57 @@ class CreateOutputOutputMicrosoftFabric(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "ack",
+                "format",
+                "maxRecordSizeKB",
+                "flushEventCount",
+                "flushPeriodSec",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "sasl",
+                "tls",
+                "onBackpressure",
+                "description",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeDatabricks(str, Enum):
@@ -1403,6 +1558,67 @@ class CreateOutputOutputDatabricks(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "destPath",
+                "stagePath",
+                "addIdToStagePath",
+                "removeEmptyDirs",
+                "partitionExpr",
+                "format",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "timeoutSec",
+                "description",
+                "compress",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeChronicle(str, Enum):
     CHRONICLE = "chronicle"
@@ -1427,6 +1643,22 @@ class CreateOutputCustomLabel(BaseModel):
 
     rbac_enabled: Annotated[Optional[bool], pydantic.Field(alias="rbacEnabled")] = None
     r"""Designate this label for role-based access control and filtering"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["rbacEnabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class PqControlsChronicleTypedDict(TypedDict):
@@ -1776,6 +2008,65 @@ class CreateOutputOutputChronicle(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "apiVersion",
+                "authenticationMethod",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "useRoundRobinDns",
+                "onBackpressure",
+                "totalMemoryLimitKB",
+                "ingestionMethod",
+                "namespace",
+                "logTextField",
+                "customLabels",
+                "description",
+                "serviceAccountCredentials",
+                "serviceAccountCredentialsSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeSentinelOneAiSiem(str, Enum):
@@ -2209,6 +2500,73 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "authType",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "description",
+                "token",
+                "textSecret",
+                "baseUrl",
+                "hostExpression",
+                "sourceExpression",
+                "sourceTypeExpression",
+                "dataSourceCategoryExpression",
+                "dataSourceNameExpression",
+                "dataSourceVendorExpression",
+                "eventTypeExpression",
+                "host",
+                "source",
+                "sourceType",
+                "dataSourceCategory",
+                "dataSourceName",
+                "dataSourceVendor",
+                "eventType",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeDynatraceOtlp(str, Enum):
     DYNATRACE_OTLP = "dynatrace_otlp"
@@ -2616,6 +2974,64 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "compress",
+                "httpCompress",
+                "httpTracesEndpointOverride",
+                "httpMetricsEndpointOverride",
+                "httpLogsEndpointOverride",
+                "metadata",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "timeoutSec",
+                "flushPeriodSec",
+                "failedRequestLoggingMode",
+                "connectionTimeout",
+                "keepAliveTime",
+                "keepAlive",
+                "authTokenName",
+                "onBackpressure",
+                "description",
+                "rejectUnauthorized",
+                "useRoundRobinDns",
+                "extraHttpHeaders",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeDynatraceHTTP(str, Enum):
@@ -3028,6 +3444,65 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "method",
+                "keepAlive",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "totalMemoryLimitKB",
+                "description",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "token",
+                "textSecret",
+                "environmentId",
+                "activeGateDomain",
+                "url",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeNetflow(str, Enum):
     NETFLOW = "netflow"
@@ -3111,6 +3586,33 @@ class CreateOutputOutputNetflow(BaseModel):
     ] = None
     r"""MTU in bytes. The actual maximum NetFlow payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). For example, with the default MTU of 1500, the max payload is 1472 bytes for IPv4. Payloads exceeding this limit will be dropped."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "dnsResolvePeriodSec",
+                "enableIpSpoofing",
+                "description",
+                "maxRecordSize",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeXsiam(str, Enum):
     XSIAM = "xsiam"
@@ -3134,6 +3636,22 @@ class URLXsiam(BaseModel):
 
     weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["weight"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class PqControlsXsiamTypedDict(TypedDict):
@@ -3470,6 +3988,66 @@ class CreateOutputOutputXsiam(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "loadBalanced",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "authType",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "throttleRateReqPerSec",
+                "onBackpressure",
+                "totalMemoryLimitKB",
+                "description",
+                "url",
+                "useRoundRobinDns",
+                "excludeSelf",
+                "urls",
+                "dnsResolvePeriodSec",
+                "loadBalanceStatsPeriodSec",
+                "token",
+                "textSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeClickHouse(str, Enum):
     CLICK_HOUSE = "click_house"
@@ -3528,6 +4106,32 @@ class CreateOutputStatsDestination(BaseModel):
 
     password: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "url",
+                "database",
+                "tableName",
+                "authType",
+                "username",
+                "sqlUsername",
+                "password",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputColumnMappingTypedDict(TypedDict):
     column_name: str
@@ -3549,6 +4153,22 @@ class CreateOutputColumnMapping(BaseModel):
 
     column_type: Annotated[Optional[str], pydantic.Field(alias="columnType")] = None
     r"""Type of the column in the ClickHouse database"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["columnType"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class PqControlsClickHouseTypedDict(TypedDict):
@@ -4004,6 +4624,81 @@ class CreateOutputOutputClickHouse(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "authType",
+                "format",
+                "mappingType",
+                "asyncInserts",
+                "tls",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "dumpFormatErrorsToDisk",
+                "statsDestination",
+                "onBackpressure",
+                "description",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "sqlUsername",
+                "waitForAsyncInserts",
+                "excludeMappingFields",
+                "describeTable",
+                "columnMappings",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeDiskSpool(str, Enum):
     DISK_SPOOL = "disk_spool"
@@ -4081,6 +4776,35 @@ class CreateOutputOutputDiskSpool(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "partitionExpr",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeCriblLake(str, Enum):
@@ -4464,6 +5188,71 @@ class CreateOutputOutputCriblLake(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "bucket",
+                "region",
+                "awsSecretKey",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "stagePath",
+                "addIdToStagePath",
+                "destPath",
+                "objectACL",
+                "storageClass",
+                "serverSideEncryption",
+                "kmsKeyId",
+                "removeEmptyDirs",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "verifyPermissions",
+                "maxClosingFilesToBackpressure",
+                "awsAuthenticationMethod",
+                "format",
+                "maxConcurrentFileParts",
+                "description",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeSecurityLake(str, Enum):
@@ -4941,6 +5730,77 @@ class CreateOutputOutputSecurityLake(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "awsSecretKey",
+                "awsAuthenticationMethod",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "addIdToStagePath",
+                "objectACL",
+                "storageClass",
+                "serverSideEncryption",
+                "kmsKeyId",
+                "removeEmptyDirs",
+                "baseFileName",
+                "maxFileSizeMB",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxConcurrentFileParts",
+                "verifyPermissions",
+                "maxClosingFilesToBackpressure",
+                "automaticSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "parquetSchema",
+                "deadletterPath",
+                "maxRetryNum",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeDlS3(str, Enum):
@@ -5472,6 +6332,85 @@ class CreateOutputOutputDlS3(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "region",
+                "awsSecretKey",
+                "awsAuthenticationMethod",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "addIdToStagePath",
+                "destPath",
+                "objectACL",
+                "storageClass",
+                "serverSideEncryption",
+                "kmsKeyId",
+                "removeEmptyDirs",
+                "format",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxConcurrentFileParts",
+                "verifyPermissions",
+                "maxClosingFilesToBackpressure",
+                "partitioningFields",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "compress",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeCrowdstrikeNextGenSiem(str, Enum):
     CROWDSTRIKE_NEXT_GEN_SIEM = "crowdstrike_next_gen_siem"
@@ -5790,6 +6729,59 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "authType",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "description",
+                "token",
+                "textSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeHumioHec(str, Enum):
     HUMIO_HEC = "humio_hec"
@@ -6105,6 +7097,59 @@ class CreateOutputOutputHumioHec(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "authType",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "description",
+                "token",
+                "textSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeCriblSearchEngine(str, Enum):
@@ -6450,6 +7495,67 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "loadBalanced",
+                "tls",
+                "tokenTTLMinutes",
+                "excludeFields",
+                "compression",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "throttleRatePerSec",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "authTokens",
+                "onBackpressure",
+                "useRoundRobinDns",
+                "description",
+                "url",
+                "excludeSelf",
+                "urls",
+                "dnsResolvePeriodSec",
+                "loadBalanceStatsPeriodSec",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeCriblHTTP(str, Enum):
     CRIBL_HTTP = "cribl_http"
@@ -6794,6 +7900,67 @@ class CreateOutputOutputCriblHTTP(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "loadBalanced",
+                "tls",
+                "tokenTTLMinutes",
+                "excludeFields",
+                "compression",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "throttleRatePerSec",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "authTokens",
+                "onBackpressure",
+                "description",
+                "url",
+                "useRoundRobinDns",
+                "excludeSelf",
+                "urls",
+                "dnsResolvePeriodSec",
+                "loadBalanceStatsPeriodSec",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeCriblTCP(str, Enum):
     CRIBL_TCP = "cribl_tcp"
@@ -7069,6 +8236,59 @@ class CreateOutputOutputCriblTCP(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "loadBalanced",
+                "compression",
+                "logFailedRequests",
+                "throttleRatePerSec",
+                "tls",
+                "connectionTimeout",
+                "writeTimeout",
+                "tokenTTLMinutes",
+                "authTokens",
+                "excludeFields",
+                "onBackpressure",
+                "description",
+                "host",
+                "port",
+                "excludeSelf",
+                "hosts",
+                "dnsResolvePeriodSec",
+                "loadBalanceStatsPeriodSec",
+                "maxConcurrentSenders",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeDataset(str, Enum):
@@ -7462,6 +8682,67 @@ class CreateOutputOutputDataset(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "messageField",
+                "excludeFields",
+                "serverHostField",
+                "timestampField",
+                "defaultSeverity",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "site",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "onBackpressure",
+                "authType",
+                "totalMemoryLimitKB",
+                "description",
+                "customUrl",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "apiKey",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeServiceNow(str, Enum):
     SERVICE_NOW = "service_now"
@@ -7840,6 +9121,65 @@ class CreateOutputOutputServiceNow(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "authTokenName",
+                "maxPayloadSizeKB",
+                "compress",
+                "httpCompress",
+                "httpTracesEndpointOverride",
+                "httpMetricsEndpointOverride",
+                "httpLogsEndpointOverride",
+                "metadata",
+                "concurrency",
+                "timeoutSec",
+                "flushPeriodSec",
+                "failedRequestLoggingMode",
+                "connectionTimeout",
+                "keepAliveTime",
+                "keepAlive",
+                "onBackpressure",
+                "description",
+                "rejectUnauthorized",
+                "useRoundRobinDns",
+                "extraHttpHeaders",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "tls",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeOpenTelemetry(str, Enum):
@@ -8312,6 +9652,80 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "protocol",
+                "otlpVersion",
+                "compress",
+                "httpCompress",
+                "authType",
+                "httpTracesEndpointOverride",
+                "httpMetricsEndpointOverride",
+                "httpLogsEndpointOverride",
+                "metadata",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "timeoutSec",
+                "flushPeriodSec",
+                "failedRequestLoggingMode",
+                "connectionTimeout",
+                "keepAliveTime",
+                "keepAlive",
+                "onBackpressure",
+                "description",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "rejectUnauthorized",
+                "useRoundRobinDns",
+                "extraHttpHeaders",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "tls",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeRing(str, Enum):
     RING = "ring"
@@ -8424,6 +9838,37 @@ class CreateOutputOutputRing(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "format",
+                "partitionExpr",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+                "onBackpressure",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypePrometheus(str, Enum):
@@ -8808,6 +10253,72 @@ class CreateOutputOutputPrometheus(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "metricRenameExpr",
+                "sendMetadata",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "description",
+                "metricsFlushPeriodSec",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeLoki(str, Enum):
     LOKI = "loki"
@@ -9165,6 +10676,67 @@ class CreateOutputOutputLoki(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "message",
+                "messageFormat",
+                "labels",
+                "authType",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "enableDynamicHeaders",
+                "onBackpressure",
+                "totalMemoryLimitKB",
+                "description",
+                "compress",
+                "token",
+                "textSecret",
+                "username",
+                "password",
+                "credentialsSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputOutputGrafanaCloudType2(str, Enum):
     GRAFANA_CLOUD = "grafana_cloud"
@@ -9488,6 +11060,63 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "lokiUrl",
+                "message",
+                "messageFormat",
+                "labels",
+                "metricRenameExpr",
+                "prometheusAuth",
+                "lokiAuth",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "description",
+                "compress",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputOutputGrafanaCloudType1(str, Enum):
@@ -9814,6 +11443,63 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "prometheusUrl",
+                "message",
+                "messageFormat",
+                "labels",
+                "metricRenameExpr",
+                "prometheusAuth",
+                "lokiAuth",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "description",
+                "compress",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 CreateOutputOutputGrafanaCloudUnionTypedDict = TypeAliasType(
@@ -10276,6 +11962,72 @@ class CreateOutputOutputDatadog(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "contentType",
+                "message",
+                "source",
+                "host",
+                "service",
+                "tags",
+                "batchByTags",
+                "allowApiKeyFromEvents",
+                "severity",
+                "site",
+                "sendCountersAsCount",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "totalMemoryLimitKB",
+                "description",
+                "customUrl",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "apiKey",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeSumoLogic(str, Enum):
     SUMO_LOGIC = "sumo_logic"
@@ -10595,6 +12347,60 @@ class CreateOutputOutputSumoLogic(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "customSource",
+                "customCategory",
+                "format",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "totalMemoryLimitKB",
+                "description",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeSnmp(str, Enum):
     SNMP = "snmp"
@@ -10663,6 +12469,31 @@ class CreateOutputOutputSnmp(BaseModel):
     r"""How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every trap sent will incur a DNS lookup."""
 
     description: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "dnsResolvePeriodSec",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeSqs(str, Enum):
@@ -10999,6 +12830,62 @@ class CreateOutputOutputSqs(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "awsAccountId",
+                "messageGroupId",
+                "createQueue",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "maxQueueSize",
+                "maxRecordSizeKB",
+                "flushPeriodSec",
+                "maxInProgress",
+                "onBackpressure",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeSns(str, Enum):
     SNS = "sns"
@@ -11281,6 +13168,56 @@ class CreateOutputOutputSns(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "maxRetries",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "onBackpressure",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeRouter(str, Enum):
     ROUTER = "router"
@@ -11309,6 +13246,22 @@ class CreateOutputRule(BaseModel):
 
     final: Optional[bool] = None
     r"""Flag to control whether to stop the event from being checked against other rules"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["description", "final"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputOutputRouterTypedDict(TypedDict):
@@ -11352,6 +13305,24 @@ class CreateOutputOutputRouter(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     description: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["pipeline", "systemFields", "environment", "streamtags", "description"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeGraphite(str, Enum):
@@ -11579,6 +13550,48 @@ class CreateOutputOutputGraphite(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "mtu",
+                "flushPeriodSec",
+                "dnsResolvePeriodSec",
+                "description",
+                "throttleRatePerSec",
+                "connectionTimeout",
+                "writeTimeout",
+                "onBackpressure",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeStatsdExt(str, Enum):
     STATSD_EXT = "statsd_ext"
@@ -11805,6 +13818,48 @@ class CreateOutputOutputStatsdExt(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "mtu",
+                "flushPeriodSec",
+                "dnsResolvePeriodSec",
+                "description",
+                "throttleRatePerSec",
+                "connectionTimeout",
+                "writeTimeout",
+                "onBackpressure",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeStatsd(str, Enum):
     STATSD = "statsd"
@@ -12030,6 +14085,48 @@ class CreateOutputOutputStatsd(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "mtu",
+                "flushPeriodSec",
+                "dnsResolvePeriodSec",
+                "description",
+                "throttleRatePerSec",
+                "connectionTimeout",
+                "writeTimeout",
+                "onBackpressure",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeMinio(str, Enum):
@@ -12522,6 +14619,78 @@ class CreateOutputOutputMinio(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "addIdToStagePath",
+                "destPath",
+                "signatureVersion",
+                "objectACL",
+                "storageClass",
+                "serverSideEncryption",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "verifyPermissions",
+                "removeEmptyDirs",
+                "partitionExpr",
+                "format",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxConcurrentFileParts",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "compress",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeCloudwatch(str, Enum):
     CLOUDWATCH = "cloudwatch"
@@ -12796,6 +14965,56 @@ class CreateOutputOutputCloudwatch(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "endpoint",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "maxQueueSize",
+                "maxRecordSizeKB",
+                "flushPeriodSec",
+                "onBackpressure",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeInfluxdb(str, Enum):
@@ -13242,6 +15461,77 @@ class CreateOutputOutputInfluxdb(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "useV2API",
+                "timestampPrecision",
+                "dynamicValueFieldName",
+                "valueFieldName",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "description",
+                "database",
+                "bucket",
+                "org",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeNewrelicEvents(str, Enum):
     NEWRELIC_EVENTS = "newrelic_events"
@@ -13564,6 +15854,61 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "region",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "description",
+                "customUrl",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "apiKey",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeNewrelic(str, Enum):
@@ -13929,6 +16274,65 @@ class CreateOutputOutputNewrelic(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "region",
+                "logType",
+                "messageField",
+                "metadata",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "totalMemoryLimitKB",
+                "description",
+                "customUrl",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "apiKey",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeElasticCloud(str, Enum):
     ELASTIC_CLOUD = "elastic_cloud"
@@ -14226,6 +16630,59 @@ class CreateOutputOutputElasticCloud(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "extraParams",
+                "auth",
+                "elasticPipeline",
+                "includeDocId",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "description",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeElastic(str, Enum):
     ELASTIC = "elastic"
@@ -14264,6 +16721,22 @@ class URLElastic(BaseModel):
 
     weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["weight"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class PqControlsElasticTypedDict(TypedDict):
@@ -14635,6 +17108,70 @@ class CreateOutputOutputElastic(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "loadBalanced",
+                "docType",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "extraParams",
+                "auth",
+                "elasticVersion",
+                "elasticPipeline",
+                "includeDocId",
+                "writeAction",
+                "retryPartialErrors",
+                "onBackpressure",
+                "description",
+                "url",
+                "useRoundRobinDns",
+                "excludeSelf",
+                "urls",
+                "dnsResolvePeriodSec",
+                "loadBalanceStatsPeriodSec",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeMsk(str, Enum):
@@ -15044,6 +17581,71 @@ class CreateOutputOutputMsk(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "ack",
+                "format",
+                "compression",
+                "maxRecordSizeKB",
+                "flushEventCount",
+                "flushPeriodSec",
+                "kafkaSchemaRegistry",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "awsSecretKey",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "tls",
+                "onBackpressure",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "protobufLibraryId",
+                "protobufEncodingId",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeConfluentCloud(str, Enum):
     CONFLUENT_CLOUD = "confluent_cloud"
@@ -15358,6 +17960,61 @@ class CreateOutputOutputConfluentCloud(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "tls",
+                "ack",
+                "format",
+                "compression",
+                "maxRecordSizeKB",
+                "flushEventCount",
+                "flushPeriodSec",
+                "kafkaSchemaRegistry",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "sasl",
+                "onBackpressure",
+                "description",
+                "protobufLibraryId",
+                "protobufEncodingId",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeKafka(str, Enum):
@@ -15674,6 +18331,61 @@ class CreateOutputOutputKafka(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "ack",
+                "format",
+                "compression",
+                "maxRecordSizeKB",
+                "flushEventCount",
+                "flushPeriodSec",
+                "kafkaSchemaRegistry",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "sasl",
+                "tls",
+                "onBackpressure",
+                "description",
+                "protobufLibraryId",
+                "protobufEncodingId",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeExabeam(str, Enum):
     EXABEAM = "exabeam"
@@ -15956,6 +18668,55 @@ class CreateOutputOutputExabeam(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "signatureVersion",
+                "objectACL",
+                "storageClass",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "addIdToStagePath",
+                "removeEmptyDirs",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxOpenFiles",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "retrySettings",
+                "maxFileSizeMB",
+                "encodedConfiguration",
+                "siteName",
+                "siteId",
+                "timezoneOffset",
+                "awsApiKey",
+                "awsSecretKey",
+                "description",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeGooglePubsub(str, Enum):
     GOOGLE_PUBSUB = "google_pubsub"
@@ -16206,6 +18967,54 @@ class CreateOutputOutputGooglePubsub(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "createTopic",
+                "orderedDelivery",
+                "region",
+                "googleAuthMethod",
+                "serviceAccountCredentials",
+                "secret",
+                "batchSize",
+                "batchTimeout",
+                "maxQueueSize",
+                "maxRecordSizeKB",
+                "flushPeriod",
+                "maxInProgress",
+                "onBackpressure",
+                "description",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeGoogleCloudLogging(str, Enum):
@@ -16753,6 +19562,89 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "sanitizeLogNames",
+                "payloadFormat",
+                "logLabels",
+                "resourceTypeExpression",
+                "resourceTypeLabels",
+                "severityExpression",
+                "insertIdExpression",
+                "googleAuthMethod",
+                "serviceAccountCredentials",
+                "secret",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "flushPeriodSec",
+                "concurrency",
+                "connectionTimeout",
+                "timeoutSec",
+                "throttleRateReqPerSec",
+                "requestMethodExpression",
+                "requestUrlExpression",
+                "requestSizeExpression",
+                "statusExpression",
+                "responseSizeExpression",
+                "userAgentExpression",
+                "remoteIpExpression",
+                "serverIpExpression",
+                "refererExpression",
+                "latencyExpression",
+                "cacheLookupExpression",
+                "cacheHitExpression",
+                "cacheValidatedExpression",
+                "cacheFillBytesExpression",
+                "protocolExpression",
+                "idExpression",
+                "producerExpression",
+                "firstExpression",
+                "lastExpression",
+                "fileExpression",
+                "lineExpression",
+                "functionExpression",
+                "uidExpression",
+                "indexExpression",
+                "totalSplitsExpression",
+                "traceExpression",
+                "spanIdExpression",
+                "traceSampledExpression",
+                "onBackpressure",
+                "totalMemoryLimitKB",
+                "description",
+                "payloadExpression",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeGoogleCloudStorage(str, Enum):
     GOOGLE_CLOUD_STORAGE = "google_cloud_storage"
@@ -17227,6 +20119,75 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "signatureVersion",
+                "awsAuthenticationMethod",
+                "destPath",
+                "verifyPermissions",
+                "objectACL",
+                "storageClass",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "addIdToStagePath",
+                "removeEmptyDirs",
+                "partitionExpr",
+                "format",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "description",
+                "compress",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+                "awsApiKey",
+                "awsSecretKey",
+                "awsSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeGoogleChronicle(str, Enum):
     GOOGLE_CHRONICLE = "google_chronicle"
@@ -17266,6 +20227,22 @@ class CreateOutputExtraLogType(BaseModel):
     log_type: Annotated[str, pydantic.Field(alias="logType")]
 
     description: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["description"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputUDMType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -17673,6 +20650,71 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "apiVersion",
+                "authenticationMethod",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "region",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "useRoundRobinDns",
+                "onBackpressure",
+                "totalMemoryLimitKB",
+                "description",
+                "extraLogTypes",
+                "logType",
+                "logTextField",
+                "customerId",
+                "namespace",
+                "customLabels",
+                "udmType",
+                "apiKey",
+                "apiKeySecret",
+                "serviceAccountCredentials",
+                "serviceAccountCredentialsSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeAzureEventhub(str, Enum):
     AZURE_EVENTHUB = "azure_eventhub"
@@ -17953,6 +20995,57 @@ class CreateOutputOutputAzureEventhub(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "ack",
+                "format",
+                "maxRecordSizeKB",
+                "flushEventCount",
+                "flushPeriodSec",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "sasl",
+                "tls",
+                "onBackpressure",
+                "description",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeHoneycomb(str, Enum):
@@ -18254,6 +21347,59 @@ class CreateOutputOutputHoneycomb(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "description",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "team",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeKinesis(str, Enum):
@@ -18581,6 +21727,61 @@ class CreateOutputOutputKinesis(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "concurrency",
+                "maxRecordSizeKB",
+                "flushPeriodSec",
+                "compression",
+                "useListShards",
+                "asNdjson",
+                "onBackpressure",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "maxEventsPerFlush",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeAzureLogs(str, Enum):
     AZURE_LOGS = "azure_logs"
@@ -18904,6 +22105,62 @@ class CreateOutputOutputAzureLogs(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "resourceId",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "apiUrl",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "description",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "workspaceId",
+                "workspaceKey",
+                "keypairSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeAzureDataExplorer(str, Enum):
     AZURE_DATA_EXPLORER = "azure_data_explorer"
@@ -18938,6 +22195,22 @@ class CreateOutputCertificate(BaseModel):
     ] = None
     r"""The certificate you registered as credentials for your app in the Azure portal"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["certificateName"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputPrefixOptional(str, Enum, metaclass=utils.OpenEnumMeta):
     # drop-by
@@ -18964,6 +22237,22 @@ class CreateOutputExtentTag(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["prefix"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputIngestIfNotExistTypedDict(TypedDict):
@@ -19688,6 +22977,98 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "validateDatabaseSettings",
+                "ingestMode",
+                "description",
+                "clientSecret",
+                "textSecret",
+                "certificate",
+                "format",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "removeEmptyDirs",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterEnabled",
+                "deadletterPath",
+                "maxRetryNum",
+                "isMappingObj",
+                "mappingObj",
+                "mappingRef",
+                "ingestUrl",
+                "onBackpressure",
+                "stagePath",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxOpenFiles",
+                "maxConcurrentFileParts",
+                "onDiskFullBackpressure",
+                "addIdToStagePath",
+                "retrySettings",
+                "timeoutSec",
+                "flushImmediately",
+                "retainBlobOnSuccess",
+                "extentTags",
+                "ingestIfNotExists",
+                "reportLevel",
+                "reportMethod",
+                "additionalProperties",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "flushPeriodSec",
+                "rejectUnauthorized",
+                "useRoundRobinDns",
+                "keepAlive",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeAzureBlob(str, Enum):
     AZURE_BLOB = "azure_blob"
@@ -20147,6 +23528,78 @@ class CreateOutputOutputAzureBlob(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "createContainer",
+                "destPath",
+                "addIdToStagePath",
+                "maxConcurrentFileParts",
+                "removeEmptyDirs",
+                "partitionExpr",
+                "format",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "authType",
+                "storageClass",
+                "description",
+                "compress",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+                "connectionString",
+                "textSecret",
+                "storageAccountName",
+                "tenantId",
+                "clientId",
+                "azureCloud",
+                "endpointSuffix",
+                "clientTextSecret",
+                "certificate",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeS3(str, Enum):
@@ -20678,6 +24131,85 @@ class CreateOutputOutputS3(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "region",
+                "awsSecretKey",
+                "awsAuthenticationMethod",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "addIdToStagePath",
+                "destPath",
+                "objectACL",
+                "storageClass",
+                "serverSideEncryption",
+                "kmsKeyId",
+                "removeEmptyDirs",
+                "partitionExpr",
+                "format",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxConcurrentFileParts",
+                "verifyPermissions",
+                "maxClosingFilesToBackpressure",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "compress",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeFilesystem(str, Enum):
     FILESYSTEM = "filesystem"
@@ -21027,6 +24559,65 @@ class CreateOutputOutputFilesystem(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "stagePath",
+                "addIdToStagePath",
+                "removeEmptyDirs",
+                "partitionExpr",
+                "format",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "description",
+                "compress",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeSignalfx(str, Enum):
     SIGNALFX = "signalfx"
@@ -21328,6 +24919,59 @@ class CreateOutputOutputSignalfx(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "authType",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "description",
+                "token",
+                "textSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeWavefront(str, Enum):
@@ -21631,6 +25275,59 @@ class CreateOutputOutputWavefront(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "authType",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "description",
+                "token",
+                "textSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeTcpjson(str, Enum):
     TCPJSON = "tcpjson"
@@ -21925,6 +25622,61 @@ class CreateOutputOutputTcpjson(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "loadBalanced",
+                "compression",
+                "logFailedRequests",
+                "throttleRatePerSec",
+                "tls",
+                "connectionTimeout",
+                "writeTimeout",
+                "tokenTTLMinutes",
+                "sendHeader",
+                "onBackpressure",
+                "authType",
+                "description",
+                "host",
+                "port",
+                "excludeSelf",
+                "hosts",
+                "dnsResolvePeriodSec",
+                "loadBalanceStatsPeriodSec",
+                "maxConcurrentSenders",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "authToken",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeWizHec(str, Enum):
     WIZ_HEC = "wiz_hec"
@@ -22150,6 +25902,52 @@ class CreateOutputOutputWizHec(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "loadBalanced",
+                "nextQueue",
+                "tcpRouting",
+                "tls",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "enableMultiMetrics",
+                "authType",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "description",
+                "token",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeSplunkHec(str, Enum):
     SPLUNK_HEC = "splunk_hec"
@@ -22168,6 +25966,22 @@ class URLSplunkHec(BaseModel):
 
     weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["weight"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class PqControlsSplunkHecTypedDict(TypedDict):
@@ -22516,6 +26330,69 @@ class CreateOutputOutputSplunkHec(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "loadBalanced",
+                "nextQueue",
+                "tcpRouting",
+                "tls",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "enableMultiMetrics",
+                "authType",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "description",
+                "url",
+                "useRoundRobinDns",
+                "excludeSelf",
+                "urls",
+                "dnsResolvePeriodSec",
+                "loadBalanceStatsPeriodSec",
+                "token",
+                "textSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeSplunkLb(str, Enum):
     SPLUNK_LB = "splunk_lb"
@@ -22551,6 +26428,22 @@ class CreateOutputAuthToken(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["authType", "authToken", "textSecret"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputIndexerDiscoveryConfigsTypedDict(TypedDict):
@@ -22616,6 +26509,24 @@ class CreateOutputIndexerDiscoveryConfigs(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["rejectUnauthorized", "authTokens", "authType", "authToken", "textSecret"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class PqControlsSplunkLbTypedDict(TypedDict):
@@ -22951,6 +26862,63 @@ class CreateOutputOutputSplunkLb(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "dnsResolvePeriodSec",
+                "loadBalanceStatsPeriodSec",
+                "maxConcurrentSenders",
+                "nestedFields",
+                "throttleRatePerSec",
+                "connectionTimeout",
+                "writeTimeout",
+                "tls",
+                "enableMultiMetrics",
+                "enableACK",
+                "logFailedRequests",
+                "maxS2Sversion",
+                "onBackpressure",
+                "indexerDiscovery",
+                "senderUnhealthyTimeAllowance",
+                "authType",
+                "description",
+                "maxFailedHealthChecks",
+                "compress",
+                "indexerDiscoveryConfigs",
+                "excludeSelf",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "authToken",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeSplunk(str, Enum):
     SPLUNK = "splunk"
@@ -23245,6 +27213,56 @@ class CreateOutputOutputSplunk(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "nestedFields",
+                "throttleRatePerSec",
+                "connectionTimeout",
+                "writeTimeout",
+                "tls",
+                "enableMultiMetrics",
+                "enableACK",
+                "logFailedRequests",
+                "maxS2Sversion",
+                "onBackpressure",
+                "authType",
+                "description",
+                "maxFailedHealthChecks",
+                "compress",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "authToken",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeSyslog(str, Enum):
@@ -23669,6 +27687,65 @@ class CreateOutputOutputSyslog(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "protocol",
+                "facility",
+                "severity",
+                "appName",
+                "messageFormat",
+                "timestampFormat",
+                "throttleRatePerSec",
+                "octetCountFraming",
+                "logFailedRequests",
+                "description",
+                "loadBalanced",
+                "host",
+                "port",
+                "excludeSelf",
+                "hosts",
+                "dnsResolvePeriodSec",
+                "loadBalanceStatsPeriodSec",
+                "maxConcurrentSenders",
+                "connectionTimeout",
+                "writeTimeout",
+                "tls",
+                "onBackpressure",
+                "maxRecordSize",
+                "udpDnsResolvePeriodSec",
+                "enableIpSpoofing",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeDevnull(str, Enum):
     DEVNULL = "devnull"
@@ -23707,6 +27784,22 @@ class CreateOutputOutputDevnull(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["pipeline", "systemFields", "environment", "streamtags"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputTypeSentinel(str, Enum):
@@ -24149,6 +28242,73 @@ class CreateOutputOutputSentinel(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "keepAlive",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "scope",
+                "totalMemoryLimitKB",
+                "description",
+                "format",
+                "customSourceExpression",
+                "customDropWhenNull",
+                "customEventDelimiter",
+                "customContentType",
+                "customPayloadExpression",
+                "advancedContentType",
+                "formatEventCode",
+                "formatPayloadCode",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "url",
+                "dcrID",
+                "dceEndpoint",
+                "streamName",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeWebhook(str, Enum):
     WEBHOOK = "webhook"
@@ -24205,6 +28365,22 @@ class URLWebhook(BaseModel):
 
     weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["weight"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateOutputOutputWebhookTypedDict(TypedDict):
@@ -24688,6 +28864,89 @@ class CreateOutputOutputWebhook(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "method",
+                "format",
+                "keepAlive",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "tls",
+                "totalMemoryLimitKB",
+                "loadBalanced",
+                "description",
+                "customSourceExpression",
+                "customDropWhenNull",
+                "customEventDelimiter",
+                "customContentType",
+                "customPayloadExpression",
+                "advancedContentType",
+                "formatEventCode",
+                "formatPayloadCode",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "url",
+                "excludeSelf",
+                "urls",
+                "dnsResolvePeriodSec",
+                "loadBalanceStatsPeriodSec",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateOutputTypeDefault(str, Enum):
     DEFAULT = "default"
@@ -24731,6 +28990,22 @@ class CreateOutputOutputDefault(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["pipeline", "systemFields", "environment", "streamtags"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 CreateOutputRequestTypedDict = TypeAliasType(

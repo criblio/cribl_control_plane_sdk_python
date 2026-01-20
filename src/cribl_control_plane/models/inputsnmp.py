@@ -12,10 +12,10 @@ from .itemstypenotificationmetadata import (
 )
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
+from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -79,6 +79,22 @@ class InputSnmpV3User(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["authProtocol", "authKey", "privProtocol", "privKey"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class SNMPv3AuthenticationTypedDict(TypedDict):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
@@ -104,6 +120,22 @@ class SNMPv3Authentication(BaseModel):
         Optional[List[InputSnmpV3User]], pydantic.Field(alias="v3Users")
     ] = None
     r"""User credentials for receiving v3 traps"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["allowUnmatchedTrap", "v3Users"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class InputSnmpTypedDict(TypedDict):
@@ -215,3 +247,39 @@ class InputSnmp(BaseModel):
     r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
 
     description: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "snmpV3Auth",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "metadata",
+                "udpSocketRxBufSize",
+                "varbindsWithTypes",
+                "bestEffortParsing",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

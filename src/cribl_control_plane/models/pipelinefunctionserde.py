@@ -3,10 +3,10 @@
 from __future__ import annotations
 from .typeoptions import TypeOptions
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
+from pydantic import field_serializer, model_serializer
 from typing import Any, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -83,6 +83,32 @@ class PipelineFunctionSerdeConf(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "delimChar",
+                "quoteChar",
+                "escapeChar",
+                "nullValue",
+                "srcField",
+                "dstField",
+                "cleanFields",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class PipelineFunctionSerdeTypedDict(TypedDict):
     id: PipelineFunctionSerdeID
@@ -120,3 +146,19 @@ class PipelineFunctionSerde(BaseModel):
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""Group ID"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["filter", "description", "disabled", "final", "groupId"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

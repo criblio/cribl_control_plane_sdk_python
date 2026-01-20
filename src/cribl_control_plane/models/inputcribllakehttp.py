@@ -14,9 +14,10 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
     TLSSettingsServerSideTypeTypedDict,
 )
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
+from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -42,6 +43,22 @@ class SplunkHecMetadata(BaseModel):
         Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
     ] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "defaultDataset", "allowedIndexesAtToken"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class ElasticsearchMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -54,6 +71,22 @@ class ElasticsearchMetadata(BaseModel):
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "defaultDataset"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class AuthTokensExtTypedDict(TypedDict):
@@ -80,6 +113,24 @@ class AuthTokensExt(BaseModel):
     elasticsearch_metadata: Annotated[
         Optional[ElasticsearchMetadata], pydantic.Field(alias="elasticsearchMetadata")
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["description", "metadata", "splunkHecMetadata", "elasticsearchMetadata"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class InputCriblLakeHTTPTypedDict(TypedDict):
@@ -263,3 +314,51 @@ class InputCriblLakeHTTP(BaseModel):
     ] = None
 
     description: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "criblAPI",
+                "elasticAPI",
+                "splunkHecAPI",
+                "splunkHecAcks",
+                "metadata",
+                "authTokensExt",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

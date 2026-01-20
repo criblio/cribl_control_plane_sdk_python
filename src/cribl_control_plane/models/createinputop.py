@@ -94,11 +94,11 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideTypeTypedDict,
 )
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer
+from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -161,6 +161,32 @@ class AuthTokenCloudflareHec(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "tokenSecret",
+                "token",
+                "enabled",
+                "description",
+                "allowedIndexesAtToken",
+                "metadata",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputCloudflareHecTypedDict(TypedDict):
@@ -226,10 +252,6 @@ class CreateInputInputCloudflareHecTypedDict(TypedDict):
     emit_token_metrics: NotRequired[bool]
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputCloudflareHec(BaseModel):
@@ -367,15 +389,53 @@ class CreateInputInputCloudflareHec(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "metadata",
+                "allowedIndexes",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "accessControlAllowOrigin",
+                "accessControlAllowHeaders",
+                "emitTokenMetrics",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeZscalerHec(str, Enum):
@@ -430,6 +490,31 @@ class AuthTokenZscalerHec(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "tokenSecret",
+                "enabled",
+                "description",
+                "allowedIndexesAtToken",
+                "metadata",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputZscalerHecTypedDict(TypedDict):
@@ -493,12 +578,6 @@ class CreateInputInputZscalerHecTypedDict(TypedDict):
     emit_token_metrics: NotRequired[bool]
     r"""Enable to emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-    template_hec_api: NotRequired[str]
-    r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
 
 
 class CreateInputInputZscalerHec(BaseModel):
@@ -629,20 +708,52 @@ class CreateInputInputZscalerHec(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "metadata",
+                "allowedIndexes",
+                "hecAcks",
+                "accessControlAllowOrigin",
+                "accessControlAllowHeaders",
+                "emitTokenMetrics",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
 
-    template_hec_api: Annotated[
-        Optional[str], pydantic.Field(alias="__template_hecAPI")
-    ] = None
-    r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeSecurityLake(str, Enum):
@@ -733,20 +844,6 @@ class CreateInputInputSecurityLakeTypedDict(TypedDict):
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
     processed_tag_value: NotRequired[str]
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
-    template_queue_name: NotRequired[str]
-    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
-    template_aws_account_id: NotRequired[str]
-    r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_assume_role_arn: NotRequired[str]
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-    template_assume_role_external_id: NotRequired[str]
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-    template_aws_api_key: NotRequired[str]
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
 class CreateInputInputSecurityLake(BaseModel):
@@ -927,41 +1024,6 @@ class CreateInputInputSecurityLake(BaseModel):
     ] = None
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
-    template_queue_name: Annotated[
-        Optional[str], pydantic.Field(alias="__template_queueName")
-    ] = None
-    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
-
-    template_aws_account_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsAccountId")
-    ] = None
-    r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_assume_role_arn: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
-    ] = None
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-
-    template_assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
-    ] = None
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-
-    template_aws_api_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsApiKey")
-    ] = None
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -988,6 +1050,68 @@ class CreateInputInputSecurityLake(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "fileFilter",
+                "awsAccountId",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "maxMessages",
+                "visibilityTimeout",
+                "numReceivers",
+                "socketTimeout",
+                "skipOnError",
+                "includeSqsMetadata",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "enableSQSAssumeRole",
+                "preprocess",
+                "metadata",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "checkpointing",
+                "pollTimeout",
+                "encoding",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "tagAfterProcessing",
+                "processedTagKey",
+                "processedTagValue",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeNetflow(str, Enum):
@@ -1035,10 +1159,6 @@ class CreateInputInputNetflowTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputNetflow(BaseModel):
@@ -1118,15 +1238,42 @@ class CreateInputInputNetflow(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "enablePassThrough",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "udpSocketRxBufSize",
+                "templateCacheMinutes",
+                "v5Enabled",
+                "v9Enabled",
+                "ipfixEnabled",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeWizWebhook(str, Enum):
@@ -1193,10 +1340,6 @@ class CreateInputInputWizWebhookTypedDict(TypedDict):
     auth_tokens_ext: NotRequired[List[ItemsTypeAuthTokensExtTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputWizWebhook(BaseModel):
@@ -1327,15 +1470,52 @@ class CreateInputInputWizWebhook(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "metadata",
+                "allowedPaths",
+                "allowedMethods",
+                "authTokensExt",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeWiz(str, Enum):
@@ -1447,6 +1627,34 @@ class ContentConfigWiz(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "contentDescription",
+                "enabled",
+                "stateTracking",
+                "stateUpdateExpression",
+                "stateMergeExpression",
+                "manageState",
+                "jobTimeout",
+                "logLevel",
+                "maxPages",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputInputWizTypedDict(TypedDict):
     id: str
@@ -1495,12 +1703,6 @@ class CreateInputInputWizTypedDict(TypedDict):
     r"""The client secret of the Wiz application"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    template_endpoint: NotRequired[str]
-    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
-    template_auth_url: NotRequired[str]
-    r"""Binds 'authUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'authUrl' at runtime."""
-    template_client_id: NotRequired[str]
-    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
 
 class CreateInputInputWiz(BaseModel):
@@ -1594,21 +1796,6 @@ class CreateInputInputWiz(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    template_endpoint: Annotated[
-        Optional[str], pydantic.Field(alias="__template_endpoint")
-    ] = None
-    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
-
-    template_auth_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_authUrl")
-    ] = None
-    r"""Binds 'authUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'authUrl' at runtime."""
-
-    template_client_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_clientId")
-    ] = None
-    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -1617,6 +1804,45 @@ class CreateInputInputWiz(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authAudienceOverride",
+                "requestTimeout",
+                "keepAliveTime",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "retryRules",
+                "authType",
+                "description",
+                "clientSecret",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputJournalFilesType(str, Enum):
@@ -1636,6 +1862,22 @@ class CreateInputInputJournalFilesRule(BaseModel):
 
     description: Optional[str] = None
     r"""Optional description of this rule's purpose"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["description"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputJournalFilesTypedDict(TypedDict):
@@ -1726,6 +1968,39 @@ class CreateInputInputJournalFiles(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "rules",
+                "currentBoot",
+                "maxAgeDur",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeRawUDP(str, Enum):
     RAW_UDP = "raw_udp"
@@ -1766,10 +2041,6 @@ class CreateInputInputRawUDPTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputRawUDP(BaseModel):
@@ -1838,15 +2109,39 @@ class CreateInputInputRawUDP(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "singleMsgUdpPackets",
+                "ingestRawBytes",
+                "udpSocketRxBufSize",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeWinEventLogs(str, Enum):
@@ -2004,6 +2299,43 @@ class CreateInputInputWinEventLogs(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "readMode",
+                "eventFormat",
+                "disableNativeModule",
+                "interval",
+                "batchSize",
+                "metadata",
+                "maxEventBytes",
+                "description",
+                "disableJsonRendering",
+                "disableXmlRendering",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeWef(str, Enum):
     WEF = "wef"
@@ -2120,6 +2452,37 @@ class CreateInputMTLSSettings(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "rejectUnauthorized",
+                "requestCert",
+                "certificateName",
+                "passphrase",
+                "commonNameRegex",
+                "minVersion",
+                "maxVersion",
+                "ocspCheck",
+                "keytab",
+                "principal",
+                "ocspCheckFailClose",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputFormat(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -2241,6 +2604,34 @@ class CreateInputSubscription(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "version",
+                "readExistingEvents",
+                "sendBookmarks",
+                "compress",
+                "locale",
+                "querySelector",
+                "metadata",
+                "queries",
+                "xmlQuery",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputInputWefTypedDict(TypedDict):
     id: str
@@ -2300,10 +2691,6 @@ class CreateInputInputWefTypedDict(TypedDict):
     description: NotRequired[str]
     log_fingerprint_mismatch: NotRequired[bool]
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputWef(BaseModel):
@@ -2423,16 +2810,6 @@ class CreateInputInputWef(BaseModel):
     ] = None
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
     @field_serializer("auth_method")
     def serialize_auth_method(self, value):
         if isinstance(value, str):
@@ -2441,6 +2818,51 @@ class CreateInputInputWef(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authMethod",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "socketTimeout",
+                "caFingerprint",
+                "keytab",
+                "principal",
+                "allowMachineIdMismatch",
+                "metadata",
+                "description",
+                "logFingerprintMismatch",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeAppscope(str, Enum):
@@ -2466,6 +2888,22 @@ class CreateInputAllow(BaseModel):
     arg: Optional[str] = None
     r"""Specify a string to substring-match against process command-line."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["arg"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class FilterAppscopeTypedDict(TypedDict):
     allow: NotRequired[List[CreateInputAllowTypedDict]]
@@ -2480,6 +2918,22 @@ class FilterAppscope(BaseModel):
 
     transport_url: Annotated[Optional[str], pydantic.Field(alias="transportURL")] = None
     r"""To override the UNIX domain socket or address/port specified in General Settings (while leaving Authentication settings as is), enter a URL."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["allow", "transportURL"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class PersistenceAppscopeTypedDict(TypedDict):
@@ -2522,6 +2976,31 @@ class PersistenceAppscope(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputAppscopeTypedDict(TypedDict):
@@ -2580,10 +3059,6 @@ class CreateInputInputAppscopeTypedDict(TypedDict):
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputAppscope(BaseModel):
@@ -2700,16 +3175,6 @@ class CreateInputInputAppscope(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -2718,6 +3183,54 @@ class CreateInputInputAppscope(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "ipWhitelistRegex",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "enableProxyHeader",
+                "metadata",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "enableUnixPath",
+                "filter",
+                "persistence",
+                "authType",
+                "description",
+                "host",
+                "port",
+                "tls",
+                "unixSocketPath",
+                "unixSocketPerms",
+                "authToken",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeTCP(str, Enum):
@@ -2775,10 +3288,6 @@ class CreateInputInputTCPTypedDict(TypedDict):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputTCP(BaseModel):
@@ -2883,16 +3392,6 @@ class CreateInputInputTCP(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -2901,6 +3400,49 @@ class CreateInputInputTCP(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "ipWhitelistRegex",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "enableProxyHeader",
+                "metadata",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "enableHeader",
+                "preprocess",
+                "description",
+                "authToken",
+                "authType",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputFileType(str, Enum):
@@ -3088,6 +3630,54 @@ class CreateInputInputFile(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "mode",
+                "interval",
+                "filenames",
+                "filterArchivedFiles",
+                "tailOnly",
+                "idleTimeout",
+                "minAgeDur",
+                "maxAgeDur",
+                "checkFileModTime",
+                "forceText",
+                "hashLen",
+                "metadata",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "description",
+                "path",
+                "depth",
+                "suppressMissingPathErrors",
+                "deleteFiles",
+                "saltHash",
+                "includeUnidentifiableBinary",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputInputSyslogType2(str, Enum):
     SYSLOG = "syslog"
@@ -3155,12 +3745,6 @@ class CreateInputInputSyslogSyslog2TypedDict(TypedDict):
     description: NotRequired[str]
     enable_enhanced_proxy_header_parsing: NotRequired[bool]
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_udp_port: NotRequired[str]
-    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
-    template_tcp_port: NotRequired[str]
-    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
 
 class CreateInputInputSyslogSyslog2(BaseModel):
@@ -3294,20 +3878,53 @@ class CreateInputInputSyslogSyslog2(BaseModel):
     ] = None
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "udpPort",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "timestampTimezone",
+                "singleMsgUdpPackets",
+                "enableProxyHeader",
+                "keepFieldsList",
+                "octetCounting",
+                "inferFraming",
+                "strictlyInferOctetCounting",
+                "allowNonStandardAppName",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "tls",
+                "metadata",
+                "udpSocketRxBufSize",
+                "enableLoadBalancing",
+                "description",
+                "enableEnhancedProxyHeaderParsing",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_udp_port: Annotated[
-        Optional[str], pydantic.Field(alias="__template_udpPort")
-    ] = None
-    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
 
-    template_tcp_port: Annotated[
-        Optional[str], pydantic.Field(alias="__template_tcpPort")
-    ] = None
-    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputSyslogType1(str, Enum):
@@ -3376,12 +3993,6 @@ class CreateInputInputSyslogSyslog1TypedDict(TypedDict):
     description: NotRequired[str]
     enable_enhanced_proxy_header_parsing: NotRequired[bool]
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_udp_port: NotRequired[str]
-    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
-    template_tcp_port: NotRequired[str]
-    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
 
 class CreateInputInputSyslogSyslog1(BaseModel):
@@ -3515,20 +4126,53 @@ class CreateInputInputSyslogSyslog1(BaseModel):
     ] = None
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tcpPort",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "timestampTimezone",
+                "singleMsgUdpPackets",
+                "enableProxyHeader",
+                "keepFieldsList",
+                "octetCounting",
+                "inferFraming",
+                "strictlyInferOctetCounting",
+                "allowNonStandardAppName",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "tls",
+                "metadata",
+                "udpSocketRxBufSize",
+                "enableLoadBalancing",
+                "description",
+                "enableEnhancedProxyHeaderParsing",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_udp_port: Annotated[
-        Optional[str], pydantic.Field(alias="__template_udpPort")
-    ] = None
-    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
 
-    template_tcp_port: Annotated[
-        Optional[str], pydantic.Field(alias="__template_tcpPort")
-    ] = None
-    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 CreateInputInputSyslogUnionTypedDict = TypeAliasType(
@@ -3619,20 +4263,6 @@ class CreateInputInputSqsTypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
     num_receivers: NotRequired[float]
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
-    template_queue_name: NotRequired[str]
-    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
-    template_aws_account_id: NotRequired[str]
-    r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_assume_role_arn: NotRequired[str]
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-    template_assume_role_external_id: NotRequired[str]
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-    template_aws_api_key: NotRequired[str]
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
 class CreateInputInputSqs(BaseModel):
@@ -3756,41 +4386,6 @@ class CreateInputInputSqs(BaseModel):
     )
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
 
-    template_queue_name: Annotated[
-        Optional[str], pydantic.Field(alias="__template_queueName")
-    ] = None
-    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
-
-    template_aws_account_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsAccountId")
-    ] = None
-    r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_assume_role_arn: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
-    ] = None
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-
-    template_assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
-    ] = None
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-
-    template_aws_api_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsApiKey")
-    ] = None
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-
     @field_serializer("queue_type")
     def serialize_queue_type(self, value):
         if isinstance(value, str):
@@ -3817,6 +4412,54 @@ class CreateInputInputSqs(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "awsAccountId",
+                "createQueue",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "maxMessages",
+                "visibilityTimeout",
+                "metadata",
+                "pollTimeout",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "numReceivers",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeModelDrivenTelemetry(str, Enum):
@@ -3853,10 +4496,6 @@ class CreateInputInputModelDrivenTelemetryTypedDict(TypedDict):
     shutdown_timeout_ms: NotRequired[float]
     r"""Time in milliseconds to allow the server to shutdown gracefully before forcing shutdown. Defaults to 5000."""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputModelDrivenTelemetry(BaseModel):
@@ -3912,15 +4551,37 @@ class CreateInputInputModelDrivenTelemetry(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "metadata",
+                "maxActiveCxn",
+                "shutdownTimeoutMs",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeOpenTelemetry(str, Enum):
@@ -4028,14 +4689,6 @@ class CreateInputInputOpenTelemetryTypedDict(TypedDict):
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     extract_logs: NotRequired[bool]
     r"""Enable to extract each incoming log record to a separate event"""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class CreateInputInputOpenTelemetry(BaseModel):
@@ -4215,26 +4868,6 @@ class CreateInputInputOpenTelemetry(BaseModel):
     extract_logs: Annotated[Optional[bool], pydantic.Field(alias="extractLogs")] = None
     r"""Enable to extract each incoming log record to a separate event"""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
     @field_serializer("protocol")
     def serialize_protocol(self, value):
         if isinstance(value, str):
@@ -4261,6 +4894,67 @@ class CreateInputInputOpenTelemetry(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "protocol",
+                "extractSpans",
+                "extractMetrics",
+                "otlpVersion",
+                "authType",
+                "metadata",
+                "maxActiveCxn",
+                "description",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "extractLogs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeSnmp(str, Enum):
@@ -4322,6 +5016,22 @@ class CreateInputV3User(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["authProtocol", "authKey", "privProtocol", "privKey"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputSNMPv3AuthenticationTypedDict(TypedDict):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
@@ -4347,6 +5057,22 @@ class CreateInputSNMPv3Authentication(BaseModel):
         Optional[List[CreateInputV3User]], pydantic.Field(alias="v3Users")
     ] = None
     r"""User credentials for receiving v3 traps"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["allowUnmatchedTrap", "v3Users"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputSnmpTypedDict(TypedDict):
@@ -4386,10 +5112,6 @@ class CreateInputInputSnmpTypedDict(TypedDict):
     best_effort_parsing: NotRequired[bool]
     r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputSnmp(BaseModel):
@@ -4463,15 +5185,40 @@ class CreateInputInputSnmp(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "snmpV3Auth",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "metadata",
+                "udpSocketRxBufSize",
+                "varbindsWithTypes",
+                "bestEffortParsing",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeS3Inventory(str, Enum):
@@ -4566,20 +5313,6 @@ class CreateInputInputS3InventoryTypedDict(TypedDict):
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
     processed_tag_value: NotRequired[str]
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
-    template_queue_name: NotRequired[str]
-    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
-    template_aws_account_id: NotRequired[str]
-    r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_assume_role_arn: NotRequired[str]
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-    template_assume_role_external_id: NotRequired[str]
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-    template_aws_api_key: NotRequired[str]
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
 class CreateInputInputS3Inventory(BaseModel):
@@ -4772,41 +5505,6 @@ class CreateInputInputS3Inventory(BaseModel):
     ] = None
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
-    template_queue_name: Annotated[
-        Optional[str], pydantic.Field(alias="__template_queueName")
-    ] = None
-    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
-
-    template_aws_account_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsAccountId")
-    ] = None
-    r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_assume_role_arn: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
-    ] = None
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-
-    template_assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
-    ] = None
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-
-    template_aws_api_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsApiKey")
-    ] = None
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -4833,6 +5531,70 @@ class CreateInputInputS3Inventory(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "fileFilter",
+                "awsAccountId",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "maxMessages",
+                "visibilityTimeout",
+                "numReceivers",
+                "socketTimeout",
+                "skipOnError",
+                "includeSqsMetadata",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "enableSQSAssumeRole",
+                "preprocess",
+                "metadata",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "checkpointing",
+                "pollTimeout",
+                "checksumSuffix",
+                "maxManifestSizeKB",
+                "validateInventoryFiles",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "tagAfterProcessing",
+                "processedTagKey",
+                "processedTagValue",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeS3(str, Enum):
@@ -4924,20 +5686,6 @@ class CreateInputInputS3TypedDict(TypedDict):
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
     processed_tag_value: NotRequired[str]
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
-    template_queue_name: NotRequired[str]
-    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
-    template_aws_account_id: NotRequired[str]
-    r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_assume_role_arn: NotRequired[str]
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-    template_assume_role_external_id: NotRequired[str]
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-    template_aws_api_key: NotRequired[str]
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
 class CreateInputInputS3(BaseModel):
@@ -5119,41 +5867,6 @@ class CreateInputInputS3(BaseModel):
     ] = None
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
-    template_queue_name: Annotated[
-        Optional[str], pydantic.Field(alias="__template_queueName")
-    ] = None
-    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
-
-    template_aws_account_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsAccountId")
-    ] = None
-    r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_assume_role_arn: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
-    ] = None
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-
-    template_assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
-    ] = None
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-
-    template_aws_api_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsApiKey")
-    ] = None
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -5171,6 +5884,68 @@ class CreateInputInputS3(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "fileFilter",
+                "awsAccountId",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "maxMessages",
+                "visibilityTimeout",
+                "numReceivers",
+                "socketTimeout",
+                "skipOnError",
+                "includeSqsMetadata",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "enableSQSAssumeRole",
+                "preprocess",
+                "metadata",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "checkpointing",
+                "pollTimeout",
+                "encoding",
+                "tagAfterProcessing",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "processedTagKey",
+                "processedTagValue",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeMetrics(str, Enum):
@@ -5213,12 +5988,6 @@ class CreateInputInputMetricsTypedDict(TypedDict):
     udp_socket_rx_buf_size: NotRequired[float]
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_udp_port: NotRequired[str]
-    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
-    template_tcp_port: NotRequired[str]
-    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
 
 class CreateInputInputMetrics(BaseModel):
@@ -5287,20 +6056,41 @@ class CreateInputInputMetrics(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "udpPort",
+                "tcpPort",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "enableProxyHeader",
+                "tls",
+                "metadata",
+                "udpSocketRxBufSize",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_udp_port: Annotated[
-        Optional[str], pydantic.Field(alias="__template_udpPort")
-    ] = None
-    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
 
-    template_tcp_port: Annotated[
-        Optional[str], pydantic.Field(alias="__template_tcpPort")
-    ] = None
-    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeCriblmetrics(str, Enum):
@@ -5376,6 +6166,37 @@ class CreateInputInputCriblmetrics(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "prefix",
+                "fullFidelity",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeKinesis(str, Enum):
@@ -5478,18 +6299,6 @@ class CreateInputInputKinesisTypedDict(TypedDict):
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    template_stream_name: NotRequired[str]
-    r"""Binds 'streamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamName' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_assume_role_arn: NotRequired[str]
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-    template_assume_role_external_id: NotRequired[str]
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-    template_aws_api_key: NotRequired[str]
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
 class CreateInputInputKinesis(BaseModel):
@@ -5631,36 +6440,6 @@ class CreateInputInputKinesis(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    template_stream_name: Annotated[
-        Optional[str], pydantic.Field(alias="__template_streamName")
-    ] = None
-    r"""Binds 'streamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamName' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_assume_role_arn: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
-    ] = None
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-
-    template_assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
-    ] = None
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-
-    template_aws_api_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsApiKey")
-    ] = None
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-
     @field_serializer("shard_iterator_type")
     def serialize_shard_iterator_type(self, value):
         if isinstance(value, str):
@@ -5705,6 +6484,56 @@ class CreateInputInputKinesis(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "serviceInterval",
+                "shardExpr",
+                "shardIteratorType",
+                "payloadFormat",
+                "getRecordsLimit",
+                "getRecordsLimitTotal",
+                "loadBalancingAlgorithm",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "verifyKPLCheckSums",
+                "avoidDuplicates",
+                "metadata",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeHTTPRaw(str, Enum):
@@ -5771,10 +6600,6 @@ class CreateInputInputHTTPRawTypedDict(TypedDict):
     auth_tokens_ext: NotRequired[List[ItemsTypeAuthTokensExtTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputHTTPRaw(BaseModel):
@@ -5905,15 +6730,52 @@ class CreateInputInputHTTPRaw(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "metadata",
+                "allowedPaths",
+                "allowedMethods",
+                "authTokensExt",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeDatagen(str, Enum):
@@ -5994,6 +6856,35 @@ class CreateInputInputDatagen(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeDatadogAgent(str, Enum):
     DATADOG_AGENT = "datadog_agent"
@@ -6014,6 +6905,22 @@ class ProxyModeDatadogAgent(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["rejectUnauthorized"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputDatadogAgentTypedDict(TypedDict):
@@ -6067,10 +6974,6 @@ class CreateInputInputDatadogAgentTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     proxy_mode: NotRequired[ProxyModeDatadogAgentTypedDict]
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputDatadogAgent(BaseModel):
@@ -6180,15 +7083,48 @@ class CreateInputInputDatadogAgent(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "extractMetrics",
+                "metadata",
+                "proxyMode",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeCrowdstrike(str, Enum):
@@ -6275,20 +7211,6 @@ class CreateInputInputCrowdstrikeTypedDict(TypedDict):
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
     processed_tag_value: NotRequired[str]
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
-    template_queue_name: NotRequired[str]
-    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
-    template_aws_account_id: NotRequired[str]
-    r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_assume_role_arn: NotRequired[str]
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-    template_assume_role_external_id: NotRequired[str]
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-    template_aws_api_key: NotRequired[str]
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
 class CreateInputInputCrowdstrike(BaseModel):
@@ -6459,41 +7381,6 @@ class CreateInputInputCrowdstrike(BaseModel):
     ] = None
     r"""The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
 
-    template_queue_name: Annotated[
-        Optional[str], pydantic.Field(alias="__template_queueName")
-    ] = None
-    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
-
-    template_aws_account_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsAccountId")
-    ] = None
-    r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_assume_role_arn: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
-    ] = None
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-
-    template_assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
-    ] = None
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-
-    template_aws_api_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsApiKey")
-    ] = None
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -6520,6 +7407,66 @@ class CreateInputInputCrowdstrike(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "fileFilter",
+                "awsAccountId",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "maxMessages",
+                "visibilityTimeout",
+                "numReceivers",
+                "socketTimeout",
+                "skipOnError",
+                "includeSqsMetadata",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "enableSQSAssumeRole",
+                "preprocess",
+                "metadata",
+                "checkpointing",
+                "pollTimeout",
+                "encoding",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "tagAfterProcessing",
+                "processedTagKey",
+                "processedTagValue",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeWindowsMetrics(str, Enum):
@@ -6561,6 +7508,22 @@ class SystemWindowsMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "detail"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CPUModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -6609,6 +7572,22 @@ class CPUWindowsMetrics(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "perCpu", "detail", "time"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class MemoryModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for memory metrics"""
@@ -6645,6 +7624,22 @@ class MemoryWindowsMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "detail"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class NetworkModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -6700,6 +7695,24 @@ class NetworkWindowsMetrics(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["mode", "detail", "protocols", "devices", "perInterface"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class DiskModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for disk metrics"""
@@ -6747,6 +7760,22 @@ class DiskWindowsMetrics(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "perVolume", "detail", "volumes"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CustomWindowsMetricsTypedDict(TypedDict):
     system: NotRequired[SystemWindowsMetricsTypedDict]
@@ -6766,6 +7795,22 @@ class CustomWindowsMetrics(BaseModel):
     network: Optional[NetworkWindowsMetrics] = None
 
     disk: Optional[DiskWindowsMetrics] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["system", "cpu", "memory", "network", "disk"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class HostWindowsMetricsTypedDict(TypedDict):
@@ -6788,6 +7833,22 @@ class HostWindowsMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "custom"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class PersistenceWindowsMetricsTypedDict(TypedDict):
@@ -6830,6 +7891,31 @@ class PersistenceWindowsMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputWindowsMetricsTypedDict(TypedDict):
@@ -6911,6 +7997,40 @@ class CreateInputInputWindowsMetrics(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "host",
+                "process",
+                "metadata",
+                "persistence",
+                "disableNativeModule",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeKubeEvents(str, Enum):
     KUBE_EVENTS = "kube_events"
@@ -6979,6 +8099,36 @@ class CreateInputInputKubeEvents(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "rules",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeKubeLogs(str, Enum):
     KUBE_LOGS = "kube_logs"
@@ -6997,6 +8147,22 @@ class RuleKubeLogs(BaseModel):
 
     description: Optional[str] = None
     r"""Optional description of this rule's purpose"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["description"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputKubeLogsTypedDict(TypedDict):
@@ -7096,6 +8262,42 @@ class CreateInputInputKubeLogs(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "rules",
+                "timestamps",
+                "metadata",
+                "persistence",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "enableLoadBalancing",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeKubeMetrics(str, Enum):
     KUBE_METRICS = "kube_metrics"
@@ -7141,6 +8343,31 @@ class PersistenceKubeMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputKubeMetricsTypedDict(TypedDict):
@@ -7214,6 +8441,38 @@ class CreateInputInputKubeMetrics(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "rules",
+                "metadata",
+                "persistence",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeSystemState(str, Enum):
     SYSTEM_STATE = "system_state"
@@ -7230,6 +8489,22 @@ class CreateInputHostsFile(BaseModel):
 
     enable: Optional[bool] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputInterfacesTypedDict(TypedDict):
     r"""Creates events for each of the host’s network interfaces"""
@@ -7241,6 +8516,22 @@ class CreateInputInterfaces(BaseModel):
     r"""Creates events for each of the host’s network interfaces"""
 
     enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputDisksAndFileSystemsTypedDict(TypedDict):
@@ -7254,6 +8545,22 @@ class CreateInputDisksAndFileSystems(BaseModel):
 
     enable: Optional[bool] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputHostInfoTypedDict(TypedDict):
     r"""Creates events based on the host system’s current state"""
@@ -7265,6 +8572,22 @@ class CreateInputHostInfo(BaseModel):
     r"""Creates events based on the host system’s current state"""
 
     enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputRoutesTypedDict(TypedDict):
@@ -7278,6 +8601,22 @@ class CreateInputRoutes(BaseModel):
 
     enable: Optional[bool] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputDNSTypedDict(TypedDict):
     r"""Creates events for DNS resolvers and search entries"""
@@ -7289,6 +8628,22 @@ class CreateInputDNS(BaseModel):
     r"""Creates events for DNS resolvers and search entries"""
 
     enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputUsersAndGroupsTypedDict(TypedDict):
@@ -7302,6 +8657,22 @@ class CreateInputUsersAndGroups(BaseModel):
 
     enable: Optional[bool] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputFirewallTypedDict(TypedDict):
     r"""Creates events for Firewall rules entries"""
@@ -7313,6 +8684,22 @@ class CreateInputFirewall(BaseModel):
     r"""Creates events for Firewall rules entries"""
 
     enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputServicesTypedDict(TypedDict):
@@ -7326,6 +8713,22 @@ class CreateInputServices(BaseModel):
 
     enable: Optional[bool] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputListeningPortsTypedDict(TypedDict):
     r"""Creates events from list of listening ports"""
@@ -7338,6 +8741,22 @@ class CreateInputListeningPorts(BaseModel):
 
     enable: Optional[bool] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputLoggedInUsersTypedDict(TypedDict):
     r"""Creates events from list of logged-in users"""
@@ -7349,6 +8768,22 @@ class CreateInputLoggedInUsers(BaseModel):
     r"""Creates events from list of logged-in users"""
 
     enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputCollectorsTypedDict(TypedDict):
@@ -7412,6 +8847,36 @@ class CreateInputCollectors(BaseModel):
     ] = None
     r"""Creates events from list of logged-in users"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "hostsfile",
+                "interfaces",
+                "disk",
+                "metadata",
+                "routes",
+                "dns",
+                "user",
+                "firewall",
+                "services",
+                "ports",
+                "loginUsers",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class PersistenceSystemStateTypedDict(TypedDict):
     enable: NotRequired[bool]
@@ -7453,6 +8918,31 @@ class PersistenceSystemState(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputSystemStateTypedDict(TypedDict):
@@ -7538,6 +9028,40 @@ class CreateInputInputSystemState(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "metadata",
+                "collectors",
+                "persistence",
+                "disableNativeModule",
+                "disableNativeLastLogModule",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeSystemMetrics(str, Enum):
     SYSTEM_METRICS = "system_metrics"
@@ -7578,6 +9102,22 @@ class SystemSystemMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "processes"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CPUModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -7626,6 +9166,22 @@ class CPUSystemMetrics(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "perCpu", "detail", "time"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class MemoryModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for memory metrics"""
@@ -7662,6 +9218,22 @@ class MemorySystemMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "detail"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class NetworkModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -7716,6 +9288,24 @@ class NetworkSystemMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["mode", "detail", "protocols", "devices", "perInterface"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class DiskModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -7779,6 +9369,32 @@ class DiskSystemMetrics(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "mode",
+                "detail",
+                "inodes",
+                "devices",
+                "mountpoints",
+                "fstypes",
+                "perDevice",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CustomSystemMetricsTypedDict(TypedDict):
     system: NotRequired[SystemSystemMetricsTypedDict]
@@ -7798,6 +9414,22 @@ class CustomSystemMetrics(BaseModel):
     network: Optional[NetworkSystemMetrics] = None
 
     disk: Optional[DiskSystemMetrics] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["system", "cpu", "memory", "network", "disk"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class HostSystemMetricsTypedDict(TypedDict):
@@ -7820,6 +9452,22 @@ class HostSystemMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "custom"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class ContainerModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -7897,6 +9545,32 @@ class CreateInputContainer(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "mode",
+                "dockerSocket",
+                "dockerTimeout",
+                "filters",
+                "allContainers",
+                "perDevice",
+                "detail",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class PersistenceSystemMetricsTypedDict(TypedDict):
     enable: NotRequired[bool]
@@ -7938,6 +9612,31 @@ class PersistenceSystemMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputSystemMetricsTypedDict(TypedDict):
@@ -8015,6 +9714,40 @@ class CreateInputInputSystemMetrics(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "host",
+                "process",
+                "container",
+                "metadata",
+                "persistence",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeTcpjson(str, Enum):
     TCPJSON = "tcpjson"
@@ -8066,10 +9799,6 @@ class CreateInputInputTcpjsonTypedDict(TypedDict):
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputTcpjson(BaseModel):
@@ -8162,16 +9891,6 @@ class CreateInputInputTcpjson(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -8180,6 +9899,46 @@ class CreateInputInputTcpjson(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "ipWhitelistRegex",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "enableProxyHeader",
+                "metadata",
+                "enableLoadBalancing",
+                "authType",
+                "description",
+                "authToken",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeCriblLakeHTTP(str, Enum):
@@ -8203,6 +9962,22 @@ class CreateInputSplunkHecMetadata(BaseModel):
         Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
     ] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "defaultDataset", "allowedIndexesAtToken"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputElasticsearchMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -8215,6 +9990,22 @@ class CreateInputElasticsearchMetadata(BaseModel):
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "defaultDataset"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputAuthTokensExtTypedDict(TypedDict):
@@ -8243,6 +10034,24 @@ class CreateInputAuthTokensExt(BaseModel):
         Optional[CreateInputElasticsearchMetadata],
         pydantic.Field(alias="elasticsearchMetadata"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["description", "metadata", "splunkHecMetadata", "elasticsearchMetadata"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputCriblLakeHTTPTypedDict(TypedDict):
@@ -8303,12 +10112,6 @@ class CreateInputInputCriblLakeHTTPTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[CreateInputAuthTokensExtTypedDict]]
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-    template_splunk_hec_api: NotRequired[str]
-    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
 
 
 class CreateInputInputCriblLakeHTTP(BaseModel):
@@ -8433,20 +10236,52 @@ class CreateInputInputCriblLakeHTTP(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "criblAPI",
+                "elasticAPI",
+                "splunkHecAPI",
+                "splunkHecAcks",
+                "metadata",
+                "authTokensExt",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
 
-    template_splunk_hec_api: Annotated[
-        Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
-    ] = None
-    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeCriblHTTP(str, Enum):
@@ -8503,10 +10338,6 @@ class CreateInputInputCriblHTTPTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputCriblHTTP(BaseModel):
@@ -8612,15 +10443,47 @@ class CreateInputInputCriblHTTP(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeCriblTCP(str, Enum):
@@ -8667,10 +10530,6 @@ class CreateInputInputCriblTCPTypedDict(TypedDict):
     auth_tokens: NotRequired[List[ItemsTypeAuthTokensTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputCriblTCP(BaseModel):
@@ -8751,15 +10610,42 @@ class CreateInputInputCriblTCP(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "enableProxyHeader",
+                "metadata",
+                "enableLoadBalancing",
+                "authTokens",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeCribl(str, Enum):
@@ -8827,6 +10713,36 @@ class CreateInputInputCribl(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "filter",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeGooglePubsub(str, Enum):
     GOOGLE_PUBSUB = "google_pubsub"
@@ -8879,12 +10795,6 @@ class CreateInputInputGooglePubsubTypedDict(TypedDict):
     description: NotRequired[str]
     ordered_delivery: NotRequired[bool]
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
-    template_topic_name: NotRequired[str]
-    r"""Binds 'topicName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicName' at runtime."""
-    template_subscription_name: NotRequired[str]
-    r"""Binds 'subscriptionName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'subscriptionName' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
 
 class CreateInputInputGooglePubsub(BaseModel):
@@ -8974,21 +10884,6 @@ class CreateInputInputGooglePubsub(BaseModel):
     ] = None
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
-    template_topic_name: Annotated[
-        Optional[str], pydantic.Field(alias="__template_topicName")
-    ] = None
-    r"""Binds 'topicName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicName' at runtime."""
-
-    template_subscription_name: Annotated[
-        Optional[str], pydantic.Field(alias="__template_subscriptionName")
-    ] = None
-    r"""Binds 'subscriptionName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'subscriptionName' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
     @field_serializer("google_auth_method")
     def serialize_google_auth_method(self, value):
         if isinstance(value, str):
@@ -8997,6 +10892,46 @@ class CreateInputInputGooglePubsub(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "monitorSubscription",
+                "createTopic",
+                "createSubscription",
+                "region",
+                "googleAuthMethod",
+                "serviceAccountCredentials",
+                "secret",
+                "maxBacklog",
+                "concurrency",
+                "requestTimeout",
+                "metadata",
+                "description",
+                "orderedDelivery",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeFirehose(str, Enum):
@@ -9053,10 +10988,6 @@ class CreateInputInputFirehoseTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputFirehose(BaseModel):
@@ -9162,15 +11093,47 @@ class CreateInputInputFirehose(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputExecType(str, Enum):
@@ -9291,6 +11254,41 @@ class CreateInputInputExec(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "retries",
+                "scheduleType",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "metadata",
+                "description",
+                "interval",
+                "cronSchedule",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeEventhub(str, Enum):
@@ -9516,6 +11514,56 @@ class CreateInputInputEventhub(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "groupId",
+                "fromBeginning",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "sasl",
+                "tls",
+                "sessionTimeout",
+                "rebalanceTimeout",
+                "heartbeatInterval",
+                "autoCommitInterval",
+                "autoCommitThreshold",
+                "maxBytesPerPartition",
+                "maxBytes",
+                "maxSocketErrors",
+                "minimizeDuplicates",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeOffice365MsgTrace(str, Enum):
     OFFICE365_MSG_TRACE = "office365_msg_trace"
@@ -9566,6 +11614,22 @@ class CreateInputCertOptions(BaseModel):
 
     passphrase: Optional[str] = None
     r"""Passphrase to use to decrypt the private key."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["certificateName", "passphrase"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
@@ -9639,14 +11703,6 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
     cert_options: NotRequired[CreateInputCertOptionsTypedDict]
-    template_url: NotRequired[str]
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-    template_tenant_id: NotRequired[str]
-    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
-    template_client_id: NotRequired[str]
-    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
-    template_resource: NotRequired[str]
-    r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
 
 
 class CreateInputInputOffice365MsgTrace(BaseModel):
@@ -9785,26 +11841,6 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
         Optional[CreateInputCertOptions], pydantic.Field(alias="certOptions")
     ] = None
 
-    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
-        None
-    )
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-
-    template_tenant_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_tenantId")
-    ] = None
-    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
-
-    template_client_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_clientId")
-    ] = None
-    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
-
-    template_resource: Annotated[
-        Optional[str], pydantic.Field(alias="__template_resource")
-    ] = None
-    r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -9831,6 +11867,59 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "startDate",
+                "endDate",
+                "timeout",
+                "disableTimeFilter",
+                "authType",
+                "rescheduleDroppedTasks",
+                "maxTaskReschedule",
+                "logLevel",
+                "jobTimeout",
+                "keepAliveTime",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "retryRules",
+                "description",
+                "username",
+                "password",
+                "credentialsSecret",
+                "clientSecret",
+                "tenantId",
+                "clientId",
+                "resource",
+                "planType",
+                "textSecret",
+                "certOptions",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeOffice365Service(str, Enum):
@@ -9872,6 +11961,24 @@ class ContentConfigOffice365Service(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["contentType", "description", "interval", "logLevel", "enabled"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputOffice365ServiceTypedDict(TypedDict):
@@ -9922,12 +12029,6 @@ class CreateInputInputOffice365ServiceTypedDict(TypedDict):
     r"""Office 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    template_tenant_id: NotRequired[str]
-    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
-    template_app_id: NotRequired[str]
-    r"""Binds 'appId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'appId' at runtime."""
-    template_client_secret: NotRequired[str]
-    r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
 
 
 class CreateInputInputOffice365Service(BaseModel):
@@ -10021,21 +12122,6 @@ class CreateInputInputOffice365Service(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    template_tenant_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_tenantId")
-    ] = None
-    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
-
-    template_app_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_appId")
-    ] = None
-    r"""Binds 'appId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'appId' at runtime."""
-
-    template_client_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_clientSecret")
-    ] = None
-    r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
-
     @field_serializer("plan_type")
     def serialize_plan_type(self, value):
         if isinstance(value, str):
@@ -10053,6 +12139,47 @@ class CreateInputInputOffice365Service(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "planType",
+                "timeout",
+                "keepAliveTime",
+                "jobTimeout",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "contentConfig",
+                "retryRules",
+                "authType",
+                "description",
+                "clientSecret",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeOffice365Mgmt(str, Enum):
@@ -10094,6 +12221,24 @@ class ContentConfigOffice365Mgmt(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["contentType", "description", "interval", "logLevel", "enabled"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputOffice365MgmtTypedDict(TypedDict):
@@ -10148,14 +12293,6 @@ class CreateInputInputOffice365MgmtTypedDict(TypedDict):
     r"""Office 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    template_tenant_id: NotRequired[str]
-    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
-    template_app_id: NotRequired[str]
-    r"""Binds 'appId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'appId' at runtime."""
-    template_publisher_identifier: NotRequired[str]
-    r"""Binds 'publisherIdentifier' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'publisherIdentifier' at runtime."""
-    template_client_secret: NotRequired[str]
-    r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
 
 
 class CreateInputInputOffice365Mgmt(BaseModel):
@@ -10257,26 +12394,6 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    template_tenant_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_tenantId")
-    ] = None
-    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
-
-    template_app_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_appId")
-    ] = None
-    r"""Binds 'appId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'appId' at runtime."""
-
-    template_publisher_identifier: Annotated[
-        Optional[str], pydantic.Field(alias="__template_publisherIdentifier")
-    ] = None
-    r"""Binds 'publisherIdentifier' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'publisherIdentifier' at runtime."""
-
-    template_client_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_clientSecret")
-    ] = None
-    r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
-
     @field_serializer("plan_type")
     def serialize_plan_type(self, value):
         if isinstance(value, str):
@@ -10294,6 +12411,48 @@ class CreateInputInputOffice365Mgmt(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "timeout",
+                "keepAliveTime",
+                "jobTimeout",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "publisherIdentifier",
+                "contentConfig",
+                "ingestionLag",
+                "retryRules",
+                "authType",
+                "description",
+                "clientSecret",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeEdgePrometheus(str, Enum):
@@ -10356,6 +12515,22 @@ class CreateInputTarget(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["protocol", "port", "path"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputPodFilterTypedDict(TypedDict):
     filter_: str
@@ -10370,6 +12545,22 @@ class CreateInputPodFilter(BaseModel):
 
     description: Optional[str] = None
     r"""Optional description of this rule's purpose"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["description"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputEdgePrometheusTypedDict(TypedDict):
@@ -10461,16 +12652,6 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     r"""Password for Prometheus Basic authentication"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
-    template_aws_api_key: NotRequired[str]
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_assume_role_arn: NotRequired[str]
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-    template_assume_role_external_id: NotRequired[str]
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
 
 
 class CreateInputInputEdgePrometheus(BaseModel):
@@ -10651,31 +12832,6 @@ class CreateInputInputEdgePrometheus(BaseModel):
     ] = None
     r"""Select or create a secret that references your credentials"""
 
-    template_aws_api_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsApiKey")
-    ] = None
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_assume_role_arn: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
-    ] = None
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-
-    template_assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
-    ] = None
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-
     @field_serializer("discovery_type")
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
@@ -10729,6 +12885,67 @@ class CreateInputInputEdgePrometheus(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "dimensionList",
+                "timeout",
+                "persistence",
+                "metadata",
+                "authType",
+                "description",
+                "targets",
+                "recordType",
+                "scrapePort",
+                "nameList",
+                "scrapeProtocol",
+                "scrapePath",
+                "awsAuthenticationMethod",
+                "awsApiKey",
+                "awsSecret",
+                "usePublicIp",
+                "searchFilter",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "scrapeProtocolExpr",
+                "scrapePortExpr",
+                "scrapePathExpr",
+                "podFilter",
+                "username",
+                "password",
+                "credentialsSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypePrometheus(str, Enum):
@@ -10851,18 +13068,6 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     r"""Password for Prometheus Basic authentication"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
-    template_log_level: NotRequired[str]
-    r"""Binds 'logLevel' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLevel' at runtime."""
-    template_aws_api_key: NotRequired[str]
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_assume_role_arn: NotRequired[str]
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-    template_assume_role_external_id: NotRequired[str]
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
 
 
 class CreateInputInputPrometheus(BaseModel):
@@ -11044,36 +13249,6 @@ class CreateInputInputPrometheus(BaseModel):
     ] = None
     r"""Select or create a secret that references your credentials"""
 
-    template_log_level: Annotated[
-        Optional[str], pydantic.Field(alias="__template_logLevel")
-    ] = None
-    r"""Binds 'logLevel' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLevel' at runtime."""
-
-    template_aws_api_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsApiKey")
-    ] = None
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_assume_role_arn: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
-    ] = None
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-
-    template_assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
-    ] = None
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-
     @field_serializer("discovery_type")
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
@@ -11136,6 +13311,68 @@ class CreateInputInputPrometheus(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "dimensionList",
+                "discoveryType",
+                "rejectUnauthorized",
+                "timeout",
+                "keepAliveTime",
+                "jobTimeout",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "authType",
+                "description",
+                "targetList",
+                "recordType",
+                "scrapePort",
+                "nameList",
+                "scrapeProtocol",
+                "scrapePath",
+                "awsAuthenticationMethod",
+                "awsApiKey",
+                "awsSecret",
+                "usePublicIp",
+                "searchFilter",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "username",
+                "password",
+                "credentialsSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypePrometheusRw(str, Enum):
@@ -11218,16 +13455,6 @@ class CreateInputInputPrometheusRwTypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-    template_prometheus_api: NotRequired[str]
-    r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class CreateInputInputPrometheusRw(BaseModel):
@@ -11388,31 +13615,6 @@ class CreateInputInputPrometheusRw(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
-    template_prometheus_api: Annotated[
-        Optional[str], pydantic.Field(alias="__template_prometheusAPI")
-    ] = None
-    r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
-
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -11421,6 +13623,61 @@ class CreateInputInputPrometheusRw(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "authType",
+                "metadata",
+                "description",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeLoki(str, Enum):
@@ -11503,14 +13760,6 @@ class CreateInputInputLokiTypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class CreateInputInputLoki(BaseModel):
@@ -11670,26 +13919,6 @@ class CreateInputInputLoki(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -11698,6 +13927,61 @@ class CreateInputInputLoki(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "authType",
+                "metadata",
+                "description",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputGrafanaType2(str, Enum):
@@ -11731,10 +14015,6 @@ class CreateInputPrometheusAuth2TypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class CreateInputPrometheusAuth2(BaseModel):
@@ -11795,16 +14075,6 @@ class CreateInputPrometheusAuth2(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -11813,6 +14083,39 @@ class CreateInputPrometheusAuth2(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputLokiAuth2TypedDict(TypedDict):
@@ -11842,10 +14145,6 @@ class CreateInputLokiAuth2TypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class CreateInputLokiAuth2(BaseModel):
@@ -11905,16 +14204,6 @@ class CreateInputLokiAuth2(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -11923,6 +14212,39 @@ class CreateInputLokiAuth2(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputGrafanaGrafana2TypedDict(TypedDict):
@@ -11979,10 +14301,6 @@ class CreateInputInputGrafanaGrafana2TypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputGrafanaGrafana2(BaseModel):
@@ -12099,15 +14417,49 @@ class CreateInputInputGrafanaGrafana2(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "prometheusAPI",
+                "prometheusAuth",
+                "lokiAuth",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputGrafanaType1(str, Enum):
@@ -12141,10 +14493,6 @@ class CreateInputPrometheusAuth1TypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class CreateInputPrometheusAuth1(BaseModel):
@@ -12205,16 +14553,6 @@ class CreateInputPrometheusAuth1(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -12223,6 +14561,39 @@ class CreateInputPrometheusAuth1(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputLokiAuth1TypedDict(TypedDict):
@@ -12252,10 +14623,6 @@ class CreateInputLokiAuth1TypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class CreateInputLokiAuth1(BaseModel):
@@ -12315,16 +14682,6 @@ class CreateInputLokiAuth1(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -12333,6 +14690,39 @@ class CreateInputLokiAuth1(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputGrafanaGrafana1TypedDict(TypedDict):
@@ -12389,10 +14779,6 @@ class CreateInputInputGrafanaGrafana1TypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputGrafanaGrafana1(BaseModel):
@@ -12507,15 +14893,49 @@ class CreateInputInputGrafanaGrafana1(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "lokiAPI",
+                "prometheusAuth",
+                "lokiAuth",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 CreateInputInputGrafanaUnionTypedDict = TypeAliasType(
@@ -12759,6 +15179,56 @@ class CreateInputInputConfluentCloud(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "groupId",
+                "fromBeginning",
+                "kafkaSchemaRegistry",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "sasl",
+                "sessionTimeout",
+                "rebalanceTimeout",
+                "heartbeatInterval",
+                "autoCommitInterval",
+                "autoCommitThreshold",
+                "maxBytesPerPartition",
+                "maxBytes",
+                "maxSocketErrors",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeElastic(str, Enum):
     ELASTIC = "elastic"
@@ -12811,8 +15281,6 @@ class ProxyModeElasticTypedDict(TypedDict):
     r"""List of headers to remove from the request to proxy"""
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
-    template_url: NotRequired[str]
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class ProxyModeElastic(BaseModel):
@@ -12849,11 +15317,6 @@ class ProxyModeElastic(BaseModel):
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
 
-    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
-        None
-    )
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -12862,6 +15325,33 @@ class ProxyModeElastic(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "username",
+                "password",
+                "credentialsSecret",
+                "url",
+                "rejectUnauthorized",
+                "removeHeaders",
+                "timeoutSec",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputElasticTypedDict(TypedDict):
@@ -12928,10 +15418,6 @@ class CreateInputInputElasticTypedDict(TypedDict):
     r"""Bearer tokens to include in the authorization header"""
     custom_api_version: NotRequired[str]
     r"""Custom version information to respond to requests"""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputElastic(BaseModel):
@@ -13073,16 +15559,6 @@ class CreateInputInputElastic(BaseModel):
     ] = None
     r"""Custom version information to respond to requests"""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -13100,6 +15576,56 @@ class CreateInputInputElastic(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "authType",
+                "apiVersion",
+                "extraHttpHeaders",
+                "metadata",
+                "proxyMode",
+                "description",
+                "username",
+                "password",
+                "credentialsSecret",
+                "authTokens",
+                "customAPIVersion",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeAzureBlob(str, Enum):
@@ -13167,14 +15693,6 @@ class CreateInputInputAzureBlobTypedDict(TypedDict):
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
-    template_queue_name: NotRequired[str]
-    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
-    template_connection_string: NotRequired[str]
-    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
-    template_tenant_id: NotRequired[str]
-    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
-    template_client_id: NotRequired[str]
-    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
 
 class CreateInputInputAzureBlob(BaseModel):
@@ -13297,26 +15815,6 @@ class CreateInputInputAzureBlob(BaseModel):
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
 
-    template_queue_name: Annotated[
-        Optional[str], pydantic.Field(alias="__template_queueName")
-    ] = None
-    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
-
-    template_connection_string: Annotated[
-        Optional[str], pydantic.Field(alias="__template_connectionString")
-    ] = None
-    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
-
-    template_tenant_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_tenantId")
-    ] = None
-    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
-
-    template_client_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_clientId")
-    ] = None
-    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -13325,6 +15823,55 @@ class CreateInputInputAzureBlob(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "fileFilter",
+                "visibilityTimeout",
+                "numReceivers",
+                "maxMessages",
+                "servicePeriodSecs",
+                "skipOnError",
+                "metadata",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "authType",
+                "description",
+                "connectionString",
+                "textSecret",
+                "storageAccountName",
+                "tenantId",
+                "clientId",
+                "azureCloud",
+                "endpointSuffix",
+                "clientTextSecret",
+                "certificate",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeSplunkHec(str, Enum):
@@ -13381,6 +15928,31 @@ class AuthTokenSplunkHec(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "tokenSecret",
+                "enabled",
+                "description",
+                "allowedIndexesAtToken",
+                "metadata",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputSplunkHecTypedDict(TypedDict):
@@ -13454,12 +16026,6 @@ class CreateInputInputSplunkHecTypedDict(TypedDict):
     emit_token_metrics: NotRequired[bool]
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-    template_splunk_hec_api: NotRequired[str]
-    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
 
 
 class CreateInputInputSplunkHec(BaseModel):
@@ -13617,20 +16183,57 @@ class CreateInputInputSplunkHec(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "metadata",
+                "allowedIndexes",
+                "splunkHecAcks",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "useFwdTimezone",
+                "dropControlFields",
+                "extractMetrics",
+                "accessControlAllowOrigin",
+                "accessControlAllowHeaders",
+                "emitTokenMetrics",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
 
-    template_splunk_hec_api: Annotated[
-        Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
-    ] = None
-    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeSplunkSearch(str, Enum):
@@ -13773,10 +16376,6 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class CreateInputInputSplunkSearch(BaseModel):
@@ -13962,16 +16561,6 @@ class CreateInputInputSplunkSearch(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
     @field_serializer("output_mode")
     def serialize_output_mode(self, value):
         if isinstance(value, str):
@@ -13999,6 +16588,66 @@ class CreateInputInputSplunkSearch(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "earliest",
+                "latest",
+                "endpointParams",
+                "endpointHeaders",
+                "logLevel",
+                "requestTimeout",
+                "useRoundRobinDns",
+                "rejectUnauthorized",
+                "encoding",
+                "keepAliveTime",
+                "jobTimeout",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "retryRules",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "authType",
+                "description",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeSplunk(str, Enum):
     SPLUNK = "splunk"
@@ -14015,6 +16664,22 @@ class AuthTokenSplunk(BaseModel):
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["description"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputMaxS2SVersion(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -14091,10 +16756,6 @@ class CreateInputInputSplunkTypedDict(TypedDict):
     r"""Extract and process Splunk-generated metrics as Cribl metrics"""
     compress: NotRequired[CreateInputCompression]
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputSplunk(BaseModel):
@@ -14208,16 +16869,6 @@ class CreateInputInputSplunk(BaseModel):
     compress: Optional[CreateInputCompression] = None
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
     @field_serializer("max_s2_sversion")
     def serialize_max_s2_sversion(self, value):
         if isinstance(value, str):
@@ -14235,6 +16886,50 @@ class CreateInputInputSplunk(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "ipWhitelistRegex",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "enableProxyHeader",
+                "metadata",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "authTokens",
+                "maxS2Sversion",
+                "description",
+                "useFwdTimezone",
+                "dropControlFields",
+                "extractMetrics",
+                "compress",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeHTTP(str, Enum):
@@ -14300,12 +16995,6 @@ class CreateInputInputHTTPTypedDict(TypedDict):
     auth_tokens_ext: NotRequired[List[ItemsTypeAuthTokensExtTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-    template_splunk_hec_api: NotRequired[str]
-    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
 
 
 class CreateInputInputHTTP(BaseModel):
@@ -14431,20 +17120,52 @@ class CreateInputInputHTTP(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "criblAPI",
+                "elasticAPI",
+                "splunkHecAPI",
+                "splunkHecAcks",
+                "metadata",
+                "authTokensExt",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
 
-    template_splunk_hec_api: Annotated[
-        Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
-    ] = None
-    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeMsk(str, Enum):
@@ -14550,16 +17271,6 @@ class CreateInputInputMskTypedDict(TypedDict):
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_assume_role_arn: NotRequired[str]
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-    template_assume_role_external_id: NotRequired[str]
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-    template_aws_api_key: NotRequired[str]
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
 class CreateInputInputMsk(BaseModel):
@@ -14758,31 +17469,6 @@ class CreateInputInputMsk(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_assume_role_arn: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
-    ] = None
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-
-    template_assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
-    ] = None
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-
-    template_aws_api_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsApiKey")
-    ] = None
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -14800,6 +17486,66 @@ class CreateInputInputMsk(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "groupId",
+                "fromBeginning",
+                "sessionTimeout",
+                "rebalanceTimeout",
+                "heartbeatInterval",
+                "metadata",
+                "kafkaSchemaRegistry",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "awsSecretKey",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "tls",
+                "autoCommitInterval",
+                "autoCommitThreshold",
+                "maxBytesPerPartition",
+                "maxBytes",
+                "maxSocketErrors",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeKafka(str, Enum):
@@ -15028,6 +17774,56 @@ class CreateInputInputKafka(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "groupId",
+                "fromBeginning",
+                "kafkaSchemaRegistry",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "sasl",
+                "tls",
+                "sessionTimeout",
+                "rebalanceTimeout",
+                "heartbeatInterval",
+                "autoCommitInterval",
+                "autoCommitThreshold",
+                "maxBytesPerPartition",
+                "maxBytes",
+                "maxSocketErrors",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeCollection(str, Enum):
     COLLECTION = "collection"
@@ -15117,67 +17913,100 @@ class CreateInputInputCollection(BaseModel):
     output: Optional[str] = None
     r"""Destination to send results to"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "preprocess",
+                "throttleRatePerSec",
+                "metadata",
+                "output",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 CreateInputRequestTypedDict = TypeAliasType(
     "CreateInputRequestTypedDict",
     Union[
-        CreateInputInputDatagenTypedDict,
         CreateInputInputCriblTypedDict,
         CreateInputInputKubeEventsTypedDict,
+        CreateInputInputDatagenTypedDict,
         CreateInputInputCriblmetricsTypedDict,
         CreateInputInputKubeMetricsTypedDict,
         CreateInputInputCollectionTypedDict,
-        CreateInputInputSystemStateTypedDict,
+        CreateInputInputModelDrivenTelemetryTypedDict,
         CreateInputInputWindowsMetricsTypedDict,
         CreateInputInputSystemMetricsTypedDict,
+        CreateInputInputSystemStateTypedDict,
         CreateInputInputJournalFilesTypedDict,
         CreateInputInputExecTypedDict,
         CreateInputInputKubeLogsTypedDict,
-        CreateInputInputModelDrivenTelemetryTypedDict,
         CreateInputInputRawUDPTypedDict,
-        CreateInputInputWinEventLogsTypedDict,
         CreateInputInputSnmpTypedDict,
         CreateInputInputMetricsTypedDict,
+        CreateInputInputWinEventLogsTypedDict,
         CreateInputInputCriblTCPTypedDict,
         CreateInputInputNetflowTypedDict,
-        CreateInputInputTcpjsonTypedDict,
         CreateInputInputGooglePubsubTypedDict,
-        CreateInputInputFirehoseTypedDict,
-        CreateInputInputWizTypedDict,
+        CreateInputInputTcpjsonTypedDict,
         CreateInputInputOffice365ServiceTypedDict,
+        CreateInputInputWizTypedDict,
+        CreateInputInputFirehoseTypedDict,
         CreateInputInputCriblHTTPTypedDict,
-        CreateInputInputTCPTypedDict,
-        CreateInputInputDatadogAgentTypedDict,
-        CreateInputInputFileTypedDict,
-        CreateInputInputSplunkTypedDict,
         CreateInputInputOffice365MgmtTypedDict,
+        CreateInputInputDatadogAgentTypedDict,
+        CreateInputInputTCPTypedDict,
+        CreateInputInputSplunkTypedDict,
         CreateInputInputWefTypedDict,
         CreateInputInputAppscopeTypedDict,
-        CreateInputInputHTTPRawTypedDict,
+        CreateInputInputFileTypedDict,
         CreateInputInputWizWebhookTypedDict,
-        CreateInputInputKafkaTypedDict,
-        CreateInputInputConfluentCloudTypedDict,
-        CreateInputInputCriblLakeHTTPTypedDict,
         CreateInputInputHTTPTypedDict,
-        CreateInputInputEventhubTypedDict,
-        CreateInputInputZscalerHecTypedDict,
-        CreateInputInputCloudflareHecTypedDict,
+        CreateInputInputCriblLakeHTTPTypedDict,
+        CreateInputInputHTTPRawTypedDict,
         CreateInputInputAzureBlobTypedDict,
-        CreateInputInputElasticTypedDict,
+        CreateInputInputZscalerHecTypedDict,
         CreateInputInputSqsTypedDict,
+        CreateInputInputCloudflareHecTypedDict,
         CreateInputInputKinesisTypedDict,
+        CreateInputInputEventhubTypedDict,
+        CreateInputInputConfluentCloudTypedDict,
+        CreateInputInputKafkaTypedDict,
+        CreateInputInputElasticTypedDict,
         CreateInputInputSplunkHecTypedDict,
         CreateInputInputOffice365MsgTraceTypedDict,
-        CreateInputInputLokiTypedDict,
         CreateInputInputPrometheusRwTypedDict,
-        CreateInputInputOpenTelemetryTypedDict,
-        CreateInputInputSplunkSearchTypedDict,
+        CreateInputInputLokiTypedDict,
         CreateInputInputCrowdstrikeTypedDict,
+        CreateInputInputOpenTelemetryTypedDict,
         CreateInputInputEdgePrometheusTypedDict,
-        CreateInputInputMskTypedDict,
-        CreateInputInputS3TypedDict,
-        CreateInputInputPrometheusTypedDict,
         CreateInputInputSecurityLakeTypedDict,
+        CreateInputInputS3TypedDict,
+        CreateInputInputMskTypedDict,
+        CreateInputInputPrometheusTypedDict,
+        CreateInputInputSplunkSearchTypedDict,
         CreateInputInputS3InventoryTypedDict,
         CreateInputInputGrafanaUnionTypedDict,
         CreateInputInputSyslogUnionTypedDict,

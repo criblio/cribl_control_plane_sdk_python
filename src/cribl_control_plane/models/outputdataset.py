@@ -20,10 +20,10 @@ from .timeoutretrysettingstype import (
     TimeoutRetrySettingsTypeTypedDict,
 )
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
+from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -157,8 +157,6 @@ class OutputDatasetTypedDict(TypedDict):
     r"""A 'Log Write Access' API key for the DataSet account"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    template_custom_url: NotRequired[str]
-    r"""Binds 'customUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customUrl' at runtime."""
 
 
 class OutputDataset(BaseModel):
@@ -349,11 +347,6 @@ class OutputDataset(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    template_custom_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_customUrl")
-    ] = None
-    r"""Binds 'customUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customUrl' at runtime."""
-
     @field_serializer("default_severity")
     def serialize_default_severity(self, value):
         if isinstance(value, str):
@@ -425,3 +418,65 @@ class OutputDataset(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "messageField",
+                "excludeFields",
+                "serverHostField",
+                "timestampField",
+                "defaultSeverity",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "site",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "onBackpressure",
+                "authType",
+                "totalMemoryLimitKB",
+                "description",
+                "customUrl",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "apiKey",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

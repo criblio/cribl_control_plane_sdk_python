@@ -13,10 +13,10 @@ from .itemstypenotificationmetadata import (
 from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
+from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -132,6 +132,34 @@ class InputWizContentConfig(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "contentDescription",
+                "enabled",
+                "stateTracking",
+                "stateUpdateExpression",
+                "stateMergeExpression",
+                "manageState",
+                "jobTimeout",
+                "logLevel",
+                "maxPages",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class InputWizTypedDict(TypedDict):
     type: InputWizType
@@ -180,12 +208,6 @@ class InputWizTypedDict(TypedDict):
     r"""The client secret of the Wiz application"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    template_endpoint: NotRequired[str]
-    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
-    template_auth_url: NotRequired[str]
-    r"""Binds 'authUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'authUrl' at runtime."""
-    template_client_id: NotRequired[str]
-    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
 
 class InputWiz(BaseModel):
@@ -279,21 +301,6 @@ class InputWiz(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    template_endpoint: Annotated[
-        Optional[str], pydantic.Field(alias="__template_endpoint")
-    ] = None
-    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
-
-    template_auth_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_authUrl")
-    ] = None
-    r"""Binds 'authUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'authUrl' at runtime."""
-
-    template_client_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_clientId")
-    ] = None
-    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -302,3 +309,43 @@ class InputWiz(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authAudienceOverride",
+                "requestTimeout",
+                "keepAliveTime",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "retryRules",
+                "authType",
+                "description",
+                "clientSecret",
+                "textSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

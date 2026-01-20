@@ -26,10 +26,10 @@ from .tlssettingsclientsidetype1 import (
     TLSSettingsClientSideType1TypedDict,
 )
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
+from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -81,8 +81,6 @@ class OutputWebhookURLTypedDict(TypedDict):
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
     weight: NotRequired[float]
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-    template_url: NotRequired[str]
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputWebhookURL(BaseModel):
@@ -92,10 +90,21 @@ class OutputWebhookURL(BaseModel):
     weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
-    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
-        None
-    )
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["weight"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class OutputWebhookTypedDict(TypedDict):
@@ -226,12 +235,6 @@ class OutputWebhookTypedDict(TypedDict):
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
     r"""How far back in time to keep traffic stats for load balancing purposes"""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-    template_url: NotRequired[str]
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputWebhook(BaseModel):
@@ -515,21 +518,6 @@ class OutputWebhook(BaseModel):
     ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
-    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
-        None
-    )
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-
     @field_serializer("method")
     def serialize_method(self, value):
         if isinstance(value, str):
@@ -601,3 +589,87 @@ class OutputWebhook(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "method",
+                "format",
+                "keepAlive",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "tls",
+                "totalMemoryLimitKB",
+                "loadBalanced",
+                "description",
+                "customSourceExpression",
+                "customDropWhenNull",
+                "customEventDelimiter",
+                "customContentType",
+                "customPayloadExpression",
+                "advancedContentType",
+                "formatEventCode",
+                "formatPayloadCode",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "url",
+                "excludeSelf",
+                "urls",
+                "dnsResolvePeriodSec",
+                "loadBalanceStatsPeriodSec",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

@@ -17,10 +17,10 @@ from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .signatureversionoptions4 import SignatureVersionOptions4
 from .storageclassoptions1 import StorageClassOptions1
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
+from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -149,12 +149,6 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
     r"""HMAC secret. This value can be a constant or a JavaScript expression, such as `${C.env.GCS_SECRET}`."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    template_bucket: NotRequired[str]
-    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_format: NotRequired[str]
-    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
 
 
 class OutputGoogleCloudStorage(BaseModel):
@@ -407,21 +401,6 @@ class OutputGoogleCloudStorage(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    template_bucket: Annotated[
-        Optional[str], pydantic.Field(alias="__template_bucket")
-    ] = None
-    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_format: Annotated[
-        Optional[str], pydantic.Field(alias="__template_format")
-    ] = None
-    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
-
     @field_serializer("signature_version")
     def serialize_signature_version(self, value):
         if isinstance(value, str):
@@ -520,3 +499,73 @@ class OutputGoogleCloudStorage(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "signatureVersion",
+                "awsAuthenticationMethod",
+                "destPath",
+                "verifyPermissions",
+                "objectACL",
+                "storageClass",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "addIdToStagePath",
+                "removeEmptyDirs",
+                "partitionExpr",
+                "format",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "description",
+                "compress",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+                "awsApiKey",
+                "awsSecretKey",
+                "awsSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

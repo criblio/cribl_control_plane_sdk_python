@@ -14,9 +14,10 @@ from .preprocesstypesavedjobcollectioninput import (
     PreprocessTypeSavedJobCollectionInput,
     PreprocessTypeSavedJobCollectionInputTypedDict,
 )
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
+from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -108,3 +109,37 @@ class InputCollection(BaseModel):
 
     output: Optional[str] = None
     r"""Destination to send results to"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "preprocess",
+                "throttleRatePerSec",
+                "metadata",
+                "output",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

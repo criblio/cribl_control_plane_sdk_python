@@ -14,9 +14,10 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
     TLSSettingsServerSideTypeTypedDict,
 )
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
+from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -61,12 +62,6 @@ class InputMetricsTypedDict(TypedDict):
     udp_socket_rx_buf_size: NotRequired[float]
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_udp_port: NotRequired[str]
-    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
-    template_tcp_port: NotRequired[str]
-    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
 
 class InputMetrics(BaseModel):
@@ -135,17 +130,39 @@ class InputMetrics(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "udpPort",
+                "tcpPort",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "enableProxyHeader",
+                "tls",
+                "metadata",
+                "udpSocketRxBufSize",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
 
-    template_udp_port: Annotated[
-        Optional[str], pydantic.Field(alias="__template_udpPort")
-    ] = None
-    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
 
-    template_tcp_port: Annotated[
-        Optional[str], pydantic.Field(alias="__template_tcpPort")
-    ] = None
-    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

@@ -1348,12 +1348,12 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedConfigGroup:
-        r"""Deploy commits to a Worker Group or Edge Fleet
+        r"""Deploy commits to a Worker Group, Outpost Group, or Edge Fleet
 
-        Deploy commits to the specified Worker Group or Edge Fleet.
+        Deploy commits to the specified Worker Group, Outpost Group, or Edge Fleet.
 
-        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
-        :param id: The <code>id</code> of the target Worker Group or Edge Fleet for commit deployment.
+        :param product: Name of the Cribl product to deploy commits to the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param id: The <code>id</code> of the target Worker Group, Outpost Group, or Edge Fleet for commit deployment.
         :param version:
         :param lookups:
         :param retries: Override the default retry configuration for this method
@@ -1461,12 +1461,12 @@ class GroupsSDK(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedConfigGroup:
-        r"""Deploy commits to a Worker Group or Edge Fleet
+        r"""Deploy commits to a Worker Group, Outpost Group, or Edge Fleet
 
-        Deploy commits to the specified Worker Group or Edge Fleet.
+        Deploy commits to the specified Worker Group, Outpost Group, or Edge Fleet.
 
-        :param product: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
-        :param id: The <code>id</code> of the target Worker Group or Edge Fleet for commit deployment.
+        :param product: Name of the Cribl product to deploy commits to the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param id: The <code>id</code> of the target Worker Group, Outpost Group, or Edge Fleet for commit deployment.
         :param version:
         :param lookups:
         :param retries: Override the default retry configuration for this method

@@ -1,8 +1,29 @@
 # HealthCheckAuthenticationLoginDiscovery
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                                                                                                                                                                                                                                                        | Type                                                                                                                                                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                                                                                                                                                  |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `discover_type`                                                                                                                                                                                                                                                                                                                                              | [models.HealthCheckAuthenticationLoginDiscoverType](../models/healthcheckauthenticationlogindiscovertype.md)                                                                                                                                                                                                                                                 | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                           | Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task. |
+### `models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTP`
+
+```python
+value: models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTP = /* values here */
+```
+
+### `models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSON`
+
+```python
+value: models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSON = /* values here */
+```
+
+### `models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeList`
+
+```python
+value: models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeList = /* values here */
+```
+
+### `models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNone`
+
+```python
+value: models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNone = /* values here */
+```
+

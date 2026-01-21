@@ -1,8 +1,29 @@
 # RestAuthenticationGoogleOauthSecretDiscovery
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                      | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `discover_type`                                                                                                            | [models.RestAuthenticationGoogleOauthSecretDiscoverType](../models/restauthenticationgoogleoauthsecretdiscovertype.md)     | :heavy_check_mark:                                                                                                         | Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task. |
+### `models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTP`
+
+```python
+value: models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTP = /* values here */
+```
+
+### `models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeJSON`
+
+```python
+value: models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeJSON = /* values here */
+```
+
+### `models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeList`
+
+```python
+value: models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeList = /* values here */
+```
+
+### `models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeNone`
+
+```python
+value: models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeNone = /* values here */
+```
+

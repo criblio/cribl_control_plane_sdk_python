@@ -1,15 +1,23 @@
 # SplunkAuthenticationLoginRetryRules
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                        | Type                                                                                                                         | Required                                                                                                                     | Description                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `type`                                                                                                                       | [models.RetryTypeOptionsHealthCheckCollectorConfRetryRules](../models/retrytypeoptionshealthcheckcollectorconfretryrules.md) | :heavy_check_mark:                                                                                                           | The algorithm to use when performing HTTP retries                                                                            |
-| `interval`                                                                                                                   | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `limit`                                                                                                                      | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `multiplier`                                                                                                                 | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `codes`                                                                                                                      | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `enable_header`                                                                                                              | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `retry_connect_timeout`                                                                                                      | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `retry_connect_reset`                                                                                                        | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
+### `models.SplunkAuthenticationLoginSplunkRetryRulesTypeNone`
+
+```python
+value: models.SplunkAuthenticationLoginSplunkRetryRulesTypeNone = /* values here */
+```
+
+### `models.SplunkAuthenticationLoginSplunkRetryRulesTypeStatic`
+
+```python
+value: models.SplunkAuthenticationLoginSplunkRetryRulesTypeStatic = /* values here */
+```
+
+### `models.SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff`
+
+```python
+value: models.SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff = /* values here */
+```
+

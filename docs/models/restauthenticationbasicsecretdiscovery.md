@@ -1,8 +1,29 @@
 # RestAuthenticationBasicSecretDiscovery
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                      | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `discover_type`                                                                                                            | [models.RestAuthenticationBasicSecretDiscoverType](../models/restauthenticationbasicsecretdiscovertype.md)                 | :heavy_check_mark:                                                                                                         | Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task. |
+### `models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTP`
+
+```python
+value: models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTP = /* values here */
+```
+
+### `models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeJSON`
+
+```python
+value: models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeJSON = /* values here */
+```
+
+### `models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeList`
+
+```python
+value: models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeList = /* values here */
+```
+
+### `models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeNone`
+
+```python
+value: models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeNone = /* values here */
+```
+

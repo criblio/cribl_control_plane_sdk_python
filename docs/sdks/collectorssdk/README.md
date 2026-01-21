@@ -84,6 +84,8 @@ with CriblControlPlane(
                     ),
                 ),
             ),
+            destructive=True,
+            encoding="<value>",
         ),
         input=models.TypeCollectionWithBreakerRulesetsConstraint(
             type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
@@ -363,6 +365,8 @@ with CriblControlPlane(
                 verify_permissions=True,
                 disable_time_filter=True,
             ),
+            destructive=True,
+            encoding="<value>",
         ),
         input=models.TypeCollectionWithBreakerRulesetsConstraint(
             type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,

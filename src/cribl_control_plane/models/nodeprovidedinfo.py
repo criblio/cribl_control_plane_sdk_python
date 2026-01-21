@@ -20,8 +20,9 @@ from .kubetypeheartbeatmetadata import (
     KubeTypeHeartbeatMetadataTypedDict,
 )
 from .outpostnodeinfo import OutpostNodeInfo, OutpostNodeInfoTypedDict
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
+from pydantic import model_serializer
 from typing import Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -116,3 +117,34 @@ class NodeProvidedInfo(BaseModel):
     total_disk_space: Annotated[
         Optional[float], pydantic.Field(alias="totalDiskSpace")
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "aws",
+                "azure",
+                "conn_ip",
+                "freeDiskSpace",
+                "hostOs",
+                "isSaasWorker",
+                "kube",
+                "localTime",
+                "metadata",
+                "os",
+                "outpost",
+                "totalDiskSpace",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

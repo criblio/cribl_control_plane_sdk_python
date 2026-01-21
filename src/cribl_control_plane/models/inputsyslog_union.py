@@ -14,9 +14,10 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
     TLSSettingsServerSideTypeTypedDict,
 )
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
+from pydantic import model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -241,6 +242,58 @@ class InputSyslogSyslog2(BaseModel):
     ] = None
     r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "udpPort",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "timestampTimezone",
+                "singleMsgUdpPackets",
+                "enableProxyHeader",
+                "keepFieldsList",
+                "octetCounting",
+                "inferFraming",
+                "strictlyInferOctetCounting",
+                "allowNonStandardAppName",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "tls",
+                "metadata",
+                "udpSocketRxBufSize",
+                "enableLoadBalancing",
+                "description",
+                "enableEnhancedProxyHeaderParsing",
+                "__template_host",
+                "__template_udpPort",
+                "__template_tcpPort",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class InputSyslogType1(str, Enum):
     SYSLOG = "syslog"
@@ -461,6 +514,58 @@ class InputSyslogSyslog1(BaseModel):
         Optional[str], pydantic.Field(alias="__template_tcpPort")
     ] = None
     r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tcpPort",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "timestampTimezone",
+                "singleMsgUdpPackets",
+                "enableProxyHeader",
+                "keepFieldsList",
+                "octetCounting",
+                "inferFraming",
+                "strictlyInferOctetCounting",
+                "allowNonStandardAppName",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "tls",
+                "metadata",
+                "udpSocketRxBufSize",
+                "enableLoadBalancing",
+                "description",
+                "enableEnhancedProxyHeaderParsing",
+                "__template_host",
+                "__template_udpPort",
+                "__template_tcpPort",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 InputSyslogUnionTypedDict = TypeAliasType(

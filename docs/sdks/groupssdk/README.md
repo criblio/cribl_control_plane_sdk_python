@@ -11,7 +11,7 @@ Actions related to Groups
 * [get](#get) - Get a Worker Group, Outpost Group, or Edge Fleet
 * [update](#update) - Update a Worker Group, Outpost Group, or Edge Fleet
 * [delete](#delete) - Delete a Worker Group, Outpost Group, or Edge Fleet
-* [deploy](#deploy) - Deploy commits to a Worker Group or Edge Fleet
+* [deploy](#deploy) - Deploy commits to a Worker Group, Outpost Group, or Edge Fleet
 
 ## list
 
@@ -340,7 +340,7 @@ with CriblControlPlane(
 
 ## deploy
 
-Deploy commits to the specified Worker Group or Edge Fleet.
+Deploy commits to the specified Worker Group, Outpost Group, or Edge Fleet.
 
 ### Example Usage
 
@@ -371,13 +371,13 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                           | Type                                                                                | Required                                                                            | Description                                                                         |
-| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `product`                                                                           | [models.ProductsCore](../../models/productscore.md)                                 | :heavy_check_mark:                                                                  | Name of the Cribl product to get the Worker Groups or Edge Fleets for.              |
-| `id`                                                                                | *str*                                                                               | :heavy_check_mark:                                                                  | The <code>id</code> of the target Worker Group or Edge Fleet for commit deployment. |
-| `version`                                                                           | *str*                                                                               | :heavy_check_mark:                                                                  | N/A                                                                                 |
-| `lookups`                                                                           | List[[models.DeployRequestLookups](../../models/deployrequestlookups.md)]           | :heavy_minus_sign:                                                                  | N/A                                                                                 |
-| `retries`                                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                    | :heavy_minus_sign:                                                                  | Configuration to override the default retry behavior of the client.                 |
+| Parameter                                                                                             | Type                                                                                                  | Required                                                                                              | Description                                                                                           |
+| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `product`                                                                                             | [models.ProductsCore](../../models/productscore.md)                                                   | :heavy_check_mark:                                                                                    | Name of the Cribl product to deploy commits to the Worker Groups, Outpost Groups, or Edge Fleets for. |
+| `id`                                                                                                  | *str*                                                                                                 | :heavy_check_mark:                                                                                    | The <code>id</code> of the target Worker Group, Outpost Group, or Edge Fleet for commit deployment.   |
+| `version`                                                                                             | *str*                                                                                                 | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
+| `lookups`                                                                                             | List[[models.DeployRequestLookups](../../models/deployrequestlookups.md)]                             | :heavy_minus_sign:                                                                                    | N/A                                                                                                   |
+| `retries`                                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                      | :heavy_minus_sign:                                                                                    | Configuration to override the default retry behavior of the client.                                   |
 
 ### Response
 

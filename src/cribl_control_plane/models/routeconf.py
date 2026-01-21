@@ -22,6 +22,8 @@ class RouteConfTypedDict(TypedDict):
     group_id: NotRequired[str]
     output: NotRequired[str]
     output_expression: NotRequired[str]
+    to_group_context: NotRequired[bool]
+    to_pack_context: NotRequired[bool]
 
 
 class RouteConf(BaseModel):
@@ -55,6 +57,14 @@ class RouteConf(BaseModel):
         Optional[str], pydantic.Field(alias="outputExpression")
     ] = None
 
+    to_group_context: Annotated[
+        Optional[bool], pydantic.Field(alias="toGroupContext")
+    ] = None
+
+    to_pack_context: Annotated[
+        Optional[bool], pydantic.Field(alias="toPackContext")
+    ] = None
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -68,6 +78,8 @@ class RouteConf(BaseModel):
                 "groupId",
                 "output",
                 "outputExpression",
+                "toGroupContext",
+                "toPackContext",
             ]
         )
         serialized = handler(self)

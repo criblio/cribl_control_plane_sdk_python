@@ -169,6 +169,10 @@ if TYPE_CHECKING:
         CountedCriblLakeDataset,
         CountedCriblLakeDatasetTypedDict,
     )
+    from .counteddatabaseconnectionconfig import (
+        CountedDatabaseConnectionConfig,
+        CountedDatabaseConnectionConfigTypedDict,
+    )
     from .counteddistributedsummary import (
         CountedDistributedSummary,
         CountedDistributedSummaryTypedDict,
@@ -1094,6 +1098,11 @@ if TYPE_CHECKING:
         DatabaseCollectorConfStateTrackingTypedDict,
         DatabaseCollectorConfTypedDict,
     )
+    from .databaseconnectionconfig import (
+        DatabaseConnectionConfig,
+        DatabaseConnectionConfigTypedDict,
+    )
+    from .databaseconnectiontype import DatabaseConnectionType
     from .datacompressionformatoptionspersistence import (
         DataCompressionFormatOptionsPersistence,
     )
@@ -1111,6 +1120,10 @@ if TYPE_CHECKING:
     from .deletecribllakedatasetbylakeidandidop import (
         DeleteCriblLakeDatasetByLakeIDAndIDRequest,
         DeleteCriblLakeDatasetByLakeIDAndIDRequestTypedDict,
+    )
+    from .deletedatabaseconnectionconfigbyidop import (
+        DeleteDatabaseConnectionConfigByIDRequest,
+        DeleteDatabaseConnectionConfigByIDRequestTypedDict,
     )
     from .deleteinputbyidop import (
         DeleteInputByIDRequest,
@@ -1636,6 +1649,10 @@ if TYPE_CHECKING:
     from .getcribllakedatasetbylakeidop import (
         GetCriblLakeDatasetByLakeIDRequest,
         GetCriblLakeDatasetByLakeIDRequestTypedDict,
+    )
+    from .getdatabaseconnectionconfigbyidop import (
+        GetDatabaseConnectionConfigByIDRequest,
+        GetDatabaseConnectionConfigByIDRequestTypedDict,
     )
     from .getfunctionsbyidop import (
         GetFunctionsByIDRequest,
@@ -5024,6 +5041,10 @@ if TYPE_CHECKING:
         UpdateCriblLakeDatasetByLakeIDAndIDRequest,
         UpdateCriblLakeDatasetByLakeIDAndIDRequestTypedDict,
     )
+    from .updatedatabaseconnectionconfigbyidop import (
+        UpdateDatabaseConnectionConfigByIDRequest,
+        UpdateDatabaseConnectionConfigByIDRequestTypedDict,
+    )
     from .updatehectokenrequest import (
         UpdateHecTokenRequest,
         UpdateHecTokenRequestTypedDict,
@@ -5301,6 +5322,8 @@ __all__ = [
     "CountedConfigGroupTypedDict",
     "CountedCriblLakeDataset",
     "CountedCriblLakeDatasetTypedDict",
+    "CountedDatabaseConnectionConfig",
+    "CountedDatabaseConnectionConfigTypedDict",
     "CountedDistributedSummary",
     "CountedDistributedSummaryTypedDict",
     "CountedFunctionResponse",
@@ -5968,6 +5991,9 @@ __all__ = [
     "DatabaseCollectorConfStateTracking",
     "DatabaseCollectorConfStateTrackingTypedDict",
     "DatabaseCollectorConfTypedDict",
+    "DatabaseConnectionConfig",
+    "DatabaseConnectionConfigTypedDict",
+    "DatabaseConnectionType",
     "DatadogSite",
     "DatasetMetadata",
     "DatasetMetadataRunInfo",
@@ -5978,6 +6004,8 @@ __all__ = [
     "DeleteConfigGroupByProductAndIDRequestTypedDict",
     "DeleteCriblLakeDatasetByLakeIDAndIDRequest",
     "DeleteCriblLakeDatasetByLakeIDAndIDRequestTypedDict",
+    "DeleteDatabaseConnectionConfigByIDRequest",
+    "DeleteDatabaseConnectionConfigByIDRequestTypedDict",
     "DeleteInputByIDRequest",
     "DeleteInputByIDRequestTypedDict",
     "DeleteOutputByIDRequest",
@@ -6371,6 +6399,8 @@ __all__ = [
     "GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict",
     "GetCriblLakeDatasetByLakeIDRequest",
     "GetCriblLakeDatasetByLakeIDRequestTypedDict",
+    "GetDatabaseConnectionConfigByIDRequest",
+    "GetDatabaseConnectionConfigByIDRequestTypedDict",
     "GetFunctionsByIDRequest",
     "GetFunctionsByIDRequestTypedDict",
     "GetInputByIDRequest",
@@ -9452,6 +9482,8 @@ __all__ = [
     "UpdateConfigGroupDeployByProductAndIDRequestTypedDict",
     "UpdateCriblLakeDatasetByLakeIDAndIDRequest",
     "UpdateCriblLakeDatasetByLakeIDAndIDRequestTypedDict",
+    "UpdateDatabaseConnectionConfigByIDRequest",
+    "UpdateDatabaseConnectionConfigByIDRequestTypedDict",
     "UpdateHecTokenRequest",
     "UpdateHecTokenRequestTypedDict",
     "UpdateInputByIDRequest",
@@ -9632,6 +9664,8 @@ _dynamic_imports: dict[str, str] = {
     "CountedConfigGroupTypedDict": ".countedconfiggroup",
     "CountedCriblLakeDataset": ".countedcribllakedataset",
     "CountedCriblLakeDatasetTypedDict": ".countedcribllakedataset",
+    "CountedDatabaseConnectionConfig": ".counteddatabaseconnectionconfig",
+    "CountedDatabaseConnectionConfigTypedDict": ".counteddatabaseconnectionconfig",
     "CountedDistributedSummary": ".counteddistributedsummary",
     "CountedDistributedSummaryTypedDict": ".counteddistributedsummary",
     "CountedFunctionResponse": ".countedfunctionresponse",
@@ -10506,6 +10540,9 @@ _dynamic_imports: dict[str, str] = {
     "DatabaseCollectorConfStateTracking": ".databasecollectorconf",
     "DatabaseCollectorConfStateTrackingTypedDict": ".databasecollectorconf",
     "DatabaseCollectorConfTypedDict": ".databasecollectorconf",
+    "DatabaseConnectionConfig": ".databaseconnectionconfig",
+    "DatabaseConnectionConfigTypedDict": ".databaseconnectionconfig",
+    "DatabaseConnectionType": ".databaseconnectiontype",
     "DataCompressionFormatOptionsPersistence": ".datacompressionformatoptionspersistence",
     "DataFormatOptions": ".dataformatoptions",
     "DataPageVersionOptions": ".datapageversionoptions",
@@ -10518,6 +10555,8 @@ _dynamic_imports: dict[str, str] = {
     "DeleteConfigGroupByProductAndIDRequestTypedDict": ".deleteconfiggroupbyproductandidop",
     "DeleteCriblLakeDatasetByLakeIDAndIDRequest": ".deletecribllakedatasetbylakeidandidop",
     "DeleteCriblLakeDatasetByLakeIDAndIDRequestTypedDict": ".deletecribllakedatasetbylakeidandidop",
+    "DeleteDatabaseConnectionConfigByIDRequest": ".deletedatabaseconnectionconfigbyidop",
+    "DeleteDatabaseConnectionConfigByIDRequestTypedDict": ".deletedatabaseconnectionconfigbyidop",
     "DeleteInputByIDRequest": ".deleteinputbyidop",
     "DeleteInputByIDRequestTypedDict": ".deleteinputbyidop",
     "DeleteOutputByIDRequest": ".deleteoutputbyidop",
@@ -10891,6 +10930,8 @@ _dynamic_imports: dict[str, str] = {
     "GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict": ".getcribllakedatasetbylakeidandidop",
     "GetCriblLakeDatasetByLakeIDRequest": ".getcribllakedatasetbylakeidop",
     "GetCriblLakeDatasetByLakeIDRequestTypedDict": ".getcribllakedatasetbylakeidop",
+    "GetDatabaseConnectionConfigByIDRequest": ".getdatabaseconnectionconfigbyidop",
+    "GetDatabaseConnectionConfigByIDRequestTypedDict": ".getdatabaseconnectionconfigbyidop",
     "GetFunctionsByIDRequest": ".getfunctionsbyidop",
     "GetFunctionsByIDRequestTypedDict": ".getfunctionsbyidop",
     "GetInputByIDRequest": ".getinputbyidop",
@@ -13873,6 +13914,8 @@ _dynamic_imports: dict[str, str] = {
     "UpdateConfigGroupDeployByProductAndIDRequestTypedDict": ".updateconfiggroupdeploybyproductandidop",
     "UpdateCriblLakeDatasetByLakeIDAndIDRequest": ".updatecribllakedatasetbylakeidandidop",
     "UpdateCriblLakeDatasetByLakeIDAndIDRequestTypedDict": ".updatecribllakedatasetbylakeidandidop",
+    "UpdateDatabaseConnectionConfigByIDRequest": ".updatedatabaseconnectionconfigbyidop",
+    "UpdateDatabaseConnectionConfigByIDRequestTypedDict": ".updatedatabaseconnectionconfigbyidop",
     "UpdateHecTokenRequest": ".updatehectokenrequest",
     "UpdateHecTokenRequestTypedDict": ".updatehectokenrequest",
     "UpdateInputByIDRequest": ".updateinputbyidop",

@@ -5,9 +5,9 @@ from .hiddendefaultbreakersoptionsdatabasecollectorconf import (
     HiddenDefaultBreakersOptionsDatabaseCollectorConf,
 )
 from cribl_control_plane import models
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
-from pydantic import field_serializer
+from pydantic import field_serializer, model_serializer
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -21,6 +21,22 @@ class DatabaseCollectorConfStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Enable tracking of collection progress between consecutive scheduled executions."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class DatabaseCollectorConfSchedulingTypedDict(TypedDict):
     state_tracking: NotRequired[DatabaseCollectorConfStateTrackingTypedDict]
@@ -31,6 +47,22 @@ class DatabaseCollectorConfScheduling(BaseModel):
         Optional[DatabaseCollectorConfStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class DatabaseCollectorConfTypedDict(TypedDict):
@@ -73,3 +105,21 @@ class DatabaseCollectorConf(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["queryValidationEnabled", "defaultBreakers", "__scheduling"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

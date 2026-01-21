@@ -94,11 +94,11 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideTypeTypedDict,
 )
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer
+from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -161,6 +161,32 @@ class AuthTokenCloudflareHec(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "tokenSecret",
+                "token",
+                "enabled",
+                "description",
+                "allowedIndexesAtToken",
+                "metadata",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputCloudflareHecTypedDict(TypedDict):
@@ -377,6 +403,56 @@ class CreateInputInputCloudflareHec(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "metadata",
+                "allowedIndexes",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "accessControlAllowOrigin",
+                "accessControlAllowHeaders",
+                "emitTokenMetrics",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeZscalerHec(str, Enum):
     ZSCALER_HEC = "zscaler_hec"
@@ -430,6 +506,31 @@ class AuthTokenZscalerHec(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "tokenSecret",
+                "enabled",
+                "description",
+                "allowedIndexesAtToken",
+                "metadata",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputZscalerHecTypedDict(TypedDict):
@@ -643,6 +744,56 @@ class CreateInputInputZscalerHec(BaseModel):
         Optional[str], pydantic.Field(alias="__template_hecAPI")
     ] = None
     r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "metadata",
+                "allowedIndexes",
+                "hecAcks",
+                "accessControlAllowOrigin",
+                "accessControlAllowHeaders",
+                "emitTokenMetrics",
+                "description",
+                "__template_host",
+                "__template_port",
+                "__template_hecAPI",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeSecurityLake(str, Enum):
@@ -989,6 +1140,75 @@ class CreateInputInputSecurityLake(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "fileFilter",
+                "awsAccountId",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "maxMessages",
+                "visibilityTimeout",
+                "numReceivers",
+                "socketTimeout",
+                "skipOnError",
+                "includeSqsMetadata",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "enableSQSAssumeRole",
+                "preprocess",
+                "metadata",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "checkpointing",
+                "pollTimeout",
+                "encoding",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "tagAfterProcessing",
+                "processedTagKey",
+                "processedTagValue",
+                "__template_queueName",
+                "__template_awsAccountId",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+                "__template_awsApiKey",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeNetflow(str, Enum):
     NETFLOW = "netflow"
@@ -1127,6 +1347,45 @@ class CreateInputInputNetflow(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "enablePassThrough",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "udpSocketRxBufSize",
+                "templateCacheMinutes",
+                "v5Enabled",
+                "v9Enabled",
+                "ipfixEnabled",
+                "metadata",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeWizWebhook(str, Enum):
@@ -1337,6 +1596,55 @@ class CreateInputInputWizWebhook(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "metadata",
+                "allowedPaths",
+                "allowedMethods",
+                "authTokensExt",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeWiz(str, Enum):
     WIZ = "wiz"
@@ -1446,6 +1754,34 @@ class ContentConfigWiz(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "contentDescription",
+                "enabled",
+                "stateTracking",
+                "stateUpdateExpression",
+                "stateMergeExpression",
+                "manageState",
+                "jobTimeout",
+                "logLevel",
+                "maxPages",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputWizTypedDict(TypedDict):
@@ -1618,6 +1954,48 @@ class CreateInputInputWiz(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authAudienceOverride",
+                "requestTimeout",
+                "keepAliveTime",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "retryRules",
+                "authType",
+                "description",
+                "clientSecret",
+                "textSecret",
+                "__template_endpoint",
+                "__template_authUrl",
+                "__template_clientId",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputInputJournalFilesType(str, Enum):
     JOURNAL_FILES = "journal_files"
@@ -1636,6 +2014,22 @@ class CreateInputInputJournalFilesRule(BaseModel):
 
     description: Optional[str] = None
     r"""Optional description of this rule's purpose"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["description"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputJournalFilesTypedDict(TypedDict):
@@ -1725,6 +2119,39 @@ class CreateInputInputJournalFiles(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "rules",
+                "currentBoot",
+                "maxAgeDur",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeRawUDP(str, Enum):
@@ -1847,6 +2274,42 @@ class CreateInputInputRawUDP(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "singleMsgUdpPackets",
+                "ingestRawBytes",
+                "udpSocketRxBufSize",
+                "metadata",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeWinEventLogs(str, Enum):
@@ -2004,6 +2467,43 @@ class CreateInputInputWinEventLogs(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "readMode",
+                "eventFormat",
+                "disableNativeModule",
+                "interval",
+                "batchSize",
+                "metadata",
+                "maxEventBytes",
+                "description",
+                "disableJsonRendering",
+                "disableXmlRendering",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeWef(str, Enum):
     WEF = "wef"
@@ -2120,6 +2620,37 @@ class CreateInputMTLSSettings(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "rejectUnauthorized",
+                "requestCert",
+                "certificateName",
+                "passphrase",
+                "commonNameRegex",
+                "minVersion",
+                "maxVersion",
+                "ocspCheck",
+                "keytab",
+                "principal",
+                "ocspCheckFailClose",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputFormat(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -2240,6 +2771,34 @@ class CreateInputSubscription(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "version",
+                "readExistingEvents",
+                "sendBookmarks",
+                "compress",
+                "locale",
+                "querySelector",
+                "metadata",
+                "queries",
+                "xmlQuery",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputWefTypedDict(TypedDict):
@@ -2442,6 +3001,53 @@ class CreateInputInputWef(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authMethod",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "socketTimeout",
+                "caFingerprint",
+                "keytab",
+                "principal",
+                "allowMachineIdMismatch",
+                "metadata",
+                "description",
+                "logFingerprintMismatch",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeAppscope(str, Enum):
     APPSCOPE = "appscope"
@@ -2466,6 +3072,22 @@ class CreateInputAllow(BaseModel):
     arg: Optional[str] = None
     r"""Specify a string to substring-match against process command-line."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["arg"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class FilterAppscopeTypedDict(TypedDict):
     allow: NotRequired[List[CreateInputAllowTypedDict]]
@@ -2480,6 +3102,22 @@ class FilterAppscope(BaseModel):
 
     transport_url: Annotated[Optional[str], pydantic.Field(alias="transportURL")] = None
     r"""To override the UNIX domain socket or address/port specified in General Settings (while leaving Authentication settings as is), enter a URL."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["allow", "transportURL"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class PersistenceAppscopeTypedDict(TypedDict):
@@ -2522,6 +3160,31 @@ class PersistenceAppscope(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputAppscopeTypedDict(TypedDict):
@@ -2719,6 +3382,56 @@ class CreateInputInputAppscope(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "ipWhitelistRegex",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "enableProxyHeader",
+                "metadata",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "enableUnixPath",
+                "filter",
+                "persistence",
+                "authType",
+                "description",
+                "host",
+                "port",
+                "tls",
+                "unixSocketPath",
+                "unixSocketPerms",
+                "authToken",
+                "textSecret",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeTCP(str, Enum):
     TCP = "tcp"
@@ -2901,6 +3614,51 @@ class CreateInputInputTCP(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "ipWhitelistRegex",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "enableProxyHeader",
+                "metadata",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "enableHeader",
+                "preprocess",
+                "description",
+                "authToken",
+                "authType",
+                "textSecret",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputFileType(str, Enum):
@@ -3087,6 +3845,54 @@ class CreateInputInputFile(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "mode",
+                "interval",
+                "filenames",
+                "filterArchivedFiles",
+                "tailOnly",
+                "idleTimeout",
+                "minAgeDur",
+                "maxAgeDur",
+                "checkFileModTime",
+                "forceText",
+                "hashLen",
+                "metadata",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "description",
+                "path",
+                "depth",
+                "suppressMissingPathErrors",
+                "deleteFiles",
+                "saltHash",
+                "includeUnidentifiableBinary",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputSyslogType2(str, Enum):
@@ -3309,6 +4115,57 @@ class CreateInputInputSyslogSyslog2(BaseModel):
     ] = None
     r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "udpPort",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "timestampTimezone",
+                "singleMsgUdpPackets",
+                "enableProxyHeader",
+                "keepFieldsList",
+                "octetCounting",
+                "inferFraming",
+                "strictlyInferOctetCounting",
+                "allowNonStandardAppName",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "tls",
+                "metadata",
+                "udpSocketRxBufSize",
+                "enableLoadBalancing",
+                "description",
+                "enableEnhancedProxyHeaderParsing",
+                "__template_host",
+                "__template_udpPort",
+                "__template_tcpPort",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputInputSyslogType1(str, Enum):
     SYSLOG = "syslog"
@@ -3529,6 +4386,57 @@ class CreateInputInputSyslogSyslog1(BaseModel):
         Optional[str], pydantic.Field(alias="__template_tcpPort")
     ] = None
     r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tcpPort",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "timestampTimezone",
+                "singleMsgUdpPackets",
+                "enableProxyHeader",
+                "keepFieldsList",
+                "octetCounting",
+                "inferFraming",
+                "strictlyInferOctetCounting",
+                "allowNonStandardAppName",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "tls",
+                "metadata",
+                "udpSocketRxBufSize",
+                "enableLoadBalancing",
+                "description",
+                "enableEnhancedProxyHeaderParsing",
+                "__template_host",
+                "__template_udpPort",
+                "__template_tcpPort",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 CreateInputInputSyslogUnionTypedDict = TypeAliasType(
@@ -3818,6 +4726,61 @@ class CreateInputInputSqs(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "awsAccountId",
+                "createQueue",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "maxMessages",
+                "visibilityTimeout",
+                "metadata",
+                "pollTimeout",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "numReceivers",
+                "__template_queueName",
+                "__template_awsAccountId",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+                "__template_awsApiKey",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeModelDrivenTelemetry(str, Enum):
     MODEL_DRIVEN_TELEMETRY = "model_driven_telemetry"
@@ -3921,6 +4884,40 @@ class CreateInputInputModelDrivenTelemetry(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "metadata",
+                "maxActiveCxn",
+                "shutdownTimeoutMs",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeOpenTelemetry(str, Enum):
@@ -4262,6 +5259,71 @@ class CreateInputInputOpenTelemetry(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "protocol",
+                "extractSpans",
+                "extractMetrics",
+                "otlpVersion",
+                "authType",
+                "metadata",
+                "maxActiveCxn",
+                "description",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "extractLogs",
+                "__template_host",
+                "__template_port",
+                "__template_loginUrl",
+                "__template_secret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeSnmp(str, Enum):
     SNMP = "snmp"
@@ -4322,6 +5384,22 @@ class CreateInputV3User(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["authProtocol", "authKey", "privProtocol", "privKey"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputSNMPv3AuthenticationTypedDict(TypedDict):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
@@ -4347,6 +5425,22 @@ class CreateInputSNMPv3Authentication(BaseModel):
         Optional[List[CreateInputV3User]], pydantic.Field(alias="v3Users")
     ] = None
     r"""User credentials for receiving v3 traps"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["allowUnmatchedTrap", "v3Users"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputSnmpTypedDict(TypedDict):
@@ -4472,6 +5566,43 @@ class CreateInputInputSnmp(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "snmpV3Auth",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "metadata",
+                "udpSocketRxBufSize",
+                "varbindsWithTypes",
+                "bestEffortParsing",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeS3Inventory(str, Enum):
@@ -4834,6 +5965,77 @@ class CreateInputInputS3Inventory(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "fileFilter",
+                "awsAccountId",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "maxMessages",
+                "visibilityTimeout",
+                "numReceivers",
+                "socketTimeout",
+                "skipOnError",
+                "includeSqsMetadata",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "enableSQSAssumeRole",
+                "preprocess",
+                "metadata",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "checkpointing",
+                "pollTimeout",
+                "checksumSuffix",
+                "maxManifestSizeKB",
+                "validateInventoryFiles",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "tagAfterProcessing",
+                "processedTagKey",
+                "processedTagValue",
+                "__template_queueName",
+                "__template_awsAccountId",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+                "__template_awsApiKey",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeS3(str, Enum):
     S3 = "s3"
@@ -5172,6 +6374,75 @@ class CreateInputInputS3(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "fileFilter",
+                "awsAccountId",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "maxMessages",
+                "visibilityTimeout",
+                "numReceivers",
+                "socketTimeout",
+                "skipOnError",
+                "includeSqsMetadata",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "enableSQSAssumeRole",
+                "preprocess",
+                "metadata",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "checkpointing",
+                "pollTimeout",
+                "encoding",
+                "tagAfterProcessing",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "processedTagKey",
+                "processedTagValue",
+                "__template_queueName",
+                "__template_awsAccountId",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+                "__template_awsApiKey",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeMetrics(str, Enum):
     METRICS = "metrics"
@@ -5302,6 +6573,45 @@ class CreateInputInputMetrics(BaseModel):
     ] = None
     r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "udpPort",
+                "tcpPort",
+                "maxBufferSize",
+                "ipWhitelistRegex",
+                "enableProxyHeader",
+                "tls",
+                "metadata",
+                "udpSocketRxBufSize",
+                "description",
+                "__template_host",
+                "__template_udpPort",
+                "__template_tcpPort",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeCriblmetrics(str, Enum):
     CRIBLMETRICS = "criblmetrics"
@@ -5376,6 +6686,37 @@ class CreateInputInputCriblmetrics(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "prefix",
+                "fullFidelity",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeKinesis(str, Enum):
@@ -5706,6 +7047,62 @@ class CreateInputInputKinesis(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "serviceInterval",
+                "shardExpr",
+                "shardIteratorType",
+                "payloadFormat",
+                "getRecordsLimit",
+                "getRecordsLimitTotal",
+                "loadBalancingAlgorithm",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "verifyKPLCheckSums",
+                "avoidDuplicates",
+                "metadata",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "__template_streamName",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+                "__template_awsApiKey",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeHTTPRaw(str, Enum):
     HTTP_RAW = "http_raw"
@@ -5915,6 +7312,55 @@ class CreateInputInputHTTPRaw(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "metadata",
+                "allowedPaths",
+                "allowedMethods",
+                "authTokensExt",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeDatagen(str, Enum):
     DATAGEN = "datagen"
@@ -5994,6 +7440,35 @@ class CreateInputInputDatagen(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeDatadogAgent(str, Enum):
     DATADOG_AGENT = "datadog_agent"
@@ -6014,6 +7489,22 @@ class ProxyModeDatadogAgent(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["rejectUnauthorized"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputDatadogAgentTypedDict(TypedDict):
@@ -6189,6 +7680,51 @@ class CreateInputInputDatadogAgent(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "extractMetrics",
+                "metadata",
+                "proxyMode",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeCrowdstrike(str, Enum):
@@ -6521,6 +8057,73 @@ class CreateInputInputCrowdstrike(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "fileFilter",
+                "awsAccountId",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "maxMessages",
+                "visibilityTimeout",
+                "numReceivers",
+                "socketTimeout",
+                "skipOnError",
+                "includeSqsMetadata",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "enableSQSAssumeRole",
+                "preprocess",
+                "metadata",
+                "checkpointing",
+                "pollTimeout",
+                "encoding",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "tagAfterProcessing",
+                "processedTagKey",
+                "processedTagValue",
+                "__template_queueName",
+                "__template_awsAccountId",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+                "__template_awsApiKey",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeWindowsMetrics(str, Enum):
     WINDOWS_METRICS = "windows_metrics"
@@ -6561,6 +8164,22 @@ class SystemWindowsMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "detail"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CPUModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -6609,6 +8228,22 @@ class CPUWindowsMetrics(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "perCpu", "detail", "time"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class MemoryModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for memory metrics"""
@@ -6645,6 +8280,22 @@ class MemoryWindowsMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "detail"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class NetworkModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -6700,6 +8351,24 @@ class NetworkWindowsMetrics(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["mode", "detail", "protocols", "devices", "perInterface"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class DiskModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for disk metrics"""
@@ -6747,6 +8416,22 @@ class DiskWindowsMetrics(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "perVolume", "detail", "volumes"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CustomWindowsMetricsTypedDict(TypedDict):
     system: NotRequired[SystemWindowsMetricsTypedDict]
@@ -6766,6 +8451,22 @@ class CustomWindowsMetrics(BaseModel):
     network: Optional[NetworkWindowsMetrics] = None
 
     disk: Optional[DiskWindowsMetrics] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["system", "cpu", "memory", "network", "disk"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class HostWindowsMetricsTypedDict(TypedDict):
@@ -6788,6 +8489,22 @@ class HostWindowsMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "custom"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class PersistenceWindowsMetricsTypedDict(TypedDict):
@@ -6830,6 +8547,31 @@ class PersistenceWindowsMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputWindowsMetricsTypedDict(TypedDict):
@@ -6911,6 +8653,40 @@ class CreateInputInputWindowsMetrics(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "host",
+                "process",
+                "metadata",
+                "persistence",
+                "disableNativeModule",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeKubeEvents(str, Enum):
     KUBE_EVENTS = "kube_events"
@@ -6979,6 +8755,36 @@ class CreateInputInputKubeEvents(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "rules",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeKubeLogs(str, Enum):
     KUBE_LOGS = "kube_logs"
@@ -6997,6 +8803,22 @@ class RuleKubeLogs(BaseModel):
 
     description: Optional[str] = None
     r"""Optional description of this rule's purpose"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["description"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputKubeLogsTypedDict(TypedDict):
@@ -7096,6 +8918,42 @@ class CreateInputInputKubeLogs(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "rules",
+                "timestamps",
+                "metadata",
+                "persistence",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "enableLoadBalancing",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeKubeMetrics(str, Enum):
     KUBE_METRICS = "kube_metrics"
@@ -7141,6 +8999,31 @@ class PersistenceKubeMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputKubeMetricsTypedDict(TypedDict):
@@ -7214,6 +9097,38 @@ class CreateInputInputKubeMetrics(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "rules",
+                "metadata",
+                "persistence",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeSystemState(str, Enum):
     SYSTEM_STATE = "system_state"
@@ -7230,6 +9145,22 @@ class CreateInputHostsFile(BaseModel):
 
     enable: Optional[bool] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputInterfacesTypedDict(TypedDict):
     r"""Creates events for each of the host’s network interfaces"""
@@ -7241,6 +9172,22 @@ class CreateInputInterfaces(BaseModel):
     r"""Creates events for each of the host’s network interfaces"""
 
     enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputDisksAndFileSystemsTypedDict(TypedDict):
@@ -7254,6 +9201,22 @@ class CreateInputDisksAndFileSystems(BaseModel):
 
     enable: Optional[bool] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputHostInfoTypedDict(TypedDict):
     r"""Creates events based on the host system’s current state"""
@@ -7265,6 +9228,22 @@ class CreateInputHostInfo(BaseModel):
     r"""Creates events based on the host system’s current state"""
 
     enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputRoutesTypedDict(TypedDict):
@@ -7278,6 +9257,22 @@ class CreateInputRoutes(BaseModel):
 
     enable: Optional[bool] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputDNSTypedDict(TypedDict):
     r"""Creates events for DNS resolvers and search entries"""
@@ -7289,6 +9284,22 @@ class CreateInputDNS(BaseModel):
     r"""Creates events for DNS resolvers and search entries"""
 
     enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputUsersAndGroupsTypedDict(TypedDict):
@@ -7302,6 +9313,22 @@ class CreateInputUsersAndGroups(BaseModel):
 
     enable: Optional[bool] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputFirewallTypedDict(TypedDict):
     r"""Creates events for Firewall rules entries"""
@@ -7313,6 +9340,22 @@ class CreateInputFirewall(BaseModel):
     r"""Creates events for Firewall rules entries"""
 
     enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputServicesTypedDict(TypedDict):
@@ -7326,6 +9369,22 @@ class CreateInputServices(BaseModel):
 
     enable: Optional[bool] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputListeningPortsTypedDict(TypedDict):
     r"""Creates events from list of listening ports"""
@@ -7338,6 +9397,22 @@ class CreateInputListeningPorts(BaseModel):
 
     enable: Optional[bool] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputLoggedInUsersTypedDict(TypedDict):
     r"""Creates events from list of logged-in users"""
@@ -7349,6 +9424,22 @@ class CreateInputLoggedInUsers(BaseModel):
     r"""Creates events from list of logged-in users"""
 
     enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputCollectorsTypedDict(TypedDict):
@@ -7412,6 +9503,36 @@ class CreateInputCollectors(BaseModel):
     ] = None
     r"""Creates events from list of logged-in users"""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "hostsfile",
+                "interfaces",
+                "disk",
+                "metadata",
+                "routes",
+                "dns",
+                "user",
+                "firewall",
+                "services",
+                "ports",
+                "loginUsers",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class PersistenceSystemStateTypedDict(TypedDict):
     enable: NotRequired[bool]
@@ -7453,6 +9574,31 @@ class PersistenceSystemState(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputSystemStateTypedDict(TypedDict):
@@ -7538,6 +9684,40 @@ class CreateInputInputSystemState(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "metadata",
+                "collectors",
+                "persistence",
+                "disableNativeModule",
+                "disableNativeLastLogModule",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeSystemMetrics(str, Enum):
     SYSTEM_METRICS = "system_metrics"
@@ -7578,6 +9758,22 @@ class SystemSystemMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "processes"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CPUModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -7626,6 +9822,22 @@ class CPUSystemMetrics(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "perCpu", "detail", "time"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class MemoryModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for memory metrics"""
@@ -7662,6 +9874,22 @@ class MemorySystemMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "detail"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class NetworkModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -7716,6 +9944,24 @@ class NetworkSystemMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["mode", "detail", "protocols", "devices", "perInterface"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class DiskModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -7779,6 +10025,32 @@ class DiskSystemMetrics(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "mode",
+                "detail",
+                "inodes",
+                "devices",
+                "mountpoints",
+                "fstypes",
+                "perDevice",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CustomSystemMetricsTypedDict(TypedDict):
     system: NotRequired[SystemSystemMetricsTypedDict]
@@ -7798,6 +10070,22 @@ class CustomSystemMetrics(BaseModel):
     network: Optional[NetworkSystemMetrics] = None
 
     disk: Optional[DiskSystemMetrics] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["system", "cpu", "memory", "network", "disk"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class HostSystemMetricsTypedDict(TypedDict):
@@ -7820,6 +10108,22 @@ class HostSystemMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "custom"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class ContainerModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -7897,6 +10201,32 @@ class CreateInputContainer(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "mode",
+                "dockerSocket",
+                "dockerTimeout",
+                "filters",
+                "allContainers",
+                "perDevice",
+                "detail",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class PersistenceSystemMetricsTypedDict(TypedDict):
     enable: NotRequired[bool]
@@ -7938,6 +10268,31 @@ class PersistenceSystemMetrics(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputSystemMetricsTypedDict(TypedDict):
@@ -8014,6 +10369,40 @@ class CreateInputInputSystemMetrics(BaseModel):
     persistence: Optional[PersistenceSystemMetrics] = None
 
     description: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "host",
+                "process",
+                "container",
+                "metadata",
+                "persistence",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeTcpjson(str, Enum):
@@ -8181,6 +10570,48 @@ class CreateInputInputTcpjson(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "ipWhitelistRegex",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "enableProxyHeader",
+                "metadata",
+                "enableLoadBalancing",
+                "authType",
+                "description",
+                "authToken",
+                "textSecret",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeCriblLakeHTTP(str, Enum):
     CRIBL_LAKE_HTTP = "cribl_lake_http"
@@ -8203,6 +10634,22 @@ class CreateInputSplunkHecMetadata(BaseModel):
         Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
     ] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "defaultDataset", "allowedIndexesAtToken"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputElasticsearchMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
@@ -8215,6 +10662,22 @@ class CreateInputElasticsearchMetadata(BaseModel):
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "defaultDataset"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputAuthTokensExtTypedDict(TypedDict):
@@ -8243,6 +10706,24 @@ class CreateInputAuthTokensExt(BaseModel):
         Optional[CreateInputElasticsearchMetadata],
         pydantic.Field(alias="elasticsearchMetadata"),
     ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["description", "metadata", "splunkHecMetadata", "elasticsearchMetadata"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputCriblLakeHTTPTypedDict(TypedDict):
@@ -8448,6 +10929,56 @@ class CreateInputInputCriblLakeHTTP(BaseModel):
     ] = None
     r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "criblAPI",
+                "elasticAPI",
+                "splunkHecAPI",
+                "splunkHecAcks",
+                "metadata",
+                "authTokensExt",
+                "description",
+                "__template_host",
+                "__template_port",
+                "__template_splunkHecAPI",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeCriblHTTP(str, Enum):
     CRIBL_HTTP = "cribl_http"
@@ -8622,6 +11153,50 @@ class CreateInputInputCriblHTTP(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "metadata",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeCriblTCP(str, Enum):
     CRIBL_TCP = "cribl_tcp"
@@ -8761,6 +11336,45 @@ class CreateInputInputCriblTCP(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "enableProxyHeader",
+                "metadata",
+                "enableLoadBalancing",
+                "authTokens",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeCribl(str, Enum):
     CRIBL = "cribl"
@@ -8826,6 +11440,36 @@ class CreateInputInputCribl(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "filter",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeGooglePubsub(str, Enum):
@@ -8997,6 +11641,49 @@ class CreateInputInputGooglePubsub(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "monitorSubscription",
+                "createTopic",
+                "createSubscription",
+                "region",
+                "googleAuthMethod",
+                "serviceAccountCredentials",
+                "secret",
+                "maxBacklog",
+                "concurrency",
+                "requestTimeout",
+                "metadata",
+                "description",
+                "orderedDelivery",
+                "__template_topicName",
+                "__template_subscriptionName",
+                "__template_region",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeFirehose(str, Enum):
@@ -9172,6 +11859,50 @@ class CreateInputInputFirehose(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "metadata",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputInputExecType(str, Enum):
     EXEC = "exec"
@@ -9291,6 +12022,41 @@ class CreateInputInputExec(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "retries",
+                "scheduleType",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "metadata",
+                "description",
+                "interval",
+                "cronSchedule",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeEventhub(str, Enum):
@@ -9516,6 +12282,56 @@ class CreateInputInputEventhub(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "groupId",
+                "fromBeginning",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "sasl",
+                "tls",
+                "sessionTimeout",
+                "rebalanceTimeout",
+                "heartbeatInterval",
+                "autoCommitInterval",
+                "autoCommitThreshold",
+                "maxBytesPerPartition",
+                "maxBytes",
+                "maxSocketErrors",
+                "minimizeDuplicates",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeOffice365MsgTrace(str, Enum):
     OFFICE365_MSG_TRACE = "office365_msg_trace"
@@ -9566,6 +12382,22 @@ class CreateInputCertOptions(BaseModel):
 
     passphrase: Optional[str] = None
     r"""Passphrase to use to decrypt the private key."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["certificateName", "passphrase"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
@@ -9832,6 +12664,63 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "startDate",
+                "endDate",
+                "timeout",
+                "disableTimeFilter",
+                "authType",
+                "rescheduleDroppedTasks",
+                "maxTaskReschedule",
+                "logLevel",
+                "jobTimeout",
+                "keepAliveTime",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "retryRules",
+                "description",
+                "username",
+                "password",
+                "credentialsSecret",
+                "clientSecret",
+                "tenantId",
+                "clientId",
+                "resource",
+                "planType",
+                "textSecret",
+                "certOptions",
+                "__template_url",
+                "__template_tenantId",
+                "__template_clientId",
+                "__template_resource",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeOffice365Service(str, Enum):
     OFFICE365_SERVICE = "office365_service"
@@ -9872,6 +12761,24 @@ class ContentConfigOffice365Service(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["contentType", "description", "interval", "logLevel", "enabled"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputOffice365ServiceTypedDict(TypedDict):
@@ -10054,6 +12961,50 @@ class CreateInputInputOffice365Service(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "planType",
+                "timeout",
+                "keepAliveTime",
+                "jobTimeout",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "contentConfig",
+                "retryRules",
+                "authType",
+                "description",
+                "clientSecret",
+                "textSecret",
+                "__template_tenantId",
+                "__template_appId",
+                "__template_clientSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeOffice365Mgmt(str, Enum):
     OFFICE365_MGMT = "office365_mgmt"
@@ -10094,6 +13045,24 @@ class ContentConfigOffice365Mgmt(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["contentType", "description", "interval", "logLevel", "enabled"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputOffice365MgmtTypedDict(TypedDict):
@@ -10295,6 +13264,52 @@ class CreateInputInputOffice365Mgmt(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "timeout",
+                "keepAliveTime",
+                "jobTimeout",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "publisherIdentifier",
+                "contentConfig",
+                "ingestionLag",
+                "retryRules",
+                "authType",
+                "description",
+                "clientSecret",
+                "textSecret",
+                "__template_tenantId",
+                "__template_appId",
+                "__template_publisherIdentifier",
+                "__template_clientSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeEdgePrometheus(str, Enum):
     EDGE_PROMETHEUS = "edge_prometheus"
@@ -10356,6 +13371,22 @@ class CreateInputTarget(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["protocol", "port", "path"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputPodFilterTypedDict(TypedDict):
     filter_: str
@@ -10370,6 +13401,22 @@ class CreateInputPodFilter(BaseModel):
 
     description: Optional[str] = None
     r"""Optional description of this rule's purpose"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["description"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputEdgePrometheusTypedDict(TypedDict):
@@ -10729,6 +13776,72 @@ class CreateInputInputEdgePrometheus(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "dimensionList",
+                "timeout",
+                "persistence",
+                "metadata",
+                "authType",
+                "description",
+                "targets",
+                "recordType",
+                "scrapePort",
+                "nameList",
+                "scrapeProtocol",
+                "scrapePath",
+                "awsAuthenticationMethod",
+                "awsApiKey",
+                "awsSecret",
+                "usePublicIp",
+                "searchFilter",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "scrapeProtocolExpr",
+                "scrapePortExpr",
+                "scrapePathExpr",
+                "podFilter",
+                "username",
+                "password",
+                "credentialsSecret",
+                "__template_awsApiKey",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypePrometheus(str, Enum):
@@ -11137,6 +14250,74 @@ class CreateInputInputPrometheus(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "dimensionList",
+                "discoveryType",
+                "rejectUnauthorized",
+                "timeout",
+                "keepAliveTime",
+                "jobTimeout",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "authType",
+                "description",
+                "targetList",
+                "recordType",
+                "scrapePort",
+                "nameList",
+                "scrapeProtocol",
+                "scrapePath",
+                "awsAuthenticationMethod",
+                "awsApiKey",
+                "awsSecret",
+                "usePublicIp",
+                "searchFilter",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "username",
+                "password",
+                "credentialsSecret",
+                "__template_logLevel",
+                "__template_awsApiKey",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypePrometheusRw(str, Enum):
     PROMETHEUS_RW = "prometheus_rw"
@@ -11422,6 +14603,66 @@ class CreateInputInputPrometheusRw(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "authType",
+                "metadata",
+                "description",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "__template_host",
+                "__template_port",
+                "__template_prometheusAPI",
+                "__template_loginUrl",
+                "__template_secret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeLoki(str, Enum):
     LOKI = "loki"
@@ -11699,6 +14940,65 @@ class CreateInputInputLoki(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "authType",
+                "metadata",
+                "description",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "__template_host",
+                "__template_port",
+                "__template_loginUrl",
+                "__template_secret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputInputGrafanaType2(str, Enum):
     GRAFANA = "grafana"
@@ -11814,6 +15114,41 @@ class CreateInputPrometheusAuth2(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "__template_loginUrl",
+                "__template_secret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputLokiAuth2TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
@@ -11923,6 +15258,41 @@ class CreateInputLokiAuth2(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "__template_loginUrl",
+                "__template_secret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputGrafanaGrafana2TypedDict(TypedDict):
@@ -12109,6 +15479,52 @@ class CreateInputInputGrafanaGrafana2(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "prometheusAPI",
+                "prometheusAuth",
+                "lokiAuth",
+                "metadata",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputInputGrafanaType1(str, Enum):
     GRAFANA = "grafana"
@@ -12224,6 +15640,41 @@ class CreateInputPrometheusAuth1(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "__template_loginUrl",
+                "__template_secret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputLokiAuth1TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
@@ -12333,6 +15784,41 @@ class CreateInputLokiAuth1(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "__template_loginUrl",
+                "__template_secret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputGrafanaGrafana1TypedDict(TypedDict):
@@ -12516,6 +16002,52 @@ class CreateInputInputGrafanaGrafana1(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "lokiAPI",
+                "prometheusAuth",
+                "lokiAuth",
+                "metadata",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 CreateInputInputGrafanaUnionTypedDict = TypeAliasType(
@@ -12759,6 +16291,56 @@ class CreateInputInputConfluentCloud(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "groupId",
+                "fromBeginning",
+                "kafkaSchemaRegistry",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "sasl",
+                "sessionTimeout",
+                "rebalanceTimeout",
+                "heartbeatInterval",
+                "autoCommitInterval",
+                "autoCommitThreshold",
+                "maxBytesPerPartition",
+                "maxBytes",
+                "maxSocketErrors",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeElastic(str, Enum):
     ELASTIC = "elastic"
@@ -12862,6 +16444,34 @@ class ProxyModeElastic(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "username",
+                "password",
+                "credentialsSecret",
+                "url",
+                "rejectUnauthorized",
+                "removeHeaders",
+                "timeoutSec",
+                "__template_url",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputElasticTypedDict(TypedDict):
@@ -13101,6 +16711,58 @@ class CreateInputInputElastic(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "authType",
+                "apiVersion",
+                "extraHttpHeaders",
+                "metadata",
+                "proxyMode",
+                "description",
+                "username",
+                "password",
+                "credentialsSecret",
+                "authTokens",
+                "customAPIVersion",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeAzureBlob(str, Enum):
     AZURE_BLOB = "azure_blob"
@@ -13326,6 +16988,59 @@ class CreateInputInputAzureBlob(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "fileFilter",
+                "visibilityTimeout",
+                "numReceivers",
+                "maxMessages",
+                "servicePeriodSecs",
+                "skipOnError",
+                "metadata",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "parquetChunkSizeMB",
+                "parquetChunkDownloadTimeout",
+                "authType",
+                "description",
+                "connectionString",
+                "textSecret",
+                "storageAccountName",
+                "tenantId",
+                "clientId",
+                "azureCloud",
+                "endpointSuffix",
+                "clientTextSecret",
+                "certificate",
+                "__template_queueName",
+                "__template_connectionString",
+                "__template_tenantId",
+                "__template_clientId",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeSplunkHec(str, Enum):
     SPLUNK_HEC = "splunk_hec"
@@ -13381,6 +17096,31 @@ class AuthTokenSplunkHec(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "tokenSecret",
+                "enabled",
+                "description",
+                "allowedIndexesAtToken",
+                "metadata",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputSplunkHecTypedDict(TypedDict):
@@ -13631,6 +17371,61 @@ class CreateInputInputSplunkHec(BaseModel):
         Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
     ] = None
     r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "metadata",
+                "allowedIndexes",
+                "splunkHecAcks",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "useFwdTimezone",
+                "dropControlFields",
+                "extractMetrics",
+                "accessControlAllowOrigin",
+                "accessControlAllowHeaders",
+                "emitTokenMetrics",
+                "description",
+                "__template_host",
+                "__template_port",
+                "__template_splunkHecAPI",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeSplunkSearch(str, Enum):
@@ -13999,6 +17794,68 @@ class CreateInputInputSplunkSearch(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "earliest",
+                "latest",
+                "endpointParams",
+                "endpointHeaders",
+                "logLevel",
+                "requestTimeout",
+                "useRoundRobinDns",
+                "rejectUnauthorized",
+                "encoding",
+                "keepAliveTime",
+                "jobTimeout",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "retryRules",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "authType",
+                "description",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "__template_loginUrl",
+                "__template_secret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeSplunk(str, Enum):
     SPLUNK = "splunk"
@@ -14015,6 +17872,22 @@ class AuthTokenSplunk(BaseModel):
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["description"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputMaxS2SVersion(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -14236,6 +18109,52 @@ class CreateInputInputSplunk(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "ipWhitelistRegex",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "enableProxyHeader",
+                "metadata",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "authTokens",
+                "maxS2Sversion",
+                "description",
+                "useFwdTimezone",
+                "dropControlFields",
+                "extractMetrics",
+                "compress",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeHTTP(str, Enum):
     HTTP = "http"
@@ -14445,6 +18364,56 @@ class CreateInputInputHTTP(BaseModel):
         Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
     ] = None
     r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "criblAPI",
+                "elasticAPI",
+                "splunkHecAPI",
+                "splunkHecAcks",
+                "metadata",
+                "authTokensExt",
+                "description",
+                "__template_host",
+                "__template_port",
+                "__template_splunkHecAPI",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeMsk(str, Enum):
@@ -14801,6 +18770,71 @@ class CreateInputInputMsk(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "groupId",
+                "fromBeginning",
+                "sessionTimeout",
+                "rebalanceTimeout",
+                "heartbeatInterval",
+                "metadata",
+                "kafkaSchemaRegistry",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "awsSecretKey",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "tls",
+                "autoCommitInterval",
+                "autoCommitThreshold",
+                "maxBytesPerPartition",
+                "maxBytes",
+                "maxSocketErrors",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+                "__template_awsApiKey",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeKafka(str, Enum):
     KAFKA = "kafka"
@@ -15028,6 +19062,56 @@ class CreateInputInputKafka(BaseModel):
 
     description: Optional[str] = None
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "groupId",
+                "fromBeginning",
+                "kafkaSchemaRegistry",
+                "connectionTimeout",
+                "requestTimeout",
+                "maxRetries",
+                "maxBackOff",
+                "initialBackoff",
+                "backoffRate",
+                "authenticationTimeout",
+                "reauthenticationThreshold",
+                "sasl",
+                "tls",
+                "sessionTimeout",
+                "rebalanceTimeout",
+                "heartbeatInterval",
+                "autoCommitInterval",
+                "autoCommitThreshold",
+                "maxBytesPerPartition",
+                "maxBytes",
+                "maxSocketErrors",
+                "metadata",
+                "description",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class CreateInputTypeCollection(str, Enum):
     COLLECTION = "collection"
@@ -15116,6 +19200,39 @@ class CreateInputInputCollection(BaseModel):
 
     output: Optional[str] = None
     r"""Destination to send results to"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "preprocess",
+                "throttleRatePerSec",
+                "metadata",
+                "output",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 CreateInputRequestTypedDict = TypeAliasType(

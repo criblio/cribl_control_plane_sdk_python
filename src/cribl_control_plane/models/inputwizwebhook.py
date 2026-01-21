@@ -18,9 +18,10 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
     TLSSettingsServerSideTypeTypedDict,
 )
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
+from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -232,3 +233,53 @@ class InputWizWebhook(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "metadata",
+                "allowedPaths",
+                "allowedMethods",
+                "authTokensExt",
+                "description",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

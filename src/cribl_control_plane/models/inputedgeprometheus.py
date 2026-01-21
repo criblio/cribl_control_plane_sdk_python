@@ -19,10 +19,10 @@ from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
 from .signatureversionoptions1 import SignatureVersionOptions1
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
+from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -87,6 +87,22 @@ class Target(BaseModel):
                 return value
         return value
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["protocol", "port", "path"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
 
 class PodFilterTypedDict(TypedDict):
     filter_: str
@@ -101,6 +117,22 @@ class PodFilter(BaseModel):
 
     description: Optional[str] = None
     r"""Optional description of this rule's purpose"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["description"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class InputEdgePrometheusTypedDict(TypedDict):
@@ -461,3 +493,70 @@ class InputEdgePrometheus(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "dimensionList",
+                "timeout",
+                "persistence",
+                "metadata",
+                "authType",
+                "description",
+                "targets",
+                "recordType",
+                "scrapePort",
+                "nameList",
+                "scrapeProtocol",
+                "scrapePath",
+                "awsAuthenticationMethod",
+                "awsApiKey",
+                "awsSecret",
+                "usePublicIp",
+                "searchFilter",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "scrapeProtocolExpr",
+                "scrapePortExpr",
+                "scrapePathExpr",
+                "podFilter",
+                "username",
+                "password",
+                "credentialsSecret",
+                "__template_awsApiKey",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

@@ -9,10 +9,10 @@ from .compressionoptionspq import CompressionOptionsPq
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
+from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -332,3 +332,59 @@ class OutputSns(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "maxRetries",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "region",
+                "endpoint",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "onBackpressure",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+                "__template_awsApiKey",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

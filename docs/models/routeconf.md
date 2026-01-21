@@ -19,3 +19,4 @@
 | `output_expression`        | *Optional[str]*            | :heavy_minus_sign:         | N/A                        |
 | `pipeline`                 | *str*                      | :heavy_check_mark:         | N/A                        |
 | `to_group_context`         | *Optional[bool]*           | :heavy_minus_sign:         | N/A                        |
+| `to_pack_context`          | *Optional[bool]*           | :heavy_minus_sign:         | N/A                        |

@@ -175,10 +175,6 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[OutputOpenTelemetryPqControlsTypedDict]
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class OutputOpenTelemetry(BaseModel):
@@ -425,16 +421,6 @@ class OutputOpenTelemetry(BaseModel):
         Optional[OutputOpenTelemetryPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
     @field_serializer("protocol")
     def serialize_protocol(self, value):
         if isinstance(value, str):
@@ -585,8 +571,6 @@ class OutputOpenTelemetry(BaseModel):
                 "pqCompress",
                 "pqOnBackpressure",
                 "pqControls",
-                "__template_loginUrl",
-                "__template_secret",
             ]
         )
         serialized = handler(self)

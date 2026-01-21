@@ -142,12 +142,6 @@ class OutputPrometheusTypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    template_url: NotRequired[str]
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class OutputPrometheus(BaseModel):
@@ -366,21 +360,6 @@ class OutputPrometheus(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
-    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
-        None
-    )
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
     @field_serializer("failed_request_logging_mode")
     def serialize_failed_request_logging_mode(self, value):
         if isinstance(value, str):
@@ -487,9 +466,6 @@ class OutputPrometheus(BaseModel):
                 "tokenTimeoutSecs",
                 "oauthParams",
                 "oauthHeaders",
-                "__template_url",
-                "__template_loginUrl",
-                "__template_secret",
             ]
         )
         serialized = handler(self)

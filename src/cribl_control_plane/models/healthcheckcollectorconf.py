@@ -43,7 +43,7 @@ class HealthCheckAuthenticationOauthSecretAuthentication(
     OAUTH_SECRET = "oauthSecret"
 
 
-class HealthCheckAuthenticationOauthSecretDiscoverType(
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -58,14 +58,18 @@ class HealthCheckAuthenticationOauthSecretDiscoverType(
     NONE = "none"
 
 
-class HealthCheckAuthenticationOauthSecretDiscoveryTypedDict(TypedDict):
-    discover_type: HealthCheckAuthenticationOauthSecretDiscoverType
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNoneDiscoverType
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
 
-class HealthCheckAuthenticationOauthSecretDiscovery(BaseModel):
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNone(
+    BaseModel
+):
     discover_type: Annotated[
-        HealthCheckAuthenticationOauthSecretDiscoverType,
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNoneDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -74,10 +78,578 @@ class HealthCheckAuthenticationOauthSecretDiscovery(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.HealthCheckAuthenticationOauthSecretDiscoverType(value)
+                return models.HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
+                    value
+                )
             except ValueError:
                 return value
         return value
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeListDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    item_list: List[str]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeList(
+    BaseModel
+):
+    discover_type: Annotated[
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeListDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    item_list: Annotated[List[str], pydantic.Field(alias="itemList")]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSONDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    manual_discover_result: str
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+    discover_data_field: NotRequired[str]
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSON(
+    BaseModel
+):
+    discover_type: Annotated[
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSONDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    manual_discover_result: Annotated[str, pydantic.Field(alias="manualDiscoverResult")]
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["discoverDataField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverBody",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict",
+    Union[
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            Tag("get"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            Tag("post"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            Tag("post_with_body"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_method", "discoverMethod")),
+]
+
+
+HealthCheckAuthenticationOauthSecretDiscoveryTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationOauthSecretDiscoveryTypedDict",
+    Union[
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeListTypedDict,
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationOauthSecretDiscovery = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSON,
+            Tag("json"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeList,
+            Tag("list"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNone,
+            Tag("none"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
+]
 
 
 class HealthCheckAuthenticationOauthSecretHealthCheckMethod(
@@ -108,7 +680,9 @@ class HealthCheckAuthenticationOauthSecretCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header value (can be a constant)."""
 
 
-class HealthCheckAuthenticationOauthSecretRetryRulesTypedDict(TypedDict):
+class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeBackoffTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -118,7 +692,7 @@ class HealthCheckAuthenticationOauthSecretRetryRulesTypedDict(TypedDict):
     enable_header: NotRequired[Any]
 
 
-class HealthCheckAuthenticationOauthSecretRetryRules(BaseModel):
+class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -158,6 +732,143 @@ class HealthCheckAuthenticationOauthSecretRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStaticTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNoneTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+
+
+class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationOauthSecretRetryRulesTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationOauthSecretRetryRulesTypedDict",
+    Union[
+        HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNoneTypedDict,
+        HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStaticTypedDict,
+        HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationOauthSecretRetryRules = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNone,
+            Tag("none"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStatic,
+            Tag("static"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeBackoff,
+            Tag("backoff"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
@@ -366,7 +1077,7 @@ class HealthCheckAuthenticationOauthAuthentication(
     OAUTH_SECRET = "oauthSecret"
 
 
-class HealthCheckAuthenticationOauthDiscoverType(
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -381,14 +1092,19 @@ class HealthCheckAuthenticationOauthDiscoverType(
     NONE = "none"
 
 
-class HealthCheckAuthenticationOauthDiscoveryTypedDict(TypedDict):
-    discover_type: HealthCheckAuthenticationOauthDiscoverType
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNoneDiscoverType
+    )
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
 
-class HealthCheckAuthenticationOauthDiscovery(BaseModel):
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNone(BaseModel):
     discover_type: Annotated[
-        HealthCheckAuthenticationOauthDiscoverType, pydantic.Field(alias="discoverType")
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNoneDiscoverType,
+        pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
@@ -396,10 +1112,578 @@ class HealthCheckAuthenticationOauthDiscovery(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.HealthCheckAuthenticationOauthDiscoverType(value)
+                return models.HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
+                    value
+                )
             except ValueError:
                 return value
         return value
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeListDiscoverType
+    )
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    item_list: List[str]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeList(BaseModel):
+    discover_type: Annotated[
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeListDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    item_list: Annotated[List[str], pydantic.Field(alias="itemList")]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSONDiscoverType
+    )
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    manual_discover_result: str
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+    discover_data_field: NotRequired[str]
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSON(BaseModel):
+    discover_type: Annotated[
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSONDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    manual_discover_result: Annotated[str, pydantic.Field(alias="manualDiscoverResult")]
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["discoverDataField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverBody",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPTypedDict",
+    Union[
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            Tag("get"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            Tag("post"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            Tag("post_with_body"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_method", "discoverMethod")),
+]
+
+
+HealthCheckAuthenticationOauthDiscoveryTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationOauthDiscoveryTypedDict",
+    Union[
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeListTypedDict,
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationOauthDiscovery = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSON,
+            Tag("json"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeList,
+            Tag("list"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNone,
+            Tag("none"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
+]
 
 
 class HealthCheckAuthenticationOauthHealthCheckMethod(
@@ -430,7 +1714,9 @@ class HealthCheckAuthenticationOauthCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header value (can be a constant)."""
 
 
-class HealthCheckAuthenticationOauthRetryRulesTypedDict(TypedDict):
+class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeBackoffTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -440,7 +1726,7 @@ class HealthCheckAuthenticationOauthRetryRulesTypedDict(TypedDict):
     enable_header: NotRequired[Any]
 
 
-class HealthCheckAuthenticationOauthRetryRules(BaseModel):
+class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -480,6 +1766,137 @@ class HealthCheckAuthenticationOauthRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+
+
+class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationOauthRetryRulesTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationOauthRetryRulesTypedDict",
+    Union[
+        HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNoneTypedDict,
+        HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStaticTypedDict,
+        HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationOauthRetryRules = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNone, Tag("none")
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStatic, Tag("static")
+        ],
+        Annotated[
+            HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeBackoff,
+            Tag("backoff"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class HealthCheckAuthenticationOauthTypedDict(TypedDict):
@@ -688,7 +2105,7 @@ class HealthCheckAuthenticationLoginSecretAuthentication(
     OAUTH_SECRET = "oauthSecret"
 
 
-class HealthCheckAuthenticationLoginSecretDiscoverType(
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -703,14 +2120,18 @@ class HealthCheckAuthenticationLoginSecretDiscoverType(
     NONE = "none"
 
 
-class HealthCheckAuthenticationLoginSecretDiscoveryTypedDict(TypedDict):
-    discover_type: HealthCheckAuthenticationLoginSecretDiscoverType
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNoneDiscoverType
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
 
-class HealthCheckAuthenticationLoginSecretDiscovery(BaseModel):
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNone(
+    BaseModel
+):
     discover_type: Annotated[
-        HealthCheckAuthenticationLoginSecretDiscoverType,
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNoneDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -719,10 +2140,578 @@ class HealthCheckAuthenticationLoginSecretDiscovery(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.HealthCheckAuthenticationLoginSecretDiscoverType(value)
+                return models.HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
+                    value
+                )
             except ValueError:
                 return value
         return value
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeListDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    item_list: List[str]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeList(
+    BaseModel
+):
+    discover_type: Annotated[
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeListDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    item_list: Annotated[List[str], pydantic.Field(alias="itemList")]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSONDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    manual_discover_result: str
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+    discover_data_field: NotRequired[str]
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSON(
+    BaseModel
+):
+    discover_type: Annotated[
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSONDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    manual_discover_result: Annotated[str, pydantic.Field(alias="manualDiscoverResult")]
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["discoverDataField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverBody",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict",
+    Union[
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            Tag("get"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            Tag("post"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            Tag("post_with_body"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_method", "discoverMethod")),
+]
+
+
+HealthCheckAuthenticationLoginSecretDiscoveryTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationLoginSecretDiscoveryTypedDict",
+    Union[
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeListTypedDict,
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationLoginSecretDiscovery = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSON,
+            Tag("json"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeList,
+            Tag("list"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNone,
+            Tag("none"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
+]
 
 
 class HealthCheckAuthenticationLoginSecretHealthCheckMethod(
@@ -753,7 +2742,9 @@ class HealthCheckAuthenticationLoginSecretCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header value (can be a constant)."""
 
 
-class HealthCheckAuthenticationLoginSecretRetryRulesTypedDict(TypedDict):
+class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeBackoffTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -763,7 +2754,7 @@ class HealthCheckAuthenticationLoginSecretRetryRulesTypedDict(TypedDict):
     enable_header: NotRequired[Any]
 
 
-class HealthCheckAuthenticationLoginSecretRetryRules(BaseModel):
+class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -803,6 +2794,143 @@ class HealthCheckAuthenticationLoginSecretRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeStaticTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNoneTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+
+
+class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationLoginSecretRetryRulesTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationLoginSecretRetryRulesTypedDict",
+    Union[
+        HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNoneTypedDict,
+        HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeStaticTypedDict,
+        HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationLoginSecretRetryRules = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNone,
+            Tag("none"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeStatic,
+            Tag("static"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeBackoff,
+            Tag("backoff"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
@@ -998,7 +3126,7 @@ class HealthCheckAuthenticationLoginAuthentication(
     OAUTH_SECRET = "oauthSecret"
 
 
-class HealthCheckAuthenticationLoginDiscoverType(
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -1013,14 +3141,19 @@ class HealthCheckAuthenticationLoginDiscoverType(
     NONE = "none"
 
 
-class HealthCheckAuthenticationLoginDiscoveryTypedDict(TypedDict):
-    discover_type: HealthCheckAuthenticationLoginDiscoverType
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNoneDiscoverType
+    )
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
 
-class HealthCheckAuthenticationLoginDiscovery(BaseModel):
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNone(BaseModel):
     discover_type: Annotated[
-        HealthCheckAuthenticationLoginDiscoverType, pydantic.Field(alias="discoverType")
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNoneDiscoverType,
+        pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
@@ -1028,10 +3161,578 @@ class HealthCheckAuthenticationLoginDiscovery(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.HealthCheckAuthenticationLoginDiscoverType(value)
+                return models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
+                    value
+                )
             except ValueError:
                 return value
         return value
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeListDiscoverType
+    )
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    item_list: List[str]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeList(BaseModel):
+    discover_type: Annotated[
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeListDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    item_list: Annotated[List[str], pydantic.Field(alias="itemList")]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSONDiscoverType
+    )
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    manual_discover_result: str
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+    discover_data_field: NotRequired[str]
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSON(BaseModel):
+    discover_type: Annotated[
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSONDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    manual_discover_result: Annotated[str, pydantic.Field(alias="manualDiscoverResult")]
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["discoverDataField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverBody",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPTypedDict",
+    Union[
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            Tag("get"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            Tag("post"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            Tag("post_with_body"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_method", "discoverMethod")),
+]
+
+
+HealthCheckAuthenticationLoginDiscoveryTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationLoginDiscoveryTypedDict",
+    Union[
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeListTypedDict,
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationLoginDiscovery = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSON,
+            Tag("json"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeList,
+            Tag("list"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNone,
+            Tag("none"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
+]
 
 
 class HealthCheckAuthenticationLoginHealthCheckMethod(
@@ -1062,7 +3763,9 @@ class HealthCheckAuthenticationLoginCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header value (can be a constant)."""
 
 
-class HealthCheckAuthenticationLoginRetryRulesTypedDict(TypedDict):
+class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeBackoffTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -1072,7 +3775,7 @@ class HealthCheckAuthenticationLoginRetryRulesTypedDict(TypedDict):
     enable_header: NotRequired[Any]
 
 
-class HealthCheckAuthenticationLoginRetryRules(BaseModel):
+class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -1112,6 +3815,137 @@ class HealthCheckAuthenticationLoginRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+
+
+class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationLoginRetryRulesTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationLoginRetryRulesTypedDict",
+    Union[
+        HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNoneTypedDict,
+        HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStaticTypedDict,
+        HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationLoginRetryRules = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNone, Tag("none")
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStatic, Tag("static")
+        ],
+        Annotated[
+            HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeBackoff,
+            Tag("backoff"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class HealthCheckAuthenticationLoginTypedDict(TypedDict):
@@ -1310,7 +4144,7 @@ class HealthCheckAuthenticationBasicSecretAuthentication(
     OAUTH_SECRET = "oauthSecret"
 
 
-class HealthCheckAuthenticationBasicSecretDiscoverType(
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -1325,14 +4159,18 @@ class HealthCheckAuthenticationBasicSecretDiscoverType(
     NONE = "none"
 
 
-class HealthCheckAuthenticationBasicSecretDiscoveryTypedDict(TypedDict):
-    discover_type: HealthCheckAuthenticationBasicSecretDiscoverType
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNoneDiscoverType
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
 
-class HealthCheckAuthenticationBasicSecretDiscovery(BaseModel):
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNone(
+    BaseModel
+):
     discover_type: Annotated[
-        HealthCheckAuthenticationBasicSecretDiscoverType,
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNoneDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -1341,10 +4179,578 @@ class HealthCheckAuthenticationBasicSecretDiscovery(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.HealthCheckAuthenticationBasicSecretDiscoverType(value)
+                return models.HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
+                    value
+                )
             except ValueError:
                 return value
         return value
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeListDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    item_list: List[str]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeList(
+    BaseModel
+):
+    discover_type: Annotated[
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeListDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    item_list: Annotated[List[str], pydantic.Field(alias="itemList")]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSONDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    manual_discover_result: str
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+    discover_data_field: NotRequired[str]
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSON(
+    BaseModel
+):
+    discover_type: Annotated[
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSONDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    manual_discover_result: Annotated[str, pydantic.Field(alias="manualDiscoverResult")]
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["discoverDataField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverBody",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict",
+    Union[
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            Tag("get"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            Tag("post"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            Tag("post_with_body"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_method", "discoverMethod")),
+]
+
+
+HealthCheckAuthenticationBasicSecretDiscoveryTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationBasicSecretDiscoveryTypedDict",
+    Union[
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeListTypedDict,
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationBasicSecretDiscovery = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSON,
+            Tag("json"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeList,
+            Tag("list"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNone,
+            Tag("none"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
+]
 
 
 class HealthCheckAuthenticationBasicSecretHealthCheckMethod(
@@ -1375,7 +4781,9 @@ class HealthCheckAuthenticationBasicSecretCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header value (can be a constant)."""
 
 
-class HealthCheckAuthenticationBasicSecretRetryRulesTypedDict(TypedDict):
+class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeBackoffTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -1385,7 +4793,7 @@ class HealthCheckAuthenticationBasicSecretRetryRulesTypedDict(TypedDict):
     enable_header: NotRequired[Any]
 
 
-class HealthCheckAuthenticationBasicSecretRetryRules(BaseModel):
+class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -1425,6 +4833,143 @@ class HealthCheckAuthenticationBasicSecretRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeStaticTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNoneTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+
+
+class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationBasicSecretRetryRulesTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationBasicSecretRetryRulesTypedDict",
+    Union[
+        HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNoneTypedDict,
+        HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeStaticTypedDict,
+        HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationBasicSecretRetryRules = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNone,
+            Tag("none"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeStatic,
+            Tag("static"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeBackoff,
+            Tag("backoff"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class HealthCheckAuthenticationBasicSecretTypedDict(TypedDict):
@@ -1586,7 +5131,7 @@ class HealthCheckAuthenticationBasicAuthentication(
     OAUTH_SECRET = "oauthSecret"
 
 
-class HealthCheckAuthenticationBasicDiscoverType(
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -1601,14 +5146,19 @@ class HealthCheckAuthenticationBasicDiscoverType(
     NONE = "none"
 
 
-class HealthCheckAuthenticationBasicDiscoveryTypedDict(TypedDict):
-    discover_type: HealthCheckAuthenticationBasicDiscoverType
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNoneDiscoverType
+    )
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
 
-class HealthCheckAuthenticationBasicDiscovery(BaseModel):
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNone(BaseModel):
     discover_type: Annotated[
-        HealthCheckAuthenticationBasicDiscoverType, pydantic.Field(alias="discoverType")
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNoneDiscoverType,
+        pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
@@ -1616,10 +5166,578 @@ class HealthCheckAuthenticationBasicDiscovery(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.HealthCheckAuthenticationBasicDiscoverType(value)
+                return models.HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
+                    value
+                )
             except ValueError:
                 return value
         return value
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeListDiscoverType
+    )
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    item_list: List[str]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeList(BaseModel):
+    discover_type: Annotated[
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeListDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    item_list: Annotated[List[str], pydantic.Field(alias="itemList")]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSONDiscoverType
+    )
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    manual_discover_result: str
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+    discover_data_field: NotRequired[str]
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSON(BaseModel):
+    discover_type: Annotated[
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSONDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    manual_discover_result: Annotated[str, pydantic.Field(alias="manualDiscoverResult")]
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["discoverDataField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverBody",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPTypedDict",
+    Union[
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            Tag("get"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            Tag("post"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            Tag("post_with_body"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_method", "discoverMethod")),
+]
+
+
+HealthCheckAuthenticationBasicDiscoveryTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationBasicDiscoveryTypedDict",
+    Union[
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeListTypedDict,
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationBasicDiscovery = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSON,
+            Tag("json"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeList,
+            Tag("list"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNone,
+            Tag("none"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
+]
 
 
 class HealthCheckAuthenticationBasicHealthCheckMethod(
@@ -1650,7 +5768,9 @@ class HealthCheckAuthenticationBasicCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header value (can be a constant)."""
 
 
-class HealthCheckAuthenticationBasicRetryRulesTypedDict(TypedDict):
+class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeBackoffTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -1660,7 +5780,7 @@ class HealthCheckAuthenticationBasicRetryRulesTypedDict(TypedDict):
     enable_header: NotRequired[Any]
 
 
-class HealthCheckAuthenticationBasicRetryRules(BaseModel):
+class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -1700,6 +5820,137 @@ class HealthCheckAuthenticationBasicRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+
+
+class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationBasicRetryRulesTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationBasicRetryRulesTypedDict",
+    Union[
+        HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNoneTypedDict,
+        HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStaticTypedDict,
+        HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationBasicRetryRules = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNone, Tag("none")
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStatic, Tag("static")
+        ],
+        Annotated[
+            HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeBackoff,
+            Tag("backoff"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class HealthCheckAuthenticationBasicTypedDict(TypedDict):
@@ -1864,7 +6115,7 @@ class HealthCheckAuthenticationNoneAuthentication(
     OAUTH_SECRET = "oauthSecret"
 
 
-class HealthCheckAuthenticationNoneDiscoverType(
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -1879,14 +6130,19 @@ class HealthCheckAuthenticationNoneDiscoverType(
     NONE = "none"
 
 
-class HealthCheckAuthenticationNoneDiscoveryTypedDict(TypedDict):
-    discover_type: HealthCheckAuthenticationNoneDiscoverType
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNoneDiscoverType
+    )
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
 
-class HealthCheckAuthenticationNoneDiscovery(BaseModel):
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNone(BaseModel):
     discover_type: Annotated[
-        HealthCheckAuthenticationNoneDiscoverType, pydantic.Field(alias="discoverType")
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNoneDiscoverType,
+        pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
@@ -1894,10 +6150,578 @@ class HealthCheckAuthenticationNoneDiscovery(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.HealthCheckAuthenticationNoneDiscoverType(value)
+                return models.HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
+                    value
+                )
             except ValueError:
                 return value
         return value
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeListDiscoverType
+    )
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    item_list: List[str]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeList(BaseModel):
+    discover_type: Annotated[
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeListDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    item_list: Annotated[List[str], pydantic.Field(alias="itemList")]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSONDiscoverType
+    )
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    manual_discover_result: str
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+    discover_data_field: NotRequired[str]
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSON(BaseModel):
+    discover_type: Annotated[
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSONDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    manual_discover_result: Annotated[str, pydantic.Field(alias="manualDiscoverResult")]
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["discoverDataField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverBody",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPTypedDict",
+    Union[
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            Tag("get"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            Tag("post"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            Tag("post_with_body"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_method", "discoverMethod")),
+]
+
+
+HealthCheckAuthenticationNoneDiscoveryTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationNoneDiscoveryTypedDict",
+    Union[
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeListTypedDict,
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationNoneDiscovery = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSON,
+            Tag("json"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeList,
+            Tag("list"),
+        ],
+        Annotated[
+            HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNone,
+            Tag("none"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
+]
 
 
 class HealthCheckAuthenticationNoneHealthCheckMethod(
@@ -1928,7 +6752,7 @@ class HealthCheckAuthenticationNoneCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header value (can be a constant)."""
 
 
-class HealthCheckAuthenticationNoneRetryRulesTypedDict(TypedDict):
+class HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -1938,7 +6762,7 @@ class HealthCheckAuthenticationNoneRetryRulesTypedDict(TypedDict):
     enable_header: NotRequired[Any]
 
 
-class HealthCheckAuthenticationNoneRetryRules(BaseModel):
+class HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -1978,6 +6802,137 @@ class HealthCheckAuthenticationNoneRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+
+
+class HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckAuthenticationNoneRetryRulesTypedDict = TypeAliasType(
+    "HealthCheckAuthenticationNoneRetryRulesTypedDict",
+    Union[
+        HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeNoneTypedDict,
+        HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeStaticTypedDict,
+        HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+HealthCheckAuthenticationNoneRetryRules = Annotated[
+    Union[
+        Annotated[
+            HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeNone, Tag("none")
+        ],
+        Annotated[
+            HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeStatic, Tag("static")
+        ],
+        Annotated[
+            HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeBackoff,
+            Tag("backoff"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class HealthCheckAuthenticationNoneTypedDict(TypedDict):
@@ -2131,7 +7086,7 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckMethod(
     POST_WITH_BODY = "post_with_body"
 
 
-class HealthCheckCollectMethodPostWithBodyDiscoverType(
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -2146,14 +7101,18 @@ class HealthCheckCollectMethodPostWithBodyDiscoverType(
     NONE = "none"
 
 
-class HealthCheckCollectMethodPostWithBodyDiscoveryTypedDict(TypedDict):
-    discover_type: HealthCheckCollectMethodPostWithBodyDiscoverType
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNoneDiscoverType
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
 
-class HealthCheckCollectMethodPostWithBodyDiscovery(BaseModel):
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNone(
+    BaseModel
+):
     discover_type: Annotated[
-        HealthCheckCollectMethodPostWithBodyDiscoverType,
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNoneDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
@@ -2162,10 +7121,578 @@ class HealthCheckCollectMethodPostWithBodyDiscovery(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.HealthCheckCollectMethodPostWithBodyDiscoverType(value)
+                return models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
+                    value
+                )
             except ValueError:
                 return value
         return value
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeListDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    item_list: List[str]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeList(
+    BaseModel
+):
+    discover_type: Annotated[
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeListDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    item_list: Annotated[List[str], pydantic.Field(alias="itemList")]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSONDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    manual_discover_result: str
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+    discover_data_field: NotRequired[str]
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSON(
+    BaseModel
+):
+    discover_type: Annotated[
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSONDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    manual_discover_result: Annotated[str, pydantic.Field(alias="manualDiscoverResult")]
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["discoverDataField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverBody",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPTypedDict",
+    Union[
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+    ],
+)
+
+
+HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
+    Union[
+        Annotated[
+            HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            Tag("get"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            Tag("post"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            Tag("post_with_body"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_method", "discoverMethod")),
+]
+
+
+HealthCheckCollectMethodPostWithBodyDiscoveryTypedDict = TypeAliasType(
+    "HealthCheckCollectMethodPostWithBodyDiscoveryTypedDict",
+    Union[
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeListTypedDict,
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
+    ],
+)
+
+
+HealthCheckCollectMethodPostWithBodyDiscovery = Annotated[
+    Union[
+        Annotated[
+            HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSON,
+            Tag("json"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeList,
+            Tag("list"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNone,
+            Tag("none"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
+]
 
 
 class HealthCheckCollectMethodPostWithBodyCollectRequestHeaderTypedDict(TypedDict):
@@ -2197,7 +7724,9 @@ class HealthCheckCollectMethodPostWithBodyAuthentication(
     OAUTH_SECRET = "oauthSecret"
 
 
-class HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict(TypedDict):
+class HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeBackoffTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -2207,7 +7736,7 @@ class HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict(TypedDict):
     enable_header: NotRequired[Any]
 
 
-class HealthCheckCollectMethodPostWithBodyRetryRules(BaseModel):
+class HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -2247,6 +7776,143 @@ class HealthCheckCollectMethodPostWithBodyRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeStaticTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeNoneTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+
+
+class HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict = TypeAliasType(
+    "HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict",
+    Union[
+        HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeNoneTypedDict,
+        HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeStaticTypedDict,
+        HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+HealthCheckCollectMethodPostWithBodyRetryRules = Annotated[
+    Union[
+        Annotated[
+            HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeNone,
+            Tag("none"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeStatic,
+            Tag("static"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeBackoff,
+            Tag("backoff"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
@@ -2402,7 +8068,9 @@ class HealthCheckCollectMethodPostHealthCheckMethod(
     POST_WITH_BODY = "post_with_body"
 
 
-class HealthCheckCollectMethodPostDiscoverType(str, Enum, metaclass=utils.OpenEnumMeta):
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
     # HTTP Request
@@ -2415,14 +8083,19 @@ class HealthCheckCollectMethodPostDiscoverType(str, Enum, metaclass=utils.OpenEn
     NONE = "none"
 
 
-class HealthCheckCollectMethodPostDiscoveryTypedDict(TypedDict):
-    discover_type: HealthCheckCollectMethodPostDiscoverType
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNoneDiscoverType
+    )
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
 
-class HealthCheckCollectMethodPostDiscovery(BaseModel):
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNone(BaseModel):
     discover_type: Annotated[
-        HealthCheckCollectMethodPostDiscoverType, pydantic.Field(alias="discoverType")
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNoneDiscoverType,
+        pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
@@ -2430,10 +8103,578 @@ class HealthCheckCollectMethodPostDiscovery(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.HealthCheckCollectMethodPostDiscoverType(value)
+                return models.HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
+                    value
+                )
             except ValueError:
                 return value
         return value
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeListDiscoverType
+    )
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    item_list: List[str]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeList(BaseModel):
+    discover_type: Annotated[
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeListDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    item_list: Annotated[List[str], pydantic.Field(alias="itemList")]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSONDiscoverType
+    )
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    manual_discover_result: str
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+    discover_data_field: NotRequired[str]
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSON(BaseModel):
+    discover_type: Annotated[
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSONDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    manual_discover_result: Annotated[str, pydantic.Field(alias="manualDiscoverResult")]
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["discoverDataField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverBody",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPTypedDict",
+    Union[
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+    ],
+)
+
+
+HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
+    Union[
+        Annotated[
+            HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            Tag("get"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            Tag("post"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            Tag("post_with_body"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_method", "discoverMethod")),
+]
+
+
+HealthCheckCollectMethodPostDiscoveryTypedDict = TypeAliasType(
+    "HealthCheckCollectMethodPostDiscoveryTypedDict",
+    Union[
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeListTypedDict,
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
+    ],
+)
+
+
+HealthCheckCollectMethodPostDiscovery = Annotated[
+    Union[
+        Annotated[
+            HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSON,
+            Tag("json"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeList,
+            Tag("list"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNone,
+            Tag("none"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
+]
 
 
 class HealthCheckCollectMethodPostCollectRequestHeaderTypedDict(TypedDict):
@@ -2465,7 +8706,7 @@ class HealthCheckCollectMethodPostAuthentication(
     OAUTH_SECRET = "oauthSecret"
 
 
-class HealthCheckCollectMethodPostRetryRulesTypedDict(TypedDict):
+class HealthCheckCollectMethodPostHealthCheckRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -2475,7 +8716,7 @@ class HealthCheckCollectMethodPostRetryRulesTypedDict(TypedDict):
     enable_header: NotRequired[Any]
 
 
-class HealthCheckCollectMethodPostRetryRules(BaseModel):
+class HealthCheckCollectMethodPostHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -2515,6 +8756,136 @@ class HealthCheckCollectMethodPostRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class HealthCheckCollectMethodPostHealthCheckRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class HealthCheckCollectMethodPostHealthCheckRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckCollectMethodPostHealthCheckRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+
+
+class HealthCheckCollectMethodPostHealthCheckRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckCollectMethodPostRetryRulesTypedDict = TypeAliasType(
+    "HealthCheckCollectMethodPostRetryRulesTypedDict",
+    Union[
+        HealthCheckCollectMethodPostHealthCheckRetryRulesTypeNoneTypedDict,
+        HealthCheckCollectMethodPostHealthCheckRetryRulesTypeStaticTypedDict,
+        HealthCheckCollectMethodPostHealthCheckRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+HealthCheckCollectMethodPostRetryRules = Annotated[
+    Union[
+        Annotated[
+            HealthCheckCollectMethodPostHealthCheckRetryRulesTypeNone, Tag("none")
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostHealthCheckRetryRulesTypeStatic, Tag("static")
+        ],
+        Annotated[
+            HealthCheckCollectMethodPostHealthCheckRetryRulesTypeBackoff, Tag("backoff")
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class HealthCheckCollectMethodPostTypedDict(TypedDict):
@@ -2668,7 +9039,9 @@ class HealthCheckCollectMethodGetHealthCheckMethod(
     POST_WITH_BODY = "post_with_body"
 
 
-class HealthCheckCollectMethodGetDiscoverType(str, Enum, metaclass=utils.OpenEnumMeta):
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
     # HTTP Request
@@ -2681,14 +9054,19 @@ class HealthCheckCollectMethodGetDiscoverType(str, Enum, metaclass=utils.OpenEnu
     NONE = "none"
 
 
-class HealthCheckCollectMethodGetDiscoveryTypedDict(TypedDict):
-    discover_type: HealthCheckCollectMethodGetDiscoverType
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNoneDiscoverType
+    )
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
 
-class HealthCheckCollectMethodGetDiscovery(BaseModel):
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNone(BaseModel):
     discover_type: Annotated[
-        HealthCheckCollectMethodGetDiscoverType, pydantic.Field(alias="discoverType")
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNoneDiscoverType,
+        pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
 
@@ -2696,10 +9074,574 @@ class HealthCheckCollectMethodGetDiscovery(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.HealthCheckCollectMethodGetDiscoverType(value)
+                return models.HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
+                    value
+                )
             except ValueError:
                 return value
         return value
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeListDiscoverType
+    )
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    item_list: List[str]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeList(BaseModel):
+    discover_type: Annotated[
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeListDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    item_list: Annotated[List[str], pydantic.Field(alias="itemList")]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeListDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: (
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSONDiscoverType
+    )
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    manual_discover_result: str
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+    discover_data_field: NotRequired[str]
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSON(BaseModel):
+    discover_type: Annotated[
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSONDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    manual_discover_result: Annotated[str, pydantic.Field(alias="manualDiscoverResult")]
+    r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSONDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["discoverDataField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverBody",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Discover HTTP method."""
+
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    # HTTP Request
+    HTTP = "http"
+    # JSON Response
+    JSON = "json"
+    # Item List
+    LIST = "list"
+    # None
+    NONE = "none"
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+    TypedDict
+):
+    discover_method: HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    r"""Discover HTTP method."""
+    discover_type: HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+    discover_url: str
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
+    ]
+    r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+
+class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
+    discover_method: Annotated[
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+    r"""Discover HTTP method."""
+
+    discover_type: Annotated[
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+    r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "discoverDataField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPTypedDict",
+    Union[
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+    ],
+)
+
+
+HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
+    Union[
+        Annotated[
+            HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            Tag("get"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            Tag("post"),
+        ],
+        Annotated[
+            HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            Tag("post_with_body"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_method", "discoverMethod")),
+]
+
+
+HealthCheckCollectMethodGetDiscoveryTypedDict = TypeAliasType(
+    "HealthCheckCollectMethodGetDiscoveryTypedDict",
+    Union[
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeListTypedDict,
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
+    ],
+)
+
+
+HealthCheckCollectMethodGetDiscovery = Annotated[
+    Union[
+        Annotated[
+            HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTP, Tag("http")
+        ],
+        Annotated[
+            HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSON, Tag("json")
+        ],
+        Annotated[
+            HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeList, Tag("list")
+        ],
+        Annotated[
+            HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNone, Tag("none")
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
+]
 
 
 class HealthCheckCollectMethodGetCollectRequestHeaderTypedDict(TypedDict):
@@ -2731,7 +9673,7 @@ class HealthCheckCollectMethodGetAuthentication(
     OAUTH_SECRET = "oauthSecret"
 
 
-class HealthCheckCollectMethodGetRetryRulesTypedDict(TypedDict):
+class HealthCheckCollectMethodGetHealthCheckRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -2741,7 +9683,7 @@ class HealthCheckCollectMethodGetRetryRulesTypedDict(TypedDict):
     enable_header: NotRequired[Any]
 
 
-class HealthCheckCollectMethodGetRetryRules(BaseModel):
+class HealthCheckCollectMethodGetHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -2781,6 +9723,136 @@ class HealthCheckCollectMethodGetRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class HealthCheckCollectMethodGetHealthCheckRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class HealthCheckCollectMethodGetHealthCheckRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class HealthCheckCollectMethodGetHealthCheckRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+
+
+class HealthCheckCollectMethodGetHealthCheckRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+HealthCheckCollectMethodGetRetryRulesTypedDict = TypeAliasType(
+    "HealthCheckCollectMethodGetRetryRulesTypedDict",
+    Union[
+        HealthCheckCollectMethodGetHealthCheckRetryRulesTypeNoneTypedDict,
+        HealthCheckCollectMethodGetHealthCheckRetryRulesTypeStaticTypedDict,
+        HealthCheckCollectMethodGetHealthCheckRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+HealthCheckCollectMethodGetRetryRules = Annotated[
+    Union[
+        Annotated[
+            HealthCheckCollectMethodGetHealthCheckRetryRulesTypeNone, Tag("none")
+        ],
+        Annotated[
+            HealthCheckCollectMethodGetHealthCheckRetryRulesTypeStatic, Tag("static")
+        ],
+        Annotated[
+            HealthCheckCollectMethodGetHealthCheckRetryRulesTypeBackoff, Tag("backoff")
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class HealthCheckCollectMethodGetTypedDict(TypedDict):

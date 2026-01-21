@@ -1,8 +1,29 @@
 # RestCollectMethodGetDiscovery
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                      | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `discover_type`                                                                                                            | [models.RestCollectMethodGetDiscoverType](../models/restcollectmethodgetdiscovertype.md)                                   | :heavy_check_mark:                                                                                                         | Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task. |
+### `models.RestCollectMethodGetRestDiscoveryDiscoverTypeHTTP`
+
+```python
+value: models.RestCollectMethodGetRestDiscoveryDiscoverTypeHTTP = /* values here */
+```
+
+### `models.RestCollectMethodGetRestDiscoveryDiscoverTypeJSON`
+
+```python
+value: models.RestCollectMethodGetRestDiscoveryDiscoverTypeJSON = /* values here */
+```
+
+### `models.RestCollectMethodGetRestDiscoveryDiscoverTypeList`
+
+```python
+value: models.RestCollectMethodGetRestDiscoveryDiscoverTypeList = /* values here */
+```
+
+### `models.RestCollectMethodGetRestDiscoveryDiscoverTypeNone`
+
+```python
+value: models.RestCollectMethodGetRestDiscoveryDiscoverTypeNone = /* values here */
+```
+

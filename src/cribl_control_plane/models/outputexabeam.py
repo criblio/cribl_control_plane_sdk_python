@@ -93,8 +93,6 @@ class OutputExabeamTypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
 
 class OutputExabeam(BaseModel):
@@ -254,11 +252,6 @@ class OutputExabeam(BaseModel):
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
     @field_serializer("signature_version")
     def serialize_signature_version(self, value):
         if isinstance(value, str):
@@ -339,7 +332,6 @@ class OutputExabeam(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
-                "__template_region",
             ]
         )
         serialized = handler(self)

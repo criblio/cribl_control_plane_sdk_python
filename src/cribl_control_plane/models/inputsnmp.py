@@ -175,10 +175,6 @@ class InputSnmpTypedDict(TypedDict):
     best_effort_parsing: NotRequired[bool]
     r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
     description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class InputSnmp(BaseModel):
@@ -252,16 +248,6 @@ class InputSnmp(BaseModel):
 
     description: Optional[str] = None
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -283,8 +269,6 @@ class InputSnmp(BaseModel):
                 "varbindsWithTypes",
                 "bestEffortParsing",
                 "description",
-                "__template_host",
-                "__template_port",
             ]
         )
         serialized = handler(self)

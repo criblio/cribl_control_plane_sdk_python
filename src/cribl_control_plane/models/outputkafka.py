@@ -114,8 +114,6 @@ class OutputKafkaTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[OutputKafkaPqControlsTypedDict]
-    template_topic: NotRequired[str]
-    r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
 
 
 class OutputKafka(BaseModel):
@@ -279,11 +277,6 @@ class OutputKafka(BaseModel):
         Optional[OutputKafkaPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
-    template_topic: Annotated[
-        Optional[str], pydantic.Field(alias="__template_topic")
-    ] = None
-    r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
-
     @field_serializer("ack")
     def serialize_ack(self, value):
         if isinstance(value, str):
@@ -388,7 +381,6 @@ class OutputKafka(BaseModel):
                 "pqCompress",
                 "pqOnBackpressure",
                 "pqControls",
-                "__template_topic",
             ]
         )
         serialized = handler(self)

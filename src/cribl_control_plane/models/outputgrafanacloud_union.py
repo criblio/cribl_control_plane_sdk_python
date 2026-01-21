@@ -122,10 +122,6 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[OutputGrafanaCloudPqControls2TypedDict]
-    template_loki_url: NotRequired[str]
-    r"""Binds 'lokiUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiUrl' at runtime."""
-    template_prometheus_url: NotRequired[str]
-    r"""Binds 'prometheusUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusUrl' at runtime."""
 
 
 class OutputGrafanaCloudGrafanaCloud2(BaseModel):
@@ -302,16 +298,6 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
         Optional[OutputGrafanaCloudPqControls2], pydantic.Field(alias="pqControls")
     ] = None
 
-    template_loki_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_lokiUrl")
-    ] = None
-    r"""Binds 'lokiUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiUrl' at runtime."""
-
-    template_prometheus_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_prometheusUrl")
-    ] = None
-    r"""Binds 'prometheusUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusUrl' at runtime."""
-
     @field_serializer("message_format")
     def serialize_message_format(self, value):
         if isinstance(value, str):
@@ -409,8 +395,6 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
                 "pqCompress",
                 "pqOnBackpressure",
                 "pqControls",
-                "__template_lokiUrl",
-                "__template_prometheusUrl",
             ]
         )
         serialized = handler(self)
@@ -519,10 +503,6 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[OutputGrafanaCloudPqControls1TypedDict]
-    template_loki_url: NotRequired[str]
-    r"""Binds 'lokiUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiUrl' at runtime."""
-    template_prometheus_url: NotRequired[str]
-    r"""Binds 'prometheusUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusUrl' at runtime."""
 
 
 class OutputGrafanaCloudGrafanaCloud1(BaseModel):
@@ -701,16 +681,6 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
         Optional[OutputGrafanaCloudPqControls1], pydantic.Field(alias="pqControls")
     ] = None
 
-    template_loki_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_lokiUrl")
-    ] = None
-    r"""Binds 'lokiUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiUrl' at runtime."""
-
-    template_prometheus_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_prometheusUrl")
-    ] = None
-    r"""Binds 'prometheusUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusUrl' at runtime."""
-
     @field_serializer("message_format")
     def serialize_message_format(self, value):
         if isinstance(value, str):
@@ -808,8 +778,6 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
                 "pqCompress",
                 "pqOnBackpressure",
                 "pqControls",
-                "__template_lokiUrl",
-                "__template_prometheusUrl",
             ]
         )
         serialized = handler(self)

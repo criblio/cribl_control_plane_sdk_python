@@ -17,6 +17,7 @@ import weakref
 if TYPE_CHECKING:
     from cribl_control_plane.auth import Auth
     from cribl_control_plane.collectors_sdk import CollectorsSDK
+    from cribl_control_plane.databaseconnections import DatabaseConnections
     from cribl_control_plane.destinations import Destinations
     from cribl_control_plane.functions import Functions
     from cribl_control_plane.groups_sdk import GroupsSDK
@@ -37,6 +38,7 @@ class CriblControlPlane(BaseSDK):
     lake_datasets: "LakeDatasets"
     collectors: "CollectorsSDK"
     r"""Actions related to Collectors"""
+    database_connections: "DatabaseConnections"
     sources: "Sources"
     r"""Actions related to Sources"""
     destinations: "Destinations"
@@ -60,6 +62,10 @@ class CriblControlPlane(BaseSDK):
     _sub_sdk_map = {
         "lake_datasets": ("cribl_control_plane.lakedatasets", "LakeDatasets"),
         "collectors": ("cribl_control_plane.collectors_sdk", "CollectorsSDK"),
+        "database_connections": (
+            "cribl_control_plane.databaseconnections",
+            "DatabaseConnections",
+        ),
         "sources": ("cribl_control_plane.sources", "Sources"),
         "destinations": ("cribl_control_plane.destinations", "Destinations"),
         "pipelines": ("cribl_control_plane.pipelines", "Pipelines"),

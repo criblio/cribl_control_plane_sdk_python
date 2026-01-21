@@ -124,6 +124,8 @@ class OutputSumoLogicTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[OutputSumoLogicPqControlsTypedDict]
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputSumoLogic(BaseModel):
@@ -291,6 +293,11 @@ class OutputSumoLogic(BaseModel):
         Optional[OutputSumoLogicPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
     @field_serializer("format_")
     def serialize_format_(self, value):
         if isinstance(value, str):
@@ -385,6 +392,7 @@ class OutputSumoLogic(BaseModel):
                 "pqCompress",
                 "pqOnBackpressure",
                 "pqControls",
+                "__template_url",
             ]
         )
         serialized = handler(self)

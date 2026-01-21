@@ -281,6 +281,13 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#get) - Get a Collector
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#update) - Update a Collector
 
+### [DatabaseConnections](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md)
+
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#create) - Create Database Connection
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#delete) - Delete a Database Connection
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#get) - Get a Database Connection
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#update) - Update a Database Connection
+
 ### [Destinations](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md)
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#list) - List all Destinations
@@ -311,7 +318,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get) - Get a Worker Group, Outpost Group, or Edge Fleet
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#update) - Update a Worker Group, Outpost Group, or Edge Fleet
 * [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#delete) - Delete a Worker Group, Outpost Group, or Edge Fleet
-* [deploy](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#deploy) - Deploy commits to a Worker Group or Edge Fleet
+* [deploy](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#deploy) - Deploy commits to a Worker Group, Outpost Group, or Edge Fleet
 
 #### [Groups.Acl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/acl/README.md)
 
@@ -671,7 +678,7 @@ with CriblControlPlane(
 
 
 **Inherit from [`CriblControlPlaneError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/criblcontrolplaneerror.py)**:
-* [`HealthServerStatusError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 72 methods.*
+* [`HealthServerStatusError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/healthserverstatuserror.py): Healthy status. Status code `420`. Applicable to 1 of 76 methods.*
 * [`ResponseValidationError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/responsevalidationerror.py): Type mismatch between the response data and the expected Pydantic model. Provides access to the Pydantic validation error via the `cause` attribute.
 
 </details>

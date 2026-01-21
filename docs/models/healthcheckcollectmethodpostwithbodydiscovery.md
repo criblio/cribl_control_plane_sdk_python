@@ -1,8 +1,29 @@
 # HealthCheckCollectMethodPostWithBodyDiscovery
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                                                                                                                                                                                                                                                        | Type                                                                                                                                                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                                                                                                                                                  |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `discover_type`                                                                                                                                                                                                                                                                                                                                              | [models.HealthCheckCollectMethodPostWithBodyDiscoverType](../models/healthcheckcollectmethodpostwithbodydiscovertype.md)                                                                                                                                                                                                                                     | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                           | Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task. |
+### `models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTP`
+
+```python
+value: models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTP = /* values here */
+```
+
+### `models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSON`
+
+```python
+value: models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSON = /* values here */
+```
+
+### `models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeList`
+
+```python
+value: models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeList = /* values here */
+```
+
+### `models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNone`
+
+```python
+value: models.HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNone = /* values here */
+```
+

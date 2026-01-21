@@ -1,0 +1,8 @@
+# RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination
+
+
+## Fields
+
+| Field                                                                                                                                    | Type                                                                                                                                     | Required                                                                                                                                 | Description                                                                                                                              |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`                                                                                                                                   | [models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination](../models/paginationoptionsrestdiscoverydiscovertypehttppagination.md) | :heavy_check_mark:                                                                                                                       | N/A                                                                                                                                      |

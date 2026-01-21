@@ -1,16 +1,23 @@
 # RestCollectMethodOtherRetryRules
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                        | Type                                                                                                                         | Required                                                                                                                     | Description                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `type`                                                                                                                       | [models.RetryTypeOptionsHealthCheckCollectorConfRetryRules](../models/retrytypeoptionshealthcheckcollectorconfretryrules.md) | :heavy_check_mark:                                                                                                           | The algorithm to use when performing HTTP retries                                                                            |
-| `interval`                                                                                                                   | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `limit`                                                                                                                      | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `multiplier`                                                                                                                 | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `max_interval_ms`                                                                                                            | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `codes`                                                                                                                      | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `enable_header`                                                                                                              | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `retry_connect_timeout`                                                                                                      | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `retry_connect_reset`                                                                                                        | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
+### `models.RestCollectMethodOtherRestRetryRulesTypeNone`
+
+```python
+value: models.RestCollectMethodOtherRestRetryRulesTypeNone = /* values here */
+```
+
+### `models.RestCollectMethodOtherRestRetryRulesTypeStatic`
+
+```python
+value: models.RestCollectMethodOtherRestRetryRulesTypeStatic = /* values here */
+```
+
+### `models.RestCollectMethodOtherRestRetryRulesTypeBackoff`
+
+```python
+value: models.RestCollectMethodOtherRestRetryRulesTypeBackoff = /* values here */
+```
+

@@ -88,12 +88,6 @@ class InputSyslogSyslog2TypedDict(TypedDict):
     description: NotRequired[str]
     enable_enhanced_proxy_header_parsing: NotRequired[bool]
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_udp_port: NotRequired[str]
-    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
-    template_tcp_port: NotRequired[str]
-    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
 
 class InputSyslogSyslog2(BaseModel):
@@ -227,21 +221,6 @@ class InputSyslogSyslog2(BaseModel):
     ] = None
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_udp_port: Annotated[
-        Optional[str], pydantic.Field(alias="__template_udpPort")
-    ] = None
-    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
-
-    template_tcp_port: Annotated[
-        Optional[str], pydantic.Field(alias="__template_tcpPort")
-    ] = None
-    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -276,9 +255,6 @@ class InputSyslogSyslog2(BaseModel):
                 "enableLoadBalancing",
                 "description",
                 "enableEnhancedProxyHeaderParsing",
-                "__template_host",
-                "__template_udpPort",
-                "__template_tcpPort",
             ]
         )
         serialized = handler(self)
@@ -361,12 +337,6 @@ class InputSyslogSyslog1TypedDict(TypedDict):
     description: NotRequired[str]
     enable_enhanced_proxy_header_parsing: NotRequired[bool]
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_udp_port: NotRequired[str]
-    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
-    template_tcp_port: NotRequired[str]
-    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
 
 class InputSyslogSyslog1(BaseModel):
@@ -500,21 +470,6 @@ class InputSyslogSyslog1(BaseModel):
     ] = None
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_udp_port: Annotated[
-        Optional[str], pydantic.Field(alias="__template_udpPort")
-    ] = None
-    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
-
-    template_tcp_port: Annotated[
-        Optional[str], pydantic.Field(alias="__template_tcpPort")
-    ] = None
-    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -549,9 +504,6 @@ class InputSyslogSyslog1(BaseModel):
                 "enableLoadBalancing",
                 "description",
                 "enableEnhancedProxyHeaderParsing",
-                "__template_host",
-                "__template_udpPort",
-                "__template_tcpPort",
             ]
         )
         serialized = handler(self)

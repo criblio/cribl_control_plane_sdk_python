@@ -1,8 +1,29 @@
 # RestAuthenticationHmacDiscovery
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                      | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `discover_type`                                                                                                            | [models.RestAuthenticationHmacDiscoverType](../models/restauthenticationhmacdiscovertype.md)                               | :heavy_check_mark:                                                                                                         | Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task. |
+### `models.RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTP`
+
+```python
+value: models.RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTP = /* values here */
+```
+
+### `models.RestAuthenticationHmacRestDiscoveryDiscoverTypeJSON`
+
+```python
+value: models.RestAuthenticationHmacRestDiscoveryDiscoverTypeJSON = /* values here */
+```
+
+### `models.RestAuthenticationHmacRestDiscoveryDiscoverTypeList`
+
+```python
+value: models.RestAuthenticationHmacRestDiscoveryDiscoverTypeList = /* values here */
+```
+
+### `models.RestAuthenticationHmacRestDiscoveryDiscoverTypeNone`
+
+```python
+value: models.RestAuthenticationHmacRestDiscoveryDiscoverTypeNone = /* values here */
+```
+

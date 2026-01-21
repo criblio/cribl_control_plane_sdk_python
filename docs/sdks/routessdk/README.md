@@ -210,8 +210,6 @@ with CriblControlPlane(
             "output": "<value>",
             "output_expression": "<value>",
             "pipeline": "main",
-            "to_group_context": True,
-            "to_pack_context": True,
         },
     ])
 

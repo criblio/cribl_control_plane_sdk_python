@@ -78,8 +78,6 @@ class InputElasticProxyModeTypedDict(TypedDict):
     r"""List of headers to remove from the request to proxy"""
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
-    template_url: NotRequired[str]
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class InputElasticProxyMode(BaseModel):
@@ -116,11 +114,6 @@ class InputElasticProxyMode(BaseModel):
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
 
-    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
-        None
-    )
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -142,7 +135,6 @@ class InputElasticProxyMode(BaseModel):
                 "rejectUnauthorized",
                 "removeHeaders",
                 "timeoutSec",
-                "__template_url",
             ]
         )
         serialized = handler(self)
@@ -223,10 +215,6 @@ class InputElasticTypedDict(TypedDict):
     r"""Bearer tokens to include in the authorization header"""
     custom_api_version: NotRequired[str]
     r"""Custom version information to respond to requests"""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class InputElastic(BaseModel):
@@ -368,16 +356,6 @@ class InputElastic(BaseModel):
     ] = None
     r"""Custom version information to respond to requests"""
 
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -432,8 +410,6 @@ class InputElastic(BaseModel):
                 "credentialsSecret",
                 "authTokens",
                 "customAPIVersion",
-                "__template_host",
-                "__template_port",
             ]
         )
         serialized = handler(self)

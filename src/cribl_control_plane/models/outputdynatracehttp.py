@@ -159,8 +159,6 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     r"""ActiveGate domain with Log analytics collector module enabled. For example https://{activeGate-domain}:9999/e/{environment-id}/api/v2/logs/ingest."""
     url: NotRequired[str]
     r"""URL to send events to. Can be overwritten by an event's __url field."""
-    template_url: NotRequired[str]
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputDynatraceHTTP(BaseModel):
@@ -349,11 +347,6 @@ class OutputDynatraceHTTP(BaseModel):
     url: Optional[str] = None
     r"""URL to send events to. Can be overwritten by an event's __url field."""
 
-    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
-        None
-    )
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-
     @field_serializer("method")
     def serialize_method(self, value):
         if isinstance(value, str):
@@ -489,7 +482,6 @@ class OutputDynatraceHTTP(BaseModel):
                 "environmentId",
                 "activeGateDomain",
                 "url",
-                "__template_url",
             ]
         )
         serialized = handler(self)

@@ -59,8 +59,6 @@ from .itemstypekeyvaluemetadata import (
 )
 from .itemstypelabels import ItemsTypeLabels, ItemsTypeLabelsTypedDict
 from .itemstypeloglabels import ItemsTypeLogLabels, ItemsTypeLogLabelsTypedDict
-from .itemstypeoauthheaders import ItemsTypeOauthHeaders, ItemsTypeOauthHeadersTypedDict
-from .itemstypeoauthparams import ItemsTypeOauthParams, ItemsTypeOauthParamsTypedDict
 from .itemstyperesponseretrysettings import (
     ItemsTypeResponseRetrySettings,
     ItemsTypeResponseRetrySettingsTypedDict,
@@ -148,9 +146,10 @@ class CreateOutputTypeCloudflareR2(str, Enum):
 class AuthenticationMethodCloudflareR2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
+    # Auto
     AUTO = "auto"
+    # Secret Key pair
     SECRET = "secret"
-    MANUAL = "manual"
 
 
 class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
@@ -227,8 +226,6 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     max_concurrent_file_parts: NotRequired[float]
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
     description: NotRequired[str]
-    aws_api_key: NotRequired[str]
-    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptions2]
@@ -269,8 +266,6 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_format: NotRequired[str]
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
-    template_aws_api_key: NotRequired[str]
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
 class CreateOutputOutputCloudflareR2(BaseModel):
@@ -441,9 +436,6 @@ class CreateOutputOutputCloudflareR2(BaseModel):
 
     description: Optional[str] = None
 
-    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
-
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
@@ -540,11 +532,6 @@ class CreateOutputOutputCloudflareR2(BaseModel):
         Optional[str], pydantic.Field(alias="__template_format")
     ] = None
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
-
-    template_aws_api_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsApiKey")
-    ] = None
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
@@ -683,7 +670,6 @@ class CreateOutputOutputCloudflareR2(BaseModel):
                 "maxFileIdleTimeSec",
                 "maxConcurrentFileParts",
                 "description",
-                "awsApiKey",
                 "awsSecret",
                 "compress",
                 "compressionLevel",
@@ -704,7 +690,6 @@ class CreateOutputOutputCloudflareR2(BaseModel):
                 "maxRetryNum",
                 "__template_bucket",
                 "__template_format",
-                "__template_awsApiKey",
             ]
         )
         serialized = handler(self)
@@ -4156,13 +4141,14 @@ class CreateOutputTypeClickHouse(str, Enum):
 
 
 class AuthenticationTypeClickHouse(str, Enum, metaclass=utils.OpenEnumMeta):
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     CREDENTIALS_SECRET = "credentialsSecret"
+    # SSL User Certificate
     SSL_USER_CERTIFICATE = "sslUserCertificate"
-    TOKEN = "token"
-    TEXT_SECRET = "textSecret"
-    OAUTH = "oauth"
 
 
 class FormatClickHouse(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -4344,28 +4330,8 @@ class CreateOutputOutputClickHouseTypedDict(TypedDict):
     description: NotRequired[str]
     username: NotRequired[str]
     password: NotRequired[str]
-    token: NotRequired[str]
-    r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     sql_username: NotRequired[str]
     r"""Username for certificate authentication"""
     wait_for_async_inserts: NotRequired[bool]
@@ -4402,10 +4368,6 @@ class CreateOutputOutputClickHouseTypedDict(TypedDict):
     r"""Binds 'database' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'database' at runtime."""
     template_table_name: NotRequired[str]
     r"""Binds 'tableName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tableName' at runtime."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class CreateOutputOutputClickHouse(BaseModel):
@@ -4546,52 +4508,10 @@ class CreateOutputOutputClickHouse(BaseModel):
 
     password: Optional[str] = None
 
-    token: Optional[str] = None
-    r"""Bearer token to include in the authorization header"""
-
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
     ] = None
     r"""Select or create a secret that references your credentials"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     sql_username: Annotated[Optional[str], pydantic.Field(alias="sqlUsername")] = None
     r"""Username for certificate authentication"""
@@ -4678,16 +4598,6 @@ class CreateOutputOutputClickHouse(BaseModel):
         Optional[str], pydantic.Field(alias="__template_tableName")
     ] = None
     r"""Binds 'tableName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tableName' at runtime."""
-
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -4794,17 +4704,7 @@ class CreateOutputOutputClickHouse(BaseModel):
                 "description",
                 "username",
                 "password",
-                "token",
                 "credentialsSecret",
-                "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
                 "sqlUsername",
                 "waitForAsyncInserts",
                 "excludeMappingFields",
@@ -4824,8 +4724,6 @@ class CreateOutputOutputClickHouse(BaseModel):
                 "__template_url",
                 "__template_database",
                 "__template_tableName",
-                "__template_loginUrl",
-                "__template_secret",
             ]
         )
         serialized = handler(self)
@@ -9612,22 +9510,6 @@ class CreateOutputOutputOpenTelemetryTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
@@ -9666,10 +9548,6 @@ class CreateOutputOutputOpenTelemetryTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[PqControlsOpenTelemetryTypedDict]
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class CreateOutputOutputOpenTelemetry(BaseModel):
@@ -9791,42 +9669,6 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
@@ -9915,16 +9757,6 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     pq_controls: Annotated[
         Optional[PqControlsOpenTelemetry], pydantic.Field(alias="pqControls")
     ] = None
-
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
     @field_serializer("protocol")
     def serialize_protocol(self, value):
@@ -10048,14 +9880,6 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
                 "rejectUnauthorized",
                 "useRoundRobinDns",
                 "extraHttpHeaders",
@@ -10075,8 +9899,6 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
                 "pqCompress",
                 "pqOnBackpressure",
                 "pqControls",
-                "__template_loginUrl",
-                "__template_secret",
             ]
         )
         serialized = handler(self)
@@ -10331,28 +10153,8 @@ class CreateOutputOutputPrometheusTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class CreateOutputOutputPrometheus(BaseModel):
@@ -10535,56 +10337,10 @@ class CreateOutputOutputPrometheus(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
     )
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
     @field_serializer("failed_request_logging_mode")
     def serialize_failed_request_logging_mode(self, value):
@@ -10683,17 +10439,7 @@ class CreateOutputOutputPrometheus(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
                 "__template_url",
-                "__template_loginUrl",
-                "__template_secret",
             ]
         )
         serialized = handler(self)
@@ -15669,12 +15415,16 @@ class CreateOutputTimestampPrecision(str, Enum, metaclass=utils.OpenEnumMeta):
 class AuthenticationTypeInfluxdb(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""InfluxDB authentication type"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     CREDENTIALS_SECRET = "credentialsSecret"
+    # Token
     TOKEN = "token"
+    # Token (text secret)
     TEXT_SECRET = "textSecret"
-    OAUTH = "oauth"
 
 
 class PqControlsInfluxdbTypedDict(TypedDict):
@@ -15777,32 +15527,12 @@ class CreateOutputOutputInfluxdbTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_database: NotRequired[str]
     r"""Binds 'database' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'database' at runtime."""
     template_bucket: NotRequired[str]
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class CreateOutputOutputInfluxdb(BaseModel):
@@ -16000,42 +15730,6 @@ class CreateOutputOutputInfluxdb(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
     )
@@ -16050,16 +15744,6 @@ class CreateOutputOutputInfluxdb(BaseModel):
         Optional[str], pydantic.Field(alias="__template_bucket")
     ] = None
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
-
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
     @field_serializer("timestamp_precision")
     def serialize_timestamp_precision(self, value):
@@ -16172,19 +15856,9 @@ class CreateOutputOutputInfluxdb(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
                 "__template_url",
                 "__template_database",
                 "__template_bucket",
-                "__template_loginUrl",
-                "__template_secret",
             ]
         )
         serialized = handler(self)
@@ -29626,6 +29300,36 @@ class PqControlsWebhook(BaseModel):
     pass
 
 
+class CreateOutputOauthParamTypedDict(TypedDict):
+    name: str
+    r"""OAuth parameter name"""
+    value: str
+    r"""OAuth parameter value"""
+
+
+class CreateOutputOauthParam(BaseModel):
+    name: str
+    r"""OAuth parameter name"""
+
+    value: str
+    r"""OAuth parameter value"""
+
+
+class CreateOutputOauthHeaderTypedDict(TypedDict):
+    name: str
+    r"""OAuth header name"""
+    value: str
+    r"""OAuth header value"""
+
+
+class CreateOutputOauthHeader(BaseModel):
+    name: str
+    r"""OAuth header name"""
+
+    value: str
+    r"""OAuth header value"""
+
+
 class URLWebhookTypedDict(TypedDict):
     url: str
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
@@ -29779,9 +29483,9 @@ class CreateOutputOutputWebhookTypedDict(TypedDict):
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
     token_timeout_secs: NotRequired[float]
     r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
+    oauth_params: NotRequired[List[CreateOutputOauthParamTypedDict]]
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
+    oauth_headers: NotRequired[List[CreateOutputOauthHeaderTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     url: NotRequired[str]
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
@@ -30052,12 +29756,12 @@ class CreateOutputOutputWebhook(BaseModel):
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
+        Optional[List[CreateOutputOauthParam]], pydantic.Field(alias="oauthParams")
     ] = None
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
+        Optional[List[CreateOutputOauthHeader]], pydantic.Field(alias="oauthHeaders")
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
@@ -30347,43 +30051,43 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputConfluentCloudTypedDict,
         CreateOutputOutputCloudwatchTypedDict,
         CreateOutputOutputAzureLogsTypedDict,
-        CreateOutputOutputNewrelicEventsTypedDict,
+        CreateOutputOutputPrometheusTypedDict,
         CreateOutputOutputXsiamTypedDict,
+        CreateOutputOutputNewrelicEventsTypedDict,
         CreateOutputOutputFilesystemTypedDict,
         CreateOutputOutputSyslogTypedDict,
-        CreateOutputOutputCriblSearchEngineTypedDict,
-        CreateOutputOutputNewrelicTypedDict,
-        CreateOutputOutputLokiTypedDict,
-        CreateOutputOutputDatasetTypedDict,
         CreateOutputOutputCriblHTTPTypedDict,
-        CreateOutputOutputKinesisTypedDict,
-        CreateOutputOutputServiceNowTypedDict,
+        CreateOutputOutputNewrelicTypedDict,
+        CreateOutputOutputCriblSearchEngineTypedDict,
+        CreateOutputOutputDatasetTypedDict,
+        CreateOutputOutputLokiTypedDict,
         CreateOutputOutputDynatraceHTTPTypedDict,
         CreateOutputOutputDynatraceOtlpTypedDict,
+        CreateOutputOutputKinesisTypedDict,
+        CreateOutputOutputServiceNowTypedDict,
         CreateOutputOutputSplunkHecTypedDict,
         CreateOutputOutputChronicleTypedDict,
         CreateOutputOutputSqsTypedDict,
         CreateOutputOutputDatadogTypedDict,
         CreateOutputOutputElasticTypedDict,
-        CreateOutputOutputDatabricksTypedDict,
-        CreateOutputOutputGoogleChronicleTypedDict,
-        CreateOutputOutputSentinelOneAiSiemTypedDict,
-        CreateOutputOutputPrometheusTypedDict,
-        CreateOutputOutputCriblLakeTypedDict,
-        CreateOutputOutputMskTypedDict,
-        CreateOutputOutputGoogleCloudStorageTypedDict,
         CreateOutputOutputOpenTelemetryTypedDict,
         CreateOutputOutputInfluxdbTypedDict,
+        CreateOutputOutputDatabricksTypedDict,
+        CreateOutputOutputSentinelOneAiSiemTypedDict,
+        CreateOutputOutputGoogleChronicleTypedDict,
+        CreateOutputOutputCriblLakeTypedDict,
+        CreateOutputOutputClickHouseTypedDict,
+        CreateOutputOutputMskTypedDict,
+        CreateOutputOutputGoogleCloudStorageTypedDict,
         CreateOutputOutputCloudflareR2TypedDict,
+        CreateOutputOutputMinioTypedDict,
         CreateOutputOutputSentinelTypedDict,
         CreateOutputOutputAzureBlobTypedDict,
-        CreateOutputOutputMinioTypedDict,
-        CreateOutputOutputClickHouseTypedDict,
         CreateOutputOutputSecurityLakeTypedDict,
         CreateOutputOutputGoogleCloudLoggingTypedDict,
         CreateOutputOutputWebhookTypedDict,
-        CreateOutputOutputDlS3TypedDict,
         CreateOutputOutputS3TypedDict,
+        CreateOutputOutputDlS3TypedDict,
         CreateOutputOutputAzureDataExplorerTypedDict,
         CreateOutputOutputGrafanaCloudUnionTypedDict,
     ],

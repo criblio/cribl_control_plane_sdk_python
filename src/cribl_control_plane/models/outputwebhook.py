@@ -8,8 +8,6 @@ from .itemstypeextrahttpheaders import (
     ItemsTypeExtraHTTPHeaders,
     ItemsTypeExtraHTTPHeadersTypedDict,
 )
-from .itemstypeoauthheaders import ItemsTypeOauthHeaders, ItemsTypeOauthHeadersTypedDict
-from .itemstypeoauthparams import ItemsTypeOauthParams, ItemsTypeOauthParamsTypedDict
 from .itemstyperesponseretrysettings import (
     ItemsTypeResponseRetrySettings,
     ItemsTypeResponseRetrySettingsTypedDict,
@@ -74,6 +72,36 @@ class OutputWebhookPqControlsTypedDict(TypedDict):
 
 class OutputWebhookPqControls(BaseModel):
     pass
+
+
+class OauthParamTypedDict(TypedDict):
+    name: str
+    r"""OAuth parameter name"""
+    value: str
+    r"""OAuth parameter value"""
+
+
+class OauthParam(BaseModel):
+    name: str
+    r"""OAuth parameter name"""
+
+    value: str
+    r"""OAuth parameter value"""
+
+
+class OauthHeaderTypedDict(TypedDict):
+    name: str
+    r"""OAuth header name"""
+    value: str
+    r"""OAuth header value"""
+
+
+class OauthHeader(BaseModel):
+    name: str
+    r"""OAuth header name"""
+
+    value: str
+    r"""OAuth header value"""
 
 
 class OutputWebhookURLTypedDict(TypedDict):
@@ -229,9 +257,9 @@ class OutputWebhookTypedDict(TypedDict):
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
     token_timeout_secs: NotRequired[float]
     r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
+    oauth_params: NotRequired[List[OauthParamTypedDict]]
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
+    oauth_headers: NotRequired[List[OauthHeaderTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     url: NotRequired[str]
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
@@ -504,12 +532,12 @@ class OutputWebhook(BaseModel):
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
+        Optional[List[OauthParam]], pydantic.Field(alias="oauthParams")
     ] = None
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
+        Optional[List[OauthHeader]], pydantic.Field(alias="oauthHeaders")
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 

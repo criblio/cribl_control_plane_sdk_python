@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 5e53ff1d19a7f557642f4d26efe568fa
-  docVersion: 4.17.0-alpha.1769023021190-8a20b6aa
-  speakeasyVersion: 1.690.0
-  generationVersion: 2.797.1
-  releaseVersion: 0.5.0rc31
-  configChecksum: fee5cdd0b15c22f6cf85d9a2d6b4890d
+  docChecksum: 25a634d8909f451d95cc8d4d58563115
+  docVersion: 4.17.0-alpha.1769107340736-3db72926
+  speakeasyVersion: 1.693.0
+  generationVersion: 2.798.0
+  releaseVersion: 0.5.0rc32
+  configChecksum: 7581b5474cfffabeda13b2672793b6b8
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 184f38e2-3145-4e62-8c15-cbbf5bc5c21a
-  pristine_commit_hash: f7858bc5e116d880e1e4ac73e0cfdee530caa437
-  pristine_tree_hash: 17b2831229f1cce89fc1a0a0b8d9b24ba2c0c59f
+  generation_id: 28471ad8-f4a1-4f88-ba01-b33eaa94f0e0
+  pristine_commit_hash: 65b8ddcfc8594f717099f7f43cfb9d7ecb47d474
+  pristine_tree_hash: 4a3e4f1971248a9f5bf973746db5c9fc704f2af2
 features:
   python:
     additionalDependencies: 1.0.0
@@ -35,7 +35,7 @@ features:
     nameOverrides: 3.0.1
     nullables: 1.0.2
     oauth2ClientCredentials: 2.1.1
-    openEnums: 1.0.2
+    openEnums: 1.0.3
     responseFormat: 1.0.1
     retries: 3.0.3
     sdkHooks: 1.2.1
@@ -136,12 +136,12 @@ trackedFiles:
     pristine_git_object: 7147bde4371efbd2fb7ffa83a87ae85b0156cb14
   docs/models/authenticationmethodcloudflarehec.md:
     id: 7538385b1adc
-    last_write_checksum: sha1:e2baaedb44dac4ea1bfb72c176a16805abeb12f4
-    pristine_git_object: f20e3fd724abc1c3be496ed444104d6205281938
+    last_write_checksum: sha1:e1c4cbeb0b1ebb216d98f155a4b78d409b48a804
+    pristine_git_object: b7ddc191adb1a65b6d17241b3a40c9fec48bca68
   docs/models/authenticationmethodcloudflarer2.md:
     id: 1581eb514cf2
-    last_write_checksum: sha1:2f48792c01e610a87b467934df18804825a5a094
-    pristine_git_object: b8045d7e5deb9fc4da04b2ebced79b4f7c541d2b
+    last_write_checksum: sha1:9f6eed5de6892dcf3b5fdc0579e049ebe816680f
+    pristine_git_object: 59fbd435ec86390c53ffb618a30b2109dd09ae1f
   docs/models/authenticationmethodedgeprometheus.md:
     id: 886f789d04ec
     last_write_checksum: sha1:93e21beaec5bde01b551b57f79028b8c20254cb8
@@ -224,8 +224,8 @@ trackedFiles:
     pristine_git_object: ab17040d82a97f78c26cef776e9652ebf85f33fe
   docs/models/authenticationtypeclickhouse.md:
     id: 9ad67d4f2d86
-    last_write_checksum: sha1:a952c82fc887efca91d6432be6d51aca4141e54a
-    pristine_git_object: 881d5cfb5eb1095659de7a70ab82de31ebcdc79e
+    last_write_checksum: sha1:1eabe0974ebe86440a24afb05d82c1265f7e4ad8
+    pristine_git_object: 2998358c90def1fc20bd58567e2c154faf07dfa8
   docs/models/authenticationtypedynatracehttp.md:
     id: c095f9cea269
     last_write_checksum: sha1:c91b60eac3b4df6c6cf9fb48a23019a49f76041b
@@ -236,28 +236,28 @@ trackedFiles:
     pristine_git_object: 2586ee1c596f82575d347c685c46c567c197822e
   docs/models/authenticationtypeinfluxdb.md:
     id: 4b8f6b934eb3
-    last_write_checksum: sha1:2a9f7481fef6c9d52c5b89450fdc20a8c97ad42c
-    pristine_git_object: 48c13074f97d77d0b7b6b955e7551224f7a396d9
+    last_write_checksum: sha1:3225607a559e13533c620d0a0488beb1409d01df
+    pristine_git_object: e46e8a5b5ac8110ec7fc25fef451fe5c5dcca654
   docs/models/authenticationtypeoptions.md:
     id: 76731dc5ea44
-    last_write_checksum: sha1:b1bb677242451420e6ca9261c34564232b423c82
-    pristine_git_object: a459378cdef733497e1343244deb8289dd978a32
+    last_write_checksum: sha1:f3e8403da8f3469292737a08ae8f7f804ac50e19
+    pristine_git_object: 06c27fea1af95e8dbbc4619437f1f1b52b95327b
   docs/models/authenticationtypeoptionslokiauth.md:
     id: 596152e580ac
-    last_write_checksum: sha1:f7e17ae907347158bced939f4390807749b70d3a
-    pristine_git_object: 3f2bef584a848c12f644a0b1371c6a324775bed2
+    last_write_checksum: sha1:39ff1cee0fee543ec61864ee6ea54f3e60e7a3b2
+    pristine_git_object: 7de47a5d58a32925d226cca84445ff5f43a122e0
   docs/models/authenticationtypeoptionsprometheusauth.md:
     id: cbdd142e2965
-    last_write_checksum: sha1:257cfa413c09ab60aa58697d0deb69603096cf99
-    pristine_git_object: b6177bec0873c042b39d1c71a20202b27850745e
+    last_write_checksum: sha1:6e695eefaf4b2d5f21bc1f091fd10214a26db2e3
+    pristine_git_object: 05dce6ef12ec348c02928fb0877312ed948ff985
   docs/models/authenticationtypeoptionsprometheusauth1.md:
     id: 753e33b05f96
     last_write_checksum: sha1:dcf9e24d4e18be05f2dca8f0c9f8dd02dc8ba64f
     pristine_git_object: 3c7e74e239e2ff9bdc3313b249a690e19b686717
   docs/models/authenticationtypesplunksearch.md:
     id: a208a59d28b5
-    last_write_checksum: sha1:f20291f62e2214db7cf485c5b35fa5a35120363d
-    pristine_git_object: e3525aba2aa796e56d9e32944ee909781d8f43d3
+    last_write_checksum: sha1:3ec75ca4785915d2decd86a41e83183d9b7b9211
+    pristine_git_object: 7f728599ad0416dad7aecc53a81b7195d98bd041
   docs/models/authenticationtypewebhook.md:
     id: "498852963903"
     last_write_checksum: sha1:1359403722a1ba44fe82f8cd7593cc161fb0105c
@@ -272,8 +272,8 @@ trackedFiles:
     pristine_git_object: a3930945b098e404ae9cc1d6f712c44027b0a048
   docs/models/authtokencloudflarehec.md:
     id: 98fbef3140d1
-    last_write_checksum: sha1:d537225b828f6cf5323ad3354bd4d6083e500dfe
-    pristine_git_object: e8e5326a5f6cfd60c1c914cbafefd79e95d1c9bf
+    last_write_checksum: sha1:d26367210167ca4fc1c956c8b430d1b4a60b5a0c
+    pristine_git_object: 23588efba6652ad74eccd3d85f4f0728a7edcc9e
   docs/models/authtokensext.md:
     id: aed9821d08bf
     last_write_checksum: sha1:2c926e093ba0eeaff79fc86fc88e96f466b8395b
@@ -1012,8 +1012,8 @@ trackedFiles:
     pristine_git_object: 5db415dbf10b3a867f675951ea52873963f9a481
   docs/models/createinputinputloki.md:
     id: d756b6dd0ccb
-    last_write_checksum: sha1:446295371406327d840ac324335ec02580e16131
-    pristine_git_object: 9249d4554e35956859aede8f87f4cb02f80127b5
+    last_write_checksum: sha1:5a33c2fa0d32bbc07269a26b125310e742d2c88c
+    pristine_git_object: 721876e33b134e5263e14fb2d45fd5ecd4304212
   docs/models/createinputinputmetrics.md:
     id: ecbeb2cf290f
     last_write_checksum: sha1:0311521fd9429a1727b7165ddb43d54813ffffd6
@@ -1044,16 +1044,16 @@ trackedFiles:
     pristine_git_object: 024a3d53672eed0cf3bf4a779c6500f7cf48703d
   docs/models/createinputinputopentelemetry.md:
     id: 7a0edfa30cc3
-    last_write_checksum: sha1:32847f4b1b16da51e0eca944e7f46df65cfcc154
-    pristine_git_object: bab80b7e684db67bada96491fc160dcd238ce1ad
+    last_write_checksum: sha1:b5a023bb891c0babd680c12d1a38e5a6c9a9b819
+    pristine_git_object: 9308ccdc241e4fb0701f4e730afda2c402864718
   docs/models/createinputinputprometheus.md:
     id: 646e34e21d66
     last_write_checksum: sha1:4c2f5e4896dd53cfae448f6ed14eea519ebdb5ee
     pristine_git_object: fa5c4838a56e7038f1bf3301d221137806b69672
   docs/models/createinputinputprometheusrw.md:
     id: e52eef6a03d6
-    last_write_checksum: sha1:64a6bc3b0d8fc2e700d83bf6b108c1cc0e105ddb
-    pristine_git_object: bc528bd1f156bfa861a4047877732cf9953d0e7b
+    last_write_checksum: sha1:ac5bf3458aae1a679452f9c5baa116ccc40ed9c4
+    pristine_git_object: 32a7ff4cb62af6281d2fdd4a7e51389bdf5c8ca1
   docs/models/createinputinputrawudp.md:
     id: 59725c2a1d3c
     last_write_checksum: sha1:c92492860e9d27c302accee57d105e9d6ca39840
@@ -1084,8 +1084,8 @@ trackedFiles:
     pristine_git_object: f9a11df683734a9ff2f02b4a76f520f6db718e2e
   docs/models/createinputinputsplunksearch.md:
     id: 175694c304ae
-    last_write_checksum: sha1:decdb387d6c9b98966272b443052168558dc8ef6
-    pristine_git_object: 07708323275b0b1a74b9607138f44e20d1789e38
+    last_write_checksum: sha1:0ed14054e06b007bcfd9f4ab7000613f09880774
+    pristine_git_object: 0f88c571aac67f59b47f5b9a1893cce886cfc058
   docs/models/createinputinputsqs.md:
     id: 4588e475bcac
     last_write_checksum: sha1:29a7eedc18571ba1cde2edf444e6fce4d2841454
@@ -1164,12 +1164,12 @@ trackedFiles:
     pristine_git_object: 420ebe8ae5e80e5d563dddbb5a8b9549f1602c1f
   docs/models/createinputlokiauth1.md:
     id: e4d9ff4f82d6
-    last_write_checksum: sha1:06dfae0008aa77270ad4ed1c77861280e961c227
-    pristine_git_object: 3c04fd7b6097a19a83e68943ec537c9f72f3a7de
+    last_write_checksum: sha1:c180d23fa21b0ee4147fa55a675cc6203cea4bbc
+    pristine_git_object: e87dd9037634d16be5619a1a7c887c47f04e704e
   docs/models/createinputlokiauth2.md:
     id: 79c820ccc8ca
-    last_write_checksum: sha1:e4cfe3a70161d64ec26191b0b09e34ff5b535901
-    pristine_git_object: aa075187194802b1ab3725044198fe74eac769ba
+    last_write_checksum: sha1:90c8d9be55b554aaeb4dbec7af34f18bd97f1bbc
+    pristine_git_object: 32e2efe29cb8bff50e2212033e2577bff519ea81
   docs/models/createinputmanagestate.md:
     id: 959f537dfb37
     last_write_checksum: sha1:d72b412301c4a6ee964447bd9fdbe51cd17054f9
@@ -1200,12 +1200,12 @@ trackedFiles:
     pristine_git_object: 13d1dd119044a5e31ee0cd03700a3f9bce2cd8ad
   docs/models/createinputprometheusauth1.md:
     id: 55ac17357316
-    last_write_checksum: sha1:2a56af4fbc0e32b92b1af9910b172f64deed7bae
-    pristine_git_object: 5e17240ae6c1f12bb317856f9dd1020ab19d35b3
+    last_write_checksum: sha1:929637be0158297b8d5c503e6844991098d8aecb
+    pristine_git_object: a46a4de0259c562dbc2a28c8a909d4ba90bb1dcf
   docs/models/createinputprometheusauth2.md:
     id: dd416629aca8
-    last_write_checksum: sha1:f8b4dcdaa1e8c762e9d24e45cca056fe68591931
-    pristine_git_object: bf450d90844f1ac95a0a36ef260d2b6acb57cc00
+    last_write_checksum: sha1:8e4ff8b121eddcdcb044ab1203a7d8f0b60e77d9
+    pristine_git_object: 4febe93c0893b1e301211472960c6411524bf5f0
   docs/models/createinputprotocol.md:
     id: 407dd79cf494
     last_write_checksum: sha1:c8b2d2b88faafba385c500c40b4f6c6557bb6be3
@@ -1614,6 +1614,14 @@ trackedFiles:
     id: 739e32dc75dd
     last_write_checksum: sha1:e1a5404150b3c5b3fd655f7b6775be8eb9d3f9b5
     pristine_git_object: 7dbf6b21b107e783b86ac67cc1d52f61e6cd444d
+  docs/models/createoutputoauthheader.md:
+    id: 41b57c07ecc9
+    last_write_checksum: sha1:35ee2ff942c696018af81b3fe2596a4d176aaaa3
+    pristine_git_object: 35fb0c2c089db370a48d89ce0c8ab7bf323601dd
+  docs/models/createoutputoauthparam.md:
+    id: 7bf662c96cac
+    last_write_checksum: sha1:b76f831884d1153c6f06c9a3842f846db34568d6
+    pristine_git_object: e56ceb24a6ea731c7f0f57c191b4716775f54e23
   docs/models/createoutputotlpversion.md:
     id: 91f4748a7123
     last_write_checksum: sha1:c243ff0149695e847931db8cf711ad03dbda4c42
@@ -1640,12 +1648,12 @@ trackedFiles:
     pristine_git_object: 3674f9c8b1c7cf634a587ae1d258434029e9e418
   docs/models/createoutputoutputclickhouse.md:
     id: b666def4fa91
-    last_write_checksum: sha1:94a3f1f2830cdd8dc616af28eae8e1c83d4ea1b5
-    pristine_git_object: 899374d4305aac77eeeadcdc900eba15c65b0547
+    last_write_checksum: sha1:9677e7e90399da165b23129b33d011297f5ac435
+    pristine_git_object: 7273c9bac4a496747461b234663021d9858ad7ad
   docs/models/createoutputoutputcloudflarer2.md:
     id: 4ee32170abc4
-    last_write_checksum: sha1:ed5087c2f675260a0426a0ff35d3903421c03ceb
-    pristine_git_object: 5c782fa43f6a915f69db3ae9dd8e52043fc9296b
+    last_write_checksum: sha1:ac01f1d4c1ea500423092bdf3b0b716cbe064fd0
+    pristine_git_object: 2e68a2047ba211d887680e322a533f49f88e57f1
   docs/models/createoutputoutputcloudwatch.md:
     id: 6839cb338310
     last_write_checksum: sha1:e17644e1ae34a2a342d84008ad1addc1531a9206
@@ -1784,8 +1792,8 @@ trackedFiles:
     pristine_git_object: e4e310d5b46d14fb6e677caabc7f914f043b67e4
   docs/models/createoutputoutputinfluxdb.md:
     id: b81b39b4580b
-    last_write_checksum: sha1:ec538341d52d79476de6d54e35cc6aa67798dea6
-    pristine_git_object: 18e6c839fa7bd9e676a14c7c05dc5ff49cd46f9d
+    last_write_checksum: sha1:1122e7552dbcd140100d26e1d5d24a0b4e6149b4
+    pristine_git_object: 5256bd9c7320f446108a3f10b517d7c8698d5015
   docs/models/createoutputoutputkafka.md:
     id: 79dd003443d1
     last_write_checksum: sha1:a169118669e30e3f71733c74a089e4757f5bf547
@@ -1824,12 +1832,12 @@ trackedFiles:
     pristine_git_object: 907622c260ef780d5f5a24d1f6394aa947f295c6
   docs/models/createoutputoutputopentelemetry.md:
     id: 2de451216b9b
-    last_write_checksum: sha1:5fd9b5b2a7c2986d234e6213ffab373b37c4b964
-    pristine_git_object: a09eb97f798a2bdb0bc0d74ffc71ce920ef90463
+    last_write_checksum: sha1:d472c82e671dd27838789053ab030c30060493d6
+    pristine_git_object: e690323c9c0e48f87da2c768aa7ff59b29664043
   docs/models/createoutputoutputprometheus.md:
     id: 3d0c0ee9e02d
-    last_write_checksum: sha1:9ff3e8b507e187d29577a356d2ebd332b3b9f833
-    pristine_git_object: a88282347441bb373b9f566f96d80f0a8f9ccec8
+    last_write_checksum: sha1:1911e386430e7c08a517d89191128105bc08e93e
+    pristine_git_object: 736f2682a7fc5fbe0d153797bad73788817a5082
   docs/models/createoutputoutputring.md:
     id: fea017a58dda
     last_write_checksum: sha1:2ca7cc7f446847d64bb075cfc8a8ff695d52ba23
@@ -1912,8 +1920,8 @@ trackedFiles:
     pristine_git_object: 6872e797e3541ad085dda665b2a2bf92b6ba824d
   docs/models/createoutputoutputwebhook.md:
     id: a86ffdb6aec0
-    last_write_checksum: sha1:82525ff159dc7d94a81e6fe9ac59c6a1841240fa
-    pristine_git_object: 2ffb3305b0a93f1a60db467ebbae587a76e86f86
+    last_write_checksum: sha1:d223e97d2d596344c76d0d0eba769bb9ce6ce522
+    pristine_git_object: cb56b16ae2e2d257f3e11c65308e79cfb1a2280f
   docs/models/createoutputoutputwizhec.md:
     id: ba48fd6bb3e7
     last_write_checksum: sha1:27f078366331da23c126aa63c2c809b9c9bc11b8
@@ -4664,12 +4672,12 @@ trackedFiles:
     pristine_git_object: a11aa816a4b05ec2421137757b67a70de430e6f4
   docs/models/inputcloudflarehecauthenticationmethod.md:
     id: f0448253c6f2
-    last_write_checksum: sha1:32e00b884574da883757af5510c0b07bee1a4d06
-    pristine_git_object: e420396583ca8206f4ae375cf86dc1ce7a39dd09
+    last_write_checksum: sha1:ebb8e15b4bd7d02ae6610d888436862583abc0b0
+    pristine_git_object: 89b06e4661c61e456351d72ae2e356095c276008
   docs/models/inputcloudflarehecauthtoken.md:
     id: ca8d2f929885
-    last_write_checksum: sha1:42f3732715f20dfbc4a8b9f95dbdd4c6012f34f1
-    pristine_git_object: ae1db03b46220913c9a1ada582c18695feab982e
+    last_write_checksum: sha1:52bc10bd679233cf62a92d8e063b398dddf63284
+    pristine_git_object: f2e611e298092c1a54dc2169b89783ff62aa9983
   docs/models/inputcloudflarehectype.md:
     id: 28a284e4088f
     last_write_checksum: sha1:2f9fa1f073b9496799bfb191be2d04b5186d9422
@@ -4940,8 +4948,8 @@ trackedFiles:
     pristine_git_object: 3738e0d2cf125eb767fff8cdaedd590795b56670
   docs/models/inputloki.md:
     id: 50b76106bb38
-    last_write_checksum: sha1:f04cc28040acf30524857c2b9f5fd235a987611f
-    pristine_git_object: daebe0fcfdcc32cc9614f2ca0fad6f202f1e018f
+    last_write_checksum: sha1:1c6107027460a72d392b0d76a5e3539792270b1a
+    pristine_git_object: b1132fdb3cf4d50991f802653d75a9f05459348e
   docs/models/inputlokitype.md:
     id: 035b5467ffd6
     last_write_checksum: sha1:e5929b920f8ea5017c1a296be5bb4e8b29d75e0e
@@ -5020,8 +5028,8 @@ trackedFiles:
     pristine_git_object: 3e92fa554045f4765b156c59e29a11349e65823c
   docs/models/inputopentelemetry.md:
     id: 1776a4c2a382
-    last_write_checksum: sha1:4ebcabb056c30c938fd8f4bb1c6cf5a84c99f697
-    pristine_git_object: 7e5b0ab3ca3ba8e0068a3348661ae320b5ae044a
+    last_write_checksum: sha1:c60aeac66847ad027a3d482c6df5b0cac951c867
+    pristine_git_object: a02bea720e9e8062665181d76655fdff91b6f44d
   docs/models/inputopentelemetryotlpversion.md:
     id: 552338309ce7
     last_write_checksum: sha1:83992324f07f3269c01cf5060985738ce280d788
@@ -5048,8 +5056,8 @@ trackedFiles:
     pristine_git_object: 3014f71fdfa561b7455da5157927fc2f28245c7c
   docs/models/inputprometheusrw.md:
     id: f474f5029541
-    last_write_checksum: sha1:d792d9407a0c7e42f098fa647e7a76e32e32c999
-    pristine_git_object: 964f2f3190c9ca15ecf2d4683e1c1578923784ac
+    last_write_checksum: sha1:74d0b4316463a1217c0a4f01fb4dbbca710124d6
+    pristine_git_object: 398d99a3d94dd19b2ecaae3a9714a549cbc2f569
   docs/models/inputprometheusrwtype.md:
     id: f1d8f5b388b9
     last_write_checksum: sha1:bd1ff79f43876ed1faaf47c41a38d73ec848d7f5
@@ -5128,12 +5136,12 @@ trackedFiles:
     pristine_git_object: dbf0ccf86e0d39f858d2ca73420f444728477a18
   docs/models/inputsplunksearch.md:
     id: ad1250122a52
-    last_write_checksum: sha1:f4ead4932b879850005b9a9e52d595608c7ba918
-    pristine_git_object: f7ebf74aabfa989a51ac016588ecfd0a9a8f822c
+    last_write_checksum: sha1:ef9683396d8c14338273f1de301499f14edb90ab
+    pristine_git_object: 2e497c9a6341f7bc81ea38619adf2510249b68a4
   docs/models/inputsplunksearchauthenticationtype.md:
     id: 13b9e53ff6d5
-    last_write_checksum: sha1:c3aab2cd66b1570284f7015b408efee03d9074a1
-    pristine_git_object: 8d376c295d1908d2f5d0876aa79b7007fb71b527
+    last_write_checksum: sha1:5541eb177e3cc4bdcc0014d2147096bedc103905
+    pristine_git_object: 2ff383e55d5abe1ac860d10fcd3cf24dd99e34c8
   docs/models/inputsplunksearchloglevel.md:
     id: f7d8be542809
     last_write_checksum: sha1:aadd3c89c40366df24db1c8c9bf8631a8c16155f
@@ -5458,14 +5466,6 @@ trackedFiles:
     id: e368e1f062ff
     last_write_checksum: sha1:76112288c37e2d3d31854bd2d5d652937c114b95
     pristine_git_object: 39873328b3ab3fe5b340f5f7cc6ae1d0832f3d34
-  docs/models/itemstypeoauthheaders.md:
-    id: 0e2236d2e03d
-    last_write_checksum: sha1:493d3fe8cc40b4546cfda3eac7a9c8c060091c7e
-    pristine_git_object: 9d004f64af614f9d9b1c73e1ac71c9d9dace5cc6
-  docs/models/itemstypeoauthparams.md:
-    id: faccac12aebf
-    last_write_checksum: sha1:a488059bf4cb023b7d8f450272d9faf7612a50ff
-    pristine_git_object: 31650dcc757beb538d2216a78bff353aa4ca4a6e
   docs/models/itemstypepoliciesitemstemplatetargetpairs.md:
     id: 2ea42aedc46a
     last_write_checksum: sha1:09c591293e20fec1b14da1ee0121021125451599
@@ -5604,12 +5604,12 @@ trackedFiles:
     pristine_git_object: 4a11931a51fda88f7f33aaf92b125e28298beda5
   docs/models/lokiauth1.md:
     id: 0e4e4bc19179
-    last_write_checksum: sha1:b95c6ad966b15e18db76624478080a992676305b
-    pristine_git_object: d6d33a37baa020e41f15c88f820882fd25e9da04
+    last_write_checksum: sha1:a7d666822599b0c7b466e91c3838dbc7c209ca35
+    pristine_git_object: 097ab88c22d86d0240df76350abf38a44541a863
   docs/models/lokiauth2.md:
     id: 81c8609730f9
-    last_write_checksum: sha1:996d0880cfba6c5acc5278d5027737dde00dcd6a
-    pristine_git_object: 6771209f8ec188ed044f2c024eba0ab84d6c0549
+    last_write_checksum: sha1:163bb4de50ece2aa565a6c4305e2bedc31d7d6f0
+    pristine_git_object: 71fa70abd9f49c5f7b92d8f70f2fd4a17b557a22
   docs/models/managestate.md:
     id: 5bbc782db1e0
     last_write_checksum: sha1:0a14bf258198c88f20dd4b58ff5879463cc917c1
@@ -5766,6 +5766,14 @@ trackedFiles:
     id: fa93e572471b
     last_write_checksum: sha1:86b08a901363397e88fd1fe36abfdb6af5b2daf1
     pristine_git_object: 3772c80b0ef3295214aa50db46742d192099f78e
+  docs/models/oauthheader.md:
+    id: 713ca567c756
+    last_write_checksum: sha1:7ac0acd866226592509a1e3e0bfb616bba150780
+    pristine_git_object: 0e51104ad00c5c343b3ac239bfdc606eb2d2e6cb
+  docs/models/oauthparam.md:
+    id: a47d3613658d
+    last_write_checksum: sha1:26ed86c3d952f7b3cdd989c848b990915bec53b7
+    pristine_git_object: 984ee30c63bb4b357c257335ce44833029d2aa53
   docs/models/objectacloptions.md:
     id: 7341215eff3d
     last_write_checksum: sha1:03e95b6c8a557d2d37df02391109663d1720336f
@@ -5884,12 +5892,12 @@ trackedFiles:
     pristine_git_object: f453a20eddf48ee4756f46019e553d54cbbdefaf
   docs/models/outputclickhouse.md:
     id: 819da4daa8f8
-    last_write_checksum: sha1:61029eb715d7f7b093f3e38e5d848d545194a225
-    pristine_git_object: 4373baa8e33bb50333aba31a9a1ddd2cfe81e1e9
+    last_write_checksum: sha1:ac4d031ca15ffb25f25bbdcbe6d3ecef785f6ff2
+    pristine_git_object: 8ef393bca8a8b5d11c1ddcbf46f3eb80d7da4787
   docs/models/outputclickhouseauthenticationtype.md:
     id: e8c44107cc9b
-    last_write_checksum: sha1:d7428fc0aeeeed16a6cd2a7f7bbb991281134989
-    pristine_git_object: c7f4c427431cfff03122ee1302ef2d7c160cf4af
+    last_write_checksum: sha1:fbf9b68a189f2864dd9771c1d370bf771ffab6d6
+    pristine_git_object: cf87d8d9a06ea560c48c4fb8e97725e2eaf1c045
   docs/models/outputclickhouseformat.md:
     id: c052b34f9fad
     last_write_checksum: sha1:37acc6e779a9f1d5499fd0b50f222e1ca9359258
@@ -5904,12 +5912,12 @@ trackedFiles:
     pristine_git_object: cf349aff2333607f5b9cbcaa7a9ba1c499066816
   docs/models/outputcloudflarer2.md:
     id: f2abd18362ed
-    last_write_checksum: sha1:a9357fd70dd5b825133b180f42146a3526821106
-    pristine_git_object: 2235041d5029d72d383f4e64a006c350c8c058d1
+    last_write_checksum: sha1:021197efbf04188566040db134f5e23a8ee2e61d
+    pristine_git_object: 331f3c8a7c7d7539deaf368a11b5a1ec175b53e8
   docs/models/outputcloudflarer2authenticationmethod.md:
     id: e8ca9320c31c
-    last_write_checksum: sha1:25c702211f82b978d8f05eaf6be195df11026180
-    pristine_git_object: 5cc40416da4b1aeb6160d932d249fa82b54e6e64
+    last_write_checksum: sha1:4e6adb63d9837f045e9e76fbda95e3620494b778
+    pristine_git_object: 660ffa2a26b7ff211d87785763b38fec35c25efe
   docs/models/outputcloudflarer2type.md:
     id: 100e785c4260
     last_write_checksum: sha1:5d94a7541617c3afc3143c8607248caa5a9184e8
@@ -6272,12 +6280,12 @@ trackedFiles:
     pristine_git_object: ab5a17a380cf8bbbec7ea1a32a0eb2c9d9d876b4
   docs/models/outputinfluxdb.md:
     id: bfc39c854c06
-    last_write_checksum: sha1:161f49adc65eee156ec2b4c051da20806d39aaac
-    pristine_git_object: 209de9434c0df72c451959ece9b8e4bd4a5aa4be
+    last_write_checksum: sha1:486b8b6ca738b8267fa5ef271a4dcac13c5f2af6
+    pristine_git_object: 95fc923a1a101c4dd0232e02c39fa03d1994edbd
   docs/models/outputinfluxdbauthenticationtype.md:
     id: 9c612d5de117
-    last_write_checksum: sha1:b3e4ae676901177e7ea3fcd1209718a4c0eeec35
-    pristine_git_object: 01fe7229dc769b00fe239fc8d5bbb88b29e6bb26
+    last_write_checksum: sha1:fcf79fdc63a4ad6d61c8f23f1e1aed4ae1ea652e
+    pristine_git_object: f41e8f79dd9d85a83e58557b2c4df8b4b32c2d36
   docs/models/outputinfluxdbpqcontrols.md:
     id: 2a356a81908b
     last_write_checksum: sha1:ddc502a849dc24842c4aedde9e68aa7f0cdb4906
@@ -6408,8 +6416,8 @@ trackedFiles:
     pristine_git_object: a8682aa3f0e9cd7bc83943ecd8962874a0db55b5
   docs/models/outputopentelemetry.md:
     id: 6263ff05f7c5
-    last_write_checksum: sha1:6ccd5911587f6fb946254773ad76db9a2e6ea1be
-    pristine_git_object: a2b6eae40fcc1b9bc3a25b2e832f258e2bc49dc2
+    last_write_checksum: sha1:b8d26ca3b00bb45bb63581bdcdbc233e62278c89
+    pristine_git_object: c0f86cfc94c2b24ceed31474ffb2ab5494f980ca
   docs/models/outputopentelemetryotlpversion.md:
     id: 13ad5627fa3d
     last_write_checksum: sha1:9c99f3b35b899873d1fd93e7b72eb84fdfd455f4
@@ -6424,8 +6432,8 @@ trackedFiles:
     pristine_git_object: 462f1118e07c4c814845f2d53c11c2c6d218ac9a
   docs/models/outputprometheus.md:
     id: f60f2df44715
-    last_write_checksum: sha1:629ec0f08da3419cbfce38a78331ee117b855491
-    pristine_git_object: c80a3d9c381a2a3f83f0a2535d3a2d7999a3edb8
+    last_write_checksum: sha1:bc52c7208ae5ee3696b05d0702fd60ef2f10ad8c
+    pristine_git_object: 85205f6fb9772bed9181822990c354109f7136fb
   docs/models/outputprometheuspqcontrols.md:
     id: e877af7a6378
     last_write_checksum: sha1:f93901a3029eb1990f832516dcda4e214a392927
@@ -6720,8 +6728,8 @@ trackedFiles:
     pristine_git_object: b539127d207fde7adf6488e6364a22856690d34c
   docs/models/outputwebhook.md:
     id: 87138b3f4d41
-    last_write_checksum: sha1:ab104ccc3ccb36831d80a7166a237d17b2b62b03
-    pristine_git_object: 22b03f023c3de7c2259de2b791dfa75a4b2deb7d
+    last_write_checksum: sha1:2b3dbc4c74efbf3250975bcde8b030e85ef2f4e9
+    pristine_git_object: 794dfca1da056489c07609fbb222b2abc851d247
   docs/models/outputwebhookauthenticationtype.md:
     id: 1285629e2ad1
     last_write_checksum: sha1:07ee43b0e4ce54ce414d71f747a2f9048e0ea35b
@@ -7768,12 +7776,12 @@ trackedFiles:
     pristine_git_object: 39f2600b6bd952331690fb9a0696ea8eeaf0628f
   docs/models/prometheusauth1.md:
     id: 9c7e923432f3
-    last_write_checksum: sha1:408ac94f52e55df7dd24bb5ec570eeaf94b35358
-    pristine_git_object: 5b7bcf1f0880dbe8c605c69d2ebd39f2e21ec2ae
+    last_write_checksum: sha1:9d9143461397613289d6d61adffbac0678027675
+    pristine_git_object: 3f14ccc986834ca16a4f32d35df05ab94f95d46d
   docs/models/prometheusauth2.md:
     id: d7ec1ebe8766
-    last_write_checksum: sha1:5dfa4483bdbab0590fd2baac3fb1b9c474b2ba9b
-    pristine_git_object: 057b39c668d71477f5d0c2a3e4e070e69c551f26
+    last_write_checksum: sha1:d02a719003488c866a151936f4d80079ab3617ee
+    pristine_git_object: a52b936c564a94f3ec1993071a265d3a7e80a765
   docs/models/prometheusauthtype.md:
     id: d123bd858095
     last_write_checksum: sha1:ac4b42409d91094b25c3cc94228c7c768e612d72
@@ -10168,8 +10176,8 @@ trackedFiles:
     pristine_git_object: b544c0672932455667932931aee261eaaff6776b
   docs/models/routeconf.md:
     id: 6b5e005c057d
-    last_write_checksum: sha1:818b1465e8c134603790fe693a341a01cb4011e0
-    pristine_git_object: 999904006b5c60a45fb960791531e1ef94b47587
+    last_write_checksum: sha1:17a4b30cbf1b755190ed8998be3c8b912f2eed40
+    pristine_git_object: 1a3a8075037a435ad545147965a7d4d197035426
   docs/models/routes.md:
     id: 7b56d6da5562
     last_write_checksum: sha1:80e36eee47239b41aeeb10a591e1b1948bf27bb3
@@ -10786,6 +10794,10 @@ trackedFiles:
     id: 5c0836d4405b
     last_write_checksum: sha1:c72a9d2d54cf5d83788050530d7200eec76c9004
     pristine_git_object: 7457253325102cd09cbe0e0161c9170493b1465e
+  docs/models/targetcontext.md:
+    id: 7e6866f72ecf
+    last_write_checksum: sha1:1fd52bd913b2d3d3fecfb2c42c4018ffa022bbf9
+    pristine_git_object: 6952e3b9a9f5ca286faf49c39cb0abff0e006e44
   docs/models/teamaccesscontrollist.md:
     id: 6013dc3b0764
     last_write_checksum: sha1:65d7faddcf6f57a9cf4bb8fe0bfc155589185091
@@ -11088,8 +11100,8 @@ trackedFiles:
     pristine_git_object: 134cde206e1123617da7f5e82cdd8b0b96f54f9e
   docs/sdks/routessdk/README.md:
     id: 7c151891b0a4
-    last_write_checksum: sha1:898d93160b849df4af7910f89c8aa1ea6a68363b
-    pristine_git_object: b2c9b9d2fadef4f2a9e2285a73f3568aaa35b094
+    last_write_checksum: sha1:f985c7384b5c9933088b29b154936302acb71d01
+    pristine_git_object: bef65580214958b064084a4ed9b91ae3f932eb62
   docs/sdks/samples/README.md:
     id: 2b3e67e9f9a5
     last_write_checksum: sha1:a53acb0d2735404448c545e76abe3803bd43b93d
@@ -11132,8 +11144,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:e6e7f7c6964b9c1752c6d1e74db9b95ab39bb34e
-    pristine_git_object: 76bfe7f31510eb26e7dd68e66722bdb86c27bdf5
+    last_write_checksum: sha1:9269d92cfa457fca9fce3eb8fbc2424fd280b9a5
+    pristine_git_object: ba42aa2bd36d454b439b7d4e7867a50558f48f58
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -11164,8 +11176,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:12ef974cd5989233b3b9b247d9b9b63eb6906c53
-    pristine_git_object: cb39361180f32862d541ef14086117322fdca53b
+    last_write_checksum: sha1:af7d8bd70f55a7cb0ad0385c12b3d7b833060198
+    pristine_git_object: 89cb959c415a0d637356840dbbc57b7b83254610
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -11268,8 +11280,8 @@ trackedFiles:
     pristine_git_object: c0d118580fd3166b17ca06888733605534e83905
   src/cribl_control_plane/models/__init__.py:
     id: 558fbe1bf6ca
-    last_write_checksum: sha1:e44d55291b591a49fd572ace3022bbddd05a24a4
-    pristine_git_object: 26585432b908b3e6098654ab75e0417da8d4708e
+    last_write_checksum: sha1:4a759e03c2ca6e1004f9fb1a3c71253514a739cd
+    pristine_git_object: fb42c293f88c4578f15b202681d40d2b9c5fb923
   src/cribl_control_plane/models/acknowledgmentsoptions.py:
     id: 2537877f09eb
     last_write_checksum: sha1:4d96487823456aeba81ac18813b05570968697e3
@@ -11344,16 +11356,16 @@ trackedFiles:
     pristine_git_object: 65feb51415f4574b8e0fd620b9728b5236ce7bc9
   src/cribl_control_plane/models/authenticationtypeoptions.py:
     id: c6fe6815ec33
-    last_write_checksum: sha1:695c1f9da58a8b447cf610326963b2426c137754
-    pristine_git_object: ed9279e678d85a6b208be3d959f9d3d58264b6d8
+    last_write_checksum: sha1:d91dc643eb104d4b1b8633cd793b24acb68f4db9
+    pristine_git_object: 43e118be8bfef4cbaf474566d2864548dd349837
   src/cribl_control_plane/models/authenticationtypeoptionslokiauth.py:
     id: f6282d494250
-    last_write_checksum: sha1:65a029be31cadd68a35802890673479619a03fd7
-    pristine_git_object: fd99aa4065513c5408b52e9743eb824f76a3cfee
+    last_write_checksum: sha1:0b6b38079f9488742e85262fa467083ebe3b154b
+    pristine_git_object: d407e40c6c0e7108d95562c80f2d3e24fbb9d652
   src/cribl_control_plane/models/authenticationtypeoptionsprometheusauth.py:
     id: dd65998cd0ea
-    last_write_checksum: sha1:afff51e90f51d48604e253f43d5dc715bf6a2185
-    pristine_git_object: 20603e7c2a07b05cfd8f7e33790fb910c9899c57
+    last_write_checksum: sha1:569c7473c99f1903d70bf9218f4a318a9ffdace6
+    pristine_git_object: c1f4f3bd3dfedf689234271cc8e281ab9d6c97c7
   src/cribl_control_plane/models/authenticationtypeoptionsprometheusauth1.py:
     id: f811beffa24a
     last_write_checksum: sha1:2bcf43874d0c07c7d44d16ff415e7a0100b943f2
@@ -11668,12 +11680,12 @@ trackedFiles:
     pristine_git_object: 2c42358e12e602d17ab6f2ab622667d4de713ab3
   src/cribl_control_plane/models/createinputop.py:
     id: a1b539ed25c3
-    last_write_checksum: sha1:61a705d59d54f34d33883d4301bd6bbee645bb58
-    pristine_git_object: f26901a0e9240b77c9747f43310c18c3a95fd877
+    last_write_checksum: sha1:437155e16abb1ba4136ba883a06042fe2649092f
+    pristine_git_object: 89206e4312a70a7d125c55ff8669da4fe9f0fe5e
   src/cribl_control_plane/models/createoutputop.py:
     id: dd9442d8fc8c
-    last_write_checksum: sha1:38aa372dd644cdb0eebeb9dccf67efaab3050799
-    pristine_git_object: 70f3121e28912196e2d8089252d1adf571fae21d
+    last_write_checksum: sha1:83d6494c01bd899321635cd56c7d16c99914860f
+    pristine_git_object: 62fd7d576399bf806c4dc1802f380a94b4453122
   src/cribl_control_plane/models/createoutputtestbyidop.py:
     id: 884e2bc55e79
     last_write_checksum: sha1:92b15e137c7108df0ab6d6f4982c3e460a193f66
@@ -12440,8 +12452,8 @@ trackedFiles:
     pristine_git_object: 8c46b169583cab4fa7c1b946158e63a2adfdf33c
   src/cribl_control_plane/models/input.py:
     id: 6830a15033b0
-    last_write_checksum: sha1:6883ce81569ac44a412d7fd51a52c5eb0e2236c3
-    pristine_git_object: 22aed20893d72afe3579e6493284c762cf49d709
+    last_write_checksum: sha1:6a1dacc08f8343076c99f5c26907f836dc21bf0f
+    pristine_git_object: 3e05887d24b8a18c63f53c0984d845967175014e
   src/cribl_control_plane/models/inputappscope.py:
     id: 07e2d02b4da5
     last_write_checksum: sha1:e5259bbd34f7531552924af92fa29f31638007f1
@@ -12452,8 +12464,8 @@ trackedFiles:
     pristine_git_object: a3083aa9663a15003e4e1fad64f1bc7dfa246849
   src/cribl_control_plane/models/inputcloudflarehec.py:
     id: 6e9ba645a945
-    last_write_checksum: sha1:ed764d4edf05f680dc5a5c691a09c4c646c396de
-    pristine_git_object: 6af400d44facc956cfb6733262a77b534b380885
+    last_write_checksum: sha1:f53f95316a4ff63edb83f8c4f5b346bfe1b4c2d8
+    pristine_git_object: 633cfb9f78b88922ef15b42daf88b109d7feed24
   src/cribl_control_plane/models/inputcollection.py:
     id: 7c173707e9d4
     last_write_checksum: sha1:74cfa8e3fb597c98a3eec199a136a198092c24e6
@@ -12524,8 +12536,8 @@ trackedFiles:
     pristine_git_object: f6783c1de949de95b4102a701aac2c597636fb3b
   src/cribl_control_plane/models/inputgrafana_union.py:
     id: 4104c4be84b0
-    last_write_checksum: sha1:65b271c4e4109b4f6a60465668922b73a09b461f
-    pristine_git_object: b5c65c7a3d4cd7c09dcdce0a5f39faf9379f46fd
+    last_write_checksum: sha1:1173426b3bf7d15cf84b1cba4d0603c5593e8d8a
+    pristine_git_object: 8d04710f0d5c53cf145fd3b16e0c16d32f0a564d
   src/cribl_control_plane/models/inputhttp.py:
     id: 153617f00770
     last_write_checksum: sha1:1fce1980b4cdc98d9e68e5f022a6924fee4fa026
@@ -12560,8 +12572,8 @@ trackedFiles:
     pristine_git_object: c27a5a2e1afce79ea9baefa6022751b6bc6c3f9c
   src/cribl_control_plane/models/inputloki.py:
     id: 6950b09f6f57
-    last_write_checksum: sha1:196c753844af6652380f8ade36c991d2551dfe82
-    pristine_git_object: fd94b49a90269cfcd41919b071a831ff42c22d8e
+    last_write_checksum: sha1:1bd1db2fb203f93f1d7568416e799b0320b7babf
+    pristine_git_object: 66c50edc2925f7b5888730e2b61435a13a780726
   src/cribl_control_plane/models/inputmetrics.py:
     id: 2945f4e01c11
     last_write_checksum: sha1:2ee6a1eadf3a11523bc9349b3a51e47d50249e13
@@ -12592,16 +12604,16 @@ trackedFiles:
     pristine_git_object: 7aa7752086d8a195af7575d7392fa0a79adb7c34
   src/cribl_control_plane/models/inputopentelemetry.py:
     id: a8afc2ad4110
-    last_write_checksum: sha1:15a624ff6ffb2b4dd7f7ba2cd34107af714f27ca
-    pristine_git_object: 7df9f85da8f28636a4d7b701c5d32c30e0e50780
+    last_write_checksum: sha1:2b6717a220e1cd625558ccd41f83af401bb2a3f6
+    pristine_git_object: c2b389b185524f8fa684f3749addfb9638705bf3
   src/cribl_control_plane/models/inputprometheus.py:
     id: d0488d02ed63
     last_write_checksum: sha1:8584560ae7b395fc4684173cc6e4ff893093ee29
     pristine_git_object: 904d02ca8d32ee759e845124cb2496b503d49a4c
   src/cribl_control_plane/models/inputprometheusrw.py:
     id: e25adc5224af
-    last_write_checksum: sha1:a4f3ac6631913865740c1171446438fc326ede7f
-    pristine_git_object: 3633ba425aecf8892f15f110bd9727743e805f44
+    last_write_checksum: sha1:1894ffa8fbecb875ff3c2b7a5a23089fce4651aa
+    pristine_git_object: f0dc67ae3af53a5c3ebb4ca54e88da883a41ff4f
   src/cribl_control_plane/models/inputrawudp.py:
     id: 392ec275ebd9
     last_write_checksum: sha1:52be4cfa497c971ff1770b77f018d0f34cd4d818
@@ -12632,8 +12644,8 @@ trackedFiles:
     pristine_git_object: 79dcf8e1a08b31498ef068bfd93f427849dbf172
   src/cribl_control_plane/models/inputsplunksearch.py:
     id: "377828952934"
-    last_write_checksum: sha1:69fc7700ee870dfaa2bcd95820e360e7c94e635b
-    pristine_git_object: fed4802a732c28f222f81715872e62458d7318de
+    last_write_checksum: sha1:94f7813831f1e83a7678bc6b6ce3cdcae8991910
+    pristine_git_object: 2f244974680d2c3d17f46e88ccfe89e9ce35180a
   src/cribl_control_plane/models/inputsqs.py:
     id: 9f59e52eaac0
     last_write_checksum: sha1:76e5bb8574e6500533112d8664f096ac6ccac9cf
@@ -12738,14 +12750,6 @@ trackedFiles:
     id: 1156dd981cc8
     last_write_checksum: sha1:e26d8cb2a29c524a0ef64e98aaf37f7f5aa45116
     pristine_git_object: ae0c3344ef277906145fb7f890c80f4c06354699
-  src/cribl_control_plane/models/itemstypeoauthheaders.py:
-    id: 94bb57d9dd37
-    last_write_checksum: sha1:67f116dac911b8b5fa935204bf23dd2790e66c0a
-    pristine_git_object: 7c1da3a62b5a09926c4b84f7d422cdb572c11919
-  src/cribl_control_plane/models/itemstypeoauthparams.py:
-    id: 5dd1c69c61e8
-    last_write_checksum: sha1:7f0738a72f17d03066886cfc31aae0258fd508ff
-    pristine_git_object: 482dbb7d394a828da57d00471b7b77e2a77a1ecb
   src/cribl_control_plane/models/itemstypepoliciesitemstemplatetargetpairs.py:
     id: e64f9eeedff1
     last_write_checksum: sha1:ed67252d9b83ca26a651e6a1a1d257ce2bb2be76
@@ -12944,8 +12948,8 @@ trackedFiles:
     pristine_git_object: 26306c8a5a9ef4ae9dbfb2bfa8f24752c71f4ab1
   src/cribl_control_plane/models/output.py:
     id: f4d9666b7d9f
-    last_write_checksum: sha1:f89b4f01b497b7cdc0feed7ca260f50fe0d0caf4
-    pristine_git_object: 78155d7a17f1bccebde6be634fd96f7fb8e399c3
+    last_write_checksum: sha1:b3d68928d5274a091023de6b22e5e9224fd990dc
+    pristine_git_object: 41388cbbbbc29f18a06b70d9083e3e0ea59387d5
   src/cribl_control_plane/models/outputazureblob.py:
     id: 11d57ae340d9
     last_write_checksum: sha1:f402183f25e3a45a4eba7fa1d9468b6487cc2482
@@ -12968,12 +12972,12 @@ trackedFiles:
     pristine_git_object: 4e3730111622b47066b1b97f704e046152e4ec8f
   src/cribl_control_plane/models/outputclickhouse.py:
     id: e761b8dd45b4
-    last_write_checksum: sha1:b35dd055a09e3457a20fdee35f1fb3669764e28a
-    pristine_git_object: a658d3dfdfbbd9bc6a37ebc645d9a19308986ca5
+    last_write_checksum: sha1:3f42aca40e213b9a9f7f2df83318709ffe3393ab
+    pristine_git_object: 921e84c176776842b1df20628bd6bbeae40edfd2
   src/cribl_control_plane/models/outputcloudflarer2.py:
     id: 97ff5be2be1a
-    last_write_checksum: sha1:186ff9e745e8ab9aecee5116a68f60051b12a455
-    pristine_git_object: a28278925fb1f76522285848865b7acb53b6b70b
+    last_write_checksum: sha1:798bd2d8ba1c66bcb1320ff10fac77ea925a9d1c
+    pristine_git_object: 4a9b7a212fd29a04f47cf7b302e4e6d8b4c840dc
   src/cribl_control_plane/models/outputcloudwatch.py:
     id: "325994702096"
     last_write_checksum: sha1:c4aeffd318cf9d5f349087fa3788e84a91a9cd34
@@ -13088,8 +13092,8 @@ trackedFiles:
     pristine_git_object: 423d68c434e6961ee34e2b45c141d9a278d37e5b
   src/cribl_control_plane/models/outputinfluxdb.py:
     id: 8308228928ed
-    last_write_checksum: sha1:8ce365dac7720294376f81eb72ef5b1d5ca0bb24
-    pristine_git_object: 5b7563da17386b85701c578da6e16947270360d5
+    last_write_checksum: sha1:ccb588e435e67cbd401a635dbf42727ab6da5b00
+    pristine_git_object: f47dad377043e3b8bd4417a197333842741ec5b9
   src/cribl_control_plane/models/outputkafka.py:
     id: 202570254d42
     last_write_checksum: sha1:7bea424a263aeb7c70dd930545ab1bfd6ff18163
@@ -13132,12 +13136,12 @@ trackedFiles:
     pristine_git_object: 94d71649c737a1ea67ffd9768e5389e63b4d9b50
   src/cribl_control_plane/models/outputopentelemetry.py:
     id: bab5ab95ae20
-    last_write_checksum: sha1:e2feb6acf31a60324d58f5efea71f134a55276e4
-    pristine_git_object: fef6aa249e382c940ccd50af5b4961eac1623075
+    last_write_checksum: sha1:9fc82255107038bee907e5a5534ce00a4c2cb939
+    pristine_git_object: 1740f84accb3f3832756ead41210cc083a9f8c8d
   src/cribl_control_plane/models/outputprometheus.py:
     id: 72d2d569cf4a
-    last_write_checksum: sha1:32eaab9db1a74c8d5c5fde1b8d7c8f4de5e31bc1
-    pristine_git_object: 84f7172b9642aaa26abacfb5b3be6a82aea48741
+    last_write_checksum: sha1:6b050d4b910ecfbb5b2f1ae49c55562c4d672153
+    pristine_git_object: 56d415f14803534cae33e9f49f9152aabbb6d430
   src/cribl_control_plane/models/outputring.py:
     id: 38852fbbc850
     last_write_checksum: sha1:68f84021f529fc83d7e21a9da8838b8b46842b11
@@ -13232,8 +13236,8 @@ trackedFiles:
     pristine_git_object: d09bf2ac0beec4ebc137bce07be1cce88b373855
   src/cribl_control_plane/models/outputwebhook.py:
     id: 02ef584af2cd
-    last_write_checksum: sha1:f31f6f38349f44b2d0699a01458c5caa9e807246
-    pristine_git_object: f809f43c8209c60456dfc35489c25768428cd916
+    last_write_checksum: sha1:385a4eb045cd57aa49623dc59137582476812b31
+    pristine_git_object: bf6ff11ea6c57e99583290ba767c2ec04e25e6c0
   src/cribl_control_plane/models/outputwizhec.py:
     id: f0a40a7a4458
     last_write_checksum: sha1:55180f2972158b250025f0261a70401a3fe3de40
@@ -13644,8 +13648,8 @@ trackedFiles:
     pristine_git_object: ad09a6b20769bdf3b668d55d24f920e0fad1c20e
   src/cribl_control_plane/models/routeconf.py:
     id: 99f8023759b2
-    last_write_checksum: sha1:7ff3156594ea8b7e86addec385a7a4534b83fe86
-    pristine_git_object: 3496cd99fde8561e0b59fac33bc937a17ea7a720
+    last_write_checksum: sha1:297e1a3a26e9f6c5eeea5a5d915fc9109a3a3036
+    pristine_git_object: 0ac76043c02e7e47eb3e3b282c0df11437fd761a
   src/cribl_control_plane/models/routes.py:
     id: 3dda91ee470c
     last_write_checksum: sha1:629d994eb68c4da6a01e9ff5b554064ccb34f320
@@ -13810,6 +13814,10 @@ trackedFiles:
     id: e013b02da9b8
     last_write_checksum: sha1:318878588e14d9e148afb33d1b4be269f0ec54af
     pristine_git_object: 9c7a05f4421b29d84a0a4489a4e380d4114829fb
+  src/cribl_control_plane/models/targetcontext.py:
+    id: f07bc3268872
+    last_write_checksum: sha1:5609bf2218a5c0dacbfeed8da6d533268cf71df7
+    pristine_git_object: 11a6fe717003cdf807a604ecf4bf39125c9a714a
   src/cribl_control_plane/models/teamaccesscontrollist.py:
     id: 0438d646b569
     last_write_checksum: sha1:8b396a5f5d0557043dd26863a3993dd1448187b8
@@ -14261,7 +14269,7 @@ examples:
           application/json: {"message": "<value>"}
     InputCreateExamplesGrafana:
       requestBody:
-        application/json: {"id": "grafana-source", "type": "grafana", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "prometheusAPI": "/api/prom/push", "lokiAPI": "/loki/api/v1/push", "prometheusAuth": {"authType": "none", "username": "Salvador1", "password": "ZQk_l_P10FR08Qf", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://delirious-loyalty.name", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_loginUrl": "https://huge-sediment.info", "__template_secret": "<value>"}, "lokiAuth": {"authType": "none", "username": "Philip50", "password": "IKe8kW3jPl5Tei7", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://late-challenge.name/", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_loginUrl": "https://shy-schedule.name/", "__template_secret": "<value>"}, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "fooey after properly often charlatan", "__template_host": "<value>", "__template_port": "<value>"}
+        application/json: {"id": "grafana-source", "type": "grafana", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "prometheusAPI": "/api/prom/push", "lokiAPI": "/loki/api/v1/push", "prometheusAuth": {"authType": "none", "username": "Salvador1", "password": "ZQk_l_P10FR08Qf", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>"}, "lokiAuth": {"authType": "none", "username": "Philip50", "password": "IKe8kW3jPl5Tei7", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>"}, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "fooey after properly often charlatan", "__template_host": "<value>", "__template_port": "<value>"}
       responses:
         "200":
           application/json: {"count": 152889, "items": [{"id": "<id>", "type": "kube_metrics", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "interval": 15, "rules": [{"filter": "<value>", "description": "saloon where faithfully"}], "metadata": [{"name": "<value>", "value": "<value>"}], "persistence": {"enable": false, "timeWindow": "10m", "maxDataSize": "1GB", "maxDataTime": "24h", "compress": "gzip", "destPath": "$CRIBL_HOME/state/kube_metrics"}, "description": "within ack tenant"}]}
@@ -14341,7 +14349,7 @@ examples:
           application/json: {"message": "<value>"}
     InputCreateExamplesLoki:
       requestBody:
-        application/json: {"id": "loki-source", "type": "loki", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "lokiAPI": "/loki/api/v1/push", "authType": "none", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "nudge valley instead sun er", "username": "Werner47", "password": "b7xIUX8OdaWkQ40", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://clear-formation.biz", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_host": "<value>", "__template_port": "<value>", "__template_loginUrl": "https://funny-rule.info/", "__template_secret": "<value>"}
+        application/json: {"id": "loki-source", "type": "loki", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "lokiAPI": "/loki/api/v1/push", "authType": "none", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "nudge valley instead sun er", "username": "Werner47", "password": "b7xIUX8OdaWkQ40", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>"}
       responses:
         "200":
           application/json: {"count": 152889, "items": [{"id": "<id>", "type": "kube_metrics", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "interval": 15, "rules": [{"filter": "<value>", "description": "saloon where faithfully"}], "metadata": [{"name": "<value>", "value": "<value>"}], "persistence": {"enable": false, "timeWindow": "10m", "maxDataSize": "1GB", "maxDataTime": "24h", "compress": "gzip", "destPath": "$CRIBL_HOME/state/kube_metrics"}, "description": "within ack tenant"}]}
@@ -14405,7 +14413,7 @@ examples:
           application/json: {"message": "<value>"}
     InputCreateExamplesOpenTelemetry:
       requestBody:
-        application/json: {"id": "otel-source", "type": "open_telemetry", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 4317, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": "<value>", "captureHeaders": "<value>", "activityLogSampleRate": "<value>", "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 15, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "protocol": "grpc", "extractSpans": false, "extractMetrics": false, "otlpVersion": "0.10.0", "authType": "none", "metadata": [{"name": "<value>", "value": "<value>"}], "maxActiveCxn": 1000, "description": "indeed circa because", "username": "Myles.Lueilwitz-Ryan", "password": "RyYhbE0tvmVGPg6", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://crowded-obligation.biz/", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "extractLogs": false, "__template_host": "<value>", "__template_port": "<value>", "__template_loginUrl": "https://cumbersome-finding.com/", "__template_secret": "<value>"}
+        application/json: {"id": "otel-source", "type": "open_telemetry", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 4317, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": "<value>", "captureHeaders": "<value>", "activityLogSampleRate": "<value>", "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 15, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "protocol": "grpc", "extractSpans": false, "extractMetrics": false, "otlpVersion": "0.10.0", "authType": "none", "metadata": [{"name": "<value>", "value": "<value>"}], "maxActiveCxn": 1000, "description": "indeed circa because", "username": "Myles.Lueilwitz-Ryan", "password": "RyYhbE0tvmVGPg6", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "extractLogs": false, "__template_host": "<value>", "__template_port": "<value>"}
       responses:
         "200":
           application/json: {"count": 152889, "items": [{"id": "<id>", "type": "kube_metrics", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "interval": 15, "rules": [{"filter": "<value>", "description": "saloon where faithfully"}], "metadata": [{"name": "<value>", "value": "<value>"}], "persistence": {"enable": false, "timeWindow": "10m", "maxDataSize": "1GB", "maxDataTime": "24h", "compress": "gzip", "destPath": "$CRIBL_HOME/state/kube_metrics"}, "description": "within ack tenant"}]}
@@ -14421,7 +14429,7 @@ examples:
           application/json: {"message": "<value>"}
     InputCreateExamplesPrometheusRw:
       requestBody:
-        application/json: {"id": "prometheus-rw-source", "type": "prometheus_rw", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "prometheusAPI": "/write", "authType": "none", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "openly likewise gruesome whoever whose gee", "username": "Dean.Keebler", "password": "0POH0dLKHeOMaH5", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://naughty-platypus.biz", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_host": "<value>", "__template_port": "<value>", "__template_prometheusAPI": "<value>", "__template_loginUrl": "https://regal-netsuke.biz/", "__template_secret": "<value>"}
+        application/json: {"id": "prometheus-rw-source", "type": "prometheus_rw", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "prometheusAPI": "/write", "authType": "none", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "openly likewise gruesome whoever whose gee", "username": "Dean.Keebler", "password": "0POH0dLKHeOMaH5", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>", "__template_prometheusAPI": "<value>"}
       responses:
         "200":
           application/json: {"count": 152889, "items": [{"id": "<id>", "type": "kube_metrics", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "interval": 15, "rules": [{"filter": "<value>", "description": "saloon where faithfully"}], "metadata": [{"name": "<value>", "value": "<value>"}], "persistence": {"enable": false, "timeWindow": "10m", "maxDataSize": "1GB", "maxDataTime": "24h", "compress": "gzip", "destPath": "$CRIBL_HOME/state/kube_metrics"}, "description": "within ack tenant"}]}
@@ -14485,7 +14493,7 @@ examples:
           application/json: {"message": "<value>"}
     InputCreateExamplesSplunkSearch:
       requestBody:
-        application/json: {"id": "splunk-search-source", "type": "splunk_search", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "searchHead": "https://localhost:8089", "search": "index=main", "earliest": "-16m@m", "latest": "-1m@m", "cronSchedule": "0 * * * *", "endpoint": "/services/search/jobs/export", "outputMode": "json", "endpointParams": [{"name": "<value>", "value": "<value>"}], "endpointHeaders": [{"name": "<value>", "value": "<value>"}], "logLevel": "error", "requestTimeout": 0, "useRoundRobinDns": false, "rejectUnauthorized": false, "encoding": "<value>", "keepAliveTime": 30, "jobTimeout": "0", "maxMissedKeepAlives": 3, "ttl": "4h", "ignoreGroupJobsLimit": false, "metadata": [{"name": "<value>", "value": "<value>"}], "retryRules": {"type": "backoff", "interval": 1000, "limit": 5, "multiplier": 2, "codes": [5227.09], "enableHeader": true, "retryConnectTimeout": false, "retryConnectReset": false}, "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 10000, "authType": "basic", "description": "until content along", "username": "Jalyn43", "password": "2wxXTLiflvFCcIX", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://querulous-petticoat.com/", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_loginUrl": "https://rare-utilization.org/", "__template_secret": "<value>"}
+        application/json: {"id": "splunk-search-source", "type": "splunk_search", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "searchHead": "https://localhost:8089", "search": "index=main", "earliest": "-16m@m", "latest": "-1m@m", "cronSchedule": "0 * * * *", "endpoint": "/services/search/jobs/export", "outputMode": "json", "endpointParams": [{"name": "<value>", "value": "<value>"}], "endpointHeaders": [{"name": "<value>", "value": "<value>"}], "logLevel": "error", "requestTimeout": 0, "useRoundRobinDns": false, "rejectUnauthorized": false, "encoding": "<value>", "keepAliveTime": 30, "jobTimeout": "0", "maxMissedKeepAlives": 3, "ttl": "4h", "ignoreGroupJobsLimit": false, "metadata": [{"name": "<value>", "value": "<value>"}], "retryRules": {"type": "backoff", "interval": 1000, "limit": 5, "multiplier": 2, "codes": [5227.09], "enableHeader": true, "retryConnectTimeout": false, "retryConnectReset": false}, "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 10000, "authType": "basic", "description": "until content along", "username": "Jalyn43", "password": "2wxXTLiflvFCcIX", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>"}
       responses:
         "200":
           application/json: {"count": 152889, "items": [{"id": "<id>", "type": "kube_metrics", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "interval": 15, "rules": [{"filter": "<value>", "description": "saloon where faithfully"}], "metadata": [{"name": "<value>", "value": "<value>"}], "persistence": {"enable": false, "timeWindow": "10m", "maxDataSize": "1GB", "maxDataTime": "24h", "compress": "gzip", "destPath": "$CRIBL_HOME/state/kube_metrics"}, "description": "within ack tenant"}]}
@@ -14823,7 +14831,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "grafana-source", "type": "grafana", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.2"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "prometheusAPI": "/api/prom/push", "lokiAPI": "/loki/api/v1/push", "prometheusAuth": {"authType": "none", "username": "Gage.Rippin77", "password": "B6pdaXMgVOmyEDo", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://darling-orchid.biz/", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_loginUrl": "https://svelte-obedience.info/", "__template_secret": "<value>"}, "lokiAuth": {"authType": "none", "username": "Zion18", "password": "NTgCCy2le8of9ZE", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://silent-volleyball.info/", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_loginUrl": "https://hopeful-information.info/", "__template_secret": "<value>"}, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "ironclad meh to merrily besmirch whoa slimy", "__template_host": "<value>", "__template_port": "<value>"}
+        application/json: {"id": "grafana-source", "type": "grafana", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.2"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "prometheusAPI": "/api/prom/push", "lokiAPI": "/loki/api/v1/push", "prometheusAuth": {"authType": "none", "username": "Gage.Rippin77", "password": "B6pdaXMgVOmyEDo", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>"}, "lokiAuth": {"authType": "none", "username": "Zion18", "password": "NTgCCy2le8of9ZE", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>"}, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "ironclad meh to merrily besmirch whoa slimy", "__template_host": "<value>", "__template_port": "<value>"}
       responses:
         "200":
           application/json: {"count": 624327, "items": [{"id": "<id>", "type": "tcp", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 311.34, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.3"}, "ipWhitelistRegex": "/.*/", "maxActiveCxn": 1000, "socketIdleTimeout": 0, "socketEndingMaxWait": 30, "socketMaxLifespan": 0, "enableProxyHeader": false, "metadata": [{"name": "<value>", "value": "<value>"}], "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 10000, "enableHeader": false, "preprocess": {"disabled": true, "command": "<value>", "args": ["<value 1>", "<value 2>"]}, "description": "likely despite investigate minor given underneath wallaby sin moisten anenst", "authToken": "", "authType": "manual", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>"}]}
@@ -14933,7 +14941,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "loki-source", "type": "loki", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.2"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "lokiAPI": "/loki/api/v1/push", "authType": "none", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "physical below elementary disclosure", "username": "Diana.Kerluke41", "password": "5VWIKl4RcP6DYtZ", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://lumpy-unibody.com", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_host": "<value>", "__template_port": "<value>", "__template_loginUrl": "https://greedy-sand.info/", "__template_secret": "<value>"}
+        application/json: {"id": "loki-source", "type": "loki", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.2"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "lokiAPI": "/loki/api/v1/push", "authType": "none", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "physical below elementary disclosure", "username": "Diana.Kerluke41", "password": "5VWIKl4RcP6DYtZ", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>"}
       responses:
         "200":
           application/json: {"count": 624327, "items": [{"id": "<id>", "type": "tcp", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 311.34, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.3"}, "ipWhitelistRegex": "/.*/", "maxActiveCxn": 1000, "socketIdleTimeout": 0, "socketEndingMaxWait": 30, "socketMaxLifespan": 0, "enableProxyHeader": false, "metadata": [{"name": "<value>", "value": "<value>"}], "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 10000, "enableHeader": false, "preprocess": {"disabled": true, "command": "<value>", "args": ["<value 1>", "<value 2>"]}, "description": "likely despite investigate minor given underneath wallaby sin moisten anenst", "authToken": "", "authType": "manual", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>"}]}
@@ -15021,7 +15029,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "otel-source", "type": "open_telemetry", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 4317, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.2"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": "<value>", "captureHeaders": "<value>", "activityLogSampleRate": "<value>", "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 15, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "protocol": "grpc", "extractSpans": false, "extractMetrics": false, "otlpVersion": "0.10.0", "authType": "none", "metadata": [{"name": "<value>", "value": "<value>"}], "maxActiveCxn": 1000, "description": "augment before serialize", "username": "Monique.Lakin", "password": "Ig92bVAWqo4_P8d", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://tidy-markup.com/", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "extractLogs": false, "__template_host": "<value>", "__template_port": "<value>", "__template_loginUrl": "https://noted-charlatan.biz/", "__template_secret": "<value>"}
+        application/json: {"id": "otel-source", "type": "open_telemetry", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 4317, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.2"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": "<value>", "captureHeaders": "<value>", "activityLogSampleRate": "<value>", "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 15, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "protocol": "grpc", "extractSpans": false, "extractMetrics": false, "otlpVersion": "0.10.0", "authType": "none", "metadata": [{"name": "<value>", "value": "<value>"}], "maxActiveCxn": 1000, "description": "augment before serialize", "username": "Monique.Lakin", "password": "Ig92bVAWqo4_P8d", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "extractLogs": false, "__template_host": "<value>", "__template_port": "<value>"}
       responses:
         "200":
           application/json: {"count": 624327, "items": [{"id": "<id>", "type": "tcp", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 311.34, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.3"}, "ipWhitelistRegex": "/.*/", "maxActiveCxn": 1000, "socketIdleTimeout": 0, "socketEndingMaxWait": 30, "socketMaxLifespan": 0, "enableProxyHeader": false, "metadata": [{"name": "<value>", "value": "<value>"}], "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 10000, "enableHeader": false, "preprocess": {"disabled": true, "command": "<value>", "args": ["<value 1>", "<value 2>"]}, "description": "likely despite investigate minor given underneath wallaby sin moisten anenst", "authToken": "", "authType": "manual", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>"}]}
@@ -15043,7 +15051,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "prometheus-rw-source", "type": "prometheus_rw", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.2"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "prometheusAPI": "/write", "authType": "none", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "almost calmly against wherever gratefully versus", "username": "Johnathon.Wolf", "password": "xMC_bK0VYnsfmYM", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://lasting-responsibility.net", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_host": "<value>", "__template_port": "<value>", "__template_prometheusAPI": "<value>", "__template_loginUrl": "https://grizzled-extent.name/", "__template_secret": "<value>"}
+        application/json: {"id": "prometheus-rw-source", "type": "prometheus_rw", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.2"}, "maxActiveReq": 256, "maxRequestsPerSocket": 0, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 100, "requestTimeout": 0, "socketTimeout": 0, "keepAliveTimeout": 5, "enableHealthCheck": false, "ipAllowlistRegex": "/.*/", "ipDenylistRegex": "/^$/", "prometheusAPI": "/write", "authType": "none", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "almost calmly against wherever gratefully versus", "username": "Johnathon.Wolf", "password": "xMC_bK0VYnsfmYM", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>", "__template_prometheusAPI": "<value>"}
       responses:
         "200":
           application/json: {"count": 624327, "items": [{"id": "<id>", "type": "tcp", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 311.34, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.3"}, "ipWhitelistRegex": "/.*/", "maxActiveCxn": 1000, "socketIdleTimeout": 0, "socketEndingMaxWait": 30, "socketMaxLifespan": 0, "enableProxyHeader": false, "metadata": [{"name": "<value>", "value": "<value>"}], "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 10000, "enableHeader": false, "preprocess": {"disabled": true, "command": "<value>", "args": ["<value 1>", "<value 2>"]}, "description": "likely despite investigate minor given underneath wallaby sin moisten anenst", "authToken": "", "authType": "manual", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>"}]}
@@ -15131,7 +15139,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "splunk-search-source", "type": "splunk_search", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "searchHead": "https://localhost:8089", "search": "index=main", "earliest": "-16m@m", "latest": "-1m@m", "cronSchedule": "0 * * * *", "endpoint": "/services/search/jobs/export", "outputMode": "json", "endpointParams": [{"name": "<value>", "value": "<value>"}], "endpointHeaders": [{"name": "<value>", "value": "<value>"}], "logLevel": "error", "requestTimeout": 0, "useRoundRobinDns": false, "rejectUnauthorized": false, "encoding": "<value>", "keepAliveTime": 30, "jobTimeout": "0", "maxMissedKeepAlives": 3, "ttl": "4h", "ignoreGroupJobsLimit": false, "metadata": [{"name": "<value>", "value": "<value>"}], "retryRules": {"type": "backoff", "interval": 1000, "limit": 5, "multiplier": 2, "codes": [4786.8, 4387.89, 7031.34], "enableHeader": true, "retryConnectTimeout": false, "retryConnectReset": false}, "breakerRulesets": ["<value 1>", "<value 2>", "<value 3>"], "staleChannelFlushMs": 10000, "authType": "basic", "description": "sprinkles deflate fooey pricey below but quarrelsome", "username": "Dulce28", "password": "H0D8DX8APbKrKvi", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://frivolous-cork.biz", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_loginUrl": "https://gullible-packaging.com/", "__template_secret": "<value>"}
+        application/json: {"id": "splunk-search-source", "type": "splunk_search", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "searchHead": "https://localhost:8089", "search": "index=main", "earliest": "-16m@m", "latest": "-1m@m", "cronSchedule": "0 * * * *", "endpoint": "/services/search/jobs/export", "outputMode": "json", "endpointParams": [{"name": "<value>", "value": "<value>"}], "endpointHeaders": [{"name": "<value>", "value": "<value>"}], "logLevel": "error", "requestTimeout": 0, "useRoundRobinDns": false, "rejectUnauthorized": false, "encoding": "<value>", "keepAliveTime": 30, "jobTimeout": "0", "maxMissedKeepAlives": 3, "ttl": "4h", "ignoreGroupJobsLimit": false, "metadata": [{"name": "<value>", "value": "<value>"}], "retryRules": {"type": "backoff", "interval": 1000, "limit": 5, "multiplier": 2, "codes": [4786.8, 4387.89, 7031.34], "enableHeader": true, "retryConnectTimeout": false, "retryConnectReset": false}, "breakerRulesets": ["<value 1>", "<value 2>", "<value 3>"], "staleChannelFlushMs": 10000, "authType": "basic", "description": "sprinkles deflate fooey pricey below but quarrelsome", "username": "Dulce28", "password": "H0D8DX8APbKrKvi", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>"}
       responses:
         "200":
           application/json: {"count": 624327, "items": [{"id": "<id>", "type": "tcp", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 1000, "commitFrequency": 42, "maxFileSize": "1 MB", "maxSize": "5GB", "path": "$CRIBL_HOME/state/queues", "compress": "none", "pqControls": {}}, "host": "0.0.0.0", "port": 311.34, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "/.*/", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1.3"}, "ipWhitelistRegex": "/.*/", "maxActiveCxn": 1000, "socketIdleTimeout": 0, "socketEndingMaxWait": 30, "socketMaxLifespan": 0, "enableProxyHeader": false, "metadata": [{"name": "<value>", "value": "<value>"}], "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 10000, "enableHeader": false, "preprocess": {"disabled": true, "command": "<value>", "args": ["<value 1>", "<value 2>"]}, "description": "likely despite investigate minor given underneath wallaby sin moisten anenst", "authToken": "", "authType": "manual", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>"}]}
@@ -15512,7 +15520,7 @@ examples:
           application/json: {"message": "<value>"}
     OutputCreateExamplesCloudflareR2:
       requestBody:
-        application/json: {"id": "cloudflare-r2-output", "type": "cloudflare_r2", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>"], "endpoint": "https://account-id.r2.cloudflarestorage.com", "bucket": "my-bucket", "awsAuthenticationMethod": "auto", "awsSecretKey": "<value>", "region": "<value>", "stagePath": "/tmp/staging", "addIdToStagePath": true, "destPath": "<value>", "signatureVersion": "v4", "objectACL": "<value>", "storageClass": "REDUCED_REDUNDANCY", "serverSideEncryption": "AES256", "reuseConnections": true, "rejectUnauthorized": true, "verifyPermissions": true, "removeEmptyDirs": true, "partitionExpr": "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')", "format": "json", "baseFileName": "`CriblOut`", "fileNameSuffix": "`.${C.env[\"CRIBL_WORKER_ID\"]}.${__format}${__compression === \"gzip\" ? \".gz\" : \"\"}`", "maxFileSizeMB": 32, "maxOpenFiles": 100, "headerLine": "", "writeHighWaterMark": 64, "onBackpressure": "block", "deadletterEnabled": false, "onDiskFullBackpressure": "block", "forceCloseOnShutdown": false, "retrySettings": {"enabled": false, "initialBackoffMs": 861.22, "backoffMultiplier": 588.22, "maxBackoffMs": 3391.17, "jitterPercent": 650.52}, "maxFileOpenTimeSec": 300, "maxFileIdleTimeSec": 30, "maxConcurrentFileParts": 4, "description": "kiddingly lively provided neatly importance instantly effector", "awsApiKey": "<value>", "awsSecret": "<value>", "compress": "gzip", "compressionLevel": "best_speed", "automaticSchema": false, "parquetSchema": "<value>", "parquetVersion": "PARQUET_2_6", "parquetDataPageVersion": "DATA_PAGE_V2", "parquetRowGroupLength": 10000, "parquetPageSize": "1MB", "shouldLogInvalidRows": false, "keyValueMetadata": [{"key": "", "value": "<value>"}], "enableStatistics": true, "enableWritePageIndex": true, "enablePageChecksum": false, "emptyDirCleanupSec": 300, "directoryBatchSize": 1000, "deadletterPath": "$CRIBL_HOME/state/outputs/dead-letter", "maxRetryNum": 20, "__template_bucket": "<value>", "__template_format": "<value>", "__template_awsApiKey": "<value>"}
+        application/json: {"id": "cloudflare-r2-output", "type": "cloudflare_r2", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>"], "endpoint": "https://account-id.r2.cloudflarestorage.com", "bucket": "my-bucket", "awsAuthenticationMethod": "auto", "awsSecretKey": "<value>", "region": "<value>", "stagePath": "/tmp/staging", "addIdToStagePath": true, "destPath": "<value>", "signatureVersion": "v4", "objectACL": "<value>", "storageClass": "REDUCED_REDUNDANCY", "serverSideEncryption": "AES256", "reuseConnections": true, "rejectUnauthorized": true, "verifyPermissions": true, "removeEmptyDirs": true, "partitionExpr": "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')", "format": "json", "baseFileName": "`CriblOut`", "fileNameSuffix": "`.${C.env[\"CRIBL_WORKER_ID\"]}.${__format}${__compression === \"gzip\" ? \".gz\" : \"\"}`", "maxFileSizeMB": 32, "maxOpenFiles": 100, "headerLine": "", "writeHighWaterMark": 64, "onBackpressure": "block", "deadletterEnabled": false, "onDiskFullBackpressure": "block", "forceCloseOnShutdown": false, "retrySettings": {"enabled": false, "initialBackoffMs": 861.22, "backoffMultiplier": 588.22, "maxBackoffMs": 3391.17, "jitterPercent": 650.52}, "maxFileOpenTimeSec": 300, "maxFileIdleTimeSec": 30, "maxConcurrentFileParts": 4, "description": "kiddingly lively provided neatly importance instantly effector", "awsSecret": "<value>", "compress": "gzip", "compressionLevel": "best_speed", "automaticSchema": false, "parquetSchema": "<value>", "parquetVersion": "PARQUET_2_6", "parquetDataPageVersion": "DATA_PAGE_V2", "parquetRowGroupLength": 10000, "parquetPageSize": "1MB", "shouldLogInvalidRows": false, "keyValueMetadata": [{"key": "", "value": "<value>"}], "enableStatistics": true, "enableWritePageIndex": true, "enablePageChecksum": false, "emptyDirCleanupSec": 300, "directoryBatchSize": 1000, "deadletterPath": "$CRIBL_HOME/state/outputs/dead-letter", "maxRetryNum": 20, "__template_bucket": "<value>", "__template_format": "<value>"}
       responses:
         "200":
           application/json: {"count": 578974, "items": [{"id": "<id>", "type": "disk_spool", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>"], "timeWindow": "10m", "maxDataSize": "1GB", "maxDataTime": "24h", "compress": "gzip", "partitionExpr": "<value>", "description": "misfire afore suddenly openly huzzah"}]}
@@ -15552,7 +15560,7 @@ examples:
           application/json: {"message": "<value>"}
     OutputCreateExamplesInfluxdb:
       requestBody:
-        application/json: {"id": "influxdb-output", "type": "influxdb", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>"], "url": "http://localhost:8086", "useV2API": false, "timestampPrecision": "ms", "dynamicValueFieldName": true, "valueFieldName": "value", "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "responseRetrySettings": [{"httpStatus": 786.03, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "authType": "none", "description": "terrorise spook meh towards mysteriously", "database": "mydb", "bucket": "<value>", "org": "<value>", "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "username": "Mariane_Schneider28", "password": "z3FVqSY2GquoGXg", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://considerate-coordination.org/", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_url": "https://growing-declaration.net/", "__template_database": "<value>", "__template_bucket": "<value>", "__template_loginUrl": "https://minty-barracks.biz", "__template_secret": "<value>"}
+        application/json: {"id": "influxdb-output", "type": "influxdb", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>"], "url": "http://localhost:8086", "useV2API": false, "timestampPrecision": "ms", "dynamicValueFieldName": true, "valueFieldName": "value", "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "responseRetrySettings": [{"httpStatus": 786.03, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "authType": "none", "description": "terrorise spook meh towards mysteriously", "database": "mydb", "bucket": "<value>", "org": "<value>", "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "username": "Mariane_Schneider28", "password": "z3FVqSY2GquoGXg", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "__template_url": "https://growing-declaration.net/", "__template_database": "<value>", "__template_bucket": "<value>"}
       responses:
         "200":
           application/json: {"count": 578974, "items": [{"id": "<id>", "type": "disk_spool", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>"], "timeWindow": "10m", "maxDataSize": "1GB", "maxDataTime": "24h", "compress": "gzip", "partitionExpr": "<value>", "description": "misfire afore suddenly openly huzzah"}]}
@@ -15664,7 +15672,7 @@ examples:
           application/json: {"message": "<value>"}
     OutputCreateExamplesPrometheus:
       requestBody:
-        application/json: {"id": "prometheus-output", "type": "prometheus", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "url": "http://localhost:9091/api/v1/write", "metricRenameExpr": "name.replace(/[^a-zA-Z0-9_]/g, '_')", "sendMetadata": true, "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "responseRetrySettings": [{"httpStatus": 516.48, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "authType": "none", "description": "forenenst without which brief fuzzy gah", "metricsFlushPeriodSec": 60, "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "username": "Isac38", "password": "zMoVVLUWpStIVEr", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://quiet-gazebo.biz/", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_url": "https://gloomy-marten.net/", "__template_loginUrl": "https://muffled-duster.org", "__template_secret": "<value>"}
+        application/json: {"id": "prometheus-output", "type": "prometheus", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "url": "http://localhost:9091/api/v1/write", "metricRenameExpr": "name.replace(/[^a-zA-Z0-9_]/g, '_')", "sendMetadata": true, "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "responseRetrySettings": [{"httpStatus": 516.48, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "authType": "none", "description": "forenenst without which brief fuzzy gah", "metricsFlushPeriodSec": 60, "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "username": "Isac38", "password": "zMoVVLUWpStIVEr", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "__template_url": "https://gloomy-marten.net/"}
       responses:
         "200":
           application/json: {"count": 578974, "items": [{"id": "<id>", "type": "disk_spool", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>"], "timeWindow": "10m", "maxDataSize": "1GB", "maxDataTime": "24h", "compress": "gzip", "partitionExpr": "<value>", "description": "misfire afore suddenly openly huzzah"}]}
@@ -15712,7 +15720,7 @@ examples:
           application/json: {"message": "<value>"}
     OutputCreateExamplesOpenTelemetry:
       requestBody:
-        application/json: {"id": "opentelemetry-output", "type": "open_telemetry", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "protocol": "grpc", "endpoint": "http://localhost:4317", "otlpVersion": "0.10.0", "compress": "gzip", "httpCompress": "gzip", "authType": "none", "httpTracesEndpointOverride": "<value>", "httpMetricsEndpointOverride": "<value>", "httpLogsEndpointOverride": "<value>", "metadata": [{"key": "", "value": "<value>"}], "concurrency": 5, "maxPayloadSizeKB": 4096, "timeoutSec": 30, "flushPeriodSec": 1, "failedRequestLoggingMode": "none", "connectionTimeout": 10000, "keepAliveTime": 30, "keepAlive": true, "onBackpressure": "block", "description": "next sermon whenever", "username": "Jerod7", "password": "HeFGuNo6pe5ewNs", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://realistic-availability.net/", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "rejectUnauthorized": true, "useRoundRobinDns": false, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "safeHeaders": ["<value 1>"], "responseRetrySettings": [{"httpStatus": 1858.11, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "tls": {"disabled": true, "rejectUnauthorized": true, "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1"}, "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "__template_loginUrl": "https://worst-provision.org", "__template_secret": "<value>"}
+        application/json: {"id": "opentelemetry-output", "type": "open_telemetry", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "protocol": "grpc", "endpoint": "http://localhost:4317", "otlpVersion": "0.10.0", "compress": "gzip", "httpCompress": "gzip", "authType": "none", "httpTracesEndpointOverride": "<value>", "httpMetricsEndpointOverride": "<value>", "httpLogsEndpointOverride": "<value>", "metadata": [{"key": "", "value": "<value>"}], "concurrency": 5, "maxPayloadSizeKB": 4096, "timeoutSec": 30, "flushPeriodSec": 1, "failedRequestLoggingMode": "none", "connectionTimeout": 10000, "keepAliveTime": 30, "keepAlive": true, "onBackpressure": "block", "description": "next sermon whenever", "username": "Jerod7", "password": "HeFGuNo6pe5ewNs", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "rejectUnauthorized": true, "useRoundRobinDns": false, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "safeHeaders": ["<value 1>"], "responseRetrySettings": [{"httpStatus": 1858.11, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "tls": {"disabled": true, "rejectUnauthorized": true, "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1"}, "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}}
       responses:
         "200":
           application/json: {"count": 578974, "items": [{"id": "<id>", "type": "disk_spool", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>"], "timeWindow": "10m", "maxDataSize": "1GB", "maxDataTime": "24h", "compress": "gzip", "partitionExpr": "<value>", "description": "misfire afore suddenly openly huzzah"}]}
@@ -15856,7 +15864,7 @@ examples:
           application/json: {"message": "<value>"}
     OutputCreateExamplesClickHouse:
       requestBody:
-        application/json: {"id": "clickhouse-output", "type": "click_house", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "url": "http://localhost:8123/", "authType": "none", "database": "mydb", "tableName": "mytable", "format": "json-compact-each-row-with-names", "mappingType": "automatic", "asyncInserts": false, "tls": {"disabled": true, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1"}, "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>", "<value 2>", "<value 3>"], "responseRetrySettings": [{"httpStatus": 4759.15, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "dumpFormatErrorsToDisk": false, "statsDestination": {"url": "https://torn-fuel.name/", "database": "<value>", "tableName": "<value>", "authType": "<value>", "username": "Shaniya77", "sqlUsername": "<value>", "password": "98PkMUDqunaXk0y"}, "onBackpressure": "block", "description": "so sans bah rear once throughout outrageous following birth", "username": "Marshall2", "password": "bE8HycltTILd6LR", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://quiet-markup.biz", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "sqlUsername": "<value>", "waitForAsyncInserts": true, "excludeMappingFields": ["<value 1>"], "describeTable": "<value>", "columnMappings": [{"columnName": "<value>", "columnType": "<value>", "columnValueExpression": "<value>"}], "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "__template_url": "https://sticky-granny.net/", "__template_database": "<value>", "__template_tableName": "<value>", "__template_loginUrl": "https://tame-parsnip.com", "__template_secret": "<value>"}
+        application/json: {"id": "clickhouse-output", "type": "click_house", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "url": "http://localhost:8123/", "authType": "none", "database": "mydb", "tableName": "mytable", "format": "json-compact-each-row-with-names", "mappingType": "automatic", "asyncInserts": false, "tls": {"disabled": true, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.1", "maxVersion": "TLSv1"}, "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>", "<value 2>", "<value 3>"], "responseRetrySettings": [{"httpStatus": 4759.15, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "dumpFormatErrorsToDisk": false, "statsDestination": {"url": "https://torn-fuel.name/", "database": "<value>", "tableName": "<value>", "authType": "<value>", "username": "Shaniya77", "sqlUsername": "<value>", "password": "98PkMUDqunaXk0y"}, "onBackpressure": "block", "description": "so sans bah rear once throughout outrageous following birth", "username": "Marshall2", "password": "bE8HycltTILd6LR", "credentialsSecret": "<value>", "sqlUsername": "<value>", "waitForAsyncInserts": true, "excludeMappingFields": ["<value 1>"], "describeTable": "<value>", "columnMappings": [{"columnName": "<value>", "columnType": "<value>", "columnValueExpression": "<value>"}], "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "__template_url": "https://sticky-granny.net/", "__template_database": "<value>", "__template_tableName": "<value>"}
       responses:
         "200":
           application/json: {"count": 578974, "items": [{"id": "<id>", "type": "disk_spool", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>"], "timeWindow": "10m", "maxDataSize": "1GB", "maxDataTime": "24h", "compress": "gzip", "partitionExpr": "<value>", "description": "misfire afore suddenly openly huzzah"}]}
@@ -16146,7 +16154,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "cloudflare-r2-output", "type": "cloudflare_r2", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>"], "endpoint": "https://account-id.r2.cloudflarestorage.com", "bucket": "my-bucket", "awsAuthenticationMethod": "auto", "awsSecretKey": "<value>", "region": "<value>", "stagePath": "/tmp/staging", "addIdToStagePath": true, "destPath": "<value>", "signatureVersion": "v4", "objectACL": "<value>", "storageClass": "REDUCED_REDUNDANCY", "serverSideEncryption": "AES256", "reuseConnections": true, "rejectUnauthorized": true, "verifyPermissions": true, "removeEmptyDirs": true, "partitionExpr": "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')", "format": "json", "baseFileName": "`CriblOut`", "fileNameSuffix": "`.${C.env[\"CRIBL_WORKER_ID\"]}.${__format}${__compression === \"gzip\" ? \".gz\" : \"\"}`", "maxFileSizeMB": 32, "maxOpenFiles": 100, "headerLine": "", "writeHighWaterMark": 64, "onBackpressure": "block", "deadletterEnabled": false, "onDiskFullBackpressure": "block", "forceCloseOnShutdown": false, "retrySettings": {"enabled": true, "initialBackoffMs": 2452.56, "backoffMultiplier": 1370.95, "maxBackoffMs": 434.99, "jitterPercent": 9632.75}, "maxFileOpenTimeSec": 300, "maxFileIdleTimeSec": 30, "maxConcurrentFileParts": 4, "description": "whenever beret quirkily certainly cruelty well-documented poorly inject throughout", "awsApiKey": "<value>", "awsSecret": "<value>", "compress": "gzip", "compressionLevel": "best_speed", "automaticSchema": false, "parquetSchema": "<value>", "parquetVersion": "PARQUET_2_6", "parquetDataPageVersion": "DATA_PAGE_V2", "parquetRowGroupLength": 10000, "parquetPageSize": "1MB", "shouldLogInvalidRows": false, "keyValueMetadata": [{"key": "", "value": "<value>"}], "enableStatistics": true, "enableWritePageIndex": true, "enablePageChecksum": false, "emptyDirCleanupSec": 300, "directoryBatchSize": 1000, "deadletterPath": "$CRIBL_HOME/state/outputs/dead-letter", "maxRetryNum": 20, "__template_bucket": "<value>", "__template_format": "<value>", "__template_awsApiKey": "<value>"}
+        application/json: {"id": "cloudflare-r2-output", "type": "cloudflare_r2", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>"], "endpoint": "https://account-id.r2.cloudflarestorage.com", "bucket": "my-bucket", "awsAuthenticationMethod": "auto", "awsSecretKey": "<value>", "region": "<value>", "stagePath": "/tmp/staging", "addIdToStagePath": true, "destPath": "<value>", "signatureVersion": "v4", "objectACL": "<value>", "storageClass": "REDUCED_REDUNDANCY", "serverSideEncryption": "AES256", "reuseConnections": true, "rejectUnauthorized": true, "verifyPermissions": true, "removeEmptyDirs": true, "partitionExpr": "C.Time.strftime(_time ? _time : Date.now()/1000, '%Y/%m/%d')", "format": "json", "baseFileName": "`CriblOut`", "fileNameSuffix": "`.${C.env[\"CRIBL_WORKER_ID\"]}.${__format}${__compression === \"gzip\" ? \".gz\" : \"\"}`", "maxFileSizeMB": 32, "maxOpenFiles": 100, "headerLine": "", "writeHighWaterMark": 64, "onBackpressure": "block", "deadletterEnabled": false, "onDiskFullBackpressure": "block", "forceCloseOnShutdown": false, "retrySettings": {"enabled": true, "initialBackoffMs": 2452.56, "backoffMultiplier": 1370.95, "maxBackoffMs": 434.99, "jitterPercent": 9632.75}, "maxFileOpenTimeSec": 300, "maxFileIdleTimeSec": 30, "maxConcurrentFileParts": 4, "description": "whenever beret quirkily certainly cruelty well-documented poorly inject throughout", "awsSecret": "<value>", "compress": "gzip", "compressionLevel": "best_speed", "automaticSchema": false, "parquetSchema": "<value>", "parquetVersion": "PARQUET_2_6", "parquetDataPageVersion": "DATA_PAGE_V2", "parquetRowGroupLength": 10000, "parquetPageSize": "1MB", "shouldLogInvalidRows": false, "keyValueMetadata": [{"key": "", "value": "<value>"}], "enableStatistics": true, "enableWritePageIndex": true, "enablePageChecksum": false, "emptyDirCleanupSec": 300, "directoryBatchSize": 1000, "deadletterPath": "$CRIBL_HOME/state/outputs/dead-letter", "maxRetryNum": 20, "__template_bucket": "<value>", "__template_format": "<value>"}
       responses:
         "200":
           application/json: {"count": 85742, "items": [{"id": "<id>", "type": "google_chronicle", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>"], "apiVersion": "v1", "authenticationMethod": "serviceAccount", "responseRetrySettings": [{"httpStatus": 1271.28, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": false, "logFormatType": "unstructured", "region": "<value>", "concurrency": 5, "maxPayloadSizeKB": 1024, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 90, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "useRoundRobinDns": false, "onBackpressure": "block", "totalMemoryLimitKB": 3612.5, "description": "yum tomatillo off tune-up", "extraLogTypes": [{"logType": "<value>", "description": "busy for concerned buck grandiose dreamily what solder"}], "logType": "<value>", "logTextField": "<value>", "customerId": "<id>", "namespace": "<value>", "customLabels": [{"key": "<key>", "value": "<value>"}], "udmType": "logs", "apiKey": "<value>", "apiKeySecret": "<value>", "serviceAccountCredentials": "<value>", "serviceAccountCredentialsSecret": "<value>", "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "__template_apiVersion": "<value>", "__template_region": "<value>", "__template_customerId": "<id>"}]}
@@ -16201,7 +16209,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "influxdb-output", "type": "influxdb", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "url": "http://localhost:8086", "useV2API": false, "timestampPrecision": "ms", "dynamicValueFieldName": true, "valueFieldName": "value", "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>", "<value 2>", "<value 3>"], "responseRetrySettings": [{"httpStatus": 2224.46, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "authType": "none", "description": "once till aw forgery", "database": "mydb", "bucket": "<value>", "org": "<value>", "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "username": "Hector.Kshlerin29", "password": "uj1bSnZx1GRBoIy", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://dim-diagram.info", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_url": "https://warmhearted-premise.info/", "__template_database": "<value>", "__template_bucket": "<value>", "__template_loginUrl": "https://immediate-stir-fry.org", "__template_secret": "<value>"}
+        application/json: {"id": "influxdb-output", "type": "influxdb", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "url": "http://localhost:8086", "useV2API": false, "timestampPrecision": "ms", "dynamicValueFieldName": true, "valueFieldName": "value", "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>", "<value 2>", "<value 3>"], "responseRetrySettings": [{"httpStatus": 2224.46, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "authType": "none", "description": "once till aw forgery", "database": "mydb", "bucket": "<value>", "org": "<value>", "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "username": "Hector.Kshlerin29", "password": "uj1bSnZx1GRBoIy", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "__template_url": "https://warmhearted-premise.info/", "__template_database": "<value>", "__template_bucket": "<value>"}
       responses:
         "200":
           application/json: {"count": 85742, "items": [{"id": "<id>", "type": "google_chronicle", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>"], "apiVersion": "v1", "authenticationMethod": "serviceAccount", "responseRetrySettings": [{"httpStatus": 1271.28, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": false, "logFormatType": "unstructured", "region": "<value>", "concurrency": 5, "maxPayloadSizeKB": 1024, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 90, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "useRoundRobinDns": false, "onBackpressure": "block", "totalMemoryLimitKB": 3612.5, "description": "yum tomatillo off tune-up", "extraLogTypes": [{"logType": "<value>", "description": "busy for concerned buck grandiose dreamily what solder"}], "logType": "<value>", "logTextField": "<value>", "customerId": "<id>", "namespace": "<value>", "customLabels": [{"key": "<key>", "value": "<value>"}], "udmType": "logs", "apiKey": "<value>", "apiKeySecret": "<value>", "serviceAccountCredentials": "<value>", "serviceAccountCredentialsSecret": "<value>", "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "__template_apiVersion": "<value>", "__template_region": "<value>", "__template_customerId": "<id>"}]}
@@ -16355,7 +16363,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "prometheus-output", "type": "prometheus", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "url": "http://localhost:9091/api/v1/write", "metricRenameExpr": "name.replace(/[^a-zA-Z0-9_]/g, '_')", "sendMetadata": true, "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "responseRetrySettings": [{"httpStatus": 2064.65, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "authType": "none", "description": "instead though litter fortunately perfectly unless vary", "metricsFlushPeriodSec": 60, "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "username": "Tracey68", "password": "kTcECZfBZpBWuvT", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://willing-integer.name/", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "__template_url": "https://unlawful-duster.name", "__template_loginUrl": "https://bustling-bowling.name/", "__template_secret": "<value>"}
+        application/json: {"id": "prometheus-output", "type": "prometheus", "pipeline": "<value>", "systemFields": ["<value 1>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "url": "http://localhost:9091/api/v1/write", "metricRenameExpr": "name.replace(/[^a-zA-Z0-9_]/g, '_')", "sendMetadata": true, "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "responseRetrySettings": [{"httpStatus": 2064.65, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "authType": "none", "description": "instead though litter fortunately perfectly unless vary", "metricsFlushPeriodSec": 60, "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "username": "Tracey68", "password": "kTcECZfBZpBWuvT", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "__template_url": "https://unlawful-duster.name"}
       responses:
         "200":
           application/json: {"count": 85742, "items": [{"id": "<id>", "type": "google_chronicle", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>"], "apiVersion": "v1", "authenticationMethod": "serviceAccount", "responseRetrySettings": [{"httpStatus": 1271.28, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": false, "logFormatType": "unstructured", "region": "<value>", "concurrency": 5, "maxPayloadSizeKB": 1024, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 90, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "useRoundRobinDns": false, "onBackpressure": "block", "totalMemoryLimitKB": 3612.5, "description": "yum tomatillo off tune-up", "extraLogTypes": [{"logType": "<value>", "description": "busy for concerned buck grandiose dreamily what solder"}], "logType": "<value>", "logTextField": "<value>", "customerId": "<id>", "namespace": "<value>", "customLabels": [{"key": "<key>", "value": "<value>"}], "udmType": "logs", "apiKey": "<value>", "apiKeySecret": "<value>", "serviceAccountCredentials": "<value>", "serviceAccountCredentialsSecret": "<value>", "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "__template_apiVersion": "<value>", "__template_region": "<value>", "__template_customerId": "<id>"}]}
@@ -16421,7 +16429,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "opentelemetry-output", "type": "open_telemetry", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>"], "protocol": "grpc", "endpoint": "http://localhost:4317", "otlpVersion": "0.10.0", "compress": "gzip", "httpCompress": "gzip", "authType": "none", "httpTracesEndpointOverride": "<value>", "httpMetricsEndpointOverride": "<value>", "httpLogsEndpointOverride": "<value>", "metadata": [{"key": "", "value": "<value>"}], "concurrency": 5, "maxPayloadSizeKB": 4096, "timeoutSec": 30, "flushPeriodSec": 1, "failedRequestLoggingMode": "none", "connectionTimeout": 10000, "keepAliveTime": 30, "keepAlive": true, "onBackpressure": "block", "description": "playfully lounge fooey vet overwork acknowledge above drat", "username": "Eve11", "password": "6wNRRvPHwjcljoo", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://those-sushi.name/", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "rejectUnauthorized": true, "useRoundRobinDns": false, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "safeHeaders": ["<value 1>", "<value 2>", "<value 3>"], "responseRetrySettings": [{"httpStatus": 7232.05, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "tls": {"disabled": true, "rejectUnauthorized": true, "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "__template_loginUrl": "https://pointed-planula.biz/", "__template_secret": "<value>"}
+        application/json: {"id": "opentelemetry-output", "type": "open_telemetry", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>"], "protocol": "grpc", "endpoint": "http://localhost:4317", "otlpVersion": "0.10.0", "compress": "gzip", "httpCompress": "gzip", "authType": "none", "httpTracesEndpointOverride": "<value>", "httpMetricsEndpointOverride": "<value>", "httpLogsEndpointOverride": "<value>", "metadata": [{"key": "", "value": "<value>"}], "concurrency": 5, "maxPayloadSizeKB": 4096, "timeoutSec": 30, "flushPeriodSec": 1, "failedRequestLoggingMode": "none", "connectionTimeout": 10000, "keepAliveTime": 30, "keepAlive": true, "onBackpressure": "block", "description": "playfully lounge fooey vet overwork acknowledge above drat", "username": "Eve11", "password": "6wNRRvPHwjcljoo", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "rejectUnauthorized": true, "useRoundRobinDns": false, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "safeHeaders": ["<value 1>", "<value 2>", "<value 3>"], "responseRetrySettings": [{"httpStatus": 7232.05, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "tls": {"disabled": true, "rejectUnauthorized": true, "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}}
       responses:
         "200":
           application/json: {"count": 85742, "items": [{"id": "<id>", "type": "google_chronicle", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>"], "apiVersion": "v1", "authenticationMethod": "serviceAccount", "responseRetrySettings": [{"httpStatus": 1271.28, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": false, "logFormatType": "unstructured", "region": "<value>", "concurrency": 5, "maxPayloadSizeKB": 1024, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 90, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "useRoundRobinDns": false, "onBackpressure": "block", "totalMemoryLimitKB": 3612.5, "description": "yum tomatillo off tune-up", "extraLogTypes": [{"logType": "<value>", "description": "busy for concerned buck grandiose dreamily what solder"}], "logType": "<value>", "logTextField": "<value>", "customerId": "<id>", "namespace": "<value>", "customLabels": [{"key": "<key>", "value": "<value>"}], "udmType": "logs", "apiKey": "<value>", "apiKeySecret": "<value>", "serviceAccountCredentials": "<value>", "serviceAccountCredentialsSecret": "<value>", "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "__template_apiVersion": "<value>", "__template_region": "<value>", "__template_customerId": "<id>"}]}
@@ -16619,7 +16627,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "clickhouse-output", "type": "click_house", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>"], "url": "http://localhost:8123/", "authType": "none", "database": "mydb", "tableName": "mytable", "format": "json-compact-each-row-with-names", "mappingType": "automatic", "asyncInserts": false, "tls": {"disabled": true, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.2", "maxVersion": "TLSv1.2"}, "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>", "<value 2>"], "responseRetrySettings": [{"httpStatus": 5472.53, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "dumpFormatErrorsToDisk": false, "statsDestination": {"url": "https://grumpy-executor.net/", "database": "<value>", "tableName": "<value>", "authType": "<value>", "username": "Marco.Halvorson77", "sqlUsername": "<value>", "password": "PIYToV3IkVuO_AI"}, "onBackpressure": "block", "description": "amidst oh till section soup thyme able sad", "username": "Aylin5", "password": "UNEGv2BtuPwBqwA", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "loginUrl": "https://uncommon-mallard.org", "secretParamName": "<value>", "secret": "<value>", "tokenAttributeName": "<value>", "authHeaderExpr": "`Bearer ${token}`", "tokenTimeoutSecs": 3600, "oauthParams": [{"name": "<value>", "value": "<value>"}], "oauthHeaders": [{"name": "<value>", "value": "<value>"}], "sqlUsername": "<value>", "waitForAsyncInserts": true, "excludeMappingFields": ["<value 1>", "<value 2>", "<value 3>"], "describeTable": "<value>", "columnMappings": [{"columnName": "<value>", "columnType": "<value>", "columnValueExpression": "<value>"}], "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "__template_url": "https://quarrelsome-slime.name", "__template_database": "<value>", "__template_tableName": "<value>", "__template_loginUrl": "https://astonishing-summary.org", "__template_secret": "<value>"}
+        application/json: {"id": "clickhouse-output", "type": "click_house", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>"], "url": "http://localhost:8123/", "authType": "none", "database": "mydb", "tableName": "mytable", "format": "json-compact-each-row-with-names", "mappingType": "automatic", "asyncInserts": false, "tls": {"disabled": true, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.2", "maxVersion": "TLSv1.2"}, "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": false, "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>", "<value 2>"], "responseRetrySettings": [{"httpStatus": 5472.53, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": true, "dumpFormatErrorsToDisk": false, "statsDestination": {"url": "https://grumpy-executor.net/", "database": "<value>", "tableName": "<value>", "authType": "<value>", "username": "Marco.Halvorson77", "sqlUsername": "<value>", "password": "PIYToV3IkVuO_AI"}, "onBackpressure": "block", "description": "amidst oh till section soup thyme able sad", "username": "Aylin5", "password": "UNEGv2BtuPwBqwA", "credentialsSecret": "<value>", "sqlUsername": "<value>", "waitForAsyncInserts": true, "excludeMappingFields": ["<value 1>", "<value 2>", "<value 3>"], "describeTable": "<value>", "columnMappings": [{"columnName": "<value>", "columnType": "<value>", "columnValueExpression": "<value>"}], "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "__template_url": "https://quarrelsome-slime.name", "__template_database": "<value>", "__template_tableName": "<value>"}
       responses:
         "200":
           application/json: {"count": 85742, "items": [{"id": "<id>", "type": "google_chronicle", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>"], "apiVersion": "v1", "authenticationMethod": "serviceAccount", "responseRetrySettings": [{"httpStatus": 1271.28, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, "responseHonorRetryAfterHeader": false, "logFormatType": "unstructured", "region": "<value>", "concurrency": 5, "maxPayloadSizeKB": 1024, "maxPayloadEvents": 0, "compress": true, "rejectUnauthorized": true, "timeoutSec": 90, "flushPeriodSec": 1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "none", "safeHeaders": ["<value 1>"], "useRoundRobinDns": false, "onBackpressure": "block", "totalMemoryLimitKB": 3612.5, "description": "yum tomatillo off tune-up", "extraLogTypes": [{"logType": "<value>", "description": "busy for concerned buck grandiose dreamily what solder"}], "logType": "<value>", "logTextField": "<value>", "customerId": "<id>", "namespace": "<value>", "customLabels": [{"key": "<key>", "value": "<value>"}], "udmType": "logs", "apiKey": "<value>", "apiKeySecret": "<value>", "serviceAccountCredentials": "<value>", "serviceAccountCredentialsSecret": "<value>", "pqStrictOrdering": true, "pqRatePerSec": 0, "pqMode": "error", "pqMaxBufferSize": 42, "pqMaxBackpressureSec": 30, "pqMaxFileSize": "1 MB", "pqMaxSize": "5GB", "pqPath": "$CRIBL_HOME/state/queues", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "__template_apiVersion": "<value>", "__template_region": "<value>", "__template_customerId": "<id>"}]}
@@ -16824,7 +16832,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: [{"clones": [{"key": "<value>"}, {}], "context": "<value>", "description": "Route new logs to main pipeline", "disabled": true, "enableOutputExpression": true, "filter": "source == \"new.log\"", "final": true, "groupId": "<id>", "id": "route-new", "name": "new-route", "output": "<value>", "outputExpression": "<value>", "pipeline": "main", "toGroupContext": true, "toPackContext": true}]
+        application/json: [{"clones": [{"key": "<value>"}, {}], "context": "<value>", "description": "Route new logs to main pipeline", "disabled": true, "enableOutputExpression": true, "filter": "source == \"new.log\"", "final": true, "groupId": "<id>", "id": "route-new", "name": "new-route", "output": "<value>", "outputExpression": "<value>", "pipeline": "main", "targetContext": "group"}]
       responses:
         "200":
           application/json: {"count": 486469, "items": [{"id": "<id>", "routes": [], "groups": {"key": {"name": "<value>", "description": "dirty finally helpless", "disabled": false}}, "comments": [{"comment": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart"}]}]}
@@ -16835,7 +16843,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: [{"clones": [{"key": "<value>", "key1": "<value>"}], "context": "<value>", "description": "Route audit logs", "disabled": false, "enableOutputExpression": false, "filter": "source == \"audit.log\"", "final": false, "groupId": "<id>", "id": "route-audit", "name": "audit", "output": "default", "outputExpression": "<value>", "pipeline": "main", "toGroupContext": true, "toPackContext": true}, {"clones": [{}, {}, {}], "context": "<value>", "description": "Route security logs", "disabled": true, "enableOutputExpression": false, "filter": "source == \"security.log\"", "final": false, "groupId": "<id>", "id": "route-security", "name": "security", "output": "devnull", "outputExpression": "<value>", "pipeline": "passthru", "toGroupContext": true, "toPackContext": true}]
+        application/json: [{"clones": [{"key": "<value>", "key1": "<value>"}], "context": "<value>", "description": "Route audit logs", "disabled": false, "enableOutputExpression": false, "filter": "source == \"audit.log\"", "final": false, "groupId": "<id>", "id": "route-audit", "name": "audit", "output": "default", "outputExpression": "<value>", "pipeline": "main", "targetContext": "group"}, {"clones": [{}, {}, {}], "context": "<value>", "description": "Route security logs", "disabled": true, "enableOutputExpression": false, "filter": "source == \"security.log\"", "final": false, "groupId": "<id>", "id": "route-security", "name": "security", "output": "devnull", "outputExpression": "<value>", "pipeline": "passthru", "targetContext": "group"}]
       responses:
         "200":
           application/json: {"count": 486469, "items": [{"id": "<id>", "routes": [], "groups": {"key": {"name": "<value>", "description": "dirty finally helpless", "disabled": false}}, "comments": [{"comment": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart"}]}]}
@@ -16846,7 +16854,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: [{"clones": [{"key": "<value>", "key1": "<value>"}], "context": "<value>", "description": "Route with dynamic Destination based on environment", "disabled": false, "enableOutputExpression": true, "filter": "source == \"dynamic.log\"", "final": true, "groupId": "<id>", "id": "route-dynamic-append", "name": "dynamic-append", "output": "<value>", "outputExpression": "`myDest_${C.logStreamEnv}`", "pipeline": "main", "toGroupContext": true, "toPackContext": true}]
+        application/json: [{"clones": [{"key": "<value>", "key1": "<value>"}], "context": "<value>", "description": "Route with dynamic Destination based on environment", "disabled": false, "enableOutputExpression": true, "filter": "source == \"dynamic.log\"", "final": true, "groupId": "<id>", "id": "route-dynamic-append", "name": "dynamic-append", "output": "<value>", "outputExpression": "`myDest_${C.logStreamEnv}`", "pipeline": "main", "targetContext": "group"}]
       responses:
         "200":
           application/json: {"count": 486469, "items": [{"id": "<id>", "routes": [], "groups": {"key": {"name": "<value>", "description": "dirty finally helpless", "disabled": false}}, "comments": [{"comment": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart"}]}]}
@@ -18990,7 +18998,7 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.database_connections.create()`: **Added**\n* `cribl_control_plane.database_connections.delete()`: **Added**\n* `cribl_control_plane.database_connections.get()`: **Added**\n* `cribl_control_plane.database_connections.update()`: **Added**\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed**\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed**\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.hec_tokens.create()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.sources.hec_tokens.update()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed**\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed**\n  *  `response.items.[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed**\n* `cribl_control_plane.routes.append()`: \n  *  `request_body.[]` **Changed**\n"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.sources.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.sources.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.get()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** **Breaking** :warning:\n  *  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.delete()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.routes.append()`: \n  *  `request_body.[]` **Changed** **Breaking** :warning:\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

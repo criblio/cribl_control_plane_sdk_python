@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 890ba50f663b54189c0c2735f43ae9fb
-  docVersion: 4.17.0-alpha.1768950205651-63783523
+  docChecksum: d2a9a5b1bb8ed71fdeb0fe288aad9ee4
+  docVersion: 4.17.0-alpha.1769036671763-cea13d5f
   speakeasyVersion: 1.690.0
   generationVersion: 2.797.1
-  releaseVersion: 0.5.0b31
-  configChecksum: 1aa3e0e63b2f397763f47370c9b0bc9d
+  releaseVersion: 0.5.0b32
+  configChecksum: e2dc351a83f8bb9b03b84b274423d3c4
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: fb80d64d-2376-4840-b6a4-1a576aa1fbc1
-  pristine_commit_hash: 9ac32aa7e960e15b26545c201fdda157208cea79
-  pristine_tree_hash: 5937f76c1e119c1a34d34b242410d587ed1a4709
+  generation_id: 658f109e-1d54-42b7-a178-03af37a50b7e
+  pristine_commit_hash: 307d9700cb0a367664f61b3a8c170fa8d1fe8994
+  pristine_tree_hash: 4e354ab9584a81d223e16b5c334f9bcd01c6dc5e
 features:
   python:
     additionalDependencies: 1.0.0
@@ -1116,8 +1116,8 @@ trackedFiles:
     pristine_git_object: e8588180cfffc4833dcbc3ba622c660f3b3da692
   docs/models/createinputinputsystemstate.md:
     id: 466ca637ba49
-    last_write_checksum: sha1:f9baba8761bce8f0a0e7154c5706962abf7097ea
-    pristine_git_object: be41d2baa7c849212a7f5d02bb44a50fa97b8df1
+    last_write_checksum: sha1:661fba63d3ebbeeb8f06ed43c7e37d8072a6ee15
+    pristine_git_object: 5b8d2c1f564154ee039168ba4cda0d323f064a4e
   docs/models/createinputinputtcp.md:
     id: ee9df6e10a37
     last_write_checksum: sha1:b1544fb37586813d614b31bf3fa06df3541075a0
@@ -4528,8 +4528,8 @@ trackedFiles:
     pristine_git_object: 303ef5cbd299dbe7afb6520da6aad71a1f86b61f
   docs/models/inputsystemstate.md:
     id: 68e04b9aa43e
-    last_write_checksum: sha1:03da3da4abe9d63899a381b61044a4299ea86701
-    pristine_git_object: d03ca28d0cb05959c503192c81e9aeeb52b7671e
+    last_write_checksum: sha1:e29bd5500acf421d18652ad53987cbf9d3e9b25c
+    pristine_git_object: ead3fd95c175c699a36205638ed19f4f59ed9cf6
   docs/models/inputsystemstatepersistence.md:
     id: bd689a0eebe1
     last_write_checksum: sha1:0630367a70b87b00eaf9822fe49302611956132d
@@ -7764,8 +7764,8 @@ trackedFiles:
     pristine_git_object: b544c0672932455667932931aee261eaaff6776b
   docs/models/routeconf.md:
     id: 6b5e005c057d
-    last_write_checksum: sha1:818b1465e8c134603790fe693a341a01cb4011e0
-    pristine_git_object: 999904006b5c60a45fb960791531e1ef94b47587
+    last_write_checksum: sha1:17a4b30cbf1b755190ed8998be3c8b912f2eed40
+    pristine_git_object: 1a3a8075037a435ad545147965a7d4d197035426
   docs/models/routes.md:
     id: 7b56d6da5562
     last_write_checksum: sha1:80e36eee47239b41aeeb10a591e1b1948bf27bb3
@@ -8298,6 +8298,10 @@ trackedFiles:
     id: 5c0836d4405b
     last_write_checksum: sha1:c72a9d2d54cf5d83788050530d7200eec76c9004
     pristine_git_object: 7457253325102cd09cbe0e0161c9170493b1465e
+  docs/models/targetcontext.md:
+    id: 7e6866f72ecf
+    last_write_checksum: sha1:1fd52bd913b2d3d3fecfb2c42c4018ffa022bbf9
+    pristine_git_object: 6952e3b9a9f5ca286faf49c39cb0abff0e006e44
   docs/models/teamaccesscontrollist.md:
     id: 6013dc3b0764
     last_write_checksum: sha1:65d7faddcf6f57a9cf4bb8fe0bfc155589185091
@@ -8600,8 +8604,8 @@ trackedFiles:
     pristine_git_object: 134cde206e1123617da7f5e82cdd8b0b96f54f9e
   docs/sdks/routessdk/README.md:
     id: 7c151891b0a4
-    last_write_checksum: sha1:898d93160b849df4af7910f89c8aa1ea6a68363b
-    pristine_git_object: b2c9b9d2fadef4f2a9e2285a73f3568aaa35b094
+    last_write_checksum: sha1:f985c7384b5c9933088b29b154936302acb71d01
+    pristine_git_object: bef65580214958b064084a4ed9b91ae3f932eb62
   docs/sdks/samples/README.md:
     id: 2b3e67e9f9a5
     last_write_checksum: sha1:a53acb0d2735404448c545e76abe3803bd43b93d
@@ -8644,8 +8648,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:eb768fb50122b691e062e0925f381aaa77be0390
-    pristine_git_object: 4a8752996d455184c539bdd916b69b3a11bee895
+    last_write_checksum: sha1:da67ca178c44d4a411d7ff1ce2b666d3dec1c09b
+    pristine_git_object: 89e23e79871bd4dd35cc47fda50e2b89ac34b45f
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -8676,8 +8680,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:175b3bc2127239a6f2f3766439ae6c292d4f4aae
-    pristine_git_object: 85e293376a320e64b7a299e74fc7cb5620ae9872
+    last_write_checksum: sha1:132d453a46eae944857fe8d57289e6de392dd3a7
+    pristine_git_object: 79fba37c1bf71bb4181557c0248a28ed54e4dc7a
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -8780,8 +8784,8 @@ trackedFiles:
     pristine_git_object: c0d118580fd3166b17ca06888733605534e83905
   src/cribl_control_plane/models/__init__.py:
     id: 558fbe1bf6ca
-    last_write_checksum: sha1:c6e404df47d1afccdb7d104a714008e3cc295833
-    pristine_git_object: 5b1316c5eb1c031e29652395d98a822fc9ce57fa
+    last_write_checksum: sha1:139d167981783806c0bc9a0cdd1eb8d831830f71
+    pristine_git_object: c6902c214abd5cc7115ae39b2c0921d2eaf1eb8d
   src/cribl_control_plane/models/acknowledgmentsoptions.py:
     id: 2537877f09eb
     last_write_checksum: sha1:4d96487823456aeba81ac18813b05570968697e3
@@ -9180,8 +9184,8 @@ trackedFiles:
     pristine_git_object: 2c42358e12e602d17ab6f2ab622667d4de713ab3
   src/cribl_control_plane/models/createinputop.py:
     id: a1b539ed25c3
-    last_write_checksum: sha1:a6bec55f0190ea1ca1a1f6161720635c5a12d859
-    pristine_git_object: a94f9f9fc239639410d8a61467962e9419c65208
+    last_write_checksum: sha1:61a705d59d54f34d33883d4301bd6bbee645bb58
+    pristine_git_object: f26901a0e9240b77c9747f43310c18c3a95fd877
   src/cribl_control_plane/models/createoutputop.py:
     id: dd9442d8fc8c
     last_write_checksum: sha1:38aa372dd644cdb0eebeb9dccf67efaab3050799
@@ -10160,8 +10164,8 @@ trackedFiles:
     pristine_git_object: e5ad0d613acce98b9411c409923a974cedf57d90
   src/cribl_control_plane/models/inputsystemstate.py:
     id: da7558f3c627
-    last_write_checksum: sha1:5394ae1be1bfb7db4ada0cad4cfda115869c44df
-    pristine_git_object: a91a486ef0a922b08214ecbf56b6a15c89b8e47e
+    last_write_checksum: sha1:46a7f472549d83103ee1c17d6d0469319a2ba822
+    pristine_git_object: 23c4fc5be8f100defecf0e8c0bde5991c1cdb82c
   src/cribl_control_plane/models/inputtcp.py:
     id: 74b0b137d6f1
     last_write_checksum: sha1:614fdd966041113a473ffa1b64a023e22732ab85
@@ -11152,8 +11156,8 @@ trackedFiles:
     pristine_git_object: ad09a6b20769bdf3b668d55d24f920e0fad1c20e
   src/cribl_control_plane/models/routeconf.py:
     id: 99f8023759b2
-    last_write_checksum: sha1:7ff3156594ea8b7e86addec385a7a4534b83fe86
-    pristine_git_object: 3496cd99fde8561e0b59fac33bc937a17ea7a720
+    last_write_checksum: sha1:297e1a3a26e9f6c5eeea5a5d915fc9109a3a3036
+    pristine_git_object: 0ac76043c02e7e47eb3e3b282c0df11437fd761a
   src/cribl_control_plane/models/routes.py:
     id: 3dda91ee470c
     last_write_checksum: sha1:629d994eb68c4da6a01e9ff5b554064ccb34f320
@@ -11318,6 +11322,10 @@ trackedFiles:
     id: e013b02da9b8
     last_write_checksum: sha1:318878588e14d9e148afb33d1b4be269f0ec54af
     pristine_git_object: 9c7a05f4421b29d84a0a4489a4e380d4114829fb
+  src/cribl_control_plane/models/targetcontext.py:
+    id: f07bc3268872
+    last_write_checksum: sha1:5609bf2218a5c0dacbfeed8da6d533268cf71df7
+    pristine_git_object: 11a6fe717003cdf807a604ecf4bf39125c9a714a
   src/cribl_control_plane/models/teamaccesscontrollist.py:
     id: 0438d646b569
     last_write_checksum: sha1:8b396a5f5d0557043dd26863a3993dd1448187b8
@@ -14332,7 +14340,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: [{"clones": [{"key": "<value>"}, {}], "context": "<value>", "description": "Route new logs to main pipeline", "disabled": true, "enableOutputExpression": true, "filter": "source == \"new.log\"", "final": true, "groupId": "<id>", "id": "route-new", "name": "new-route", "output": "<value>", "outputExpression": "<value>", "pipeline": "main", "toGroupContext": true, "toPackContext": true}]
+        application/json: [{"clones": [{"key": "<value>"}, {}], "context": "<value>", "description": "Route new logs to main pipeline", "disabled": true, "enableOutputExpression": true, "filter": "source == \"new.log\"", "final": true, "groupId": "<id>", "id": "route-new", "name": "new-route", "output": "<value>", "outputExpression": "<value>", "pipeline": "main", "targetContext": "group"}]
       responses:
         "200":
           application/json: {"count": 486469, "items": [{"id": "<id>", "routes": [], "groups": {"key": {"name": "<value>", "description": "dirty finally helpless", "disabled": false}}, "comments": [{"comment": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart"}]}]}
@@ -14343,7 +14351,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: [{"clones": [{"key": "<value>", "key1": "<value>"}], "context": "<value>", "description": "Route audit logs", "disabled": false, "enableOutputExpression": false, "filter": "source == \"audit.log\"", "final": false, "groupId": "<id>", "id": "route-audit", "name": "audit", "output": "default", "outputExpression": "<value>", "pipeline": "main", "toGroupContext": true, "toPackContext": true}, {"clones": [{}, {}, {}], "context": "<value>", "description": "Route security logs", "disabled": true, "enableOutputExpression": false, "filter": "source == \"security.log\"", "final": false, "groupId": "<id>", "id": "route-security", "name": "security", "output": "devnull", "outputExpression": "<value>", "pipeline": "passthru", "toGroupContext": true, "toPackContext": true}]
+        application/json: [{"clones": [{"key": "<value>", "key1": "<value>"}], "context": "<value>", "description": "Route audit logs", "disabled": false, "enableOutputExpression": false, "filter": "source == \"audit.log\"", "final": false, "groupId": "<id>", "id": "route-audit", "name": "audit", "output": "default", "outputExpression": "<value>", "pipeline": "main", "targetContext": "group"}, {"clones": [{}, {}, {}], "context": "<value>", "description": "Route security logs", "disabled": true, "enableOutputExpression": false, "filter": "source == \"security.log\"", "final": false, "groupId": "<id>", "id": "route-security", "name": "security", "output": "devnull", "outputExpression": "<value>", "pipeline": "passthru", "targetContext": "group"}]
       responses:
         "200":
           application/json: {"count": 486469, "items": [{"id": "<id>", "routes": [], "groups": {"key": {"name": "<value>", "description": "dirty finally helpless", "disabled": false}}, "comments": [{"comment": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart"}]}]}
@@ -14354,7 +14362,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: [{"clones": [{"key": "<value>", "key1": "<value>"}], "context": "<value>", "description": "Route with dynamic Destination based on environment", "disabled": false, "enableOutputExpression": true, "filter": "source == \"dynamic.log\"", "final": true, "groupId": "<id>", "id": "route-dynamic-append", "name": "dynamic-append", "output": "<value>", "outputExpression": "`myDest_${C.logStreamEnv}`", "pipeline": "main", "toGroupContext": true, "toPackContext": true}]
+        application/json: [{"clones": [{"key": "<value>", "key1": "<value>"}], "context": "<value>", "description": "Route with dynamic Destination based on environment", "disabled": false, "enableOutputExpression": true, "filter": "source == \"dynamic.log\"", "final": true, "groupId": "<id>", "id": "route-dynamic-append", "name": "dynamic-append", "output": "<value>", "outputExpression": "`myDest_${C.logStreamEnv}`", "pipeline": "main", "targetContext": "group"}]
       responses:
         "200":
           application/json: {"count": 486469, "items": [{"id": "<id>", "routes": [], "groups": {"key": {"name": "<value>", "description": "dirty finally helpless", "disabled": false}}, "comments": [{"comment": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart"}]}]}
@@ -16508,7 +16516,7 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.routes.append()`: \n  *  `request_body.[].to_pack_context` **Added**\n"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.routes.append()`: \n  *  `request_body.[]` **Changed** **Breaking** :warning:\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

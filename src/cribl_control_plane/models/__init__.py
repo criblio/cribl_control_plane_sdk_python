@@ -3946,6 +3946,7 @@ if TYPE_CHECKING:
         TagsTypePackInstallInfo,
         TagsTypePackInstallInfoTypedDict,
     )
+    from .targetcontext import TargetContext
     from .teamaccesscontrollist import (
         TeamAccessControlList,
         TeamAccessControlListTypedDict,
@@ -7368,6 +7369,7 @@ __all__ = [
     "TagsTypePackInstallInfo",
     "TagsTypePackInstallInfoTypedDict",
     "Target",
+    "TargetContext",
     "TargetTypedDict",
     "TeamAccessControlList",
     "TeamAccessControlListTypedDict",
@@ -10769,6 +10771,7 @@ _dynamic_imports: dict[str, str] = {
     "TagAfterProcessingOptions": ".tagafterprocessingoptions",
     "TagsTypePackInstallInfo": ".tagstypepackinstallinfo",
     "TagsTypePackInstallInfoTypedDict": ".tagstypepackinstallinfo",
+    "TargetContext": ".targetcontext",
     "TeamAccessControlList": ".teamaccesscontrollist",
     "TeamAccessControlListTypedDict": ".teamaccesscontrollist",
     "TimeoutRetrySettingsType": ".timeoutretrysettingstype",

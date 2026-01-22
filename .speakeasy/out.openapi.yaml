@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1768950205651-63783523
+  version: 4.17.0-alpha.1769036671763-cea13d5f
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -15674,8 +15674,8 @@ components:
           description: Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)
         disableNativeLastLogModule:
           type: boolean
-          title: Use non-native API for LastLog
-          description: Enable to only use non-native API to collect LastLog events. This option will be unavailable in future releases. Please contact Support with any concerns about this deprecation. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)
+          title: Use legacy collection for LastLog
+          description: Enable only to collect LastLog data via legacy implementation. This option will be removed in a future release. Please contact Support before enabling. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)
         description:
           type: string
           title: Description
@@ -35384,6 +35384,12 @@ components:
       additionalProperties:
         type: string
         title: Clone fields
+    TargetContext:
+      type: string
+      enum:
+        - group
+        - pack
+      x-speakeasy-unknown-values: allow
     RouteConf:
       type: object
       properties:
@@ -35415,10 +35421,8 @@ components:
           type: string
         pipeline:
           type: string
-        toGroupContext:
-          type: boolean
-        toPackContext:
-          type: boolean
+        targetContext:
+          $ref: "#/components/schemas/TargetContext"
       required:
         - final
         - id

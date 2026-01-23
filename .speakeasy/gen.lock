@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 11ea0e55fa9ab5fcff80696a4c311cdc
-  docVersion: 4.16.0-alpha.1769021190029-fa2dbe7b
-  speakeasyVersion: 1.690.0
-  generationVersion: 2.797.1
-  releaseVersion: 0.5.0a13
-  configChecksum: 330b27f04eed44b5c044a2dc2d24d35a
+  docChecksum: c7e88fb9fbc4a0959c2cb7b7ecad3a85
+  docVersion: 4.16.0-alpha.1769123103877-c18d3d5e
+  speakeasyVersion: 1.693.0
+  generationVersion: 2.798.0
+  releaseVersion: 0.5.0a14
+  configChecksum: 78acad43bfe17218b18c3c3af8930472
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 0d5adb95-3d0a-49b3-92cb-fc47fd05e6ac
-  pristine_commit_hash: 1e00965ca3e30e002c187542e5f06d51a224f3d6
-  pristine_tree_hash: f531ee209aefb66070da9d41e872e6d944bb64f3
+  generation_id: 272ff2ec-0c48-4af2-874b-39e0e04e2fa6
+  pristine_commit_hash: ba9e92e900f3a0fb68a403f7757df7793b546794
+  pristine_tree_hash: 075784c7b26b9aad7f407f77d026bf1e4063122f
 features:
   python:
     additionalDependencies: 1.0.0
@@ -35,7 +35,7 @@ features:
     nameOverrides: 3.0.1
     nullables: 1.0.2
     oauth2ClientCredentials: 2.1.1
-    openEnums: 1.0.2
+    openEnums: 1.0.3
     responseFormat: 1.0.1
     retries: 3.0.3
     sdkHooks: 1.2.1
@@ -1912,8 +1912,8 @@ trackedFiles:
     pristine_git_object: 500b04dd627192a488fab082229b4f89eb7cbe7f
   docs/models/createoutputoutputwizhec.md:
     id: ba48fd6bb3e7
-    last_write_checksum: sha1:341c60d7eb8375d6c8e49defe7a0316ffed4378f
-    pristine_git_object: d1de38a556b4ecfa55b7984fe0c10cb96557945f
+    last_write_checksum: sha1:721d4f55056b875926af99364f129e5b8600fc31
+    pristine_git_object: a0090f14915377ed588e19e957a0356b3736d761
   docs/models/createoutputoutputxsiam.md:
     id: a974b174772b
     last_write_checksum: sha1:1351a85c4a5b764e4e211863147a14f274ffef05
@@ -6724,8 +6724,12 @@ trackedFiles:
     pristine_git_object: bf60579f9777cbe8b1a5ec80d2e400ada3f270c9
   docs/models/outputwizhec.md:
     id: 199fdc64c53d
-    last_write_checksum: sha1:adc780e86c70c001fb8165829ba322bb0d0341b8
-    pristine_git_object: 4b83a053d7f0bfda9d2557d39ca58c7127b91b54
+    last_write_checksum: sha1:c834d6175aea02cfaf7999cb4ee858f74b41b9c2
+    pristine_git_object: 680a7d847e3e0dacf902861a70187f237663e216
+  docs/models/outputwizhecpqcontrols.md:
+    id: bfac6a997922
+    last_write_checksum: sha1:e6f6a3aa150b57304c4a966836753c562b6fb9cd
+    pristine_git_object: 5cac5c4d9a55a9b37cb796c587bad217be0322c5
   docs/models/outputwizhectype.md:
     id: 967aec60be76
     last_write_checksum: sha1:6bd47f69e3eeea5903d3233889a981522ea990b2
@@ -7714,6 +7718,10 @@ trackedFiles:
     id: e8e41505d0ba
     last_write_checksum: sha1:caa43dfd007490c922efca5e1a06e5c128d927f8
     pristine_git_object: 48c3ecd3683efde28cbe38db56854ffcb1b19ea3
+  docs/models/pqcontrolswizhec.md:
+    id: 741f3fc432ae
+    last_write_checksum: sha1:b4cff84dece756c1aab0006808060b62efc49421
+    pristine_git_object: 71eb2cb32ed310f872f8496cd1d1677e90b85e02
   docs/models/pqcontrolsxsiam.md:
     id: 5c03fee07587
     last_write_checksum: sha1:ae9d5d49a76715bbfdeb3255aacc2cc8f34e4838
@@ -11104,8 +11112,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:94d754748c143e9fb1eb1c399e05843e017bd195
-    pristine_git_object: be8d5d7f1c307b2dc9e95572cb1dce6e5c147004
+    last_write_checksum: sha1:41a6317cb563fbf76565ebefd72a12256b12edb1
+    pristine_git_object: e634bd83ca8a554d6cbfe61cc00b7414d41224a7
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -11136,8 +11144,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:722a619b039b79d52d644872a536c8c78acdc5ee
-    pristine_git_object: a583b82eeda0b9a87caadcec055fd80e268258e6
+    last_write_checksum: sha1:5c1536e92b043e4ccbf5b30e54d69bb9477f424e
+    pristine_git_object: 011f55424d0d8680562c533dfd71967f73376ed8
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -11236,8 +11244,8 @@ trackedFiles:
     pristine_git_object: c0d118580fd3166b17ca06888733605534e83905
   src/cribl_control_plane/models/__init__.py:
     id: 558fbe1bf6ca
-    last_write_checksum: sha1:f80be5d049071b8688539544557c9fd1eb77e45f
-    pristine_git_object: f3de62ceac4cedfcc0905f8648688310781a1cc2
+    last_write_checksum: sha1:d198357647613d47119bd9b2eeb9ce1ed1325d29
+    pristine_git_object: 261e63586aac9a5d230be0552a540cae1b8dbac9
   src/cribl_control_plane/models/acknowledgmentsoptions.py:
     id: 2537877f09eb
     last_write_checksum: sha1:4d96487823456aeba81ac18813b05570968697e3
@@ -11636,8 +11644,8 @@ trackedFiles:
     pristine_git_object: cffe0046f93fc9ec5247328be63abbcfff87ef70
   src/cribl_control_plane/models/createoutputop.py:
     id: dd9442d8fc8c
-    last_write_checksum: sha1:03bbf18f7f08dec3f690e4b5fd2bca177d3b9dc9
-    pristine_git_object: c895f2b1af4240450b58080e7e006bec34f0e86b
+    last_write_checksum: sha1:110fe88b015143d92a2ece10b641d9b9b50f71d3
+    pristine_git_object: 9dc088956691edb3cbb7b42ac605cd64004fec41
   src/cribl_control_plane/models/createoutputtestbyidop.py:
     id: 884e2bc55e79
     last_write_checksum: sha1:92b15e137c7108df0ab6d6f4982c3e460a193f66
@@ -12892,8 +12900,8 @@ trackedFiles:
     pristine_git_object: 26306c8a5a9ef4ae9dbfb2bfa8f24752c71f4ab1
   src/cribl_control_plane/models/output.py:
     id: f4d9666b7d9f
-    last_write_checksum: sha1:abe04a8a6e257adad19c1c4df72c22e6d8685642
-    pristine_git_object: b33130fb3939d0ddd8b5001f4c4ad3932a38bb59
+    last_write_checksum: sha1:107b00dbd44d49a1b5c2fd7232a7a85b665755a5
+    pristine_git_object: bbcf17e00fb1f0f3d5a69f6cae62234c74459a7d
   src/cribl_control_plane/models/outputazureblob.py:
     id: 11d57ae340d9
     last_write_checksum: sha1:ed8d83f164f9cd113d9ab9f472bd04bbfb6edd4e
@@ -13184,8 +13192,8 @@ trackedFiles:
     pristine_git_object: 86754deced94cb8b243a582530657f8878f6ef12
   src/cribl_control_plane/models/outputwizhec.py:
     id: f0a40a7a4458
-    last_write_checksum: sha1:8f2313d65061f86c9f6a4686f1e0af0b0f7e912c
-    pristine_git_object: 5c6d3eedb7f651b30e92e0225393b2cdc58cfb59
+    last_write_checksum: sha1:311d2c8f20157af82df3349f4bdaa2f35a42bedd
+    pristine_git_object: 44d6c099519e88a87cd50cc7d90e5636b416dc62
   src/cribl_control_plane/models/outputxsiam.py:
     id: 6c1c39431130
     last_write_checksum: sha1:92dfc88bad54c2d11f3cc3be31f312652b7a6495
@@ -15712,7 +15720,7 @@ examples:
           application/json: {"message": "<value>"}
     OutputCreateExamplesWizHec:
       requestBody:
-        application/json: {"id": "wiz-hec-output", "type": "wiz_hec", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>"], "loadBalanced": true, "nextQueue": "<value>", "tcpRouting": "<value>", "tls": {"disabled": false, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.2", "maxVersion": "TLSv1.1"}, "concurrency": 3435.49, "maxPayloadSizeKB": 3058.86, "maxPayloadEvents": 2063.99, "compress": false, "rejectUnauthorized": true, "timeoutSec": 3533.62, "flushPeriodSec": 373.83, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "payload", "safeHeaders": ["<value 1>", "<value 2>"], "enableMultiMetrics": false, "authType": "manual", "responseRetrySettings": [{"httpStatus": 5395.85, "initialBackoff": 5493.68, "backoffRate": 5815.97, "maxBackoff": 4757.68}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 483.81, "backoffRate": 7907.59, "maxBackoff": 37.91}, "responseHonorRetryAfterHeader": true, "onBackpressure": "queue", "wiz_connector_id": "00000000-0000-0000-0000-000000000000", "wiz_environment": "test", "data_center": "us1", "wiz_sourcetype": "placeholder", "description": "tuber if er kindheartedly gah", "token": "<value>", "textSecret": "<value>"}
+        application/json: {"id": "wiz-hec-output", "type": "wiz_hec", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>"], "loadBalanced": true, "nextQueue": "<value>", "tcpRouting": "<value>", "tls": {"disabled": false, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.2", "maxVersion": "TLSv1.1"}, "concurrency": 3435.49, "maxPayloadSizeKB": 3058.86, "maxPayloadEvents": 2063.99, "compress": false, "rejectUnauthorized": true, "timeoutSec": 3533.62, "flushPeriodSec": 373.83, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "payload", "safeHeaders": ["<value 1>", "<value 2>"], "enableMultiMetrics": false, "authType": "manual", "responseRetrySettings": [{"httpStatus": 5395.85, "initialBackoff": 5493.68, "backoffRate": 5815.97, "maxBackoff": 4757.68}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 483.81, "backoffRate": 7907.59, "maxBackoff": 37.91}, "responseHonorRetryAfterHeader": true, "onBackpressure": "queue", "wiz_connector_id": "00000000-0000-0000-0000-000000000000", "wiz_environment": "test", "data_center": "us1", "wiz_sourcetype": "placeholder", "description": "tuber if er kindheartedly gah", "pqStrictOrdering": true, "pqRatePerSec": 2614.76, "pqMode": "always", "pqMaxBufferSize": 7295.73, "pqMaxBackpressureSec": 166.54, "pqMaxFileSize": "<value>", "pqMaxSize": "<value>", "pqPath": "<value>", "pqCompress": "gzip", "pqOnBackpressure": "block", "pqControls": {}, "token": "<value>", "textSecret": "<value>"}
       responses:
         "200":
           application/json: {"count": 432997, "items": [{"id": "<id>", "type": "signalfx", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>"], "authType": "manual", "realm": "<value>", "concurrency": 2027.39, "maxPayloadSizeKB": 6327.02, "maxPayloadEvents": 1973.31, "compress": false, "rejectUnauthorized": false, "timeoutSec": 7162.37, "flushPeriodSec": 9284.86, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "useRoundRobinDns": true, "failedRequestLoggingMode": "payload", "safeHeaders": ["<value 1>", "<value 2>"], "responseRetrySettings": [{"httpStatus": 5395.85, "initialBackoff": 5493.68, "backoffRate": 5815.97, "maxBackoff": 4757.68}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 483.81, "backoffRate": 7907.59, "maxBackoff": 37.91}, "responseHonorRetryAfterHeader": false, "onBackpressure": "block", "description": "although while provision", "token": "<value>", "textSecret": "<value>", "pqStrictOrdering": true, "pqRatePerSec": 4000.34, "pqMode": "backpressure", "pqMaxBufferSize": 9297.08, "pqMaxBackpressureSec": 7175.4, "pqMaxFileSize": "<value>", "pqMaxSize": "<value>", "pqPath": "<value>", "pqCompress": "gzip", "pqOnBackpressure": "block", "pqControls": {}}]}
@@ -16442,7 +16450,7 @@ examples:
         path:
           id: "<id>"
       requestBody:
-        application/json: {"id": "wiz-hec-output", "type": "wiz_hec", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "loadBalanced": false, "nextQueue": "<value>", "tcpRouting": "<value>", "tls": {"disabled": false, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.2", "maxVersion": "TLSv1.3"}, "concurrency": 7233.72, "maxPayloadSizeKB": 8699.57, "maxPayloadEvents": 1501.04, "compress": false, "rejectUnauthorized": true, "timeoutSec": 7438.51, "flushPeriodSec": 9385.01, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "payload", "safeHeaders": ["<value 1>", "<value 2>"], "enableMultiMetrics": false, "authType": "manual", "responseRetrySettings": [{"httpStatus": 3612.5, "initialBackoff": 2452.56, "backoffRate": 1370.95, "maxBackoff": 434.99}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1512.93, "backoffRate": 7289.7, "maxBackoff": 7576.49}, "responseHonorRetryAfterHeader": true, "onBackpressure": "drop", "wiz_connector_id": "00000000-0000-0000-0000-000000000000", "wiz_environment": "test", "data_center": "us1", "wiz_sourcetype": "placeholder", "description": "rekindle for clear cassava overdue whoa cram incidentally", "token": "<value>", "textSecret": "<value>"}
+        application/json: {"id": "wiz-hec-output", "type": "wiz_hec", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>", "<value 3>"], "environment": "<value>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "loadBalanced": false, "nextQueue": "<value>", "tcpRouting": "<value>", "tls": {"disabled": false, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1.2", "maxVersion": "TLSv1.3"}, "concurrency": 7233.72, "maxPayloadSizeKB": 8699.57, "maxPayloadEvents": 1501.04, "compress": false, "rejectUnauthorized": true, "timeoutSec": 7438.51, "flushPeriodSec": 9385.01, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "payload", "safeHeaders": ["<value 1>", "<value 2>"], "enableMultiMetrics": false, "authType": "manual", "responseRetrySettings": [{"httpStatus": 3612.5, "initialBackoff": 2452.56, "backoffRate": 1370.95, "maxBackoff": 434.99}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1512.93, "backoffRate": 7289.7, "maxBackoff": 7576.49}, "responseHonorRetryAfterHeader": true, "onBackpressure": "drop", "wiz_connector_id": "00000000-0000-0000-0000-000000000000", "wiz_environment": "test", "data_center": "us1", "wiz_sourcetype": "placeholder", "description": "rekindle for clear cassava overdue whoa cram incidentally", "pqStrictOrdering": true, "pqRatePerSec": 6434.77, "pqMode": "error", "pqMaxBufferSize": 2924.72, "pqMaxBackpressureSec": 4562.74, "pqMaxFileSize": "<value>", "pqMaxSize": "<value>", "pqPath": "<value>", "pqCompress": "none", "pqOnBackpressure": "block", "pqControls": {}, "token": "<value>", "textSecret": "<value>"}
       responses:
         "200":
           application/json: {"count": 85742, "items": [{"id": "<id>", "type": "google_chronicle", "pipeline": "<value>", "systemFields": ["<value 1>", "<value 2>"], "environment": "<value>", "streamtags": ["<value 1>"], "apiVersion": "v1", "authenticationMethod": "secret", "responseRetrySettings": [{"httpStatus": 3612.5, "initialBackoff": 2452.56, "backoffRate": 1370.95, "maxBackoff": 434.99}], "timeoutRetrySettings": {"timeoutRetry": false, "initialBackoff": 1512.93, "backoffRate": 7289.7, "maxBackoff": 7576.49}, "responseHonorRetryAfterHeader": true, "logFormatType": "unstructured", "region": "<value>", "concurrency": 5935.1, "maxPayloadSizeKB": 5688.61, "maxPayloadEvents": 833.69, "compress": true, "rejectUnauthorized": true, "timeoutSec": 9152.37, "flushPeriodSec": 9177.1, "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "failedRequestLoggingMode": "payload", "safeHeaders": ["<value 1>"], "useRoundRobinDns": false, "onBackpressure": "queue", "totalMemoryLimitKB": 8499.78, "description": "tune-up obvious restfully yet because schlep eyeliner deploy", "extraLogTypes": [{"logType": "<value>", "description": "solder dull stay yet overcooked per debut attest"}], "logType": "<value>", "logTextField": "<value>", "customerId": "<id>", "namespace": "<value>", "customLabels": [{"key": "<key>", "value": "<value>"}], "udmType": "logs", "apiKey": "<value>", "apiKeySecret": "<value>", "serviceAccountCredentials": "<value>", "serviceAccountCredentialsSecret": "<value>", "pqStrictOrdering": true, "pqRatePerSec": 8914.94, "pqMode": "always", "pqMaxBufferSize": 3619.32, "pqMaxBackpressureSec": 1674.28, "pqMaxFileSize": "<value>", "pqMaxSize": "<value>", "pqPath": "<value>", "pqCompress": "none", "pqOnBackpressure": "drop", "pqControls": {}}]}
@@ -18696,6 +18704,7 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[wiz_hec]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[wiz_hec]` **Changed**\n  *  `response.items.[].[wiz_hec]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[wiz_hec]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[wiz_hec]` **Changed**\n  *  `response.items.[].[wiz_hec]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[wiz_hec]` **Changed**\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

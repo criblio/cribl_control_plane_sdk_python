@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1769021190029-fa2dbe7b
+  version: 4.16.0-alpha.1769123103877-c18d3d5e
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -22567,10 +22567,53 @@ components:
         description:
           type: string
           title: Description
+        pqStrictOrdering:
+          title: Strict ordering
+          description: Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed.
+          type: boolean
+        pqRatePerSec:
+          type: number
+          title: Drain rate limit (EPS)
+          description: Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling.
+          minimum: 0
+        pqMode:
+          $ref: "#/components/schemas/ModeOptions"
+        pqMaxBufferSize:
+          type: number
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
+          minimum: 42
+          maximum: 1000
+        pqMaxBackpressureSec:
+          type: number
+          title: Backpressure duration limit
+          description: How long (in seconds) to wait for backpressure to resolve before engaging the queue
+          minimum: 0
+        pqMaxFileSize:
+          type: string
+          title: File size limit
+          description: The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)
+          pattern: ^\d+\s*(?:\w{2})?$
+        pqMaxSize:
+          type: string
+          title: Queue size limit
+          description: The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
+          pattern: ^\d+\s*(?:\w{2})?$
+        pqPath:
+          type: string
+          title: Queue file path
+          description: "The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."
+        pqCompress:
+          $ref: "#/components/schemas/CompressionOptionsPq"
+        pqOnBackpressure:
+          $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqControls:
+          type: object
+          title: ""
         token:
           type: string
           title: Authentication token
-          description: Wiz Defender Auth token
+          description: Wiz Defend Auth token
         textSecret:
           type: string
           title: Authentication token (text secret)
@@ -40362,7 +40405,7 @@ components:
           - filter: "true"
             output: my-output
     OutputCreateExamplesWizHec:
-      summary: Wiz Defender
+      summary: Wiz Defend
       value:
         id: wiz-hec-output
         type: wiz_hec

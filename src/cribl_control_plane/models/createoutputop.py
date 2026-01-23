@@ -25682,6 +25682,14 @@ class CreateOutputTypeWizHec(str, Enum):
     WIZ_HEC = "wiz_hec"
 
 
+class PqControlsWizHecTypedDict(TypedDict):
+    pass
+
+
+class PqControlsWizHec(BaseModel):
+    pass
+
+
 class CreateOutputOutputWizHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
@@ -25741,8 +25749,29 @@ class CreateOutputOutputWizHecTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[ModeOptions]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+    pq_max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+    pq_max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    pq_path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    pq_compress: NotRequired[CompressionOptionsPq]
+    r"""Codec to use to compress the persisted data"""
+    pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_controls: NotRequired[PqControlsWizHecTypedDict]
     token: NotRequired[str]
-    r"""Wiz Defender Auth token"""
+    r"""Wiz Defend Auth token"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
 
@@ -25869,8 +25898,56 @@ class CreateOutputOutputWizHec(BaseModel):
 
     description: Optional[str] = None
 
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = None
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = None
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = None
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = None
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
+    pq_max_file_size: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxFileSize")
+    ] = None
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+
+    pq_compress: Annotated[
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
+    ] = None
+    r"""Codec to use to compress the persisted data"""
+
+    pq_on_backpressure: Annotated[
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
+    ] = None
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+
+    pq_controls: Annotated[
+        Optional[PqControlsWizHec], pydantic.Field(alias="pqControls")
+    ] = None
+
     token: Optional[str] = None
-    r"""Wiz Defender Auth token"""
+    r"""Wiz Defend Auth token"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -25898,6 +25975,33 @@ class CreateOutputOutputWizHec(BaseModel):
         if isinstance(value, str):
             try:
                 return models.BackpressureBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_mode")
+    def serialize_pq_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ModeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_compress")
+    def serialize_pq_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionOptionsPq(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_on_backpressure")
+    def serialize_pq_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.QueueFullBehaviorOptions(value)
             except ValueError:
                 return value
         return value
@@ -25931,6 +26035,17 @@ class CreateOutputOutputWizHec(BaseModel):
                 "responseHonorRetryAfterHeader",
                 "onBackpressure",
                 "description",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqControls",
                 "token",
                 "textSecret",
             ]
@@ -29018,16 +29133,15 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputNetflowTypedDict,
         CreateOutputOutputDiskSpoolTypedDict,
         CreateOutputOutputRingTypedDict,
-        CreateOutputOutputGraphiteTypedDict,
         CreateOutputOutputStatsdTypedDict,
         CreateOutputOutputStatsdExtTypedDict,
+        CreateOutputOutputGraphiteTypedDict,
         CreateOutputOutputGooglePubsubTypedDict,
-        CreateOutputOutputWizHecTypedDict,
         CreateOutputOutputSplunkTypedDict,
         CreateOutputOutputSnsTypedDict,
         CreateOutputOutputCriblTCPTypedDict,
-        CreateOutputOutputAzureEventhubTypedDict,
         CreateOutputOutputCloudwatchTypedDict,
+        CreateOutputOutputAzureEventhubTypedDict,
         CreateOutputOutputMicrosoftFabricTypedDict,
         CreateOutputOutputHoneycombTypedDict,
         CreateOutputOutputSignalfxTypedDict,
@@ -29040,24 +29154,25 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputCrowdstrikeNextGenSiemTypedDict,
         CreateOutputOutputAzureLogsTypedDict,
         CreateOutputOutputKafkaTypedDict,
+        CreateOutputOutputConfluentCloudTypedDict,
         CreateOutputOutputNewrelicEventsTypedDict,
         CreateOutputOutputKinesisTypedDict,
-        CreateOutputOutputConfluentCloudTypedDict,
-        CreateOutputOutputSplunkLbTypedDict,
         CreateOutputOutputSqsTypedDict,
-        CreateOutputOutputSyslogTypedDict,
+        CreateOutputOutputSplunkLbTypedDict,
         CreateOutputOutputNewrelicTypedDict,
+        CreateOutputOutputSyslogTypedDict,
         CreateOutputOutputXsiamTypedDict,
         CreateOutputOutputFilesystemTypedDict,
+        CreateOutputOutputWizHecTypedDict,
         CreateOutputOutputCriblSearchEngineTypedDict,
         CreateOutputOutputCriblHTTPTypedDict,
         CreateOutputOutputDatasetTypedDict,
         CreateOutputOutputDynatraceHTTPTypedDict,
         CreateOutputOutputLokiTypedDict,
-        CreateOutputOutputSplunkHecTypedDict,
-        CreateOutputOutputServiceNowTypedDict,
-        CreateOutputOutputDynatraceOtlpTypedDict,
         CreateOutputOutputChronicleTypedDict,
+        CreateOutputOutputSplunkHecTypedDict,
+        CreateOutputOutputDynatraceOtlpTypedDict,
+        CreateOutputOutputServiceNowTypedDict,
         CreateOutputOutputCriblLakeTypedDict,
         CreateOutputOutputElasticTypedDict,
         CreateOutputOutputGoogleChronicleTypedDict,

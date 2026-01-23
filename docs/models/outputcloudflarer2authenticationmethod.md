@@ -9,4 +9,3 @@ AWS authentication method. Choose Auto to use IAM roles.
 | -------- | -------- |
 | `AUTO`   | auto     |
 | `SECRET` | secret   |
-| `MANUAL` | manual   |

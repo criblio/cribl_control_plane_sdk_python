@@ -20,12 +20,14 @@ class GroupCreateRequestTypedDict(TypedDict):
     deploying_worker_count: NotRequired[float]
     description: NotRequired[str]
     estimated_ingest_rate: NotRequired[EstimatedIngestRateOptionsConfigGroup]
-    r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
+    r"""Estimated ingest rate for Cloud Groups, in GB/sec."""
     git: NotRequired[GitTypeConfigGroupTypedDict]
     incompatible_worker_count: NotRequired[float]
     inherits: NotRequired[str]
     is_fleet: NotRequired[bool]
+    r"""Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets."""
     is_search: NotRequired[bool]
+    r"""Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups."""
     lookup_deployments: NotRequired[List[ConfigGroupLookupsTypedDict]]
     max_worker_age: NotRequired[str]
     name: NotRequired[str]
@@ -55,7 +57,7 @@ class GroupCreateRequest(BaseModel):
         Optional[EstimatedIngestRateOptionsConfigGroup],
         pydantic.Field(alias="estimatedIngestRate"),
     ] = None
-    r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
+    r"""Estimated ingest rate for Cloud Groups, in GB/sec."""
 
     git: Optional[GitTypeConfigGroup] = None
 
@@ -65,9 +67,23 @@ class GroupCreateRequest(BaseModel):
 
     inherits: Optional[str] = None
 
-    is_fleet: Annotated[Optional[bool], pydantic.Field(alias="isFleet")] = None
+    is_fleet: Annotated[
+        Optional[bool],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible.",
+            alias="isFleet",
+        ),
+    ] = None
+    r"""Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets."""
 
-    is_search: Annotated[Optional[bool], pydantic.Field(alias="isSearch")] = None
+    is_search: Annotated[
+        Optional[bool],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible.",
+            alias="isSearch",
+        ),
+    ] = None
+    r"""Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups."""
 
     lookup_deployments: Annotated[
         Optional[List[ConfigGroupLookups]], pydantic.Field(alias="lookupDeployments")

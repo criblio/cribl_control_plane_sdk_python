@@ -32,9 +32,10 @@ class OutputCloudflareR2Type(str, Enum):
 class OutputCloudflareR2AuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
+    # Auto
     AUTO = "auto"
+    # Secret Key pair
     SECRET = "secret"
-    MANUAL = "manual"
 
 
 class OutputCloudflareR2TypedDict(TypedDict):
@@ -111,8 +112,6 @@ class OutputCloudflareR2TypedDict(TypedDict):
     max_concurrent_file_parts: NotRequired[float]
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
     description: NotRequired[str]
-    aws_api_key: NotRequired[str]
-    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptions2]
@@ -153,8 +152,6 @@ class OutputCloudflareR2TypedDict(TypedDict):
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_format: NotRequired[str]
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
-    template_aws_api_key: NotRequired[str]
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
 class OutputCloudflareR2(BaseModel):
@@ -325,9 +322,6 @@ class OutputCloudflareR2(BaseModel):
 
     description: Optional[str] = None
 
-    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
-
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
@@ -424,11 +418,6 @@ class OutputCloudflareR2(BaseModel):
         Optional[str], pydantic.Field(alias="__template_format")
     ] = None
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
-
-    template_aws_api_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsApiKey")
-    ] = None
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
@@ -568,7 +557,6 @@ class OutputCloudflareR2(BaseModel):
                 "maxFileIdleTimeSec",
                 "maxConcurrentFileParts",
                 "description",
-                "awsApiKey",
                 "awsSecret",
                 "compress",
                 "compressionLevel",
@@ -589,7 +577,6 @@ class OutputCloudflareR2(BaseModel):
                 "maxRetryNum",
                 "__template_bucket",
                 "__template_format",
-                "__template_awsApiKey",
             ]
         )
         serialized = handler(self)

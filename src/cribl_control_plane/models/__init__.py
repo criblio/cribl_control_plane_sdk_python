@@ -96,6 +96,8 @@ if TYPE_CHECKING:
     from .branchinfo import BranchInfo, BranchInfoTypedDict
     from .cacheconnection import CacheConnection, CacheConnectionTypedDict
     from .cacheconnectionbackfillstatus import CacheConnectionBackfillStatus
+    from .capturelevel import CaptureLevel
+    from .captureparams import CaptureParams, CaptureParamsTypedDict
     from .certificatetypeazureblobauthtypeclientcert import (
         CertificateTypeAzureBlobAuthTypeClientCert,
         CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
@@ -5237,6 +5239,9 @@ __all__ = [
     "CacheConnection",
     "CacheConnectionBackfillStatus",
     "CacheConnectionTypedDict",
+    "CaptureLevel",
+    "CaptureParams",
+    "CaptureParamsTypedDict",
     "CaptureSettings",
     "CaptureSettingsTypedDict",
     "CertOptions",
@@ -9620,6 +9625,9 @@ _dynamic_imports: dict[str, str] = {
     "CacheConnection": ".cacheconnection",
     "CacheConnectionTypedDict": ".cacheconnection",
     "CacheConnectionBackfillStatus": ".cacheconnectionbackfillstatus",
+    "CaptureLevel": ".capturelevel",
+    "CaptureParams": ".captureparams",
+    "CaptureParamsTypedDict": ".captureparams",
     "CertificateTypeAzureBlobAuthTypeClientCert": ".certificatetypeazureblobauthtypeclientcert",
     "CertificateTypeAzureBlobAuthTypeClientCertTypedDict": ".certificatetypeazureblobauthtypeclientcert",
     "CheckpointingType": ".checkpointingtype",

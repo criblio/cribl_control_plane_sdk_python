@@ -31,7 +31,7 @@ class Captures(BaseSDK):
 
         :param duration: Amount of time to keep capture open, in seconds
         :param filter_: Filter expression to capture events
-        :param level:
+        :param level: Where to capture events
         :param max_events: Maximum number of events to capture
         :param step_duration: How long to wait before increasing the capture sample size. Specify 1 second or longer
         :param worker_id: Worker ID
@@ -153,7 +153,7 @@ class Captures(BaseSDK):
 
         :param duration: Amount of time to keep capture open, in seconds
         :param filter_: Filter expression to capture events
-        :param level:
+        :param level: Where to capture events
         :param max_events: Maximum number of events to capture
         :param step_duration: How long to wait before increasing the capture sample size. Specify 1 second or longer
         :param worker_id: Worker ID

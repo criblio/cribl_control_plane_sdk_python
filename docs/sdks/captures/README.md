@@ -25,7 +25,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.system.captures.get(duration=5, filter_="true", level=models.CaptureLevel.ZERO, max_events=100, step_duration=571732, worker_id="<id>", worker_threshold=609412)
+    res = ccp_client.system.captures.get(duration=5, filter_="true", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100, step_duration=571732, worker_id="<id>", worker_threshold=609412)
 
     with res as jsonl_stream:
         for event in jsonl_stream:
@@ -40,7 +40,7 @@ with CriblControlPlane(
 | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | `duration`                                                                             | *float*                                                                                | :heavy_check_mark:                                                                     | Amount of time to keep capture open, in seconds                                        |
 | `filter_`                                                                              | *str*                                                                                  | :heavy_check_mark:                                                                     | Filter expression to capture events                                                    |
-| `level`                                                                                | [models.CaptureLevel](../../models/capturelevel.md)                                    | :heavy_check_mark:                                                                     | N/A                                                                                    |
+| `level`                                                                                | [models.CaptureLevel](../../models/capturelevel.md)                                    | :heavy_check_mark:                                                                     | Where to capture events                                                                |
 | `max_events`                                                                           | *int*                                                                                  | :heavy_check_mark:                                                                     | Maximum number of events to capture                                                    |
 | `step_duration`                                                                        | *Optional[int]*                                                                        | :heavy_minus_sign:                                                                     | How long to wait before increasing the capture sample size. Specify 1 second or longer |
 | `worker_id`                                                                            | *Optional[str]*                                                                        | :heavy_minus_sign:                                                                     | Worker ID                                                                              |

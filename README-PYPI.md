@@ -347,7 +347,7 @@ with CriblControlPlane(
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get) - Get a Worker Group, Outpost Group, or Edge Fleet
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#update) - Update a Worker Group, Outpost Group, or Edge Fleet
 * [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#delete) - Delete a Worker Group, Outpost Group, or Edge Fleet
-* [deploy](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#deploy) - Deploy commits to a Worker Group or Edge Fleet
+* [deploy](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#deploy) - Deploy commits to a Worker Group, Outpost Group, or Edge Fleet
 
 #### [Groups.Acl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/acl/README.md)
 

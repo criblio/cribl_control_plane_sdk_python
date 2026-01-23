@@ -1,13 +1,23 @@
 # HealthCheckAuthenticationOauthSecretRetryRules
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                        | Type                                                                                                                         | Required                                                                                                                     | Description                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `type`                                                                                                                       | [models.RetryTypeOptionsHealthCheckCollectorConfRetryRules](../models/retrytypeoptionshealthcheckcollectorconfretryrules.md) | :heavy_check_mark:                                                                                                           | The algorithm to use when performing HTTP retries                                                                            |
-| `interval`                                                                                                                   | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `limit`                                                                                                                      | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `multiplier`                                                                                                                 | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `codes`                                                                                                                      | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
-| `enable_header`                                                                                                              | *Optional[Any]*                                                                                                              | :heavy_minus_sign:                                                                                                           | N/A                                                                                                                          |
+### `models.HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNone`
+
+```python
+value: models.HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNone = /* values here */
+```
+
+### `models.HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStatic`
+
+```python
+value: models.HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStatic = /* values here */
+```
+
+### `models.HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeBackoff`
+
+```python
+value: models.HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeBackoff = /* values here */
+```
+

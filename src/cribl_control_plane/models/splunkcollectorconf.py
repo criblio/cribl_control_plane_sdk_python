@@ -55,7 +55,7 @@ class SplunkAuthenticationLoginSecretCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
-class SplunkAuthenticationLoginSecretRetryRulesTypedDict(TypedDict):
+class SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -67,7 +67,7 @@ class SplunkAuthenticationLoginSecretRetryRulesTypedDict(TypedDict):
     retry_connect_reset: NotRequired[Any]
 
 
-class SplunkAuthenticationLoginSecretRetryRules(BaseModel):
+class SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -123,6 +123,170 @@ class SplunkAuthenticationLoginSecretRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+SplunkAuthenticationLoginSecretRetryRulesTypedDict = TypeAliasType(
+    "SplunkAuthenticationLoginSecretRetryRulesTypedDict",
+    Union[
+        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNoneTypedDict,
+        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStaticTypedDict,
+        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+SplunkAuthenticationLoginSecretRetryRules = Annotated[
+    Union[
+        Annotated[SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNone, Tag("none")],
+        Annotated[
+            SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStatic, Tag("static")
+        ],
+        Annotated[
+            SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoff, Tag("backoff")
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class SplunkAuthenticationLoginSecretTypedDict(TypedDict):
@@ -336,7 +500,7 @@ class SplunkAuthenticationLoginCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
-class SplunkAuthenticationLoginRetryRulesTypedDict(TypedDict):
+class SplunkAuthenticationLoginSplunkRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -348,7 +512,7 @@ class SplunkAuthenticationLoginRetryRulesTypedDict(TypedDict):
     retry_connect_reset: NotRequired[Any]
 
 
-class SplunkAuthenticationLoginRetryRules(BaseModel):
+class SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -404,6 +568,166 @@ class SplunkAuthenticationLoginRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class SplunkAuthenticationLoginSplunkRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class SplunkAuthenticationLoginSplunkRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SplunkAuthenticationLoginSplunkRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class SplunkAuthenticationLoginSplunkRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+SplunkAuthenticationLoginRetryRulesTypedDict = TypeAliasType(
+    "SplunkAuthenticationLoginRetryRulesTypedDict",
+    Union[
+        SplunkAuthenticationLoginSplunkRetryRulesTypeNoneTypedDict,
+        SplunkAuthenticationLoginSplunkRetryRulesTypeStaticTypedDict,
+        SplunkAuthenticationLoginSplunkRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+SplunkAuthenticationLoginRetryRules = Annotated[
+    Union[
+        Annotated[SplunkAuthenticationLoginSplunkRetryRulesTypeNone, Tag("none")],
+        Annotated[SplunkAuthenticationLoginSplunkRetryRulesTypeStatic, Tag("static")],
+        Annotated[SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff, Tag("backoff")],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class SplunkAuthenticationLoginTypedDict(TypedDict):
@@ -620,7 +944,7 @@ class SplunkAuthenticationTokenSecretCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
-class SplunkAuthenticationTokenSecretRetryRulesTypedDict(TypedDict):
+class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -632,7 +956,7 @@ class SplunkAuthenticationTokenSecretRetryRulesTypedDict(TypedDict):
     retry_connect_reset: NotRequired[Any]
 
 
-class SplunkAuthenticationTokenSecretRetryRules(BaseModel):
+class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -688,6 +1012,170 @@ class SplunkAuthenticationTokenSecretRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+SplunkAuthenticationTokenSecretRetryRulesTypedDict = TypeAliasType(
+    "SplunkAuthenticationTokenSecretRetryRulesTypedDict",
+    Union[
+        SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNoneTypedDict,
+        SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStaticTypedDict,
+        SplunkAuthenticationTokenSecretSplunkRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+SplunkAuthenticationTokenSecretRetryRules = Annotated[
+    Union[
+        Annotated[SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNone, Tag("none")],
+        Annotated[
+            SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStatic, Tag("static")
+        ],
+        Annotated[
+            SplunkAuthenticationTokenSecretSplunkRetryRulesTypeBackoff, Tag("backoff")
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
@@ -881,7 +1369,7 @@ class SplunkAuthenticationTokenCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
-class SplunkAuthenticationTokenRetryRulesTypedDict(TypedDict):
+class SplunkAuthenticationTokenSplunkRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -893,7 +1381,7 @@ class SplunkAuthenticationTokenRetryRulesTypedDict(TypedDict):
     retry_connect_reset: NotRequired[Any]
 
 
-class SplunkAuthenticationTokenRetryRules(BaseModel):
+class SplunkAuthenticationTokenSplunkRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -949,6 +1437,166 @@ class SplunkAuthenticationTokenRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class SplunkAuthenticationTokenSplunkRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class SplunkAuthenticationTokenSplunkRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SplunkAuthenticationTokenSplunkRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class SplunkAuthenticationTokenSplunkRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+SplunkAuthenticationTokenRetryRulesTypedDict = TypeAliasType(
+    "SplunkAuthenticationTokenRetryRulesTypedDict",
+    Union[
+        SplunkAuthenticationTokenSplunkRetryRulesTypeNoneTypedDict,
+        SplunkAuthenticationTokenSplunkRetryRulesTypeStaticTypedDict,
+        SplunkAuthenticationTokenSplunkRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+SplunkAuthenticationTokenRetryRules = Annotated[
+    Union[
+        Annotated[SplunkAuthenticationTokenSplunkRetryRulesTypeNone, Tag("none")],
+        Annotated[SplunkAuthenticationTokenSplunkRetryRulesTypeStatic, Tag("static")],
+        Annotated[SplunkAuthenticationTokenSplunkRetryRulesTypeBackoff, Tag("backoff")],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class SplunkAuthenticationTokenTypedDict(TypedDict):
@@ -1142,7 +1790,7 @@ class SplunkAuthenticationBasicSecretCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
-class SplunkAuthenticationBasicSecretRetryRulesTypedDict(TypedDict):
+class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -1154,7 +1802,7 @@ class SplunkAuthenticationBasicSecretRetryRulesTypedDict(TypedDict):
     retry_connect_reset: NotRequired[Any]
 
 
-class SplunkAuthenticationBasicSecretRetryRules(BaseModel):
+class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -1210,6 +1858,170 @@ class SplunkAuthenticationBasicSecretRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+SplunkAuthenticationBasicSecretRetryRulesTypedDict = TypeAliasType(
+    "SplunkAuthenticationBasicSecretRetryRulesTypedDict",
+    Union[
+        SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNoneTypedDict,
+        SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStaticTypedDict,
+        SplunkAuthenticationBasicSecretSplunkRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+SplunkAuthenticationBasicSecretRetryRules = Annotated[
+    Union[
+        Annotated[SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNone, Tag("none")],
+        Annotated[
+            SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStatic, Tag("static")
+        ],
+        Annotated[
+            SplunkAuthenticationBasicSecretSplunkRetryRulesTypeBackoff, Tag("backoff")
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class SplunkAuthenticationBasicSecretTypedDict(TypedDict):
@@ -1403,7 +2215,7 @@ class SplunkAuthenticationBasicCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
-class SplunkAuthenticationBasicRetryRulesTypedDict(TypedDict):
+class SplunkAuthenticationBasicSplunkRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -1415,7 +2227,7 @@ class SplunkAuthenticationBasicRetryRulesTypedDict(TypedDict):
     retry_connect_reset: NotRequired[Any]
 
 
-class SplunkAuthenticationBasicRetryRules(BaseModel):
+class SplunkAuthenticationBasicSplunkRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -1471,6 +2283,166 @@ class SplunkAuthenticationBasicRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class SplunkAuthenticationBasicSplunkRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class SplunkAuthenticationBasicSplunkRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SplunkAuthenticationBasicSplunkRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class SplunkAuthenticationBasicSplunkRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+SplunkAuthenticationBasicRetryRulesTypedDict = TypeAliasType(
+    "SplunkAuthenticationBasicRetryRulesTypedDict",
+    Union[
+        SplunkAuthenticationBasicSplunkRetryRulesTypeNoneTypedDict,
+        SplunkAuthenticationBasicSplunkRetryRulesTypeStaticTypedDict,
+        SplunkAuthenticationBasicSplunkRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+SplunkAuthenticationBasicRetryRules = Annotated[
+    Union[
+        Annotated[SplunkAuthenticationBasicSplunkRetryRulesTypeNone, Tag("none")],
+        Annotated[SplunkAuthenticationBasicSplunkRetryRulesTypeStatic, Tag("static")],
+        Annotated[SplunkAuthenticationBasicSplunkRetryRulesTypeBackoff, Tag("backoff")],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class SplunkAuthenticationBasicTypedDict(TypedDict):
@@ -1669,7 +2641,7 @@ class SplunkAuthenticationNoneCollectRequestHeader(BaseModel):
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
-class SplunkAuthenticationNoneRetryRulesTypedDict(TypedDict):
+class SplunkAuthenticationNoneSplunkRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[Any]
@@ -1681,7 +2653,7 @@ class SplunkAuthenticationNoneRetryRulesTypedDict(TypedDict):
     retry_connect_reset: NotRequired[Any]
 
 
-class SplunkAuthenticationNoneRetryRules(BaseModel):
+class SplunkAuthenticationNoneSplunkRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
@@ -1737,6 +2709,166 @@ class SplunkAuthenticationNoneRetryRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+class SplunkAuthenticationNoneSplunkRetryRulesTypeStaticTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+
+
+class SplunkAuthenticationNoneSplunkRetryRulesTypeStatic(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SplunkAuthenticationNoneSplunkRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class SplunkAuthenticationNoneSplunkRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+SplunkAuthenticationNoneRetryRulesTypedDict = TypeAliasType(
+    "SplunkAuthenticationNoneRetryRulesTypedDict",
+    Union[
+        SplunkAuthenticationNoneSplunkRetryRulesTypeNoneTypedDict,
+        SplunkAuthenticationNoneSplunkRetryRulesTypeStaticTypedDict,
+        SplunkAuthenticationNoneSplunkRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+SplunkAuthenticationNoneRetryRules = Annotated[
+    Union[
+        Annotated[SplunkAuthenticationNoneSplunkRetryRulesTypeNone, Tag("none")],
+        Annotated[SplunkAuthenticationNoneSplunkRetryRulesTypeStatic, Tag("static")],
+        Annotated[SplunkAuthenticationNoneSplunkRetryRulesTypeBackoff, Tag("backoff")],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
 
 
 class SplunkAuthenticationNoneTypedDict(TypedDict):

@@ -1,8 +1,29 @@
 # RestCollectMethodPostWithBodyDiscovery
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                      | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `discover_type`                                                                                                            | [models.RestCollectMethodPostWithBodyDiscoverType](../models/restcollectmethodpostwithbodydiscovertype.md)                 | :heavy_check_mark:                                                                                                         | Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task. |
+### `models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTP`
+
+```python
+value: models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTP = /* values here */
+```
+
+### `models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeJSON`
+
+```python
+value: models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeJSON = /* values here */
+```
+
+### `models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeList`
+
+```python
+value: models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeList = /* values here */
+```
+
+### `models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeNone`
+
+```python
+value: models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeNone = /* values here */
+```
+

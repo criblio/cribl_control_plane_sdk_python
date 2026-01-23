@@ -1,8 +1,29 @@
 # RestAuthenticationLoginDiscovery
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                      | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `discover_type`                                                                                                            | [models.RestAuthenticationLoginDiscoverType](../models/restauthenticationlogindiscovertype.md)                             | :heavy_check_mark:                                                                                                         | Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task. |
+### `models.RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTP`
+
+```python
+value: models.RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTP = /* values here */
+```
+
+### `models.RestAuthenticationLoginRestDiscoveryDiscoverTypeJSON`
+
+```python
+value: models.RestAuthenticationLoginRestDiscoveryDiscoverTypeJSON = /* values here */
+```
+
+### `models.RestAuthenticationLoginRestDiscoveryDiscoverTypeList`
+
+```python
+value: models.RestAuthenticationLoginRestDiscoveryDiscoverTypeList = /* values here */
+```
+
+### `models.RestAuthenticationLoginRestDiscoveryDiscoverTypeNone`
+
+```python
+value: models.RestAuthenticationLoginRestDiscoveryDiscoverTypeNone = /* values here */
+```
+

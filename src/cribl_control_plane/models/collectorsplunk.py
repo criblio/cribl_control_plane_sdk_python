@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 from .splunkcollectorconf import SplunkCollectorConf, SplunkCollectorConfTypedDict
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
-from typing_extensions import TypedDict
+from pydantic import model_serializer
+from typing import Optional
+from typing_extensions import NotRequired, TypedDict
 
 
 class CollectorSplunkType(str, Enum):
@@ -19,6 +21,10 @@ class CollectorSplunkTypedDict(TypedDict):
     type: CollectorSplunkType
     r"""Collector type"""
     conf: SplunkCollectorConfTypedDict
+    destructive: NotRequired[bool]
+    r"""Delete any files collected (where applicable)"""
+    encoding: NotRequired[str]
+    r"""Character encoding to use when parsing ingested data."""
 
 
 class CollectorSplunk(BaseModel):
@@ -28,3 +34,25 @@ class CollectorSplunk(BaseModel):
     r"""Collector type"""
 
     conf: SplunkCollectorConf
+
+    destructive: Optional[bool] = None
+    r"""Delete any files collected (where applicable)"""
+
+    encoding: Optional[str] = None
+    r"""Character encoding to use when parsing ingested data."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["destructive", "encoding"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

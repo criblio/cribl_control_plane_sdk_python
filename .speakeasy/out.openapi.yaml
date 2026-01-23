@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769123093834-92174699
+  version: 4.17.0-alpha.1769158509740-658e0050
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -7742,6 +7742,12 @@ components:
         conf:
           type: object
           description: Collector configuration
+        destructive:
+          type: boolean
+          description: Delete any files collected (where applicable)
+        encoding:
+          type: string
+          description: Character encoding to use when parsing ingested data.
       description: Base collector schema
     AzureBlobAuthTypeManual:
       type: object
@@ -8238,19 +8244,7 @@ components:
           description: Optional health check request parameters.
           type: array
           items:
-            type: object
-            required:
-              - name
-              - value
-            properties:
-              name:
-                title: Name
-                type: string
-                description: Parameter name.
-              value:
-                title: Value
-                type: string
-                description: JavaScript expression to compute the parameter value (can be a constant).
+            $ref: "#/components/schemas/ItemsTypeHealthCheckCollectMethodPostCollectRequestParams"
     HealthCheckCollectMethodPostWithBody:
       type: object
       properties:
@@ -8471,6 +8465,210 @@ components:
         - clientSecretParamName
         - textSecret
         - authHeaderExpr
+    HealthCheckDiscoveryDiscoverTypeHttpDiscoverMethodGet:
+      type: object
+      properties:
+        discoverMethod:
+          type: string
+          enum:
+            - get
+        discoverRequestParams:
+          title: Discover parameters
+          description: Optional discover request parameters.
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemsTypeHealthCheckCollectMethodPostCollectRequestParams"
+    HealthCheckDiscoveryDiscoverTypeHttpDiscoverMethodPost:
+      type: object
+      properties:
+        discoverMethod:
+          type: string
+          enum:
+            - post
+        discoverRequestParams:
+          title: Discover parameters
+          description: Optional discover request parameters.
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemsTypeHealthCheckCollectMethodPostCollectRequestParams"
+    HealthCheckDiscoveryDiscoverTypeHttpDiscoverMethodPostWithBody:
+      type: object
+      properties:
+        discoverMethod:
+          type: string
+          enum:
+            - post_with_body
+        discoverBody:
+          type: string
+          title: Discover POST body
+          description: Template for POST body to send with the discover request.
+    HealthCheckDiscoveryDiscoverTypeHttp:
+      type: object
+      properties:
+        discoverType:
+          type: string
+          enum:
+            - http
+        discoverUrl:
+          type: string
+          title: Discover URL
+          description: Expression to derive URL to use for the Discover operation (can be a constant).
+        discoverMethod:
+          type: string
+          title: Discover method
+          description: Discover HTTP method.
+          enum:
+            - get
+            - post
+            - post_with_body
+          x-speakeasy-enum-descriptions:
+            - GET
+            - POST
+            - POST with Body
+          x-speakeasy-unknown-values: allow
+        discoverRequestParams: {}
+        discoverBody: {}
+        discoverRequestHeaders:
+          title: Discover Headers
+          description: Optional discover request headers.
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders"
+        discoverDataField:
+          type: string
+          title: Discover Data Field
+          description: "Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."
+      required:
+        - discoverUrl
+        - discoverMethod
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeHttpDiscoverMethodGet"
+            - $ref: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeHttpDiscoverMethodPost"
+            - $ref: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeHttpDiscoverMethodPostWithBody"
+          discriminator:
+            propertyName: discoverMethod
+            mapping:
+              get: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeHttpDiscoverMethodGet"
+              post: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeHttpDiscoverMethodPost"
+              post_with_body: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeHttpDiscoverMethodPostWithBody"
+    HealthCheckDiscoveryDiscoverTypeJson:
+      type: object
+      properties:
+        discoverType:
+          type: string
+          enum:
+            - json
+        manualDiscoverResult:
+          type: string
+          title: Discover result
+          description: Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field.
+        discoverDataField:
+          type: string
+          title: Discover data field
+          description: "Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"
+      required:
+        - manualDiscoverResult
+    HealthCheckDiscoveryDiscoverTypeList:
+      type: object
+      properties:
+        discoverType:
+          type: string
+          enum:
+            - list
+        itemList:
+          type: array
+          title: Discover items
+          description: Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters.
+          minItems: 1
+          items:
+            type: string
+            title: Items
+            description: List of items to return from discovery.
+      required:
+        - itemList
+    HealthCheckDiscoveryDiscoverTypeNone:
+      type: object
+      properties:
+        discoverType:
+          type: string
+          enum:
+            - none
+    HealthCheckRetryRulesTypeNone:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - none
+    HealthCheckRetryRulesTypeStatic:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - static
+        interval:
+          type: number
+          title: Wait (ms)
+          description: Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute).
+          minimum: 0
+          maximum: 20000
+        limit:
+          type: number
+          title: Retry limit
+          description: The maximum number of times to retry a failed HTTP request
+          minimum: 0
+          maximum: 20
+        codes:
+          type: array
+          title: Retry HTTP codes
+          description: List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503.
+          minItems: 1
+          items:
+            type: number
+            minLength: 1
+        enableHeader:
+          type: boolean
+          title: Honor Retry-After header
+          description: Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.
+    HealthCheckRetryRulesTypeBackoff:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - backoff
+        interval:
+          type: number
+          title: Initial retry interval (ms)
+          description: Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute).
+          minimum: 0
+          maximum: 20000
+        limit:
+          type: number
+          title: Retry limit
+          description: The maximum number of times to retry a failed HTTP request
+          minimum: 0
+          maximum: 20
+        multiplier:
+          type: number
+          title: Backoff multiplier
+          description: Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on
+          minimum: 1
+          maximum: 20
+        codes:
+          type: array
+          title: Retry HTTP codes
+          description: List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503.
+          minItems: 1
+          items:
+            type: number
+            minLength: 1
+        enableHeader:
+          type: boolean
+          title: Honor Retry-After header
+          description: Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.
     HealthCheckCollectorConf:
       type: object
       title: ""
@@ -8499,6 +8697,19 @@ components:
                 - Item List
                 - None
               x-speakeasy-unknown-values: allow
+          allOf:
+            - oneOf:
+                - $ref: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeHttp"
+                - $ref: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeJson"
+                - $ref: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeList"
+                - $ref: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeNone"
+              discriminator:
+                propertyName: discoverType
+                mapping:
+                  http: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeHttp"
+                  json: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeJson"
+                  list: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeList"
+                  none: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeNone"
         collectUrl:
           type: string
           title: Health check URL
@@ -8583,6 +8794,17 @@ components:
             multiplier: {}
             codes: {}
             enableHeader: {}
+          allOf:
+            - oneOf:
+                - $ref: "#/components/schemas/HealthCheckRetryRulesTypeNone"
+                - $ref: "#/components/schemas/HealthCheckRetryRulesTypeStatic"
+                - $ref: "#/components/schemas/HealthCheckRetryRulesTypeBackoff"
+              discriminator:
+                propertyName: type
+                mapping:
+                  none: "#/components/schemas/HealthCheckRetryRulesTypeNone"
+                  static: "#/components/schemas/HealthCheckRetryRulesTypeStatic"
+                  backoff: "#/components/schemas/HealthCheckRetryRulesTypeBackoff"
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/HealthCheckCollectMethodGet"
@@ -8969,6 +9191,436 @@ components:
           description: Select or create an HMAC Function to use with authentication
       required:
         - hmacFunctionId
+    RestDiscoveryDiscoverTypeHttpDiscoverMethodGet:
+      type: object
+      properties:
+        discoverMethod:
+          type: string
+          enum:
+            - get
+        discoverRequestParams:
+          title: Discover parameters
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemsTypeRestCollectMethodGetCollectRequestParams"
+    RestDiscoveryDiscoverTypeHttpDiscoverMethodPost:
+      type: object
+      properties:
+        discoverMethod:
+          type: string
+          enum:
+            - post
+        discoverRequestParams:
+          title: Discover parameters
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemsTypeRestCollectMethodGetCollectRequestParams"
+    RestDiscoveryDiscoverTypeHttpDiscoverMethodPostWithBody:
+      type: object
+      properties:
+        discoverMethod:
+          type: string
+          enum:
+            - post_with_body
+        discoverBody:
+          type: string
+          title: Discover POST body
+          description: "Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"
+      required:
+        - discoverBody
+    RestDiscoveryDiscoverTypeHttpDiscoverMethodOther:
+      type: object
+      properties:
+        discoverMethod:
+          type: string
+          enum:
+            - other
+        discoverVerb:
+          type: string
+          title: Discover verb
+          description: Custom HTTP method to use for the Discover operation
+        discoverBody:
+          type: string
+          title: Discover body
+          description: Template for body to send with the discover request
+        discoverRequestParams:
+          title: Discover parameters
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemsTypeRestCollectMethodGetCollectRequestParams"
+      required:
+        - discoverVerb
+    RestDiscoveryDiscoverTypeHttp:
+      type: object
+      properties:
+        discoverType:
+          type: string
+          enum:
+            - http
+        discoverUrl:
+          type: string
+          title: Discover URL
+          description: URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL.
+        discoverMethod:
+          type: string
+          title: Discover method
+          enum:
+            - get
+            - post
+            - post_with_body
+            - other
+          x-speakeasy-enum-descriptions:
+            - GET
+            - POST
+            - POST with Body
+            - Other
+          x-speakeasy-unknown-values: allow
+        discoverVerb: {}
+        discoverRequestParams: {}
+        discoverBody: {}
+        discoverRequestHeaders:
+          title: Discover headers
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemsTypeRestCollectMethodGetCollectRequestParams"
+        pagination:
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              $ref: "#/components/schemas/PaginationOptionsRestDiscoveryDiscoverTypeHttpPagination"
+        discoverDataField:
+          type: string
+          title: Discover data field
+          description: "Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."
+        enableStrictDiscoverParsing:
+          type: boolean
+          title: Strict discover response parsing
+          description: Explicitly set the discover response format. When disabled, best effort parsing is used.
+        discoverResponseFormat: {}
+        enableDiscoverCode:
+          type: boolean
+          title: Format discover result with custom code
+      required:
+        - discoverUrl
+        - discoverMethod
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodGet"
+            - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodPost"
+            - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodPostWithBody"
+            - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodOther"
+          discriminator:
+            propertyName: discoverMethod
+            mapping:
+              get: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodGet"
+              post: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodPost"
+              post_with_body: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodPostWithBody"
+              other: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodOther"
+    RestDiscoveryDiscoverTypeJson:
+      type: object
+      properties:
+        discoverType:
+          type: string
+          enum:
+            - json
+        manualDiscoverResult:
+          type: string
+          title: Discover result
+          description: Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field.
+        discoverDataField:
+          type: string
+          title: Discover data field
+          description: "Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"
+      required:
+        - manualDiscoverResult
+    RestDiscoveryDiscoverTypeList:
+      type: object
+      properties:
+        discoverType:
+          type: string
+          enum:
+            - list
+        itemList:
+          type: array
+          title: Discover items
+          description: Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters.
+          minItems: 1
+          items:
+            type: string
+            title: Items
+            description: List of items to return from discovery
+      required:
+        - itemList
+    RestDiscoveryDiscoverTypeNone:
+      type: object
+      properties:
+        discoverType:
+          type: string
+          enum:
+            - none
+    RestPaginationTypeNone:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - none
+    RestPaginationTypeResponseBody:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - response_body
+        attribute:
+          type: array
+          title: Response attributes
+          description: Names of attributes within the response that contain next-page information
+          items:
+            type: string
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+        lastPageExpr:
+          type: string
+          title: Last-page expression
+          description: JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section.
+      required:
+        - attribute
+        - maxPages
+    RestPaginationTypeResponseHeader:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - response_header
+        attribute:
+          type: array
+          title: Response attributes
+          description: Names of attributes within the response that contain next-page information
+          items:
+            type: string
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+      required:
+        - attribute
+        - maxPages
+    RestPaginationTypeResponseHeaderLink:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - response_header_link
+        nextRelationAttribute:
+          type: string
+          title: Next page relation name
+          description: 'Relation name used in the link header that refers to the next page in the result set. Example: rel="next" refers to the next page of results: <https://myHost/nextPage>; rel="next"'
+        curRelationAttribute:
+          type: string
+          title: Current page relation name
+          description: 'Relation name used in the link header that refers to the current result set. Example: rel="self" refers to the current page of results: <https://myHost/curPage>; rel="self" '
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+      required:
+        - nextRelationAttribute
+        - maxPages
+    RestPaginationTypeRequestOffset:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - request_offset
+        offsetField:
+          type: string
+          title: Offset field name
+          description: "Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+        offset:
+          type: number
+          title: Starting offset
+          description: Offset index from which to start request. Defaults to undefined, which will start collection from the first record.
+        limitField:
+          type: string
+          title: Limit field name
+          description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+        limit:
+          type: number
+          title: Record limit
+          description: Maximum number of records to collect per request
+          minimum: 1
+        totalRecordField:
+          type: string
+          title: Total record count field name
+          description: Name of the attribute in the response that contains the total number of records for the query
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+        zeroIndexed:
+          type: boolean
+          title: Zero-based index
+          description: Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1.
+      required:
+        - maxPages
+        - zeroIndexed
+        - offsetField
+        - limitField
+        - limit
+    RestPaginationTypeRequestPage:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - request_page
+        pageField:
+          type: string
+          title: Page number field name
+          description: "Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+        page:
+          type: number
+          title: Starting page number
+          description: Page number from which to start request. Defaults to undefined, which will start collection from the first page.
+        sizeField:
+          type: string
+          title: Page size field name
+          description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+        size:
+          type: number
+          title: Record limit
+          description: Maximum number of records to collect per page
+          minimum: 1
+        totalPageField:
+          type: string
+          title: Total page count field name
+          description: Name of the attribute in the response that contains the total number of pages for the query
+        totalRecordField:
+          type: string
+          title: Total record count field name
+          description: Name of the attribute in the response that contains the total number of records for the query
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+        zeroIndexed:
+          type: boolean
+          title: Zero-based index
+          description: Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1.
+      required:
+        - maxPages
+        - zeroIndexed
+        - pageField
+        - sizeField
+        - size
+    RestRetryRulesTypeNone:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - none
+    RestRetryRulesTypeStatic:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - static
+        interval:
+          type: number
+          title: Wait (ms)
+          description: Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute).
+          minimum: 0
+          maximum: 20000
+        limit:
+          type: number
+          title: Retry limit
+          description: Maximum number of times to retry a failed HTTP request
+          minimum: 0
+          maximum: 20
+        codes:
+          type: array
+          title: Retry HTTP codes
+          description: List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503.
+          minItems: 1
+          items:
+            type: number
+            minLength: 1
+        enableHeader:
+          type: boolean
+          title: Honor Retry-After header
+          description: Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.
+        retryConnectTimeout:
+          type: boolean
+          title: Retry connection timeout
+          description: Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs
+        retryConnectReset:
+          type: boolean
+          title: Retry connection reset
+          description: Retry request when a connection reset (ECONNRESET) error occurs
+    RestRetryRulesTypeBackoff:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - backoff
+        interval:
+          type: number
+          title: Initial retry interval (ms)
+          description: Time interval between a failed request and the first retry
+          minimum: 0
+          maximum: 20000
+        limit:
+          type: number
+          title: Retry limit
+          description: Maximum number of times to retry a failed HTTP request
+          minimum: 0
+          maximum: 20
+        multiplier:
+          type: number
+          title: Backoff multiplier
+          description: "Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."
+          minimum: 1
+          maximum: 20
+        maxIntervalMs:
+          type: number
+          title: Longest interval between retries (ms)
+          minimum: 0
+        codes:
+          type: array
+          title: Retry HTTP codes
+          description: List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503.
+          minItems: 1
+          items:
+            type: number
+            minLength: 1
+        enableHeader:
+          type: boolean
+          title: Honor Retry-After header
+          description: Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.
+        retryConnectTimeout:
+          type: boolean
+          title: Retry connection timeout
+          description: Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs
+        retryConnectReset:
+          type: boolean
+          title: Retry connection reset
+          description: Retry request when a connection reset (ECONNRESET) error occurs
     RestCollectorConf:
       type: object
       title: ""
@@ -8992,6 +9644,19 @@ components:
                 - list
                 - none
               x-speakeasy-unknown-values: allow
+          allOf:
+            - oneOf:
+                - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttp"
+                - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeJson"
+                - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeList"
+                - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeNone"
+              discriminator:
+                propertyName: discoverType
+                mapping:
+                  http: "#/components/schemas/RestDiscoveryDiscoverTypeHttp"
+                  json: "#/components/schemas/RestDiscoveryDiscoverTypeJson"
+                  list: "#/components/schemas/RestDiscoveryDiscoverTypeList"
+                  none: "#/components/schemas/RestDiscoveryDiscoverTypeNone"
         collectUrl:
           type: string
           title: Collect URL
@@ -9024,23 +9689,24 @@ components:
             - type
           properties:
             type:
-              type: string
-              title: Pagination
-              enum:
-                - none
-                - response_body
-                - response_header
-                - response_header_link
-                - request_offset
-                - request_page
-              x-speakeasy-enum-descriptions:
-                - None
-                - Response Body Attribute
-                - Response Header Attribute
-                - RFC 5988 - Web Linking
-                - Offset/Limit
-                - Page/Size
-              x-speakeasy-unknown-values: allow
+              $ref: "#/components/schemas/PaginationOptionsRestDiscoveryDiscoverTypeHttpPagination"
+          allOf:
+            - oneOf:
+                - $ref: "#/components/schemas/RestPaginationTypeNone"
+                - $ref: "#/components/schemas/RestPaginationTypeResponseBody"
+                - $ref: "#/components/schemas/RestPaginationTypeResponseHeader"
+                - $ref: "#/components/schemas/RestPaginationTypeResponseHeaderLink"
+                - $ref: "#/components/schemas/RestPaginationTypeRequestOffset"
+                - $ref: "#/components/schemas/RestPaginationTypeRequestPage"
+              discriminator:
+                propertyName: type
+                mapping:
+                  none: "#/components/schemas/RestPaginationTypeNone"
+                  response_body: "#/components/schemas/RestPaginationTypeResponseBody"
+                  response_header: "#/components/schemas/RestPaginationTypeResponseHeader"
+                  response_header_link: "#/components/schemas/RestPaginationTypeResponseHeaderLink"
+                  request_offset: "#/components/schemas/RestPaginationTypeRequestOffset"
+                  request_page: "#/components/schemas/RestPaginationTypeRequestPage"
         authentication:
           type: string
           title: Authentication
@@ -9108,6 +9774,17 @@ components:
             enableHeader: {}
             retryConnectTimeout: {}
             retryConnectReset: {}
+          allOf:
+            - oneOf:
+                - $ref: "#/components/schemas/RestRetryRulesTypeNone"
+                - $ref: "#/components/schemas/RestRetryRulesTypeStatic"
+                - $ref: "#/components/schemas/RestRetryRulesTypeBackoff"
+              discriminator:
+                propertyName: type
+                mapping:
+                  none: "#/components/schemas/RestRetryRulesTypeNone"
+                  static: "#/components/schemas/RestRetryRulesTypeStatic"
+                  backoff: "#/components/schemas/RestRetryRulesTypeBackoff"
         __scheduling:
           type: object
           properties:
@@ -9555,6 +10232,97 @@ components:
         - loginBody
         - tokenRespAttribute
         - authHeaderExpr
+    SplunkRetryRulesTypeNone:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - none
+    SplunkRetryRulesTypeStatic:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - static
+        interval:
+          type: number
+          title: Wait (ms)
+          description: Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute).
+          minimum: 0
+          maximum: 20000
+        limit:
+          type: number
+          title: Retry limit
+          description: The maximum number of times to retry a failed HTTP request
+          minimum: 0
+          maximum: 20
+        codes:
+          type: array
+          title: Retry HTTP codes
+          description: List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503.
+          minItems: 1
+          items:
+            type: number
+            minLength: 1
+        enableHeader:
+          type: boolean
+          title: Honor Retry-After header
+          description: Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.
+        retryConnectTimeout:
+          type: boolean
+          title: Retry connection timeout
+          description: Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs
+        retryConnectReset:
+          type: boolean
+          title: Retry connection reset
+          description: Retry request when a connection reset error (ECONNRESET) error occurs
+    SplunkRetryRulesTypeBackoff:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - backoff
+        interval:
+          type: number
+          title: Initial retry interval (ms)
+          description: Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute).
+          minimum: 0
+          maximum: 20000
+        limit:
+          type: number
+          title: Retry limit
+          description: The maximum number of times to retry a failed HTTP request
+          minimum: 0
+          maximum: 20
+        multiplier:
+          type: number
+          title: Backoff multiplier
+          description: Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on.
+          minimum: 1
+          maximum: 20
+        codes:
+          type: array
+          title: Retry HTTP codes
+          description: List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503.
+          minItems: 1
+          items:
+            type: number
+            minLength: 1
+        enableHeader:
+          type: boolean
+          title: Honor Retry-After header
+          description: Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.
+        retryConnectTimeout:
+          type: boolean
+          title: Retry connection timeout
+          description: Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs
+        retryConnectReset:
+          type: boolean
+          title: Retry connection reset
+          description: Retry request when a connection reset error (ECONNRESET) error occurs
     SplunkCollectorConf:
       type: object
       title: ""
@@ -9670,6 +10438,17 @@ components:
             enableHeader: {}
             retryConnectTimeout: {}
             retryConnectReset: {}
+          allOf:
+            - oneOf:
+                - $ref: "#/components/schemas/SplunkRetryRulesTypeNone"
+                - $ref: "#/components/schemas/SplunkRetryRulesTypeStatic"
+                - $ref: "#/components/schemas/SplunkRetryRulesTypeBackoff"
+              discriminator:
+                propertyName: type
+                mapping:
+                  none: "#/components/schemas/SplunkRetryRulesTypeNone"
+                  static: "#/components/schemas/SplunkRetryRulesTypeStatic"
+                  backoff: "#/components/schemas/SplunkRetryRulesTypeBackoff"
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/SplunkAuthenticationNone"
@@ -9991,13 +10770,6 @@ components:
           type: string
       required:
         - version
-    ProductsCore:
-      type: string
-      enum:
-        - stream
-        - edge
-        - outpost
-      x-speakeasy-unknown-values: allow
     CountedCriblLakeDataset:
       type: object
       properties:
@@ -22110,10 +22882,53 @@ components:
         description:
           type: string
           title: Description
+        pqStrictOrdering:
+          title: Strict ordering
+          description: Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed.
+          type: boolean
+        pqRatePerSec:
+          type: number
+          title: Drain rate limit (EPS)
+          description: Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling.
+          minimum: 0
+        pqMode:
+          $ref: "#/components/schemas/ModeOptions"
+        pqMaxBufferSize:
+          type: number
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
+          minimum: 42
+          maximum: 1000
+        pqMaxBackpressureSec:
+          type: number
+          title: Backpressure duration limit
+          description: How long (in seconds) to wait for backpressure to resolve before engaging the queue
+          minimum: 0
+        pqMaxFileSize:
+          type: string
+          title: File size limit
+          description: The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)
+          pattern: ^\d+\s*(?:\w{2})?$
+        pqMaxSize:
+          type: string
+          title: Queue size limit
+          description: The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc.
+          pattern: ^\d+\s*(?:\w{2})?$
+        pqPath:
+          type: string
+          title: Queue file path
+          description: "The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."
+        pqCompress:
+          $ref: "#/components/schemas/CompressionOptionsPq"
+        pqOnBackpressure:
+          $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqControls:
+          type: object
+          title: ""
         token:
           type: string
           title: Authentication token
-          description: Wiz Defender Auth token
+          description: Wiz Defend Auth token
         textSecret:
           type: string
           title: Authentication token (text secret)
@@ -36119,6 +36934,13 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/MasterWorkerEntry"
+    ProductsCore:
+      type: string
+      enum:
+        - stream
+        - edge
+        - outpost
+      x-speakeasy-unknown-values: allow
     CountedTeamAccessControlList:
       type: object
       properties:
@@ -36307,6 +37129,20 @@ components:
       enum:
         - Cribl
       x-speakeasy-unknown-values: allow
+    ItemsTypeHealthCheckCollectMethodPostCollectRequestParams:
+      type: object
+      required:
+        - name
+        - value
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Parameter name.
+        value:
+          title: Value
+          type: string
+          description: JavaScript expression to compute the parameter value (can be a constant).
     ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders:
       type: object
       required:
@@ -36375,6 +37211,24 @@ components:
           title: Value
           type: string
           description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+    PaginationOptionsRestDiscoveryDiscoverTypeHttpPagination:
+      type: string
+      title: Pagination
+      enum:
+        - none
+        - response_body
+        - response_header
+        - response_header_link
+        - request_offset
+        - request_page
+      x-speakeasy-enum-descriptions:
+        - None
+        - Response Body Attribute
+        - Response Header Attribute
+        - RFC 5988 - Web Linking
+        - Offset/Limit
+        - Page/Size
+      x-speakeasy-unknown-values: allow
     AuthenticationMethodOptionsS3CollectorConf:
       type: string
       title: Authentication method
@@ -40221,7 +41075,7 @@ components:
           - filter: "true"
             output: my-output
     OutputCreateExamplesWizHec:
-      summary: Wiz Defender
+      summary: Wiz Defend
       value:
         id: wiz-hec-output
         type: wiz_hec
@@ -44763,8 +45617,8 @@ paths:
         - groups
       x-speakeasy-group: groups
       x-speakeasy-name-override: deploy
-      summary: Deploy commits to a Worker Group or Edge Fleet
-      description: Deploy commits to the specified Worker Group or Edge Fleet.
+      summary: Deploy commits to a Worker Group, Outpost Group, or Edge Fleet
+      description: Deploy commits to the specified Worker Group, Outpost Group, or Edge Fleet.
       responses:
         "200":
           description: a list of ConfigGroup objects
@@ -44793,13 +45647,13 @@ paths:
           required: true
           schema:
             $ref: "#/components/schemas/ProductsCore"
-          description: Name of the Cribl product to get the Worker Groups or Edge Fleets for.
+          description: Name of the Cribl product to deploy commits to the Worker Groups, Outpost Groups, or Edge Fleets for.
         - name: id
           in: path
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the target Worker Group or Edge Fleet for commit deployment.
+          description: The <code>id</code> of the target Worker Group, Outpost Group, or Edge Fleet for commit deployment.
   /products/{product}/groups/{id}/acl/teams:
     get:
       operationId: getConfigGroupAclTeamsByProductAndId

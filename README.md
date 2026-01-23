@@ -347,7 +347,7 @@ with CriblControlPlane(
 * [get](docs/sdks/groupssdk/README.md#get) - Get a Worker Group, Outpost Group, or Edge Fleet
 * [update](docs/sdks/groupssdk/README.md#update) - Update a Worker Group, Outpost Group, or Edge Fleet
 * [delete](docs/sdks/groupssdk/README.md#delete) - Delete a Worker Group, Outpost Group, or Edge Fleet
-* [deploy](docs/sdks/groupssdk/README.md#deploy) - Deploy commits to a Worker Group or Edge Fleet
+* [deploy](docs/sdks/groupssdk/README.md#deploy) - Deploy commits to a Worker Group, Outpost Group, or Edge Fleet
 
 #### [Groups.Acl](docs/sdks/acl/README.md)
 

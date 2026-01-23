@@ -12,9 +12,9 @@ from typing_extensions import Annotated, TypedDict
 
 class UpdateConfigGroupDeployByProductAndIDRequestTypedDict(TypedDict):
     product: ProductsCore
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
+    r"""Name of the Cribl product to deploy commits to the Worker Groups, Outpost Groups, or Edge Fleets for."""
     id: str
-    r"""The <code>id</code> of the target Worker Group or Edge Fleet for commit deployment."""
+    r"""The <code>id</code> of the target Worker Group, Outpost Group, or Edge Fleet for commit deployment."""
     deploy_request: DeployRequestTypedDict
     r"""DeployRequest object"""
 
@@ -24,12 +24,12 @@ class UpdateConfigGroupDeployByProductAndIDRequest(BaseModel):
         ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Name of the Cribl product to get the Worker Groups or Edge Fleets for."""
+    r"""Name of the Cribl product to deploy commits to the Worker Groups, Outpost Groups, or Edge Fleets for."""
 
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the target Worker Group or Edge Fleet for commit deployment."""
+    r"""The <code>id</code> of the target Worker Group, Outpost Group, or Edge Fleet for commit deployment."""
 
     deploy_request: Annotated[
         DeployRequest,

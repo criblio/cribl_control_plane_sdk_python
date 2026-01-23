@@ -1,8 +1,29 @@
 # RestCollectMethodPostDiscovery
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                      | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `discover_type`                                                                                                            | [models.RestCollectMethodPostDiscoverType](../models/restcollectmethodpostdiscovertype.md)                                 | :heavy_check_mark:                                                                                                         | Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task. |
+### `models.RestCollectMethodPostRestDiscoveryDiscoverTypeHTTP`
+
+```python
+value: models.RestCollectMethodPostRestDiscoveryDiscoverTypeHTTP = /* values here */
+```
+
+### `models.RestCollectMethodPostRestDiscoveryDiscoverTypeJSON`
+
+```python
+value: models.RestCollectMethodPostRestDiscoveryDiscoverTypeJSON = /* values here */
+```
+
+### `models.RestCollectMethodPostRestDiscoveryDiscoverTypeList`
+
+```python
+value: models.RestCollectMethodPostRestDiscoveryDiscoverTypeList = /* values here */
+```
+
+### `models.RestCollectMethodPostRestDiscoveryDiscoverTypeNone`
+
+```python
+value: models.RestCollectMethodPostRestDiscoveryDiscoverTypeNone = /* values here */
+```
+

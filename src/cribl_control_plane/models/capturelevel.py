@@ -6,7 +6,13 @@ from enum import Enum
 
 
 class CaptureLevel(int, Enum, metaclass=utils.OpenEnumMeta):
-    ZERO = 0
-    ONE = 1
-    TWO = 2
-    THREE = 3
+    r"""Where to capture events"""
+
+    # 1. Before pre-processing Pipeline
+    BEFORE_PRE_PROCESSING_PIPELINE = 0
+    # 2. Before the Routes
+    BEFORE_ROUTES = 1
+    # 3. Before post-processing Pipeline
+    BEFORE_POST_PROCESSING_PIPELINE = 2
+    # 4. Before the Destination
+    BEFORE_DESTINATION = 3

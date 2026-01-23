@@ -16,6 +16,7 @@ class CaptureParamsTypedDict(TypedDict):
     filter_: str
     r"""Filter expression to capture events"""
     level: CaptureLevel
+    r"""Where to capture events"""
     max_events: int
     r"""Maximum number of events to capture"""
     step_duration: NotRequired[int]
@@ -34,6 +35,7 @@ class CaptureParams(BaseModel):
     r"""Filter expression to capture events"""
 
     level: CaptureLevel
+    r"""Where to capture events"""
 
     max_events: Annotated[int, pydantic.Field(alias="maxEvents")]
     r"""Maximum number of events to capture"""

@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769169530782-9b0ac136
+  version: 4.17.0-alpha.1769172490386-4598bb48
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -35861,6 +35861,17 @@ components:
         - 1
         - 2
         - 3
+      description: Where to capture events
+      x-speakeasy-enum-descriptions:
+        - 1. Before pre-processing Pipeline
+        - 2. Before the Routes
+        - 3. Before post-processing Pipeline
+        - 4. Before the Destination
+      x-speakeasy-enums:
+        - BeforePreProcessingPipeline
+        - BeforeRoutes
+        - BeforePostProcessingPipeline
+        - BeforeDestination
       x-speakeasy-unknown-values: allow
     CaptureParams:
       type: object
@@ -35873,17 +35884,6 @@ components:
           description: Filter expression to capture events
         level:
           $ref: "#/components/schemas/CaptureLevel"
-          description: Where to capture events
-          x-speakeasy-enum-descriptions:
-            - 1. Before pre-processing Pipeline
-            - 2. Before the Routes
-            - 3. Before post-processing Pipeline
-            - 4. Before the Destination
-          x-speakeasy-enums:
-            - BeforePreProcessingPipeline
-            - BeforeRoutes
-            - BeforePostProcessingPipeline
-            - BeforeDestination
         maxEvents:
           type: integer
           description: Maximum number of events to capture

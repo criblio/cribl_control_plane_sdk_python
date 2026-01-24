@@ -1,25 +1,26 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 8b71237731a4a4d237730e3d5bc7524d
-  docVersion: 4.17.0-alpha.1769158509740-658e0050
+  docChecksum: 833c5e9fa5f9faeb86a89c8d1fed1945
+  docVersion: 4.17.0-alpha.1769209481796-c5a3e381
   speakeasyVersion: 1.693.0
   generationVersion: 2.798.0
-  releaseVersion: 0.5.0b34
-  configChecksum: 4040676133c3d9c68eb265f2312ec01f
+  releaseVersion: 0.5.0b35
+  configChecksum: f710c45b5d33b23e419e2e3108e46abb
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: a5306ba8-1009-4908-9f2a-06f6e5800d15
-  pristine_commit_hash: 958fcff2e056ef4af07236323f542d2e238331bb
-  pristine_tree_hash: 165a4f45c7c19129effcbab37605fc02f294b2ba
+  generation_id: 914905a2-86d2-4b38-8bed-b6cfab5891d8
+  pristine_commit_hash: 3f6bf9ad0a3beaeef6c9e5d103246c193b697142
+  pristine_tree_hash: 1ac513a7a70c393317598027f117e2372bb4c1bc
 features:
   python:
     additionalDependencies: 1.0.0
     additionalProperties: 1.0.1
     core: 5.23.18
     defaultEnabledRetries: 0.2.0
+    deprecations: 3.0.2
     devContainers: 3.0.0
     enumUnions: 0.1.0
     enums: 3.2.0
@@ -580,8 +581,8 @@ trackedFiles:
     pristine_git_object: 4b1bb431b8e5f0fc36f463a32beb4664c6402da2
   docs/models/configgroup.md:
     id: 7f7c83526f8c
-    last_write_checksum: sha1:9bcc06878e74aef1b21bfc445699aad22b3fd1fe
-    pristine_git_object: dfc06f545a716f805a45cd4dd7fe8ce9b54dc63c
+    last_write_checksum: sha1:f3d7efdafbdc6b5a496b4a500d05720188727b3f
+    pristine_git_object: 0e75575f31d05e3801bd9dcd29d8c4222727c065
   docs/models/configgroupcloud.md:
     id: 6bba10d8b38c
     last_write_checksum: sha1:a3b0a50d19f6f65054e7575a7cadbd0ab8b4785b
@@ -2564,8 +2565,8 @@ trackedFiles:
     pristine_git_object: 29de8aef01cee4eba6d37694933b11fb9e244f36
   docs/models/estimatedingestrateoptionsconfiggroup.md:
     id: 1c76b38f307a
-    last_write_checksum: sha1:8a09ca7d10a38f91fe074985f17dd9ae903e20ef
-    pristine_git_object: a1b644b11e8f721e53008d5b87d01f7fd319f9fb
+    last_write_checksum: sha1:5df1ed3ee81959fd3f636eaf2ab8c5b5ab9dc7b9
+    pristine_git_object: 028faad3b68411aaeb45c8f853dc5aaa5859052f
   docs/models/eventbreakerrulefields.md:
     id: 1f6bea81069e
     last_write_checksum: sha1:2cb24c73481d19309e4398c5f32a8e0ff339e985
@@ -3556,8 +3557,8 @@ trackedFiles:
     pristine_git_object: fc0cf5feb7c145b087d2b3a4f164f8b1926fe396
   docs/models/groupcreaterequest.md:
     id: eabe8de251b6
-    last_write_checksum: sha1:02af49060344d94e1fb6b06927870c1482817fb3
-    pristine_git_object: 24839bf5276bc5bac06d64b71d17f4d42d8e8389
+    last_write_checksum: sha1:905cbac65c54838b471588144aef84878d62e5b7
+    pristine_git_object: a18ec03e8eeb9d23045b7e207ba322164ab8d82d
   docs/models/groups.md:
     id: 5d83a8992f89
     last_write_checksum: sha1:9bd1797564463eba853830659d1b020cd372870a
@@ -11076,8 +11077,8 @@ trackedFiles:
     pristine_git_object: 329c42e8ca351f096dbec26d2740340f45be4792
   docs/sdks/groupssdk/README.md:
     id: e1199079357d
-    last_write_checksum: sha1:1e037c9ee9a39e3f72fda730a41baebe4119dd4d
-    pristine_git_object: 8f6b408193afa92305cd7ded57f6e0b4df83c8fd
+    last_write_checksum: sha1:201676f6825c7efe743a71c678f4592da23e7036
+    pristine_git_object: c9b4542974d50483655eda628f8125b0482f5f39
   docs/sdks/health/README.md:
     id: 5082c50d5e82
     last_write_checksum: sha1:ac407c2952bbc76ef29e045d55eecb2068d0867a
@@ -11152,8 +11153,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:be7cd99f0d257409103fd7c4d3cf050586f95b56
-    pristine_git_object: 91760dc2fd75c3fad496d23c110ad6c1d7c40cfc
+    last_write_checksum: sha1:7f730271bab530cce000089bf29b2ee4b2131748
+    pristine_git_object: 8a1637d51331c8ddee00a7e1641cd6eea59b4e6e
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -11184,8 +11185,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:9a6e99f0f098db3b326d0b4ab9fa62f07d7e1e0c
-    pristine_git_object: 4f218746668c0398e252613797f88bc83ca8b8dd
+    last_write_checksum: sha1:d6ea7c93037f00f4ac2a3ac0f09a1583bc0d1e09
+    pristine_git_object: fda448946b8e9f5d9842de4d9b497de3f3a9b2c2
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -11268,8 +11269,8 @@ trackedFiles:
     pristine_git_object: fe59e5a3f3f5dcc3e4d037dc66712008545534c2
   src/cribl_control_plane/groups_sdk.py:
     id: 7f1c5a4615e6
-    last_write_checksum: sha1:3b36c28fb582cfefd8eb1ea529764bf1d19668a7
-    pristine_git_object: b4684f04eb20a88ea6c17ee16b3d6d644cc5c6c7
+    last_write_checksum: sha1:7868b7b233ae02dca804e398b055b089ac53ce41
+    pristine_git_object: 6fbcb026ced64a6a651e7a70f85d4262b8cedd8f
   src/cribl_control_plane/health.py:
     id: 511124a6fd49
     last_write_checksum: sha1:b7f84d549e9789a7368396a5fb6900cc74be6d3c
@@ -11524,8 +11525,8 @@ trackedFiles:
     pristine_git_object: 9d143a7c25ae8cccb3b9a299d29222cc53fb3cfb
   src/cribl_control_plane/models/configgroup.py:
     id: 5b60884e2a58
-    last_write_checksum: sha1:846fb07cee2161f965f2ab5336f72e770cee35ab
-    pristine_git_object: 65666933373ba6a24d13534b9ce4122d549cafa0
+    last_write_checksum: sha1:f2c981adc2fc5e3b184b648dcc73edc9aab80863
+    pristine_git_object: 7e7fb2e0ceac06277e8f5bec3fba0d0a1da03420
   src/cribl_control_plane/models/configgroupcloud.py:
     id: 3f53a654cacb
     last_write_checksum: sha1:7222100e9792194eb0fb5326f19eb346e2cf67a2
@@ -11852,8 +11853,8 @@ trackedFiles:
     pristine_git_object: 09453eb69454b6ecf7a9781558c65d5b47a787bd
   src/cribl_control_plane/models/estimatedingestrateoptionsconfiggroup.py:
     id: 28be15658d06
-    last_write_checksum: sha1:ccee6809da69b6c75d0f45103d15ac0206c713ec
-    pristine_git_object: 243a18770827de6a5f212a8083eed7f3910b5113
+    last_write_checksum: sha1:c00a4085ac0aa53bd8668d1fdbee9261642e9b1e
+    pristine_git_object: c8b25f1721e4eaec5912934d7c311d5783ae6c72
   src/cribl_control_plane/models/eventbreakerrulefields.py:
     id: ac2a5cea1d88
     last_write_checksum: sha1:e9980a36f8218cd640022f0705a0ab1a2d5bb750
@@ -12428,8 +12429,8 @@ trackedFiles:
     pristine_git_object: e8a0537ae9bf309143d26a0d8ef1f56abd2d9d99
   src/cribl_control_plane/models/groupcreaterequest.py:
     id: 2993a38accbd
-    last_write_checksum: sha1:06ca993074d1bae5f3bbab0b51a5b7e568be8910
-    pristine_git_object: 85ef0f488fdc83e33db5c270d89d52c7ac63694b
+    last_write_checksum: sha1:fe774bed117ffe63bd78d58503c963d4a834cece
+    pristine_git_object: 2130b692d8a1c157485016ace6bdc13947221293
   src/cribl_control_plane/models/hbcriblinfo.py:
     id: d1662d5e9727
     last_write_checksum: sha1:48a2b02a6b7c547cfd6ef0058e6cad67c7f9f1c6
@@ -18174,7 +18175,7 @@ examples:
         path:
           product: "edge"
       requestBody:
-        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "deployingWorkerCount": 393.49, "description": "ack before fondly scent because gee without where exactly", "estimatedIngestRate": 5120, "git": {"commit": "<value>", "localChanges": 2413.01, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-04-03", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 5613.31, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": []}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "sourceGroupId": "<id>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 3050.1, "workerRemoteAccess": false}
+        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "deployingWorkerCount": 393.49, "description": "ack before fondly scent because gee without where exactly", "estimatedIngestRate": 4096, "git": {"commit": "<value>", "localChanges": 2413.01, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-04-03", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 5613.31, "inherits": "<value>", "lookupDeployments": [{"context": "<value>", "lookups": []}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "sourceGroupId": "<id>", "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 3050.1, "workerRemoteAccess": false}
       responses:
         "200":
           application/json: {"count": 182014, "items": [{"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 8255.61, "description": "till boastfully before qua meanwhile suddenly", "estimatedIngestRate": 3072, "git": {"commit": "<value>", "localChanges": 7008.23, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-04-03", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 7965.37, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": true, "provisioned": false, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 4937.96, "workerRemoteAccess": true}]}
@@ -18196,7 +18197,7 @@ examples:
         path:
           product: "edge"
       requestBody:
-        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "deployingWorkerCount": 9081.3, "description": "Worker group in customer-managed deployment", "estimatedIngestRate": 3072, "git": {"commit": "<value>", "localChanges": 2413.01, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-04-03", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "goatOnPremIanWg", "incompatibleWorkerCount": 7060.3, "inherits": "<value>", "isFleet": false, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "goatOnPremIanWg", "onPrem": true, "provisioned": false, "sourceGroupId": "<id>", "streamtags": ["<value 1>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 1230.11, "workerRemoteAccess": true}
+        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "deployingWorkerCount": 9081.3, "description": "Worker group in customer-managed deployment", "estimatedIngestRate": 4096, "git": {"commit": "<value>", "localChanges": 2413.01, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-04-03", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "goatOnPremIanWg", "incompatibleWorkerCount": 7060.3, "inherits": "<value>", "isFleet": false, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "goatOnPremIanWg", "onPrem": true, "provisioned": false, "sourceGroupId": "<id>", "streamtags": ["<value 1>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 1230.11, "workerRemoteAccess": true}
       responses:
         "200":
           application/json: {"count": 182014, "items": [{"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 8255.61, "description": "till boastfully before qua meanwhile suddenly", "estimatedIngestRate": 3072, "git": {"commit": "<value>", "localChanges": 7008.23, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-04-03", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 7965.37, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": true, "provisioned": false, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 4937.96, "workerRemoteAccess": true}]}
@@ -18218,7 +18219,7 @@ examples:
         path:
           product: "edge"
       requestBody:
-        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "deployingWorkerCount": 9605.18, "description": "Create a new Edge Fleet", "estimatedIngestRate": 7168, "git": {"commit": "<value>", "localChanges": 2413.01, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-04-03", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "goatIanEdgeFleet", "incompatibleWorkerCount": 9429.96, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "goatIanEdgeFleet", "onPrem": true, "provisioned": false, "sourceGroupId": "<id>", "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 3096.3, "workerRemoteAccess": true}
+        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "deployingWorkerCount": 9605.18, "description": "Create a new Edge Fleet", "estimatedIngestRate": 4096, "git": {"commit": "<value>", "localChanges": 2413.01, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-04-03", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "goatIanEdgeFleet", "incompatibleWorkerCount": 9429.96, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "goatIanEdgeFleet", "onPrem": true, "provisioned": false, "sourceGroupId": "<id>", "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 3096.3, "workerRemoteAccess": true}
       responses:
         "200":
           application/json: {"count": 182014, "items": [{"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 8255.61, "description": "till boastfully before qua meanwhile suddenly", "estimatedIngestRate": 3072, "git": {"commit": "<value>", "localChanges": 7008.23, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-04-03", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 7965.37, "inherits": "<value>", "isFleet": true, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": true, "provisioned": false, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 4937.96, "workerRemoteAccess": true}]}
@@ -18244,7 +18245,7 @@ examples:
           product: "stream"
           id: "<value>"
       requestBody:
-        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 7451.49, "description": "verbally feminize harmful prance really", "estimatedIngestRate": 13312, "git": {"commit": "<value>", "localChanges": 776.15, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-09-29", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 2043.29, "inherits": "<value>", "isFleet": false, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 1557.82, "workerRemoteAccess": false}
+        application/json: {"cloud": {"provider": "aws", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 7451.49, "description": "verbally feminize harmful prance really", "estimatedIngestRate": 4096, "git": {"commit": "<value>", "localChanges": 776.15, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-09-29", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 2043.29, "inherits": "<value>", "lookupDeployments": [{"context": "<value>", "lookups": [{"deployedVersion": "<value>", "file": "<value>", "version": "<value>"}]}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": true, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 1557.82, "workerRemoteAccess": false}
       responses:
         "200":
           application/json: {"count": 214805, "items": [{"cloud": {"provider": "azure", "region": "<value>"}, "configVersion": "<value>", "deployingWorkerCount": 6038.43, "description": "pants sugary tricky drat", "estimatedIngestRate": 1024, "git": {"commit": "<value>", "localChanges": 776.15, "log": [{"author_email": "<value>", "author_name": "<value>", "date": "2024-09-29", "hash": "<value>", "message": "<value>", "short": "<value>"}]}, "id": "<id>", "incompatibleWorkerCount": 2043.29, "inherits": "<value>", "isFleet": false, "isSearch": false, "lookupDeployments": [{"context": "<value>", "lookups": []}], "maxWorkerAge": "<value>", "name": "<value>", "onPrem": false, "provisioned": false, "streamtags": ["<value 1>", "<value 2>"], "tags": "<value>", "type": "lake_access", "upgradeVersion": "<value>", "workerCount": 5750.42, "workerRemoteAccess": true}]}
@@ -19016,7 +19017,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.collectors.create()`: \n  *  `request.saved_job.[saved_job_collection].collector` **Changed** **Breaking** :warning:\n  *  `response.items.[].[saved_job_collection].collector` **Changed** **Breaking** :warning:\n* `cribl_control_plane.collectors.list()`:  `response.items.[].[saved_job_collection].collector` **Changed** **Breaking** :warning:\n* `cribl_control_plane.collectors.delete()`:  `response.items.[].[saved_job_collection].collector` **Changed** **Breaking** :warning:\n* `cribl_control_plane.collectors.get()`:  `response.items.[].[saved_job_collection].collector` **Changed** **Breaking** :warning:\n* `cribl_control_plane.collectors.update()`: \n  *  `request.saved_job.[saved_job_collection].collector` **Changed** **Breaking** :warning:\n  *  `response.items.[].[saved_job_collection].collector` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.pq.get()`:  `response.items.[].args.[runnable_job_collection].collector` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[wiz_hec]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[wiz_hec]` **Changed**\n  *  `response.items.[].[wiz_hec]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[wiz_hec]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[wiz_hec]` **Changed**\n  *  `response.items.[].[wiz_hec]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[wiz_hec]` **Changed**\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

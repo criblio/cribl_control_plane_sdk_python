@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769158509740-658e0050
+  version: 4.17.0-alpha.1769209481796-c5a3e381
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -10588,8 +10588,12 @@ components:
           type: string
         isFleet:
           type: boolean
+          description: Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets.
+          deprecated: true
         isSearch:
           type: boolean
+          description: Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups.
+          deprecated: true
         lookupDeployments:
           type: array
           items:
@@ -10707,8 +10711,12 @@ components:
           type: string
         isFleet:
           type: boolean
+          description: Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets.
+          deprecated: true
         isSearch:
           type: boolean
+          description: Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups.
+          deprecated: true
         lookupDeployments:
           type: array
           items:
@@ -37260,7 +37268,6 @@ components:
       x-speakeasy-unknown-values: allow
     EstimatedIngestRateOptionsConfigGroup:
       type: integer
-      description: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
       enum:
         - 1024
         - 2048
@@ -37271,6 +37278,8 @@ components:
         - 10240
         - 13312
         - 15360
+      description: Estimated ingest rate for Cloud Groups, in GB/sec.
+      example: 4096
       x-speakeasy-enum-descriptions:
         - 12 MB/sec
         - 24 MB/sec

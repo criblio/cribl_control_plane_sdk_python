@@ -1,0 +1,11 @@
+# CreateOutputRule
+
+
+## Fields
+
+| Field                                                                            | Type                                                                             | Required                                                                         | Description                                                                      |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `filter_`                                                                        | *str*                                                                            | :heavy_check_mark:                                                               | JavaScript expression to select events to send to output                         |
+| `output`                                                                         | *str*                                                                            | :heavy_check_mark:                                                               | Output to send matching events to                                                |
+| `description`                                                                    | *Optional[str]*                                                                  | :heavy_minus_sign:                                                               | Description of this rule's purpose                                               |
+| `final`                                                                          | *Optional[bool]*                                                                 | :heavy_minus_sign:                                                               | Flag to control whether to stop the event from being checked against other rules |

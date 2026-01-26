@@ -4,26 +4,17 @@ from __future__ import annotations
 from cribl_control_plane.errors import CriblControlPlaneError
 from cribl_control_plane.models import healthserverstatus as models_healthserverstatus
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from dataclasses import dataclass, field
 import httpx
 import pydantic
-from pydantic.functional_validators import PlainValidator
 from typing import Optional
 from typing_extensions import Annotated
 
 
 class HealthServerStatusErrorData(BaseModel):
     start_time: Annotated[float, pydantic.Field(alias="startTime")]
-
-    status: Annotated[
-        models_healthserverstatus.Status, PlainValidator(validate_open_enum(False))
-    ]
-
-    role: Annotated[
-        Optional[models_healthserverstatus.Role],
-        PlainValidator(validate_open_enum(False)),
-    ] = None
+    status: models_healthserverstatus.Status
+    role: Optional[models_healthserverstatus.Role] = None
 
 
 @dataclass(unsafe_hash=True)

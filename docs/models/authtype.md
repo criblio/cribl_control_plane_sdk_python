@@ -1,8 +1,14 @@
 # AuthType
 
 
-## Values
+## Fields
 
-| Name    | Value   |
-| ------- | ------- |
-| `OAUTH` | oauth   |
+| Field                                                                                            | Type                                                                                             | Required                                                                                         | Description                                                                                      |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `disabled`                                                                                       | *bool*                                                                                           | :heavy_check_mark:                                                                               | N/A                                                                                              |
+| `username`                                                                                       | *Optional[str]*                                                                                  | :heavy_minus_sign:                                                                               | N/A                                                                                              |
+| `password`                                                                                       | *Optional[str]*                                                                                  | :heavy_minus_sign:                                                                               | N/A                                                                                              |
+| `auth_type`                                                                                      | [Optional[models.AuthenticationMethodOptionsAuth]](../models/authenticationmethodoptionsauth.md) | :heavy_minus_sign:                                                                               | Enter credentials directly, or select a stored secret                                            |
+| `credentials_secret`                                                                             | *Optional[str]*                                                                                  | :heavy_minus_sign:                                                                               | Select or create a secret that references your credentials                                       |
+| `manual_api_key`                                                                                 | *Optional[str]*                                                                                  | :heavy_minus_sign:                                                                               | Enter API key directly                                                                           |
+| `text_secret`                                                                                    | *Optional[str]*                                                                                  | :heavy_minus_sign:                                                                               | Select or create a stored text secret                                                            |

@@ -51,6 +51,12 @@ value: models.OutputSplunkLb = /* values here */
 value: models.OutputSplunkHec = /* values here */
 ```
 
+### `models.OutputWizHec`
+
+```python
+value: models.OutputWizHec = /* values here */
+```
+
 ### `models.OutputTcpjson`
 
 ```python
@@ -261,10 +267,10 @@ value: models.OutputSumoLogic = /* values here */
 value: models.OutputDatadog = /* values here */
 ```
 
-### `models.OutputGrafanaCloud`
+### `models.OutputGrafanaCloudUnion`
 
 ```python
-value: models.OutputGrafanaCloud = /* values here */
+value: models.OutputGrafanaCloudUnion = /* values here */
 ```
 
 ### `models.OutputLoki`
@@ -313,6 +319,12 @@ value: models.OutputCriblTCP = /* values here */
 
 ```python
 value: models.OutputCriblHTTP = /* values here */
+```
+
+### `models.OutputCriblSearchEngine`
+
+```python
+value: models.OutputCriblSearchEngine = /* values here */
 ```
 
 ### `models.OutputHumioHec`

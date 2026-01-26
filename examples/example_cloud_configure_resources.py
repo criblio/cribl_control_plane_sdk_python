@@ -32,7 +32,6 @@ from cribl_control_plane.models import (
     ConfInput,
     PipelineFunctionEval,
     PipelineFunctionEvalID,
-    PipelineFunctionConf,
     FunctionConfSchemaEval,
     TLSSettingsServerSideType,
     Security,
@@ -41,7 +40,6 @@ from cribl_control_plane.models import (
     CloudProvider,
     EstimatedIngestRateOptionsConfigGroup
 )
-from typing import List, cast
 
 ORG_ID = "your-org-id"
 CLIENT_ID = "your-client-id"
@@ -89,20 +87,17 @@ pipeline = Pipeline(
     id="my_pipeline",
     conf=PipelineConf(
         async_func_timeout=1000,
-        functions=cast(
-            List[PipelineFunctionConf],
-            [
-                PipelineFunctionEval(
-                    filter_="true",
-                    conf=FunctionConfSchemaEval(
-                        remove=["*"],
-                        keep=["eventSource", "eventID"],
-                    ),
-                    id=PipelineFunctionEvalID.EVAL,
-                    final=True,
-                )
-            ],
-        ),
+        functions=[
+            PipelineFunctionEval(
+                filter_="true",
+                conf=FunctionConfSchemaEval(
+                    remove=["*"],
+                    keep=["eventSource", "eventID"],
+                ),
+                id=PipelineFunctionEvalID.EVAL,
+                final=True,
+            )
+        ],
     ),
 )
 

@@ -30,11 +30,9 @@ from cribl_control_plane.models import (
     ConfInput,
     PipelineFunctionEval,
     PipelineFunctionEvalID,
-    PipelineFunctionConf,
     FunctionConfSchemaEval,
     TLSSettingsServerSideType,
 )
-from typing import List, cast
 
 ONPREM_SERVER_URL = "http://localhost:9000"  # Replace with your server URL
 ONPREM_USERNAME = "admin"  # Replace with your username
@@ -81,20 +79,17 @@ pipeline = Pipeline(
     id="my_pipeline",
     conf=PipelineConf(
         async_func_timeout=1000,
-        functions=cast(
-            List[PipelineFunctionConf],
-            [
-                PipelineFunctionEval(
-                    filter_="true",
-                    conf=FunctionConfSchemaEval(
-                        remove=["*"],
-                        keep=["eventSource", "eventID"],
-                    ),
-                    id=PipelineFunctionEvalID.EVAL,
-                    final=True,
-                )
-            ],
-        ),
+        functions=[
+            PipelineFunctionEval(
+                filter_="true",
+                conf=FunctionConfSchemaEval(
+                    remove=["*"],
+                    keep=["eventSource", "eventID"],
+                ),
+                id=PipelineFunctionEvalID.EVAL,
+                final=True,
+            )
+        ],
     ),
 )
 

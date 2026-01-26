@@ -52,7 +52,7 @@ async def main():
         response = client.auth.tokens.get(
             username=ONPREM_USERNAME, password=ONPREM_PASSWORD
         )
-        token = response.token
+        token = response.result.token
         _token_expires_at = _get_jwt_exp(token)
         _cached_token = token
         return Security(bearer_auth=token)

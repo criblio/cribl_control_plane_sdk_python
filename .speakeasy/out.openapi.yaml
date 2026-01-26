@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769172490386-4598bb48
+  version: 4.17.0-alpha.1769420537041-4c9458b5
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -35850,10 +35850,10 @@ components:
       properties:
         _raw:
           type: string
-          description: Raw event data
+          description: Raw event data.
         _time:
           type: number
-          description: Timestamp of the event
+          description: Timestamp of the event.
     CaptureLevel:
       type: integer
       enum:
@@ -35861,7 +35861,7 @@ components:
         - 1
         - 2
         - 3
-      description: Where to capture events
+      description: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination
       x-speakeasy-enum-descriptions:
         - 1. Before pre-processing Pipeline
         - 2. Before the Routes
@@ -35878,24 +35878,24 @@ components:
       properties:
         duration:
           type: number
-          description: Amount of time to keep capture open, in seconds
+          description: Amount of time to keep capture open, in seconds.
         filter:
           type: string
-          description: Filter expression to capture events
+          description: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators.
         level:
           $ref: "#/components/schemas/CaptureLevel"
         maxEvents:
           type: integer
-          description: Maximum number of events to capture
+          description: Maximum number of events to capture.
         stepDuration:
           type: integer
-          description: How long to wait before increasing the capture sample size. Specify 1 second or longer
+          description: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer.
         workerId:
           type: string
-          description: Worker ID
+          description: Unique ID of the Worker.
         workerThreshold:
           type: integer
-          description: Limits how many Workers will capture initially. The 0 default means unlimited.
+          description: Maximum number of Workers that can capture initially. A value of <code>0</code> means unlimited (all available Workers can capture).
       required:
         - duration
         - filter
@@ -42292,7 +42292,7 @@ components:
           description: Route with dynamic Destination based on environment
           final: true
     CaptureExamplesBasicCapture:
-      summary: Basic capture at source level
+      summary: Basic capture before any pre-processing
       value:
         filter: "true"
         maxEvents: 100
@@ -42306,21 +42306,21 @@ components:
         duration: 5
         level: 0
     CaptureExamplesCompoundAndExpression:
-      summary: Capture events matching multiple conditions with AND
+      summary: Capture events using the AND operator to specify multiple conditions
       value:
         filter: sourcetype==="pan:traffic" && src_zone==="trusted"
         maxEvents: 100
         duration: 5
         level: 0
     CaptureExamplesNestedFieldAccess:
-      summary: Capture events using dot notation for nested fields
+      summary: Capture events using dot notation to specify nested fields
       value:
         filter: sourcetype==="pan:traffic" && dest_geoip.country.iso_code === "US"
         maxEvents: 100
         duration: 5
         level: 0
     CaptureExamplesComplexFilter:
-      summary: Capture with complex filter using JavaScript methods
+      summary: Capture with a complex filter that uses JavaScript methods
       value:
         filter: __inputId.startsWith("http:") && status >= 400 && status < 500
         maxEvents: 500
@@ -44587,9 +44587,9 @@ paths:
       tags:
         - preview
       x-speakeasy-group: system.captures
-      x-speakeasy-name-override: get
+      x-speakeasy-name-override: create
       summary: Capture live incoming data
-      description: Capture live incoming data
+      description: Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
       responses:
         "200":
           description: CapturedEvent object

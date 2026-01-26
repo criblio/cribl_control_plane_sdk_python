@@ -10,7 +10,7 @@ from typing import Any, Dict, Mapping, Optional
 
 
 class Captures(BaseSDK):
-    def get(
+    def create(
         self,
         *,
         duration: float,
@@ -27,15 +27,15 @@ class Captures(BaseSDK):
     ) -> jsonl.JsonLStream[Dict[str, Any]]:
         r"""Capture live incoming data
 
-        Capture live incoming data
+        Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
 
-        :param duration: Amount of time to keep capture open, in seconds
-        :param filter_: Filter expression to capture events
-        :param level: Where to capture events
-        :param max_events: Maximum number of events to capture
-        :param step_duration: How long to wait before increasing the capture sample size. Specify 1 second or longer
-        :param worker_id: Worker ID
-        :param worker_threshold: Limits how many Workers will capture initially. The 0 default means unlimited.
+        :param duration: Amount of time to keep capture open, in seconds.
+        :param filter_: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators.
+        :param level: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination
+        :param max_events: Maximum number of events to capture.
+        :param step_duration: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer.
+        :param worker_id: Unique ID of the Worker.
+        :param worker_threshold: Maximum number of Workers that can capture initially. A value of <code>0</code> means unlimited (all available Workers can capture).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -132,7 +132,7 @@ class Captures(BaseSDK):
         http_res_text = utils.stream_to_text(http_res)
         raise errors.APIError("Unexpected response received", http_res, http_res_text)
 
-    async def get_async(
+    async def create_async(
         self,
         *,
         duration: float,
@@ -149,15 +149,15 @@ class Captures(BaseSDK):
     ) -> jsonl.JsonLStreamAsync[Dict[str, Any]]:
         r"""Capture live incoming data
 
-        Capture live incoming data
+        Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
 
-        :param duration: Amount of time to keep capture open, in seconds
-        :param filter_: Filter expression to capture events
-        :param level: Where to capture events
-        :param max_events: Maximum number of events to capture
-        :param step_duration: How long to wait before increasing the capture sample size. Specify 1 second or longer
-        :param worker_id: Worker ID
-        :param worker_threshold: Limits how many Workers will capture initially. The 0 default means unlimited.
+        :param duration: Amount of time to keep capture open, in seconds.
+        :param filter_: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators.
+        :param level: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination
+        :param max_events: Maximum number of events to capture.
+        :param step_duration: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer.
+        :param worker_id: Unique ID of the Worker.
+        :param worker_threshold: Maximum number of Workers that can capture initially. A value of <code>0</code> means unlimited (all available Workers can capture).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

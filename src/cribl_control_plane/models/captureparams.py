@@ -12,44 +12,44 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class CaptureParamsTypedDict(TypedDict):
     duration: float
-    r"""Amount of time to keep capture open, in seconds"""
+    r"""Amount of time to keep capture open, in seconds."""
     filter_: str
-    r"""Filter expression to capture events"""
+    r"""JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators."""
     level: CaptureLevel
-    r"""Where to capture events"""
+    r"""Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination"""
     max_events: int
-    r"""Maximum number of events to capture"""
+    r"""Maximum number of events to capture."""
     step_duration: NotRequired[int]
-    r"""How long to wait before increasing the capture sample size. Specify 1 second or longer"""
+    r"""How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer."""
     worker_id: NotRequired[str]
-    r"""Worker ID"""
+    r"""Unique ID of the Worker."""
     worker_threshold: NotRequired[int]
-    r"""Limits how many Workers will capture initially. The 0 default means unlimited."""
+    r"""Maximum number of Workers that can capture initially. A value of <code>0</code> means unlimited (all available Workers can capture)."""
 
 
 class CaptureParams(BaseModel):
     duration: float
-    r"""Amount of time to keep capture open, in seconds"""
+    r"""Amount of time to keep capture open, in seconds."""
 
     filter_: Annotated[str, pydantic.Field(alias="filter")]
-    r"""Filter expression to capture events"""
+    r"""JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators."""
 
     level: CaptureLevel
-    r"""Where to capture events"""
+    r"""Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination"""
 
     max_events: Annotated[int, pydantic.Field(alias="maxEvents")]
-    r"""Maximum number of events to capture"""
+    r"""Maximum number of events to capture."""
 
     step_duration: Annotated[Optional[int], pydantic.Field(alias="stepDuration")] = None
-    r"""How long to wait before increasing the capture sample size. Specify 1 second or longer"""
+    r"""How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer."""
 
     worker_id: Annotated[Optional[str], pydantic.Field(alias="workerId")] = None
-    r"""Worker ID"""
+    r"""Unique ID of the Worker."""
 
     worker_threshold: Annotated[
         Optional[int], pydantic.Field(alias="workerThreshold")
     ] = None
-    r"""Limits how many Workers will capture initially. The 0 default means unlimited."""
+    r"""Maximum number of Workers that can capture initially. A value of <code>0</code> means unlimited (all available Workers can capture)."""
 
     @field_serializer("level")
     def serialize_level(self, value):

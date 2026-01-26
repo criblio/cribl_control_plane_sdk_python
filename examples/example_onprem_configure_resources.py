@@ -18,19 +18,23 @@ from cribl_control_plane import CriblControlPlane
 from cribl_control_plane.models import (
     Security,
     ProductsCore,
-    InputSyslogSyslog2,
-    InputSyslogType2,
-    OutputS3,
-    OutputS3Type,
-    OutputS3Compression,
-    OutputS3CompressionLevel,
+    CreateInputInputSyslogSyslog2,
+    CreateInputInputSyslogType2,
+    CreateOutputOutputS3,
+    CreateOutputTypeS3,
+    CompressionOptions2,
+    CompressionLevelOptions,
     Pipeline,
     RoutesRoute,
-    Conf,
+    PipelineConf,
+    ConfInput,
+    PipelineFunctionEval,
+    PipelineFunctionEvalID,
     PipelineFunctionConf,
-    FunctionSpecificConfigs,
-    InputSyslogTLSSettingsServerSide2,
+    FunctionConfSchemaEval,
+    TLSSettingsServerSideType,
 )
+from typing import List, cast
 
 ONPREM_SERVER_URL = "http://localhost:9000"  # Replace with your server URL
 ONPREM_USERNAME = "admin"  # Replace with your username
@@ -50,44 +54,47 @@ base_url = f"{ONPREM_SERVER_URL}/api/v1"
 group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 
 # Syslog Source configuration
-syslog_source = InputSyslogSyslog2(
+syslog_source = CreateInputInputSyslogSyslog2(
     id="in-syslog-9021",
-    type=InputSyslogType2.SYSLOG,
+    type=CreateInputInputSyslogType2.SYSLOG,
+    host="0.0.0.0",
     tcp_port=SYSLOG_PORT,
-    tls=InputSyslogTLSSettingsServerSide2(disabled=True),
+    tls=TLSSettingsServerSideType(disabled=True),
 )
 
 # S3 Destination configuration
-s3_destination = OutputS3(
+s3_destination = CreateOutputOutputS3(
     id="out_s3",
-    type=OutputS3Type.S3,
+    type=CreateOutputTypeS3.S3,
     bucket=AWS_BUCKET_NAME,
+    stage_path="/tmp/cribl_stage",
     region=AWS_REGION,
     aws_secret_key=AWS_SECRET_KEY,
     aws_api_key=AWS_API_KEY,
-    compress=OutputS3Compression.GZIP,
-    compression_level=OutputS3CompressionLevel.BEST_SPEED,
+    compress=CompressionOptions2.GZIP,
+    compression_level=CompressionLevelOptions.BEST_SPEED,
     empty_dir_cleanup_sec=300,
 )
 
 # Pipeline configuration: filter events and keep only data in the "eventSource" and "eventID" fields
 pipeline = Pipeline(
     id="my_pipeline",
-    conf=Conf(
+    conf=PipelineConf(
         async_func_timeout=1000,
-        functions=[
-            PipelineFunctionConf(
-                filter_="true",
-                conf=FunctionSpecificConfigs.model_validate(
-                    {  # type: ignore
-                        "remove": ["*"],
-                        "keep": ["eventSource", "eventID"],
-                    }
-                ),
-                id="eval",
-                final=True,
-            )
-        ],
+        functions=cast(
+            List[PipelineFunctionConf],
+            [
+                PipelineFunctionEval(
+                    filter_="true",
+                    conf=FunctionConfSchemaEval(
+                        remove=["*"],
+                        keep=["eventSource", "eventID"],
+                    ),
+                    id=PipelineFunctionEvalID.EVAL,
+                    final=True,
+                )
+            ],
+        ),
     ),
 )
 
@@ -110,7 +117,7 @@ async def main():
         username=ONPREM_USERNAME, password=ONPREM_PASSWORD
     )
 
-    token = response.token
+    token = response.result.token
     security = Security(bearer_auth=token)
     cribl = CriblControlPlane(server_url=base_url, security=security)
 
@@ -142,7 +149,7 @@ async def main():
     print(f"✅ S3 Destination created: {s3_destination.id}")
 
     # Create Pipeline
-    cribl.pipelines.create(id=pipeline.id, conf=pipeline.conf, server_url=group_url)
+    cribl.pipelines.create(id=pipeline.id, conf=ConfInput.model_validate(pipeline.conf.model_dump()), server_url=group_url)
     print(f"✅ Pipeline created: {pipeline.id}")
 
     # Add Route to Routing table

@@ -393,7 +393,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [System.Captures](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md#get) - Capture live incoming data
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md#create) - Capture live incoming data
 
 ### [System.Settings.Cribl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md)
 
@@ -454,7 +454,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.system.captures.get(duration=5, filter_="true", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100, step_duration=571732, worker_id="<id>", worker_threshold=609412)
+    res = ccp_client.system.captures.create(duration=5, filter_="true", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100, step_duration=571732, worker_id="<id>", worker_threshold=609412)
 
     with res as jsonl_stream:
         for event in jsonl_stream:

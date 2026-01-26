@@ -1,6 +1,6 @@
 # InputPrometheusLogLevel
 
-Collector runtime Log Level
+Collector runtime log level
 
 
 ## Values

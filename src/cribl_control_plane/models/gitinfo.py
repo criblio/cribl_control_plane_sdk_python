@@ -3,11 +3,9 @@
 from __future__ import annotations
 from cribl_control_plane import utils
 from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
 from enum import Enum
-from pydantic.functional_validators import PlainValidator
 from typing import Union
-from typing_extensions import Annotated, TypeAliasType, TypedDict
+from typing_extensions import TypeAliasType, TypedDict
 
 
 class RemoteEnum(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -17,10 +15,7 @@ class RemoteEnum(str, Enum, metaclass=utils.OpenEnumMeta):
 RemoteTypedDict = TypeAliasType("RemoteTypedDict", Union[str, RemoteEnum])
 
 
-Remote = TypeAliasType(
-    "Remote",
-    Union[str, Annotated[RemoteEnum, PlainValidator(validate_open_enum(False))]],
-)
+Remote = TypeAliasType("Remote", Union[str, RemoteEnum])
 
 
 class GitInfoTypedDict(TypedDict):

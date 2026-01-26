@@ -20,7 +20,7 @@ from cribl_control_plane.models import (
     ProductsCore,
     SchemeClientOauth,
     Security,
-    ConfigGroupEstimatedIngestRate,
+    EstimatedIngestRateOptionsConfigGroup,
 )
 
 ORG_ID = "your-org-id"
@@ -65,7 +65,7 @@ async def main():
     else:
         # Scale and provision the Worker Group
         # Equivalent to 48 MB/s maximum estimated ingest rate with 21 Worker Processes
-        group.estimated_ingest_rate = ConfigGroupEstimatedIngestRate.RATE48_MB_PER_SEC
+        group.estimated_ingest_rate = EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC
         group.provisioned = True
 
         cribl.groups.update(
@@ -89,4 +89,3 @@ if __name__ == "__main__":
         asyncio.run(main())
     except Exception as error:
         print(f"❌ Something went wrong: {error}")
-

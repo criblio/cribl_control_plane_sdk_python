@@ -5,8 +5,7 @@ from .cribllakedataset import CriblLakeDataset, CriblLakeDatasetTypedDict
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 
 class CreateCriblLakeDatasetByLakeIDRequestTypedDict(TypedDict):
@@ -29,20 +28,3 @@ class CreateCriblLakeDatasetByLakeIDRequest(BaseModel):
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
     r"""CriblLakeDataset object"""
-
-
-class CreateCriblLakeDatasetByLakeIDResponseTypedDict(TypedDict):
-    r"""a list of CriblLakeDataset objects"""
-
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[CriblLakeDatasetTypedDict]]
-
-
-class CreateCriblLakeDatasetByLakeIDResponse(BaseModel):
-    r"""a list of CriblLakeDataset objects"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[CriblLakeDataset]] = None

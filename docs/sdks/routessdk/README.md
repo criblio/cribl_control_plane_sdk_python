@@ -45,7 +45,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListRoutesResponse](../../models/listroutesresponse.md)**
+**[models.CountedRoutes](../../models/countedroutes.md)**
 
 ### Errors
 
@@ -89,7 +89,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetRoutesByIDResponse](../../models/getroutesbyidresponse.md)**
+**[models.CountedRoutes](../../models/countedroutes.md)**
 
 ### Errors
 
@@ -117,15 +117,28 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.update(id_param="<value>", routes=[], id="<id>", groups={
+    res = ccp_client.routes.update(id_param="<value>", routes=[
+        models.RoutesRoute(
+            id="default",
+            name="my-route",
+            disabled=True,
+            filter_="source == \"access.log\"",
+            pipeline="main",
+            enable_output_expression=False,
+            output="<value>",
+            output_expression="<value>",
+            description="Route access logs to main pipeline",
+            final=True,
+        ),
+    ], id="default", groups={
         "key": {
             "name": "<value>",
-            "description": "where internationalize yesterday woefully tank underneath",
-            "disabled": True,
+            "description": "drat yet spectacles ha",
+            "disabled": False,
         },
     }, comments=[
         models.Comment(
-            comment="New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
+            comment="The Football Is Good For Training And Recreational Purposes",
         ),
     ])
 
@@ -136,18 +149,18 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                                                | Type                                                                                                                     | Required                                                                                                                 | Description                                                                                                              |
-| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
-| `id_param`                                                                                                               | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>. |
-| `routes`                                                                                                                 | List[[models.RoutesRoute](../../models/routesroute.md)]                                                                  | :heavy_check_mark:                                                                                                       | Pipeline routing rules                                                                                                   |
-| `id`                                                                                                                     | *Optional[str]*                                                                                                          | :heavy_minus_sign:                                                                                                       | Routes ID                                                                                                                |
-| `groups`                                                                                                                 | Dict[str, [models.RoutesGroups](../../models/routesgroups.md)]                                                           | :heavy_minus_sign:                                                                                                       | N/A                                                                                                                      |
-| `comments`                                                                                                               | List[[models.Comment](../../models/comment.md)]                                                                          | :heavy_minus_sign:                                                                                                       | Comments                                                                                                                 |
-| `retries`                                                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                         | :heavy_minus_sign:                                                                                                       | Configuration to override the default retry behavior of the client.                                                      |
+| Parameter                                                                                                                  | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                |
+| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `id_param`                                                                                                                 | *str*                                                                                                                      | :heavy_check_mark:                                                                                                         | The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.   |
+| `routes`                                                                                                                   | List[[models.RoutesRoute](../../models/routesroute.md)]                                                                    | :heavy_check_mark:                                                                                                         | Pipeline routing rules                                                                                                     |
+| `id`                                                                                                                       | *Optional[str]*                                                                                                            | :heavy_minus_sign:                                                                                                         | Routes ID                                                                                                                  |
+| `groups`                                                                                                                   | Dict[str, [models.AdditionalPropertiesTypePipelineConfGroups](../../models/additionalpropertiestypepipelineconfgroups.md)] | :heavy_minus_sign:                                                                                                         | N/A                                                                                                                        |
+| `comments`                                                                                                                 | List[[models.Comment](../../models/comment.md)]                                                                            | :heavy_minus_sign:                                                                                                         | Comments                                                                                                                   |
+| `retries`                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                           | :heavy_minus_sign:                                                                                                         | Configuration to override the default retry behavior of the client.                                                        |
 
 ### Response
 
-**[models.UpdateRoutesByIDResponse](../../models/updateroutesbyidresponse.md)**
+**[models.CountedRoutes](../../models/countedroutes.md)**
 
 ### Errors
 
@@ -175,7 +188,30 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.append(id="<id>", request_body=[])
+    res = ccp_client.routes.append(id="<id>", request_body=[
+        {
+            "clones": [
+                {
+                    "key": "<value>",
+                },
+                {
+
+                },
+            ],
+            "context": "<value>",
+            "description": "Route new logs to main pipeline",
+            "disabled": True,
+            "enable_output_expression": True,
+            "filter_": "source == \"new.log\"",
+            "final": True,
+            "group_id": "<id>",
+            "id": "route-new",
+            "name": "new-route",
+            "output": "<value>",
+            "output_expression": "<value>",
+            "pipeline": "main",
+        },
+    ])
 
     # Handle response
     print(res)
@@ -192,7 +228,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateRoutesAppendByIDResponse](../../models/createroutesappendbyidresponse.md)**
+**[models.CountedRoutes](../../models/countedroutes.md)**
 
 ### Errors
 

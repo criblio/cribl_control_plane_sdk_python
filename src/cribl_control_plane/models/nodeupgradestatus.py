@@ -6,12 +6,10 @@ from .nodefailedupgradestatus import NodeFailedUpgradeStatus
 from .nodeskippedupgradestatus import NodeSkippedUpgradeStatus
 from .nodeupgradestate import NodeUpgradeState
 from cribl_control_plane import models
-from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from pydantic import field_serializer, model_serializer
 from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import NotRequired, TypedDict
 
 
 class NodeUpgradeStatusTypedDict(TypedDict):
@@ -23,21 +21,15 @@ class NodeUpgradeStatusTypedDict(TypedDict):
 
 
 class NodeUpgradeStatus(BaseModel):
-    state: Annotated[NodeUpgradeState, PlainValidator(validate_open_enum(True))]
+    state: NodeUpgradeState
 
     timestamp: float
 
-    active: Annotated[
-        Optional[NodeActiveUpgradeStatus], PlainValidator(validate_open_enum(True))
-    ] = None
+    active: Optional[NodeActiveUpgradeStatus] = None
 
-    failed: Annotated[
-        Optional[NodeFailedUpgradeStatus], PlainValidator(validate_open_enum(True))
-    ] = None
+    failed: Optional[NodeFailedUpgradeStatus] = None
 
-    skipped: Annotated[
-        Optional[NodeSkippedUpgradeStatus], PlainValidator(validate_open_enum(True))
-    ] = None
+    skipped: Optional[NodeSkippedUpgradeStatus] = None
 
     @field_serializer("active")
     def serialize_active(self, value):
@@ -74,3 +66,19 @@ class NodeUpgradeStatus(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["active", "failed", "skipped"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

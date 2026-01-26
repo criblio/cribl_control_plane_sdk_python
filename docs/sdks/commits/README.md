@@ -53,7 +53,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateVersionCommitResponse](../../models/createversioncommitresponse.md)**
+**[models.CountedGitCommitSummary](../../models/countedgitcommitsummary.md)**
 
 ### Errors
 
@@ -100,7 +100,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetVersionDiffResponse](../../models/getversiondiffresponse.md)**
+**[models.CountedGitDiffResult](../../models/countedgitdiffresult.md)**
 
 ### Errors
 
@@ -145,7 +145,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetVersionResponse](../../models/getversionresponse.md)**
+**[models.CountedGitLogResult](../../models/countedgitlogresult.md)**
 
 ### Errors
 
@@ -188,7 +188,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateVersionPushResponse](../../models/createversionpushresponse.md)**
+**[models.CountedString](../../models/countedstring.md)**
 
 ### Errors
 
@@ -235,7 +235,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateVersionRevertResponse](../../models/createversionrevertresponse.md)**
+**[models.CountedGitRevertResult](../../models/countedgitrevertresult.md)**
 
 ### Errors
 
@@ -282,7 +282,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetVersionShowResponse](../../models/getversionshowresponse.md)**
+**[models.CountedGitShowResult](../../models/countedgitshowresult.md)**
 
 ### Errors
 
@@ -326,7 +326,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CreateVersionUndoResponse](../../models/createversionundoresponse.md)**
+**[models.CountedObject](../../models/countedobject.md)**
 
 ### Errors
 

@@ -3,12 +3,10 @@
 from __future__ import annotations
 from .rbacresource import RbacResource
 from cribl_control_plane import models
-from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from pydantic import field_serializer, model_serializer
 from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import NotRequired, TypedDict
 
 
 class ResourcePolicyTypedDict(TypedDict):
@@ -23,7 +21,7 @@ class ResourcePolicy(BaseModel):
 
     policy: str
 
-    type: Annotated[RbacResource, PlainValidator(validate_open_enum(False))]
+    type: RbacResource
 
     id: Optional[str] = None
 
@@ -35,3 +33,19 @@ class ResourcePolicy(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["id"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

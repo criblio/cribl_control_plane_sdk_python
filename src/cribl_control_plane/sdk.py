@@ -15,8 +15,10 @@ from typing import Callable, Optional, TYPE_CHECKING, Union, cast
 import weakref
 
 if TYPE_CHECKING:
-    from cribl_control_plane.auth_sdk import AuthSDK
+    from cribl_control_plane.auth import Auth
+    from cribl_control_plane.collectors_sdk import CollectorsSDK
     from cribl_control_plane.destinations import Destinations
+    from cribl_control_plane.functions import Functions
     from cribl_control_plane.groups_sdk import GroupsSDK
     from cribl_control_plane.health import Health
     from cribl_control_plane.lakedatasets import LakeDatasets
@@ -25,6 +27,7 @@ if TYPE_CHECKING:
     from cribl_control_plane.pipelines import Pipelines
     from cribl_control_plane.routes_sdk import RoutesSDK
     from cribl_control_plane.sources import Sources
+    from cribl_control_plane.system_sdk import SystemSDK
     from cribl_control_plane.versions import Versions
 
 
@@ -32,6 +35,8 @@ class CriblControlPlane(BaseSDK):
     r"""Cribl API Reference: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io)."""
 
     lake_datasets: "LakeDatasets"
+    collectors: "CollectorsSDK"
+    r"""Actions related to Collectors"""
     sources: "Sources"
     r"""Actions related to Sources"""
     destinations: "Destinations"
@@ -40,25 +45,31 @@ class CriblControlPlane(BaseSDK):
     r"""Actions related to Pipelines"""
     routes: "RoutesSDK"
     r"""Actions related to Routes"""
-    auth: "AuthSDK"
+    auth: "Auth"
     health: "Health"
     r"""Actions related to REST server health"""
     packs: "Packs"
     r"""Actions related to Packs"""
+    system: "SystemSDK"
     versions: "Versions"
+    functions: "Functions"
+    r"""Actions related to functions"""
     nodes: "Nodes"
     groups: "GroupsSDK"
     r"""Actions related to Groups"""
     _sub_sdk_map = {
         "lake_datasets": ("cribl_control_plane.lakedatasets", "LakeDatasets"),
+        "collectors": ("cribl_control_plane.collectors_sdk", "CollectorsSDK"),
         "sources": ("cribl_control_plane.sources", "Sources"),
         "destinations": ("cribl_control_plane.destinations", "Destinations"),
         "pipelines": ("cribl_control_plane.pipelines", "Pipelines"),
         "routes": ("cribl_control_plane.routes_sdk", "RoutesSDK"),
-        "auth": ("cribl_control_plane.auth_sdk", "AuthSDK"),
+        "auth": ("cribl_control_plane.auth", "Auth"),
         "health": ("cribl_control_plane.health", "Health"),
         "packs": ("cribl_control_plane.packs", "Packs"),
+        "system": ("cribl_control_plane.system_sdk", "SystemSDK"),
         "versions": ("cribl_control_plane.versions", "Versions"),
+        "functions": ("cribl_control_plane.functions", "Functions"),
         "nodes": ("cribl_control_plane.nodes", "Nodes"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
     }

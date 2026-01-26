@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769209481796-c5a3e381
+  version: 4.17.0-alpha.1769425375939-a0fb3db5
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -35844,6 +35844,63 @@ components:
       required:
         - password
         - username
+    CapturedEvent:
+      type: object
+      additionalProperties: true
+      properties:
+        _raw:
+          type: string
+          description: Raw event data.
+        _time:
+          type: number
+          description: Timestamp of the event.
+    CaptureLevel:
+      type: integer
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+      description: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination
+      x-speakeasy-enum-descriptions:
+        - 1. Before pre-processing Pipeline
+        - 2. Before the Routes
+        - 3. Before post-processing Pipeline
+        - 4. Before the Destination
+      x-speakeasy-enums:
+        - BeforePreProcessingPipeline
+        - BeforeRoutes
+        - BeforePostProcessingPipeline
+        - BeforeDestination
+      x-speakeasy-unknown-values: allow
+    CaptureParams:
+      type: object
+      properties:
+        duration:
+          type: number
+          description: Amount of time to keep capture open, in seconds.
+        filter:
+          type: string
+          description: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators.
+        level:
+          $ref: "#/components/schemas/CaptureLevel"
+        maxEvents:
+          type: integer
+          description: Maximum number of events to capture.
+        stepDuration:
+          type: integer
+          description: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer.
+        workerId:
+          type: string
+          description: Unique ID of the Worker.
+        workerThreshold:
+          type: integer
+          description: Maximum number of Workers that can capture initially. A value of <code>0</code> means unlimited (all available Workers can capture).
+      required:
+        - duration
+        - filter
+        - level
+        - maxEvents
     HealthServerStatus:
       type: object
       properties:
@@ -42234,6 +42291,34 @@ components:
           filter: source == "dynamic.log"
           description: Route with dynamic Destination based on environment
           final: true
+    CaptureExamplesSimpleExpression:
+      summary: Capture events by sourcetype
+      value:
+        filter: sourcetype==="pan:traffic"
+        maxEvents: 100
+        duration: 5
+        level: 0
+    CaptureExamplesCompoundAndExpression:
+      summary: Capture events using the AND operator to specify multiple conditions
+      value:
+        filter: sourcetype==="pan:traffic" && src_zone==="trusted"
+        maxEvents: 100
+        duration: 5
+        level: 0
+    CaptureExamplesNestedFieldAccess:
+      summary: Capture events using dot notation to specify nested fields
+      value:
+        filter: sourcetype==="pan:traffic" && dest_geoip.country.iso_code === "US"
+        maxEvents: 100
+        duration: 5
+        level: 0
+    CaptureExamplesComplexFilter:
+      summary: Capture with a complex filter that uses JavaScript methods
+      value:
+        filter: __inputId.startsWith("http:") && status >= 400 && status < 500
+        maxEvents: 500
+        duration: 15
+        level: 1
     PackInstallExamplesPackDispensary:
       summary: Install from the Pack Dispensary
       value:
@@ -42295,6 +42380,8 @@ tags:
     description: Actions related to Packs
   - name: pipelines
     description: Actions related to Pipelines
+  - name: preview
+    description: Actions related to data preview
   - name: routes
     description: Actions related to Routes
   - name: sources
@@ -44487,6 +44574,46 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/LoginInfo"
+  /system/capture:
+    post:
+      operationId: createSystemCapture
+      tags:
+        - preview
+      x-speakeasy-group: system.captures
+      x-speakeasy-name-override: create
+      summary: Capture live incoming data
+      description: Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
+      responses:
+        "200":
+          description: CapturedEvent object
+          content:
+            application/x-ndjson:
+              schema:
+                $ref: "#/components/schemas/CapturedEvent"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: CaptureParams object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CaptureParams"
+            examples:
+              CaptureExamplesSimpleExpression:
+                $ref: "#/components/examples/CaptureExamplesSimpleExpression"
+              CaptureExamplesCompoundAndExpression:
+                $ref: "#/components/examples/CaptureExamplesCompoundAndExpression"
+              CaptureExamplesNestedFieldAccess:
+                $ref: "#/components/examples/CaptureExamplesNestedFieldAccess"
+              CaptureExamplesComplexFilter:
+                $ref: "#/components/examples/CaptureExamplesComplexFilter"
   /health:
     get:
       operationId: getHealth

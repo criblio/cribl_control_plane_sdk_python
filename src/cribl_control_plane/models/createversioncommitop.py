@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 from .gitcommitparams import GitCommitParams, GitCommitParamsTypedDict
-from .gitcommitsummary import GitCommitSummary, GitCommitSummaryTypedDict
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata, RequestMetadata
 import pydantic
-from typing import List, Optional
+from pydantic import model_serializer
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -31,19 +31,18 @@ class CreateVersionCommitRequest(BaseModel):
     ] = None
     r"""The <code>id</code> of the Worker Group or Edge Fleet to create a new commit for."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["groupId"])
+        serialized = handler(self)
+        m = {}
 
-class CreateVersionCommitResponseTypedDict(TypedDict):
-    r"""a list of GitCommitSummary objects"""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
 
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[GitCommitSummaryTypedDict]]
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
 
-
-class CreateVersionCommitResponse(BaseModel):
-    r"""a list of GitCommitSummary objects"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[GitCommitSummary]] = None
+        return m

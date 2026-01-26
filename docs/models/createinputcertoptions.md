@@ -1,0 +1,11 @@
+# CreateInputCertOptions
+
+
+## Fields
+
+| Field                                                                                         | Type                                                                                          | Required                                                                                      | Description                                                                                   |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `certificate_name`                                                                            | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | The name of the predefined certificate.                                                       |
+| `priv_key_path`                                                                               | *str*                                                                                         | :heavy_check_mark:                                                                            | Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS.         |
+| `passphrase`                                                                                  | *Optional[str]*                                                                               | :heavy_minus_sign:                                                                            | Passphrase to use to decrypt the private key.                                                 |
+| `cert_path`                                                                                   | *str*                                                                                         | :heavy_check_mark:                                                                            | Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS. |

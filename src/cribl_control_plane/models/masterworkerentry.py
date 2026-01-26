@@ -5,22 +5,12 @@ from .heartbeatmetadata import HeartbeatMetadata, HeartbeatMetadataTypedDict
 from .nodeprovidedinfo import NodeProvidedInfo, NodeProvidedInfoTypedDict
 from .nodeupgradestatus import NodeUpgradeStatus, NodeUpgradeStatusTypedDict
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
-from typing import Optional
+from pydantic import field_serializer, model_serializer
+from typing import Any, Dict, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class LastMetricsTypedDict(TypedDict):
-    pass
-
-
-class LastMetrics(BaseModel):
-    pass
 
 
 class MasterWorkerEntryType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -46,7 +36,7 @@ class MasterWorkerEntryTypedDict(TypedDict):
     worker_processes: float
     deployable: NotRequired[bool]
     disconnected: NotRequired[bool]
-    last_metrics: NotRequired[LastMetricsTypedDict]
+    last_metrics: NotRequired[Dict[str, Any]]
     metadata: NotRequired[HeartbeatMetadataTypedDict]
     node_upgrade_status: NotRequired[NodeUpgradeStatusTypedDict]
     status: NotRequired[str]
@@ -72,7 +62,7 @@ class MasterWorkerEntry(BaseModel):
     disconnected: Optional[bool] = None
 
     last_metrics: Annotated[
-        Optional[LastMetrics], pydantic.Field(alias="lastMetrics")
+        Optional[Dict[str, Any]], pydantic.Field(alias="lastMetrics")
     ] = None
 
     metadata: Optional[HeartbeatMetadata] = None
@@ -83,9 +73,7 @@ class MasterWorkerEntry(BaseModel):
 
     status: Optional[str] = None
 
-    type: Annotated[
-        Optional[MasterWorkerEntryType], PlainValidator(validate_open_enum(False))
-    ] = None
+    type: Optional[MasterWorkerEntryType] = None
 
     workers: Optional[MasterWorkerEntryWorkers] = None
 
@@ -97,3 +85,30 @@ class MasterWorkerEntry(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "deployable",
+                "disconnected",
+                "lastMetrics",
+                "metadata",
+                "nodeUpgradeStatus",
+                "status",
+                "type",
+                "workers",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

@@ -46,7 +46,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListInputResponse](../../models/listinputresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -75,8 +75,8 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.sources.create(request={
-        "id": "<id>",
-        "type": models.InputTCPType.TCP,
+        "id": "appscope-source",
+        "type": models.CreateInputTypeAppscope.APPSCOPE,
         "disabled": False,
         "pipeline": "<value>",
         "send_to_routes": True,
@@ -84,8 +84,6 @@ with CriblControlPlane(
         "pq_enabled": False,
         "streamtags": [
             "<value 1>",
-            "<value 2>",
-            "<value 3>",
         ],
         "connections": [
             {
@@ -94,35 +92,20 @@ with CriblControlPlane(
             },
         ],
         "pq": {
-            "mode": models.InputTCPMode.ALWAYS,
-            "max_buffer_size": 1000,
-            "commit_frequency": 42,
-            "max_file_size": "1 MB",
-            "max_size": "5GB",
-            "path": "$CRIBL_HOME/state/queues",
-            "compress": models.InputTCPCompression.NONE,
+            "mode": models.ModeOptionsPq.SMART,
+            "max_buffer_size": 2055.73,
+            "commit_frequency": 7905.42,
+            "max_file_size": "<value>",
+            "max_size": "<value>",
+            "path": "/opt/bin",
+            "compress": models.CompressionOptionsPq.GZIP,
             "pq_controls": {},
         },
-        "host": "0.0.0.0",
-        "port": 301.76,
-        "tls": {
-            "disabled": True,
-            "request_cert": False,
-            "reject_unauthorized": True,
-            "common_name_regex": "<value>",
-            "certificate_name": "<value>",
-            "priv_key_path": "<value>",
-            "passphrase": "<value>",
-            "cert_path": "<value>",
-            "ca_path": "<value>",
-            "min_version": models.InputTCPMinimumTLSVersion.TL_SV1,
-            "max_version": models.InputTCPMaximumTLSVersion.TL_SV1_1,
-        },
-        "ip_whitelist_regex": "/.*/",
-        "max_active_cxn": 1000,
-        "socket_idle_timeout": 0,
-        "socket_ending_max_wait": 30,
-        "socket_max_lifespan": 0,
+        "ip_whitelist_regex": "<value>",
+        "max_active_cxn": 4887.41,
+        "socket_idle_timeout": 2674.23,
+        "socket_ending_max_wait": 7415.32,
+        "socket_max_lifespan": 7847.75,
         "enable_proxy_header": False,
         "metadata": [
             {
@@ -133,20 +116,46 @@ with CriblControlPlane(
         "breaker_rulesets": [
             "<value 1>",
         ],
-        "stale_channel_flush_ms": 10000,
-        "enable_header": False,
-        "preprocess": {
-            "disabled": True,
-            "command": "<value>",
-            "args": [
-                "<value 1>",
-                "<value 2>",
-                "<value 3>",
+        "stale_channel_flush_ms": 3076.3,
+        "enable_unix_path": False,
+        "filter_": {
+            "allow": [
+                {
+                    "procname": "<value>",
+                    "arg": "<value>",
+                    "config": "<value>",
+                },
             ],
+            "transport_url": "https://pointed-napkin.info/",
         },
-        "description": "classic pish supposing misguided carefully fen",
-        "auth_token": "",
-        "auth_type": models.InputTCPAuthenticationMethod.MANUAL,
+        "persistence": {
+            "enable": False,
+            "time_window": "<value>",
+            "max_data_size": "<value>",
+            "max_data_time": "<value>",
+            "compress": models.DataCompressionFormatOptionsPersistence.NONE,
+            "dest_path": "<value>",
+        },
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "description": "repeatedly urban incidentally clean up",
+        "host": "0.0.0.0",
+        "port": 9109,
+        "tls": {
+            "disabled": True,
+            "request_cert": False,
+            "reject_unauthorized": True,
+            "common_name_regex": "<value>",
+            "certificate_name": "<value>",
+            "priv_key_path": "<value>",
+            "passphrase": "<value>",
+            "cert_path": "<value>",
+            "ca_path": "<value>",
+            "min_version": models.MinimumTLSVersionOptionsKafkaSchemaRegistryTLS.TL_SV1_2,
+            "max_version": models.MaximumTLSVersionOptionsKafkaSchemaRegistryTLS.TL_SV1_3,
+        },
+        "unix_socket_path": "<value>",
+        "unix_socket_perms": "<value>",
+        "auth_token": "<value>",
         "text_secret": "<value>",
     })
 
@@ -159,12 +168,12 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `request`                                                           | [models.Input](../../models/input.md)                               | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `request`                                                           | [models.CreateInputRequest](../../models/createinputrequest.md)     | :heavy_check_mark:                                                  | The request object to use for the request.                          |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CreateInputResponse](../../models/createinputresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -208,7 +217,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetInputByIDResponse](../../models/getinputbyidresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -237,8 +246,8 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.sources.update(id="<id>", input_={
-        "id": "<id>",
-        "type": models.InputKubeEventsType.KUBE_EVENTS,
+        "id": "appscope-source",
+        "type": models.InputAppscopeType.APPSCOPE,
         "disabled": False,
         "pipeline": "<value>",
         "send_to_routes": True,
@@ -246,7 +255,6 @@ with CriblControlPlane(
         "pq_enabled": False,
         "streamtags": [
             "<value 1>",
-            "<value 2>",
         ],
         "connections": [
             {
@@ -255,28 +263,71 @@ with CriblControlPlane(
             },
         ],
         "pq": {
-            "mode": models.InputKubeEventsMode.ALWAYS,
-            "max_buffer_size": 1000,
-            "commit_frequency": 42,
-            "max_file_size": "1 MB",
-            "max_size": "5GB",
-            "path": "$CRIBL_HOME/state/queues",
-            "compress": models.InputKubeEventsCompression.NONE,
+            "mode": models.ModeOptionsPq.SMART,
+            "max_buffer_size": 9959.95,
+            "commit_frequency": 4085.76,
+            "max_file_size": "<value>",
+            "max_size": "<value>",
+            "path": "/usr/obj",
+            "compress": models.CompressionOptionsPq.GZIP,
             "pq_controls": {},
         },
-        "rules": [
-            {
-                "filter_": "<value>",
-                "description": "invite meh corny incidentally down",
-            },
-        ],
+        "ip_whitelist_regex": "<value>",
+        "max_active_cxn": 3417.54,
+        "socket_idle_timeout": 4799.95,
+        "socket_ending_max_wait": 3730.65,
+        "socket_max_lifespan": 4634.53,
+        "enable_proxy_header": True,
         "metadata": [
             {
                 "name": "<value>",
                 "value": "<value>",
             },
         ],
-        "description": "gown deployment portray gah mindless carp stabilise",
+        "breaker_rulesets": [
+            "<value 1>",
+        ],
+        "stale_channel_flush_ms": 3362.61,
+        "enable_unix_path": False,
+        "filter_": {
+            "allow": [
+                {
+                    "procname": "<value>",
+                    "arg": "<value>",
+                    "config": "<value>",
+                },
+            ],
+            "transport_url": "https://distorted-translation.org/",
+        },
+        "persistence": {
+            "enable": False,
+            "time_window": "<value>",
+            "max_data_size": "<value>",
+            "max_data_time": "<value>",
+            "compress": models.DataCompressionFormatOptionsPersistence.NONE,
+            "dest_path": "<value>",
+        },
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.SECRET,
+        "description": "incidentally down versus blah",
+        "host": "0.0.0.0",
+        "port": 9109,
+        "tls": {
+            "disabled": True,
+            "request_cert": True,
+            "reject_unauthorized": False,
+            "common_name_regex": "<value>",
+            "certificate_name": "<value>",
+            "priv_key_path": "<value>",
+            "passphrase": "<value>",
+            "cert_path": "<value>",
+            "ca_path": "<value>",
+            "min_version": models.MinimumTLSVersionOptionsKafkaSchemaRegistryTLS.TL_SV1,
+            "max_version": models.MaximumTLSVersionOptionsKafkaSchemaRegistryTLS.TL_SV1,
+        },
+        "unix_socket_path": "<value>",
+        "unix_socket_perms": "<value>",
+        "auth_token": "<value>",
+        "text_secret": "<value>",
     })
 
     # Handle response
@@ -294,7 +345,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdateInputByIDResponse](../../models/updateinputbyidresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 
@@ -338,7 +389,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeleteInputByIDResponse](../../models/deleteinputbyidresponse.md)**
+**[models.CountedInput](../../models/countedinput.md)**
 
 ### Errors
 

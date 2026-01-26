@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 from .gitrevertparams import GitRevertParams, GitRevertParamsTypedDict
-from .gitrevertresult import GitRevertResult, GitRevertResultTypedDict
-from cribl_control_plane.types import BaseModel
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata, RequestMetadata
 import pydantic
-from typing import List, Optional
+from pydantic import model_serializer
+from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -31,19 +31,18 @@ class CreateVersionRevertRequest(BaseModel):
     ] = None
     r"""The <code>id</code> of the Worker Group or Edge Fleet to revert the commit for. Required in Distributed deployments. Omit in Single-instance deployments."""
 
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["groupId"])
+        serialized = handler(self)
+        m = {}
 
-class CreateVersionRevertResponseTypedDict(TypedDict):
-    r"""a list of GitRevertResult objects"""
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
 
-    count: NotRequired[int]
-    r"""number of items present in the items array"""
-    items: NotRequired[List[GitRevertResultTypedDict]]
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
 
-
-class CreateVersionRevertResponse(BaseModel):
-    r"""a list of GitRevertResult objects"""
-
-    count: Optional[int] = None
-    r"""number of items present in the items array"""
-
-    items: Optional[List[GitRevertResult]] = None
+        return m

@@ -20,13 +20,13 @@ class Teams(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetConfigGroupACLTeamsByProductAndIDResponse:
-        r"""Get the Access Control List for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+    ) -> models.CountedTeamAccessControlList:
+        r"""Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
 
-        Get the Access Control List (ACL) for teams that have permissions on a Worker Group or Edge Fleet for the specified Cribl product.
+        Get the Access Control List (ACL) for teams that have permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
 
-        :param product: Name of the Cribl product that contains the Worker Group or Edge Fleet.
-        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for.
+        :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for.
         :param type: Filter for limiting the response to ACL entries for the specified RBAC resource type.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -69,10 +69,14 @@ class Teams(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = self.do_request(
             hook_ctx=HookContext(
@@ -92,7 +96,7 @@ class Teams(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.GetConfigGroupACLTeamsByProductAndIDResponse, http_res
+                models.CountedTeamAccessControlList, http_res
             )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
@@ -116,13 +120,13 @@ class Teams(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.GetConfigGroupACLTeamsByProductAndIDResponse:
-        r"""Get the Access Control List for teams with permissions on a Worker Group or Edge Fleet for the specified Cribl product
+    ) -> models.CountedTeamAccessControlList:
+        r"""Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
 
-        Get the Access Control List (ACL) for teams that have permissions on a Worker Group or Edge Fleet for the specified Cribl product.
+        Get the Access Control List (ACL) for teams that have permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
 
-        :param product: Name of the Cribl product that contains the Worker Group or Edge Fleet.
-        :param id: The <code>id</code> of the Worker Group or Edge Fleet to get the team ACL for.
+        :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
+        :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the team ACL for.
         :param type: Filter for limiting the response to ACL entries for the specified RBAC resource type.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -165,10 +169,14 @@ class Teams(BaseSDK):
         if retries == UNSET:
             if self.sdk_configuration.retry_config is not UNSET:
                 retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
 
         retry_config = None
         if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429", "500", "502", "503", "504"])
+            retry_config = (retries, ["429"])
 
         http_res = await self.do_request_async(
             hook_ctx=HookContext(
@@ -188,7 +196,7 @@ class Teams(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.GetConfigGroupACLTeamsByProductAndIDResponse, http_res
+                models.CountedTeamAccessControlList, http_res
             )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)

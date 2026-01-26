@@ -40,7 +40,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetVersionInfoResponse](../../models/getversioninforesponse.md)**
+**[models.CountedGitInfo](../../models/countedgitinfo.md)**
 
 ### Errors
 

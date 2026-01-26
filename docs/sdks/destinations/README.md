@@ -46,7 +46,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListOutputResponse](../../models/listoutputresponse.md)**
+**[models.CountedOutput](../../models/countedoutput.md)**
 
 ### Errors
 
@@ -75,8 +75,8 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.destinations.create(request={
-        "id": "<id>",
-        "type": models.OutputElasticCloudType.ELASTIC_CLOUD,
+        "id": "tcpjson-output",
+        "type": models.CreateOutputTypeTcpjson.TCPJSON,
         "pipeline": "<value>",
         "system_fields": [
             "<value 1>",
@@ -86,71 +86,57 @@ with CriblControlPlane(
         "streamtags": [
             "<value 1>",
         ],
-        "url": "https://probable-rationale.com/",
-        "index": "<value>",
-        "concurrency": 5,
-        "max_payload_size_kb": 4096,
-        "max_payload_events": 0,
-        "compress": True,
-        "reject_unauthorized": True,
-        "timeout_sec": 30,
-        "flush_period_sec": 1,
-        "extra_http_headers": [
-            {
-                "name": "<value>",
-                "value": "<value>",
-            },
-        ],
-        "failed_request_logging_mode": models.OutputElasticCloudFailedRequestLoggingMode.NONE,
-        "safe_headers": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "extra_params": [
-            {
-                "name": "<value>",
-                "value": "<value>",
-            },
-        ],
-        "auth": {
+        "load_balanced": False,
+        "compression": models.CompressionOptions1.GZIP,
+        "log_failed_requests": True,
+        "throttle_rate_per_sec": "<value>",
+        "tls": {
             "disabled": False,
-            "username": "Imogene1",
-            "password": "tA9DUjJtHSnXqh9",
-            "auth_type": models.OutputElasticCloudAuthenticationMethod.MANUAL,
-            "credentials_secret": "<value>",
-            "manual_api_key": "<value>",
-            "text_secret": "<value>",
+            "reject_unauthorized": True,
+            "servername": "<value>",
+            "certificate_name": "<value>",
+            "ca_path": "<value>",
+            "priv_key_path": "<value>",
+            "cert_path": "<value>",
+            "passphrase": "<value>",
+            "min_version": models.MinimumTLSVersionOptionsKafkaSchemaRegistryTLS.TL_SV1_3,
+            "max_version": models.MaximumTLSVersionOptionsKafkaSchemaRegistryTLS.TL_SV1_3,
         },
-        "elastic_pipeline": "<value>",
-        "include_doc_id": True,
-        "response_retry_settings": [
+        "connection_timeout": 861.22,
+        "write_timeout": 588.22,
+        "token_ttl_minutes": 3391.17,
+        "send_header": True,
+        "on_backpressure": models.BackpressureBehaviorOptions.BLOCK,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "description": "suckle parsnip even engage lest",
+        "host": "localhost",
+        "port": 10090,
+        "exclude_self": True,
+        "hosts": [
             {
-                "http_status": 7295.73,
-                "initial_backoff": 1000,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
+                "host": "proper-prohibition.com",
+                "port": 7840.9,
+                "tls": models.TLSOptionsHostsItems.INHERIT,
+                "servername": "<value>",
+                "weight": 3441.24,
             },
         ],
-        "timeout_retry_settings": {
-            "timeout_retry": False,
-            "initial_backoff": 1000,
-            "backoff_rate": 2,
-            "max_backoff": 10000,
-        },
-        "response_honor_retry_after_header": False,
-        "on_backpressure": models.OutputElasticCloudBackpressureBehavior.BLOCK,
-        "description": "hourly about into",
+        "dns_resolve_period_sec": 9682.2,
+        "load_balance_stats_period_sec": 6468.68,
+        "max_concurrent_senders": 2841.6,
         "pq_strict_ordering": True,
-        "pq_rate_per_sec": 0,
-        "pq_mode": models.OutputElasticCloudMode.ERROR,
-        "pq_max_buffer_size": 42,
-        "pq_max_backpressure_sec": 30,
-        "pq_max_file_size": "1 MB",
-        "pq_max_size": "5GB",
-        "pq_path": "$CRIBL_HOME/state/queues",
-        "pq_compress": models.OutputElasticCloudCompression.NONE,
-        "pq_on_backpressure": models.OutputElasticCloudQueueFullBehavior.BLOCK,
+        "pq_rate_per_sec": 5558.99,
+        "pq_mode": models.ModeOptions.BACKPRESSURE,
+        "pq_max_buffer_size": 7385.62,
+        "pq_max_backpressure_sec": 5308.79,
+        "pq_max_file_size": "<value>",
+        "pq_max_size": "<value>",
+        "pq_path": "<value>",
+        "pq_compress": models.CompressionOptionsPq.NONE,
+        "pq_on_backpressure": models.QueueFullBehaviorOptions.DROP,
         "pq_controls": {},
+        "auth_token": "<value>",
+        "text_secret": "<value>",
     })
 
     # Handle response
@@ -162,12 +148,12 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `request`                                                           | [models.Output](../../models/output.md)                             | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `request`                                                           | [models.CreateOutputRequest](../../models/createoutputrequest.md)   | :heavy_check_mark:                                                  | The request object to use for the request.                          |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CreateOutputResponse](../../models/createoutputresponse.md)**
+**[models.CountedOutput](../../models/countedoutput.md)**
 
 ### Errors
 
@@ -211,7 +197,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.GetOutputByIDResponse](../../models/getoutputbyidresponse.md)**
+**[models.CountedOutput](../../models/countedoutput.md)**
 
 ### Errors
 
@@ -240,8 +226,8 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.destinations.update(id="<id>", output={
-        "id": "<id>",
-        "type": models.OutputSignalfxType.SIGNALFX,
+        "id": "default-output",
+        "type": models.OutputDefaultType.DEFAULT,
         "pipeline": "<value>",
         "system_fields": [
             "<value 1>",
@@ -251,56 +237,7 @@ with CriblControlPlane(
             "<value 1>",
             "<value 2>",
         ],
-        "auth_type": models.OutputSignalfxAuthenticationMethod.MANUAL,
-        "realm": "us0",
-        "concurrency": 5,
-        "max_payload_size_kb": 4096,
-        "max_payload_events": 0,
-        "compress": True,
-        "reject_unauthorized": True,
-        "timeout_sec": 30,
-        "flush_period_sec": 1,
-        "extra_http_headers": [
-            {
-                "name": "<value>",
-                "value": "<value>",
-            },
-        ],
-        "use_round_robin_dns": False,
-        "failed_request_logging_mode": models.OutputSignalfxFailedRequestLoggingMode.NONE,
-        "safe_headers": [
-            "<value 1>",
-        ],
-        "response_retry_settings": [
-            {
-                "http_status": 2924.72,
-                "initial_backoff": 1000,
-                "backoff_rate": 2,
-                "max_backoff": 10000,
-            },
-        ],
-        "timeout_retry_settings": {
-            "timeout_retry": False,
-            "initial_backoff": 1000,
-            "backoff_rate": 2,
-            "max_backoff": 10000,
-        },
-        "response_honor_retry_after_header": False,
-        "on_backpressure": models.OutputSignalfxBackpressureBehavior.BLOCK,
-        "description": "phooey positively a consequently meh until",
-        "token": "<value>",
-        "text_secret": "<value>",
-        "pq_strict_ordering": True,
-        "pq_rate_per_sec": 0,
-        "pq_mode": models.OutputSignalfxMode.ERROR,
-        "pq_max_buffer_size": 42,
-        "pq_max_backpressure_sec": 30,
-        "pq_max_file_size": "1 MB",
-        "pq_max_size": "5GB",
-        "pq_path": "$CRIBL_HOME/state/queues",
-        "pq_compress": models.OutputSignalfxCompression.NONE,
-        "pq_on_backpressure": models.OutputSignalfxQueueFullBehavior.BLOCK,
-        "pq_controls": {},
+        "default_id": "my-default-output",
     })
 
     # Handle response
@@ -318,7 +255,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.UpdateOutputByIDResponse](../../models/updateoutputbyidresponse.md)**
+**[models.CountedOutput](../../models/countedoutput.md)**
 
 ### Errors
 
@@ -362,7 +299,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.DeleteOutputByIDResponse](../../models/deleteoutputbyidresponse.md)**
+**[models.CountedOutput](../../models/countedoutput.md)**
 
 ### Errors
 

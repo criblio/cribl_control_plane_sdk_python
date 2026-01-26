@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 from cribl_control_plane import models, utils
-from cribl_control_plane.types import BaseModel
-from cribl_control_plane.utils import validate_open_enum
+from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
-from pydantic import field_serializer
-from pydantic.functional_validators import PlainValidator
+from pydantic import field_serializer, model_serializer
 from typing import Any, Dict, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import NotRequired, TypedDict
 
 
 class State(int, Enum, metaclass=utils.OpenEnumMeta):
@@ -33,7 +31,7 @@ class JobStatusTypedDict(TypedDict):
 
 
 class JobStatus(BaseModel):
-    state: Annotated[State, PlainValidator(validate_open_enum(True))]
+    state: State
     r"""State of the Job"""
 
     reason: Optional[Dict[str, Any]] = None
@@ -46,3 +44,19 @@ class JobStatus(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["reason"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m

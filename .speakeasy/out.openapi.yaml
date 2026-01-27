@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769420537041-4c9458b5
+  version: 4.17.0-alpha.1769529316806-eb44173d
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -35688,6 +35688,16 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Pipeline"
+    CountedRoutes:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Routes"
     RoutesRoute:
       type: object
       additionalProperties: true
@@ -35758,16 +35768,6 @@ components:
                 title: Comment
                 description: Optional, short description of this Route's purpose
             additionalProperties: true
-    CountedRoutes:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: number of items present in the items array
-        items:
-          type: array
-          items:
-            $ref: "#/components/schemas/Routes"
     RouteCloneConf:
       type: object
       title: Fields
@@ -36733,6 +36733,16 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/FunctionResponse"
+    CountedMasterWorkerEntry:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/MasterWorkerEntry"
     LookupVersions:
       type: object
       additionalProperties:
@@ -36989,16 +36999,6 @@ components:
         - info
         - lastMsgTime
         - workerProcesses
-    CountedMasterWorkerEntry:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: number of items present in the items array
-        items:
-          type: array
-          items:
-            $ref: "#/components/schemas/MasterWorkerEntry"
     ProductsCore:
       type: string
       enum:
@@ -42291,13 +42291,6 @@ components:
           filter: source == "dynamic.log"
           description: Route with dynamic Destination based on environment
           final: true
-    CaptureExamplesBasicCapture:
-      summary: Basic capture before any pre-processing
-      value:
-        filter: "true"
-        maxEvents: 100
-        duration: 5
-        level: 0
     CaptureExamplesSimpleExpression:
       summary: Capture events by sourcetype
       value:
@@ -42409,6 +42402,7 @@ paths:
         - lake
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: create
+      x-cribl-internal: false
       summary: Create a Lake Dataset
       description: Create a new Lake Dataset in the specified Lake.
       responses:
@@ -42446,6 +42440,7 @@ paths:
         - lake
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: list
+      x-cribl-internal: false
       summary: List all Lake Datasets
       description: Get a list of all Lake Datasets in the specified Lake.
       responses:
@@ -42513,6 +42508,7 @@ paths:
         - lake
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: delete
+      x-cribl-internal: false
       summary: Delete a Lake Dataset
       description: Delete the specified Lake Dataset in the specified Lake
       responses:
@@ -42549,6 +42545,7 @@ paths:
         - lake
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get a Lake Dataset
       description: Get the specified Lake Dataset in the specified Lake.
       responses:
@@ -42585,6 +42582,7 @@ paths:
         - lake
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: update
+      x-cribl-internal: false
       summary: Update a Lake Dataset
       description: Update the specified Lake Dataset in the specified Lake.
       responses:
@@ -42629,6 +42627,7 @@ paths:
         - collectors
       x-speakeasy-group: collectors
       x-speakeasy-name-override: create
+      x-cribl-internal: false
       summary: Create a Collector
       description: Create a new Collector.
       responses:
@@ -42685,6 +42684,7 @@ paths:
         - collectors
       x-speakeasy-group: collectors
       x-speakeasy-name-override: list
+      x-cribl-internal: false
       summary: List all Collectors
       description: Get a list of all Collectors.
       responses:
@@ -42728,6 +42728,7 @@ paths:
         - collectors
       x-speakeasy-group: collectors
       x-speakeasy-name-override: delete
+      x-cribl-internal: false
       summary: Delete a Collector
       description: Delete the specified Collector.
       responses:
@@ -42770,6 +42771,7 @@ paths:
         - collectors
       x-speakeasy-group: collectors
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get a Collector
       description: Get the specified Collector.
       responses:
@@ -42806,6 +42808,7 @@ paths:
         - collectors
       x-speakeasy-group: collectors
       x-speakeasy-name-override: update
+      x-cribl-internal: false
       summary: Update a Collector
       description: Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
       responses:
@@ -42869,6 +42872,7 @@ paths:
         - database-connections
       x-speakeasy-group: databaseConnections
       x-speakeasy-name-override: create
+      x-cribl-internal: false
       summary: Create Database Connection
       description: Create a new Database Connection.
       responses:
@@ -42921,6 +42925,7 @@ paths:
         - database-connections
       x-speakeasy-group: databaseConnections
       x-speakeasy-name-override: delete
+      x-cribl-internal: false
       summary: Delete a Database Connection
       description: Delete the specified Database Connection.
       responses:
@@ -42951,6 +42956,7 @@ paths:
         - database-connections
       x-speakeasy-group: databaseConnections
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get a Database Connection
       description: Get the specified Database Connection.
       responses:
@@ -42983,6 +42989,7 @@ paths:
         - database-connections
       x-speakeasy-group: databaseConnections
       x-speakeasy-name-override: update
+      x-cribl-internal: false
       summary: Update a Database Connection
       description: Update the specified Database Connection.</br></br>Provide a complete representation of the Database Connection that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Database Connection.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Database Connection might not function as expected.
       responses:
@@ -43039,6 +43046,7 @@ paths:
     get:
       operationId: listInput
       x-speakeasy-group: sources
+      x-cribl-internal: false
       x-speakeasy-name-override: list
       tags:
         - sources
@@ -43062,6 +43070,7 @@ paths:
     post:
       operationId: createInput
       x-speakeasy-group: sources
+      x-cribl-internal: false
       x-speakeasy-name-override: create
       tags:
         - sources
@@ -43214,6 +43223,7 @@ paths:
     get:
       operationId: getInputById
       x-speakeasy-group: sources
+      x-cribl-internal: false
       x-speakeasy-name-override: get
       tags:
         - sources
@@ -43244,6 +43254,7 @@ paths:
     patch:
       operationId: updateInputById
       x-speakeasy-group: sources
+      x-cribl-internal: false
       x-speakeasy-name-override: update
       tags:
         - sources
@@ -43402,6 +43413,7 @@ paths:
     delete:
       operationId: deleteInputById
       x-speakeasy-group: sources
+      x-cribl-internal: false
       x-speakeasy-name-override: delete
       tags:
         - sources
@@ -43436,6 +43448,7 @@ paths:
         - sources
       x-speakeasy-group: sources.hecTokens
       x-speakeasy-name-override: create
+      x-cribl-internal: false
       summary: Add an HEC token and optional metadata to a Splunk HEC Source
       description: Add an HEC token and optional metadata to the specified Splunk HEC Source.
       responses:
@@ -43479,6 +43492,7 @@ paths:
         - sources
       x-speakeasy-group: sources.hecTokens
       x-speakeasy-name-override: update
+      x-cribl-internal: false
       summary: Update metadata for an HEC token for a Splunk HEC Source
       description: Update the metadata for the specified HEC token for the specified Splunk HEC Source.
       responses:
@@ -43525,6 +43539,7 @@ paths:
     get:
       operationId: listOutput
       x-speakeasy-group: destinations
+      x-cribl-internal: false
       x-speakeasy-name-override: list
       tags:
         - destinations
@@ -43548,6 +43563,7 @@ paths:
     post:
       operationId: createOutput
       x-speakeasy-group: destinations
+      x-cribl-internal: false
       x-speakeasy-name-override: create
       tags:
         - destinations
@@ -43720,6 +43736,7 @@ paths:
     get:
       operationId: getOutputById
       x-speakeasy-group: destinations
+      x-cribl-internal: false
       x-speakeasy-name-override: get
       tags:
         - destinations
@@ -43750,6 +43767,7 @@ paths:
     patch:
       operationId: updateOutputById
       x-speakeasy-group: destinations
+      x-cribl-internal: false
       x-speakeasy-name-override: update
       tags:
         - destinations
@@ -43926,6 +43944,7 @@ paths:
     delete:
       operationId: deleteOutputById
       x-speakeasy-group: destinations
+      x-cribl-internal: false
       x-speakeasy-name-override: delete
       tags:
         - destinations
@@ -43960,6 +43979,7 @@ paths:
         - destinations
       x-speakeasy-group: destinations.pq
       x-speakeasy-name-override: clear
+      x-cribl-internal: false
       summary: Clear the persistent queue for a Destination
       description: Clear the persistent queue (PQ) for the specified Destination.
       responses:
@@ -43990,6 +44010,7 @@ paths:
         - destinations
       x-speakeasy-group: destinations.pq
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get information about the latest job to clear the persistent queue for a Destination
       description: Get information about the latest job to clear the persistent queue (PQ) for the specified Destination.
       responses:
@@ -44021,6 +44042,7 @@ paths:
         - destinations
       x-speakeasy-group: destinations.samples
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get sample event data for a Destination
       description: Get sample event data for the specified Destination to validate the configuration or test connectivity.
       responses:
@@ -44052,6 +44074,7 @@ paths:
         - destinations
       x-speakeasy-group: destinations.samples
       x-speakeasy-name-override: create
+      x-cribl-internal: false
       summary: Send sample event data to a Destination
       description: Send sample event data to the specified Destination to validate the configuration or test connectivity.
       responses:
@@ -44084,12 +44107,125 @@ paths:
             type: string
           description: The <code>id</code> of the Destination to send sample event data to.
   /pipelines:
-    get:
-      operationId: listPipeline
-      x-speakeasy-group: pipelines
-      x-speakeasy-name-override: list
+    post:
+      operationId: createPipelines
       tags:
         - pipelines
+      x-speakeasy-group: pipelines
+      x-speakeasy-name-override: create
+      x-cribl-internal: false
+      summary: Create a Pipeline
+      description: Create a new Pipeline.
+      responses:
+        "200":
+          description: a list of Pipelines objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedPipeline"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: Pipeline object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pipeline"
+            examples:
+              PipelineExamplesEmpty:
+                $ref: "#/components/examples/PipelineExamplesEmpty"
+              PipelineExamplesAggregations:
+                $ref: "#/components/examples/PipelineExamplesAggregations"
+              PipelineExamplesAggregateMetrics:
+                $ref: "#/components/examples/PipelineExamplesAggregateMetrics"
+              PipelineExamplesAutoTimestamp:
+                $ref: "#/components/examples/PipelineExamplesAutoTimestamp"
+              PipelineExamplesCEFSerializer:
+                $ref: "#/components/examples/PipelineExamplesCEFSerializer"
+              PipelineExamplesChain:
+                $ref: "#/components/examples/PipelineExamplesChain"
+              PipelineExamplesClone:
+                $ref: "#/components/examples/PipelineExamplesClone"
+              PipelineExamplesComment:
+                $ref: "#/components/examples/PipelineExamplesComment"
+              PipelineExamplesDNSLookup:
+                $ref: "#/components/examples/PipelineExamplesDNSLookup"
+              PipelineExamplesDrop:
+                $ref: "#/components/examples/PipelineExamplesDrop"
+              PipelineExamplesDropDimensions:
+                $ref: "#/components/examples/PipelineExamplesDropDimensions"
+              PipelineExamplesDynamicSampling:
+                $ref: "#/components/examples/PipelineExamplesDynamicSampling"
+              PipelineExamplesEval:
+                $ref: "#/components/examples/PipelineExamplesEval"
+              PipelineExamplesEventBreaker:
+                $ref: "#/components/examples/PipelineExamplesEventBreaker"
+              PipelineExamplesFlatten:
+                $ref: "#/components/examples/PipelineExamplesFlatten"
+              PipelineExamplesFoldKeys:
+                $ref: "#/components/examples/PipelineExamplesFoldKeys"
+              PipelineExamplesGeoIP:
+                $ref: "#/components/examples/PipelineExamplesGeoIP"
+              PipelineExamplesGrok:
+                $ref: "#/components/examples/PipelineExamplesGrok"
+              PipelineExamplesGuard:
+                $ref: "#/components/examples/PipelineExamplesGuard"
+              PipelineExamplesJSONUnroll:
+                $ref: "#/components/examples/PipelineExamplesJSONUnroll"
+              PipelineExamplesLookup:
+                $ref: "#/components/examples/PipelineExamplesLookup"
+              PipelineExamplesMask:
+                $ref: "#/components/examples/PipelineExamplesMask"
+              PipelineExamplesNumerify:
+                $ref: "#/components/examples/PipelineExamplesNumerify"
+              PipelineExamplesOTLPLogs:
+                $ref: "#/components/examples/PipelineExamplesOTLPLogs"
+              PipelineExamplesOTLPMetrics:
+                $ref: "#/components/examples/PipelineExamplesOTLPMetrics"
+              PipelineExamplesOTLPTraces:
+                $ref: "#/components/examples/PipelineExamplesOTLPTraces"
+              PipelineExamplesParser:
+                $ref: "#/components/examples/PipelineExamplesParser"
+              PipelineExamplesPublishMetrics:
+                $ref: "#/components/examples/PipelineExamplesPublishMetrics"
+              PipelineExamplesRedis:
+                $ref: "#/components/examples/PipelineExamplesRedis"
+              PipelineExamplesRegexExtract:
+                $ref: "#/components/examples/PipelineExamplesRegexExtract"
+              PipelineExamplesRegexFilter:
+                $ref: "#/components/examples/PipelineExamplesRegexFilter"
+              PipelineExamplesRename:
+                $ref: "#/components/examples/PipelineExamplesRename"
+              PipelineExamplesRollupMetrics:
+                $ref: "#/components/examples/PipelineExamplesRollupMetrics"
+              PipelineExamplesSampling:
+                $ref: "#/components/examples/PipelineExamplesSampling"
+              PipelineExamplesSerialize:
+                $ref: "#/components/examples/PipelineExamplesSerialize"
+              PipelineExamplesSNMPTrapSerialize:
+                $ref: "#/components/examples/PipelineExamplesSNMPTrapSerialize"
+              PipelineExamplesSuppress:
+                $ref: "#/components/examples/PipelineExamplesSuppress"
+              PipelineExamplesTee:
+                $ref: "#/components/examples/PipelineExamplesTee"
+              PipelineExamplesUnroll:
+                $ref: "#/components/examples/PipelineExamplesUnroll"
+              PipelineExamplesXMLUnroll:
+                $ref: "#/components/examples/PipelineExamplesXMLUnroll"
+    get:
+      operationId: getPipelines
+      tags:
+        - pipelines
+      x-speakeasy-group: pipelines
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
       summary: List all Pipelines
       description: Get a list of all Pipelines.
       responses:
@@ -44107,274 +44243,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-    post:
-      operationId: createPipeline
-      x-speakeasy-group: pipelines
-      x-speakeasy-name-override: create
-      tags:
-        - pipelines
-      summary: Create a Pipeline
-      description: Create a new Pipeline.
-      requestBody:
-        description: Pipeline object
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Pipeline"
-            examples:
-              PipelineExamplesEmpty:
-                $ref: "#/components/examples/PipelineExamplesEmpty"
-              PipelineExamplesAggregations:
-                $ref: "#/components/examples/PipelineExamplesAggregations"
-              PipelineExamplesAggregateMetrics:
-                $ref: "#/components/examples/PipelineExamplesAggregateMetrics"
-              PipelineExamplesAutoTimestamp:
-                $ref: "#/components/examples/PipelineExamplesAutoTimestamp"
-              PipelineExamplesCEFSerializer:
-                $ref: "#/components/examples/PipelineExamplesCEFSerializer"
-              PipelineExamplesChain:
-                $ref: "#/components/examples/PipelineExamplesChain"
-              PipelineExamplesClone:
-                $ref: "#/components/examples/PipelineExamplesClone"
-              PipelineExamplesComment:
-                $ref: "#/components/examples/PipelineExamplesComment"
-              PipelineExamplesDNSLookup:
-                $ref: "#/components/examples/PipelineExamplesDNSLookup"
-              PipelineExamplesDrop:
-                $ref: "#/components/examples/PipelineExamplesDrop"
-              PipelineExamplesDropDimensions:
-                $ref: "#/components/examples/PipelineExamplesDropDimensions"
-              PipelineExamplesDynamicSampling:
-                $ref: "#/components/examples/PipelineExamplesDynamicSampling"
-              PipelineExamplesEval:
-                $ref: "#/components/examples/PipelineExamplesEval"
-              PipelineExamplesEventBreaker:
-                $ref: "#/components/examples/PipelineExamplesEventBreaker"
-              PipelineExamplesFlatten:
-                $ref: "#/components/examples/PipelineExamplesFlatten"
-              PipelineExamplesFoldKeys:
-                $ref: "#/components/examples/PipelineExamplesFoldKeys"
-              PipelineExamplesGeoIP:
-                $ref: "#/components/examples/PipelineExamplesGeoIP"
-              PipelineExamplesGrok:
-                $ref: "#/components/examples/PipelineExamplesGrok"
-              PipelineExamplesGuard:
-                $ref: "#/components/examples/PipelineExamplesGuard"
-              PipelineExamplesJSONUnroll:
-                $ref: "#/components/examples/PipelineExamplesJSONUnroll"
-              PipelineExamplesLookup:
-                $ref: "#/components/examples/PipelineExamplesLookup"
-              PipelineExamplesMask:
-                $ref: "#/components/examples/PipelineExamplesMask"
-              PipelineExamplesNumerify:
-                $ref: "#/components/examples/PipelineExamplesNumerify"
-              PipelineExamplesOTLPLogs:
-                $ref: "#/components/examples/PipelineExamplesOTLPLogs"
-              PipelineExamplesOTLPMetrics:
-                $ref: "#/components/examples/PipelineExamplesOTLPMetrics"
-              PipelineExamplesOTLPTraces:
-                $ref: "#/components/examples/PipelineExamplesOTLPTraces"
-              PipelineExamplesParser:
-                $ref: "#/components/examples/PipelineExamplesParser"
-              PipelineExamplesPublishMetrics:
-                $ref: "#/components/examples/PipelineExamplesPublishMetrics"
-              PipelineExamplesRedis:
-                $ref: "#/components/examples/PipelineExamplesRedis"
-              PipelineExamplesRegexExtract:
-                $ref: "#/components/examples/PipelineExamplesRegexExtract"
-              PipelineExamplesRegexFilter:
-                $ref: "#/components/examples/PipelineExamplesRegexFilter"
-              PipelineExamplesRename:
-                $ref: "#/components/examples/PipelineExamplesRename"
-              PipelineExamplesRollupMetrics:
-                $ref: "#/components/examples/PipelineExamplesRollupMetrics"
-              PipelineExamplesSampling:
-                $ref: "#/components/examples/PipelineExamplesSampling"
-              PipelineExamplesSerialize:
-                $ref: "#/components/examples/PipelineExamplesSerialize"
-              PipelineExamplesSNMPTrapSerialize:
-                $ref: "#/components/examples/PipelineExamplesSNMPTrapSerialize"
-              PipelineExamplesSuppress:
-                $ref: "#/components/examples/PipelineExamplesSuppress"
-              PipelineExamplesTee:
-                $ref: "#/components/examples/PipelineExamplesTee"
-              PipelineExamplesUnroll:
-                $ref: "#/components/examples/PipelineExamplesUnroll"
-              PipelineExamplesXMLUnroll:
-                $ref: "#/components/examples/PipelineExamplesXMLUnroll"
-      responses:
-        "200":
-          description: a list of Pipelines objects
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CountedPipeline"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
   /pipelines/{id}:
-    get:
-      operationId: getPipelineById
-      x-speakeasy-group: pipelines
-      x-speakeasy-name-override: get
-      tags:
-        - pipelines
-      summary: Get a Pipeline
-      description: Get the specified Pipeline.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The <code>id</code> of the Pipeline to get.
-      responses:
-        "200":
-          description: a list of Pipeline objects
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CountedPipeline"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-    patch:
-      operationId: updatePipelineById
-      x-speakeasy-group: pipelines
-      x-speakeasy-name-override: update
-      tags:
-        - pipelines
-      summary: Update a Pipeline
-      description: Update the specified Pipeline.</br></br>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The <code>id</code> of the Pipeline to update.
-      requestBody:
-        description: Pipeline object
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Pipeline"
-            examples:
-              PipelineExamplesEmpty:
-                $ref: "#/components/examples/PipelineExamplesEmpty"
-              PipelineExamplesAggregations:
-                $ref: "#/components/examples/PipelineExamplesAggregations"
-              PipelineExamplesAggregateMetrics:
-                $ref: "#/components/examples/PipelineExamplesAggregateMetrics"
-              PipelineExamplesAutoTimestamp:
-                $ref: "#/components/examples/PipelineExamplesAutoTimestamp"
-              PipelineExamplesCEFSerializer:
-                $ref: "#/components/examples/PipelineExamplesCEFSerializer"
-              PipelineExamplesChain:
-                $ref: "#/components/examples/PipelineExamplesChain"
-              PipelineExamplesClone:
-                $ref: "#/components/examples/PipelineExamplesClone"
-              PipelineExamplesComment:
-                $ref: "#/components/examples/PipelineExamplesComment"
-              PipelineExamplesDNSLookup:
-                $ref: "#/components/examples/PipelineExamplesDNSLookup"
-              PipelineExamplesDrop:
-                $ref: "#/components/examples/PipelineExamplesDrop"
-              PipelineExamplesDropDimensions:
-                $ref: "#/components/examples/PipelineExamplesDropDimensions"
-              PipelineExamplesDynamicSampling:
-                $ref: "#/components/examples/PipelineExamplesDynamicSampling"
-              PipelineExamplesEval:
-                $ref: "#/components/examples/PipelineExamplesEval"
-              PipelineExamplesEventBreaker:
-                $ref: "#/components/examples/PipelineExamplesEventBreaker"
-              PipelineExamplesFlatten:
-                $ref: "#/components/examples/PipelineExamplesFlatten"
-              PipelineExamplesFoldKeys:
-                $ref: "#/components/examples/PipelineExamplesFoldKeys"
-              PipelineExamplesGeoIP:
-                $ref: "#/components/examples/PipelineExamplesGeoIP"
-              PipelineExamplesGrok:
-                $ref: "#/components/examples/PipelineExamplesGrok"
-              PipelineExamplesGuard:
-                $ref: "#/components/examples/PipelineExamplesGuard"
-              PipelineExamplesJSONUnroll:
-                $ref: "#/components/examples/PipelineExamplesJSONUnroll"
-              PipelineExamplesLookup:
-                $ref: "#/components/examples/PipelineExamplesLookup"
-              PipelineExamplesMask:
-                $ref: "#/components/examples/PipelineExamplesMask"
-              PipelineExamplesNumerify:
-                $ref: "#/components/examples/PipelineExamplesNumerify"
-              PipelineExamplesOTLPLogs:
-                $ref: "#/components/examples/PipelineExamplesOTLPLogs"
-              PipelineExamplesOTLPMetrics:
-                $ref: "#/components/examples/PipelineExamplesOTLPMetrics"
-              PipelineExamplesOTLPTraces:
-                $ref: "#/components/examples/PipelineExamplesOTLPTraces"
-              PipelineExamplesParser:
-                $ref: "#/components/examples/PipelineExamplesParser"
-              PipelineExamplesPublishMetrics:
-                $ref: "#/components/examples/PipelineExamplesPublishMetrics"
-              PipelineExamplesRedis:
-                $ref: "#/components/examples/PipelineExamplesRedis"
-              PipelineExamplesRegexExtract:
-                $ref: "#/components/examples/PipelineExamplesRegexExtract"
-              PipelineExamplesRegexFilter:
-                $ref: "#/components/examples/PipelineExamplesRegexFilter"
-              PipelineExamplesRename:
-                $ref: "#/components/examples/PipelineExamplesRename"
-              PipelineExamplesRollupMetrics:
-                $ref: "#/components/examples/PipelineExamplesRollupMetrics"
-              PipelineExamplesSampling:
-                $ref: "#/components/examples/PipelineExamplesSampling"
-              PipelineExamplesSerialize:
-                $ref: "#/components/examples/PipelineExamplesSerialize"
-              PipelineExamplesSNMPTrapSerialize:
-                $ref: "#/components/examples/PipelineExamplesSNMPTrapSerialize"
-              PipelineExamplesSuppress:
-                $ref: "#/components/examples/PipelineExamplesSuppress"
-              PipelineExamplesTee:
-                $ref: "#/components/examples/PipelineExamplesTee"
-              PipelineExamplesUnroll:
-                $ref: "#/components/examples/PipelineExamplesUnroll"
-              PipelineExamplesXMLUnroll:
-                $ref: "#/components/examples/PipelineExamplesXMLUnroll"
-      responses:
-        "200":
-          description: a list of Pipeline objects
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CountedPipeline"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
     delete:
-      operationId: deletePipelineById
+      operationId: deletePipelinesById
+      tags:
+        - pipelines
       x-speakeasy-group: pipelines
       x-speakeasy-name-override: delete
-      tags:
-        - pipelines
+      x-cribl-internal: false
       summary: Delete a Pipeline
       description: Delete the specified Pipeline.
+      responses:
+        "200":
+          description: a list of Pipeline objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedPipeline"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       parameters:
         - name: id
           in: path
@@ -44382,6 +44275,15 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Pipeline to delete.
+    get:
+      operationId: getPipelinesById
+      tags:
+        - pipelines
+      x-speakeasy-group: pipelines
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      summary: Get a Pipeline
+      description: Get the specified Pipeline.
       responses:
         "200":
           description: a list of Pipeline objects
@@ -44397,15 +44299,142 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /routes:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pipeline to get.
+    patch:
+      operationId: updatePipelinesById
+      tags:
+        - pipelines
+      x-speakeasy-group: pipelines
+      x-speakeasy-name-override: update
+      x-cribl-internal: false
+      summary: Update a Pipeline
+      description: Update the specified Pipeline.</br></br>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
+      responses:
+        "200":
+          description: a list of Pipeline objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedPipeline"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: Pipeline object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pipeline"
+            examples:
+              PipelineExamplesEmpty:
+                $ref: "#/components/examples/PipelineExamplesEmpty"
+              PipelineExamplesAggregations:
+                $ref: "#/components/examples/PipelineExamplesAggregations"
+              PipelineExamplesAggregateMetrics:
+                $ref: "#/components/examples/PipelineExamplesAggregateMetrics"
+              PipelineExamplesAutoTimestamp:
+                $ref: "#/components/examples/PipelineExamplesAutoTimestamp"
+              PipelineExamplesCEFSerializer:
+                $ref: "#/components/examples/PipelineExamplesCEFSerializer"
+              PipelineExamplesChain:
+                $ref: "#/components/examples/PipelineExamplesChain"
+              PipelineExamplesClone:
+                $ref: "#/components/examples/PipelineExamplesClone"
+              PipelineExamplesComment:
+                $ref: "#/components/examples/PipelineExamplesComment"
+              PipelineExamplesDNSLookup:
+                $ref: "#/components/examples/PipelineExamplesDNSLookup"
+              PipelineExamplesDrop:
+                $ref: "#/components/examples/PipelineExamplesDrop"
+              PipelineExamplesDropDimensions:
+                $ref: "#/components/examples/PipelineExamplesDropDimensions"
+              PipelineExamplesDynamicSampling:
+                $ref: "#/components/examples/PipelineExamplesDynamicSampling"
+              PipelineExamplesEval:
+                $ref: "#/components/examples/PipelineExamplesEval"
+              PipelineExamplesEventBreaker:
+                $ref: "#/components/examples/PipelineExamplesEventBreaker"
+              PipelineExamplesFlatten:
+                $ref: "#/components/examples/PipelineExamplesFlatten"
+              PipelineExamplesFoldKeys:
+                $ref: "#/components/examples/PipelineExamplesFoldKeys"
+              PipelineExamplesGeoIP:
+                $ref: "#/components/examples/PipelineExamplesGeoIP"
+              PipelineExamplesGrok:
+                $ref: "#/components/examples/PipelineExamplesGrok"
+              PipelineExamplesGuard:
+                $ref: "#/components/examples/PipelineExamplesGuard"
+              PipelineExamplesJSONUnroll:
+                $ref: "#/components/examples/PipelineExamplesJSONUnroll"
+              PipelineExamplesLookup:
+                $ref: "#/components/examples/PipelineExamplesLookup"
+              PipelineExamplesMask:
+                $ref: "#/components/examples/PipelineExamplesMask"
+              PipelineExamplesNumerify:
+                $ref: "#/components/examples/PipelineExamplesNumerify"
+              PipelineExamplesOTLPLogs:
+                $ref: "#/components/examples/PipelineExamplesOTLPLogs"
+              PipelineExamplesOTLPMetrics:
+                $ref: "#/components/examples/PipelineExamplesOTLPMetrics"
+              PipelineExamplesOTLPTraces:
+                $ref: "#/components/examples/PipelineExamplesOTLPTraces"
+              PipelineExamplesParser:
+                $ref: "#/components/examples/PipelineExamplesParser"
+              PipelineExamplesPublishMetrics:
+                $ref: "#/components/examples/PipelineExamplesPublishMetrics"
+              PipelineExamplesRedis:
+                $ref: "#/components/examples/PipelineExamplesRedis"
+              PipelineExamplesRegexExtract:
+                $ref: "#/components/examples/PipelineExamplesRegexExtract"
+              PipelineExamplesRegexFilter:
+                $ref: "#/components/examples/PipelineExamplesRegexFilter"
+              PipelineExamplesRename:
+                $ref: "#/components/examples/PipelineExamplesRename"
+              PipelineExamplesRollupMetrics:
+                $ref: "#/components/examples/PipelineExamplesRollupMetrics"
+              PipelineExamplesSampling:
+                $ref: "#/components/examples/PipelineExamplesSampling"
+              PipelineExamplesSerialize:
+                $ref: "#/components/examples/PipelineExamplesSerialize"
+              PipelineExamplesSNMPTrapSerialize:
+                $ref: "#/components/examples/PipelineExamplesSNMPTrapSerialize"
+              PipelineExamplesSuppress:
+                $ref: "#/components/examples/PipelineExamplesSuppress"
+              PipelineExamplesTee:
+                $ref: "#/components/examples/PipelineExamplesTee"
+              PipelineExamplesUnroll:
+                $ref: "#/components/examples/PipelineExamplesUnroll"
+              PipelineExamplesXMLUnroll:
+                $ref: "#/components/examples/PipelineExamplesXMLUnroll"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pipeline to update.
+  /routes/{id}:
     get:
-      operationId: listRoutes
-      x-speakeasy-group: routes
-      x-speakeasy-name-override: list
+      operationId: getRoutesById
       tags:
         - routes
-      summary: List all Routes
-      description: Get a list of all Routes.
+      x-speakeasy-group: routes
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      summary: Get a Routing table
+      description: Get the specified Routing table.
       responses:
         "200":
           description: a list of Routes objects
@@ -44421,15 +44450,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /routes/{id}:
-    get:
-      operationId: getRoutesById
-      x-speakeasy-group: routes
-      x-speakeasy-name-override: get
-      tags:
-        - routes
-      summary: Get a Routing table
-      description: Get the specified Routing table.
       parameters:
         - name: id
           in: path
@@ -44437,6 +44457,15 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Routing table to get. The supported value is <code>default</code>.
+    patch:
+      operationId: updateRoutesById
+      tags:
+        - routes
+      x-speakeasy-group: routes
+      x-speakeasy-name-override: update
+      x-cribl-internal: false
+      summary: Update a Route
+      description: Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
       responses:
         "200":
           description: a list of Routes objects
@@ -44452,21 +44481,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-    patch:
-      operationId: updateRoutesById
-      x-speakeasy-group: routes
-      x-speakeasy-name-override: update
-      tags:
-        - routes
-      summary: Update a Route
-      description: Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
       requestBody:
         description: Routes object
         required: true
@@ -44481,6 +44495,23 @@ paths:
                 $ref: "#/components/examples/RoutesUpdateExamplesMultipleRoutes"
               RoutesUpdateExamplesRouteWithOutputExpression:
                 $ref: "#/components/examples/RoutesUpdateExamplesRouteWithOutputExpression"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
+  /routes:
+    get:
+      operationId: getRoutes
+      tags:
+        - routes
+      x-speakeasy-group: routes
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
+      summary: List all Routes
+      description: Get a list of all Routes.
       responses:
         "200":
           description: a list of Routes objects
@@ -44503,6 +44534,7 @@ paths:
         - routes
       x-speakeasy-group: routes
       x-speakeasy-name-override: append
+      x-cribl-internal: false
       summary: Add a Route to the end of the Routing table
       description: Add a Route to the end of the specified Routing table.
       responses:
@@ -44548,6 +44580,7 @@ paths:
         - auth
       x-speakeasy-group: auth.tokens
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Log in and fetch an authentication token
       description: This endpoint is unavailable on Cribl.Cloud.Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
       security: []
@@ -44588,6 +44621,7 @@ paths:
         - preview
       x-speakeasy-group: system.captures
       x-speakeasy-name-override: create
+      x-cribl-internal: false
       summary: Capture live incoming data
       description: Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
       responses:
@@ -44613,8 +44647,6 @@ paths:
             schema:
               $ref: "#/components/schemas/CaptureParams"
             examples:
-              CaptureExamplesBasicCapture:
-                $ref: "#/components/examples/CaptureExamplesBasicCapture"
               CaptureExamplesSimpleExpression:
                 $ref: "#/components/examples/CaptureExamplesSimpleExpression"
               CaptureExamplesCompoundAndExpression:
@@ -44630,6 +44662,7 @@ paths:
         - health
       x-speakeasy-group: health
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Retrieve health status of the server
       description: Get the current health status of the server.
       security: []
@@ -44659,6 +44692,7 @@ paths:
         - packs
       x-speakeasy-group: packs
       x-speakeasy-name-override: install
+      x-cribl-internal: false
       summary: Install a Pack
       description: Install a Pack.<br><br>To install an uploaded Pack, provide the <code>source</code> value from the <code>PUT /packs</code> response as the <code>source</code> parameter in the request body.<br><br>To install a Pack by importing from a URL, provide the direct URL location of the <code>.crbl</code> file for the Pack as the <code>source</code> parameter in the request body.<br><br>To install a Pack by importing from a Git repository, provide <code>git+<repo-url></code> as the <code>source</code> parameter in the request body.<br><br>If you do not include the <code>source</code> parameter in the request body, an empty Pack is created.
       responses:
@@ -44700,6 +44734,7 @@ paths:
         - packs
       x-speakeasy-group: packs
       x-speakeasy-name-override: list
+      x-cribl-internal: false
       summary: List all Packs
       description: Get a list of all Packs.
       responses:
@@ -44730,6 +44765,7 @@ paths:
         - packs
       x-speakeasy-group: packs
       x-speakeasy-name-override: upload
+      x-cribl-internal: false
       summary: Upload a Pack file
       description: Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs source</code>, which you must call separately.
       responses:
@@ -44769,6 +44805,7 @@ paths:
         - packs
       x-speakeasy-group: packs
       x-speakeasy-name-override: delete
+      x-cribl-internal: false
       summary: Uninstall a Pack
       description: Uninstall the specified Pack.
       responses:
@@ -44799,6 +44836,7 @@ paths:
         - packs
       x-speakeasy-group: packs
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get a Pack
       description: Get the specified Pack.
       responses:
@@ -44829,6 +44867,7 @@ paths:
         - packs
       x-speakeasy-group: packs
       x-speakeasy-name-override: update
+      x-cribl-internal: false
       summary: Upgrade a Pack
       description: Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack.Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
       responses:
@@ -44870,6 +44909,7 @@ paths:
         - system
       x-speakeasy-group: system.settings.cribl
       x-speakeasy-name-override: list
+      x-cribl-internal: false
       summary: Get Cribl system settings
       description: Get Cribl system settings
       responses:
@@ -44893,6 +44933,7 @@ paths:
         - system
       x-speakeasy-group: system.settings.cribl
       x-speakeasy-name-override: update
+      x-cribl-internal: false
       summary: Update Cribl system settings
       description: Update Cribl system settings
       responses:
@@ -44924,6 +44965,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.branches
       x-speakeasy-name-override: list
+      x-cribl-internal: false
       summary: List all branches in the Git repository used for Cribl configuration
       description: Get a list of all branches in the Git repository used for Cribl configuration.
       responses:
@@ -44948,6 +44990,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: create
+      x-cribl-internal: false
       summary: Create a new commit for pending changes to the Cribl configuration
       description: Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
       responses:
@@ -44986,6 +45029,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits.files
       x-speakeasy-name-override: count
+      x-cribl-internal: false
       summary: Get a count of files that changed since a commit
       description: Get a count of the files that changed since a commit. Default is the latest commit (HEAD).
       responses:
@@ -45023,6 +45067,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.branches
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get the name of the Git branch that the Cribl configuration is checked out to
       description: Get the name of the Git branch that the Cribl configuration is checked out to. Useful for verifying the active configuration branch.
       responses:
@@ -45047,6 +45092,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: diff
+      x-cribl-internal: false
       summary: Get the diff for a commit
       description: Get the diff for a commit. Default is the latest commit (HEAD).
       responses:
@@ -45096,6 +45142,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits.files
       x-speakeasy-name-override: list
+      x-cribl-internal: false
       summary: Get the names and statuses of files that changed since a commit
       description: Get the names and statuses of files that changed since a commit. Default is the latest commit (HEAD).
       responses:
@@ -45133,6 +45180,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.configs
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get the configuration and status for the Git integration
       description: Get the configuration and versioning status for the Git integration for the Cribl configuration.
       responses:
@@ -45157,6 +45205,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: list
+      x-cribl-internal: false
       summary: List the commit history
       description: List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
       responses:
@@ -45194,6 +45243,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: push
+      x-cribl-internal: false
       summary: Push local commits to the remote repository
       description: Push all local commits from the local repository to the remote repository.
       responses:
@@ -45218,6 +45268,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: revert
+      x-cribl-internal: false
       summary: Revert a commit in the local repository
       description: Revert a commit in the local repository.
       responses:
@@ -45256,6 +45307,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get the diff and log message for a commit
       description: Get the diff and log message for a commit. Default is the latest commit (HEAD).
       responses:
@@ -45305,6 +45357,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.statuses
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get the status of the current working tree
       description: Get the status of the current working tree of the Git repository used for Cribl configuration. The response includes details about modified, staged, untracked, and conflicted files, as well as branch and remote tracking information.
       responses:
@@ -45336,6 +45389,7 @@ paths:
         - versioning
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: undo
+      x-cribl-internal: false
       summary: Discard uncommitted (staged) changes
       description: Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
       responses:
@@ -45367,6 +45421,7 @@ paths:
         - functions
       x-speakeasy-group: functions
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get a Function
       description: Get the specified Function.
       responses:
@@ -45398,6 +45453,7 @@ paths:
         - functions
       x-speakeasy-group: functions
       x-speakeasy-name-override: list
+      x-cribl-internal: false
       summary: List all Functions
       description: Get a list of all Functions.
       responses:
@@ -45415,14 +45471,50 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /master/workers:
+  /master/summary/workers:
     get:
-      operationId: listMasterWorkerEntry
-      x-speakeasy-name-override: list
+      operationId: getSummaryWorkers
       tags:
         - workers
+      x-speakeasy-group: nodes
+      x-speakeasy-name-override: count
+      x-cribl-internal: false
+      summary: Get a count of Worker and Edge Nodes
+      description: Get a count of all Worker and Edge Nodes. Deprecated. Use /products/{product}/summary/workers instead.
+      deprecated: true
+      responses:
+        "200":
+          description: a list of number objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedNumber"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: filterExp
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter expression to evaluate against Nodes for inclusion in the response.
+  /master/workers:
+    get:
+      operationId: getWorkers
+      tags:
+        - workers
+      x-speakeasy-group: nodes
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
       summary: Get detailed metadata for Worker and Edge Nodes
-      description: Get detailed metadata for Worker and Edge Nodes.
+      description: Get detailed metadata for Worker and Edge Nodes. Deprecated. Use /products/{product}/workers instead.
+      deprecated: true
       responses:
         "200":
           description: a list of MasterWorkerEntry objects
@@ -45438,7 +45530,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-      x-speakeasy-group: nodes
       parameters:
         - name: filterExp
           in: query
@@ -45476,40 +45567,10 @@ paths:
           schema:
             type: integer
           description: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
-  /master/summary/workers:
-    get:
-      operationId: getMasterWorkerEntry
-      tags:
-        - workers
-      x-speakeasy-group: nodes
-      x-speakeasy-name-override: count
-      summary: Get a count of Worker and Edge Nodes
-      description: Get a count of all Worker and Edge Nodes.
-      responses:
-        "200":
-          description: a list of number objects
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CountedNumber"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: filterExp
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Filter expression to evaluate against Nodes for inclusion in the response.
   /products/{product}/groups:
     get:
       operationId: listConfigGroupByProduct
+      x-cribl-internal: false
       x-speakeasy-name-override: list
       tags:
         - groups
@@ -45546,6 +45607,7 @@ paths:
           description: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
     post:
       operationId: createConfigGroupByProduct
+      x-cribl-internal: false
       x-speakeasy-name-override: create
       tags:
         - groups
@@ -45593,6 +45655,7 @@ paths:
   /products/{product}/groups/{id}:
     get:
       operationId: getConfigGroupByProductAndId
+      x-cribl-internal: false
       x-speakeasy-name-override: get
       tags:
         - groups
@@ -45636,6 +45699,7 @@ paths:
       x-speakeasy-group: groups
     patch:
       operationId: updateConfigGroupByProductAndId
+      x-cribl-internal: false
       x-speakeasy-name-override: update
       tags:
         - groups
@@ -45683,6 +45747,7 @@ paths:
       x-speakeasy-group: groups
     delete:
       operationId: deleteConfigGroupByProductAndId
+      x-cribl-internal: false
       x-speakeasy-name-override: delete
       tags:
         - groups
@@ -45725,6 +45790,7 @@ paths:
         - groups
       x-speakeasy-group: groups.configs.versions
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get the configuration version for a Worker Group, Outpost Group, or Edge Fleet
       description: Get the configuration version for the specified Worker Group, Outpost Group, or Edge Fleet.
       responses:
@@ -45762,6 +45828,7 @@ paths:
         - groups
       x-speakeasy-group: groups
       x-speakeasy-name-override: deploy
+      x-cribl-internal: false
       summary: Deploy commits to a Worker Group, Outpost Group, or Edge Fleet
       description: Deploy commits to the specified Worker Group, Outpost Group, or Edge Fleet.
       responses:
@@ -45806,6 +45873,7 @@ paths:
         - teams
       x-speakeasy-group: groups.acl.teams
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
       description: Get the Access Control List (ACL) for teams that have permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
       responses:
@@ -45849,6 +45917,7 @@ paths:
         - groups
       x-speakeasy-group: groups.acl
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get the Access Control List for a Worker Group, Outpost Group, or Edge Fleet
       description: Get the Access Control List (ACL) for the specified Worker Group, Outpost Group, or Edge Fleet.
       responses:
@@ -45892,6 +45961,7 @@ paths:
         - distributed
       x-speakeasy-group: nodes.summaries
       x-speakeasy-name-override: get
+      x-cribl-internal: false
       summary: Get a summary of the Distributed deployment
       description: Get a summary of the Distributed deployment. The response includes counts of Worker Groups, Edge Fleets, Pipelines, Routes, Sources, Destinations, and Worker and Edge Nodes, as well as statistics for the Worker and Edge Nodes.
       responses:

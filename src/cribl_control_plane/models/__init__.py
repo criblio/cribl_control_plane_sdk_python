@@ -1149,9 +1149,9 @@ if TYPE_CHECKING:
         DeletePacksByIDRequest,
         DeletePacksByIDRequestTypedDict,
     )
-    from .deletepipelinebyidop import (
-        DeletePipelineByIDRequest,
-        DeletePipelineByIDRequestTypedDict,
+    from .deletepipelinesbyidop import (
+        DeletePipelinesByIDRequest,
+        DeletePipelinesByIDRequestTypedDict,
     )
     from .deletesavedjobbyidop import (
         DeleteSavedJobByIDRequest,
@@ -1667,10 +1667,6 @@ if TYPE_CHECKING:
         GetFunctionsByIDRequestTypedDict,
     )
     from .getinputbyidop import GetInputByIDRequest, GetInputByIDRequestTypedDict
-    from .getmasterworkerentryop import (
-        GetMasterWorkerEntryRequest,
-        GetMasterWorkerEntryRequestTypedDict,
-    )
     from .getoutputbyidop import GetOutputByIDRequest, GetOutputByIDRequestTypedDict
     from .getoutputpqbyidop import (
         GetOutputPqByIDRequest,
@@ -1682,9 +1678,9 @@ if TYPE_CHECKING:
     )
     from .getpacksbyidop import GetPacksByIDRequest, GetPacksByIDRequestTypedDict
     from .getpacksop import GetPacksRequest, GetPacksRequestTypedDict
-    from .getpipelinebyidop import (
-        GetPipelineByIDRequest,
-        GetPipelineByIDRequestTypedDict,
+    from .getpipelinesbyidop import (
+        GetPipelinesByIDRequest,
+        GetPipelinesByIDRequestTypedDict,
     )
     from .getroutesbyidop import GetRoutesByIDRequest, GetRoutesByIDRequestTypedDict
     from .getsavedjobbyidop import (
@@ -1693,6 +1689,10 @@ if TYPE_CHECKING:
     )
     from .getsavedjobop import GetSavedJobRequest, GetSavedJobRequestTypedDict
     from .getsummaryop import GetSummaryRequest, GetSummaryRequestTypedDict
+    from .getsummaryworkersop import (
+        GetSummaryWorkersRequest,
+        GetSummaryWorkersRequestTypedDict,
+    )
     from .getversioncountop import (
         GetVersionCountRequest,
         GetVersionCountRequestTypedDict,
@@ -1708,6 +1708,7 @@ if TYPE_CHECKING:
         GetVersionStatusRequest,
         GetVersionStatusRequestTypedDict,
     )
+    from .getworkersop import GetWorkersRequest, GetWorkersRequestTypedDict
     from .gitcommitparams import GitCommitParams, GitCommitParamsTypedDict
     from .gitcommitsummary import (
         Author,
@@ -2677,10 +2678,6 @@ if TYPE_CHECKING:
     from .listconfiggroupbyproductop import (
         ListConfigGroupByProductRequest,
         ListConfigGroupByProductRequestTypedDict,
-    )
-    from .listmasterworkerentryop import (
-        ListMasterWorkerEntryRequest,
-        ListMasterWorkerEntryRequestTypedDict,
     )
     from .logininfo import LoginInfo, LoginInfoTypedDict
     from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
@@ -5077,9 +5074,9 @@ if TYPE_CHECKING:
         UpdatePacksByIDRequestTypedDict,
     )
     from .updatepacksop import UpdatePacksRequest, UpdatePacksRequestTypedDict
-    from .updatepipelinebyidop import (
-        UpdatePipelineByIDRequest,
-        UpdatePipelineByIDRequestTypedDict,
+    from .updatepipelinesbyidop import (
+        UpdatePipelinesByIDRequest,
+        UpdatePipelinesByIDRequestTypedDict,
     )
     from .updateroutesbyidop import (
         UpdateRoutesByIDRequest,
@@ -6032,8 +6029,8 @@ __all__ = [
     "DeleteOutputPqByIDRequestTypedDict",
     "DeletePacksByIDRequest",
     "DeletePacksByIDRequestTypedDict",
-    "DeletePipelineByIDRequest",
-    "DeletePipelineByIDRequestTypedDict",
+    "DeletePipelinesByIDRequest",
+    "DeletePipelinesByIDRequestTypedDict",
     "DeleteSavedJobByIDRequest",
     "DeleteSavedJobByIDRequestTypedDict",
     "DeployRequest",
@@ -6423,8 +6420,6 @@ __all__ = [
     "GetFunctionsByIDRequestTypedDict",
     "GetInputByIDRequest",
     "GetInputByIDRequestTypedDict",
-    "GetMasterWorkerEntryRequest",
-    "GetMasterWorkerEntryRequestTypedDict",
     "GetOutputByIDRequest",
     "GetOutputByIDRequestTypedDict",
     "GetOutputPqByIDRequest",
@@ -6435,8 +6430,8 @@ __all__ = [
     "GetPacksByIDRequestTypedDict",
     "GetPacksRequest",
     "GetPacksRequestTypedDict",
-    "GetPipelineByIDRequest",
-    "GetPipelineByIDRequestTypedDict",
+    "GetPipelinesByIDRequest",
+    "GetPipelinesByIDRequestTypedDict",
     "GetRoutesByIDRequest",
     "GetRoutesByIDRequestTypedDict",
     "GetSavedJobByIDRequest",
@@ -6445,6 +6440,8 @@ __all__ = [
     "GetSavedJobRequestTypedDict",
     "GetSummaryRequest",
     "GetSummaryRequestTypedDict",
+    "GetSummaryWorkersRequest",
+    "GetSummaryWorkersRequestTypedDict",
     "GetVersionCountRequest",
     "GetVersionCountRequestTypedDict",
     "GetVersionDiffRequest",
@@ -6457,6 +6454,8 @@ __all__ = [
     "GetVersionShowRequestTypedDict",
     "GetVersionStatusRequest",
     "GetVersionStatusRequestTypedDict",
+    "GetWorkersRequest",
+    "GetWorkersRequestTypedDict",
     "GitCommitParams",
     "GitCommitParamsTypedDict",
     "GitCommitSummary",
@@ -7294,8 +7293,6 @@ __all__ = [
     "LakehouseConnectionType",
     "ListConfigGroupByProductRequest",
     "ListConfigGroupByProductRequestTypedDict",
-    "ListMasterWorkerEntryRequest",
-    "ListMasterWorkerEntryRequestTypedDict",
     "ListeningPorts",
     "ListeningPortsTypedDict",
     "LogLevelForFailedLookups",
@@ -9519,8 +9516,8 @@ __all__ = [
     "UpdatePacksByIDRequestTypedDict",
     "UpdatePacksRequest",
     "UpdatePacksRequestTypedDict",
-    "UpdatePipelineByIDRequest",
-    "UpdatePipelineByIDRequestTypedDict",
+    "UpdatePipelinesByIDRequest",
+    "UpdatePipelinesByIDRequestTypedDict",
     "UpdateRoutesByIDRequest",
     "UpdateRoutesByIDRequestTypedDict",
     "UpdateSavedJobByIDRequest",
@@ -10597,8 +10594,8 @@ _dynamic_imports: dict[str, str] = {
     "DeleteOutputPqByIDRequestTypedDict": ".deleteoutputpqbyidop",
     "DeletePacksByIDRequest": ".deletepacksbyidop",
     "DeletePacksByIDRequestTypedDict": ".deletepacksbyidop",
-    "DeletePipelineByIDRequest": ".deletepipelinebyidop",
-    "DeletePipelineByIDRequestTypedDict": ".deletepipelinebyidop",
+    "DeletePipelinesByIDRequest": ".deletepipelinesbyidop",
+    "DeletePipelinesByIDRequestTypedDict": ".deletepipelinesbyidop",
     "DeleteSavedJobByIDRequest": ".deletesavedjobbyidop",
     "DeleteSavedJobByIDRequestTypedDict": ".deletesavedjobbyidop",
     "DeployRequest": ".deployrequest",
@@ -10968,8 +10965,6 @@ _dynamic_imports: dict[str, str] = {
     "GetFunctionsByIDRequestTypedDict": ".getfunctionsbyidop",
     "GetInputByIDRequest": ".getinputbyidop",
     "GetInputByIDRequestTypedDict": ".getinputbyidop",
-    "GetMasterWorkerEntryRequest": ".getmasterworkerentryop",
-    "GetMasterWorkerEntryRequestTypedDict": ".getmasterworkerentryop",
     "GetOutputByIDRequest": ".getoutputbyidop",
     "GetOutputByIDRequestTypedDict": ".getoutputbyidop",
     "GetOutputPqByIDRequest": ".getoutputpqbyidop",
@@ -10980,8 +10975,8 @@ _dynamic_imports: dict[str, str] = {
     "GetPacksByIDRequestTypedDict": ".getpacksbyidop",
     "GetPacksRequest": ".getpacksop",
     "GetPacksRequestTypedDict": ".getpacksop",
-    "GetPipelineByIDRequest": ".getpipelinebyidop",
-    "GetPipelineByIDRequestTypedDict": ".getpipelinebyidop",
+    "GetPipelinesByIDRequest": ".getpipelinesbyidop",
+    "GetPipelinesByIDRequestTypedDict": ".getpipelinesbyidop",
     "GetRoutesByIDRequest": ".getroutesbyidop",
     "GetRoutesByIDRequestTypedDict": ".getroutesbyidop",
     "GetSavedJobByIDRequest": ".getsavedjobbyidop",
@@ -10990,6 +10985,8 @@ _dynamic_imports: dict[str, str] = {
     "GetSavedJobRequestTypedDict": ".getsavedjobop",
     "GetSummaryRequest": ".getsummaryop",
     "GetSummaryRequestTypedDict": ".getsummaryop",
+    "GetSummaryWorkersRequest": ".getsummaryworkersop",
+    "GetSummaryWorkersRequestTypedDict": ".getsummaryworkersop",
     "GetVersionCountRequest": ".getversioncountop",
     "GetVersionCountRequestTypedDict": ".getversioncountop",
     "GetVersionDiffRequest": ".getversiondiffop",
@@ -11002,6 +10999,8 @@ _dynamic_imports: dict[str, str] = {
     "GetVersionShowRequestTypedDict": ".getversionshowop",
     "GetVersionStatusRequest": ".getversionstatusop",
     "GetVersionStatusRequestTypedDict": ".getversionstatusop",
+    "GetWorkersRequest": ".getworkersop",
+    "GetWorkersRequestTypedDict": ".getworkersop",
     "GitCommitParams": ".gitcommitparams",
     "GitCommitParamsTypedDict": ".gitcommitparams",
     "Author": ".gitcommitsummary",
@@ -11898,8 +11897,6 @@ _dynamic_imports: dict[str, str] = {
     "LakehouseConnectionType": ".lakehouseconnectiontype",
     "ListConfigGroupByProductRequest": ".listconfiggroupbyproductop",
     "ListConfigGroupByProductRequestTypedDict": ".listconfiggroupbyproductop",
-    "ListMasterWorkerEntryRequest": ".listmasterworkerentryop",
-    "ListMasterWorkerEntryRequestTypedDict": ".listmasterworkerentryop",
     "LoginInfo": ".logininfo",
     "LoginInfoTypedDict": ".logininfo",
     "LogLevelOptionsContentConfigItems": ".logleveloptionscontentconfigitems",
@@ -13963,8 +13960,8 @@ _dynamic_imports: dict[str, str] = {
     "UpdatePacksByIDRequestTypedDict": ".updatepacksbyidop",
     "UpdatePacksRequest": ".updatepacksop",
     "UpdatePacksRequestTypedDict": ".updatepacksop",
-    "UpdatePipelineByIDRequest": ".updatepipelinebyidop",
-    "UpdatePipelineByIDRequestTypedDict": ".updatepipelinebyidop",
+    "UpdatePipelinesByIDRequest": ".updatepipelinesbyidop",
+    "UpdatePipelinesByIDRequestTypedDict": ".updatepipelinesbyidop",
     "UpdateRoutesByIDRequest": ".updateroutesbyidop",
     "UpdateRoutesByIDRequestTypedDict": ".updateroutesbyidop",
     "UpdateSavedJobByIDRequest": ".updatesavedjobbyidop",

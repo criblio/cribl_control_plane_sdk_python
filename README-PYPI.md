@@ -108,7 +108,6 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 - [PyCharm Pydantic Plugin](https://docs.pydantic.dev/latest/integrations/pycharm/)
 <!-- End IDE Support [idesupport] -->
 
-<!-- Start SDK Example Usage [usage] -->
 ## SDK Example Usage
 
 ### Example
@@ -118,57 +117,31 @@ Generally, the SDK will work well with most IDEs out of the box. However, when u
 from cribl_control_plane import CriblControlPlane, models
 import os
 
-
 with CriblControlPlane(
     server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
 ) as ccp_client:
+    # Check server health
+    health = ccp_client.health.get()
+    print(f"Server health: {health}")
 
-    res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>", accelerated_fields=[
-        "<value 1>",
-        "<value 2>",
-    ], bucket_name="<value>", cache_connection={
-        "accelerated_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "backfill_status": models.CacheConnectionBackfillStatus.PENDING,
-        "cache_ref": "<value>",
-        "created_at": 7795.06,
-        "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
-        "migration_query_id": "<id>",
-        "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
-        "current_size_bytes": 6170.04,
-        "metrics_date": "<value>",
-    }, retention_period_in_days=456.37, search_config={
-        "datatypes": [
-            "<value 1>",
-        ],
-        "metadata": {
-            "earliest": "<value>",
-            "enable_acceleration": True,
-            "field_list": [
-                "<value 1>",
-                "<value 2>",
-            ],
-            "latest_run_info": {
-                "earliest_scanned_time": 4334.7,
-                "finished_at": 6811.22,
-                "latest_scanned_time": 5303.3,
-                "object_count": 9489.04,
-            },
-            "scan_mode": models.ScanMode.DETAILED,
-        },
-    }, storage_location_id="<id>", view_name="<value>")
+    worker_group_id = "my-worker-group"
+    group_url = f"https://api.example.com/m/{worker_group_id}"
 
-    # Handle response
-    print(res)
+    # List all sources
+    sources = ccp_client.sources.list(server_url=group_url)
+    print(f"Found {len(sources.items or [])} sources")
+
+    # List all destinations
+    destinations = ccp_client.destinations.list(server_url=group_url)
+    print(f"Found {len(destinations.items or [])} destinations")
+
+    # List all pipelines
+    pipelines = ccp_client.pipelines.list(server_url=group_url)
+    print(f"Found {len(pipelines.items or [])} pipelines")
 ```
-
-</br>
 
 The same SDK client can also be used to make asynchronous requests by importing asyncio.
 
@@ -179,58 +152,30 @@ from cribl_control_plane import CriblControlPlane, models
 import os
 
 async def main():
-
     async with CriblControlPlane(
         server_url="https://api.example.com",
         security=models.Security(
             bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
         ),
     ) as ccp_client:
+        # Check server health
+        health = await ccp_client.health.get_async()
+        print(f"Server health: {health}")
 
-        res = await ccp_client.lake_datasets.create_async(lake_id="<id>", id="<id>", accelerated_fields=[
-            "<value 1>",
-            "<value 2>",
-        ], bucket_name="<value>", cache_connection={
-            "accelerated_fields": [
-                "<value 1>",
-                "<value 2>",
-            ],
-            "backfill_status": models.CacheConnectionBackfillStatus.PENDING,
-            "cache_ref": "<value>",
-            "created_at": 7795.06,
-            "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
-            "migration_query_id": "<id>",
-            "retention_in_days": 1466.58,
-        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
-            "current_size_bytes": 6170.04,
-            "metrics_date": "<value>",
-        }, retention_period_in_days=456.37, search_config={
-            "datatypes": [
-                "<value 1>",
-            ],
-            "metadata": {
-                "earliest": "<value>",
-                "enable_acceleration": True,
-                "field_list": [
-                    "<value 1>",
-                    "<value 2>",
-                ],
-                "latest_run_info": {
-                    "earliest_scanned_time": 4334.7,
-                    "finished_at": 6811.22,
-                    "latest_scanned_time": 5303.3,
-                    "object_count": 9489.04,
-                },
-                "scan_mode": models.ScanMode.DETAILED,
-            },
-        }, storage_location_id="<id>", view_name="<value>")
+        worker_group_id = "my-worker-group"
+        group_url = f"https://api.example.com/m/{worker_group_id}"
 
-        # Handle response
-        print(res)
+        # List all sources
+        sources = await ccp_client.sources.list_async(server_url=group_url)
+        print(f"Found {len(sources.items or [])} sources")
 
 asyncio.run(main())
 ```
-<!-- End SDK Example Usage [usage] -->
+
+> [!NOTE]
+> Additional examples demonstrating various SDK features and use cases can be found in the [`examples`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./examples) directory.
+
+<!-- No End SDK Example Usage [usage] -->
 
 ## Authentication
 
@@ -449,7 +394,6 @@ with CriblControlPlane(
 ```
 <!-- End File uploads [file-upload] -->
 
-<!-- Start Retries [retries] -->
 ## Retries
 
 Some of the endpoints in this SDK support retries. If you use the SDK without any configuration, it will fall back to the default retry strategy provided by the API. However, the default retry strategy can be overridden on a per-operation basis, or across the entire SDK.
@@ -460,56 +404,15 @@ from cribl_control_plane import CriblControlPlane, models
 from cribl_control_plane.utils import BackoffStrategy, RetryConfig
 import os
 
-
 with CriblControlPlane(
     server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
 ) as ccp_client:
-
-    res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>", accelerated_fields=[
-        "<value 1>",
-        "<value 2>",
-    ], bucket_name="<value>", cache_connection={
-        "accelerated_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "backfill_status": models.CacheConnectionBackfillStatus.PENDING,
-        "cache_ref": "<value>",
-        "created_at": 7795.06,
-        "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
-        "migration_query_id": "<id>",
-        "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
-        "current_size_bytes": 6170.04,
-        "metrics_date": "<value>",
-    }, retention_period_in_days=456.37, search_config={
-        "datatypes": [
-            "<value 1>",
-        ],
-        "metadata": {
-            "earliest": "<value>",
-            "enable_acceleration": True,
-            "field_list": [
-                "<value 1>",
-                "<value 2>",
-            ],
-            "latest_run_info": {
-                "earliest_scanned_time": 4334.7,
-                "finished_at": 6811.22,
-                "latest_scanned_time": 5303.3,
-                "object_count": 9489.04,
-            },
-            "scan_mode": models.ScanMode.DETAILED,
-        },
-    }, storage_location_id="<id>", view_name="<value>",
-        RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False))
-
-    # Handle response
+    retry_config = RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False)
+    res = ccp_client.sources.list(server_url="https://api.example.com/m/my-group", retry_config=retry_config)
     print(res)
-
 ```
 
 If you'd like to override the default retry strategy for all operations that support retries, you can use the `retry_config` optional parameter when initializing the SDK:
@@ -518,7 +421,6 @@ from cribl_control_plane import CriblControlPlane, models
 from cribl_control_plane.utils import BackoffStrategy, RetryConfig
 import os
 
-
 with CriblControlPlane(
     server_url="https://api.example.com",
     retry_config=RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False),
@@ -526,52 +428,11 @@ with CriblControlPlane(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
 ) as ccp_client:
-
-    res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>", accelerated_fields=[
-        "<value 1>",
-        "<value 2>",
-    ], bucket_name="<value>", cache_connection={
-        "accelerated_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "backfill_status": models.CacheConnectionBackfillStatus.PENDING,
-        "cache_ref": "<value>",
-        "created_at": 7795.06,
-        "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
-        "migration_query_id": "<id>",
-        "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
-        "current_size_bytes": 6170.04,
-        "metrics_date": "<value>",
-    }, retention_period_in_days=456.37, search_config={
-        "datatypes": [
-            "<value 1>",
-        ],
-        "metadata": {
-            "earliest": "<value>",
-            "enable_acceleration": True,
-            "field_list": [
-                "<value 1>",
-                "<value 2>",
-            ],
-            "latest_run_info": {
-                "earliest_scanned_time": 4334.7,
-                "finished_at": 6811.22,
-                "latest_scanned_time": 5303.3,
-                "object_count": 9489.04,
-            },
-            "scan_mode": models.ScanMode.DETAILED,
-        },
-    }, storage_location_id="<id>", view_name="<value>")
-
-    # Handle response
+    res = ccp_client.sources.list(server_url="https://api.example.com/m/my-group")
     print(res)
-
 ```
-<!-- End Retries [retries] -->
+<!-- No End Retries [retries] -->
 
-<!-- Start Error Handling [errors] -->
 ## Error Handling
 
 [`CriblControlPlaneError`](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/./src/cribl_control_plane/errors/criblcontrolplaneerror.py) is the base class for all HTTP error responses. It has the following properties:
@@ -590,7 +451,6 @@ with CriblControlPlane(
 from cribl_control_plane import CriblControlPlane, errors, models
 import os
 
-
 with CriblControlPlane(
     server_url="https://api.example.com",
     security=models.Security(
@@ -599,49 +459,8 @@ with CriblControlPlane(
 ) as ccp_client:
     res = None
     try:
-
-        res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>", accelerated_fields=[
-            "<value 1>",
-            "<value 2>",
-        ], bucket_name="<value>", cache_connection={
-            "accelerated_fields": [
-                "<value 1>",
-                "<value 2>",
-            ],
-            "backfill_status": models.CacheConnectionBackfillStatus.PENDING,
-            "cache_ref": "<value>",
-            "created_at": 7795.06,
-            "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
-            "migration_query_id": "<id>",
-            "retention_in_days": 1466.58,
-        }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
-            "current_size_bytes": 6170.04,
-            "metrics_date": "<value>",
-        }, retention_period_in_days=456.37, search_config={
-            "datatypes": [
-                "<value 1>",
-            ],
-            "metadata": {
-                "earliest": "<value>",
-                "enable_acceleration": True,
-                "field_list": [
-                    "<value 1>",
-                    "<value 2>",
-                ],
-                "latest_run_info": {
-                    "earliest_scanned_time": 4334.7,
-                    "finished_at": 6811.22,
-                    "latest_scanned_time": 5303.3,
-                    "object_count": 9489.04,
-                },
-                "scan_mode": models.ScanMode.DETAILED,
-            },
-        }, storage_location_id="<id>", view_name="<value>")
-
-        # Handle response
+        res = ccp_client.sources.list(server_url="https://api.example.com/m/my-group")
         print(res)
-
-
     except errors.CriblControlPlaneError as e:
         # The base class for HTTP error responses
         print(e.message)
@@ -677,7 +496,7 @@ with CriblControlPlane(
 </details>
 
 \* Check [the method documentation](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#available-resources-and-operations) to see if the error is applicable.
-<!-- End Error Handling [errors] -->
+<!-- No Error Handling [errors] -->
 
 <!-- Start Custom HTTP Client [http-client] -->
 ## Custom HTTP Client

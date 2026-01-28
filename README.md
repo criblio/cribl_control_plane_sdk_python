@@ -242,10 +242,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [update](docs/sdks/destinations/README.md#update) - Update a Destination
 * [delete](docs/sdks/destinations/README.md#delete) - Delete a Destination
 
-#### [Destinations.Pq](docs/sdks/pq/README.md)
+#### [Destinations.Pq](docs/sdks/destinationspq/README.md)
 
-* [clear](docs/sdks/pq/README.md#clear) - Clear the persistent queue for a Destination
-* [get](docs/sdks/pq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
+* [clear](docs/sdks/destinationspq/README.md#clear) - Clear the persistent queue for a Destination
+* [get](docs/sdks/destinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
 
 #### [Destinations.Samples](docs/sdks/samples/README.md)
 
@@ -307,6 +307,22 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [delete](docs/sdks/packs/README.md#delete) - Uninstall a Pack
 * [get](docs/sdks/packs/README.md#get) - Get a Pack
 * [update](docs/sdks/packs/README.md#update) - Upgrade a Pack
+
+#### [Packs.Sources](docs/sdks/packssources/README.md)
+
+* [list](docs/sdks/packssources/README.md#list) - List all Sources within a Pack
+* [get](docs/sdks/packssources/README.md#get) - Get a Source within a Pack
+* [update](docs/sdks/packssources/README.md#update) - Update a Source within a Pack
+* [delete](docs/sdks/packssources/README.md#delete) - Delete a Source within a Pack
+
+##### [Packs.Sources.HecTokens](docs/sdks/packshectokens/README.md)
+
+* [create](docs/sdks/packshectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source within a Pack
+* [update](docs/sdks/packshectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source within a Pack
+
+##### [Packs.Sources.Pq](docs/sdks/sourcespq/README.md)
+
+* [clear](docs/sdks/sourcespq/README.md#clear) - Clear the persistent queue for a Source within a Pack
 
 ### [Pipelines](docs/sdks/pipelines/README.md)
 

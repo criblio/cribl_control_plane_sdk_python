@@ -1,10 +1,10 @@
-openapi: 3.0.2
+openapi: 3.1.0
 servers:
   - url: /
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769529316806-eb44173d
+  version: 4.17.0-alpha.1769602011245-d97e737c
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -10508,8 +10508,9 @@ components:
           script: "#/components/schemas/CollectorScript"
           splunk: "#/components/schemas/CollectorSplunk"
     CloudProvider:
-      type: string
-      nullable: true
+      type:
+        - string
+        - "null"
       enum:
         - aws
         - azure
@@ -21247,7 +21248,9 @@ components:
           items:
             type: string
         defaultId:
-          type: string
+          type:
+            - string
+            - "null"
           title: Default Output ID
           description: ID of the default output. This will be used whenever a nonexistent/deleted output is referenced.
     OutputWebhook:

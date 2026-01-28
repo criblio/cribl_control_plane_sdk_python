@@ -9,7 +9,7 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class ListMasterWorkerEntryRequestTypedDict(TypedDict):
+class GetWorkersRequestTypedDict(TypedDict):
     filter_exp: NotRequired[str]
     r"""Filter expression to evaluate against Nodes for inclusion in the response."""
     sort_exp: NotRequired[str]
@@ -24,7 +24,7 @@ class ListMasterWorkerEntryRequestTypedDict(TypedDict):
     r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
 
 
-class ListMasterWorkerEntryRequest(BaseModel):
+class GetWorkersRequest(BaseModel):
     filter_exp: Annotated[
         Optional[str],
         pydantic.Field(alias="filterExp"),

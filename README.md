@@ -321,8 +321,8 @@ with CriblControlPlane(
 
 ### [Nodes](docs/sdks/nodes/README.md)
 
-* [list](docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker and Edge Nodes
-* [count](docs/sdks/nodes/README.md#count) - Get a count of Worker and Edge Nodes
+* [~~count~~](docs/sdks/nodes/README.md#count) - Get a count of Worker and Edge Nodes :warning: **Deprecated**
+* [~~list~~](docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker and Edge Nodes :warning: **Deprecated**
 
 #### [Nodes.Summaries](docs/sdks/summaries/README.md)
 
@@ -339,17 +339,17 @@ with CriblControlPlane(
 
 ### [Pipelines](docs/sdks/pipelines/README.md)
 
-* [list](docs/sdks/pipelines/README.md#list) - List all Pipelines
 * [create](docs/sdks/pipelines/README.md#create) - Create a Pipeline
+* [list](docs/sdks/pipelines/README.md#list) - List all Pipelines
+* [delete](docs/sdks/pipelines/README.md#delete) - Delete a Pipeline
 * [get](docs/sdks/pipelines/README.md#get) - Get a Pipeline
 * [update](docs/sdks/pipelines/README.md#update) - Update a Pipeline
-* [delete](docs/sdks/pipelines/README.md#delete) - Delete a Pipeline
 
 ### [Routes](docs/sdks/routessdk/README.md)
 
-* [list](docs/sdks/routessdk/README.md#list) - List all Routes
 * [get](docs/sdks/routessdk/README.md#get) - Get a Routing table
 * [update](docs/sdks/routessdk/README.md#update) - Update a Route
+* [list](docs/sdks/routessdk/README.md#list) - List all Routes
 * [append](docs/sdks/routessdk/README.md#append) - Add a Route to the end of the Routing table
 
 ### [Sources](docs/sdks/sources/README.md)

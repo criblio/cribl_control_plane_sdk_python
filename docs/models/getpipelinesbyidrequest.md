@@ -1,4 +1,4 @@
-# GetPipelineByIDRequest
+# GetPipelinesByIDRequest
 
 
 ## Fields

@@ -1,4 +1,4 @@
-# DeletePipelineByIDRequest
+# DeletePipelinesByIDRequest
 
 
 ## Fields

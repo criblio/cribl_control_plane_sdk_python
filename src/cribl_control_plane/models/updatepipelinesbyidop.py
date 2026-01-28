@@ -8,14 +8,14 @@ import pydantic
 from typing_extensions import Annotated, TypedDict
 
 
-class UpdatePipelineByIDRequestTypedDict(TypedDict):
+class UpdatePipelinesByIDRequestTypedDict(TypedDict):
     id_param: str
     r"""The <code>id</code> of the Pipeline to update."""
     pipeline: PipelineInputTypedDict
     r"""Pipeline object"""
 
 
-class UpdatePipelineByIDRequest(BaseModel):
+class UpdatePipelinesByIDRequest(BaseModel):
     id_param: Annotated[
         str,
         pydantic.Field(alias="id"),

@@ -6,12 +6,12 @@ from cribl_control_plane.utils import FieldMetadata, PathParamMetadata
 from typing_extensions import Annotated, TypedDict
 
 
-class DeletePipelineByIDRequestTypedDict(TypedDict):
+class DeletePipelinesByIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Pipeline to delete."""
 
 
-class DeletePipelineByIDRequest(BaseModel):
+class DeletePipelinesByIDRequest(BaseModel):
     id: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]

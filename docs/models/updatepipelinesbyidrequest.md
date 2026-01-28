@@ -1,4 +1,4 @@
-# UpdatePipelineByIDRequest
+# UpdatePipelinesByIDRequest
 
 
 ## Fields

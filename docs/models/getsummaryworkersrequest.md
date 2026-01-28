@@ -1,4 +1,4 @@
-# GetMasterWorkerEntryRequest
+# GetSummaryWorkersRequest
 
 
 ## Fields

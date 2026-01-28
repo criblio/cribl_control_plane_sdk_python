@@ -9,12 +9,12 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetMasterWorkerEntryRequestTypedDict(TypedDict):
+class GetSummaryWorkersRequestTypedDict(TypedDict):
     filter_exp: NotRequired[str]
     r"""Filter expression to evaluate against Nodes for inclusion in the response."""
 
 
-class GetMasterWorkerEntryRequest(BaseModel):
+class GetSummaryWorkersRequest(BaseModel):
     filter_exp: Annotated[
         Optional[str],
         pydantic.Field(alias="filterExp"),

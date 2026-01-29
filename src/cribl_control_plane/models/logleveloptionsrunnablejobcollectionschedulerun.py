@@ -5,7 +5,7 @@ from cribl_control_plane import utils
 from enum import Enum
 
 
-class LogLevelOptionsSavedJobCollectionScheduleRun(
+class LogLevelOptionsRunnableJobCollectionScheduleRun(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Level at which to set task logging"""

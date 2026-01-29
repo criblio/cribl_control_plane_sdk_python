@@ -1,4 +1,4 @@
-# PreprocessTypeSavedJobCollectionInput
+# PreprocessType
 
 
 ## Fields

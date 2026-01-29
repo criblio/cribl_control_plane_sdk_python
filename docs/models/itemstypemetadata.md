@@ -1,4 +1,4 @@
-# ItemsTypeNotificationMetadata
+# ItemsTypeMetadata
 
 
 ## Fields

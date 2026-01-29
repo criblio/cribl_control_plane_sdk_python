@@ -5,13 +5,13 @@ from cribl_control_plane.types import BaseModel
 from typing_extensions import TypedDict
 
 
-class ItemsTypeNotificationMetadataTypedDict(TypedDict):
+class ItemsTypeMetadataTypedDict(TypedDict):
     name: str
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class ItemsTypeNotificationMetadata(BaseModel):
+class ItemsTypeMetadata(BaseModel):
     name: str
 
     value: str

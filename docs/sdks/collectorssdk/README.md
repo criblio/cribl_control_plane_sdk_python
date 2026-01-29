@@ -34,7 +34,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
         id="<id>",
         description="pomelo outside offensively ew",
-        type=models.JobTypeOptionsSavedJobCollection.EXECUTOR,
+        type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
         ttl="4h",
         ignore_group_jobs_limit=False,
         remove_fields=[
@@ -49,18 +49,18 @@ with CriblControlPlane(
             resume_missed=False,
             cron_schedule="*/5 * * * *",
             max_concurrent_runs=1,
-            run=models.ScheduleTypeSavedJobCollectionRunSettings(
-                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=True,
                 max_task_reschedule=1,
-                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.INFO,
+                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
                 job_timeout="0",
                 mode="list",
                 time_range_type="relative",
                 earliest=432.8,
                 latest=2023.34,
                 timestamp_timezone="<value>",
-                time_warning=models.TimeWarning(),
+                time_warning=models.MetricsStore(),
                 expression="true",
                 min_task_size="1MB",
                 max_task_size="10MB",
@@ -94,7 +94,7 @@ with CriblControlPlane(
             ],
             stale_channel_flush_ms=10000,
             send_to_routes=True,
-            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+            preprocess=models.PreprocessType(
                 disabled=True,
                 command="<value>",
                 args=[
@@ -103,7 +103,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="0",
             metadata=[
-                models.ItemsTypeNotificationMetadata(
+                models.ItemsTypeMetadata(
                     name="<value>",
                     value="<value>",
                 ),
@@ -296,7 +296,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
         id="<id>",
         description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsSavedJobCollection.SCHEDULED_SEARCH,
+        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
         ttl="4h",
         ignore_group_jobs_limit=False,
         remove_fields=[
@@ -311,18 +311,18 @@ with CriblControlPlane(
             resume_missed=False,
             cron_schedule="*/5 * * * *",
             max_concurrent_runs=1,
-            run=models.ScheduleTypeSavedJobCollectionRunSettings(
-                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=True,
                 max_task_reschedule=1,
-                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.INFO,
+                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
                 job_timeout="0",
                 mode="list",
                 time_range_type="relative",
                 earliest=9142.96,
                 latest=521.08,
                 timestamp_timezone="<value>",
-                time_warning=models.TimeWarning(),
+                time_warning=models.MetricsStore(),
                 expression="true",
                 min_task_size="1MB",
                 max_task_size="10MB",
@@ -358,7 +358,7 @@ with CriblControlPlane(
             ],
             stale_channel_flush_ms=10000,
             send_to_routes=True,
-            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+            preprocess=models.PreprocessType(
                 disabled=True,
                 command="<value>",
                 args=[
@@ -368,7 +368,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="0",
             metadata=[
-                models.ItemsTypeNotificationMetadata(
+                models.ItemsTypeMetadata(
                     name="<value>",
                     value="<value>",
                 ),

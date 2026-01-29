@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 from .collector import Collector, CollectorTypedDict
-from .jobtypeoptionssavedjobcollection import JobTypeOptionsSavedJobCollection
-from .logleveloptionssavedjobcollectionschedulerun import (
-    LogLevelOptionsSavedJobCollectionScheduleRun,
+from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
+from .logleveloptionsrunnablejobcollectionschedulerun import (
+    LogLevelOptionsRunnableJobCollectionScheduleRun,
 )
 from .metricsstore import MetricsStore, MetricsStoreTypedDict
 from .scheduletyperunnablejobcollection import (
@@ -98,7 +98,7 @@ class RunnableJobCollectionRunTypedDict(TypedDict):
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
     r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[LogLevelOptionsSavedJobCollectionScheduleRun]
+    log_level: NotRequired[LogLevelOptionsRunnableJobCollectionScheduleRun]
     r"""Level at which to set task logging"""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
@@ -144,7 +144,7 @@ class RunnableJobCollectionRun(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[LogLevelOptionsSavedJobCollectionScheduleRun],
+        Optional[LogLevelOptionsRunnableJobCollectionScheduleRun],
         pydantic.Field(alias="logLevel"),
     ] = None
     r"""Level at which to set task logging"""
@@ -199,7 +199,7 @@ class RunnableJobCollectionRun(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelOptionsSavedJobCollectionScheduleRun(value)
+                return models.LogLevelOptionsRunnableJobCollectionScheduleRun(value)
             except ValueError:
                 return value
         return value
@@ -263,7 +263,7 @@ class RunnableJobCollectionTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
-    type: NotRequired[JobTypeOptionsSavedJobCollection]
+    type: NotRequired[JobTypeOptionsRunnableJobCollection]
     ttl: NotRequired[str]
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
@@ -294,7 +294,7 @@ class RunnableJobCollection(BaseModel):
 
     description: Optional[str] = None
 
-    type: Optional[JobTypeOptionsSavedJobCollection] = None
+    type: Optional[JobTypeOptionsRunnableJobCollection] = None
 
     ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
@@ -334,7 +334,7 @@ class RunnableJobCollection(BaseModel):
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.JobTypeOptionsSavedJobCollection(value)
+                return models.JobTypeOptionsRunnableJobCollection(value)
             except ValueError:
                 return value
         return value

@@ -1,4 +1,4 @@
-# MethodOptionsCredentials
+# AwsAuthenticationMethodOptions
 
 
 ## Values

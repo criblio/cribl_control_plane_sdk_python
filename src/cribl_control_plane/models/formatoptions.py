@@ -5,7 +5,7 @@ from cribl_control_plane import utils
 from enum import Enum
 
 
-class FormatOptionsCriblLakeDataset(str, Enum, metaclass=utils.OpenEnumMeta):
+class FormatOptions(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON = "json"
     PARQUET = "parquet"
     DDSS = "ddss"

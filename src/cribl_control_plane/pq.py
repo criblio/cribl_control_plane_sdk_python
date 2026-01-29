@@ -9,7 +9,7 @@ from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_res
 from typing import Any, Mapping, Optional
 
 
-class DestinationsPq(BaseSDK):
+class Pq(BaseSDK):
     def clear(
         self,
         *,

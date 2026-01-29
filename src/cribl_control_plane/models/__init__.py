@@ -640,10 +640,6 @@ if TYPE_CHECKING:
         SystemWindowsMetrics,
         SystemWindowsMetricsTypedDict,
     )
-    from .createinputsystemhectokenbypackandidop import (
-        CreateInputSystemHecTokenByPackAndIDRequest,
-        CreateInputSystemHecTokenByPackAndIDRequestTypedDict,
-    )
     from .createoutputop import (
         AuthenticationMethodAzureDataExplorer,
         AuthenticationMethodAzureLogs,
@@ -1140,14 +1136,6 @@ if TYPE_CHECKING:
     from .deleteinputbyidop import (
         DeleteInputByIDRequest,
         DeleteInputByIDRequestTypedDict,
-    )
-    from .deleteinputsystembypackandidop import (
-        DeleteInputSystemByPackAndIDRequest,
-        DeleteInputSystemByPackAndIDRequestTypedDict,
-    )
-    from .deleteinputsystempqbypackandidop import (
-        DeleteInputSystemPqByPackAndIDRequest,
-        DeleteInputSystemPqByPackAndIDRequestTypedDict,
     )
     from .deleteoutputbyidop import (
         DeleteOutputByIDRequest,
@@ -1679,14 +1667,6 @@ if TYPE_CHECKING:
         GetFunctionsByIDRequestTypedDict,
     )
     from .getinputbyidop import GetInputByIDRequest, GetInputByIDRequestTypedDict
-    from .getinputsystembypackandidop import (
-        GetInputSystemByPackAndIDRequest,
-        GetInputSystemByPackAndIDRequestTypedDict,
-    )
-    from .getinputsystembypackop import (
-        GetInputSystemByPackRequest,
-        GetInputSystemByPackRequestTypedDict,
-    )
     from .getoutputbyidop import GetOutputByIDRequest, GetOutputByIDRequestTypedDict
     from .getoutputpqbyidop import (
         GetOutputPqByIDRequest,
@@ -5085,14 +5065,6 @@ if TYPE_CHECKING:
         UpdateInputHecTokenByIDAndTokenRequest,
         UpdateInputHecTokenByIDAndTokenRequestTypedDict,
     )
-    from .updateinputsystembypackandidop import (
-        UpdateInputSystemByPackAndIDRequest,
-        UpdateInputSystemByPackAndIDRequestTypedDict,
-    )
-    from .updateinputsystemhectokenbypackandidandtokenop import (
-        UpdateInputSystemHecTokenByPackAndIDAndTokenRequest,
-        UpdateInputSystemHecTokenByPackAndIDAndTokenRequestTypedDict,
-    )
     from .updateoutputbyidop import (
         UpdateOutputByIDRequest,
         UpdateOutputByIDRequestTypedDict,
@@ -5647,8 +5619,6 @@ __all__ = [
     "CreateInputSplunkHecMetadataTypedDict",
     "CreateInputSubscription",
     "CreateInputSubscriptionTypedDict",
-    "CreateInputSystemHecTokenByPackAndIDRequest",
-    "CreateInputSystemHecTokenByPackAndIDRequestTypedDict",
     "CreateInputTarget",
     "CreateInputTargetTypedDict",
     "CreateInputTypeAppscope",
@@ -6053,10 +6023,6 @@ __all__ = [
     "DeleteDatabaseConnectionConfigByIDRequestTypedDict",
     "DeleteInputByIDRequest",
     "DeleteInputByIDRequestTypedDict",
-    "DeleteInputSystemByPackAndIDRequest",
-    "DeleteInputSystemByPackAndIDRequestTypedDict",
-    "DeleteInputSystemPqByPackAndIDRequest",
-    "DeleteInputSystemPqByPackAndIDRequestTypedDict",
     "DeleteOutputByIDRequest",
     "DeleteOutputByIDRequestTypedDict",
     "DeleteOutputPqByIDRequest",
@@ -6454,10 +6420,6 @@ __all__ = [
     "GetFunctionsByIDRequestTypedDict",
     "GetInputByIDRequest",
     "GetInputByIDRequestTypedDict",
-    "GetInputSystemByPackAndIDRequest",
-    "GetInputSystemByPackAndIDRequestTypedDict",
-    "GetInputSystemByPackRequest",
-    "GetInputSystemByPackRequestTypedDict",
     "GetOutputByIDRequest",
     "GetOutputByIDRequestTypedDict",
     "GetOutputPqByIDRequest",
@@ -9548,10 +9510,6 @@ __all__ = [
     "UpdateInputByIDRequestTypedDict",
     "UpdateInputHecTokenByIDAndTokenRequest",
     "UpdateInputHecTokenByIDAndTokenRequestTypedDict",
-    "UpdateInputSystemByPackAndIDRequest",
-    "UpdateInputSystemByPackAndIDRequestTypedDict",
-    "UpdateInputSystemHecTokenByPackAndIDAndTokenRequest",
-    "UpdateInputSystemHecTokenByPackAndIDAndTokenRequestTypedDict",
     "UpdateOutputByIDRequest",
     "UpdateOutputByIDRequestTypedDict",
     "UpdatePacksByIDRequest",
@@ -10162,8 +10120,6 @@ _dynamic_imports: dict[str, str] = {
     "SystemSystemMetricsTypedDict": ".createinputop",
     "SystemWindowsMetrics": ".createinputop",
     "SystemWindowsMetricsTypedDict": ".createinputop",
-    "CreateInputSystemHecTokenByPackAndIDRequest": ".createinputsystemhectokenbypackandidop",
-    "CreateInputSystemHecTokenByPackAndIDRequestTypedDict": ".createinputsystemhectokenbypackandidop",
     "AuthenticationMethodAzureDataExplorer": ".createoutputop",
     "AuthenticationMethodAzureLogs": ".createoutputop",
     "AuthenticationMethodChronicle": ".createoutputop",
@@ -10632,10 +10588,6 @@ _dynamic_imports: dict[str, str] = {
     "DeleteDatabaseConnectionConfigByIDRequestTypedDict": ".deletedatabaseconnectionconfigbyidop",
     "DeleteInputByIDRequest": ".deleteinputbyidop",
     "DeleteInputByIDRequestTypedDict": ".deleteinputbyidop",
-    "DeleteInputSystemByPackAndIDRequest": ".deleteinputsystembypackandidop",
-    "DeleteInputSystemByPackAndIDRequestTypedDict": ".deleteinputsystembypackandidop",
-    "DeleteInputSystemPqByPackAndIDRequest": ".deleteinputsystempqbypackandidop",
-    "DeleteInputSystemPqByPackAndIDRequestTypedDict": ".deleteinputsystempqbypackandidop",
     "DeleteOutputByIDRequest": ".deleteoutputbyidop",
     "DeleteOutputByIDRequestTypedDict": ".deleteoutputbyidop",
     "DeleteOutputPqByIDRequest": ".deleteoutputpqbyidop",
@@ -11013,10 +10965,6 @@ _dynamic_imports: dict[str, str] = {
     "GetFunctionsByIDRequestTypedDict": ".getfunctionsbyidop",
     "GetInputByIDRequest": ".getinputbyidop",
     "GetInputByIDRequestTypedDict": ".getinputbyidop",
-    "GetInputSystemByPackAndIDRequest": ".getinputsystembypackandidop",
-    "GetInputSystemByPackAndIDRequestTypedDict": ".getinputsystembypackandidop",
-    "GetInputSystemByPackRequest": ".getinputsystembypackop",
-    "GetInputSystemByPackRequestTypedDict": ".getinputsystembypackop",
     "GetOutputByIDRequest": ".getoutputbyidop",
     "GetOutputByIDRequestTypedDict": ".getoutputbyidop",
     "GetOutputPqByIDRequest": ".getoutputpqbyidop",
@@ -14006,10 +13954,6 @@ _dynamic_imports: dict[str, str] = {
     "UpdateInputByIDRequestTypedDict": ".updateinputbyidop",
     "UpdateInputHecTokenByIDAndTokenRequest": ".updateinputhectokenbyidandtokenop",
     "UpdateInputHecTokenByIDAndTokenRequestTypedDict": ".updateinputhectokenbyidandtokenop",
-    "UpdateInputSystemByPackAndIDRequest": ".updateinputsystembypackandidop",
-    "UpdateInputSystemByPackAndIDRequestTypedDict": ".updateinputsystembypackandidop",
-    "UpdateInputSystemHecTokenByPackAndIDAndTokenRequest": ".updateinputsystemhectokenbypackandidandtokenop",
-    "UpdateInputSystemHecTokenByPackAndIDAndTokenRequestTypedDict": ".updateinputsystemhectokenbypackandidandtokenop",
     "UpdateOutputByIDRequest": ".updateoutputbyidop",
     "UpdateOutputByIDRequestTypedDict": ".updateoutputbyidop",
     "UpdatePacksByIDRequest": ".updatepacksbyidop",

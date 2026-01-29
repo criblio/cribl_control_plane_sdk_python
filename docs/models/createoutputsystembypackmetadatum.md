@@ -1,0 +1,9 @@
+# CreateOutputSystemByPackMetadatum
+
+
+## Fields
+
+| Field                                                                                                          | Type                                                                                                           | Required                                                                                                       | Description                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `name`                                                                                                         | [models.CreateOutputSystemByPackFieldName](../models/createoutputsystembypackfieldname.md)                     | :heavy_check_mark:                                                                                             | N/A                                                                                                            |
+| `value`                                                                                                        | *str*                                                                                                          | :heavy_check_mark:                                                                                             | JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.) |

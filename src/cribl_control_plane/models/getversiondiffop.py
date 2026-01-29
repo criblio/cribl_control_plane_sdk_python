@@ -16,7 +16,7 @@ class GetVersionDiffRequestTypedDict(TypedDict):
     r"""The <code>id</code> of the Worker Group or Edge Fleet to get the diff for."""
     filename: NotRequired[str]
     r"""The relative path of the file to get the diff for."""
-    diff_line_limit: NotRequired[float]
+    diff_line_limit: NotRequired[int]
     r"""Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines."""
 
 
@@ -41,7 +41,7 @@ class GetVersionDiffRequest(BaseModel):
     r"""The relative path of the file to get the diff for."""
 
     diff_line_limit: Annotated[
-        Optional[float],
+        Optional[int],
         pydantic.Field(alias="diffLineLimit"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None

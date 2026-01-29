@@ -105,14 +105,16 @@ class CreateInputTypeCloudflareHec(str, Enum):
     CLOUDFLARE_HEC = "cloudflare_hec"
 
 
-class AuthenticationMethodCloudflareHec(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationMethodCloudflareHec(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select Secret to use a text secret to authenticate"""
 
     SECRET = "secret"
 
 
-class AuthTokenCloudflareHecTypedDict(TypedDict):
-    auth_type: NotRequired[AuthenticationMethodCloudflareHec]
+class CreateInputAuthTokenCloudflareHecTypedDict(TypedDict):
+    auth_type: NotRequired[CreateInputAuthenticationMethodCloudflareHec]
     r"""Select Secret to use a text secret to authenticate"""
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
@@ -125,9 +127,10 @@ class AuthTokenCloudflareHecTypedDict(TypedDict):
     r"""Fields to add to events referencing this token"""
 
 
-class AuthTokenCloudflareHec(BaseModel):
+class CreateInputAuthTokenCloudflareHec(BaseModel):
     auth_type: Annotated[
-        Optional[AuthenticationMethodCloudflareHec], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationMethodCloudflareHec],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Select Secret to use a text secret to authenticate"""
 
@@ -152,7 +155,7 @@ class AuthTokenCloudflareHec(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodCloudflareHec(value)
+                return models.CreateInputAuthenticationMethodCloudflareHec(value)
             except ValueError:
                 return value
         return value
@@ -208,7 +211,7 @@ class CreateInputInputCloudflareHecTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    auth_tokens: NotRequired[List[AuthTokenCloudflareHecTypedDict]]
+    auth_tokens: NotRequired[List[CreateInputAuthTokenCloudflareHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     max_active_req: NotRequired[float]
@@ -293,7 +296,8 @@ class CreateInputInputCloudflareHec(BaseModel):
     pq: Optional[PqType] = None
 
     auth_tokens: Annotated[
-        Optional[List[AuthTokenCloudflareHec]], pydantic.Field(alias="authTokens")
+        Optional[List[CreateInputAuthTokenCloudflareHec]],
+        pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
@@ -453,7 +457,7 @@ class CreateInputTypeZscalerHec(str, Enum):
     ZSCALER_HEC = "zscaler_hec"
 
 
-class AuthTokenZscalerHecTypedDict(TypedDict):
+class CreateInputAuthTokenZscalerHecTypedDict(TypedDict):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
@@ -468,7 +472,7 @@ class AuthTokenZscalerHecTypedDict(TypedDict):
     r"""Fields to add to events referencing this token"""
 
 
-class AuthTokenZscalerHec(BaseModel):
+class CreateInputAuthTokenZscalerHec(BaseModel):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
@@ -552,7 +556,7 @@ class CreateInputInputZscalerHecTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    auth_tokens: NotRequired[List[AuthTokenZscalerHecTypedDict]]
+    auth_tokens: NotRequired[List[CreateInputAuthTokenZscalerHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     max_active_req: NotRequired[float]
@@ -637,7 +641,8 @@ class CreateInputInputZscalerHec(BaseModel):
     pq: Optional[PqType] = None
 
     auth_tokens: Annotated[
-        Optional[List[AuthTokenZscalerHec]], pydantic.Field(alias="authTokens")
+        Optional[List[CreateInputAuthTokenZscalerHec]],
+        pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
@@ -1653,7 +1658,7 @@ class CreateInputManageState(BaseModel):
     pass
 
 
-class LogLevelWiz(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputLogLevelWiz(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Collector runtime log level"""
 
     ERROR = "error"
@@ -1663,7 +1668,7 @@ class LogLevelWiz(str, Enum, metaclass=utils.OpenEnumMeta):
     SILLY = "silly"
 
 
-class ContentConfigWizTypedDict(TypedDict):
+class CreateInputContentConfigWizTypedDict(TypedDict):
     content_type: str
     r"""The name of the Wiz query"""
     content_query: str
@@ -1685,13 +1690,13 @@ class ContentConfigWizTypedDict(TypedDict):
     manage_state: NotRequired[CreateInputManageStateTypedDict]
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
-    log_level: NotRequired[LogLevelWiz]
+    log_level: NotRequired[CreateInputLogLevelWiz]
     r"""Collector runtime log level"""
     max_pages: NotRequired[float]
     r"""Maximum number of pages to retrieve per collection task. Defaults to 0. Set to 0 to retrieve all pages."""
 
 
-class ContentConfigWiz(BaseModel):
+class CreateInputContentConfigWiz(BaseModel):
     content_type: Annotated[str, pydantic.Field(alias="contentType")]
     r"""The name of the Wiz query"""
 
@@ -1735,7 +1740,9 @@ class ContentConfigWiz(BaseModel):
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
 
-    log_level: Annotated[Optional[LogLevelWiz], pydantic.Field(alias="logLevel")] = None
+    log_level: Annotated[
+        Optional[CreateInputLogLevelWiz], pydantic.Field(alias="logLevel")
+    ] = None
     r"""Collector runtime log level"""
 
     max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
@@ -1745,7 +1752,7 @@ class ContentConfigWiz(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelWiz(value)
+                return models.CreateInputLogLevelWiz(value)
             except ValueError:
                 return value
         return value
@@ -1789,7 +1796,7 @@ class CreateInputInputWizTypedDict(TypedDict):
     r"""The authentication URL to generate an OAuth token"""
     client_id: str
     r"""The client ID of the Wiz application"""
-    content_config: List[ContentConfigWizTypedDict]
+    content_config: List[CreateInputContentConfigWizTypedDict]
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1850,7 +1857,7 @@ class CreateInputInputWiz(BaseModel):
     r"""The client ID of the Wiz application"""
 
     content_config: Annotated[
-        List[ContentConfigWiz], pydantic.Field(alias="contentConfig")
+        List[CreateInputContentConfigWiz], pydantic.Field(alias="contentConfig")
     ]
 
     disabled: Optional[bool] = None
@@ -2504,7 +2511,7 @@ class CreateInputTypeWef(str, Enum):
     WEF = "wef"
 
 
-class AuthenticationMethodWef(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationMethodWef(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to authenticate incoming client connections"""
 
     # Client certificate
@@ -2820,7 +2827,7 @@ class CreateInputInputWefTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    auth_method: NotRequired[AuthenticationMethodWef]
+    auth_method: NotRequired[CreateInputAuthenticationMethodWef]
     r"""How to authenticate incoming client connections"""
     tls: NotRequired[CreateInputMTLSSettingsTypedDict]
     max_active_req: NotRequired[float]
@@ -2900,7 +2907,7 @@ class CreateInputInputWef(BaseModel):
     pq: Optional[PqType] = None
 
     auth_method: Annotated[
-        Optional[AuthenticationMethodWef], pydantic.Field(alias="authMethod")
+        Optional[CreateInputAuthenticationMethodWef], pydantic.Field(alias="authMethod")
     ] = None
     r"""How to authenticate incoming client connections"""
 
@@ -2991,7 +2998,7 @@ class CreateInputInputWef(BaseModel):
     def serialize_auth_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodWef(value)
+                return models.CreateInputAuthenticationMethodWef(value)
             except ValueError:
                 return value
         return value
@@ -3084,14 +3091,14 @@ class CreateInputAllow(BaseModel):
         return m
 
 
-class FilterAppscopeTypedDict(TypedDict):
+class CreateInputFilterAppscopeTypedDict(TypedDict):
     allow: NotRequired[List[CreateInputAllowTypedDict]]
     r"""Specify processes that AppScope should be loaded into, and the config to use."""
     transport_url: NotRequired[str]
     r"""To override the UNIX domain socket or address/port specified in General Settings (while leaving Authentication settings as is), enter a URL."""
 
 
-class FilterAppscope(BaseModel):
+class CreateInputFilterAppscope(BaseModel):
     allow: Optional[List[CreateInputAllow]] = None
     r"""Specify processes that AppScope should be loaded into, and the config to use."""
 
@@ -3115,7 +3122,7 @@ class FilterAppscope(BaseModel):
         return m
 
 
-class PersistenceAppscopeTypedDict(TypedDict):
+class CreateInputPersistenceAppscopeTypedDict(TypedDict):
     enable: NotRequired[bool]
     r"""Spool events and metrics on disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -3129,7 +3136,7 @@ class PersistenceAppscopeTypedDict(TypedDict):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/appscope"""
 
 
-class PersistenceAppscope(BaseModel):
+class CreateInputPersistenceAppscope(BaseModel):
     enable: Optional[bool] = None
     r"""Spool events and metrics on disk for Cribl Edge and Search"""
 
@@ -3220,8 +3227,8 @@ class CreateInputInputAppscopeTypedDict(TypedDict):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     enable_unix_path: NotRequired[bool]
     r"""Toggle to Yes to specify a file-backed UNIX domain socket connection, instead of a network host and port."""
-    filter_: NotRequired[FilterAppscopeTypedDict]
-    persistence: NotRequired[PersistenceAppscopeTypedDict]
+    filter_: NotRequired[CreateInputFilterAppscopeTypedDict]
+    persistence: NotRequired[CreateInputPersistenceAppscopeTypedDict]
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     description: NotRequired[str]
@@ -3322,9 +3329,11 @@ class CreateInputInputAppscope(BaseModel):
     ] = None
     r"""Toggle to Yes to specify a file-backed UNIX domain socket connection, instead of a network host and port."""
 
-    filter_: Annotated[Optional[FilterAppscope], pydantic.Field(alias="filter")] = None
+    filter_: Annotated[
+        Optional[CreateInputFilterAppscope], pydantic.Field(alias="filter")
+    ] = None
 
-    persistence: Optional[PersistenceAppscope] = None
+    persistence: Optional[CreateInputPersistenceAppscope] = None
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
@@ -7393,14 +7402,14 @@ class CreateInputTypeDatadogAgent(str, Enum):
     DATADOG_AGENT = "datadog_agent"
 
 
-class ProxyModeDatadogAgentTypedDict(TypedDict):
+class CreateInputProxyModeDatadogAgentTypedDict(TypedDict):
     enabled: bool
     r"""Toggle to Yes to send key validation requests from Datadog Agent to the Datadog API. If toggled to No (the default), Stream handles key validation requests by always responding that the key is valid."""
     reject_unauthorized: NotRequired[bool]
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
 
 
-class ProxyModeDatadogAgent(BaseModel):
+class CreateInputProxyModeDatadogAgent(BaseModel):
     enabled: bool
     r"""Toggle to Yes to send key validation requests from Datadog Agent to the Datadog API. If toggled to No (the default), Stream handles key validation requests by always responding that the key is valid."""
 
@@ -7475,7 +7484,7 @@ class CreateInputInputDatadogAgentTypedDict(TypedDict):
     r"""Toggle to Yes to extract each incoming metric to multiple events, one per data point. This works well when sending metrics to a statsd-type output. If sending metrics to DatadogHQ or any destination that accepts arbitrary JSON, leave toggled to No (the default)."""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    proxy_mode: NotRequired[ProxyModeDatadogAgentTypedDict]
+    proxy_mode: NotRequired[CreateInputProxyModeDatadogAgentTypedDict]
     description: NotRequired[str]
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
@@ -7585,7 +7594,7 @@ class CreateInputInputDatadogAgent(BaseModel):
     r"""Fields to add to events from this input"""
 
     proxy_mode: Annotated[
-        Optional[ProxyModeDatadogAgent], pydantic.Field(alias="proxyMode")
+        Optional[CreateInputProxyModeDatadogAgent], pydantic.Field(alias="proxyMode")
     ] = None
 
     description: Optional[str] = None
@@ -8048,7 +8057,7 @@ class CreateInputTypeWindowsMetrics(str, Enum):
     WINDOWS_METRICS = "windows_metrics"
 
 
-class SystemModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for system metrics"""
 
     # Basic
@@ -8061,15 +8070,15 @@ class SystemModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class SystemWindowsMetricsTypedDict(TypedDict):
-    mode: NotRequired[SystemModeWindowsMetrics]
+class CreateInputSystemWindowsMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemModeWindowsMetrics]
     r"""Select the level of details for system metrics"""
     detail: NotRequired[bool]
     r"""Generate metrics for all system information"""
 
 
-class SystemWindowsMetrics(BaseModel):
-    mode: Optional[SystemModeWindowsMetrics] = None
+class CreateInputSystemWindowsMetrics(BaseModel):
+    mode: Optional[CreateInputSystemModeWindowsMetrics] = None
     r"""Select the level of details for system metrics"""
 
     detail: Optional[bool] = None
@@ -8079,7 +8088,7 @@ class SystemWindowsMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.SystemModeWindowsMetrics(value)
+                return models.CreateInputSystemModeWindowsMetrics(value)
             except ValueError:
                 return value
         return value
@@ -8101,7 +8110,7 @@ class SystemWindowsMetrics(BaseModel):
         return m
 
 
-class CPUModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCPUModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for CPU metrics"""
 
     # Basic
@@ -8114,8 +8123,8 @@ class CPUModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class CPUWindowsMetricsTypedDict(TypedDict):
-    mode: NotRequired[CPUModeWindowsMetrics]
+class CreateInputCPUWindowsMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputCPUModeWindowsMetrics]
     r"""Select the level of details for CPU metrics"""
     per_cpu: NotRequired[bool]
     r"""Generate metrics for each CPU"""
@@ -8125,8 +8134,8 @@ class CPUWindowsMetricsTypedDict(TypedDict):
     r"""Generate raw, monotonic CPU time counters"""
 
 
-class CPUWindowsMetrics(BaseModel):
-    mode: Optional[CPUModeWindowsMetrics] = None
+class CreateInputCPUWindowsMetrics(BaseModel):
+    mode: Optional[CreateInputCPUModeWindowsMetrics] = None
     r"""Select the level of details for CPU metrics"""
 
     per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = None
@@ -8142,7 +8151,7 @@ class CPUWindowsMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CPUModeWindowsMetrics(value)
+                return models.CreateInputCPUModeWindowsMetrics(value)
             except ValueError:
                 return value
         return value
@@ -8164,7 +8173,7 @@ class CPUWindowsMetrics(BaseModel):
         return m
 
 
-class MemoryModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputMemoryModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for memory metrics"""
 
     # Basic
@@ -8177,15 +8186,15 @@ class MemoryModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class MemoryWindowsMetricsTypedDict(TypedDict):
-    mode: NotRequired[MemoryModeWindowsMetrics]
+class CreateInputMemoryWindowsMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputMemoryModeWindowsMetrics]
     r"""Select the level of details for memory metrics"""
     detail: NotRequired[bool]
     r"""Generate metrics for all memory states"""
 
 
-class MemoryWindowsMetrics(BaseModel):
-    mode: Optional[MemoryModeWindowsMetrics] = None
+class CreateInputMemoryWindowsMetrics(BaseModel):
+    mode: Optional[CreateInputMemoryModeWindowsMetrics] = None
     r"""Select the level of details for memory metrics"""
 
     detail: Optional[bool] = None
@@ -8195,7 +8204,7 @@ class MemoryWindowsMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.MemoryModeWindowsMetrics(value)
+                return models.CreateInputMemoryModeWindowsMetrics(value)
             except ValueError:
                 return value
         return value
@@ -8217,7 +8226,7 @@ class MemoryWindowsMetrics(BaseModel):
         return m
 
 
-class NetworkModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputNetworkModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for network metrics"""
 
     # Basic
@@ -8230,8 +8239,8 @@ class NetworkModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class NetworkWindowsMetricsTypedDict(TypedDict):
-    mode: NotRequired[NetworkModeWindowsMetrics]
+class CreateInputNetworkWindowsMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputNetworkModeWindowsMetrics]
     r"""Select the level of details for network metrics"""
     detail: NotRequired[bool]
     r"""Generate full network metrics"""
@@ -8243,8 +8252,8 @@ class NetworkWindowsMetricsTypedDict(TypedDict):
     r"""Generate separate metrics for each interface"""
 
 
-class NetworkWindowsMetrics(BaseModel):
-    mode: Optional[NetworkModeWindowsMetrics] = None
+class CreateInputNetworkWindowsMetrics(BaseModel):
+    mode: Optional[CreateInputNetworkModeWindowsMetrics] = None
     r"""Select the level of details for network metrics"""
 
     detail: Optional[bool] = None
@@ -8265,7 +8274,7 @@ class NetworkWindowsMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.NetworkModeWindowsMetrics(value)
+                return models.CreateInputNetworkModeWindowsMetrics(value)
             except ValueError:
                 return value
         return value
@@ -8289,7 +8298,7 @@ class NetworkWindowsMetrics(BaseModel):
         return m
 
 
-class DiskModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputDiskModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of details for disk metrics"""
 
     # Basic
@@ -8302,8 +8311,8 @@ class DiskModeWindowsMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class DiskWindowsMetricsTypedDict(TypedDict):
-    mode: NotRequired[DiskModeWindowsMetrics]
+class CreateInputDiskWindowsMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputDiskModeWindowsMetrics]
     r"""Select the level of details for disk metrics"""
     per_volume: NotRequired[bool]
     r"""Generate separate metrics for each volume"""
@@ -8313,8 +8322,8 @@ class DiskWindowsMetricsTypedDict(TypedDict):
     r"""Windows volumes to include/exclude. E.g.: C:, !E:, etc. Wildcards and ! (not) operators are supported. All volumes are included if this list is empty."""
 
 
-class DiskWindowsMetrics(BaseModel):
-    mode: Optional[DiskModeWindowsMetrics] = None
+class CreateInputDiskWindowsMetrics(BaseModel):
+    mode: Optional[CreateInputDiskModeWindowsMetrics] = None
     r"""Select the level of details for disk metrics"""
 
     per_volume: Annotated[Optional[bool], pydantic.Field(alias="perVolume")] = None
@@ -8330,7 +8339,7 @@ class DiskWindowsMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.DiskModeWindowsMetrics(value)
+                return models.CreateInputDiskModeWindowsMetrics(value)
             except ValueError:
                 return value
         return value
@@ -8352,24 +8361,24 @@ class DiskWindowsMetrics(BaseModel):
         return m
 
 
-class CustomWindowsMetricsTypedDict(TypedDict):
-    system: NotRequired[SystemWindowsMetricsTypedDict]
-    cpu: NotRequired[CPUWindowsMetricsTypedDict]
-    memory: NotRequired[MemoryWindowsMetricsTypedDict]
-    network: NotRequired[NetworkWindowsMetricsTypedDict]
-    disk: NotRequired[DiskWindowsMetricsTypedDict]
+class CreateInputCustomWindowsMetricsTypedDict(TypedDict):
+    system: NotRequired[CreateInputSystemWindowsMetricsTypedDict]
+    cpu: NotRequired[CreateInputCPUWindowsMetricsTypedDict]
+    memory: NotRequired[CreateInputMemoryWindowsMetricsTypedDict]
+    network: NotRequired[CreateInputNetworkWindowsMetricsTypedDict]
+    disk: NotRequired[CreateInputDiskWindowsMetricsTypedDict]
 
 
-class CustomWindowsMetrics(BaseModel):
-    system: Optional[SystemWindowsMetrics] = None
+class CreateInputCustomWindowsMetrics(BaseModel):
+    system: Optional[CreateInputSystemWindowsMetrics] = None
 
-    cpu: Optional[CPUWindowsMetrics] = None
+    cpu: Optional[CreateInputCPUWindowsMetrics] = None
 
-    memory: Optional[MemoryWindowsMetrics] = None
+    memory: Optional[CreateInputMemoryWindowsMetrics] = None
 
-    network: Optional[NetworkWindowsMetrics] = None
+    network: Optional[CreateInputNetworkWindowsMetrics] = None
 
-    disk: Optional[DiskWindowsMetrics] = None
+    disk: Optional[CreateInputDiskWindowsMetrics] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -8388,17 +8397,17 @@ class CustomWindowsMetrics(BaseModel):
         return m
 
 
-class HostWindowsMetricsTypedDict(TypedDict):
+class CreateInputHostWindowsMetricsTypedDict(TypedDict):
     mode: NotRequired[ModeOptionsHost]
     r"""Select level of detail for host metrics"""
-    custom: NotRequired[CustomWindowsMetricsTypedDict]
+    custom: NotRequired[CreateInputCustomWindowsMetricsTypedDict]
 
 
-class HostWindowsMetrics(BaseModel):
+class CreateInputHostWindowsMetrics(BaseModel):
     mode: Optional[ModeOptionsHost] = None
     r"""Select level of detail for host metrics"""
 
-    custom: Optional[CustomWindowsMetrics] = None
+    custom: Optional[CreateInputCustomWindowsMetrics] = None
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -8426,7 +8435,7 @@ class HostWindowsMetrics(BaseModel):
         return m
 
 
-class PersistenceWindowsMetricsTypedDict(TypedDict):
+class CreateInputPersistenceWindowsMetricsTypedDict(TypedDict):
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -8440,7 +8449,7 @@ class PersistenceWindowsMetricsTypedDict(TypedDict):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/windows_metrics"""
 
 
-class PersistenceWindowsMetrics(BaseModel):
+class CreateInputPersistenceWindowsMetrics(BaseModel):
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -8513,11 +8522,11 @@ class CreateInputInputWindowsMetricsTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
-    host: NotRequired[HostWindowsMetricsTypedDict]
+    host: NotRequired[CreateInputHostWindowsMetricsTypedDict]
     process: NotRequired[ProcessTypeTypedDict]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    persistence: NotRequired[PersistenceWindowsMetricsTypedDict]
+    persistence: NotRequired[CreateInputPersistenceWindowsMetricsTypedDict]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
     description: NotRequired[str]
@@ -8556,14 +8565,14 @@ class CreateInputInputWindowsMetrics(BaseModel):
     interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
-    host: Optional[HostWindowsMetrics] = None
+    host: Optional[CreateInputHostWindowsMetrics] = None
 
     process: Optional[ProcessType] = None
 
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to events from this input"""
 
-    persistence: Optional[PersistenceWindowsMetrics] = None
+    persistence: Optional[CreateInputPersistenceWindowsMetrics] = None
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
@@ -8709,14 +8718,14 @@ class CreateInputTypeKubeLogs(str, Enum):
     KUBE_LOGS = "kube_logs"
 
 
-class RuleKubeLogsTypedDict(TypedDict):
+class CreateInputRuleKubeLogsTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression applied to Pod objects. Return 'true' to include it."""
     description: NotRequired[str]
     r"""Optional description of this rule's purpose"""
 
 
-class RuleKubeLogs(BaseModel):
+class CreateInputRuleKubeLogs(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression applied to Pod objects. Return 'true' to include it."""
 
@@ -8760,7 +8769,7 @@ class CreateInputInputKubeLogsTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
-    rules: NotRequired[List[RuleKubeLogsTypedDict]]
+    rules: NotRequired[List[CreateInputRuleKubeLogsTypedDict]]
     r"""Add rules to decide which Pods to collect logs from. Logs are collected if no rules are given or if all the rules' expressions evaluate to true."""
     timestamps: NotRequired[bool]
     r"""For use when containers do not emit a timestamp, prefix each line of output with a timestamp. If you enable this setting, you can use the Kubernetes Logs Event Breaker and the kubernetes_logs Pre-processing Pipeline to remove them from the events after the timestamps are extracted."""
@@ -8809,7 +8818,7 @@ class CreateInputInputKubeLogs(BaseModel):
     interval: Optional[float] = None
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
 
-    rules: Optional[List[RuleKubeLogs]] = None
+    rules: Optional[List[CreateInputRuleKubeLogs]] = None
     r"""Add rules to decide which Pods to collect logs from. Logs are collected if no rules are given or if all the rules' expressions evaluate to true."""
 
     timestamps: Optional[bool] = None
@@ -8878,7 +8887,7 @@ class CreateInputTypeKubeMetrics(str, Enum):
     KUBE_METRICS = "kube_metrics"
 
 
-class PersistenceKubeMetricsTypedDict(TypedDict):
+class CreateInputPersistenceKubeMetricsTypedDict(TypedDict):
     enable: NotRequired[bool]
     r"""Spool metrics on disk for Cribl Search"""
     time_window: NotRequired[str]
@@ -8892,7 +8901,7 @@ class PersistenceKubeMetricsTypedDict(TypedDict):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
 
 
-class PersistenceKubeMetrics(BaseModel):
+class CreateInputPersistenceKubeMetrics(BaseModel):
     enable: Optional[bool] = None
     r"""Spool metrics on disk for Cribl Search"""
 
@@ -8969,7 +8978,7 @@ class CreateInputInputKubeMetricsTypedDict(TypedDict):
     r"""Add rules to decide which Kubernetes objects to generate metrics for. Events are generated if no rules are given or of all the rules' expressions evaluate to true."""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    persistence: NotRequired[PersistenceKubeMetricsTypedDict]
+    persistence: NotRequired[CreateInputPersistenceKubeMetricsTypedDict]
     description: NotRequired[str]
 
 
@@ -9012,7 +9021,7 @@ class CreateInputInputKubeMetrics(BaseModel):
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to events from this input"""
 
-    persistence: Optional[PersistenceKubeMetrics] = None
+    persistence: Optional[CreateInputPersistenceKubeMetrics] = None
 
     description: Optional[str] = None
 
@@ -9453,7 +9462,7 @@ class CreateInputCollectors(BaseModel):
         return m
 
 
-class PersistenceSystemStateTypedDict(TypedDict):
+class CreateInputPersistenceSystemStateTypedDict(TypedDict):
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -9467,7 +9476,7 @@ class PersistenceSystemStateTypedDict(TypedDict):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
 
 
-class PersistenceSystemState(BaseModel):
+class CreateInputPersistenceSystemState(BaseModel):
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -9543,7 +9552,7 @@ class CreateInputInputSystemStateTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     collectors: NotRequired[CreateInputCollectorsTypedDict]
-    persistence: NotRequired[PersistenceSystemStateTypedDict]
+    persistence: NotRequired[CreateInputPersistenceSystemStateTypedDict]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     disable_native_last_log_module: NotRequired[bool]
@@ -9589,7 +9598,7 @@ class CreateInputInputSystemState(BaseModel):
 
     collectors: Optional[CreateInputCollectors] = None
 
-    persistence: Optional[PersistenceSystemState] = None
+    persistence: Optional[CreateInputPersistenceSystemState] = None
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
@@ -9642,7 +9651,7 @@ class CreateInputTypeSystemMetrics(str, Enum):
     SYSTEM_METRICS = "system_metrics"
 
 
-class SystemModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for system metrics"""
 
     # Basic
@@ -9655,15 +9664,15 @@ class SystemModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class SystemSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[SystemModeSystemMetrics]
+class CreateInputSystemSystemMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemModeSystemMetrics]
     r"""Select the level of detail for system metrics"""
     processes: NotRequired[bool]
     r"""Generate metrics for the numbers of processes in various states"""
 
 
-class SystemSystemMetrics(BaseModel):
-    mode: Optional[SystemModeSystemMetrics] = None
+class CreateInputSystemSystemMetrics(BaseModel):
+    mode: Optional[CreateInputSystemModeSystemMetrics] = None
     r"""Select the level of detail for system metrics"""
 
     processes: Optional[bool] = None
@@ -9673,7 +9682,7 @@ class SystemSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.SystemModeSystemMetrics(value)
+                return models.CreateInputSystemModeSystemMetrics(value)
             except ValueError:
                 return value
         return value
@@ -9695,7 +9704,7 @@ class SystemSystemMetrics(BaseModel):
         return m
 
 
-class CPUModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputCPUModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for CPU metrics"""
 
     # Basic
@@ -9708,8 +9717,8 @@ class CPUModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class CPUSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CPUModeSystemMetrics]
+class CreateInputCPUSystemMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputCPUModeSystemMetrics]
     r"""Select the level of detail for CPU metrics"""
     per_cpu: NotRequired[bool]
     r"""Generate metrics for each CPU"""
@@ -9719,8 +9728,8 @@ class CPUSystemMetricsTypedDict(TypedDict):
     r"""Generate raw, monotonic CPU time counters"""
 
 
-class CPUSystemMetrics(BaseModel):
-    mode: Optional[CPUModeSystemMetrics] = None
+class CreateInputCPUSystemMetrics(BaseModel):
+    mode: Optional[CreateInputCPUModeSystemMetrics] = None
     r"""Select the level of detail for CPU metrics"""
 
     per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = None
@@ -9736,7 +9745,7 @@ class CPUSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CPUModeSystemMetrics(value)
+                return models.CreateInputCPUModeSystemMetrics(value)
             except ValueError:
                 return value
         return value
@@ -9758,7 +9767,7 @@ class CPUSystemMetrics(BaseModel):
         return m
 
 
-class MemoryModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputMemoryModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for memory metrics"""
 
     # Basic
@@ -9771,15 +9780,15 @@ class MemoryModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class MemorySystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[MemoryModeSystemMetrics]
+class CreateInputMemorySystemMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputMemoryModeSystemMetrics]
     r"""Select the level of detail for memory metrics"""
     detail: NotRequired[bool]
     r"""Generate metrics for all memory states"""
 
 
-class MemorySystemMetrics(BaseModel):
-    mode: Optional[MemoryModeSystemMetrics] = None
+class CreateInputMemorySystemMetrics(BaseModel):
+    mode: Optional[CreateInputMemoryModeSystemMetrics] = None
     r"""Select the level of detail for memory metrics"""
 
     detail: Optional[bool] = None
@@ -9789,7 +9798,7 @@ class MemorySystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.MemoryModeSystemMetrics(value)
+                return models.CreateInputMemoryModeSystemMetrics(value)
             except ValueError:
                 return value
         return value
@@ -9811,7 +9820,7 @@ class MemorySystemMetrics(BaseModel):
         return m
 
 
-class NetworkModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputNetworkModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for network metrics"""
 
     # Basic
@@ -9824,8 +9833,8 @@ class NetworkModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class NetworkSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[NetworkModeSystemMetrics]
+class CreateInputNetworkSystemMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputNetworkModeSystemMetrics]
     r"""Select the level of detail for network metrics"""
     detail: NotRequired[bool]
     r"""Generate full network metrics"""
@@ -9837,8 +9846,8 @@ class NetworkSystemMetricsTypedDict(TypedDict):
     r"""Generate separate metrics for each interface"""
 
 
-class NetworkSystemMetrics(BaseModel):
-    mode: Optional[NetworkModeSystemMetrics] = None
+class CreateInputNetworkSystemMetrics(BaseModel):
+    mode: Optional[CreateInputNetworkModeSystemMetrics] = None
     r"""Select the level of detail for network metrics"""
 
     detail: Optional[bool] = None
@@ -9859,7 +9868,7 @@ class NetworkSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.NetworkModeSystemMetrics(value)
+                return models.CreateInputNetworkModeSystemMetrics(value)
             except ValueError:
                 return value
         return value
@@ -9883,7 +9892,7 @@ class NetworkSystemMetrics(BaseModel):
         return m
 
 
-class DiskModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputDiskModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for disk metrics"""
 
     # Basic
@@ -9896,8 +9905,8 @@ class DiskModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class DiskSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[DiskModeSystemMetrics]
+class CreateInputDiskSystemMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputDiskModeSystemMetrics]
     r"""Select the level of detail for disk metrics"""
     detail: NotRequired[bool]
     r"""Generate full disk metrics"""
@@ -9913,8 +9922,8 @@ class DiskSystemMetricsTypedDict(TypedDict):
     r"""Generate separate metrics for each device"""
 
 
-class DiskSystemMetrics(BaseModel):
-    mode: Optional[DiskModeSystemMetrics] = None
+class CreateInputDiskSystemMetrics(BaseModel):
+    mode: Optional[CreateInputDiskModeSystemMetrics] = None
     r"""Select the level of detail for disk metrics"""
 
     detail: Optional[bool] = None
@@ -9939,7 +9948,7 @@ class DiskSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.DiskModeSystemMetrics(value)
+                return models.CreateInputDiskModeSystemMetrics(value)
             except ValueError:
                 return value
         return value
@@ -9971,24 +9980,24 @@ class DiskSystemMetrics(BaseModel):
         return m
 
 
-class CustomSystemMetricsTypedDict(TypedDict):
-    system: NotRequired[SystemSystemMetricsTypedDict]
-    cpu: NotRequired[CPUSystemMetricsTypedDict]
-    memory: NotRequired[MemorySystemMetricsTypedDict]
-    network: NotRequired[NetworkSystemMetricsTypedDict]
-    disk: NotRequired[DiskSystemMetricsTypedDict]
+class CreateInputCustomSystemMetricsTypedDict(TypedDict):
+    system: NotRequired[CreateInputSystemSystemMetricsTypedDict]
+    cpu: NotRequired[CreateInputCPUSystemMetricsTypedDict]
+    memory: NotRequired[CreateInputMemorySystemMetricsTypedDict]
+    network: NotRequired[CreateInputNetworkSystemMetricsTypedDict]
+    disk: NotRequired[CreateInputDiskSystemMetricsTypedDict]
 
 
-class CustomSystemMetrics(BaseModel):
-    system: Optional[SystemSystemMetrics] = None
+class CreateInputCustomSystemMetrics(BaseModel):
+    system: Optional[CreateInputSystemSystemMetrics] = None
 
-    cpu: Optional[CPUSystemMetrics] = None
+    cpu: Optional[CreateInputCPUSystemMetrics] = None
 
-    memory: Optional[MemorySystemMetrics] = None
+    memory: Optional[CreateInputMemorySystemMetrics] = None
 
-    network: Optional[NetworkSystemMetrics] = None
+    network: Optional[CreateInputNetworkSystemMetrics] = None
 
-    disk: Optional[DiskSystemMetrics] = None
+    disk: Optional[CreateInputDiskSystemMetrics] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -10007,17 +10016,17 @@ class CustomSystemMetrics(BaseModel):
         return m
 
 
-class HostSystemMetricsTypedDict(TypedDict):
+class CreateInputHostSystemMetricsTypedDict(TypedDict):
     mode: NotRequired[ModeOptionsHost]
     r"""Select level of detail for host metrics"""
-    custom: NotRequired[CustomSystemMetricsTypedDict]
+    custom: NotRequired[CreateInputCustomSystemMetricsTypedDict]
 
 
-class HostSystemMetrics(BaseModel):
+class CreateInputHostSystemMetrics(BaseModel):
     mode: Optional[ModeOptionsHost] = None
     r"""Select level of detail for host metrics"""
 
-    custom: Optional[CustomSystemMetrics] = None
+    custom: Optional[CreateInputCustomSystemMetrics] = None
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -10045,7 +10054,7 @@ class HostSystemMetrics(BaseModel):
         return m
 
 
-class ContainerModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for container metrics"""
 
     # Basic
@@ -10058,22 +10067,22 @@ class ContainerModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class FilterSystemMetricsTypedDict(TypedDict):
+class CreateInputFilterSystemMetricsTypedDict(TypedDict):
     expr: str
 
 
-class FilterSystemMetrics(BaseModel):
+class CreateInputFilterSystemMetrics(BaseModel):
     expr: str
 
 
 class CreateInputContainerTypedDict(TypedDict):
-    mode: NotRequired[ContainerModeSystemMetrics]
+    mode: NotRequired[CreateInputContainerMode]
     r"""Select the level of detail for container metrics"""
     docker_socket: NotRequired[List[str]]
     r"""Full paths for Docker's UNIX-domain socket"""
     docker_timeout: NotRequired[float]
     r"""Timeout, in seconds, for the Docker API"""
-    filters: NotRequired[List[FilterSystemMetricsTypedDict]]
+    filters: NotRequired[List[CreateInputFilterSystemMetricsTypedDict]]
     r"""Containers matching any of these will be included. All are included if no filters are added."""
     all_containers: NotRequired[bool]
     r"""Include stopped and paused containers"""
@@ -10084,7 +10093,7 @@ class CreateInputContainerTypedDict(TypedDict):
 
 
 class CreateInputContainer(BaseModel):
-    mode: Optional[ContainerModeSystemMetrics] = None
+    mode: Optional[CreateInputContainerMode] = None
     r"""Select the level of detail for container metrics"""
 
     docker_socket: Annotated[
@@ -10097,7 +10106,7 @@ class CreateInputContainer(BaseModel):
     ] = None
     r"""Timeout, in seconds, for the Docker API"""
 
-    filters: Optional[List[FilterSystemMetrics]] = None
+    filters: Optional[List[CreateInputFilterSystemMetrics]] = None
     r"""Containers matching any of these will be included. All are included if no filters are added."""
 
     all_containers: Annotated[Optional[bool], pydantic.Field(alias="allContainers")] = (
@@ -10115,7 +10124,7 @@ class CreateInputContainer(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.ContainerModeSystemMetrics(value)
+                return models.CreateInputContainerMode(value)
             except ValueError:
                 return value
         return value
@@ -10147,7 +10156,7 @@ class CreateInputContainer(BaseModel):
         return m
 
 
-class PersistenceSystemMetricsTypedDict(TypedDict):
+class CreateInputPersistenceSystemMetricsTypedDict(TypedDict):
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -10161,7 +10170,7 @@ class PersistenceSystemMetricsTypedDict(TypedDict):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
 
 
-class PersistenceSystemMetrics(BaseModel):
+class CreateInputPersistenceSystemMetrics(BaseModel):
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -10234,12 +10243,12 @@ class CreateInputInputSystemMetricsTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
-    host: NotRequired[HostSystemMetricsTypedDict]
+    host: NotRequired[CreateInputHostSystemMetricsTypedDict]
     process: NotRequired[ProcessTypeTypedDict]
     container: NotRequired[CreateInputContainerTypedDict]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    persistence: NotRequired[PersistenceSystemMetricsTypedDict]
+    persistence: NotRequired[CreateInputPersistenceSystemMetricsTypedDict]
     description: NotRequired[str]
 
 
@@ -10276,7 +10285,7 @@ class CreateInputInputSystemMetrics(BaseModel):
     interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
-    host: Optional[HostSystemMetrics] = None
+    host: Optional[CreateInputHostSystemMetrics] = None
 
     process: Optional[ProcessType] = None
 
@@ -10285,7 +10294,7 @@ class CreateInputInputSystemMetrics(BaseModel):
     metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
     r"""Fields to add to events from this input"""
 
-    persistence: Optional[PersistenceSystemMetrics] = None
+    persistence: Optional[CreateInputPersistenceSystemMetrics] = None
 
     description: Optional[str] = None
 
@@ -12256,7 +12265,9 @@ class CreateInputTypeOffice365MsgTrace(str, Enum):
     OFFICE365_MSG_TRACE = "office365_msg_trace"
 
 
-class AuthenticationMethodOffice365MsgTrace(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationMethodOffice365MsgTrace(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select authentication method."""
 
     MANUAL = "manual"
@@ -12266,7 +12277,7 @@ class AuthenticationMethodOffice365MsgTrace(str, Enum, metaclass=utils.OpenEnumM
     OAUTH_CERT = "oauthCert"
 
 
-class LogLevelOffice365MsgTrace(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputLogLevelOffice365MsgTrace(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Log Level (verbosity) for collection runtime behavior."""
 
     ERROR = "error"
@@ -12349,13 +12360,13 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[AuthenticationMethodOffice365MsgTrace]
+    auth_type: NotRequired[CreateInputAuthenticationMethodOffice365MsgTrace]
     r"""Select authentication method."""
     reschedule_dropped_tasks: NotRequired[bool]
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
     r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[LogLevelOffice365MsgTrace]
+    log_level: NotRequired[CreateInputLogLevelOffice365MsgTrace]
     r"""Log Level (verbosity) for collection runtime behavior."""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
@@ -12451,7 +12462,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOffice365MsgTrace],
+        Optional[CreateInputAuthenticationMethodOffice365MsgTrace],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
@@ -12467,7 +12478,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[LogLevelOffice365MsgTrace], pydantic.Field(alias="logLevel")
+        Optional[CreateInputLogLevelOffice365MsgTrace], pydantic.Field(alias="logLevel")
     ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
@@ -12560,7 +12571,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOffice365MsgTrace(value)
+                return models.CreateInputAuthenticationMethodOffice365MsgTrace(value)
             except ValueError:
                 return value
         return value
@@ -12569,7 +12580,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelOffice365MsgTrace(value)
+                return models.CreateInputLogLevelOffice365MsgTrace(value)
             except ValueError:
                 return value
         return value
@@ -12645,7 +12656,7 @@ class CreateInputTypeOffice365Service(str, Enum):
     OFFICE365_SERVICE = "office365_service"
 
 
-class ContentConfigOffice365ServiceTypedDict(TypedDict):
+class CreateInputContentConfigOffice365ServiceTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Office 365 Services API Content Type"""
     description: NotRequired[str]
@@ -12656,7 +12667,7 @@ class ContentConfigOffice365ServiceTypedDict(TypedDict):
     enabled: NotRequired[bool]
 
 
-class ContentConfigOffice365Service(BaseModel):
+class CreateInputContentConfigOffice365Service(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Office 365 Services API Content Type"""
 
@@ -12738,7 +12749,7 @@ class CreateInputInputOffice365ServiceTypedDict(TypedDict):
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    content_config: NotRequired[List[ContentConfigOffice365ServiceTypedDict]]
+    content_config: NotRequired[List[CreateInputContentConfigOffice365ServiceTypedDict]]
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
     auth_type: NotRequired[AuthenticationMethodOptions1]
@@ -12825,7 +12836,7 @@ class CreateInputInputOffice365Service(BaseModel):
     r"""Fields to add to events from this input"""
 
     content_config: Annotated[
-        Optional[List[ContentConfigOffice365Service]],
+        Optional[List[CreateInputContentConfigOffice365Service]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
@@ -12929,7 +12940,7 @@ class CreateInputTypeOffice365Mgmt(str, Enum):
     OFFICE365_MGMT = "office365_mgmt"
 
 
-class ContentConfigOffice365MgmtTypedDict(TypedDict):
+class CreateInputContentConfigOffice365MgmtTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Office 365 Management Activity API Content Type"""
     description: NotRequired[str]
@@ -12940,7 +12951,7 @@ class ContentConfigOffice365MgmtTypedDict(TypedDict):
     enabled: NotRequired[bool]
 
 
-class ContentConfigOffice365Mgmt(BaseModel):
+class CreateInputContentConfigOffice365Mgmt(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Office 365 Management Activity API Content Type"""
 
@@ -13024,7 +13035,7 @@ class CreateInputInputOffice365MgmtTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     publisher_identifier: NotRequired[str]
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
-    content_config: NotRequired[List[ContentConfigOffice365MgmtTypedDict]]
+    content_config: NotRequired[List[CreateInputContentConfigOffice365MgmtTypedDict]]
     r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
@@ -13118,7 +13129,7 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
 
     content_config: Annotated[
-        Optional[List[ContentConfigOffice365Mgmt]],
+        Optional[List[CreateInputContentConfigOffice365Mgmt]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
@@ -13234,7 +13245,7 @@ class CreateInputTypeEdgePrometheus(str, Enum):
     EDGE_PROMETHEUS = "edge_prometheus"
 
 
-class DiscoveryTypeEdgePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputDiscoveryTypeEdgePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     # Static
@@ -13249,7 +13260,9 @@ class DiscoveryTypeEdgePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
     K8S_PODS = "k8s-pods"
 
 
-class AuthenticationMethodEdgePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationMethodEdgePrometheus(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Enter credentials directly, or select a stored secret"""
 
     MANUAL = "manual"
@@ -13342,7 +13355,7 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputTypeEdgePrometheus
-    discovery_type: DiscoveryTypeEdgePrometheus
+    discovery_type: CreateInputDiscoveryTypeEdgePrometheus
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     interval: float
     r"""How often in seconds to scrape targets for metrics."""
@@ -13367,7 +13380,7 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     persistence: NotRequired[DiskSpoolingTypeTypedDict]
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_type: NotRequired[AuthenticationMethodEdgePrometheus]
+    auth_type: NotRequired[CreateInputAuthenticationMethodEdgePrometheus]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
     targets: NotRequired[List[CreateInputTargetTypedDict]]
@@ -13446,7 +13459,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     type: CreateInputTypeEdgePrometheus
 
     discovery_type: Annotated[
-        DiscoveryTypeEdgePrometheus, pydantic.Field(alias="discoveryType")
+        CreateInputDiscoveryTypeEdgePrometheus, pydantic.Field(alias="discoveryType")
     ]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
@@ -13491,7 +13504,8 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodEdgePrometheus], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationMethodEdgePrometheus],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -13646,7 +13660,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
             try:
-                return models.DiscoveryTypeEdgePrometheus(value)
+                return models.CreateInputDiscoveryTypeEdgePrometheus(value)
             except ValueError:
                 return value
         return value
@@ -13655,7 +13669,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodEdgePrometheus(value)
+                return models.CreateInputAuthenticationMethodEdgePrometheus(value)
             except ValueError:
                 return value
         return value
@@ -13767,7 +13781,7 @@ class CreateInputTypePrometheus(str, Enum):
     PROMETHEUS = "prometheus"
 
 
-class DiscoveryTypePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputDiscoveryTypePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     # Static
@@ -13778,7 +13792,7 @@ class DiscoveryTypePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
     EC2 = "ec2"
 
 
-class LogLevelPrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputLogLevelPrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Collector runtime log level"""
 
     ERROR = "error"
@@ -13800,7 +13814,7 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     type: CreateInputTypePrometheus
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
-    log_level: LogLevelPrometheus
+    log_level: CreateInputLogLevelPrometheus
     r"""Collector runtime log level"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -13818,7 +13832,7 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
-    discovery_type: NotRequired[DiscoveryTypePrometheus]
+    discovery_type: NotRequired[CreateInputDiscoveryTypePrometheus]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
@@ -13906,7 +13920,9 @@ class CreateInputInputPrometheus(BaseModel):
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
 
-    log_level: Annotated[LogLevelPrometheus, pydantic.Field(alias="logLevel")]
+    log_level: Annotated[
+        CreateInputLogLevelPrometheus, pydantic.Field(alias="logLevel")
+    ]
     r"""Collector runtime log level"""
 
     disabled: Optional[bool] = None
@@ -13939,7 +13955,8 @@ class CreateInputInputPrometheus(BaseModel):
     r"""Other dimensions to include in events"""
 
     discovery_type: Annotated[
-        Optional[DiscoveryTypePrometheus], pydantic.Field(alias="discoveryType")
+        Optional[CreateInputDiscoveryTypePrometheus],
+        pydantic.Field(alias="discoveryType"),
     ] = None
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
@@ -14110,7 +14127,7 @@ class CreateInputInputPrometheus(BaseModel):
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
             try:
-                return models.DiscoveryTypePrometheus(value)
+                return models.CreateInputDiscoveryTypePrometheus(value)
             except ValueError:
                 return value
         return value
@@ -14119,7 +14136,7 @@ class CreateInputInputPrometheus(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelPrometheus(value)
+                return models.CreateInputLogLevelPrometheus(value)
             except ValueError:
                 return value
         return value
@@ -15809,7 +15826,7 @@ class CreateInputTypeElastic(str, Enum):
     ELASTIC = "elastic"
 
 
-class AuthenticationTypeElastic(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationTypeElastic(str, Enum, metaclass=utils.OpenEnumMeta):
     # None
     NONE = "none"
     # Basic
@@ -15831,7 +15848,7 @@ class CreateInputAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "custom"
 
 
-class AuthenticationMethodElastic(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationMethodElastic(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Enter credentials directly, or select a stored secret"""
 
     NONE = "none"
@@ -15839,10 +15856,10 @@ class AuthenticationMethodElastic(str, Enum, metaclass=utils.OpenEnumMeta):
     SECRET = "secret"
 
 
-class ProxyModeElasticTypedDict(TypedDict):
+class CreateInputProxyModeElasticTypedDict(TypedDict):
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
-    auth_type: NotRequired[AuthenticationMethodElastic]
+    auth_type: NotRequired[CreateInputAuthenticationMethodElastic]
     r"""Enter credentials directly, or select a stored secret"""
     username: NotRequired[str]
     password: NotRequired[str]
@@ -15860,12 +15877,13 @@ class ProxyModeElasticTypedDict(TypedDict):
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
-class ProxyModeElastic(BaseModel):
+class CreateInputProxyModeElastic(BaseModel):
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodElastic], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationMethodElastic],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -15903,7 +15921,7 @@ class ProxyModeElastic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodElastic(value)
+                return models.CreateInputAuthenticationMethodElastic(value)
             except ValueError:
                 return value
         return value
@@ -15984,14 +16002,14 @@ class CreateInputInputElasticTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    auth_type: NotRequired[AuthenticationTypeElastic]
+    auth_type: NotRequired[CreateInputAuthenticationTypeElastic]
     api_version: NotRequired[CreateInputAPIVersion]
     r"""The API version to use for communicating with the server"""
     extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
     r"""Headers to add to all events"""
     metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    proxy_mode: NotRequired[ProxyModeElasticTypedDict]
+    proxy_mode: NotRequired[CreateInputProxyModeElasticTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
     password: NotRequired[str]
@@ -16104,7 +16122,7 @@ class CreateInputInputElastic(BaseModel):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
     auth_type: Annotated[
-        Optional[AuthenticationTypeElastic], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationTypeElastic], pydantic.Field(alias="authType")
     ] = None
 
     api_version: Annotated[
@@ -16122,7 +16140,7 @@ class CreateInputInputElastic(BaseModel):
     r"""Fields to add to events from this input"""
 
     proxy_mode: Annotated[
-        Optional[ProxyModeElastic], pydantic.Field(alias="proxyMode")
+        Optional[CreateInputProxyModeElastic], pydantic.Field(alias="proxyMode")
     ] = None
 
     description: Optional[str] = None
@@ -16160,7 +16178,7 @@ class CreateInputInputElastic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationTypeElastic(value)
+                return models.CreateInputAuthenticationTypeElastic(value)
             except ValueError:
                 return value
         return value
@@ -16509,7 +16527,7 @@ class CreateInputTypeSplunkHec(str, Enum):
     SPLUNK_HEC = "splunk_hec"
 
 
-class AuthTokenSplunkHecTypedDict(TypedDict):
+class CreateInputAuthTokenSplunkHecTypedDict(TypedDict):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
@@ -16525,7 +16543,7 @@ class AuthTokenSplunkHecTypedDict(TypedDict):
     r"""Fields to add to events referencing this token"""
 
 
-class AuthTokenSplunkHec(BaseModel):
+class CreateInputAuthTokenSplunkHec(BaseModel):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
@@ -16610,7 +16628,7 @@ class CreateInputInputSplunkHecTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    auth_tokens: NotRequired[List[AuthTokenSplunkHecTypedDict]]
+    auth_tokens: NotRequired[List[CreateInputAuthTokenSplunkHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     max_active_req: NotRequired[float]
@@ -16705,7 +16723,8 @@ class CreateInputInputSplunkHec(BaseModel):
     pq: Optional[PqType] = None
 
     auth_tokens: Annotated[
-        Optional[List[AuthTokenSplunkHec]], pydantic.Field(alias="authTokens")
+        Optional[List[CreateInputAuthTokenSplunkHec]],
+        pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
@@ -16921,7 +16940,7 @@ class CreateInputEndpointHeader(BaseModel):
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class LogLevelSplunkSearch(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputLogLevelSplunkSearch(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Collector runtime log level (verbosity)"""
 
     ERROR = "error"
@@ -16930,7 +16949,9 @@ class LogLevelSplunkSearch(str, Enum, metaclass=utils.OpenEnumMeta):
     DEBUG = "debug"
 
 
-class AuthenticationTypeSplunkSearch(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationTypeSplunkSearch(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Splunk Search authentication type"""
 
     # None
@@ -16981,7 +17002,7 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     r"""Optional request parameters to send to the endpoint"""
     endpoint_headers: NotRequired[List[CreateInputEndpointHeaderTypedDict]]
     r"""Optional request headers to send to the endpoint"""
-    log_level: NotRequired[LogLevelSplunkSearch]
+    log_level: NotRequired[CreateInputLogLevelSplunkSearch]
     r"""Collector runtime log level (verbosity)"""
     request_timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
@@ -17008,7 +17029,7 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    auth_type: NotRequired[AuthenticationTypeSplunkSearch]
+    auth_type: NotRequired[CreateInputAuthenticationTypeSplunkSearch]
     r"""Splunk Search authentication type"""
     description: NotRequired[str]
     username: NotRequired[str]
@@ -17086,7 +17107,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     r"""Optional request headers to send to the endpoint"""
 
     log_level: Annotated[
-        Optional[LogLevelSplunkSearch], pydantic.Field(alias="logLevel")
+        Optional[CreateInputLogLevelSplunkSearch], pydantic.Field(alias="logLevel")
     ] = None
     r"""Collector runtime log level (verbosity)"""
 
@@ -17147,7 +17168,8 @@ class CreateInputInputSplunkSearch(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_type: Annotated[
-        Optional[AuthenticationTypeSplunkSearch], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationTypeSplunkSearch],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Splunk Search authentication type"""
 
@@ -17181,7 +17203,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelSplunkSearch(value)
+                return models.CreateInputLogLevelSplunkSearch(value)
             except ValueError:
                 return value
         return value
@@ -17190,7 +17212,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationTypeSplunkSearch(value)
+                return models.CreateInputAuthenticationTypeSplunkSearch(value)
             except ValueError:
                 return value
         return value
@@ -17252,13 +17274,13 @@ class CreateInputTypeSplunk(str, Enum):
     SPLUNK = "splunk"
 
 
-class AuthTokenSplunkTypedDict(TypedDict):
+class CreateInputAuthTokenSplunkTypedDict(TypedDict):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     description: NotRequired[str]
 
 
-class AuthTokenSplunk(BaseModel):
+class CreateInputAuthTokenSplunk(BaseModel):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
@@ -17342,7 +17364,7 @@ class CreateInputInputSplunkTypedDict(TypedDict):
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    auth_tokens: NotRequired[List[AuthTokenSplunkTypedDict]]
+    auth_tokens: NotRequired[List[CreateInputAuthTokenSplunkTypedDict]]
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     max_s2_sversion: NotRequired[CreateInputMaxS2SVersion]
     r"""The highest S2S protocol version to advertise during handshake"""
@@ -17443,7 +17465,7 @@ class CreateInputInputSplunk(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_tokens: Annotated[
-        Optional[List[AuthTokenSplunk]], pydantic.Field(alias="authTokens")
+        Optional[List[CreateInputAuthTokenSplunk]], pydantic.Field(alias="authTokens")
     ] = None
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 

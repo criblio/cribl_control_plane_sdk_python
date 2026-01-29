@@ -1,10 +1,10 @@
-openapi: 3.1.0
+openapi: 3.0.2
 servers:
   - url: /
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769689340047-019fd17a
+  version: 4.17.0-alpha.1769713913455-536728f6
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -10508,13 +10508,11 @@ components:
           script: "#/components/schemas/CollectorScript"
           splunk: "#/components/schemas/CollectorSplunk"
     CloudProvider:
-      type:
-        - string
-        - "null"
+      type: string
+      nullable: true
       enum:
         - aws
         - azure
-        - null
       x-speakeasy-unknown-values: allow
     ConfigGroupCloud:
       type: object
@@ -21249,9 +21247,7 @@ components:
           items:
             type: string
         defaultId:
-          type:
-            - string
-            - "null"
+          type: string
           title: Default Output ID
           description: ID of the default output. This will be used whenever a nonexistent/deleted output is referenced.
     OutputWebhook:
@@ -43539,6 +43535,618 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the HEC token to update.
+  /p/{pack}/system/inputs:
+    get:
+      operationId: getInputSystemByPack
+      x-speakeasy-group: packs.sources
+      x-cribl-internal: false
+      x-speakeasy-name-override: list
+      tags:
+        - sources
+      summary: List all Sources within a Pack
+      description: Get a list of all Sources within the specified Pack.
+      responses:
+        "200":
+          description: a list of Source objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to list.
+    post:
+      operationId: createInputSystemByPack
+      x-speakeasy-group: packs.sources
+      x-cribl-internal: false
+      x-speakeasy-name-override: create
+      tags:
+        - sources
+      summary: Create a Source within a Pack
+      description: Create a new Source within the specified Pack.
+      requestBody:
+        description: Input object
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/Input"
+                - type: object
+                  required:
+                    - id
+            examples:
+              InputCreateExamplesAppscope:
+                $ref: "#/components/examples/InputCreateExamplesAppscope"
+              InputCreateExamplesAzureBlob:
+                $ref: "#/components/examples/InputCreateExamplesAzureBlob"
+              InputCreateExamplesCloudflareHec:
+                $ref: "#/components/examples/InputCreateExamplesCloudflareHec"
+              InputCreateExamplesConfluentCloud:
+                $ref: "#/components/examples/InputCreateExamplesConfluentCloud"
+              InputCreateExamplesCollection:
+                $ref: "#/components/examples/InputCreateExamplesCollection"
+              InputCreateExamplesCriblHttp:
+                $ref: "#/components/examples/InputCreateExamplesCriblHttp"
+              InputCreateExamplesCriblLakeHttp:
+                $ref: "#/components/examples/InputCreateExamplesCriblLakeHttp"
+              InputCreateExamplesCriblTcp:
+                $ref: "#/components/examples/InputCreateExamplesCriblTcp"
+              InputCreateExamplesCrowdstrike:
+                $ref: "#/components/examples/InputCreateExamplesCrowdstrike"
+              InputCreateExamplesDatadogAgent:
+                $ref: "#/components/examples/InputCreateExamplesDatadogAgent"
+              InputCreateExamplesDatagen:
+                $ref: "#/components/examples/InputCreateExamplesDatagen"
+              InputCreateExamplesEdgePrometheus:
+                $ref: "#/components/examples/InputCreateExamplesEdgePrometheus"
+              InputCreateExamplesElastic:
+                $ref: "#/components/examples/InputCreateExamplesElastic"
+              InputCreateExamplesEventhub:
+                $ref: "#/components/examples/InputCreateExamplesEventhub"
+              InputCreateExamplesExec:
+                $ref: "#/components/examples/InputCreateExamplesExec"
+              InputCreateExamplesFile:
+                $ref: "#/components/examples/InputCreateExamplesFile"
+              InputCreateExamplesFirehose:
+                $ref: "#/components/examples/InputCreateExamplesFirehose"
+              InputCreateExamplesGrafana:
+                $ref: "#/components/examples/InputCreateExamplesGrafana"
+              InputCreateExamplesGooglePubsub:
+                $ref: "#/components/examples/InputCreateExamplesGooglePubsub"
+              InputCreateExamplesHttp:
+                $ref: "#/components/examples/InputCreateExamplesHttp"
+              InputCreateExamplesHttpRaw:
+                $ref: "#/components/examples/InputCreateExamplesHttpRaw"
+              InputCreateExamplesJournalFiles:
+                $ref: "#/components/examples/InputCreateExamplesJournalFiles"
+              InputCreateExamplesKafka:
+                $ref: "#/components/examples/InputCreateExamplesKafka"
+              InputCreateExamplesKinesis:
+                $ref: "#/components/examples/InputCreateExamplesKinesis"
+              InputCreateExamplesKubeEvents:
+                $ref: "#/components/examples/InputCreateExamplesKubeEvents"
+              InputCreateExamplesKubeLogs:
+                $ref: "#/components/examples/InputCreateExamplesKubeLogs"
+              InputCreateExamplesKubeMetrics:
+                $ref: "#/components/examples/InputCreateExamplesKubeMetrics"
+              InputCreateExamplesLoki:
+                $ref: "#/components/examples/InputCreateExamplesLoki"
+              InputCreateExamplesMetrics:
+                $ref: "#/components/examples/InputCreateExamplesMetrics"
+              InputCreateExamplesModelDrivenTelemetry:
+                $ref: "#/components/examples/InputCreateExamplesModelDrivenTelemetry"
+              InputCreateExamplesMsk:
+                $ref: "#/components/examples/InputCreateExamplesMsk"
+              InputCreateExamplesNetflow:
+                $ref: "#/components/examples/InputCreateExamplesNetflow"
+              InputCreateExamplesOffice365Mgmt:
+                $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesOffice365MsgTrace:
+                $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
+              InputCreateExamplesOffice365Service:
+                $ref: "#/components/examples/InputCreateExamplesOffice365Service"
+              InputCreateExamplesOpenTelemetry:
+                $ref: "#/components/examples/InputCreateExamplesOpenTelemetry"
+              InputCreateExamplesPrometheus:
+                $ref: "#/components/examples/InputCreateExamplesPrometheus"
+              InputCreateExamplesPrometheusRw:
+                $ref: "#/components/examples/InputCreateExamplesPrometheusRw"
+              InputCreateExamplesRawUdp:
+                $ref: "#/components/examples/InputCreateExamplesRawUdp"
+              InputCreateExamplesS3:
+                $ref: "#/components/examples/InputCreateExamplesS3"
+              InputCreateExamplesS3Inventory:
+                $ref: "#/components/examples/InputCreateExamplesS3Inventory"
+              InputCreateExamplesSecurityLake:
+                $ref: "#/components/examples/InputCreateExamplesSecurityLake"
+              InputCreateExamplesSnmp:
+                $ref: "#/components/examples/InputCreateExamplesSnmp"
+              InputCreateExamplesSplunk:
+                $ref: "#/components/examples/InputCreateExamplesSplunk"
+              InputCreateExamplesSplunkHec:
+                $ref: "#/components/examples/InputCreateExamplesSplunkHec"
+              InputCreateExamplesSplunkSearch:
+                $ref: "#/components/examples/InputCreateExamplesSplunkSearch"
+              InputCreateExamplesSqs:
+                $ref: "#/components/examples/InputCreateExamplesSqs"
+              InputCreateExamplesSyslog:
+                $ref: "#/components/examples/InputCreateExamplesSyslog"
+              InputCreateExamplesSystemMetrics:
+                $ref: "#/components/examples/InputCreateExamplesSystemMetrics"
+              InputCreateExamplesSystemState:
+                $ref: "#/components/examples/InputCreateExamplesSystemState"
+              InputCreateExamplesTcp:
+                $ref: "#/components/examples/InputCreateExamplesTcp"
+              InputCreateExamplesTcpjson:
+                $ref: "#/components/examples/InputCreateExamplesTcpjson"
+              InputCreateExamplesWef:
+                $ref: "#/components/examples/InputCreateExamplesWef"
+              InputCreateExamplesWinEventLogs:
+                $ref: "#/components/examples/InputCreateExamplesWinEventLogs"
+              InputCreateExamplesWindowsMetrics:
+                $ref: "#/components/examples/InputCreateExamplesWindowsMetrics"
+              InputCreateExamplesWiz:
+                $ref: "#/components/examples/InputCreateExamplesWiz"
+              InputCreateExamplesWizWebhook:
+                $ref: "#/components/examples/InputCreateExamplesWizWebhook"
+              InputCreateExamplesZscalerHec:
+                $ref: "#/components/examples/InputCreateExamplesZscalerHec"
+      responses:
+        "200":
+          description: a list of Source objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to create.
+  /p/{pack}/system/inputs/{id}:
+    get:
+      operationId: getInputSystemByPackAndId
+      x-speakeasy-group: packs.sources
+      x-cribl-internal: false
+      x-speakeasy-name-override: get
+      tags:
+        - sources
+      summary: Get a Source within a Pack
+      description: Get the specified Source within the specified Pack.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to get.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
+      responses:
+        "200":
+          description: a list of Source objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateInputSystemByPackAndId
+      x-speakeasy-group: packs.sources
+      x-cribl-internal: false
+      x-speakeasy-name-override: update
+      tags:
+        - sources
+      summary: Update a Source within a Pack
+      description: Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to update.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to update.
+      requestBody:
+        description: Input object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Input"
+            examples:
+              InputCreateExamplesAppscope:
+                $ref: "#/components/examples/InputCreateExamplesAppscope"
+              InputCreateExamplesAzureBlob:
+                $ref: "#/components/examples/InputCreateExamplesAzureBlob"
+              InputCreateExamplesCloudflareHec:
+                $ref: "#/components/examples/InputCreateExamplesCloudflareHec"
+              InputCreateExamplesConfluentCloud:
+                $ref: "#/components/examples/InputCreateExamplesConfluentCloud"
+              InputCreateExamplesCollection:
+                $ref: "#/components/examples/InputCreateExamplesCollection"
+              InputExamplesCribl:
+                $ref: "#/components/examples/InputExamplesCribl"
+              InputCreateExamplesCriblHttp:
+                $ref: "#/components/examples/InputCreateExamplesCriblHttp"
+              InputCreateExamplesCriblLakeHttp:
+                $ref: "#/components/examples/InputCreateExamplesCriblLakeHttp"
+              InputExamplesCriblMetrics:
+                $ref: "#/components/examples/InputExamplesCriblMetrics"
+              InputCreateExamplesCriblTcp:
+                $ref: "#/components/examples/InputCreateExamplesCriblTcp"
+              InputCreateExamplesCrowdstrike:
+                $ref: "#/components/examples/InputCreateExamplesCrowdstrike"
+              InputCreateExamplesDatadogAgent:
+                $ref: "#/components/examples/InputCreateExamplesDatadogAgent"
+              InputCreateExamplesDatagen:
+                $ref: "#/components/examples/InputCreateExamplesDatagen"
+              InputCreateExamplesEdgePrometheus:
+                $ref: "#/components/examples/InputCreateExamplesEdgePrometheus"
+              InputCreateExamplesElastic:
+                $ref: "#/components/examples/InputCreateExamplesElastic"
+              InputCreateExamplesEventhub:
+                $ref: "#/components/examples/InputCreateExamplesEventhub"
+              InputCreateExamplesExec:
+                $ref: "#/components/examples/InputCreateExamplesExec"
+              InputCreateExamplesFile:
+                $ref: "#/components/examples/InputCreateExamplesFile"
+              InputCreateExamplesFirehose:
+                $ref: "#/components/examples/InputCreateExamplesFirehose"
+              InputCreateExamplesGrafana:
+                $ref: "#/components/examples/InputCreateExamplesGrafana"
+              InputCreateExamplesGooglePubsub:
+                $ref: "#/components/examples/InputCreateExamplesGooglePubsub"
+              InputCreateExamplesHttp:
+                $ref: "#/components/examples/InputCreateExamplesHttp"
+              InputCreateExamplesHttpRaw:
+                $ref: "#/components/examples/InputCreateExamplesHttpRaw"
+              InputCreateExamplesJournalFiles:
+                $ref: "#/components/examples/InputCreateExamplesJournalFiles"
+              InputCreateExamplesKafka:
+                $ref: "#/components/examples/InputCreateExamplesKafka"
+              InputCreateExamplesKinesis:
+                $ref: "#/components/examples/InputCreateExamplesKinesis"
+              InputCreateExamplesKubeEvents:
+                $ref: "#/components/examples/InputCreateExamplesKubeEvents"
+              InputCreateExamplesKubeLogs:
+                $ref: "#/components/examples/InputCreateExamplesKubeLogs"
+              InputCreateExamplesKubeMetrics:
+                $ref: "#/components/examples/InputCreateExamplesKubeMetrics"
+              InputCreateExamplesLoki:
+                $ref: "#/components/examples/InputCreateExamplesLoki"
+              InputCreateExamplesMetrics:
+                $ref: "#/components/examples/InputCreateExamplesMetrics"
+              InputCreateExamplesModelDrivenTelemetry:
+                $ref: "#/components/examples/InputCreateExamplesModelDrivenTelemetry"
+              InputCreateExamplesMsk:
+                $ref: "#/components/examples/InputCreateExamplesMsk"
+              InputCreateExamplesNetflow:
+                $ref: "#/components/examples/InputCreateExamplesNetflow"
+              InputCreateExamplesOffice365Mgmt:
+                $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesOffice365MsgTrace:
+                $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
+              InputCreateExamplesOffice365Service:
+                $ref: "#/components/examples/InputCreateExamplesOffice365Service"
+              InputCreateExamplesOpenTelemetry:
+                $ref: "#/components/examples/InputCreateExamplesOpenTelemetry"
+              InputCreateExamplesPrometheus:
+                $ref: "#/components/examples/InputCreateExamplesPrometheus"
+              InputCreateExamplesPrometheusRw:
+                $ref: "#/components/examples/InputCreateExamplesPrometheusRw"
+              InputCreateExamplesRawUdp:
+                $ref: "#/components/examples/InputCreateExamplesRawUdp"
+              InputCreateExamplesS3:
+                $ref: "#/components/examples/InputCreateExamplesS3"
+              InputCreateExamplesS3Inventory:
+                $ref: "#/components/examples/InputCreateExamplesS3Inventory"
+              InputCreateExamplesSecurityLake:
+                $ref: "#/components/examples/InputCreateExamplesSecurityLake"
+              InputCreateExamplesSnmp:
+                $ref: "#/components/examples/InputCreateExamplesSnmp"
+              InputCreateExamplesSplunk:
+                $ref: "#/components/examples/InputCreateExamplesSplunk"
+              InputCreateExamplesSplunkHec:
+                $ref: "#/components/examples/InputCreateExamplesSplunkHec"
+              InputCreateExamplesSplunkSearch:
+                $ref: "#/components/examples/InputCreateExamplesSplunkSearch"
+              InputCreateExamplesSqs:
+                $ref: "#/components/examples/InputCreateExamplesSqs"
+              InputCreateExamplesSyslog:
+                $ref: "#/components/examples/InputCreateExamplesSyslog"
+              InputCreateExamplesSystemMetrics:
+                $ref: "#/components/examples/InputCreateExamplesSystemMetrics"
+              InputCreateExamplesSystemState:
+                $ref: "#/components/examples/InputCreateExamplesSystemState"
+              InputCreateExamplesTcp:
+                $ref: "#/components/examples/InputCreateExamplesTcp"
+              InputCreateExamplesTcpjson:
+                $ref: "#/components/examples/InputCreateExamplesTcpjson"
+              InputCreateExamplesWef:
+                $ref: "#/components/examples/InputCreateExamplesWef"
+              InputCreateExamplesWinEventLogs:
+                $ref: "#/components/examples/InputCreateExamplesWinEventLogs"
+              InputCreateExamplesWindowsMetrics:
+                $ref: "#/components/examples/InputCreateExamplesWindowsMetrics"
+              InputCreateExamplesWiz:
+                $ref: "#/components/examples/InputCreateExamplesWiz"
+              InputCreateExamplesWizWebhook:
+                $ref: "#/components/examples/InputCreateExamplesWizWebhook"
+              InputCreateExamplesZscalerHec:
+                $ref: "#/components/examples/InputCreateExamplesZscalerHec"
+      responses:
+        "200":
+          description: a list of Source objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteInputSystemByPackAndId
+      x-speakeasy-group: packs.sources
+      x-cribl-internal: false
+      x-speakeasy-name-override: delete
+      tags:
+        - sources
+      summary: Delete a Source within a Pack
+      description: Delete the specified Source within the specified Pack.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to delete.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to delete.
+      responses:
+        "200":
+          description: a list of Source objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /p/{pack}/system/inputs/{id}/hectoken:
+    post:
+      operationId: createInputSystemHecTokenByPackAndId
+      tags:
+        - sources
+      x-speakeasy-group: packs.sources.hecTokens
+      x-speakeasy-name-override: create
+      x-cribl-internal: false
+      summary: Add an HEC token and optional metadata to a Splunk HEC Source within a Pack
+      description: Add an HEC token and optional metadata to the specified Splunk HEC Source within the specified Pack.
+      responses:
+        "200":
+          description: a list of InputSplunkHec objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInputSplunkHec"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: AddHecTokenRequest object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddHecTokenRequest"
+            examples:
+              HecTokenExamplesHecToken:
+                $ref: "#/components/examples/HecTokenExamplesHecToken"
+              HecTokenExamplesHecTokenWithIndexAccess:
+                $ref: "#/components/examples/HecTokenExamplesHecTokenWithIndexAccess"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Splunk HEC Source.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to create.
+  /p/{pack}/system/inputs/{id}/pq:
+    delete:
+      operationId: deleteInputSystemPqByPackAndId
+      tags:
+        - sources
+      x-speakeasy-group: packs.sources.pq
+      x-speakeasy-name-override: clear
+      x-cribl-internal: false
+      summary: Clear the persistent queue for a Source within a Pack
+      description: Clear the persistent queue (PQ) for the specified Source within the specified Pack.
+      responses:
+        "201":
+          description: A list of job ids for the background job that clears the persistent queue
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedString"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to clear the PQ for.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to clear.
+    get:
+      operationId: getInputSystemPqByPackAndId
+      tags:
+        - sources
+      x-speakeasy-group: packs.sources.pq
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      summary: Get information about the latest job to clear the persistent queue for a Source within a Pack
+      description: Get information about the latest job to clear the persistent queue (PQ) for the specified Source within the specified Pack.
+      responses:
+        "200":
+          description: a list of any objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedObject"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to get PQ job information for.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
+  /p/{pack}/system/inputs/{id}/hectoken/{token}:
+    patch:
+      operationId: updateInputSystemHecTokenByPackAndIdAndToken
+      tags:
+        - sources
+      x-speakeasy-group: packs.sources.hecTokens
+      x-speakeasy-name-override: update
+      x-cribl-internal: false
+      summary: Update metadata for an HEC token for a Splunk HEC Source within a Pack
+      description: Update the metadata for the specified HEC token for the specified Splunk HEC Source within the specified Pack.
+      responses:
+        "200":
+          description: a list of InputSplunkHec objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInputSplunkHec"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: UpdateHecTokenRequest object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateHecTokenRequest"
+            examples:
+              HecTokenExamplesHecToken:
+                $ref: "#/components/examples/HecTokenExamplesHecToken"
+              HecTokenExamplesHecTokenWithIndexAccess:
+                $ref: "#/components/examples/HecTokenExamplesHecTokenWithIndexAccess"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Splunk HEC Source.
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the HEC token to update.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to update.
   /system/outputs:
     get:
       operationId: listOutput
@@ -44110,6 +44718,633 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Destination to send sample event data to.
+  /p/{pack}/system/outputs:
+    get:
+      operationId: getOutputSystemByPack
+      x-speakeasy-group: packs.destinations
+      x-cribl-internal: false
+      x-speakeasy-name-override: list
+      tags:
+        - destinations
+      summary: List all Destinations within a Pack
+      description: Get a list of all Destinations within the specified Pack.
+      responses:
+        "200":
+          description: a list of Destination objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to list.
+    post:
+      operationId: createOutputSystemByPack
+      x-speakeasy-group: packs.destinations
+      x-cribl-internal: false
+      x-speakeasy-name-override: create
+      tags:
+        - destinations
+      summary: Create a Destination within a Pack
+      description: Create a new Destination within the specified Pack.
+      requestBody:
+        description: Output object
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/Output"
+                - type: object
+                  required:
+                    - id
+            examples:
+              OutputCreateExamplesTcpjson:
+                $ref: "#/components/examples/OutputCreateExamplesTcpjson"
+              OutputCreateExamplesSplunk:
+                $ref: "#/components/examples/OutputCreateExamplesSplunk"
+              OutputCreateExamplesSplunkLb:
+                $ref: "#/components/examples/OutputCreateExamplesSplunkLb"
+              OutputCreateExamplesSplunkHec:
+                $ref: "#/components/examples/OutputCreateExamplesSplunkHec"
+              OutputCreateExamplesSyslog:
+                $ref: "#/components/examples/OutputCreateExamplesSyslog"
+              OutputCreateExamplesFilesystem:
+                $ref: "#/components/examples/OutputCreateExamplesFilesystem"
+              OutputCreateExamplesS3:
+                $ref: "#/components/examples/OutputCreateExamplesS3"
+              OutputCreateExamplesAzureBlob:
+                $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
+              OutputCreateExamplesAzureDataExplorer:
+                $ref: "#/components/examples/OutputCreateExamplesAzureDataExplorer"
+              OutputCreateExamplesSentinel:
+                $ref: "#/components/examples/OutputCreateExamplesSentinel"
+              OutputCreateExamplesAzureLogs:
+                $ref: "#/components/examples/OutputCreateExamplesAzureLogs"
+              OutputCreateExamplesKafka:
+                $ref: "#/components/examples/OutputCreateExamplesKafka"
+              OutputCreateExamplesConfluentCloud:
+                $ref: "#/components/examples/OutputCreateExamplesConfluentCloud"
+              OutputCreateExamplesMsk:
+                $ref: "#/components/examples/OutputCreateExamplesMsk"
+              OutputCreateExamplesKinesis:
+                $ref: "#/components/examples/OutputCreateExamplesKinesis"
+              OutputCreateExamplesElastic:
+                $ref: "#/components/examples/OutputCreateExamplesElastic"
+              OutputCreateExamplesElasticCloud:
+                $ref: "#/components/examples/OutputCreateExamplesElasticCloud"
+              OutputCreateExamplesMicrosoftFabric:
+                $ref: "#/components/examples/OutputCreateExamplesMicrosoftFabric"
+              OutputCreateExamplesCloudflareR2:
+                $ref: "#/components/examples/OutputCreateExamplesCloudflareR2"
+              OutputCreateExamplesHoneycomb:
+                $ref: "#/components/examples/OutputCreateExamplesHoneycomb"
+              OutputCreateExamplesNewrelic:
+                $ref: "#/components/examples/OutputCreateExamplesNewrelic"
+              OutputCreateExamplesNewrelicEvents:
+                $ref: "#/components/examples/OutputCreateExamplesNewrelicEvents"
+              OutputCreateExamplesSnmp:
+                $ref: "#/components/examples/OutputCreateExamplesSnmp"
+              OutputCreateExamplesInfluxdb:
+                $ref: "#/components/examples/OutputCreateExamplesInfluxdb"
+              OutputCreateExamplesMinio:
+                $ref: "#/components/examples/OutputCreateExamplesMinio"
+              OutputCreateExamplesCloudwatch:
+                $ref: "#/components/examples/OutputCreateExamplesCloudwatch"
+              OutputCreateExamplesAzureEventhub:
+                $ref: "#/components/examples/OutputCreateExamplesAzureEventhub"
+              OutputCreateExamplesStatsd:
+                $ref: "#/components/examples/OutputCreateExamplesStatsd"
+              OutputCreateExamplesStatsdExt:
+                $ref: "#/components/examples/OutputCreateExamplesStatsdExt"
+              OutputCreateExamplesGraphite:
+                $ref: "#/components/examples/OutputCreateExamplesGraphite"
+              OutputCreateExamplesWavefront:
+                $ref: "#/components/examples/OutputCreateExamplesWavefront"
+              OutputCreateExamplesSignalfx:
+                $ref: "#/components/examples/OutputCreateExamplesSignalfx"
+              OutputCreateExamplesSqs:
+                $ref: "#/components/examples/OutputCreateExamplesSqs"
+              OutputCreateExamplesGoogleCloudStorage:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleCloudStorage"
+              OutputCreateExamplesSumoLogic:
+                $ref: "#/components/examples/OutputCreateExamplesSumoLogic"
+              OutputCreateExamplesDatadog:
+                $ref: "#/components/examples/OutputCreateExamplesDatadog"
+              OutputCreateExamplesWebhook:
+                $ref: "#/components/examples/OutputCreateExamplesWebhook"
+              OutputCreateExamplesPrometheus:
+                $ref: "#/components/examples/OutputCreateExamplesPrometheus"
+              OutputCreateExamplesGooglePubsub:
+                $ref: "#/components/examples/OutputCreateExamplesGooglePubsub"
+              OutputCreateExamplesGoogleChronicle:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleChronicle"
+              OutputCreateExamplesChronicle:
+                $ref: "#/components/examples/OutputCreateExamplesChronicle"
+              OutputCreateExamplesGrafanaCloud:
+                $ref: "#/components/examples/OutputCreateExamplesGrafanaCloud"
+              OutputCreateExamplesLoki:
+                $ref: "#/components/examples/OutputCreateExamplesLoki"
+              OutputCreateExamplesOpenTelemetry:
+                $ref: "#/components/examples/OutputCreateExamplesOpenTelemetry"
+              OutputCreateExamplesServiceNow:
+                $ref: "#/components/examples/OutputCreateExamplesServiceNow"
+              OutputCreateExamplesDynatraceOtlp:
+                $ref: "#/components/examples/OutputCreateExamplesDynatraceOtlp"
+              OutputCreateExamplesSentinelOneAiSiem:
+                $ref: "#/components/examples/OutputCreateExamplesSentinelOneAiSiem"
+              OutputCreateExamplesDataset:
+                $ref: "#/components/examples/OutputCreateExamplesDataset"
+              OutputCreateExamplesRing:
+                $ref: "#/components/examples/OutputCreateExamplesRing"
+              OutputCreateExamplesRouter:
+                $ref: "#/components/examples/OutputCreateExamplesRouter"
+              OutputCreateExamplesWizHec:
+                $ref: "#/components/examples/OutputCreateExamplesWizHec"
+              OutputCreateExamplesHumioHec:
+                $ref: "#/components/examples/OutputCreateExamplesHumioHec"
+              OutputCreateExamplesCrowdstrikeNextGenSiem:
+                $ref: "#/components/examples/OutputCreateExamplesCrowdstrikeNextGenSiem"
+              OutputCreateExamplesCriblHttp:
+                $ref: "#/components/examples/OutputCreateExamplesCriblHttp"
+              OutputCreateExamplesCriblTcp:
+                $ref: "#/components/examples/OutputCreateExamplesCriblTcp"
+              OutputCreateExamplesCriblSearchEngine:
+                $ref: "#/components/examples/OutputCreateExamplesCriblSearchEngine"
+              OutputCreateExamplesGoogleCloudLogging:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleCloudLogging"
+              OutputCreateExamplesSns:
+                $ref: "#/components/examples/OutputCreateExamplesSns"
+              OutputCreateExamplesDlS3:
+                $ref: "#/components/examples/OutputCreateExamplesDlS3"
+              OutputCreateExamplesSecurityLake:
+                $ref: "#/components/examples/OutputCreateExamplesSecurityLake"
+              OutputCreateExamplesCriblLake:
+                $ref: "#/components/examples/OutputCreateExamplesCriblLake"
+              OutputCreateExamplesExabeam:
+                $ref: "#/components/examples/OutputCreateExamplesExabeam"
+              OutputCreateExamplesDiskSpool:
+                $ref: "#/components/examples/OutputCreateExamplesDiskSpool"
+              OutputCreateExamplesClickHouse:
+                $ref: "#/components/examples/OutputCreateExamplesClickHouse"
+              OutputCreateExamplesXsiam:
+                $ref: "#/components/examples/OutputCreateExamplesXsiam"
+              OutputCreateExamplesNetflow:
+                $ref: "#/components/examples/OutputCreateExamplesNetflow"
+              OutputCreateExamplesDynatraceHttp:
+                $ref: "#/components/examples/OutputCreateExamplesDynatraceHttp"
+              OutputCreateExamplesDatabricks:
+                $ref: "#/components/examples/OutputCreateExamplesDatabricks"
+      responses:
+        "200":
+          description: a list of Destination objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to create.
+  /p/{pack}/system/outputs/{id}:
+    get:
+      operationId: getOutputSystemByPackAndId
+      x-speakeasy-group: packs.destinations
+      x-cribl-internal: false
+      x-speakeasy-name-override: get
+      tags:
+        - destinations
+      summary: Get a Destination within a Pack
+      description: Get the specified Destination within the specified Pack.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Destination to get.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
+      responses:
+        "200":
+          description: a list of Destination objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateOutputSystemByPackAndId
+      x-speakeasy-group: packs.destinations
+      x-cribl-internal: false
+      x-speakeasy-name-override: update
+      tags:
+        - destinations
+      summary: Update a Destination within a Pack
+      description: Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Destination to update.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to update.
+      requestBody:
+        description: Output object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Output"
+            examples:
+              OutputExamplesDefault:
+                $ref: "#/components/examples/OutputExamplesDefault"
+              OutputCreateExamplesTcpjson:
+                $ref: "#/components/examples/OutputCreateExamplesTcpjson"
+              OutputCreateExamplesSplunk:
+                $ref: "#/components/examples/OutputCreateExamplesSplunk"
+              OutputCreateExamplesSplunkLb:
+                $ref: "#/components/examples/OutputCreateExamplesSplunkLb"
+              OutputCreateExamplesSplunkHec:
+                $ref: "#/components/examples/OutputCreateExamplesSplunkHec"
+              OutputCreateExamplesSyslog:
+                $ref: "#/components/examples/OutputCreateExamplesSyslog"
+              OutputCreateExamplesFilesystem:
+                $ref: "#/components/examples/OutputCreateExamplesFilesystem"
+              OutputCreateExamplesS3:
+                $ref: "#/components/examples/OutputCreateExamplesS3"
+              OutputCreateExamplesAzureBlob:
+                $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
+              OutputCreateExamplesAzureDataExplorer:
+                $ref: "#/components/examples/OutputCreateExamplesAzureDataExplorer"
+              OutputCreateExamplesSentinel:
+                $ref: "#/components/examples/OutputCreateExamplesSentinel"
+              OutputCreateExamplesAzureLogs:
+                $ref: "#/components/examples/OutputCreateExamplesAzureLogs"
+              OutputCreateExamplesKafka:
+                $ref: "#/components/examples/OutputCreateExamplesKafka"
+              OutputCreateExamplesConfluentCloud:
+                $ref: "#/components/examples/OutputCreateExamplesConfluentCloud"
+              OutputCreateExamplesMsk:
+                $ref: "#/components/examples/OutputCreateExamplesMsk"
+              OutputCreateExamplesKinesis:
+                $ref: "#/components/examples/OutputCreateExamplesKinesis"
+              OutputCreateExamplesElastic:
+                $ref: "#/components/examples/OutputCreateExamplesElastic"
+              OutputCreateExamplesElasticCloud:
+                $ref: "#/components/examples/OutputCreateExamplesElasticCloud"
+              OutputCreateExamplesMicrosoftFabric:
+                $ref: "#/components/examples/OutputCreateExamplesMicrosoftFabric"
+              OutputCreateExamplesCloudflareR2:
+                $ref: "#/components/examples/OutputCreateExamplesCloudflareR2"
+              OutputCreateExamplesHoneycomb:
+                $ref: "#/components/examples/OutputCreateExamplesHoneycomb"
+              OutputCreateExamplesNewrelic:
+                $ref: "#/components/examples/OutputCreateExamplesNewrelic"
+              OutputCreateExamplesNewrelicEvents:
+                $ref: "#/components/examples/OutputCreateExamplesNewrelicEvents"
+              OutputCreateExamplesSnmp:
+                $ref: "#/components/examples/OutputCreateExamplesSnmp"
+              OutputCreateExamplesInfluxdb:
+                $ref: "#/components/examples/OutputCreateExamplesInfluxdb"
+              OutputCreateExamplesMinio:
+                $ref: "#/components/examples/OutputCreateExamplesMinio"
+              OutputCreateExamplesCloudwatch:
+                $ref: "#/components/examples/OutputCreateExamplesCloudwatch"
+              OutputCreateExamplesAzureEventhub:
+                $ref: "#/components/examples/OutputCreateExamplesAzureEventhub"
+              OutputCreateExamplesStatsd:
+                $ref: "#/components/examples/OutputCreateExamplesStatsd"
+              OutputCreateExamplesStatsdExt:
+                $ref: "#/components/examples/OutputCreateExamplesStatsdExt"
+              OutputCreateExamplesGraphite:
+                $ref: "#/components/examples/OutputCreateExamplesGraphite"
+              OutputCreateExamplesWavefront:
+                $ref: "#/components/examples/OutputCreateExamplesWavefront"
+              OutputCreateExamplesSignalfx:
+                $ref: "#/components/examples/OutputCreateExamplesSignalfx"
+              OutputCreateExamplesSqs:
+                $ref: "#/components/examples/OutputCreateExamplesSqs"
+              OutputCreateExamplesGoogleCloudStorage:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleCloudStorage"
+              OutputCreateExamplesSumoLogic:
+                $ref: "#/components/examples/OutputCreateExamplesSumoLogic"
+              OutputCreateExamplesDatadog:
+                $ref: "#/components/examples/OutputCreateExamplesDatadog"
+              OutputCreateExamplesWebhook:
+                $ref: "#/components/examples/OutputCreateExamplesWebhook"
+              OutputCreateExamplesPrometheus:
+                $ref: "#/components/examples/OutputCreateExamplesPrometheus"
+              OutputCreateExamplesGooglePubsub:
+                $ref: "#/components/examples/OutputCreateExamplesGooglePubsub"
+              OutputCreateExamplesGoogleChronicle:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleChronicle"
+              OutputCreateExamplesChronicle:
+                $ref: "#/components/examples/OutputCreateExamplesChronicle"
+              OutputCreateExamplesGrafanaCloud:
+                $ref: "#/components/examples/OutputCreateExamplesGrafanaCloud"
+              OutputCreateExamplesLoki:
+                $ref: "#/components/examples/OutputCreateExamplesLoki"
+              OutputCreateExamplesOpenTelemetry:
+                $ref: "#/components/examples/OutputCreateExamplesOpenTelemetry"
+              OutputCreateExamplesServiceNow:
+                $ref: "#/components/examples/OutputCreateExamplesServiceNow"
+              OutputCreateExamplesDynatraceOtlp:
+                $ref: "#/components/examples/OutputCreateExamplesDynatraceOtlp"
+              OutputCreateExamplesSentinelOneAiSiem:
+                $ref: "#/components/examples/OutputCreateExamplesSentinelOneAiSiem"
+              OutputCreateExamplesDataset:
+                $ref: "#/components/examples/OutputCreateExamplesDataset"
+              OutputCreateExamplesRing:
+                $ref: "#/components/examples/OutputCreateExamplesRing"
+              OutputCreateExamplesRouter:
+                $ref: "#/components/examples/OutputCreateExamplesRouter"
+              OutputCreateExamplesWizHec:
+                $ref: "#/components/examples/OutputCreateExamplesWizHec"
+              OutputCreateExamplesHumioHec:
+                $ref: "#/components/examples/OutputCreateExamplesHumioHec"
+              OutputCreateExamplesCrowdstrikeNextGenSiem:
+                $ref: "#/components/examples/OutputCreateExamplesCrowdstrikeNextGenSiem"
+              OutputCreateExamplesCriblHttp:
+                $ref: "#/components/examples/OutputCreateExamplesCriblHttp"
+              OutputCreateExamplesCriblTcp:
+                $ref: "#/components/examples/OutputCreateExamplesCriblTcp"
+              OutputCreateExamplesCriblSearchEngine:
+                $ref: "#/components/examples/OutputCreateExamplesCriblSearchEngine"
+              OutputCreateExamplesGoogleCloudLogging:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleCloudLogging"
+              OutputCreateExamplesSns:
+                $ref: "#/components/examples/OutputCreateExamplesSns"
+              OutputCreateExamplesDlS3:
+                $ref: "#/components/examples/OutputCreateExamplesDlS3"
+              OutputCreateExamplesSecurityLake:
+                $ref: "#/components/examples/OutputCreateExamplesSecurityLake"
+              OutputCreateExamplesCriblLake:
+                $ref: "#/components/examples/OutputCreateExamplesCriblLake"
+              OutputCreateExamplesExabeam:
+                $ref: "#/components/examples/OutputCreateExamplesExabeam"
+              OutputCreateExamplesDiskSpool:
+                $ref: "#/components/examples/OutputCreateExamplesDiskSpool"
+              OutputCreateExamplesClickHouse:
+                $ref: "#/components/examples/OutputCreateExamplesClickHouse"
+              OutputCreateExamplesXsiam:
+                $ref: "#/components/examples/OutputCreateExamplesXsiam"
+              OutputCreateExamplesNetflow:
+                $ref: "#/components/examples/OutputCreateExamplesNetflow"
+              OutputCreateExamplesDynatraceHttp:
+                $ref: "#/components/examples/OutputCreateExamplesDynatraceHttp"
+              OutputCreateExamplesDatabricks:
+                $ref: "#/components/examples/OutputCreateExamplesDatabricks"
+      responses:
+        "200":
+          description: a list of Destination objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteOutputSystemByPackAndId
+      x-speakeasy-group: packs.destinations
+      x-cribl-internal: false
+      x-speakeasy-name-override: delete
+      tags:
+        - destinations
+      summary: Delete a Destination within a Pack
+      description: Delete the specified Destination within the specified Pack.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Destination to delete.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to delete.
+      responses:
+        "200":
+          description: a list of Destination objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /p/{pack}/system/outputs/{id}/pq:
+    delete:
+      operationId: deleteOutputSystemPqByPackAndId
+      tags:
+        - destinations
+      x-speakeasy-group: packs.destinations.pq
+      x-speakeasy-name-override: clear
+      x-cribl-internal: false
+      summary: Clear the persistent queue for a Destination within a Pack
+      description: Clear the persistent queue (PQ) for the specified Destination within the specified Pack.
+      responses:
+        "201":
+          description: A list of job ids for the background job that clears the persistent queue
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedString"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Destination to clear the PQ for.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to clear.
+    get:
+      operationId: getOutputSystemPqByPackAndId
+      tags:
+        - destinations
+      x-speakeasy-group: packs.destinations.pq
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      summary: Get information about the latest job to clear the persistent queue for a Destination within a Pack
+      description: Get information about the latest job to clear the persistent queue (PQ) for the specified Destination within the specified Pack.
+      responses:
+        "200":
+          description: a list of JobInfo objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedJobInfo"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Destination to get PQ job information for.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
+  /p/{pack}/system/outputs/{id}/samples:
+    get:
+      operationId: getOutputSystemSamplesByPackAndId
+      tags:
+        - destinations
+      x-speakeasy-group: packs.destinations.samples
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      summary: Get sample event data for a Destination within a Pack
+      description: Get sample event data for the specified Destination to validate the configuration or test connectivity within the specified Pack.
+      responses:
+        "200":
+          description: a list of OutputSamplesResponse objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutputSamplesResponse"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Destination to get sample event data for.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
+  /p/{pack}/system/outputs/{id}/test:
+    post:
+      operationId: createOutputSystemTestByPackAndId
+      tags:
+        - destinations
+      x-speakeasy-group: packs.destinations.samples
+      x-speakeasy-name-override: create
+      x-cribl-internal: false
+      summary: Send sample event data to a Destination within a Pack
+      description: Send sample event data to the specified Destination to validate the configuration or test connectivity within the specified Pack.
+      responses:
+        "200":
+          description: a list of OutputTestResponse objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutputTestResponse"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: OutputTestRequest object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OutputTestRequest"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Destination to send sample event data to.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to create.
   /pipelines:
     post:
       operationId: createPipelines
@@ -45137,7 +46372,7 @@ paths:
           in: query
           required: false
           schema:
-            type: number
+            type: integer
           description: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
   /version/files:
     get:
@@ -45238,7 +46473,7 @@ paths:
           in: query
           required: false
           schema:
-            type: number
+            type: integer
           description: Maximum number of commits to return in the response for this request.
   /version/push:
     post:
@@ -45352,7 +46587,7 @@ paths:
           in: query
           required: false
           schema:
-            type: number
+            type: integer
           description: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
   /version/status:
     get:

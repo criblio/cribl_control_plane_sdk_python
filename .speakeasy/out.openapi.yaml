@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.16.0-alpha.1769123103877-c18d3d5e
+  version: 4.16.1-alpha.1769555026407-0074e6cb
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -22280,7 +22280,7 @@ components:
           title: Body size limit (KB)
           description: Maximum size, in KB, of the request body
           minimum: 1024
-          maximum: 9000
+          maximum: 2.097152e+06
         maxPayloadEvents:
           type: number
           title: Events-per-request limit

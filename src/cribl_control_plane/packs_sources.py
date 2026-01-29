@@ -4,19 +4,17 @@ from .basesdk import BaseSDK
 from .sdkconfiguration import SDKConfiguration
 from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
-from cribl_control_plane.destinations_pq import DestinationsPq
-from cribl_control_plane.samples import Samples
-from cribl_control_plane.types import BaseModel, OptionalNullable, UNSET
+from cribl_control_plane.packs_hectokens import PacksHecTokens
+from cribl_control_plane.sources_pq import SourcesPq
+from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union, cast
+from typing import Any, Mapping, Optional, Union
 
 
-class Destinations(BaseSDK):
-    r"""Actions related to Destinations"""
-
-    pq: DestinationsPq
-    samples: Samples
+class PacksSources(BaseSDK):
+    hec_tokens: PacksHecTokens
+    pq: SourcesPq
 
     def __init__(
         self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
@@ -26,21 +24,25 @@ class Destinations(BaseSDK):
         self._init_sdks()
 
     def _init_sdks(self):
-        self.pq = DestinationsPq(self.sdk_configuration, parent_ref=self.parent_ref)
-        self.samples = Samples(self.sdk_configuration, parent_ref=self.parent_ref)
+        self.hec_tokens = PacksHecTokens(
+            self.sdk_configuration, parent_ref=self.parent_ref
+        )
+        self.pq = SourcesPq(self.sdk_configuration, parent_ref=self.parent_ref)
 
     def list(
         self,
         *,
+        pack: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
-        r"""List all Destinations
+    ) -> models.CountedInput:
+        r"""List all Sources within a Pack
 
-        Get a list of all Destinations.
+        Get a list of all Sources within the specified Pack.
 
+        :param pack: The <code>id</code> of the Pack to list.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -55,14 +57,19 @@ class Destinations(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetInputSystemByPackRequest(
+            pack=pack,
+        )
+
         req = self._build_request(
             method="GET",
-            path="/system/outputs",
+            path="/p/{pack}/system/inputs",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
-            request_has_path_params=False,
+            request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
@@ -88,7 +95,7 @@ class Destinations(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="listOutput",
+                operation_id="getInputSystemByPack",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -101,7 +108,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedInput, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -117,15 +124,17 @@ class Destinations(BaseSDK):
     async def list_async(
         self,
         *,
+        pack: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
-        r"""List all Destinations
+    ) -> models.CountedInput:
+        r"""List all Sources within a Pack
 
-        Get a list of all Destinations.
+        Get a list of all Sources within the specified Pack.
 
+        :param pack: The <code>id</code> of the Pack to list.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -140,14 +149,19 @@ class Destinations(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetInputSystemByPackRequest(
+            pack=pack,
+        )
+
         req = self._build_request_async(
             method="GET",
-            path="/system/outputs",
+            path="/p/{pack}/system/inputs",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
-            request_has_path_params=False,
+            request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
@@ -173,7 +187,7 @@ class Destinations(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="listOutput",
+                operation_id="getInputSystemByPack",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -186,197 +200,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorData, http_res)
-            raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    def create(
-        self,
-        *,
-        request: Union[models.CreateOutputRequest, models.CreateOutputRequestTypedDict],
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
-        r"""Create a Destination
-
-        Create a new Destination.
-
-        :param request: The request object to send.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, models.CreateOutputRequest)
-        request = cast(models.CreateOutputRequest, request)
-
-        req = self._build_request(
-            method="POST",
-            path="/system/outputs",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=True,
-            request_has_path_params=False,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.CreateOutputRequest
-            ),
-            allow_empty_value=None,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="createOutput",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorData, http_res)
-            raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    async def create_async(
-        self,
-        *,
-        request: Union[models.CreateOutputRequest, models.CreateOutputRequestTypedDict],
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
-        r"""Create a Destination
-
-        Create a new Destination.
-
-        :param request: The request object to send.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, models.CreateOutputRequest)
-        request = cast(models.CreateOutputRequest, request)
-
-        req = self._build_request_async(
-            method="POST",
-            path="/system/outputs",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=True,
-            request_has_path_params=False,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.CreateOutputRequest
-            ),
-            allow_empty_value=None,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="createOutput",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedInput, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -393,16 +217,18 @@ class Destinations(BaseSDK):
         self,
         *,
         id: str,
+        pack: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
-        r"""Get a Destination
+    ) -> models.CountedInput:
+        r"""Get a Source within a Pack
 
-        Get the specified Destination.
+        Get the specified Source within the specified Pack.
 
-        :param id: The <code>id</code> of the Destination to get.
+        :param id: The <code>id</code> of the Source to get.
+        :param pack: The <code>id</code> of the Pack to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -418,13 +244,14 @@ class Destinations(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetOutputByIDRequest(
+        request = models.GetInputSystemByPackAndIDRequest(
             id=id,
+            pack=pack,
         )
 
         req = self._build_request(
             method="GET",
-            path="/system/outputs/{id}",
+            path="/p/{pack}/system/inputs/{id}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -455,7 +282,7 @@ class Destinations(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getOutputById",
+                operation_id="getInputSystemByPackAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -468,7 +295,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedInput, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -485,16 +312,18 @@ class Destinations(BaseSDK):
         self,
         *,
         id: str,
+        pack: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
-        r"""Get a Destination
+    ) -> models.CountedInput:
+        r"""Get a Source within a Pack
 
-        Get the specified Destination.
+        Get the specified Source within the specified Pack.
 
-        :param id: The <code>id</code> of the Destination to get.
+        :param id: The <code>id</code> of the Source to get.
+        :param pack: The <code>id</code> of the Pack to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -510,13 +339,14 @@ class Destinations(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetOutputByIDRequest(
+        request = models.GetInputSystemByPackAndIDRequest(
             id=id,
+            pack=pack,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/system/outputs/{id}",
+            path="/p/{pack}/system/inputs/{id}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -547,7 +377,7 @@ class Destinations(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getOutputById",
+                operation_id="getInputSystemByPackAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -560,7 +390,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedInput, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -577,18 +407,20 @@ class Destinations(BaseSDK):
         self,
         *,
         id: str,
-        output: Union[models.Output, models.OutputTypedDict],
+        pack: str,
+        input_: Union[models.Input, models.InputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
-        r"""Update a Destination
+    ) -> models.CountedInput:
+        r"""Update a Source within a Pack
 
-        Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
+        Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
 
-        :param id: The <code>id</code> of the Destination to update.
-        :param output: Output object
+        :param id: The <code>id</code> of the Source to update.
+        :param pack: The <code>id</code> of the Pack to update.
+        :param input: Input object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -604,14 +436,15 @@ class Destinations(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.UpdateOutputByIDRequest(
+        request = models.UpdateInputSystemByPackAndIDRequest(
             id=id,
-            output=utils.get_pydantic_model(output, models.Output),
+            pack=pack,
+            input=utils.get_pydantic_model(input_, models.Input),
         )
 
         req = self._build_request(
             method="PATCH",
-            path="/system/outputs/{id}",
+            path="/p/{pack}/system/inputs/{id}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -623,7 +456,7 @@ class Destinations(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.output, False, False, "json", models.Output
+                request.input, False, False, "json", models.Input
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -645,7 +478,7 @@ class Destinations(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="updateOutputById",
+                operation_id="updateInputSystemByPackAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -658,7 +491,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedInput, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -675,18 +508,20 @@ class Destinations(BaseSDK):
         self,
         *,
         id: str,
-        output: Union[models.Output, models.OutputTypedDict],
+        pack: str,
+        input_: Union[models.Input, models.InputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
-        r"""Update a Destination
+    ) -> models.CountedInput:
+        r"""Update a Source within a Pack
 
-        Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
+        Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
 
-        :param id: The <code>id</code> of the Destination to update.
-        :param output: Output object
+        :param id: The <code>id</code> of the Source to update.
+        :param pack: The <code>id</code> of the Pack to update.
+        :param input: Input object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -702,14 +537,15 @@ class Destinations(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.UpdateOutputByIDRequest(
+        request = models.UpdateInputSystemByPackAndIDRequest(
             id=id,
-            output=utils.get_pydantic_model(output, models.Output),
+            pack=pack,
+            input=utils.get_pydantic_model(input_, models.Input),
         )
 
         req = self._build_request_async(
             method="PATCH",
-            path="/system/outputs/{id}",
+            path="/p/{pack}/system/inputs/{id}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -721,7 +557,7 @@ class Destinations(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.output, False, False, "json", models.Output
+                request.input, False, False, "json", models.Input
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -743,7 +579,7 @@ class Destinations(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="updateOutputById",
+                operation_id="updateInputSystemByPackAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -756,7 +592,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedInput, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -773,16 +609,18 @@ class Destinations(BaseSDK):
         self,
         *,
         id: str,
+        pack: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
-        r"""Delete a Destination
+    ) -> models.CountedInput:
+        r"""Delete a Source within a Pack
 
-        Delete the specified Destination.
+        Delete the specified Source within the specified Pack.
 
-        :param id: The <code>id</code> of the Destination to delete.
+        :param id: The <code>id</code> of the Source to delete.
+        :param pack: The <code>id</code> of the Pack to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -798,13 +636,14 @@ class Destinations(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.DeleteOutputByIDRequest(
+        request = models.DeleteInputSystemByPackAndIDRequest(
             id=id,
+            pack=pack,
         )
 
         req = self._build_request(
             method="DELETE",
-            path="/system/outputs/{id}",
+            path="/p/{pack}/system/inputs/{id}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -835,7 +674,7 @@ class Destinations(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="deleteOutputById",
+                operation_id="deleteInputSystemByPackAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -848,7 +687,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedInput, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -865,16 +704,18 @@ class Destinations(BaseSDK):
         self,
         *,
         id: str,
+        pack: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
-        r"""Delete a Destination
+    ) -> models.CountedInput:
+        r"""Delete a Source within a Pack
 
-        Delete the specified Destination.
+        Delete the specified Source within the specified Pack.
 
-        :param id: The <code>id</code> of the Destination to delete.
+        :param id: The <code>id</code> of the Source to delete.
+        :param pack: The <code>id</code> of the Pack to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -890,13 +731,14 @@ class Destinations(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.DeleteOutputByIDRequest(
+        request = models.DeleteInputSystemByPackAndIDRequest(
             id=id,
+            pack=pack,
         )
 
         req = self._build_request_async(
             method="DELETE",
-            path="/system/outputs/{id}",
+            path="/p/{pack}/system/inputs/{id}",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -927,7 +769,7 @@ class Destinations(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="deleteOutputById",
+                operation_id="deleteInputSystemByPackAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -940,7 +782,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedInput, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

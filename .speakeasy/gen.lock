@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: fb9b174a3afdab9d5adb58c4c4452551
-  docVersion: 4.17.0-alpha.1769555003178-2127f1ff
+  docChecksum: a7a86bee53b3fc387ff9489ecd6545ea
+  docVersion: 4.17.0-alpha.1769702741866-71f11123
   speakeasyVersion: 1.697.5
   generationVersion: 2.799.0
-  releaseVersion: 0.6.0b1
-  configChecksum: d0a6536e63758c203a464932873dad7c
+  releaseVersion: 0.6.0b2
+  configChecksum: 04a2785394e9a6e58765b3348b29951f
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 913698b6-f459-4df8-9247-9e0ad3a2211d
-  pristine_commit_hash: 8e6d462d4243faa15c82d68bb0ec7be447519716
-  pristine_tree_hash: 353fe033d1be620b47bfe94eefd11feb8e7a41b8
+  generation_id: 39bc4157-3474-4068-805c-7871671cefcc
+  pristine_commit_hash: 4ce8330bc5647089a2d9561d5bacb2dcc0ed706e
+  pristine_tree_hash: 55e237d87cf9bd86157f32ae68372a64535ef0e7
 features:
   python:
     additionalDependencies: 1.0.0
@@ -1280,6 +1280,10 @@ trackedFiles:
     id: a1afeb045832
     last_write_checksum: sha1:52dc54641ed3b805929f0f111adee71d4e59d86f
     pristine_git_object: ee34e24ca518514692a9aff22ae3d13f40141328
+  docs/models/createinputsystemhectokenbypackandidrequest.md:
+    id: c40cfea6b63e
+    last_write_checksum: sha1:1477781f75892c2c94afab4984878f2d29d29bec
+    pristine_git_object: 3a7eeec74374b69ab6977a7389b51b67ce475e02
   docs/models/createinputtarget.md:
     id: 1412c9f9dc7d
     last_write_checksum: sha1:72eef3fa7cc80dfbb8949fbc1ed01d52220f68ff
@@ -2412,6 +2416,14 @@ trackedFiles:
     id: 21b5754ebc6d
     last_write_checksum: sha1:5ef1ab46792d7a31f5871ff0619804d7a6c0c905
     pristine_git_object: d8e53f3355ae00a4dbf50bcdf1fdce986b28bf94
+  docs/models/deleteinputsystembypackandidrequest.md:
+    id: d0a1378ca4f3
+    last_write_checksum: sha1:5284126b9efe089aee392a02bb17d46dd7bf8451
+    pristine_git_object: a637eadf9866b628aa543f49c4a7bf6745db05b2
+  docs/models/deleteinputsystempqbypackandidrequest.md:
+    id: 683828cc9e08
+    last_write_checksum: sha1:300373721db0c5cfbae6becdf68e5685a07da49e
+    pristine_git_object: 7777e3f01b0e064d55eac71a42f901207644b75e
   docs/models/deleteoutputbyidrequest.md:
     id: 3b3e111096cb
     last_write_checksum: sha1:86698a7680ef42b8238281057a6438705a65bdfc
@@ -3400,6 +3412,14 @@ trackedFiles:
     id: 031d22739476
     last_write_checksum: sha1:8c53cc975af684b36538ac2c43fe6ede9119f926
     pristine_git_object: fc9c9d83f58e18fde2f7d8f50afce3fdc0d1cc93
+  docs/models/getinputsystembypackandidrequest.md:
+    id: 728769db68b2
+    last_write_checksum: sha1:f7f308822ad1122b220dffb07f5b457e5c647551
+    pristine_git_object: 16520014633e300ad10610c0989ccd65bd3ab539
+  docs/models/getinputsystembypackrequest.md:
+    id: 93084fc629c2
+    last_write_checksum: sha1:b5d809ac3dbbf178bf7830612b510eed9969bd29
+    pristine_git_object: c378a1b4ff5b59b7ad1a04d295149e96ccc0e95e
   docs/models/getoutputbyidrequest.md:
     id: e18a83ca6a43
     last_write_checksum: sha1:9647a8be16abe6abe77e6971e8d28db9561d089e
@@ -3450,20 +3470,20 @@ trackedFiles:
     pristine_git_object: d177f10a381ce65f7bd9c57c39a157dc894795a3
   docs/models/getversiondiffrequest.md:
     id: 4217bc5e7a31
-    last_write_checksum: sha1:fde3a1c98a90b6c065e0a9d92318817d4493c1f9
-    pristine_git_object: 8cfe4906f4921c75cc4df94761f85192db7e7b9f
+    last_write_checksum: sha1:724996844053b3de38007730db298ec9ae83704f
+    pristine_git_object: fde29a3b8ecc36c98fe7af974bb48b0e61d34b78
   docs/models/getversionfilesrequest.md:
     id: 4183625a0569
     last_write_checksum: sha1:5d5466fd69a16ab939531eb9284297fb11eeeae4
     pristine_git_object: 8df4e07cfa5cdde0a0f7b0f4b316e4c880baba42
   docs/models/getversionrequest.md:
     id: 98ccae9968d4
-    last_write_checksum: sha1:03e528985866f2c95f48049a32ce14e3e7c61cad
-    pristine_git_object: 69ad401cf6596caa6d149b4391e47165f67b6d79
+    last_write_checksum: sha1:b370820d76fd0d90ef4d84dad173ca1ccd11dfb8
+    pristine_git_object: fd10fc9594a119924e291387673531c8ccb43bc9
   docs/models/getversionshowrequest.md:
     id: b52c550dee7a
-    last_write_checksum: sha1:00144654791e68b5010987927524f0cd11357d5c
-    pristine_git_object: 75bf5f062e2d37ac53a44aedcdc17b2be2f3f524
+    last_write_checksum: sha1:a0aadec07644e9f06726d8c2ff96fa185cc06fee
+    pristine_git_object: 62c08a9b0778f40ff2f362ca9507b4734c99a1d1
   docs/models/getversionstatusrequest.md:
     id: b3482591277e
     last_write_checksum: sha1:8782bba4eabbf111bb2a3475fad0a583f6403b06
@@ -10944,6 +10964,14 @@ trackedFiles:
     id: 50fa9c8506cc
     last_write_checksum: sha1:b20128e9f0f0bdb75c89b439bad1ecaccbcb3bbe
     pristine_git_object: 1481de89adf0b091aacd21cc6a9ae07db83f64cb
+  docs/models/updateinputsystembypackandidrequest.md:
+    id: 84a27bc7706f
+    last_write_checksum: sha1:59204af2ea65b7e221548d8ede14dace9409350c
+    pristine_git_object: afdd2196ef578fbfbb168436ad494fca002f9ef4
+  docs/models/updateinputsystemhectokenbypackandidandtokenrequest.md:
+    id: 69305a7023e2
+    last_write_checksum: sha1:42c47aec22e4c9f27821262fd8131a4416ac7de3
+    pristine_git_object: a5e726bbc0fd73a6abd9f4cadf88345e07d873b1
   docs/models/updateoutputbyidrequest.md:
     id: 56b0c0b89fd3
     last_write_checksum: sha1:ac2b53b2389d4daea59415e863f0516f4cd5a330
@@ -11062,8 +11090,8 @@ trackedFiles:
     pristine_git_object: 22bab0a656fe6f654b48f90222a82dc9d38d18b6
   docs/sdks/commits/README.md:
     id: ae81a8318c17
-    last_write_checksum: sha1:a09044452547cb1311271c0252b83e88720db30e
-    pristine_git_object: 068df1bbc78e8b6840c371ffd8e2afbd17e51c89
+    last_write_checksum: sha1:1bfff6c814a8a4aa1262865ead5ba3916a26fac6
+    pristine_git_object: 70e07bd6909180967c144ef989d0ba82e3cd7084
   docs/sdks/configsversions/README.md:
     id: ac0c3c5ebd05
     last_write_checksum: sha1:bbef1edb3235081a0c1d32daeddbd748bb88e462
@@ -11080,6 +11108,10 @@ trackedFiles:
     id: e83d288899aa
     last_write_checksum: sha1:2b8cf2e50a89dc1cc0584bfd3f5e35fa570f231b
     pristine_git_object: 70807f419758af1faa27553468e9fc09050cec5d
+  docs/sdks/destinationspq/README.md:
+    id: 4e89748a1821
+    last_write_checksum: sha1:68156495dbc6e929d062a67b3855c7da55dd2357
+    pristine_git_object: 134cde206e1123617da7f5e82cdd8b0b96f54f9e
   docs/sdks/files/README.md:
     id: e576d7a117f0
     last_write_checksum: sha1:9733468fe85ebae72aa8ce2ed91f0b4d50c3929a
@@ -11112,14 +11144,18 @@ trackedFiles:
     id: aea0b099af37
     last_write_checksum: sha1:92c356b6af5f7072d511eb87018ba4f6a763a922
     pristine_git_object: c1d588bc1062fe5be527095fd5bd5be1b998e5a6
+  docs/sdks/packshectokens/README.md:
+    id: 7c22dc9d7d8c
+    last_write_checksum: sha1:4730875fce803721b24ca4c3fb48febfeaac9179
+    pristine_git_object: 4ebc3abbb014f10e33d3f57becc83ed8374d70cc
+  docs/sdks/packssources/README.md:
+    id: 91cf5c639969
+    last_write_checksum: sha1:a6fa0eff38ec2445d454e9bf8ef1c107f6489348
+    pristine_git_object: c521fdcb1ad174e4419c66713862d7f08bcd1887
   docs/sdks/pipelines/README.md:
     id: 96306a4a5f5a
     last_write_checksum: sha1:7713ff9635a4a64e0912df0bfa4055e0cec3c41d
     pristine_git_object: d7cfb37f77fa9d053ae53fadfbb494f979aebe9b
-  docs/sdks/pq/README.md:
-    id: 47d89d172a34
-    last_write_checksum: sha1:68156495dbc6e929d062a67b3855c7da55dd2357
-    pristine_git_object: 134cde206e1123617da7f5e82cdd8b0b96f54f9e
   docs/sdks/routessdk/README.md:
     id: 7c151891b0a4
     last_write_checksum: sha1:171861d7be23f61b9906fc41fcc2632cc7ae0a59
@@ -11132,6 +11168,10 @@ trackedFiles:
     id: c1396b2a57d9
     last_write_checksum: sha1:01cf337d5436acb19fed81214287616d7c7627bc
     pristine_git_object: 1a9e554bb11a49d01e33487778c575221d88c93a
+  docs/sdks/sourcespq/README.md:
+    id: 08e24f4817a2
+    last_write_checksum: sha1:389abb7e5f442fb39539b5cf6ea98b0e2847996e
+    pristine_git_object: b7ecde225bb455a81127212895df4a8e9c6498d7
   docs/sdks/statuses/README.md:
     id: 9d2c1d2e9b17
     last_write_checksum: sha1:5a02c5424f5b2912b443f73dfd344e46edb1f26b
@@ -11166,8 +11206,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:b582c5cd278606c6ba0668b418f21022b21ae6c3
-    pristine_git_object: f55e71c3f173ce4342e914c9de47c1114f05aaaf
+    last_write_checksum: sha1:ef4a793fd779673bec3f67999aa78320b345bbf4
+    pristine_git_object: 11edb84b1dd325f032c99fabae6999e0fa77717d
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -11198,8 +11238,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:a3a16426290ec897f9bbc8010d873be03e18cd3a
-    pristine_git_object: daecc6775488e6e310515985abd3505972b92d1c
+    last_write_checksum: sha1:638e7524342a796e1ff1c27668af372f8d703727
+    pristine_git_object: 4a4bc31b67412442c68e674c2095db9fa1810786
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -11226,8 +11266,8 @@ trackedFiles:
     pristine_git_object: 7364b9e796658c94ae7851d90688787022e3870c
   src/cribl_control_plane/commits.py:
     id: 77b962b3c68c
-    last_write_checksum: sha1:a835f3dd424fa2e412938aa38ec48e92e81ac1bf
-    pristine_git_object: 7dec59a24e7e674503352d6866ef664a0a49912c
+    last_write_checksum: sha1:868f51adc118b0892f4e80ee21c527679b5d1936
+    pristine_git_object: 1b79f81c943b5c2f63a5964c727dc45c4f2639f9
   src/cribl_control_plane/configs_versions.py:
     id: 412313ca833a
     last_write_checksum: sha1:c71972f833129dce93b18653df0b8178ff7ef709
@@ -11242,8 +11282,12 @@ trackedFiles:
     pristine_git_object: bac098fb9b15103313af70950d7d619545cb961a
   src/cribl_control_plane/destinations.py:
     id: 36ffc53f2f7d
-    last_write_checksum: sha1:6838a5c487ceb1b0f9e99e1cb5c8cccf35394bd8
-    pristine_git_object: 6364d738102f2efb4e06069ebdbdbf505eb85dc7
+    last_write_checksum: sha1:a0e4163159781c7152b61d7d154c8649196b32f1
+    pristine_git_object: 3148e547f159f3adf179355d6d53adfd5a219bef
+  src/cribl_control_plane/destinations_pq.py:
+    id: 30ac4b7a9e97
+    last_write_checksum: sha1:89c8f763144fc498cb1b24e7f8650fc71d5860a9
+    pristine_git_object: 05d314eb718da77d72a0ae0dbf590214983e6fa9
   src/cribl_control_plane/errors/__init__.py:
     id: d372d9a85443
     last_write_checksum: sha1:68ee24b8ae2494c73be919a2e8559663f9816b0b
@@ -11306,8 +11350,8 @@ trackedFiles:
     pristine_git_object: c0d118580fd3166b17ca06888733605534e83905
   src/cribl_control_plane/models/__init__.py:
     id: 558fbe1bf6ca
-    last_write_checksum: sha1:47069bc8d07c8fa45aa95b3ca0bcc4abcfb2782e
-    pristine_git_object: 8fb81fbb072c5e16fc024334fe88bdc458368239
+    last_write_checksum: sha1:3947c98c79f11875cfeaf769d8e75809492e05b8
+    pristine_git_object: 8c8f7421e34c6e3c17cb5783550c6f274c5606e7
   src/cribl_control_plane/models/acknowledgmentsoptions.py:
     id: 2537877f09eb
     last_write_checksum: sha1:4d96487823456aeba81ac18813b05570968697e3
@@ -11716,6 +11760,10 @@ trackedFiles:
     id: a1b539ed25c3
     last_write_checksum: sha1:437155e16abb1ba4136ba883a06042fe2649092f
     pristine_git_object: 89206e4312a70a7d125c55ff8669da4fe9f0fe5e
+  src/cribl_control_plane/models/createinputsystemhectokenbypackandidop.py:
+    id: 20d15344dcb5
+    last_write_checksum: sha1:6c32927ebcf383a224fbfaedcb6b128d683dff1e
+    pristine_git_object: a41d65250bf8f8d49873e11041c6f02602990c01
   src/cribl_control_plane/models/createoutputop.py:
     id: dd9442d8fc8c
     last_write_checksum: sha1:85741d3e3fa5267eaa3e1fdd1564386d7c9beded
@@ -11812,6 +11860,14 @@ trackedFiles:
     id: f770760493a8
     last_write_checksum: sha1:32ed5f44eeb036de8f8d146d8a41518c37601a33
     pristine_git_object: 97652e36ee772cb5baa568293d944d41eaacff72
+  src/cribl_control_plane/models/deleteinputsystembypackandidop.py:
+    id: 9a2a0b0afecb
+    last_write_checksum: sha1:4b3c187253cb9b8412cac677b8b5d08824b231c6
+    pristine_git_object: 2bc42db88f84bd7802ef4f435cc323f53d46782e
+  src/cribl_control_plane/models/deleteinputsystempqbypackandidop.py:
+    id: ed5b195ebf75
+    last_write_checksum: sha1:2a9d0b3cfc16a5e0a969ddae51ab4f9637d88020
+    pristine_git_object: 1b97dc9a59357398b68972b8eef1853b3b26f43e
   src/cribl_control_plane/models/deleteoutputbyidop.py:
     id: 9529d117d143
     last_write_checksum: sha1:a39db58851fb4862371934b77f2a931ae69418fd
@@ -12324,6 +12380,14 @@ trackedFiles:
     id: f044b9ef810a
     last_write_checksum: sha1:a8642beffb6a825ad24068ef535eb89c64004932
     pristine_git_object: 50f65127eab2000f15e8a5225eff645494903cc7
+  src/cribl_control_plane/models/getinputsystembypackandidop.py:
+    id: 6b63d2e571f4
+    last_write_checksum: sha1:82f0dbd53427d23ca0a28ff8dab548a9f2f2e3ea
+    pristine_git_object: b93c04722b7e317cb437f9438871a5b1bce34ccc
+  src/cribl_control_plane/models/getinputsystembypackop.py:
+    id: 52af6a2d0fd9
+    last_write_checksum: sha1:87bf299d7f8d96619fdeeedd46a2e231701d5f08
+    pristine_git_object: 786a095e0be5b6ae2b48bba6d73b0b2ab09ff2e3
   src/cribl_control_plane/models/getoutputbyidop.py:
     id: 1022f08c1916
     last_write_checksum: sha1:e37dbbaac47d53bd0aaf3f7b945c2e797f14d0e5
@@ -12374,20 +12438,20 @@ trackedFiles:
     pristine_git_object: 4b1c5f53030d4b90ca8417c5e3dcead0db2c72a5
   src/cribl_control_plane/models/getversiondiffop.py:
     id: 1e149f148ff9
-    last_write_checksum: sha1:929c0b51e1527a28986aba51d6cc1ba69b663a4e
-    pristine_git_object: 9d7f76cf0be909a2d57e95adcc3d4a25e7dea1ff
+    last_write_checksum: sha1:29b7d80723636e093e53bcd2260d6a7be2044deb
+    pristine_git_object: 91d79fe743f4cfcb1d9ef26f0788101816ce24fd
   src/cribl_control_plane/models/getversionfilesop.py:
     id: 37b65121c5f5
     last_write_checksum: sha1:67062419d7166d096f6056ed247927912e72ea55
     pristine_git_object: 1f312a5109f7a6531759eb6247ebb1408fbaab0f
   src/cribl_control_plane/models/getversionop.py:
     id: dd3cc790e487
-    last_write_checksum: sha1:61a38f1a136db6521d55e0932bea3f64ea12299b
-    pristine_git_object: efbea3d93622571bbe3041cab19215578e10164a
+    last_write_checksum: sha1:9aa81aaa2697f6454dda864cf60b24be15177ed3
+    pristine_git_object: d8e37a762fb401dbb8f1cce6d8ef87338eb0b3a3
   src/cribl_control_plane/models/getversionshowop.py:
     id: 0b917d8e5ad6
-    last_write_checksum: sha1:33273b782ad819374a19f8f1a822abfbac19c64a
-    pristine_git_object: 52d7a4678976af86d40fafd8f112eac20bf490d9
+    last_write_checksum: sha1:61df5dc857cae5055b1809d4cfac469856323830
+    pristine_git_object: 93975580b4ddee65083985b2f67ea70a1bd709f5
   src/cribl_control_plane/models/getversionstatusop.py:
     id: 8bf45bf11cf3
     last_write_checksum: sha1:3f8d3a617003f951367e1fe57dbe043d0a4fc73e
@@ -13928,6 +13992,14 @@ trackedFiles:
     id: 9855e9c2c13d
     last_write_checksum: sha1:b7392c5d83784a54182eed3960bd8e29f0c71c2b
     pristine_git_object: dd1afddebc0c7866717d5421ad3c809d31e26d7a
+  src/cribl_control_plane/models/updateinputsystembypackandidop.py:
+    id: 63d915d61ecd
+    last_write_checksum: sha1:bc5c255c2218b375bd7610e56fdaf3047df1cd52
+    pristine_git_object: 28f109fb1961d20217943fc9b4a2fc7c2dcb49f8
+  src/cribl_control_plane/models/updateinputsystemhectokenbypackandidandtokenop.py:
+    id: 6a20e3bfeca0
+    last_write_checksum: sha1:6d2645764f19d1cc57423426abd72ec6f2dd0229
+    pristine_git_object: 8ca682d9dea171cf100555b40b8b71af23a502c1
   src/cribl_control_plane/models/updateoutputbyidop.py:
     id: 71b2f6cc6bcc
     last_write_checksum: sha1:b1b443bf4aed2d0a30d2fab81a9495e2780bcc36
@@ -13990,16 +14062,20 @@ trackedFiles:
     pristine_git_object: f43a0237454adf6523af75cb22f2f5fe61ae21f8
   src/cribl_control_plane/packs.py:
     id: c77b21eb4262
-    last_write_checksum: sha1:1f0edc3e0ba1988a848e1dbb78a8d2dd8ebd0e5d
-    pristine_git_object: d809d63010a613e5f39ac3d05230ee3718f2e9cf
+    last_write_checksum: sha1:d2fd92c680e523560f664eb0cdc98b4119ae5428
+    pristine_git_object: bc1da3c235e6df7c3796193994fff4ebcff68490
+  src/cribl_control_plane/packs_hectokens.py:
+    id: 9cf63557bac9
+    last_write_checksum: sha1:4a3ca1dc997aafee141f3ff446c4e0219b77eaed
+    pristine_git_object: 1bb2717589b3d065c544ea6a1c168790a6b28f58
+  src/cribl_control_plane/packs_sources.py:
+    id: 501249caef46
+    last_write_checksum: sha1:6d24666c43edd25a9fd28f4e551bb0532c2a24af
+    pristine_git_object: d8956fbae93f1c3cba71a7da449a02f9fa519d2a
   src/cribl_control_plane/pipelines.py:
     id: dc1a703eab78
     last_write_checksum: sha1:a8612c68b47e9150919609686819c004bb02d27f
     pristine_git_object: a087124935d2fe8adb845cf87f012a0e0678018c
-  src/cribl_control_plane/pq.py:
-    id: fcd781e6868e
-    last_write_checksum: sha1:fed7b79789fc0197ff96c596fc04799a805221d3
-    pristine_git_object: a84b43b24955690697bbf65cd2555e6a9e431110
   src/cribl_control_plane/py.typed:
     id: d1e7cfa63a0b
     last_write_checksum: sha1:8efc425ffe830805ffcc0f3055871bdcdc542c60
@@ -14014,8 +14090,8 @@ trackedFiles:
     pristine_git_object: 1f972658b100b5e536bc27a119498258c9051a65
   src/cribl_control_plane/sdk.py:
     id: ee02d2b5889e
-    last_write_checksum: sha1:557244493fdbcaf8f8ea1c9adc0b02887cc840dc
-    pristine_git_object: 1e82f7b039d055630f1d50599ee170a2c409c412
+    last_write_checksum: sha1:4208d21221d8df74f2819c73b8527e2943e44827
+    pristine_git_object: feb0af74500a3218f9b9aaef0660ee047a428ab1
   src/cribl_control_plane/sdkconfiguration.py:
     id: bfdcc08a1a6c
     last_write_checksum: sha1:cce8b1ddee973ae520d66a7623d9e37588c0a008
@@ -14028,6 +14104,10 @@ trackedFiles:
     id: 51c4b88fc5fb
     last_write_checksum: sha1:58d940120a3023b06dcfa1aadfcde04ccaebb622
     pristine_git_object: 42804c028e726bdf832f02d14aa483a69db0556b
+  src/cribl_control_plane/sources_pq.py:
+    id: f83af0610b37
+    last_write_checksum: sha1:49698f7eb1a8382e587b91c97a6a11c500829929
+    pristine_git_object: 4fd7b075a6c15e65fcab0b3342bb9b814ddffcce
   src/cribl_control_plane/statuses.py:
     id: 8ad2869c35fb
     last_write_checksum: sha1:4b57d97283abb18d91a36ab489a0d9de935c531d
@@ -19827,6 +19907,859 @@ examples:
           application/json: {"count": 800579, "items": [{"id": "<id>", "routes": [{"id": "<id>", "name": "<value>", "disabled": false, "filter": "<value>", "pipeline": "<value>", "enableOutputExpression": true, "output": "<value>", "outputExpression": "<value>", "description": "lone carelessly as important upwardly think large", "final": true}], "groups": {"key": {"name": "<value>", "description": "wobbly hm scarily supposing mid yippee", "disabled": false}}, "comments": [{"comment": "The Football Is Good For Training And Recreational Purposes"}]}]}
         "500":
           application/json: {"message": "<value>"}
+  getInputSystemByPack:
+    speakeasy-default-get-input-system-by-pack:
+      parameters:
+        path:
+          pack: "<value>"
+      responses:
+        "200":
+          application/json: {"count": 311386, "items": [{"id": "<id>", "type": "firehose", "disabled": true, "pipeline": "<value>", "sendToRoutes": false, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "always", "maxBufferSize": 9828.22, "commitFrequency": 8505.22, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/rescue", "compress": "none", "pqControls": {}}, "host": "tame-ceramic.name", "port": 807.06, "authTokens": ["<value 1>", "<value 2>"], "tls": {"disabled": false, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1"}, "maxActiveReq": 2251.54, "maxRequestsPerSocket": 164297, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 4675.04, "requestTimeout": 8440.03, "socketTimeout": 9649.88, "keepAliveTimeout": 9153.8, "enableHealthCheck": true, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "fidget impassioned exonerate", "__template_host": "<value>", "__template_port": "<value>"}]}
+        "500":
+          application/json: {"message": "<value>"}
+  getInputSystemByPackAndId:
+    speakeasy-default-get-input-system-by-pack-and-id:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      responses:
+        "200":
+          application/json: {"count": 476891, "items": [{"id": "<id>", "type": "http", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 3273.99, "commitFrequency": 2865.8, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/srv", "compress": "gzip", "pqControls": {}}, "host": "deserted-cellar.com", "port": 1737.92, "authTokens": ["<value 1>", "<value 2>"], "tls": {"disabled": false, "requestCert": false, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.2", "maxVersion": "TLSv1.3"}, "maxActiveReq": 3587.04, "maxRequestsPerSocket": 589287, "enableProxyHeader": false, "captureHeaders": true, "activityLogSampleRate": 5626.71, "requestTimeout": 4935.24, "socketTimeout": 4063.55, "keepAliveTimeout": 4746.82, "enableHealthCheck": true, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "criblAPI": "<value>", "elasticAPI": "<value>", "splunkHecAPI": "<value>", "splunkHecAcks": false, "metadata": [{"name": "<value>", "value": "<value>"}], "authTokensExt": [{"token": "<value>", "description": "fast beside highly er", "metadata": [{"name": "<value>", "value": "<value>"}]}], "description": "lest glum delectable provided aboard duh cloudy dampen wobbly daddy", "__template_host": "<value>", "__template_port": "<value>", "__template_splunkHecAPI": "<value>"}]}
+        "500":
+          application/json: {"message": "<value>"}
+  updateInputSystemByPackAndId:
+    InputCreateExamplesAppscope:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "appscope-source", "type": "appscope", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "ipWhitelistRegex": "<value>", "maxActiveCxn": 2177.87, "socketIdleTimeout": 1131.76, "socketEndingMaxWait": 2476.4, "socketMaxLifespan": 8980.2, "enableProxyHeader": false, "metadata": [{"name": "<value>", "value": "<value>"}], "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 5201.14, "enableUnixPath": false, "filter": {"allow": [{"procname": "<value>", "arg": "<value>", "config": "<value>"}], "transportURL": "https://stable-transparency.org/"}, "persistence": {"enable": false, "timeWindow": "<value>", "maxDataSize": "<value>", "maxDataTime": "<value>", "compress": "none", "destPath": "<value>"}, "authType": "manual", "description": "graffiti yawningly absent when times sonata or uselessly woeful amidst", "host": "0.0.0.0", "port": 9109, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "unixSocketPath": "<value>", "unixSocketPerms": "<value>", "authToken": "<value>", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesAzureBlob:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "azure-blob-source", "type": "azure_blob", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "queueName": "azure-blob-queue", "fileFilter": "<value>", "visibilityTimeout": 3094.63, "numReceivers": 7570.95, "maxMessages": 2253.54, "servicePeriodSecs": 7697.99, "skipOnError": false, "metadata": [{"name": "<value>", "value": "<value>"}], "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 2956.83, "parquetChunkSizeMB": 7633.01, "parquetChunkDownloadTimeout": 4156.74, "authType": "manual", "description": "knavishly vivaciously sympathetically", "connectionString": "<value>", "textSecret": "<value>", "storageAccountName": "<value>", "tenantId": "<id>", "clientId": "<id>", "azureCloud": "<value>", "endpointSuffix": "<value>", "clientTextSecret": "<value>", "certificate": {"certificateName": "<value>"}, "__template_queueName": "<value>", "__template_connectionString": "<value>", "__template_tenantId": "<id>", "__template_clientId": "<id>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesCloudflareHec:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cloudflare-hec-source", "type": "cloudflare_hec", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 8088, "authTokens": [{"authType": "secret", "tokenSecret": "<value>", "token": "<value>", "enabled": false, "description": "convalesce after sympathetically", "allowedIndexesAtToken": ["<value 1>", "<value 2>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 8504.29, "maxRequestsPerSocket": 808412, "enableProxyHeader": true, "captureHeaders": true, "activityLogSampleRate": 8898.86, "requestTimeout": 2032.33, "socketTimeout": 3074.69, "keepAliveTimeout": 8911.87, "enableHealthCheck": "<value>", "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "hecAPI": "/services/collector", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>"], "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 7424.11, "accessControlAllowOrigin": ["<value 1>", "<value 2>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>", "<value 3>"], "emitTokenMetrics": false, "description": "successfully ecstatic if woefully apprehensive soulful nicely butter even deprave", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesConfluentCloud:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "confluent-cloud-source", "type": "confluent_cloud", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "brokers": ["pkc-xxxxx.us-east-1.aws.confluent.cloud:9092"], "tls": {"disabled": false, "rejectUnauthorized": false, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1"}, "topics": ["logs"], "groupId": "<id>", "fromBeginning": false, "kafkaSchemaRegistry": {"disabled": true, "schemaRegistryURL": "https://foolish-lace.name", "connectionTimeout": 9222.03, "requestTimeout": 2060.92, "maxRetries": 4747.86, "auth": {"disabled": true, "credentialsSecret": "<value>"}, "tls": {"disabled": false, "rejectUnauthorized": false, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1"}}, "connectionTimeout": 2191.22, "requestTimeout": 9306.44, "maxRetries": 9430.74, "maxBackOff": 5234.73, "initialBackoff": 5835.16, "backoffRate": 8876.61, "authenticationTimeout": 4184.48, "reauthenticationThreshold": 2863.18, "sasl": {"disabled": false, "username": "Hallie.Wisozk", "password": "oF6ULVD266SvlIK", "authType": "secret", "credentialsSecret": "<value>", "mechanism": "scram-sha-512", "keytabLocation": "<value>", "principal": "<value>", "brokerServiceClass": "<value>", "oauthEnabled": true, "tokenUrl": "https://rewarding-courtroom.net/", "clientId": "<id>", "oauthSecretType": "<value>", "clientTextSecret": "<value>", "oauthParams": [{"name": "<value>", "value": "<value>"}], "saslExtensions": [{"name": "<value>", "value": "<value>"}]}, "sessionTimeout": 789.56, "rebalanceTimeout": 6327.46, "heartbeatInterval": 6024.79, "autoCommitInterval": 2783, "autoCommitThreshold": 9984.03, "maxBytesPerPartition": 214.49, "maxBytes": 1937.09, "maxSocketErrors": 7019.66, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "qua simple retention gratefully huzzah hefty crazy because"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesCollection:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "collection-source", "type": "collection", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 2306.82, "preprocess": {"disabled": true, "command": "<value>", "args": ["<value 1>", "<value 2>", "<value 3>"]}, "throttleRatePerSec": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "output": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputExamplesCribl:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-source", "type": "cribl", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "filter": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "wherever qualified questionably fork amid"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesCriblHttp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-http-source", "type": "cribl_http", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "authTokens": [{"tokenSecret": "<value>", "enabled": false, "description": "that convince gift ha maroon sadly above fraternise affect always"}], "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 94.06, "maxRequestsPerSocket": 995636, "enableProxyHeader": true, "captureHeaders": true, "activityLogSampleRate": 7620.39, "requestTimeout": 5316.13, "socketTimeout": 5927.22, "keepAliveTimeout": 984.97, "enableHealthCheck": true, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "meanwhile atomize receptor wildly whether competent intelligent", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesCriblLakeHttp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-lake-http-source", "type": "cribl_lake_http", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "authTokens": ["<value 1>"], "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 3932.24, "maxRequestsPerSocket": 381048, "enableProxyHeader": true, "captureHeaders": false, "activityLogSampleRate": 7154.34, "requestTimeout": 5542.72, "socketTimeout": 5091.92, "keepAliveTimeout": 4354.07, "enableHealthCheck": false, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "criblAPI": "<value>", "elasticAPI": "<value>", "splunkHecAPI": "<value>", "splunkHecAcks": true, "metadata": [{"name": "<value>", "value": "<value>"}], "authTokensExt": [{"token": "<value>", "description": "joyfully duh once among", "metadata": [{"name": "<value>", "value": "<value>"}], "splunkHecMetadata": {"enabled": false, "defaultDataset": "<value>", "allowedIndexesAtToken": ["<value 1>"]}, "elasticsearchMetadata": {"enabled": false, "defaultDataset": "<value>"}}], "description": "suitcase hm um selfish", "__template_host": "<value>", "__template_port": "<value>", "__template_splunkHecAPI": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputExamplesCriblMetrics:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-metrics-source", "type": "criblmetrics", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "prefix": "<value>", "fullFidelity": true, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "word what fall expense tromp nerve"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesCriblTcp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-tcp-source", "type": "cribl_tcp", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 10090, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveCxn": 3802.79, "socketIdleTimeout": 4455.7, "socketEndingMaxWait": 7985.02, "socketMaxLifespan": 275.69, "enableProxyHeader": true, "metadata": [{"name": "<value>", "value": "<value>"}], "enableLoadBalancing": false, "authTokens": [{"tokenSecret": "<value>", "enabled": false, "description": "that convince gift ha maroon sadly above fraternise affect always"}], "description": "consequently wise out yuck in option emboss silt", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesCrowdstrike:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "crowdstrike-source", "type": "crowdstrike", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "queueName": "crowdstrike-queue", "fileFilter": "<value>", "awsAccountId": "<id>", "awsAuthenticationMethod": "manual", "awsSecretKey": "<value>", "region": "us-east-1", "endpoint": "<value>", "signatureVersion": "v4", "reuseConnections": true, "rejectUnauthorized": true, "breakerRulesets": ["<value 1>", "<value 2>", "<value 3>"], "staleChannelFlushMs": 1413.78, "maxMessages": 1324.06, "visibilityTimeout": 6723.13, "numReceivers": 6219.39, "socketTimeout": 8635.01, "skipOnError": false, "includeSqsMetadata": false, "enableAssumeRole": false, "assumeRoleArn": "<value>", "assumeRoleExternalId": "<id>", "durationSeconds": 7464.28, "enableSQSAssumeRole": false, "preprocess": {"disabled": true, "command": "<value>", "args": ["<value 1>", "<value 2>", "<value 3>"]}, "metadata": [{"name": "<value>", "value": "<value>"}], "checkpointing": {"enabled": false, "retries": 1555.53}, "pollTimeout": 1226.29, "encoding": "<value>", "description": "partridge gah and instructor plus", "awsApiKey": "<value>", "awsSecret": "<value>", "tagAfterProcessing": "false", "processedTagKey": "<value>", "processedTagValue": "<value>", "__template_queueName": "<value>", "__template_awsAccountId": "<id>", "__template_awsSecretKey": "<value>", "__template_region": "<value>", "__template_assumeRoleArn": "<value>", "__template_assumeRoleExternalId": "<id>", "__template_awsApiKey": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesDatadogAgent:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "datadog-agent-source", "type": "datadog_agent", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 8126, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 3701.81, "maxRequestsPerSocket": 562306, "enableProxyHeader": true, "captureHeaders": true, "activityLogSampleRate": 6427.39, "requestTimeout": 6528.52, "socketTimeout": 4974.13, "keepAliveTimeout": 3714.31, "enableHealthCheck": true, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "extractMetrics": false, "metadata": [{"name": "<value>", "value": "<value>"}], "proxyMode": {"enabled": true, "rejectUnauthorized": true}, "description": "gradient alongside bug fill which woot considering deadly", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesDatagen:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "datagen-source", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "sample.json", "eventsPerSec": 10}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "that apud awkwardly reclassify bid ha ew sardonic boo ameliorate"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesEdgePrometheus:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "edge-prometheus-source", "type": "edge_prometheus", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "dimensionList": ["<value 1>"], "discoveryType": "static", "interval": 60, "timeout": 256.89, "persistence": {"enable": false, "timeWindow": "<value>", "maxDataSize": "<value>", "maxDataTime": "<value>", "compress": "none"}, "metadata": [{"name": "<value>", "value": "<value>"}], "authType": "secret", "description": "those boo seafood but across around", "targets": [{"protocol": "http", "host": "localhost", "port": 2116.57, "path": "/opt/lib"}], "recordType": "SRV", "scrapePort": 8442.04, "nameList": ["<value 1>", "<value 2>", "<value 3>"], "scrapeProtocol": "http", "scrapePath": "<value>", "awsAuthenticationMethod": "manual", "awsApiKey": "<value>", "awsSecret": "<value>", "usePublicIp": false, "searchFilter": [{"Name": "<value>", "Values": []}], "awsSecretKey": "<value>", "region": "<value>", "endpoint": "<value>", "signatureVersion": "v4", "reuseConnections": false, "rejectUnauthorized": false, "enableAssumeRole": true, "assumeRoleArn": "<value>", "assumeRoleExternalId": "<id>", "durationSeconds": 5608.71, "scrapeProtocolExpr": "<value>", "scrapePortExpr": "<value>", "scrapePathExpr": "<value>", "podFilter": [{"filter": "<value>", "description": "toaster whenever reflecting indeed rationale"}], "username": "Karlee.Prohaska", "password": "Lx6EeJZLVVlDkZb", "credentialsSecret": "<value>", "__template_awsApiKey": "<value>", "__template_awsSecretKey": "<value>", "__template_region": "<value>", "__template_assumeRoleArn": "<value>", "__template_assumeRoleExternalId": "<id>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesElastic:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "elastic-source", "type": "elastic", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "localhost", "port": 9200, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 2608.82, "maxRequestsPerSocket": 179171, "enableProxyHeader": true, "captureHeaders": false, "activityLogSampleRate": 7866.63, "requestTimeout": 7159.18, "socketTimeout": 5602.34, "keepAliveTimeout": 3586.64, "enableHealthCheck": false, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "elasticAPI": "/", "authType": "credentialsSecret", "apiVersion": "6.8.4", "extraHttpHeaders": [{"name": "<value>", "value": "<value>"}], "metadata": [{"name": "<value>", "value": "<value>"}], "proxyMode": {"enabled": true, "authType": "secret", "username": "Courtney.Welch", "password": "Lge4i0P6LwZldaN", "credentialsSecret": "<value>", "url": "https://scientific-interior.name", "rejectUnauthorized": true, "removeHeaders": ["<value 1>"], "timeoutSec": 9619.23, "__template_url": "https://exalted-turret.net"}, "description": "geez elderly concerning translation", "username": "Marcus75", "password": "Nx2JR_RGCX4Zt2A", "credentialsSecret": "<value>", "authTokens": ["<value 1>"], "customAPIVersion": "<value>", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesEventhub:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "eventhub-source", "type": "eventhub", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "brokers": ["myeventhub.servicebus.windows.net:9093"], "topics": ["logs"], "groupId": "<id>", "fromBeginning": true, "connectionTimeout": 1083.7, "requestTimeout": 7233.09, "maxRetries": 584.36, "maxBackOff": 9713.26, "initialBackoff": 4326.99, "backoffRate": 8957.69, "authenticationTimeout": 3151.51, "reauthenticationThreshold": 4345.38, "sasl": {"disabled": false, "authType": "secret", "password": "5xOWKBHPhbLS62p", "textSecret": "<value>", "mechanism": "oauthbearer", "username": "Rosalinda89", "clientSecretAuthType": "certificate", "clientSecret": "<value>", "clientTextSecret": "<value>", "certificateName": "<value>", "certPath": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "oauthEndpoint": "https://login.microsoftonline.us", "clientId": "<id>", "tenantId": "<id>", "scope": "<value>"}, "tls": {"disabled": true, "rejectUnauthorized": true}, "sessionTimeout": 1137.77, "rebalanceTimeout": 6787.34, "heartbeatInterval": 7898.58, "autoCommitInterval": 3538.75, "autoCommitThreshold": 8585.97, "maxBytesPerPartition": 1564.23, "maxBytes": 3331.78, "maxSocketErrors": 7530.35, "minimizeDuplicates": false, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "down yippee yowza meanwhile when fireplace solemnly"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesExec:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "exec-source", "type": "exec", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "command": "echo \"Hello World\"", "retries": 357.57, "scheduleType": "cronSchedule", "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 347.07, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "rot cap eek finally", "interval": 60, "cronSchedule": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesFile:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "file-source", "type": "file", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "mode": "manual", "interval": 2045.59, "filenames": ["<value 1>", "<value 2>", "<value 3>"], "filterArchivedFiles": true, "tailOnly": false, "idleTimeout": 5068.88, "minAgeDur": "<value>", "maxAgeDur": "<value>", "checkFileModTime": true, "forceText": true, "hashLen": 475.25, "metadata": [{"name": "<value>", "value": "<value>"}], "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 8347.38, "description": "to own daily redraw squiggly aside probate", "path": "/etc/namedb", "depth": 8225.75, "suppressMissingPathErrors": false, "deleteFiles": false, "saltHash": false, "includeUnidentifiableBinary": false}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesFirehose:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "firehose-source", "type": "firehose", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "authTokens": ["<value 1>", "<value 2>"], "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 4121.05, "maxRequestsPerSocket": 447263, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 8495.08, "requestTimeout": 3063.22, "socketTimeout": 9184.91, "keepAliveTimeout": 226.13, "enableHealthCheck": true, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "both merry exactly congregate", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesGrafana:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "grafana-source", "type": "grafana", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 7432.78, "maxRequestsPerSocket": 363916, "enableProxyHeader": false, "captureHeaders": true, "activityLogSampleRate": 9141.19, "requestTimeout": 8174.29, "socketTimeout": 7036.5, "keepAliveTimeout": 3091.06, "enableHealthCheck": false, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "prometheusAPI": "/api/prom/push", "lokiAPI": "<value>", "prometheusAuth": {"authType": "basic", "username": "Elody.Wintheiser", "password": "wz_3eL1dGvlO6eV", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>"}, "lokiAuth": {"authType": "none", "username": "Buck26", "password": "dlVcDmpeEG4LHgq", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>"}, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "pilot to fatally authentic chime bah", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesGooglePubsub:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "google-pubsub-source", "type": "google_pubsub", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "topicName": "my-topic", "subscriptionName": "my-subscription", "monitorSubscription": false, "createTopic": false, "createSubscription": false, "region": "<value>", "googleAuthMethod": "manual", "serviceAccountCredentials": "<value>", "secret": "<value>", "maxBacklog": 538.05, "concurrency": 42.36, "requestTimeout": 4688.25, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "ugh mismatch soon sunny apropos hmph", "orderedDelivery": false, "__template_topicName": "<value>", "__template_subscriptionName": "<value>", "__template_region": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesHttp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "http-source", "type": "http", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "authTokens": ["<value 1>", "<value 2>", "<value 3>"], "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 3968.12, "maxRequestsPerSocket": 834950, "enableProxyHeader": true, "captureHeaders": false, "activityLogSampleRate": 9398.33, "requestTimeout": 2620.6, "socketTimeout": 689.57, "keepAliveTimeout": 1105.14, "enableHealthCheck": true, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "criblAPI": "<value>", "elasticAPI": "<value>", "splunkHecAPI": "<value>", "splunkHecAcks": false, "metadata": [{"name": "<value>", "value": "<value>"}], "authTokensExt": [{"token": "<value>", "description": "ew phooey unless aha plus woot zowie unless", "metadata": [{"name": "<value>", "value": "<value>"}]}], "description": "finally whole outnumber over apropos frozen", "__template_host": "<value>", "__template_port": "<value>", "__template_splunkHecAPI": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesHttpRaw:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "http-raw-source", "type": "http_raw", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "authTokens": ["<value 1>"], "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 2155.01, "maxRequestsPerSocket": 339648, "enableProxyHeader": true, "captureHeaders": true, "activityLogSampleRate": 4438.78, "requestTimeout": 9645.86, "socketTimeout": 804.45, "keepAliveTimeout": 5141.74, "enableHealthCheck": false, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "breakerRulesets": ["<value 1>", "<value 2>", "<value 3>"], "staleChannelFlushMs": 3358.37, "metadata": [{"name": "<value>", "value": "<value>"}], "allowedPaths": ["<value 1>", "<value 2>", "<value 3>"], "allowedMethods": ["<value 1>", "<value 2>", "<value 3>"], "authTokensExt": [{"token": "<value>", "description": "ew phooey unless aha plus woot zowie unless", "metadata": [{"name": "<value>", "value": "<value>"}]}], "description": "quizzically blight athwart ugh invite aha tenant multicolored if wherever", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesJournalFiles:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "journal-files-source", "type": "journal_files", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "path": "/var/log/journal", "interval": 6340.49, "journals": ["system"], "rules": [{"filter": "<value>", "description": "mmm by yesterday"}], "currentBoot": false, "maxAgeDur": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "likewise off atop instead never"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesKafka:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "kafka-source", "type": "kafka", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "brokers": ["localhost:9092"], "topics": ["logs"], "groupId": "<id>", "fromBeginning": true, "kafkaSchemaRegistry": {"disabled": true, "schemaRegistryURL": "https://foolish-lace.name", "connectionTimeout": 9222.03, "requestTimeout": 2060.92, "maxRetries": 4747.86, "auth": {"disabled": true, "credentialsSecret": "<value>"}, "tls": {"disabled": false, "rejectUnauthorized": false, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1"}}, "connectionTimeout": 8097.01, "requestTimeout": 6229.98, "maxRetries": 6946.19, "maxBackOff": 3258.42, "initialBackoff": 5604.23, "backoffRate": 3668.67, "authenticationTimeout": 8087.17, "reauthenticationThreshold": 1502.06, "sasl": {"disabled": false, "username": "Hallie.Wisozk", "password": "oF6ULVD266SvlIK", "authType": "secret", "credentialsSecret": "<value>", "mechanism": "scram-sha-512", "keytabLocation": "<value>", "principal": "<value>", "brokerServiceClass": "<value>", "oauthEnabled": true, "tokenUrl": "https://rewarding-courtroom.net/", "clientId": "<id>", "oauthSecretType": "<value>", "clientTextSecret": "<value>", "oauthParams": [{"name": "<value>", "value": "<value>"}], "saslExtensions": [{"name": "<value>", "value": "<value>"}]}, "tls": {"disabled": false, "rejectUnauthorized": false, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1"}, "sessionTimeout": 1415.5, "rebalanceTimeout": 5063.07, "heartbeatInterval": 1418.21, "autoCommitInterval": 5495.4, "autoCommitThreshold": 3976.66, "maxBytesPerPartition": 7857.05, "maxBytes": 8759.77, "maxSocketErrors": 5618.92, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "tousle draw excess"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesKinesis:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "kinesis-source", "type": "kinesis", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "streamName": "my-stream", "serviceInterval": 9387.25, "shardExpr": "<value>", "shardIteratorType": "LATEST", "payloadFormat": "line", "getRecordsLimit": 3821.23, "getRecordsLimitTotal": 4535.77, "loadBalancingAlgorithm": "ConsistentHashing", "awsAuthenticationMethod": "secret", "awsSecretKey": "<value>", "region": "us-east-1", "endpoint": "<value>", "signatureVersion": "v2", "reuseConnections": false, "rejectUnauthorized": true, "enableAssumeRole": false, "assumeRoleArn": "<value>", "assumeRoleExternalId": "<id>", "durationSeconds": 7175.07, "verifyKPLCheckSums": true, "avoidDuplicates": false, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "circa annually yahoo suckle the apropos divine out at too", "awsApiKey": "<value>", "awsSecret": "<value>", "__template_streamName": "<value>", "__template_awsSecretKey": "<value>", "__template_region": "<value>", "__template_assumeRoleArn": "<value>", "__template_assumeRoleExternalId": "<id>", "__template_awsApiKey": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesKubeEvents:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "kube-events-source", "type": "kube_events", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "rules": [{"filter": "<value>", "description": "chow vamoose devastation"}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "lone petticoat frightfully evil yum"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesKubeLogs:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "kube-logs-source", "type": "kube_logs", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "interval": 1273.6, "rules": [{"filter": "<value>", "description": "suddenly foolish quiet breastplate sophisticated drat what"}], "timestamps": true, "metadata": [{"name": "<value>", "value": "<value>"}], "persistence": {"enable": false, "timeWindow": "<value>", "maxDataSize": "<value>", "maxDataTime": "<value>", "compress": "none"}, "breakerRulesets": ["<value 1>", "<value 2>", "<value 3>"], "staleChannelFlushMs": 2370.87, "enableLoadBalancing": true, "description": "alb athletic bourgeoisie rapidly ew anenst license"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesKubeMetrics:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "kube-metrics-source", "type": "kube_metrics", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "interval": 8777.96, "rules": [{"filter": "<value>", "description": "chow vamoose devastation"}], "metadata": [{"name": "<value>", "value": "<value>"}], "persistence": {"enable": false, "timeWindow": "<value>", "maxDataSize": "<value>", "maxDataTime": "<value>", "compress": "gzip", "destPath": "<value>"}, "description": "duster when flood"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesLoki:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "loki-source", "type": "loki", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 2261.6, "maxRequestsPerSocket": 403885, "enableProxyHeader": false, "captureHeaders": true, "activityLogSampleRate": 391.58, "requestTimeout": 7446.1, "socketTimeout": 7887.34, "keepAliveTimeout": 7085.76, "enableHealthCheck": false, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "lokiAPI": "/loki/api/v1/push", "authType": "basic", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "on christen including behind annually disclosure boo whenever rubric printer", "username": "Lou_Heathcote", "password": "qSN2owb1cWSvjjh", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesMetrics:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "metrics-source", "type": "metrics", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "udpPort": 8125, "tcpPort": 3449.96, "maxBufferSize": 840.01, "ipWhitelistRegex": "<value>", "enableProxyHeader": false, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "metadata": [{"name": "<value>", "value": "<value>"}], "udpSocketRxBufSize": 6578.52, "description": "furthermore brilliant wretched geez gee", "__template_host": "<value>", "__template_udpPort": "<value>", "__template_tcpPort": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesModelDrivenTelemetry:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "mdt-source", "type": "model_driven_telemetry", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 57000, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "metadata": [{"name": "<value>", "value": "<value>"}], "maxActiveCxn": 4616.35, "shutdownTimeoutMs": 8224.03, "description": "boastfully past siege knavishly spellcheck scale frank", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesMsk:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "msk-source", "type": "msk", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "brokers": ["b-1.example.xxxxx.c2.kafka.us-east-1.amazonaws.com:9092"], "topics": ["logs"], "groupId": "<id>", "fromBeginning": false, "sessionTimeout": 9034.08, "rebalanceTimeout": 5113.84, "heartbeatInterval": 9292.28, "metadata": [{"name": "<value>", "value": "<value>"}], "kafkaSchemaRegistry": {"disabled": true, "schemaRegistryURL": "https://foolish-lace.name", "connectionTimeout": 9222.03, "requestTimeout": 2060.92, "maxRetries": 4747.86, "auth": {"disabled": true, "credentialsSecret": "<value>"}, "tls": {"disabled": false, "rejectUnauthorized": false, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1"}}, "connectionTimeout": 5239.83, "requestTimeout": 7415.72, "maxRetries": 3350.38, "maxBackOff": 1085.96, "initialBackoff": 2915.63, "backoffRate": 5562.81, "authenticationTimeout": 3485.6, "reauthenticationThreshold": 1186.43, "awsAuthenticationMethod": "auto", "awsSecretKey": "<value>", "region": "us-east-1", "endpoint": "<value>", "signatureVersion": "v4", "reuseConnections": false, "rejectUnauthorized": false, "enableAssumeRole": true, "assumeRoleArn": "<value>", "assumeRoleExternalId": "<id>", "durationSeconds": 3369.8, "tls": {"disabled": false, "rejectUnauthorized": false, "servername": "<value>", "certificateName": "<value>", "caPath": "<value>", "privKeyPath": "<value>", "certPath": "<value>", "passphrase": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1"}, "autoCommitInterval": 3782.76, "autoCommitThreshold": 5370.18, "maxBytesPerPartition": 493.58, "maxBytes": 7523.73, "maxSocketErrors": 392.88, "description": "upon deceivingly vanish profane sans furthermore um even", "awsApiKey": "<value>", "awsSecret": "<value>", "__template_awsSecretKey": "<value>", "__template_region": "<value>", "__template_assumeRoleArn": "<value>", "__template_assumeRoleExternalId": "<id>", "__template_awsApiKey": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesNetflow:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "netflow-source", "type": "netflow", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 2055, "enablePassThrough": true, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "udpSocketRxBufSize": 9889.4, "templateCacheMinutes": 2571.11, "v5Enabled": false, "v9Enabled": true, "ipfixEnabled": true, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "fearless ha what gym when", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesOffice365Mgmt:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "office365-mgmt-source", "type": "office365_mgmt", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "planType": "enterprise_gcc", "tenantId": "tenant-id", "appId": "app-id", "timeout": 7322.78, "keepAliveTime": 2466.82, "jobTimeout": "<value>", "maxMissedKeepAlives": 3801.89, "ttl": "<value>", "ignoreGroupJobsLimit": true, "metadata": [{"name": "<value>", "value": "<value>"}], "publisherIdentifier": "<value>", "contentConfig": [{"contentType": "<value>", "description": "truthfully ragged apropos better since now whoever as oof without", "interval": 9148.23, "logLevel": "error", "enabled": true}], "ingestionLag": 8798.19, "retryRules": {"type": "static", "interval": 3819.89, "limit": 6889.97, "multiplier": 1601.39, "codes": [8528.61, 6036.97], "enableHeader": true, "retryConnectTimeout": false, "retryConnectReset": true}, "authType": "manual", "description": "aha er finally", "clientSecret": "<value>", "textSecret": "<value>", "__template_tenantId": "<id>", "__template_appId": "<id>", "__template_publisherIdentifier": "<value>", "__template_clientSecret": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesOffice365MsgTrace:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "office365-msg-trace-source", "type": "office365_msg_trace", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "url": "https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace", "interval": 15, "startDate": "<value>", "endDate": "<value>", "timeout": 2553.49, "disableTimeFilter": false, "authType": "oauth", "rescheduleDroppedTasks": false, "maxTaskReschedule": 8433.78, "logLevel": "warn", "jobTimeout": "<value>", "keepAliveTime": 8444.87, "maxMissedKeepAlives": 3651.45, "ttl": "<value>", "ignoreGroupJobsLimit": false, "metadata": [{"name": "<value>", "value": "<value>"}], "retryRules": {"type": "static", "interval": 3819.89, "limit": 6889.97, "multiplier": 1601.39, "codes": [8528.61, 6036.97], "enableHeader": true, "retryConnectTimeout": false, "retryConnectReset": true}, "description": "apropos brr deliquesce cheese ah", "username": "Vernice_Langworth35", "password": "_pAlCa3zWUZn969", "credentialsSecret": "<value>", "clientSecret": "<value>", "tenantId": "<id>", "clientId": "<id>", "resource": "<value>", "planType": "dod", "textSecret": "<value>", "certOptions": {"certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>"}, "__template_url": "https://icy-finding.name/", "__template_tenantId": "<id>", "__template_clientId": "<id>", "__template_resource": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesOffice365Service:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "office365-service-source", "type": "office365_service", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "planType": "gcc", "tenantId": "tenant-id", "appId": "app-id", "timeout": 3852.82, "keepAliveTime": 5227.5, "jobTimeout": "<value>", "maxMissedKeepAlives": 7117.28, "ttl": "<value>", "ignoreGroupJobsLimit": true, "metadata": [{"name": "<value>", "value": "<value>"}], "contentConfig": [{"contentType": "<value>", "description": "alligator helpfully definitive perp scarily", "interval": 8076.88, "logLevel": "debug", "enabled": false}], "retryRules": {"type": "static", "interval": 3819.89, "limit": 6889.97, "multiplier": 1601.39, "codes": [8528.61, 6036.97], "enableHeader": true, "retryConnectTimeout": false, "retryConnectReset": true}, "authType": "manual", "description": "via selfishly plus puppet contrast pfft considering", "clientSecret": "<value>", "textSecret": "<value>", "__template_tenantId": "<id>", "__template_appId": "<id>", "__template_clientSecret": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesOpenTelemetry:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "otel-source", "type": "open_telemetry", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 4317, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 3469, "maxRequestsPerSocket": 295125, "enableProxyHeader": "<value>", "captureHeaders": "<value>", "activityLogSampleRate": "<value>", "requestTimeout": 6472.11, "socketTimeout": 8701.9, "keepAliveTimeout": 8352.78, "enableHealthCheck": true, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "protocol": "http", "extractSpans": true, "extractMetrics": true, "otlpVersion": "0.10.0", "authType": "credentialsSecret", "metadata": [{"name": "<value>", "value": "<value>"}], "maxActiveCxn": 4972.97, "description": "lively gadzooks gestate dowse depute carelessly highly", "username": "Jess22", "password": "2_mROJCOhV3vY75", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "extractLogs": true, "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesPrometheus:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "prometheus-source", "type": "prometheus", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "dimensionList": ["<value 1>", "<value 2>"], "discoveryType": "static", "interval": 60, "logLevel": "info", "rejectUnauthorized": true, "timeout": 8250.81, "keepAliveTime": 4617.44, "jobTimeout": "<value>", "maxMissedKeepAlives": 4814.04, "ttl": "<value>", "ignoreGroupJobsLimit": true, "metadata": [{"name": "<value>", "value": "<value>"}], "authType": "secret", "description": "hm instead gosh whack undergo", "targetList": ["http://localhost:9090/metrics"], "recordType": "AAAA", "scrapePort": 8151.75, "nameList": ["<value 1>"], "scrapeProtocol": "http", "scrapePath": "<value>", "awsAuthenticationMethod": "secret", "awsApiKey": "<value>", "awsSecret": "<value>", "usePublicIp": true, "searchFilter": [{"Name": "<value>", "Values": []}], "awsSecretKey": "<value>", "region": "<value>", "endpoint": "<value>", "signatureVersion": "v2", "reuseConnections": false, "enableAssumeRole": true, "assumeRoleArn": "<value>", "assumeRoleExternalId": "<id>", "durationSeconds": 5682.66, "username": "Delia_Emmerich-Hamill36", "password": "Y7ZzsJA55UXc4BZ", "credentialsSecret": "<value>", "__template_logLevel": "<value>", "__template_awsApiKey": "<value>", "__template_awsSecretKey": "<value>", "__template_region": "<value>", "__template_assumeRoleArn": "<value>", "__template_assumeRoleExternalId": "<id>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesPrometheusRw:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "prometheus-rw-source", "type": "prometheus_rw", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 6875.17, "maxRequestsPerSocket": 794108, "enableProxyHeader": true, "captureHeaders": true, "activityLogSampleRate": 9587.33, "requestTimeout": 1496.41, "socketTimeout": 9308.64, "keepAliveTimeout": 2890.6, "enableHealthCheck": false, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "prometheusAPI": "/write", "authType": "textSecret", "metadata": [{"name": "<value>", "value": "<value>"}], "description": "endow chainstay bracelet around plus", "username": "Anastasia.Lesch69", "password": "SRxtqO4Gdh5YJEX", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>", "__template_prometheusAPI": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesRawUdp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "raw-udp-source", "type": "raw_udp", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 514, "maxBufferSize": 1843.53, "ipWhitelistRegex": "<value>", "singleMsgUdpPackets": false, "ingestRawBytes": true, "udpSocketRxBufSize": 9334.16, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "healthily following redact worth aha yuck baseboard hold crazy", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesS3:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "s3-source", "type": "s3", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "queueName": "s3-notifications-queue", "fileFilter": "<value>", "awsAccountId": "<id>", "awsAuthenticationMethod": "auto", "awsSecretKey": "<value>", "region": "us-east-1", "endpoint": "<value>", "signatureVersion": "v2", "reuseConnections": true, "rejectUnauthorized": false, "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 342.52, "maxMessages": 7313.83, "visibilityTimeout": 1095.75, "numReceivers": 9862.68, "socketTimeout": 8762.59, "skipOnError": true, "includeSqsMetadata": false, "enableAssumeRole": true, "assumeRoleArn": "<value>", "assumeRoleExternalId": "<id>", "durationSeconds": 8770.51, "enableSQSAssumeRole": false, "preprocess": {"disabled": true, "command": "<value>", "args": ["<value 1>", "<value 2>", "<value 3>"]}, "metadata": [{"name": "<value>", "value": "<value>"}], "parquetChunkSizeMB": 2205.22, "parquetChunkDownloadTimeout": 8634.03, "checkpointing": {"enabled": false, "retries": 1555.53}, "pollTimeout": 177.43, "encoding": "<value>", "tagAfterProcessing": false, "description": "search joshingly than gullible spectacles consequently pish giggle", "awsApiKey": "<value>", "awsSecret": "<value>", "processedTagKey": "<value>", "processedTagValue": "<value>", "__template_queueName": "<value>", "__template_awsAccountId": "<id>", "__template_awsSecretKey": "<value>", "__template_region": "<value>", "__template_assumeRoleArn": "<value>", "__template_assumeRoleExternalId": "<id>", "__template_awsApiKey": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesS3Inventory:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "s3-inventory-source", "type": "s3_inventory", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "queueName": "s3-inventory-queue", "fileFilter": "<value>", "awsAccountId": "<id>", "awsAuthenticationMethod": "auto", "awsSecretKey": "<value>", "region": "us-east-1", "endpoint": "<value>", "signatureVersion": "v2", "reuseConnections": true, "rejectUnauthorized": false, "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 5846.84, "maxMessages": 4965.89, "visibilityTimeout": 5753.06, "numReceivers": 3855.04, "socketTimeout": 226.54, "skipOnError": false, "includeSqsMetadata": true, "enableAssumeRole": false, "assumeRoleArn": "<value>", "assumeRoleExternalId": "<id>", "durationSeconds": 3140.74, "enableSQSAssumeRole": false, "preprocess": {"disabled": true, "command": "<value>", "args": ["<value 1>", "<value 2>", "<value 3>"]}, "metadata": [{"name": "<value>", "value": "<value>"}], "parquetChunkSizeMB": 5540.32, "parquetChunkDownloadTimeout": 4211.1, "checkpointing": {"enabled": false, "retries": 1555.53}, "pollTimeout": 9620.31, "checksumSuffix": "<value>", "maxManifestSizeKB": 517204, "validateInventoryFiles": false, "description": "whoa beard mythology", "awsApiKey": "<value>", "awsSecret": "<value>", "tagAfterProcessing": "false", "processedTagKey": "<value>", "processedTagValue": "<value>", "__template_queueName": "<value>", "__template_awsAccountId": "<id>", "__template_awsSecretKey": "<value>", "__template_region": "<value>", "__template_assumeRoleArn": "<value>", "__template_assumeRoleExternalId": "<id>", "__template_awsApiKey": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesSecurityLake:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "security-lake-source", "type": "security_lake", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "queueName": "security-lake-queue", "fileFilter": "<value>", "awsAccountId": "<id>", "awsAuthenticationMethod": "auto", "awsSecretKey": "<value>", "region": "us-east-1", "endpoint": "<value>", "signatureVersion": "v4", "reuseConnections": true, "rejectUnauthorized": true, "breakerRulesets": ["<value 1>", "<value 2>", "<value 3>"], "staleChannelFlushMs": 2414.36, "maxMessages": 9764.93, "visibilityTimeout": 8497.5, "numReceivers": 9501.16, "socketTimeout": 9459.68, "skipOnError": false, "includeSqsMetadata": true, "enableAssumeRole": false, "assumeRoleArn": "<value>", "assumeRoleExternalId": "<id>", "durationSeconds": 3820.59, "enableSQSAssumeRole": true, "preprocess": {"disabled": true, "command": "<value>", "args": ["<value 1>", "<value 2>", "<value 3>"]}, "metadata": [{"name": "<value>", "value": "<value>"}], "parquetChunkSizeMB": 6915.79, "parquetChunkDownloadTimeout": 118.76, "checkpointing": {"enabled": false, "retries": 1555.53}, "pollTimeout": 428.49, "encoding": "<value>", "description": "internal likewise aha whose those upwardly gosh sharply", "awsApiKey": "<value>", "awsSecret": "<value>", "tagAfterProcessing": "true", "processedTagKey": "<value>", "processedTagValue": "<value>", "__template_queueName": "<value>", "__template_awsAccountId": "<id>", "__template_awsSecretKey": "<value>", "__template_region": "<value>", "__template_assumeRoleArn": "<value>", "__template_assumeRoleExternalId": "<id>", "__template_awsApiKey": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesSnmp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "snmp-source", "type": "snmp", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "192.168.1.1", "port": 161, "snmpV3Auth": {"v3AuthEnabled": true, "allowUnmatchedTrap": false, "v3Users": [{"name": "<value>", "authProtocol": "sha384", "authKey": "<value>", "privProtocol": "des", "privKey": "<value>"}]}, "maxBufferSize": 6656.71, "ipWhitelistRegex": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "udpSocketRxBufSize": 5082.57, "varbindsWithTypes": true, "bestEffortParsing": false, "description": "gah blue majestically hence", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesSplunk:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "splunk-source", "type": "splunk", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 9997, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "ipWhitelistRegex": "<value>", "maxActiveCxn": 9578.9, "socketIdleTimeout": 4638.02, "socketEndingMaxWait": 1229.66, "socketMaxLifespan": 4340.71, "enableProxyHeader": true, "metadata": [{"name": "<value>", "value": "<value>"}], "breakerRulesets": ["<value 1>", "<value 2>", "<value 3>"], "staleChannelFlushMs": 7556.18, "authTokens": [{"token": "<value>", "description": "reopen blond yawningly huzzah yuck armchair ugh"}], "maxS2Sversion": "v3", "description": "than sentimental happy-go-lucky tempting", "useFwdTimezone": true, "dropControlFields": true, "extractMetrics": false, "compress": "always", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesSplunkHec:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "splunk-hec-source", "type": "splunk_hec", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 8088, "authTokens": [{"authType": "manual", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "better lest pfft during fervently dulcimer selfish custom whale somber", "allowedIndexesAtToken": ["<value 1>", "<value 2>", "<value 3>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 3944.77, "maxRequestsPerSocket": 799168, "enableProxyHeader": true, "captureHeaders": false, "activityLogSampleRate": 6427.77, "requestTimeout": 8822.66, "socketTimeout": 1922.13, "keepAliveTimeout": 924.02, "enableHealthCheck": "<value>", "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "splunkHecAPI": "/services/collector", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>", "<value 2>", "<value 3>"], "splunkHecAcks": true, "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 9829.02, "useFwdTimezone": false, "dropControlFields": true, "extractMetrics": false, "accessControlAllowOrigin": ["<value 1>", "<value 2>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>", "<value 3>"], "emitTokenMetrics": false, "description": "torn whenever who fortunately whenever", "__template_host": "<value>", "__template_port": "<value>", "__template_splunkHecAPI": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesSplunkSearch:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "splunk-search-source", "type": "splunk_search", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "searchHead": "https://localhost:8089", "search": "index=main", "earliest": "<value>", "latest": "<value>", "cronSchedule": "0 * * * *", "endpoint": "/services/search/jobs/export", "outputMode": "json", "endpointParams": [{"name": "<value>", "value": "<value>"}], "endpointHeaders": [{"name": "<value>", "value": "<value>"}], "logLevel": "warn", "requestTimeout": 6006.12, "useRoundRobinDns": false, "rejectUnauthorized": true, "encoding": "<value>", "keepAliveTime": 1901.73, "jobTimeout": "<value>", "maxMissedKeepAlives": 244.27, "ttl": "<value>", "ignoreGroupJobsLimit": true, "metadata": [{"name": "<value>", "value": "<value>"}], "retryRules": {"type": "none", "interval": 8023.69, "limit": 8538.93, "multiplier": 6735.17, "codes": [3551.76, 3444.04, 2558.51], "enableHeader": false, "retryConnectTimeout": true, "retryConnectReset": false}, "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 1276.17, "authType": "basic", "description": "below mmm bulky gee approach phew monthly controvert volunteer if", "username": "Milton.Gottlieb", "password": "1Xwpask7BiTVNBz", "token": "<value>", "credentialsSecret": "<value>", "textSecret": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesSqs:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "sqs-source", "type": "sqs", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "queueName": "my-queue", "queueType": "standard", "awsAccountId": "<id>", "createQueue": false, "awsAuthenticationMethod": "auto", "awsSecretKey": "<value>", "region": "us-east-1", "endpoint": "<value>", "signatureVersion": "v4", "reuseConnections": false, "rejectUnauthorized": false, "enableAssumeRole": false, "assumeRoleArn": "<value>", "assumeRoleExternalId": "<id>", "durationSeconds": 9240.08, "maxMessages": 8942.09, "visibilityTimeout": 8052.76, "metadata": [{"name": "<value>", "value": "<value>"}], "pollTimeout": 9292.66, "description": "outlaw nervously past", "awsApiKey": "<value>", "awsSecret": "<value>", "numReceivers": 8601.43, "__template_queueName": "<value>", "__template_awsAccountId": "<id>", "__template_awsSecretKey": "<value>", "__template_region": "<value>", "__template_assumeRoleArn": "<value>", "__template_assumeRoleExternalId": "<id>", "__template_awsApiKey": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesSyslog:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "syslog-source", "type": "syslog", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "udpPort": 514, "tcpPort": 1690.04, "maxBufferSize": 835.96, "ipWhitelistRegex": "<value>", "timestampTimezone": "<value>", "singleMsgUdpPackets": false, "enableProxyHeader": true, "keepFieldsList": ["<value 1>", "<value 2>"], "octetCounting": true, "inferFraming": true, "strictlyInferOctetCounting": true, "allowNonStandardAppName": false, "maxActiveCxn": 3622.72, "socketIdleTimeout": 193.15, "socketEndingMaxWait": 3247.34, "socketMaxLifespan": 688.7, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "metadata": [{"name": "<value>", "value": "<value>"}], "udpSocketRxBufSize": 1084.02, "enableLoadBalancing": false, "description": "mysteriously concerning yahoo however ick kiss downchange handover out when", "enableEnhancedProxyHeaderParsing": true, "__template_host": "<value>", "__template_udpPort": "<value>", "__template_tcpPort": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesSystemMetrics:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "system-metrics-source", "type": "system_metrics", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "interval": 5017.67, "host": {"mode": "custom", "custom": {"system": {"mode": "disabled", "processes": false}, "cpu": {"mode": "custom", "perCpu": true, "detail": false, "time": false}, "memory": {"mode": "disabled", "detail": false}, "network": {"mode": "disabled", "detail": true, "protocols": true, "devices": ["<value 1>"], "perInterface": true}, "disk": {"mode": "custom", "detail": false, "inodes": false, "devices": ["<value 1>"], "mountpoints": ["<value 1>", "<value 2>"], "fstypes": ["<value 1>", "<value 2>"], "perDevice": false}}}, "process": {"sets": [{"name": "<value>", "filter": "<value>", "includeChildren": true}]}, "container": {"mode": "basic", "dockerSocket": ["<value 1>", "<value 2>"], "dockerTimeout": 7531.98, "filters": [{"expr": "<value>"}], "allContainers": true, "perDevice": false, "detail": true}, "metadata": [{"name": "<value>", "value": "<value>"}], "persistence": {"enable": true, "timeWindow": "<value>", "maxDataSize": "<value>", "maxDataTime": "<value>", "compress": "none", "destPath": "<value>"}, "description": "worth alongside till during pharmacopoeia psst broadly"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesSystemState:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "system-state-source", "type": "system_state", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "interval": 3542.37, "metadata": [{"name": "<value>", "value": "<value>"}], "collectors": {"hostsfile": {"enable": true}, "interfaces": {"enable": false}, "disk": {"enable": false}, "metadata": {"enable": false}, "routes": {"enable": true}, "dns": {"enable": false}, "user": {"enable": false}, "firewall": {"enable": false}, "services": {"enable": true}, "ports": {"enable": false}, "loginUsers": {"enable": false}}, "persistence": {"enable": true, "timeWindow": "<value>", "maxDataSize": "<value>", "maxDataTime": "<value>", "compress": "gzip", "destPath": "<value>"}, "disableNativeModule": true, "disableNativeLastLogModule": false, "description": "bustling overconfidently gleefully hmph slimy aha ultimately that as boohoo"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesTcp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "tcp-source", "type": "tcp", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 10090, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "ipWhitelistRegex": "<value>", "maxActiveCxn": 1120.04, "socketIdleTimeout": 5926.54, "socketEndingMaxWait": 3298.44, "socketMaxLifespan": 6550.73, "enableProxyHeader": true, "metadata": [{"name": "<value>", "value": "<value>"}], "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 6014.24, "enableHeader": true, "preprocess": {"disabled": true, "command": "<value>", "args": ["<value 1>", "<value 2>", "<value 3>"]}, "description": "failing behind uh-huh into mentor which cop-out", "authToken": "<value>", "authType": "secret", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesTcpjson:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "tcpjson-source", "type": "tcpjson", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 10090, "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "ipWhitelistRegex": "<value>", "maxActiveCxn": 8150.03, "socketIdleTimeout": 4509.33, "socketEndingMaxWait": 8256.64, "socketMaxLifespan": 6518.95, "enableProxyHeader": true, "metadata": [{"name": "<value>", "value": "<value>"}], "enableLoadBalancing": true, "authType": "manual", "description": "up for weary although obediently inwardly", "authToken": "<value>", "textSecret": "<value>", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesWef:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "wef-source", "type": "wef", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 5985, "authMethod": "kerberos", "tls": {"disabled": true, "rejectUnauthorized": false, "requestCert": true, "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "commonNameRegex": "<value>", "minVersion": "TLSv1", "maxVersion": "TLSv1.3", "ocspCheck": false, "keytab": "<value>", "principal": "<value>", "ocspCheckFailClose": true}, "maxActiveReq": 7309.03, "maxRequestsPerSocket": 798308, "enableProxyHeader": false, "captureHeaders": true, "keepAliveTimeout": 6011.4, "enableHealthCheck": false, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "socketTimeout": 5503.51, "caFingerprint": "<value>", "keytab": "<value>", "principal": "<value>", "allowMachineIdMismatch": true, "subscriptions": [{"subscriptionName": "subscription-1", "version": "<value>", "contentFormat": "RenderedText", "heartbeatInterval": 60, "batchTimeout": 5, "readExistingEvents": true, "sendBookmarks": false, "compress": false, "targets": [], "locale": "fi", "querySelector": "simple", "metadata": [{"name": "<value>", "value": "<value>"}], "queries": [{"path": "/lost+found", "queryExpression": "<value>"}], "xmlQuery": "<value>"}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "before next usually barring yuppify um pace yuck drat since", "logFingerprintMismatch": false, "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesWinEventLogs:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "win-event-logs-source", "type": "win_event_logs", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "logNames": ["Application", "System"], "readMode": "oldest", "eventFormat": "json", "disableNativeModule": true, "interval": 161.53, "batchSize": 2676.97, "metadata": [{"name": "<value>", "value": "<value>"}], "maxEventBytes": 3989.15, "description": "outdo pear amidst unscramble forenenst mid analyse cow", "disableJsonRendering": true, "disableXmlRendering": true}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesWindowsMetrics:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "windows-metrics-source", "type": "windows_metrics", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "interval": 7895.52, "host": {"mode": "all", "custom": {"system": {"mode": "custom", "detail": true}, "cpu": {"mode": "basic", "perCpu": true, "detail": false, "time": false}, "memory": {"mode": "custom", "detail": true}, "network": {"mode": "basic", "detail": false, "protocols": false, "devices": ["<value 1>", "<value 2>", "<value 3>"], "perInterface": false}, "disk": {"mode": "disabled", "perVolume": false, "detail": false, "volumes": ["<value 1>", "<value 2>"]}}}, "process": {"sets": [{"name": "<value>", "filter": "<value>", "includeChildren": true}]}, "metadata": [{"name": "<value>", "value": "<value>"}], "persistence": {"enable": false, "timeWindow": "<value>", "maxDataSize": "<value>", "maxDataTime": "<value>", "compress": "gzip", "destPath": "<value>"}, "disableNativeModule": false, "description": "shanghai bonfire cauliflower indeed"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesWiz:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "wiz-source", "type": "wiz", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "endpoint": "https://api.wiz.io", "authUrl": "https://auth.wiz.io/oauth/token", "authAudienceOverride": "<value>", "clientId": "client-id", "contentConfig": [], "requestTimeout": 968.17, "keepAliveTime": 3750.97, "maxMissedKeepAlives": 9118.86, "ttl": "<value>", "ignoreGroupJobsLimit": false, "metadata": [{"name": "<value>", "value": "<value>"}], "retryRules": {"type": "none", "interval": 8023.69, "limit": 8538.93, "multiplier": 6735.17, "codes": [3551.76, 3444.04, 2558.51], "enableHeader": false, "retryConnectTimeout": true, "retryConnectReset": false}, "authType": "manual", "description": "madly whoa subtle coop or stratify", "clientSecret": "<value>", "textSecret": "<value>", "__template_endpoint": "<value>", "__template_authUrl": "https://shocked-responsibility.info", "__template_clientId": "<id>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesWizWebhook:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "wiz-webhook-source", "type": "wiz_webhook", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 10080, "authTokens": ["<value 1>", "<value 2>"], "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 8977.16, "maxRequestsPerSocket": 153946, "enableProxyHeader": false, "captureHeaders": true, "activityLogSampleRate": 4062.3, "requestTimeout": 4871.45, "socketTimeout": 5909.3, "keepAliveTimeout": 634.62, "enableHealthCheck": true, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "breakerRulesets": ["<value 1>", "<value 2>"], "staleChannelFlushMs": 3516.58, "metadata": [{"name": "<value>", "value": "<value>"}], "allowedPaths": ["<value 1>", "<value 2>", "<value 3>"], "allowedMethods": ["<value 1>", "<value 2>", "<value 3>"], "authTokensExt": [{"token": "<value>", "description": "ew phooey unless aha plus woot zowie unless", "metadata": [{"name": "<value>", "value": "<value>"}]}], "description": "trusty coast furthermore finally so ape mystify impressionable", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    InputCreateExamplesZscalerHec:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "zscaler-hec-source", "type": "zscaler_hec", "disabled": true, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "0.0.0.0", "port": 8088, "authTokens": [{"authType": "manual", "tokenSecret": "<value>", "token": "<value>", "enabled": false, "description": "versus an thankfully and or inside playfully whether daintily", "allowedIndexesAtToken": ["<value 1>", "<value 2>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": true, "requestCert": true, "rejectUnauthorized": true, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 77.42, "maxRequestsPerSocket": 147184, "enableProxyHeader": false, "captureHeaders": false, "activityLogSampleRate": 5157.16, "requestTimeout": 3819.67, "socketTimeout": 4473.94, "keepAliveTimeout": 665.59, "enableHealthCheck": "<value>", "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "hecAPI": "/services/collector", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>", "<value 2>", "<value 3>"], "hecAcks": true, "accessControlAllowOrigin": ["<value 1>", "<value 2>", "<value 3>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>", "<value 3>"], "emitTokenMetrics": true, "description": "valiantly and whisper", "__template_host": "<value>", "__template_port": "<value>", "__template_hecAPI": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    speakeasy-default-update-input-system-by-pack-and-id:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "<id>", "type": "raw_udp", "disabled": false, "pipeline": "<value>", "sendToRoutes": false, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "host": "improbable-middle.net", "port": 8507.38, "maxBufferSize": 8480.88, "ipWhitelistRegex": "<value>", "singleMsgUdpPackets": true, "ingestRawBytes": false, "udpSocketRxBufSize": 3899.01, "metadata": [{"name": "<value>", "value": "<value>"}], "description": "personal willow moralise wallaby incline speedily", "__template_host": "<value>", "__template_port": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 719816, "items": [{"id": "<id>", "type": "datagen", "disabled": false, "pipeline": "<value>", "sendToRoutes": true, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 5318.64, "commitFrequency": 3762.63, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/opt/sbin", "compress": "gzip", "pqControls": {}}, "samples": [{"sample": "<value>", "eventsPerSec": 376.13}], "metadata": [{"name": "<value>", "value": "<value>"}], "description": "expense hm although writ greedily closely ring serene"}]}
+        "500":
+          application/json: {"message": "<value>"}
+  deleteInputSystemByPackAndId:
+    speakeasy-default-delete-input-system-by-pack-and-id:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      responses:
+        "200":
+          application/json: {"count": 485450, "items": [{"id": "<id>", "type": "datadog_agent", "disabled": false, "pipeline": "<value>", "sendToRoutes": false, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 3199.22, "commitFrequency": 1305.34, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/srv", "compress": "gzip", "pqControls": {}}, "host": "silky-cemetery.info", "port": 6609.69, "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": false, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.2", "maxVersion": "TLSv1"}, "maxActiveReq": 6647.79, "maxRequestsPerSocket": 187391, "enableProxyHeader": false, "captureHeaders": true, "activityLogSampleRate": 2826.92, "requestTimeout": 5528.63, "socketTimeout": 2440.9, "keepAliveTimeout": 8904.92, "enableHealthCheck": true, "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "extractMetrics": true, "metadata": [{"name": "<value>", "value": "<value>"}], "proxyMode": {"enabled": false, "rejectUnauthorized": true}, "description": "now sans abseil er oh back tedious bitterly", "__template_host": "<value>", "__template_port": "<value>"}]}
+        "500":
+          application/json: {"message": "<value>"}
+  createInputSystemHecTokenByPackAndId:
+    HecTokenExamplesHecToken:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"allowedIndexesAtToken": ["<value 1>"], "description": "SUV velvety without", "enabled": true, "metadata": [{"name": "fieldX", "value": "valueX"}], "token": "12345678901"}
+      responses:
+        "200":
+          application/json: {"count": 924837, "items": [{"id": "<id>", "type": "splunk_hec", "disabled": false, "pipeline": "<value>", "sendToRoutes": false, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 2774.31, "commitFrequency": 6997.89, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/lost+found", "compress": "none", "pqControls": {}}, "host": "secondary-calculus.biz", "port": 4161.11, "authTokens": [{"authType": "secret", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "considering plus in-joke corral perp highly attribute frizz", "allowedIndexesAtToken": ["<value 1>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": false, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 5892.43, "maxRequestsPerSocket": 472404, "enableProxyHeader": true, "captureHeaders": true, "activityLogSampleRate": 4547.81, "requestTimeout": 2636.58, "socketTimeout": 6148.33, "keepAliveTimeout": 2409.34, "enableHealthCheck": "<value>", "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "splunkHecAPI": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>", "<value 2>", "<value 3>"], "splunkHecAcks": true, "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 9981.09, "useFwdTimezone": true, "dropControlFields": false, "extractMetrics": false, "accessControlAllowOrigin": ["<value 1>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>"], "emitTokenMetrics": false, "description": "wide-eyed natural whoa modulo aw as degrease retract", "__template_host": "<value>", "__template_port": "<value>", "__template_splunkHecAPI": "<value>"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    HecTokenExamplesHecTokenWithIndexAccess:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"allowedIndexesAtToken": ["myIndex6"], "description": "extremely till outside healthily sensitize even gosh royal", "enabled": true, "metadata": [{"name": "<value>", "value": "<value>"}], "token": "12345678901"}
+      responses:
+        "200":
+          application/json: {"count": 924837, "items": [{"id": "<id>", "type": "splunk_hec", "disabled": false, "pipeline": "<value>", "sendToRoutes": false, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 2774.31, "commitFrequency": 6997.89, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/lost+found", "compress": "none", "pqControls": {}}, "host": "secondary-calculus.biz", "port": 4161.11, "authTokens": [{"authType": "secret", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "considering plus in-joke corral perp highly attribute frizz", "allowedIndexesAtToken": ["<value 1>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": false, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 5892.43, "maxRequestsPerSocket": 472404, "enableProxyHeader": true, "captureHeaders": true, "activityLogSampleRate": 4547.81, "requestTimeout": 2636.58, "socketTimeout": 6148.33, "keepAliveTimeout": 2409.34, "enableHealthCheck": "<value>", "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "splunkHecAPI": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>", "<value 2>", "<value 3>"], "splunkHecAcks": true, "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 9981.09, "useFwdTimezone": true, "dropControlFields": false, "extractMetrics": false, "accessControlAllowOrigin": ["<value 1>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>"], "emitTokenMetrics": false, "description": "wide-eyed natural whoa modulo aw as degrease retract", "__template_host": "<value>", "__template_port": "<value>", "__template_splunkHecAPI": "<value>"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    speakeasy-default-create-input-system-hec-token-by-pack-and-id:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"allowedIndexesAtToken": ["<value 1>", "<value 2>"], "description": "heartache fraudster on difficult past past merrily midst tectonics", "enabled": false, "metadata": [{"name": "<value>", "value": "<value>"}], "token": "<value>"}
+      responses:
+        "200":
+          application/json: {"count": 924837, "items": [{"id": "<id>", "type": "splunk_hec", "disabled": false, "pipeline": "<value>", "sendToRoutes": false, "environment": "<value>", "pqEnabled": false, "streamtags": ["<value 1>", "<value 2>", "<value 3>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 2774.31, "commitFrequency": 6997.89, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/lost+found", "compress": "none", "pqControls": {}}, "host": "secondary-calculus.biz", "port": 4161.11, "authTokens": [{"authType": "secret", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "considering plus in-joke corral perp highly attribute frizz", "allowedIndexesAtToken": ["<value 1>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": true, "requestCert": false, "rejectUnauthorized": false, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 5892.43, "maxRequestsPerSocket": 472404, "enableProxyHeader": true, "captureHeaders": true, "activityLogSampleRate": 4547.81, "requestTimeout": 2636.58, "socketTimeout": 6148.33, "keepAliveTimeout": 2409.34, "enableHealthCheck": "<value>", "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "splunkHecAPI": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>", "<value 2>", "<value 3>"], "splunkHecAcks": true, "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 9981.09, "useFwdTimezone": true, "dropControlFields": false, "extractMetrics": false, "accessControlAllowOrigin": ["<value 1>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>"], "emitTokenMetrics": false, "description": "wide-eyed natural whoa modulo aw as degrease retract", "__template_host": "<value>", "__template_port": "<value>", "__template_splunkHecAPI": "<value>"}]}
+        "500":
+          application/json: {"message": "<value>"}
+  updateInputSystemHecTokenByPackAndIdAndToken:
+    HecTokenExamplesHecToken:
+      parameters:
+        path:
+          id: "<id>"
+          token: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"allowedIndexesAtToken": ["<value 1>", "<value 2>", "<value 3>"], "description": "straw critical famously dream after delightfully", "enabled": true, "metadata": [{"name": "fieldX", "value": "valueX"}]}
+      responses:
+        "200":
+          application/json: {"count": 341925, "items": [{"id": "<id>", "type": "splunk_hec", "disabled": true, "pipeline": "<value>", "sendToRoutes": false, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 9877.68, "commitFrequency": 6696.82, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/usr/include", "compress": "none", "pqControls": {}}, "host": "uniform-eggplant.name", "port": 8132.8, "authTokens": [{"authType": "manual", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "optimal because carelessly consequently safely painfully sweetly an", "allowedIndexesAtToken": ["<value 1>", "<value 2>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": false, "requestCert": false, "rejectUnauthorized": false, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 5508.17, "maxRequestsPerSocket": 531142, "enableProxyHeader": true, "captureHeaders": true, "activityLogSampleRate": 2463.81, "requestTimeout": 418.8, "socketTimeout": 3990.3, "keepAliveTimeout": 3098.58, "enableHealthCheck": "<value>", "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "splunkHecAPI": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>"], "splunkHecAcks": true, "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 7109.65, "useFwdTimezone": true, "dropControlFields": true, "extractMetrics": true, "accessControlAllowOrigin": ["<value 1>", "<value 2>", "<value 3>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>"], "emitTokenMetrics": true, "description": "um ha searchingly phooey wholly doodle likewise soap to recklessly", "__template_host": "<value>", "__template_port": "<value>", "__template_splunkHecAPI": "<value>"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    HecTokenExamplesHecTokenWithIndexAccess:
+      parameters:
+        path:
+          id: "<id>"
+          token: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"allowedIndexesAtToken": ["myIndex6"], "description": "geez capitalise curiously enfold jubilantly", "enabled": true, "metadata": [{"name": "<value>", "value": "<value>"}]}
+      responses:
+        "200":
+          application/json: {"count": 341925, "items": [{"id": "<id>", "type": "splunk_hec", "disabled": true, "pipeline": "<value>", "sendToRoutes": false, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 9877.68, "commitFrequency": 6696.82, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/usr/include", "compress": "none", "pqControls": {}}, "host": "uniform-eggplant.name", "port": 8132.8, "authTokens": [{"authType": "manual", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "optimal because carelessly consequently safely painfully sweetly an", "allowedIndexesAtToken": ["<value 1>", "<value 2>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": false, "requestCert": false, "rejectUnauthorized": false, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 5508.17, "maxRequestsPerSocket": 531142, "enableProxyHeader": true, "captureHeaders": true, "activityLogSampleRate": 2463.81, "requestTimeout": 418.8, "socketTimeout": 3990.3, "keepAliveTimeout": 3098.58, "enableHealthCheck": "<value>", "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "splunkHecAPI": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>"], "splunkHecAcks": true, "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 7109.65, "useFwdTimezone": true, "dropControlFields": true, "extractMetrics": true, "accessControlAllowOrigin": ["<value 1>", "<value 2>", "<value 3>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>"], "emitTokenMetrics": true, "description": "um ha searchingly phooey wholly doodle likewise soap to recklessly", "__template_host": "<value>", "__template_port": "<value>", "__template_splunkHecAPI": "<value>"}]}
+        "500":
+          application/json: {"message": "<value>"}
+    speakeasy-default-update-input-system-hec-token-by-pack-and-id-and-token:
+      parameters:
+        path:
+          id: "<id>"
+          token: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"allowedIndexesAtToken": ["<value 1>", "<value 2>"], "description": "youthfully lest nor following those an solidly", "enabled": true, "metadata": [{"name": "<value>", "value": "<value>"}]}
+      responses:
+        "200":
+          application/json: {"count": 341925, "items": [{"id": "<id>", "type": "splunk_hec", "disabled": true, "pipeline": "<value>", "sendToRoutes": false, "environment": "<value>", "pqEnabled": true, "streamtags": ["<value 1>", "<value 2>"], "connections": [{"pipeline": "<value>", "output": "<value>"}], "pq": {"mode": "smart", "maxBufferSize": 9877.68, "commitFrequency": 6696.82, "maxFileSize": "<value>", "maxSize": "<value>", "path": "/usr/include", "compress": "none", "pqControls": {}}, "host": "uniform-eggplant.name", "port": 8132.8, "authTokens": [{"authType": "manual", "tokenSecret": "<value>", "token": "<value>", "enabled": true, "description": "optimal because carelessly consequently safely painfully sweetly an", "allowedIndexesAtToken": ["<value 1>", "<value 2>"], "metadata": [{"name": "<value>", "value": "<value>"}]}], "tls": {"disabled": false, "requestCert": false, "rejectUnauthorized": false, "commonNameRegex": "<value>", "certificateName": "<value>", "privKeyPath": "<value>", "passphrase": "<value>", "certPath": "<value>", "caPath": "<value>", "minVersion": "TLSv1.3", "maxVersion": "TLSv1.2"}, "maxActiveReq": 5508.17, "maxRequestsPerSocket": 531142, "enableProxyHeader": true, "captureHeaders": true, "activityLogSampleRate": 2463.81, "requestTimeout": 418.8, "socketTimeout": 3990.3, "keepAliveTimeout": 3098.58, "enableHealthCheck": "<value>", "ipAllowlistRegex": "<value>", "ipDenylistRegex": "<value>", "splunkHecAPI": "<value>", "metadata": [{"name": "<value>", "value": "<value>"}], "allowedIndexes": ["<value 1>"], "splunkHecAcks": true, "breakerRulesets": ["<value 1>"], "staleChannelFlushMs": 7109.65, "useFwdTimezone": true, "dropControlFields": true, "extractMetrics": true, "accessControlAllowOrigin": ["<value 1>", "<value 2>", "<value 3>"], "accessControlAllowHeaders": ["<value 1>", "<value 2>"], "emitTokenMetrics": true, "description": "um ha searchingly phooey wholly doodle likewise soap to recklessly", "__template_host": "<value>", "__template_port": "<value>", "__template_splunkHecAPI": "<value>"}]}
+        "500":
+          application/json: {"message": "<value>"}
+  deleteInputSystemPqByPackAndId:
+    speakeasy-default-delete-input-system-pq-by-pack-and-id:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      responses:
+        "201":
+          application/json: {"count": 170626, "items": ["<value 1>", "<value 2>"]}
+        "500":
+          application/json: {"message": "<value>"}
 examplesVersion: 1.0.2
 generatedTests:
   getHealthInfo: "2025-07-02T19:12:56+02:00"
@@ -19894,8 +20827,16 @@ generatedTests:
   updateGroupsById: "2025-08-04T02:32:44Z"
 releaseNotes: |
   ## Python SDK Changes:
-  * `cribl_control_plane.nodes.list()`: **Deprecated**
-  * `cribl_control_plane.nodes.count()`: **Deprecated**
+  * `cribl_control_plane.versions.commits.diff()`:  `request.diff_line_limit` **Changed** **Breaking** :warning:
+  * `cribl_control_plane.versions.commits.list()`:  `request.count` **Changed** **Breaking** :warning:
+  * `cribl_control_plane.versions.commits.get()`:  `request.diff_line_limit` **Changed** **Breaking** :warning:
+  * `cribl_control_plane.packs.sources.list()`: **Added**
+  * `cribl_control_plane.packs.sources.get()`: **Added**
+  * `cribl_control_plane.packs.sources.update()`: **Added**
+  * `cribl_control_plane.packs.sources.delete()`: **Added**
+  * `cribl_control_plane.packs.sources.hec_tokens.create()`: **Added**
+  * `cribl_control_plane.packs.sources.hec_tokens.update()`: **Added**
+  * `cribl_control_plane.packs.sources.pq.clear()`: **Added**
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

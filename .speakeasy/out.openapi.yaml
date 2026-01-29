@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769555003178-2127f1ff
+  version: 4.17.0-alpha.1769702741866-71f11123
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -22597,7 +22597,7 @@ components:
           title: Body size limit (KB)
           description: Maximum size, in KB, of the request body
           minimum: 1024
-          maximum: 9000
+          maximum: 2.097152e+06
         maxPayloadEvents:
           type: number
           title: Events-per-request limit
@@ -43535,6 +43535,422 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the HEC token to update.
+  /p/{pack}/system/inputs:
+    get:
+      operationId: getInputSystemByPack
+      x-speakeasy-group: packs.sources
+      x-cribl-internal: false
+      x-speakeasy-name-override: list
+      tags:
+        - sources
+      summary: List all Sources within a Pack
+      description: Get a list of all Sources within the specified Pack.
+      responses:
+        "200":
+          description: a list of Source objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to list.
+  /p/{pack}/system/inputs/{id}:
+    get:
+      operationId: getInputSystemByPackAndId
+      x-speakeasy-group: packs.sources
+      x-cribl-internal: false
+      x-speakeasy-name-override: get
+      tags:
+        - sources
+      summary: Get a Source within a Pack
+      description: Get the specified Source within the specified Pack.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to get.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
+      responses:
+        "200":
+          description: a list of Source objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateInputSystemByPackAndId
+      x-speakeasy-group: packs.sources
+      x-cribl-internal: false
+      x-speakeasy-name-override: update
+      tags:
+        - sources
+      summary: Update a Source within a Pack
+      description: Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to update.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to update.
+      requestBody:
+        description: Input object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Input"
+            examples:
+              InputCreateExamplesAppscope:
+                $ref: "#/components/examples/InputCreateExamplesAppscope"
+              InputCreateExamplesAzureBlob:
+                $ref: "#/components/examples/InputCreateExamplesAzureBlob"
+              InputCreateExamplesCloudflareHec:
+                $ref: "#/components/examples/InputCreateExamplesCloudflareHec"
+              InputCreateExamplesConfluentCloud:
+                $ref: "#/components/examples/InputCreateExamplesConfluentCloud"
+              InputCreateExamplesCollection:
+                $ref: "#/components/examples/InputCreateExamplesCollection"
+              InputExamplesCribl:
+                $ref: "#/components/examples/InputExamplesCribl"
+              InputCreateExamplesCriblHttp:
+                $ref: "#/components/examples/InputCreateExamplesCriblHttp"
+              InputCreateExamplesCriblLakeHttp:
+                $ref: "#/components/examples/InputCreateExamplesCriblLakeHttp"
+              InputExamplesCriblMetrics:
+                $ref: "#/components/examples/InputExamplesCriblMetrics"
+              InputCreateExamplesCriblTcp:
+                $ref: "#/components/examples/InputCreateExamplesCriblTcp"
+              InputCreateExamplesCrowdstrike:
+                $ref: "#/components/examples/InputCreateExamplesCrowdstrike"
+              InputCreateExamplesDatadogAgent:
+                $ref: "#/components/examples/InputCreateExamplesDatadogAgent"
+              InputCreateExamplesDatagen:
+                $ref: "#/components/examples/InputCreateExamplesDatagen"
+              InputCreateExamplesEdgePrometheus:
+                $ref: "#/components/examples/InputCreateExamplesEdgePrometheus"
+              InputCreateExamplesElastic:
+                $ref: "#/components/examples/InputCreateExamplesElastic"
+              InputCreateExamplesEventhub:
+                $ref: "#/components/examples/InputCreateExamplesEventhub"
+              InputCreateExamplesExec:
+                $ref: "#/components/examples/InputCreateExamplesExec"
+              InputCreateExamplesFile:
+                $ref: "#/components/examples/InputCreateExamplesFile"
+              InputCreateExamplesFirehose:
+                $ref: "#/components/examples/InputCreateExamplesFirehose"
+              InputCreateExamplesGrafana:
+                $ref: "#/components/examples/InputCreateExamplesGrafana"
+              InputCreateExamplesGooglePubsub:
+                $ref: "#/components/examples/InputCreateExamplesGooglePubsub"
+              InputCreateExamplesHttp:
+                $ref: "#/components/examples/InputCreateExamplesHttp"
+              InputCreateExamplesHttpRaw:
+                $ref: "#/components/examples/InputCreateExamplesHttpRaw"
+              InputCreateExamplesJournalFiles:
+                $ref: "#/components/examples/InputCreateExamplesJournalFiles"
+              InputCreateExamplesKafka:
+                $ref: "#/components/examples/InputCreateExamplesKafka"
+              InputCreateExamplesKinesis:
+                $ref: "#/components/examples/InputCreateExamplesKinesis"
+              InputCreateExamplesKubeEvents:
+                $ref: "#/components/examples/InputCreateExamplesKubeEvents"
+              InputCreateExamplesKubeLogs:
+                $ref: "#/components/examples/InputCreateExamplesKubeLogs"
+              InputCreateExamplesKubeMetrics:
+                $ref: "#/components/examples/InputCreateExamplesKubeMetrics"
+              InputCreateExamplesLoki:
+                $ref: "#/components/examples/InputCreateExamplesLoki"
+              InputCreateExamplesMetrics:
+                $ref: "#/components/examples/InputCreateExamplesMetrics"
+              InputCreateExamplesModelDrivenTelemetry:
+                $ref: "#/components/examples/InputCreateExamplesModelDrivenTelemetry"
+              InputCreateExamplesMsk:
+                $ref: "#/components/examples/InputCreateExamplesMsk"
+              InputCreateExamplesNetflow:
+                $ref: "#/components/examples/InputCreateExamplesNetflow"
+              InputCreateExamplesOffice365Mgmt:
+                $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesOffice365MsgTrace:
+                $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
+              InputCreateExamplesOffice365Service:
+                $ref: "#/components/examples/InputCreateExamplesOffice365Service"
+              InputCreateExamplesOpenTelemetry:
+                $ref: "#/components/examples/InputCreateExamplesOpenTelemetry"
+              InputCreateExamplesPrometheus:
+                $ref: "#/components/examples/InputCreateExamplesPrometheus"
+              InputCreateExamplesPrometheusRw:
+                $ref: "#/components/examples/InputCreateExamplesPrometheusRw"
+              InputCreateExamplesRawUdp:
+                $ref: "#/components/examples/InputCreateExamplesRawUdp"
+              InputCreateExamplesS3:
+                $ref: "#/components/examples/InputCreateExamplesS3"
+              InputCreateExamplesS3Inventory:
+                $ref: "#/components/examples/InputCreateExamplesS3Inventory"
+              InputCreateExamplesSecurityLake:
+                $ref: "#/components/examples/InputCreateExamplesSecurityLake"
+              InputCreateExamplesSnmp:
+                $ref: "#/components/examples/InputCreateExamplesSnmp"
+              InputCreateExamplesSplunk:
+                $ref: "#/components/examples/InputCreateExamplesSplunk"
+              InputCreateExamplesSplunkHec:
+                $ref: "#/components/examples/InputCreateExamplesSplunkHec"
+              InputCreateExamplesSplunkSearch:
+                $ref: "#/components/examples/InputCreateExamplesSplunkSearch"
+              InputCreateExamplesSqs:
+                $ref: "#/components/examples/InputCreateExamplesSqs"
+              InputCreateExamplesSyslog:
+                $ref: "#/components/examples/InputCreateExamplesSyslog"
+              InputCreateExamplesSystemMetrics:
+                $ref: "#/components/examples/InputCreateExamplesSystemMetrics"
+              InputCreateExamplesSystemState:
+                $ref: "#/components/examples/InputCreateExamplesSystemState"
+              InputCreateExamplesTcp:
+                $ref: "#/components/examples/InputCreateExamplesTcp"
+              InputCreateExamplesTcpjson:
+                $ref: "#/components/examples/InputCreateExamplesTcpjson"
+              InputCreateExamplesWef:
+                $ref: "#/components/examples/InputCreateExamplesWef"
+              InputCreateExamplesWinEventLogs:
+                $ref: "#/components/examples/InputCreateExamplesWinEventLogs"
+              InputCreateExamplesWindowsMetrics:
+                $ref: "#/components/examples/InputCreateExamplesWindowsMetrics"
+              InputCreateExamplesWiz:
+                $ref: "#/components/examples/InputCreateExamplesWiz"
+              InputCreateExamplesWizWebhook:
+                $ref: "#/components/examples/InputCreateExamplesWizWebhook"
+              InputCreateExamplesZscalerHec:
+                $ref: "#/components/examples/InputCreateExamplesZscalerHec"
+      responses:
+        "200":
+          description: a list of Source objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteInputSystemByPackAndId
+      x-speakeasy-group: packs.sources
+      x-cribl-internal: false
+      x-speakeasy-name-override: delete
+      tags:
+        - sources
+      summary: Delete a Source within a Pack
+      description: Delete the specified Source within the specified Pack.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to delete.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to delete.
+      responses:
+        "200":
+          description: a list of Source objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInput"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /p/{pack}/system/inputs/{id}/hectoken:
+    post:
+      operationId: createInputSystemHecTokenByPackAndId
+      tags:
+        - sources
+      x-speakeasy-group: packs.sources.hecTokens
+      x-speakeasy-name-override: create
+      x-cribl-internal: false
+      summary: Add an HEC token and optional metadata to a Splunk HEC Source within a Pack
+      description: Add an HEC token and optional metadata to the specified Splunk HEC Source within the specified Pack.
+      responses:
+        "200":
+          description: a list of InputSplunkHec objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInputSplunkHec"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: AddHecTokenRequest object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddHecTokenRequest"
+            examples:
+              HecTokenExamplesHecToken:
+                $ref: "#/components/examples/HecTokenExamplesHecToken"
+              HecTokenExamplesHecTokenWithIndexAccess:
+                $ref: "#/components/examples/HecTokenExamplesHecTokenWithIndexAccess"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Splunk HEC Source.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to create.
+  /p/{pack}/system/inputs/{id}/pq:
+    delete:
+      operationId: deleteInputSystemPqByPackAndId
+      tags:
+        - sources
+      x-speakeasy-group: packs.sources.pq
+      x-speakeasy-name-override: clear
+      x-cribl-internal: false
+      summary: Clear the persistent queue for a Source within a Pack
+      description: Clear the persistent queue (PQ) for the specified Source within the specified Pack.
+      responses:
+        "201":
+          description: A list of job ids for the background job that clears the persistent queue
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedString"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to clear the PQ for.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to clear.
+  /p/{pack}/system/inputs/{id}/hectoken/{token}:
+    patch:
+      operationId: updateInputSystemHecTokenByPackAndIdAndToken
+      tags:
+        - sources
+      x-speakeasy-group: packs.sources.hecTokens
+      x-speakeasy-name-override: update
+      x-cribl-internal: false
+      summary: Update metadata for an HEC token for a Splunk HEC Source within a Pack
+      description: Update the metadata for the specified HEC token for the specified Splunk HEC Source within the specified Pack.
+      responses:
+        "200":
+          description: a list of InputSplunkHec objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInputSplunkHec"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: UpdateHecTokenRequest object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateHecTokenRequest"
+            examples:
+              HecTokenExamplesHecToken:
+                $ref: "#/components/examples/HecTokenExamplesHecToken"
+              HecTokenExamplesHecTokenWithIndexAccess:
+                $ref: "#/components/examples/HecTokenExamplesHecTokenWithIndexAccess"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Splunk HEC Source.
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the HEC token to update.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to update.
   /system/outputs:
     get:
       operationId: listOutput
@@ -45133,7 +45549,7 @@ paths:
           in: query
           required: false
           schema:
-            type: number
+            type: integer
           description: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
   /version/files:
     get:
@@ -45234,7 +45650,7 @@ paths:
           in: query
           required: false
           schema:
-            type: number
+            type: integer
           description: Maximum number of commits to return in the response for this request.
   /version/push:
     post:
@@ -45348,7 +45764,7 @@ paths:
           in: query
           required: false
           schema:
-            type: number
+            type: integer
           description: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
   /version/status:
     get:

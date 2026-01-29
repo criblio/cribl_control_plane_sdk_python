@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .collector import Collector, CollectorTypedDict
-from .jobtypeoptionssavedjobcollection import JobTypeOptionsSavedJobCollection
+from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
 from .scheduletypesavedjobcollection import (
     ScheduleTypeSavedJobCollection,
     ScheduleTypeSavedJobCollectionTypedDict,
@@ -20,7 +20,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class SavedJobCollectionTypedDict(TypedDict):
-    type: JobTypeOptionsSavedJobCollection
+    type: JobTypeOptionsRunnableJobCollection
     collector: CollectorTypedDict
     r"""Collector configuration"""
     id: NotRequired[str]
@@ -46,7 +46,7 @@ class SavedJobCollectionTypedDict(TypedDict):
 
 
 class SavedJobCollection(BaseModel):
-    type: JobTypeOptionsSavedJobCollection
+    type: JobTypeOptionsRunnableJobCollection
 
     collector: Collector
     r"""Collector configuration"""
@@ -94,7 +94,7 @@ class SavedJobCollection(BaseModel):
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.JobTypeOptionsSavedJobCollection(value)
+                return models.JobTypeOptionsRunnableJobCollection(value)
             except ValueError:
                 return value
         return value

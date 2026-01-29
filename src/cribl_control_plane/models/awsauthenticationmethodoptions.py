@@ -5,7 +5,7 @@ from cribl_control_plane import utils
 from enum import Enum
 
 
-class MethodOptionsCredentials(str, Enum, metaclass=utils.OpenEnumMeta):
+class AwsAuthenticationMethodOptions(str, Enum, metaclass=utils.OpenEnumMeta):
     AUTO = "auto"
     AUTO_RPC = "auto_rpc"
     MANUAL = "manual"

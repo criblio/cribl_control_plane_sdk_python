@@ -1,4 +1,4 @@
-# ScheduleTypeSavedJobCollectionType
+# RunSettingsTypeRunnableJobCollectionScheduleType
 
 
 ## Values

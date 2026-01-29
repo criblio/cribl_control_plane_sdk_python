@@ -5,7 +5,7 @@ from cribl_control_plane import utils
 from enum import Enum
 
 
-class JobTypeOptionsSavedJobCollection(str, Enum, metaclass=utils.OpenEnumMeta):
+class JobTypeOptionsRunnableJobCollection(str, Enum, metaclass=utils.OpenEnumMeta):
     COLLECTION = "collection"
     EXECUTOR = "executor"
     SCHEDULED_SEARCH = "scheduledSearch"

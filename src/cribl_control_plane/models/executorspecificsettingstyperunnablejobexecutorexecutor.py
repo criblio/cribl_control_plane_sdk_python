@@ -5,9 +5,9 @@ from cribl_control_plane.types import BaseModel
 from typing_extensions import TypedDict
 
 
-class ExecutorSpecificSettingsTypeSavedJobExecutorExecutorTypedDict(TypedDict):
+class ExecutorSpecificSettingsTypeRunnableJobExecutorExecutorTypedDict(TypedDict):
     pass
 
 
-class ExecutorSpecificSettingsTypeSavedJobExecutorExecutor(BaseModel):
+class ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor(BaseModel):
     pass

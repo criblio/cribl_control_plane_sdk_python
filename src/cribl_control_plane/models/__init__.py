@@ -51,6 +51,7 @@ if TYPE_CHECKING:
         AuthTypeKafkaSchemaRegistry,
         AuthTypeKafkaSchemaRegistryTypedDict,
     )
+    from .awsauthenticationmethodoptions import AwsAuthenticationMethodOptions
     from .awstypeheartbeatmetadata import (
         AwsTypeHeartbeatMetadata,
         AwsTypeHeartbeatMetadataTypedDict,
@@ -1937,6 +1938,10 @@ if TYPE_CHECKING:
         DeleteInputByIDRequest,
         DeleteInputByIDRequestTypedDict,
     )
+    from .deleteinputpqbyidop import (
+        DeleteInputPqByIDRequest,
+        DeleteInputPqByIDRequestTypedDict,
+    )
     from .deleteinputsystembypackandidop import (
         DeleteInputSystemByPackAndIDRequest,
         DeleteInputSystemByPackAndIDRequestTypedDict,
@@ -2024,13 +2029,13 @@ if TYPE_CHECKING:
         EventBreakerRuleFields,
         EventBreakerRuleFieldsTypedDict,
     )
-    from .executorspecificsettingstypesavedjobexecutorexecutor import (
-        ExecutorSpecificSettingsTypeSavedJobExecutorExecutor,
-        ExecutorSpecificSettingsTypeSavedJobExecutorExecutorTypedDict,
+    from .executorspecificsettingstyperunnablejobexecutorexecutor import (
+        ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor,
+        ExecutorSpecificSettingsTypeRunnableJobExecutorExecutorTypedDict,
     )
-    from .executortypesavedjobexecutor import (
-        ExecutorTypeSavedJobExecutor,
-        ExecutorTypeSavedJobExecutorTypedDict,
+    from .executortyperunnablejobexecutor import (
+        ExecutorTypeRunnableJobExecutor,
+        ExecutorTypeRunnableJobExecutorTypedDict,
     )
     from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
     from .filestypegitcommitsummary import (
@@ -2043,7 +2048,7 @@ if TYPE_CHECKING:
         FilesystemCollectorConfExtractorTypedDict,
         FilesystemCollectorConfTypedDict,
     )
-    from .formatoptionscribllakedataset import FormatOptionsCriblLakeDataset
+    from .formatoptions import FormatOptions
     from .functionaggregatemetrics import (
         FunctionAggregateMetrics,
         FunctionAggregateMetricsID,
@@ -2483,6 +2488,7 @@ if TYPE_CHECKING:
         GetFunctionsByIDRequestTypedDict,
     )
     from .getinputbyidop import GetInputByIDRequest, GetInputByIDRequestTypedDict
+    from .getinputpqbyidop import GetInputPqByIDRequest, GetInputPqByIDRequestTypedDict
     from .getinputsystembypackandidop import (
         GetInputSystemByPackAndIDRequest,
         GetInputSystemByPackAndIDRequestTypedDict,
@@ -3460,10 +3466,7 @@ if TYPE_CHECKING:
     )
     from .itemstypelabels import ItemsTypeLabels, ItemsTypeLabelsTypedDict
     from .itemstypeloglabels import ItemsTypeLogLabels, ItemsTypeLogLabelsTypedDict
-    from .itemstypenotificationmetadata import (
-        ItemsTypeNotificationMetadata,
-        ItemsTypeNotificationMetadataTypedDict,
-    )
+    from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
     from .itemstypepoliciesitemstemplatetargetpairs import (
         ItemsTypePoliciesItemsTemplateTargetPairs,
         ItemsTypePoliciesItemsTemplateTargetPairsTypedDict,
@@ -3500,7 +3503,7 @@ if TYPE_CHECKING:
     from .itemstypeurls import ItemsTypeUrls, ItemsTypeUrlsTypedDict
     from .jobinfo import JobInfo, JobInfoTypedDict
     from .jobstatus import JobStatus, JobStatusTypedDict, State
-    from .jobtypeoptionssavedjobcollection import JobTypeOptionsSavedJobCollection
+    from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
     from .kafkaschemaregistryauthenticationtype import (
         KafkaSchemaRegistryAuthenticationType,
         KafkaSchemaRegistryAuthenticationTypeTypedDict,
@@ -3525,8 +3528,8 @@ if TYPE_CHECKING:
     )
     from .logininfo import LoginInfo, LoginInfoTypedDict
     from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
-    from .logleveloptionssavedjobcollectionschedulerun import (
-        LogLevelOptionsSavedJobCollectionScheduleRun,
+    from .logleveloptionsrunnablejobcollectionschedulerun import (
+        LogLevelOptionsRunnableJobCollectionScheduleRun,
     )
     from .masterworkerentry import (
         MasterWorkerEntry,
@@ -3541,7 +3544,6 @@ if TYPE_CHECKING:
     from .maxs2sversionoptions import MaxS2SVersionOptions
     from .messageformatoptions import MessageFormatOptions
     from .methodoptions import MethodOptions
-    from .methodoptionscredentials import MethodOptionsCredentials
     from .metricsstore import MetricsStore, MetricsStoreTypedDict
     from .microsoftentraidauthenticationendpointoptionssasl import (
         MicrosoftEntraIDAuthenticationEndpointOptionsSasl,
@@ -4611,10 +4613,7 @@ if TYPE_CHECKING:
         PqTypePqControlsTypedDict,
         PqTypeTypedDict,
     )
-    from .preprocesstypesavedjobcollectioninput import (
-        PreprocessTypeSavedJobCollectionInput,
-        PreprocessTypeSavedJobCollectionInputTypedDict,
-    )
+    from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
     from .processtype import ProcessType, ProcessTypeTypedDict
     from .productscore import ProductsCore
     from .prometheusauthtype import PrometheusAuthType, PrometheusAuthTypeTypedDict
@@ -5613,6 +5612,16 @@ if TYPE_CHECKING:
         RunnableJobScheduledSearch,
         RunnableJobScheduledSearchTypedDict,
     )
+    from .runsettingstyperunnablejobcollectionschedule import (
+        RunSettingsTypeRunnableJobCollectionSchedule,
+        RunSettingsTypeRunnableJobCollectionScheduleType,
+        RunSettingsTypeRunnableJobCollectionScheduleTypedDict,
+    )
+    from .runsettingstypesavedjobcollectionschedule import (
+        RunSettingsTypeSavedJobCollectionSchedule,
+        RunSettingsTypeSavedJobCollectionScheduleType,
+        RunSettingsTypeSavedJobCollectionScheduleTypedDict,
+    )
     from .s3collectorconf import (
         S3AwsAuthenticationMethodAuto,
         S3AwsAuthenticationMethodAutoExtractor,
@@ -5653,20 +5662,11 @@ if TYPE_CHECKING:
     )
     from .scheduletyperunnablejobcollection import (
         ScheduleTypeRunnableJobCollection,
-        ScheduleTypeRunnableJobCollectionRunSettings,
-        ScheduleTypeRunnableJobCollectionRunSettingsTypedDict,
-        ScheduleTypeRunnableJobCollectionType,
         ScheduleTypeRunnableJobCollectionTypedDict,
     )
     from .scheduletypesavedjobcollection import (
         ScheduleTypeSavedJobCollection,
-        ScheduleTypeSavedJobCollectionLogLevel,
-        ScheduleTypeSavedJobCollectionRunSettings,
-        ScheduleTypeSavedJobCollectionRunSettingsTypedDict,
-        ScheduleTypeSavedJobCollectionType,
         ScheduleTypeSavedJobCollectionTypedDict,
-        TimeWarning,
-        TimeWarningTypedDict,
     )
     from .schemeclientoauth import SchemeClientOauth, SchemeClientOauthTypedDict
     from .scriptcollectorconf import (
@@ -5736,36 +5736,6 @@ if TYPE_CHECKING:
         SplunkAuthenticationBasicSplunkRetryRulesTypeStatic,
         SplunkAuthenticationBasicSplunkRetryRulesTypeStaticTypedDict,
         SplunkAuthenticationBasicTypedDict,
-        SplunkAuthenticationLogin,
-        SplunkAuthenticationLoginAuthentication,
-        SplunkAuthenticationLoginCollectRequestHeader,
-        SplunkAuthenticationLoginCollectRequestHeaderTypedDict,
-        SplunkAuthenticationLoginCollectRequestParam,
-        SplunkAuthenticationLoginCollectRequestParamTypedDict,
-        SplunkAuthenticationLoginRetryRules,
-        SplunkAuthenticationLoginRetryRulesTypedDict,
-        SplunkAuthenticationLoginSecret,
-        SplunkAuthenticationLoginSecretAuthentication,
-        SplunkAuthenticationLoginSecretCollectRequestHeader,
-        SplunkAuthenticationLoginSecretCollectRequestHeaderTypedDict,
-        SplunkAuthenticationLoginSecretCollectRequestParam,
-        SplunkAuthenticationLoginSecretCollectRequestParamTypedDict,
-        SplunkAuthenticationLoginSecretRetryRules,
-        SplunkAuthenticationLoginSecretRetryRulesTypedDict,
-        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoff,
-        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoffTypedDict,
-        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNone,
-        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNoneTypedDict,
-        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStatic,
-        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStaticTypedDict,
-        SplunkAuthenticationLoginSecretTypedDict,
-        SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff,
-        SplunkAuthenticationLoginSplunkRetryRulesTypeBackoffTypedDict,
-        SplunkAuthenticationLoginSplunkRetryRulesTypeNone,
-        SplunkAuthenticationLoginSplunkRetryRulesTypeNoneTypedDict,
-        SplunkAuthenticationLoginSplunkRetryRulesTypeStatic,
-        SplunkAuthenticationLoginSplunkRetryRulesTypeStaticTypedDict,
-        SplunkAuthenticationLoginTypedDict,
         SplunkAuthenticationNone,
         SplunkAuthenticationNoneAuthentication,
         SplunkAuthenticationNoneCollectRequestHeader,
@@ -6016,6 +5986,7 @@ __all__ = [
     "AuthenticationTypeTypedDict",
     "Author",
     "AuthorTypedDict",
+    "AwsAuthenticationMethodOptions",
     "AwsTypeHeartbeatMetadata",
     "AwsTypeHeartbeatMetadataTypedDict",
     "AzureBlobAuthTypeClientCert",
@@ -7850,6 +7821,8 @@ __all__ = [
     "DeleteDatabaseConnectionConfigByIDRequestTypedDict",
     "DeleteInputByIDRequest",
     "DeleteInputByIDRequestTypedDict",
+    "DeleteInputPqByIDRequest",
+    "DeleteInputPqByIDRequestTypedDict",
     "DeleteInputSystemByPackAndIDRequest",
     "DeleteInputSystemByPackAndIDRequestTypedDict",
     "DeleteInputSystemPqByPackAndIDRequest",
@@ -7918,10 +7891,10 @@ __all__ = [
     "EventFormat",
     "EventstatsConfiguration",
     "EventstatsConfigurationTypedDict",
-    "ExecutorSpecificSettingsTypeSavedJobExecutorExecutor",
-    "ExecutorSpecificSettingsTypeSavedJobExecutorExecutorTypedDict",
-    "ExecutorTypeSavedJobExecutor",
-    "ExecutorTypeSavedJobExecutorTypedDict",
+    "ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor",
+    "ExecutorSpecificSettingsTypeRunnableJobExecutorExecutorTypedDict",
+    "ExecutorTypeRunnableJobExecutor",
+    "ExecutorTypeRunnableJobExecutorTypedDict",
     "ExistingOrNew",
     "Extension",
     "ExtensionTypedDict",
@@ -7946,7 +7919,7 @@ __all__ = [
     "FirewallTypedDict",
     "Flag",
     "FlagTypedDict",
-    "FormatOptionsCriblLakeDataset",
+    "FormatOptions",
     "FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesets",
     "FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesetsTypedDict",
     "FunctionAggregateMetrics",
@@ -8239,6 +8212,8 @@ __all__ = [
     "GetFunctionsByIDRequestTypedDict",
     "GetInputByIDRequest",
     "GetInputByIDRequestTypedDict",
+    "GetInputPqByIDRequest",
+    "GetInputPqByIDRequestTypedDict",
     "GetInputSystemByPackAndIDRequest",
     "GetInputSystemByPackAndIDRequestTypedDict",
     "GetInputSystemByPackRequest",
@@ -9074,8 +9049,8 @@ __all__ = [
     "ItemsTypeLabelsTypedDict",
     "ItemsTypeLogLabels",
     "ItemsTypeLogLabelsTypedDict",
-    "ItemsTypeNotificationMetadata",
-    "ItemsTypeNotificationMetadataTypedDict",
+    "ItemsTypeMetadata",
+    "ItemsTypeMetadataTypedDict",
     "ItemsTypePoliciesItemsTemplateTargetPairs",
     "ItemsTypePoliciesItemsTemplateTargetPairsTypedDict",
     "ItemsTypeProcessSets",
@@ -9100,7 +9075,7 @@ __all__ = [
     "JobInfoTypedDict",
     "JobStatus",
     "JobStatusTypedDict",
-    "JobTypeOptionsSavedJobCollection",
+    "JobTypeOptionsRunnableJobCollection",
     "JoinConfiguration",
     "JoinConfigurationTypedDict",
     "KafkaSchemaRegistryAuthenticationType",
@@ -9122,7 +9097,7 @@ __all__ = [
     "ListeningPortsTypedDict",
     "LogLevelForFailedLookups",
     "LogLevelOptionsContentConfigItems",
-    "LogLevelOptionsSavedJobCollectionScheduleRun",
+    "LogLevelOptionsRunnableJobCollectionScheduleRun",
     "LogLocationType",
     "LoggedInUsers",
     "LoggedInUsersTypedDict",
@@ -9152,7 +9127,6 @@ __all__ = [
     "Metadatum",
     "MetadatumTypedDict",
     "MethodOptions",
-    "MethodOptionsCredentials",
     "MetricsProtocol",
     "MetricsStore",
     "MetricsStoreTypedDict",
@@ -9880,8 +9854,8 @@ __all__ = [
     "PqTypePqControlsTypedDict",
     "PqTypeTypedDict",
     "PrefixOptional",
-    "PreprocessTypeSavedJobCollectionInput",
-    "PreprocessTypeSavedJobCollectionInputTypedDict",
+    "PreprocessType",
+    "PreprocessTypeTypedDict",
     "PrivacyProtocol",
     "ProcessType",
     "ProcessTypeTypedDict",
@@ -10884,6 +10858,12 @@ __all__ = [
     "RoutesRouteTypedDict",
     "RoutesTypedDict",
     "RulesetType",
+    "RunSettingsTypeRunnableJobCollectionSchedule",
+    "RunSettingsTypeRunnableJobCollectionScheduleType",
+    "RunSettingsTypeRunnableJobCollectionScheduleTypedDict",
+    "RunSettingsTypeSavedJobCollectionSchedule",
+    "RunSettingsTypeSavedJobCollectionScheduleType",
+    "RunSettingsTypeSavedJobCollectionScheduleTypedDict",
     "RunnableJob",
     "RunnableJobCollection",
     "RunnableJobCollectionMode",
@@ -10942,15 +10922,8 @@ __all__ = [
     "ScanMode",
     "ScheduleType",
     "ScheduleTypeRunnableJobCollection",
-    "ScheduleTypeRunnableJobCollectionRunSettings",
-    "ScheduleTypeRunnableJobCollectionRunSettingsTypedDict",
-    "ScheduleTypeRunnableJobCollectionType",
     "ScheduleTypeRunnableJobCollectionTypedDict",
     "ScheduleTypeSavedJobCollection",
-    "ScheduleTypeSavedJobCollectionLogLevel",
-    "ScheduleTypeSavedJobCollectionRunSettings",
-    "ScheduleTypeSavedJobCollectionRunSettingsTypedDict",
-    "ScheduleTypeSavedJobCollectionType",
     "ScheduleTypeSavedJobCollectionTypedDict",
     "SchemeClientOauth",
     "SchemeClientOauthTypedDict",
@@ -11019,36 +10992,6 @@ __all__ = [
     "SplunkAuthenticationBasicSplunkRetryRulesTypeStatic",
     "SplunkAuthenticationBasicSplunkRetryRulesTypeStaticTypedDict",
     "SplunkAuthenticationBasicTypedDict",
-    "SplunkAuthenticationLogin",
-    "SplunkAuthenticationLoginAuthentication",
-    "SplunkAuthenticationLoginCollectRequestHeader",
-    "SplunkAuthenticationLoginCollectRequestHeaderTypedDict",
-    "SplunkAuthenticationLoginCollectRequestParam",
-    "SplunkAuthenticationLoginCollectRequestParamTypedDict",
-    "SplunkAuthenticationLoginRetryRules",
-    "SplunkAuthenticationLoginRetryRulesTypedDict",
-    "SplunkAuthenticationLoginSecret",
-    "SplunkAuthenticationLoginSecretAuthentication",
-    "SplunkAuthenticationLoginSecretCollectRequestHeader",
-    "SplunkAuthenticationLoginSecretCollectRequestHeaderTypedDict",
-    "SplunkAuthenticationLoginSecretCollectRequestParam",
-    "SplunkAuthenticationLoginSecretCollectRequestParamTypedDict",
-    "SplunkAuthenticationLoginSecretRetryRules",
-    "SplunkAuthenticationLoginSecretRetryRulesTypedDict",
-    "SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoff",
-    "SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoffTypedDict",
-    "SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNone",
-    "SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNoneTypedDict",
-    "SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStatic",
-    "SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStaticTypedDict",
-    "SplunkAuthenticationLoginSecretTypedDict",
-    "SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff",
-    "SplunkAuthenticationLoginSplunkRetryRulesTypeBackoffTypedDict",
-    "SplunkAuthenticationLoginSplunkRetryRulesTypeNone",
-    "SplunkAuthenticationLoginSplunkRetryRulesTypeNoneTypedDict",
-    "SplunkAuthenticationLoginSplunkRetryRulesTypeStatic",
-    "SplunkAuthenticationLoginSplunkRetryRulesTypeStaticTypedDict",
-    "SplunkAuthenticationLoginTypedDict",
     "SplunkAuthenticationNone",
     "SplunkAuthenticationNoneAuthentication",
     "SplunkAuthenticationNoneCollectRequestHeader",
@@ -11149,8 +11092,6 @@ __all__ = [
     "TemplateDefinition",
     "TemplateDefinitionTypedDict",
     "TimeRange",
-    "TimeWarning",
-    "TimeWarningTypedDict",
     "TimeoutRetrySettingsType",
     "TimeoutRetrySettingsTypeTypedDict",
     "Timestamp",
@@ -11259,6 +11200,7 @@ _dynamic_imports: dict[str, str] = {
     "AuthTypeTypedDict": ".authtype",
     "AuthTypeKafkaSchemaRegistry": ".authtypekafkaschemaregistry",
     "AuthTypeKafkaSchemaRegistryTypedDict": ".authtypekafkaschemaregistry",
+    "AwsAuthenticationMethodOptions": ".awsauthenticationmethodoptions",
     "AwsTypeHeartbeatMetadata": ".awstypeheartbeatmetadata",
     "AwsTypeHeartbeatMetadataTypedDict": ".awstypeheartbeatmetadata",
     "AzureBlobAuthTypeClientCert": ".azureblobcollectorconf",
@@ -13056,6 +12998,8 @@ _dynamic_imports: dict[str, str] = {
     "DeleteDatabaseConnectionConfigByIDRequestTypedDict": ".deletedatabaseconnectionconfigbyidop",
     "DeleteInputByIDRequest": ".deleteinputbyidop",
     "DeleteInputByIDRequestTypedDict": ".deleteinputbyidop",
+    "DeleteInputPqByIDRequest": ".deleteinputpqbyidop",
+    "DeleteInputPqByIDRequestTypedDict": ".deleteinputpqbyidop",
     "DeleteInputSystemByPackAndIDRequest": ".deleteinputsystembypackandidop",
     "DeleteInputSystemByPackAndIDRequestTypedDict": ".deleteinputsystembypackandidop",
     "DeleteInputSystemPqByPackAndIDRequest": ".deleteinputsystempqbypackandidop",
@@ -13112,10 +13056,10 @@ _dynamic_imports: dict[str, str] = {
     "EstimatedIngestRateOptionsConfigGroup": ".estimatedingestrateoptionsconfiggroup",
     "EventBreakerRuleFields": ".eventbreakerrulefields",
     "EventBreakerRuleFieldsTypedDict": ".eventbreakerrulefields",
-    "ExecutorSpecificSettingsTypeSavedJobExecutorExecutor": ".executorspecificsettingstypesavedjobexecutorexecutor",
-    "ExecutorSpecificSettingsTypeSavedJobExecutorExecutorTypedDict": ".executorspecificsettingstypesavedjobexecutorexecutor",
-    "ExecutorTypeSavedJobExecutor": ".executortypesavedjobexecutor",
-    "ExecutorTypeSavedJobExecutorTypedDict": ".executortypesavedjobexecutor",
+    "ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor": ".executorspecificsettingstyperunnablejobexecutorexecutor",
+    "ExecutorSpecificSettingsTypeRunnableJobExecutorExecutorTypedDict": ".executorspecificsettingstyperunnablejobexecutorexecutor",
+    "ExecutorTypeRunnableJobExecutor": ".executortyperunnablejobexecutor",
+    "ExecutorTypeRunnableJobExecutorTypedDict": ".executortyperunnablejobexecutor",
     "FailedRequestLoggingModeOptions": ".failedrequestloggingmodeoptions",
     "FilesTypeGitCommitSummary": ".filestypegitcommitsummary",
     "FilesTypeGitCommitSummaryTypedDict": ".filestypegitcommitsummary",
@@ -13123,7 +13067,7 @@ _dynamic_imports: dict[str, str] = {
     "FilesystemCollectorConfExtractor": ".filesystemcollectorconf",
     "FilesystemCollectorConfExtractorTypedDict": ".filesystemcollectorconf",
     "FilesystemCollectorConfTypedDict": ".filesystemcollectorconf",
-    "FormatOptionsCriblLakeDataset": ".formatoptionscribllakedataset",
+    "FormatOptions": ".formatoptions",
     "FunctionAggregateMetrics": ".functionaggregatemetrics",
     "FunctionAggregateMetricsID": ".functionaggregatemetrics",
     "FunctionAggregateMetricsTypedDict": ".functionaggregatemetrics",
@@ -13441,6 +13385,8 @@ _dynamic_imports: dict[str, str] = {
     "GetFunctionsByIDRequestTypedDict": ".getfunctionsbyidop",
     "GetInputByIDRequest": ".getinputbyidop",
     "GetInputByIDRequestTypedDict": ".getinputbyidop",
+    "GetInputPqByIDRequest": ".getinputpqbyidop",
+    "GetInputPqByIDRequestTypedDict": ".getinputpqbyidop",
     "GetInputSystemByPackAndIDRequest": ".getinputsystembypackandidop",
     "GetInputSystemByPackAndIDRequestTypedDict": ".getinputsystembypackandidop",
     "GetInputSystemByPackRequest": ".getinputsystembypackop",
@@ -14346,8 +14292,8 @@ _dynamic_imports: dict[str, str] = {
     "ItemsTypeLabelsTypedDict": ".itemstypelabels",
     "ItemsTypeLogLabels": ".itemstypeloglabels",
     "ItemsTypeLogLabelsTypedDict": ".itemstypeloglabels",
-    "ItemsTypeNotificationMetadata": ".itemstypenotificationmetadata",
-    "ItemsTypeNotificationMetadataTypedDict": ".itemstypenotificationmetadata",
+    "ItemsTypeMetadata": ".itemstypemetadata",
+    "ItemsTypeMetadataTypedDict": ".itemstypemetadata",
     "ItemsTypePoliciesItemsTemplateTargetPairs": ".itemstypepoliciesitemstemplatetargetpairs",
     "ItemsTypePoliciesItemsTemplateTargetPairsTypedDict": ".itemstypepoliciesitemstemplatetargetpairs",
     "ItemsTypeProcessSets": ".itemstypeprocesssets",
@@ -14373,7 +14319,7 @@ _dynamic_imports: dict[str, str] = {
     "JobStatus": ".jobstatus",
     "JobStatusTypedDict": ".jobstatus",
     "State": ".jobstatus",
-    "JobTypeOptionsSavedJobCollection": ".jobtypeoptionssavedjobcollection",
+    "JobTypeOptionsRunnableJobCollection": ".jobtypeoptionsrunnablejobcollection",
     "KafkaSchemaRegistryAuthenticationType": ".kafkaschemaregistryauthenticationtype",
     "KafkaSchemaRegistryAuthenticationTypeTypedDict": ".kafkaschemaregistryauthenticationtype",
     "KafkaSchemaRegistryAuthenticationType1": ".kafkaschemaregistryauthenticationtype1",
@@ -14390,7 +14336,7 @@ _dynamic_imports: dict[str, str] = {
     "LoginInfo": ".logininfo",
     "LoginInfoTypedDict": ".logininfo",
     "LogLevelOptionsContentConfigItems": ".logleveloptionscontentconfigitems",
-    "LogLevelOptionsSavedJobCollectionScheduleRun": ".logleveloptionssavedjobcollectionschedulerun",
+    "LogLevelOptionsRunnableJobCollectionScheduleRun": ".logleveloptionsrunnablejobcollectionschedulerun",
     "MasterWorkerEntry": ".masterworkerentry",
     "MasterWorkerEntryType": ".masterworkerentry",
     "MasterWorkerEntryTypedDict": ".masterworkerentry",
@@ -14400,7 +14346,6 @@ _dynamic_imports: dict[str, str] = {
     "MaxS2SVersionOptions": ".maxs2sversionoptions",
     "MessageFormatOptions": ".messageformatoptions",
     "MethodOptions": ".methodoptions",
-    "MethodOptionsCredentials": ".methodoptionscredentials",
     "MetricsStore": ".metricsstore",
     "MetricsStoreTypedDict": ".metricsstore",
     "MicrosoftEntraIDAuthenticationEndpointOptionsSasl": ".microsoftentraidauthenticationendpointoptionssasl",
@@ -15206,8 +15151,8 @@ _dynamic_imports: dict[str, str] = {
     "PqTypePqControls": ".pqtype",
     "PqTypePqControlsTypedDict": ".pqtype",
     "PqTypeTypedDict": ".pqtype",
-    "PreprocessTypeSavedJobCollectionInput": ".preprocesstypesavedjobcollectioninput",
-    "PreprocessTypeSavedJobCollectionInputTypedDict": ".preprocesstypesavedjobcollectioninput",
+    "PreprocessType": ".preprocesstype",
+    "PreprocessTypeTypedDict": ".preprocesstype",
     "ProcessType": ".processtype",
     "ProcessTypeTypedDict": ".processtype",
     "ProductsCore": ".productscore",
@@ -16204,6 +16149,12 @@ _dynamic_imports: dict[str, str] = {
     "RunnableJobExecutorTypedDict": ".runnablejobexecutor",
     "RunnableJobScheduledSearch": ".runnablejobscheduledsearch",
     "RunnableJobScheduledSearchTypedDict": ".runnablejobscheduledsearch",
+    "RunSettingsTypeRunnableJobCollectionSchedule": ".runsettingstyperunnablejobcollectionschedule",
+    "RunSettingsTypeRunnableJobCollectionScheduleType": ".runsettingstyperunnablejobcollectionschedule",
+    "RunSettingsTypeRunnableJobCollectionScheduleTypedDict": ".runsettingstyperunnablejobcollectionschedule",
+    "RunSettingsTypeSavedJobCollectionSchedule": ".runsettingstypesavedjobcollectionschedule",
+    "RunSettingsTypeSavedJobCollectionScheduleType": ".runsettingstypesavedjobcollectionschedule",
+    "RunSettingsTypeSavedJobCollectionScheduleTypedDict": ".runsettingstypesavedjobcollectionschedule",
     "S3AwsAuthenticationMethodAuto": ".s3collectorconf",
     "S3AwsAuthenticationMethodAutoExtractor": ".s3collectorconf",
     "S3AwsAuthenticationMethodAutoExtractorTypedDict": ".s3collectorconf",
@@ -16242,18 +16193,9 @@ _dynamic_imports: dict[str, str] = {
     "SavedJobScheduledSearch": ".savedjobscheduledsearch",
     "SavedJobScheduledSearchTypedDict": ".savedjobscheduledsearch",
     "ScheduleTypeRunnableJobCollection": ".scheduletyperunnablejobcollection",
-    "ScheduleTypeRunnableJobCollectionRunSettings": ".scheduletyperunnablejobcollection",
-    "ScheduleTypeRunnableJobCollectionRunSettingsTypedDict": ".scheduletyperunnablejobcollection",
-    "ScheduleTypeRunnableJobCollectionType": ".scheduletyperunnablejobcollection",
     "ScheduleTypeRunnableJobCollectionTypedDict": ".scheduletyperunnablejobcollection",
     "ScheduleTypeSavedJobCollection": ".scheduletypesavedjobcollection",
-    "ScheduleTypeSavedJobCollectionLogLevel": ".scheduletypesavedjobcollection",
-    "ScheduleTypeSavedJobCollectionRunSettings": ".scheduletypesavedjobcollection",
-    "ScheduleTypeSavedJobCollectionRunSettingsTypedDict": ".scheduletypesavedjobcollection",
-    "ScheduleTypeSavedJobCollectionType": ".scheduletypesavedjobcollection",
     "ScheduleTypeSavedJobCollectionTypedDict": ".scheduletypesavedjobcollection",
-    "TimeWarning": ".scheduletypesavedjobcollection",
-    "TimeWarningTypedDict": ".scheduletypesavedjobcollection",
     "SchemeClientOauth": ".schemeclientoauth",
     "SchemeClientOauthTypedDict": ".schemeclientoauth",
     "EnvVar": ".scriptcollectorconf",
@@ -16311,36 +16253,6 @@ _dynamic_imports: dict[str, str] = {
     "SplunkAuthenticationBasicSplunkRetryRulesTypeStatic": ".splunkcollectorconf",
     "SplunkAuthenticationBasicSplunkRetryRulesTypeStaticTypedDict": ".splunkcollectorconf",
     "SplunkAuthenticationBasicTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLogin": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginAuthentication": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginCollectRequestHeader": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginCollectRequestHeaderTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginCollectRequestParam": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginCollectRequestParamTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginRetryRules": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginRetryRulesTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecret": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretAuthentication": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretCollectRequestHeader": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretCollectRequestHeaderTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretCollectRequestParam": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretCollectRequestParamTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretRetryRules": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretRetryRulesTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoff": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoffTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNone": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNoneTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStatic": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStaticTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSecretTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSplunkRetryRulesTypeBackoffTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSplunkRetryRulesTypeNone": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSplunkRetryRulesTypeNoneTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSplunkRetryRulesTypeStatic": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginSplunkRetryRulesTypeStaticTypedDict": ".splunkcollectorconf",
-    "SplunkAuthenticationLoginTypedDict": ".splunkcollectorconf",
     "SplunkAuthenticationNone": ".splunkcollectorconf",
     "SplunkAuthenticationNoneAuthentication": ".splunkcollectorconf",
     "SplunkAuthenticationNoneCollectRequestHeader": ".splunkcollectorconf",

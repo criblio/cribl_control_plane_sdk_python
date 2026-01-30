@@ -21,6 +21,7 @@ from .authenticationtypeoptionsprometheusauth1 import (
     AuthenticationTypeOptionsPrometheusAuth1,
 )
 from .authtype import AuthType, AuthTypeTypedDict
+from .awsauthenticationmethodoptions import AwsAuthenticationMethodOptions
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
 from .certificatetypeazureblobauthtypeclientcert import (
@@ -44,7 +45,7 @@ from .datapageversionoptions import DataPageVersionOptions
 from .destinationprotocoloptions import DestinationProtocolOptions
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .formatoptionscribllakedataset import FormatOptionsCriblLakeDataset
+from .formatoptions import FormatOptions
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
 from .itemstypeauthtokens import ItemsTypeAuthTokens, ItemsTypeAuthTokensTypedDict
 from .itemstypeauthtokens1 import ItemsTypeAuthTokens1, ItemsTypeAuthTokens1TypedDict
@@ -75,7 +76,6 @@ from .kafkaschemaregistryauthenticationtype1 import (
 from .maxs2sversionoptions import MaxS2SVersionOptions
 from .messageformatoptions import MessageFormatOptions
 from .methodoptions import MethodOptions
-from .methodoptionscredentials import MethodOptionsCredentials
 from .microsoftentraidauthenticationendpointoptionssasl import (
     MicrosoftEntraIDAuthenticationEndpointOptionsSasl,
 )
@@ -4946,8 +4946,8 @@ class CreateOutputOutputCriblLakeTypedDict(TypedDict):
     r"""Disable if you can access files within the bucket but not the bucket itself"""
     max_closing_files_to_backpressure: NotRequired[float]
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
-    aws_authentication_method: NotRequired[MethodOptionsCredentials]
-    format_: NotRequired[FormatOptionsCriblLakeDataset]
+    aws_authentication_method: NotRequired[AwsAuthenticationMethodOptions]
+    format_: NotRequired[FormatOptions]
     max_concurrent_file_parts: NotRequired[float]
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
     description: NotRequired[str]
@@ -5151,13 +5151,11 @@ class CreateOutputOutputCriblLake(BaseModel):
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
 
     aws_authentication_method: Annotated[
-        Optional[MethodOptionsCredentials],
+        Optional[AwsAuthenticationMethodOptions],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = None
 
-    format_: Annotated[
-        Optional[FormatOptionsCriblLakeDataset], pydantic.Field(alias="format")
-    ] = None
+    format_: Annotated[Optional[FormatOptions], pydantic.Field(alias="format")] = None
 
     max_concurrent_file_parts: Annotated[
         Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
@@ -5274,7 +5272,7 @@ class CreateOutputOutputCriblLake(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.MethodOptionsCredentials(value)
+                return models.AwsAuthenticationMethodOptions(value)
             except ValueError:
                 return value
         return value
@@ -5283,7 +5281,7 @@ class CreateOutputOutputCriblLake(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.FormatOptionsCriblLakeDataset(value)
+                return models.FormatOptions(value)
             except ValueError:
                 return value
         return value

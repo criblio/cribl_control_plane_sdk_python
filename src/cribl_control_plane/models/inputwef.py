@@ -5,10 +5,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .maximumtlsversionoptionskafkaschemaregistrytls import (
     MaximumTLSVersionOptionsKafkaSchemaRegistryTLS,
 )
@@ -221,7 +218,7 @@ class SubscriptionTypedDict(TypedDict):
     locale: NotRequired[str]
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
     query_selector: NotRequired[QueryBuilderMode]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events ingested under this subscription"""
     queries: NotRequired[List[QueryTypedDict]]
     xml_query: NotRequired[str]
@@ -266,7 +263,7 @@ class Subscription(BaseModel):
         Optional[QueryBuilderMode], pydantic.Field(alias="querySelector")
     ] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events ingested under this subscription"""
 
     queries: Optional[List[Query]] = None
@@ -374,7 +371,7 @@ class InputWefTypedDict(TypedDict):
     r"""Kerberos principal used for authentication, typically in the form HTTP/<hostname>@<REALM>"""
     allow_machine_id_mismatch: NotRequired[bool]
     r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     log_fingerprint_mismatch: NotRequired[bool]
@@ -492,7 +489,7 @@ class InputWef(BaseModel):
     ] = None
     r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None

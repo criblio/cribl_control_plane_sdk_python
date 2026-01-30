@@ -5,10 +5,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
@@ -57,7 +54,7 @@ class InputMetricsTypedDict(TypedDict):
     enable_proxy_header: NotRequired[bool]
     r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     udp_socket_rx_buf_size: NotRequired[float]
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
@@ -126,7 +123,7 @@ class InputMetrics(BaseModel):
 
     tls: Optional[TLSSettingsServerSideType] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     udp_socket_rx_buf_size: Annotated[

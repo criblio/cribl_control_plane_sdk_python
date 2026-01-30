@@ -6,10 +6,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -166,7 +163,7 @@ class InputSnmpTypedDict(TypedDict):
     r"""Maximum number of events to buffer when downstream is blocking."""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to send data"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     udp_socket_rx_buf_size: NotRequired[float]
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
@@ -232,7 +229,7 @@ class InputSnmp(BaseModel):
     ] = None
     r"""Regex matching IP addresses that are allowed to send data"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     udp_socket_rx_buf_size: Annotated[

@@ -6,10 +6,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
 from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
@@ -118,7 +115,7 @@ class InputOffice365MgmtTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     publisher_identifier: NotRequired[str]
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
@@ -207,7 +204,7 @@ class InputOffice365Mgmt(BaseModel):
     ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     publisher_identifier: Annotated[

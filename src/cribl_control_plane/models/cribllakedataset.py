@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .cacheconnection import CacheConnection, CacheConnectionTypedDict
-from .formatoptionscribllakedataset import FormatOptionsCriblLakeDataset
+from .formatoptions import FormatOptions
 from .lakedatasetmetrics import LakeDatasetMetrics, LakeDatasetMetricsTypedDict
 from .lakedatasetsearchconfig import (
     LakeDatasetSearchConfig,
@@ -23,7 +23,7 @@ class CriblLakeDatasetTypedDict(TypedDict):
     cache_connection: NotRequired[CacheConnectionTypedDict]
     deletion_started_at: NotRequired[float]
     description: NotRequired[str]
-    format_: NotRequired[FormatOptionsCriblLakeDataset]
+    format_: NotRequired[FormatOptions]
     http_da_used: NotRequired[bool]
     metrics: NotRequired[LakeDatasetMetricsTypedDict]
     retention_period_in_days: NotRequired[float]
@@ -51,9 +51,7 @@ class CriblLakeDataset(BaseModel):
 
     description: Optional[str] = None
 
-    format_: Annotated[
-        Optional[FormatOptionsCriblLakeDataset], pydantic.Field(alias="format")
-    ] = None
+    format_: Annotated[Optional[FormatOptions], pydantic.Field(alias="format")] = None
 
     http_da_used: Annotated[Optional[bool], pydantic.Field(alias="httpDAUsed")] = None
 
@@ -77,7 +75,7 @@ class CriblLakeDataset(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.FormatOptionsCriblLakeDataset(value)
+                return models.FormatOptions(value)
             except ValueError:
                 return value
         return value

@@ -5,10 +5,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .outputmodeoptionssplunkcollectorconf import OutputModeOptionsSplunkCollectorConf
 from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
@@ -131,7 +128,7 @@ class InputSplunkSearchTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     breaker_rulesets: NotRequired[List[str]]
@@ -258,7 +255,7 @@ class InputSplunkSearch(BaseModel):
     ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     retry_rules: Annotated[

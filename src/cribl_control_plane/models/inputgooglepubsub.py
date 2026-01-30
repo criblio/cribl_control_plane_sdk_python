@@ -6,10 +6,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -66,7 +63,7 @@ class InputGooglePubsubTypedDict(TypedDict):
     r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
     request_timeout: NotRequired[float]
     r"""Pull request timeout, in milliseconds"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     ordered_delivery: NotRequired[bool]
@@ -156,7 +153,7 @@ class InputGooglePubsub(BaseModel):
     ] = None
     r"""Pull request timeout, in milliseconds"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None

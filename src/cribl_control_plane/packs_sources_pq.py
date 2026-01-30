@@ -9,21 +9,23 @@ from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_res
 from typing import Any, Mapping, Optional
 
 
-class SourcesPq(BaseSDK):
+class PacksSourcesPq(BaseSDK):
     def clear(
         self,
         *,
         id: str,
+        pack: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedString:
-        r"""Clear the persistent queue for a Source
+        r"""Clear the persistent queue for a Source within a Pack
 
-        Clear the persistent queue (PQ) for the specified Source.
+        Clear the persistent queue (PQ) for the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to clear the PQ for.
+        :param pack: The <code>id</code> of the Pack to clear.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -39,13 +41,14 @@ class SourcesPq(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.DeleteInputPqByIDRequest(
+        request = models.DeleteInputSystemPqByPackAndIDRequest(
             id=id,
+            pack=pack,
         )
 
         req = self._build_request(
             method="DELETE",
-            path="/system/inputs/{id}/pq",
+            path="/p/{pack}/system/inputs/{id}/pq",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -76,7 +79,7 @@ class SourcesPq(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="deleteInputPqById",
+                operation_id="deleteInputSystemPqByPackAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -106,16 +109,18 @@ class SourcesPq(BaseSDK):
         self,
         *,
         id: str,
+        pack: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedString:
-        r"""Clear the persistent queue for a Source
+        r"""Clear the persistent queue for a Source within a Pack
 
-        Clear the persistent queue (PQ) for the specified Source.
+        Clear the persistent queue (PQ) for the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to clear the PQ for.
+        :param pack: The <code>id</code> of the Pack to clear.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -131,13 +136,14 @@ class SourcesPq(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.DeleteInputPqByIDRequest(
+        request = models.DeleteInputSystemPqByPackAndIDRequest(
             id=id,
+            pack=pack,
         )
 
         req = self._build_request_async(
             method="DELETE",
-            path="/system/inputs/{id}/pq",
+            path="/p/{pack}/system/inputs/{id}/pq",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -168,7 +174,7 @@ class SourcesPq(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="deleteInputPqById",
+                operation_id="deleteInputSystemPqByPackAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -198,16 +204,18 @@ class SourcesPq(BaseSDK):
         self,
         *,
         id: str,
+        pack: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedObject:
-        r"""Get information about the latest job to clear the persistent queue for a Source
+        r"""Get information about the latest job to clear the persistent queue for a Source within a Pack
 
-        Get information about the latest job to clear the persistent queue (PQ) for the specified Source.
+        Get information about the latest job to clear the persistent queue (PQ) for the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to get PQ job information for.
+        :param pack: The <code>id</code> of the Pack to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -223,13 +231,14 @@ class SourcesPq(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetInputPqByIDRequest(
+        request = models.GetInputSystemPqByPackAndIDRequest(
             id=id,
+            pack=pack,
         )
 
         req = self._build_request(
             method="GET",
-            path="/system/inputs/{id}/pq",
+            path="/p/{pack}/system/inputs/{id}/pq",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -260,7 +269,7 @@ class SourcesPq(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getInputPqById",
+                operation_id="getInputSystemPqByPackAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -290,16 +299,18 @@ class SourcesPq(BaseSDK):
         self,
         *,
         id: str,
+        pack: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedObject:
-        r"""Get information about the latest job to clear the persistent queue for a Source
+        r"""Get information about the latest job to clear the persistent queue for a Source within a Pack
 
-        Get information about the latest job to clear the persistent queue (PQ) for the specified Source.
+        Get information about the latest job to clear the persistent queue (PQ) for the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to get PQ job information for.
+        :param pack: The <code>id</code> of the Pack to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -315,13 +326,14 @@ class SourcesPq(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetInputPqByIDRequest(
+        request = models.GetInputSystemPqByPackAndIDRequest(
             id=id,
+            pack=pack,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/system/inputs/{id}/pq",
+            path="/p/{pack}/system/inputs/{id}/pq",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
@@ -352,7 +364,7 @@ class SourcesPq(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getInputPqById",
+                operation_id="getInputSystemPqByPackAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security

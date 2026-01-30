@@ -1942,6 +1942,10 @@ if TYPE_CHECKING:
         DeleteInputByIDRequest,
         DeleteInputByIDRequestTypedDict,
     )
+    from .deleteinputpqbyidop import (
+        DeleteInputPqByIDRequest,
+        DeleteInputPqByIDRequestTypedDict,
+    )
     from .deleteinputsystembypackandidop import (
         DeleteInputSystemByPackAndIDRequest,
         DeleteInputSystemByPackAndIDRequestTypedDict,
@@ -2488,6 +2492,7 @@ if TYPE_CHECKING:
         GetFunctionsByIDRequestTypedDict,
     )
     from .getinputbyidop import GetInputByIDRequest, GetInputByIDRequestTypedDict
+    from .getinputpqbyidop import GetInputPqByIDRequest, GetInputPqByIDRequestTypedDict
     from .getinputsystembypackandidop import (
         GetInputSystemByPackAndIDRequest,
         GetInputSystemByPackAndIDRequestTypedDict,
@@ -7840,6 +7845,8 @@ __all__ = [
     "DeleteDatabaseConnectionConfigByIDRequestTypedDict",
     "DeleteInputByIDRequest",
     "DeleteInputByIDRequestTypedDict",
+    "DeleteInputPqByIDRequest",
+    "DeleteInputPqByIDRequestTypedDict",
     "DeleteInputSystemByPackAndIDRequest",
     "DeleteInputSystemByPackAndIDRequestTypedDict",
     "DeleteInputSystemPqByPackAndIDRequest",
@@ -8229,6 +8236,8 @@ __all__ = [
     "GetFunctionsByIDRequestTypedDict",
     "GetInputByIDRequest",
     "GetInputByIDRequestTypedDict",
+    "GetInputPqByIDRequest",
+    "GetInputPqByIDRequestTypedDict",
     "GetInputSystemByPackAndIDRequest",
     "GetInputSystemByPackAndIDRequestTypedDict",
     "GetInputSystemByPackRequest",
@@ -13025,6 +13034,8 @@ _dynamic_imports: dict[str, str] = {
     "DeleteDatabaseConnectionConfigByIDRequestTypedDict": ".deletedatabaseconnectionconfigbyidop",
     "DeleteInputByIDRequest": ".deleteinputbyidop",
     "DeleteInputByIDRequestTypedDict": ".deleteinputbyidop",
+    "DeleteInputPqByIDRequest": ".deleteinputpqbyidop",
+    "DeleteInputPqByIDRequestTypedDict": ".deleteinputpqbyidop",
     "DeleteInputSystemByPackAndIDRequest": ".deleteinputsystembypackandidop",
     "DeleteInputSystemByPackAndIDRequestTypedDict": ".deleteinputsystembypackandidop",
     "DeleteInputSystemPqByPackAndIDRequest": ".deleteinputsystempqbypackandidop",
@@ -13410,6 +13421,8 @@ _dynamic_imports: dict[str, str] = {
     "GetFunctionsByIDRequestTypedDict": ".getfunctionsbyidop",
     "GetInputByIDRequest": ".getinputbyidop",
     "GetInputByIDRequestTypedDict": ".getinputbyidop",
+    "GetInputPqByIDRequest": ".getinputpqbyidop",
+    "GetInputPqByIDRequestTypedDict": ".getinputpqbyidop",
     "GetInputSystemByPackAndIDRequest": ".getinputsystembypackandidop",
     "GetInputSystemByPackAndIDRequestTypedDict": ".getinputsystembypackandidop",
     "GetInputSystemByPackRequest": ".getinputsystembypackop",

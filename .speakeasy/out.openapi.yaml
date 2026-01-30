@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769781142710-c7686ead
+  version: 4.17.0-alpha.1769792035279-6d75f81b
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -42981,6 +42981,69 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Splunk HEC Source.
+  /system/inputs/{id}/pq:
+    delete:
+      operationId: deleteInputPqById
+      tags:
+        - sources
+      x-speakeasy-group: sources.pq
+      x-speakeasy-name-override: clear
+      x-cribl-internal: false
+      summary: Clear the persistent queue for a Source
+      description: Clear the persistent queue (PQ) for the specified Source.
+      responses:
+        "201":
+          description: A list of job ids for the background job that clears the persistent queue
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedString"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to clear the PQ for.
+    get:
+      operationId: getInputPqById
+      tags:
+        - sources
+      x-speakeasy-group: sources.pq
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      summary: Get information about the latest job to clear the persistent queue for a Source
+      description: Get information about the latest job to clear the persistent queue (PQ) for the specified Source.
+      responses:
+        "200":
+          description: a list of any objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedObject"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to get PQ job information for.
   /system/inputs/{id}/hectoken/{token}:
     patch:
       operationId: updateInputHecTokenByIdAndToken

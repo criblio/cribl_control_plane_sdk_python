@@ -328,6 +328,13 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssamples/README.md#get) - Get sample event data for a Destination within a Pack
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssamples/README.md#create) - Send sample event data to a Destination within a Pack
 
+#### [Packs.Routes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md)
+
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#get) - Get a Routing table within a Pack
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#update) - Update a Route within a Pack
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#list) - List all Routes within a Pack
+* [append](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#append) - Add a Route to the end of the Routing table within a Pack
+
 #### [Packs.Sources](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssources/README.md)
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssources/README.md#list) - List all Sources within a Pack
@@ -341,10 +348,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packshectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source within a Pack
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packshectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source within a Pack
 
-##### [Packs.Sources.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md)
+##### [Packs.Sources.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcespq/README.md)
 
-* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md#clear) - Clear the persistent queue for a Source within a Pack
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source within a Pack
+* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcespq/README.md#clear) - Clear the persistent queue for a Source within a Pack
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source within a Pack
 
 ### [Pipelines](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md)
 
@@ -373,6 +380,11 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/hectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/hectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source
+
+#### [Sources.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md)
+
+* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md#clear) - Clear the persistent queue for a Source
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source
 
 ### [System.Captures](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md)
 

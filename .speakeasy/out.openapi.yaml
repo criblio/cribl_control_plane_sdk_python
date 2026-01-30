@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769775368672-441acff6
+  version: 4.17.0-alpha.1769795943321-1e5797a3
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -42981,6 +42981,69 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Splunk HEC Source.
+  /system/inputs/{id}/pq:
+    delete:
+      operationId: deleteInputPqById
+      tags:
+        - sources
+      x-speakeasy-group: sources.pq
+      x-speakeasy-name-override: clear
+      x-cribl-internal: false
+      summary: Clear the persistent queue for a Source
+      description: Clear the persistent queue (PQ) for the specified Source.
+      responses:
+        "201":
+          description: A list of job ids for the background job that clears the persistent queue
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedString"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to clear the PQ for.
+    get:
+      operationId: getInputPqById
+      tags:
+        - sources
+      x-speakeasy-group: sources.pq
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      summary: Get information about the latest job to clear the persistent queue for a Source
+      description: Get information about the latest job to clear the persistent queue (PQ) for the specified Source.
+      responses:
+        "200":
+          description: a list of any objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedObject"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to get PQ job information for.
   /system/inputs/{id}/hectoken/{token}:
     patch:
       operationId: updateInputHecTokenByIdAndToken
@@ -45308,6 +45371,179 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>.
+  /p/{pack}/routes/{id}:
+    get:
+      operationId: getRoutesByPackAndId
+      tags:
+        - routes
+      x-speakeasy-group: packs.routes
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      summary: Get a Routing table within a Pack
+      description: Get the specified Routing table within the specified Pack.
+      responses:
+        "200":
+          description: a list of Routes objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedRoutes"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Routing table to get. The supported value is <code>default</code>.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
+    patch:
+      operationId: updateRoutesByPackAndId
+      tags:
+        - routes
+      x-speakeasy-group: packs.routes
+      x-speakeasy-name-override: update
+      x-cribl-internal: false
+      summary: Update a Route within a Pack
+      description: Update the specified Route within the specified Pack.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
+      responses:
+        "200":
+          description: a list of Routes objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedRoutes"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: Routes object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Routes"
+            examples:
+              RoutesUpdateExamplesBasicRoute:
+                $ref: "#/components/examples/RoutesUpdateExamplesBasicRoute"
+              RoutesUpdateExamplesMultipleRoutes:
+                $ref: "#/components/examples/RoutesUpdateExamplesMultipleRoutes"
+              RoutesUpdateExamplesRouteWithOutputExpression:
+                $ref: "#/components/examples/RoutesUpdateExamplesRouteWithOutputExpression"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to update.
+  /p/{pack}/routes:
+    get:
+      operationId: getRoutesByPack
+      tags:
+        - routes
+      x-speakeasy-group: packs.routes
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
+      summary: List all Routes within a Pack
+      description: Get a list of all Routes within the specified Pack.
+      responses:
+        "200":
+          description: a list of Routes objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedRoutes"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to list.
+  /p/{pack}/routes/{id}/append:
+    post:
+      operationId: createRoutesAppendByPackAndId
+      tags:
+        - routes
+      x-speakeasy-group: packs.routes
+      x-speakeasy-name-override: append
+      x-cribl-internal: false
+      summary: Add a Route to the end of the Routing table within a Pack
+      description: Add a Route to the end of the specified Routing table within the specified Pack.
+      responses:
+        "200":
+          description: a list of Routes objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedRoutes"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: RouteDefinitions object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RouteDefinitions"
+            examples:
+              RoutesAppendExamplesSingleRoute:
+                $ref: "#/components/examples/RoutesAppendExamplesSingleRoute"
+              RoutesAppendExamplesMultipleRoutes:
+                $ref: "#/components/examples/RoutesAppendExamplesMultipleRoutes"
+              RoutesAppendExamplesRouteWithOutputExpression:
+                $ref: "#/components/examples/RoutesAppendExamplesRouteWithOutputExpression"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to append.
   /lib/jobs:
     post:
       operationId: createSavedJob

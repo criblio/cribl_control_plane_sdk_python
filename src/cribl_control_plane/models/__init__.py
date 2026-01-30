@@ -1876,6 +1876,10 @@ if TYPE_CHECKING:
         CreateRoutesAppendByIDRequest,
         CreateRoutesAppendByIDRequestTypedDict,
     )
+    from .createroutesappendbypackandidop import (
+        CreateRoutesAppendByPackAndIDRequest,
+        CreateRoutesAppendByPackAndIDRequestTypedDict,
+    )
     from .createsavedjobop import CreateSavedJobRequest, CreateSavedJobRequestTypedDict
     from .createversioncommitop import (
         CreateVersionCommitRequest,
@@ -1941,6 +1945,10 @@ if TYPE_CHECKING:
     from .deleteinputbyidop import (
         DeleteInputByIDRequest,
         DeleteInputByIDRequestTypedDict,
+    )
+    from .deleteinputpqbyidop import (
+        DeleteInputPqByIDRequest,
+        DeleteInputPqByIDRequestTypedDict,
     )
     from .deleteinputsystembypackandidop import (
         DeleteInputSystemByPackAndIDRequest,
@@ -2488,6 +2496,7 @@ if TYPE_CHECKING:
         GetFunctionsByIDRequestTypedDict,
     )
     from .getinputbyidop import GetInputByIDRequest, GetInputByIDRequestTypedDict
+    from .getinputpqbyidop import GetInputPqByIDRequest, GetInputPqByIDRequestTypedDict
     from .getinputsystembypackandidop import (
         GetInputSystemByPackAndIDRequest,
         GetInputSystemByPackAndIDRequestTypedDict,
@@ -2544,6 +2553,14 @@ if TYPE_CHECKING:
         GetProductsWorkersByProductRequestTypedDict,
     )
     from .getroutesbyidop import GetRoutesByIDRequest, GetRoutesByIDRequestTypedDict
+    from .getroutesbypackandidop import (
+        GetRoutesByPackAndIDRequest,
+        GetRoutesByPackAndIDRequestTypedDict,
+    )
+    from .getroutesbypackop import (
+        GetRoutesByPackRequest,
+        GetRoutesByPackRequestTypedDict,
+    )
     from .getsavedjobbyidop import (
         GetSavedJobByIDRequest,
         GetSavedJobByIDRequestTypedDict,
@@ -5925,6 +5942,10 @@ if TYPE_CHECKING:
         UpdateRoutesByIDRequest,
         UpdateRoutesByIDRequestTypedDict,
     )
+    from .updateroutesbypackandidop import (
+        UpdateRoutesByPackAndIDRequest,
+        UpdateRoutesByPackAndIDRequestTypedDict,
+    )
     from .updatesavedjobbyidop import (
         UpdateSavedJobByIDRequest,
         UpdateSavedJobByIDRequestTypedDict,
@@ -7789,6 +7810,8 @@ __all__ = [
     "CreateOutputWriteAction",
     "CreateRoutesAppendByIDRequest",
     "CreateRoutesAppendByIDRequestTypedDict",
+    "CreateRoutesAppendByPackAndIDRequest",
+    "CreateRoutesAppendByPackAndIDRequestTypedDict",
     "CreateSavedJobRequest",
     "CreateSavedJobRequestTypedDict",
     "CreateVersionCommitRequest",
@@ -7840,6 +7863,8 @@ __all__ = [
     "DeleteDatabaseConnectionConfigByIDRequestTypedDict",
     "DeleteInputByIDRequest",
     "DeleteInputByIDRequestTypedDict",
+    "DeleteInputPqByIDRequest",
+    "DeleteInputPqByIDRequestTypedDict",
     "DeleteInputSystemByPackAndIDRequest",
     "DeleteInputSystemByPackAndIDRequestTypedDict",
     "DeleteInputSystemPqByPackAndIDRequest",
@@ -8229,6 +8254,8 @@ __all__ = [
     "GetFunctionsByIDRequestTypedDict",
     "GetInputByIDRequest",
     "GetInputByIDRequestTypedDict",
+    "GetInputPqByIDRequest",
+    "GetInputPqByIDRequestTypedDict",
     "GetInputSystemByPackAndIDRequest",
     "GetInputSystemByPackAndIDRequestTypedDict",
     "GetInputSystemByPackRequest",
@@ -8263,6 +8290,10 @@ __all__ = [
     "GetProductsWorkersByProductRequestTypedDict",
     "GetRoutesByIDRequest",
     "GetRoutesByIDRequestTypedDict",
+    "GetRoutesByPackAndIDRequest",
+    "GetRoutesByPackAndIDRequestTypedDict",
+    "GetRoutesByPackRequest",
+    "GetRoutesByPackRequestTypedDict",
     "GetSavedJobByIDRequest",
     "GetSavedJobByIDRequestTypedDict",
     "GetSavedJobRequest",
@@ -11162,6 +11193,8 @@ __all__ = [
     "UpdateProductsWorkersRestartByProductRequestTypedDict",
     "UpdateRoutesByIDRequest",
     "UpdateRoutesByIDRequestTypedDict",
+    "UpdateRoutesByPackAndIDRequest",
+    "UpdateRoutesByPackAndIDRequestTypedDict",
     "UpdateSavedJobByIDRequest",
     "UpdateSavedJobByIDRequestTypedDict",
     "UpgradeGroupSettings1",
@@ -12982,6 +13015,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateOutputTestByIDRequestTypedDict": ".createoutputtestbyidop",
     "CreateRoutesAppendByIDRequest": ".createroutesappendbyidop",
     "CreateRoutesAppendByIDRequestTypedDict": ".createroutesappendbyidop",
+    "CreateRoutesAppendByPackAndIDRequest": ".createroutesappendbypackandidop",
+    "CreateRoutesAppendByPackAndIDRequestTypedDict": ".createroutesappendbypackandidop",
     "CreateSavedJobRequest": ".createsavedjobop",
     "CreateSavedJobRequestTypedDict": ".createsavedjobop",
     "CreateVersionCommitRequest": ".createversioncommitop",
@@ -13025,6 +13060,8 @@ _dynamic_imports: dict[str, str] = {
     "DeleteDatabaseConnectionConfigByIDRequestTypedDict": ".deletedatabaseconnectionconfigbyidop",
     "DeleteInputByIDRequest": ".deleteinputbyidop",
     "DeleteInputByIDRequestTypedDict": ".deleteinputbyidop",
+    "DeleteInputPqByIDRequest": ".deleteinputpqbyidop",
+    "DeleteInputPqByIDRequestTypedDict": ".deleteinputpqbyidop",
     "DeleteInputSystemByPackAndIDRequest": ".deleteinputsystembypackandidop",
     "DeleteInputSystemByPackAndIDRequestTypedDict": ".deleteinputsystembypackandidop",
     "DeleteInputSystemPqByPackAndIDRequest": ".deleteinputsystempqbypackandidop",
@@ -13410,6 +13447,8 @@ _dynamic_imports: dict[str, str] = {
     "GetFunctionsByIDRequestTypedDict": ".getfunctionsbyidop",
     "GetInputByIDRequest": ".getinputbyidop",
     "GetInputByIDRequestTypedDict": ".getinputbyidop",
+    "GetInputPqByIDRequest": ".getinputpqbyidop",
+    "GetInputPqByIDRequestTypedDict": ".getinputpqbyidop",
     "GetInputSystemByPackAndIDRequest": ".getinputsystembypackandidop",
     "GetInputSystemByPackAndIDRequestTypedDict": ".getinputsystembypackandidop",
     "GetInputSystemByPackRequest": ".getinputsystembypackop",
@@ -13444,6 +13483,10 @@ _dynamic_imports: dict[str, str] = {
     "GetProductsWorkersByProductRequestTypedDict": ".getproductsworkersbyproductop",
     "GetRoutesByIDRequest": ".getroutesbyidop",
     "GetRoutesByIDRequestTypedDict": ".getroutesbyidop",
+    "GetRoutesByPackAndIDRequest": ".getroutesbypackandidop",
+    "GetRoutesByPackAndIDRequestTypedDict": ".getroutesbypackandidop",
+    "GetRoutesByPackRequest": ".getroutesbypackop",
+    "GetRoutesByPackRequestTypedDict": ".getroutesbypackop",
     "GetSavedJobByIDRequest": ".getsavedjobbyidop",
     "GetSavedJobByIDRequestTypedDict": ".getsavedjobbyidop",
     "GetSavedJobRequest": ".getsavedjobop",
@@ -16405,6 +16448,8 @@ _dynamic_imports: dict[str, str] = {
     "UpdateProductsWorkersRestartByProductRequestTypedDict": ".updateproductsworkersrestartbyproductop",
     "UpdateRoutesByIDRequest": ".updateroutesbyidop",
     "UpdateRoutesByIDRequestTypedDict": ".updateroutesbyidop",
+    "UpdateRoutesByPackAndIDRequest": ".updateroutesbypackandidop",
+    "UpdateRoutesByPackAndIDRequestTypedDict": ".updateroutesbypackandidop",
     "UpdateSavedJobByIDRequest": ".updatesavedjobbyidop",
     "UpdateSavedJobByIDRequestTypedDict": ".updatesavedjobbyidop",
     "UpgradeGroupSettings1": ".upgradegroupsettings_union",

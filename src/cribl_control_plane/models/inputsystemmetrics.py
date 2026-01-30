@@ -8,10 +8,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .modeoptionshost import ModeOptionsHost
 from .pqtype import PqType, PqTypeTypedDict
 from .processtype import ProcessType, ProcessTypeTypedDict
@@ -623,7 +620,7 @@ class InputSystemMetricsTypedDict(TypedDict):
     host: NotRequired[InputSystemMetricsHostTypedDict]
     process: NotRequired[ProcessTypeTypedDict]
     container: NotRequired[ContainerTypedDict]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[InputSystemMetricsPersistenceTypedDict]
     description: NotRequired[str]
@@ -668,7 +665,7 @@ class InputSystemMetrics(BaseModel):
 
     container: Optional[Container] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     persistence: Optional[InputSystemMetricsPersistence] = None

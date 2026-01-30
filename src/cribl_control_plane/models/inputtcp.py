@@ -8,15 +8,9 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
-from .preprocesstypesavedjobcollectioninput import (
-    PreprocessTypeSavedJobCollectionInput,
-    PreprocessTypeSavedJobCollectionInputTypedDict,
-)
+from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
 from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
     TLSSettingsServerSideTypeTypedDict,
@@ -69,7 +63,7 @@ class InputTCPTypedDict(TypedDict):
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     enable_proxy_header: NotRequired[bool]
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
@@ -77,7 +71,7 @@ class InputTCPTypedDict(TypedDict):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     enable_header: NotRequired[bool]
     r"""Client will pass the header record with every new connection. The header can contain an authToken, and an object with a list of fields and values to add to every event. These fields can be used to simplify Event Breaker selection, routing, etc. Header has this format, and must be followed by a newline: { \"authToken\" : \"myToken\", \"fields\": { \"field1\": \"value1\", \"field2\": \"value2\" } }"""
-    preprocess: NotRequired[PreprocessTypeSavedJobCollectionInputTypedDict]
+    preprocess: NotRequired[PreprocessTypeTypedDict]
     description: NotRequired[str]
     auth_token: NotRequired[str]
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
@@ -159,7 +153,7 @@ class InputTCP(BaseModel):
     ] = None
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     breaker_rulesets: Annotated[
@@ -177,7 +171,7 @@ class InputTCP(BaseModel):
     )
     r"""Client will pass the header record with every new connection. The header can contain an authToken, and an object with a list of fields and values to add to every event. These fields can be used to simplify Event Breaker selection, routing, etc. Header has this format, and must be followed by a newline: { \"authToken\" : \"myToken\", \"fields\": { \"field1\": \"value1\", \"field2\": \"value2\" } }"""
 
-    preprocess: Optional[PreprocessTypeSavedJobCollectionInput] = None
+    preprocess: Optional[PreprocessType] = None
 
     description: Optional[str] = None
 

@@ -5,10 +5,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .itemstyperules import ItemsTypeRules, ItemsTypeRulesTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -43,7 +40,7 @@ class InputKubeEventsTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     rules: NotRequired[List[ItemsTypeRulesTypedDict]]
     r"""Filtering on event fields"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -81,7 +78,7 @@ class InputKubeEvents(BaseModel):
     rules: Optional[List[ItemsTypeRules]] = None
     r"""Filtering on event fields"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None

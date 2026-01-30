@@ -15,907 +15,21 @@ from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class SplunkAuthenticationLoginSecretAuthentication(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Authentication method for Discover and Collect REST calls"""
-
-    NONE = "none"
-    BASIC = "basic"
-    BASIC_SECRET = "basicSecret"
-    TOKEN = "token"
-    TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
-
-
-class SplunkAuthenticationLoginSecretCollectRequestParamTypedDict(TypedDict):
-    name: str
-    value: str
-    r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
-
-
-class SplunkAuthenticationLoginSecretCollectRequestParam(BaseModel):
-    name: str
-
-    value: str
-    r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
-
-
-class SplunkAuthenticationLoginSecretCollectRequestHeaderTypedDict(TypedDict):
-    name: str
-    value: str
-    r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
-
-
-class SplunkAuthenticationLoginSecretCollectRequestHeader(BaseModel):
-    name: str
-
-    value: str
-    r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
-
-
-class SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoffTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-
-
-class SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoff(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStaticTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-
-
-class SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStatic(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-                "multiplier",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNoneTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-
-
-class SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNone(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-SplunkAuthenticationLoginSecretRetryRulesTypedDict = TypeAliasType(
-    "SplunkAuthenticationLoginSecretRetryRulesTypedDict",
-    Union[
-        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNoneTypedDict,
-        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStaticTypedDict,
-        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoffTypedDict,
-    ],
-)
-
-
-SplunkAuthenticationLoginSecretRetryRules = Annotated[
-    Union[
-        Annotated[SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNone, Tag("none")],
-        Annotated[
-            SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStatic, Tag("static")
-        ],
-        Annotated[
-            SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoff, Tag("backoff")
-        ],
-    ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
-]
-
-
-class SplunkAuthenticationLoginSecretTypedDict(TypedDict):
-    authentication: SplunkAuthenticationLoginSecretAuthentication
-    r"""Authentication method for Discover and Collect REST calls"""
-    login_url: str
-    r"""URL to use for login API call, this call is expected to be a POST."""
-    credentials_secret: str
-    r"""Select or create a stored secret that references your login credentials"""
-    login_body: str
-    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
-    token_resp_attribute: str
-    r"""Path to token attribute in login response body. Nested attributes are allowed."""
-    auth_header_expr: str
-    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
-    search_head: str
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
-    search: str
-    r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    endpoint: str
-    r"""REST API used to create a search"""
-    output_mode: OutputModeOptionsSplunkCollectorConf
-    r"""Format of the returned output"""
-    earliest: NotRequired[str]
-    r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
-    latest: NotRequired[str]
-    r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    collect_request_params: NotRequired[
-        List[SplunkAuthenticationLoginSecretCollectRequestParamTypedDict]
-    ]
-    r"""Optional collect request parameters"""
-    collect_request_headers: NotRequired[
-        List[SplunkAuthenticationLoginSecretCollectRequestHeaderTypedDict]
-    ]
-    r"""Optional collect request headers"""
-    timeout: NotRequired[float]
-    r"""HTTP request inactivity timeout. Use 0 for no timeout."""
-    use_round_robin_dns: NotRequired[bool]
-    r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
-    disable_time_filter: NotRequired[bool]
-    r"""Disable collector event time filtering when a date range is specified"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
-    handle_escaped_chars: NotRequired[bool]
-    r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
-    retry_rules: NotRequired[SplunkAuthenticationLoginSecretRetryRulesTypedDict]
-
-
-class SplunkAuthenticationLoginSecret(BaseModel):
-    authentication: SplunkAuthenticationLoginSecretAuthentication
-    r"""Authentication method for Discover and Collect REST calls"""
-
-    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
-    r"""URL to use for login API call, this call is expected to be a POST."""
-
-    credentials_secret: Annotated[str, pydantic.Field(alias="credentialsSecret")]
-    r"""Select or create a stored secret that references your login credentials"""
-
-    login_body: Annotated[str, pydantic.Field(alias="loginBody")]
-    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
-
-    token_resp_attribute: Annotated[str, pydantic.Field(alias="tokenRespAttribute")]
-    r"""Path to token attribute in login response body. Nested attributes are allowed."""
-
-    auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
-    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
-
-    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
-
-    search: str
-    r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-
-    endpoint: str
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
-    ]
-    r"""Format of the returned output"""
-
-    earliest: Optional[str] = None
-    r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
-
-    latest: Optional[str] = None
-    r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    collect_request_params: Annotated[
-        Optional[List[SplunkAuthenticationLoginSecretCollectRequestParam]],
-        pydantic.Field(alias="collectRequestParams"),
-    ] = None
-    r"""Optional collect request parameters"""
-
-    collect_request_headers: Annotated[
-        Optional[List[SplunkAuthenticationLoginSecretCollectRequestHeader]],
-        pydantic.Field(alias="collectRequestHeaders"),
-    ] = None
-    r"""Optional collect request headers"""
-
-    timeout: Optional[float] = None
-    r"""HTTP request inactivity timeout. Use 0 for no timeout."""
-
-    use_round_robin_dns: Annotated[
-        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = None
-    r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
-
-    disable_time_filter: Annotated[
-        Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = None
-    r"""Disable collector event time filtering when a date range is specified"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
-
-    handle_escaped_chars: Annotated[
-        Optional[bool], pydantic.Field(alias="handleEscapedChars")
-    ] = None
-    r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
-
-    retry_rules: Annotated[
-        Optional[SplunkAuthenticationLoginSecretRetryRules],
-        pydantic.Field(alias="retryRules"),
-    ] = None
-
-    @field_serializer("authentication")
-    def serialize_authentication(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SplunkAuthenticationLoginSecretAuthentication(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("output_mode")
-    def serialize_output_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.OutputModeOptionsSplunkCollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "earliest",
-                "latest",
-                "collectRequestParams",
-                "collectRequestHeaders",
-                "timeout",
-                "useRoundRobinDns",
-                "disableTimeFilter",
-                "rejectUnauthorized",
-                "handleEscapedChars",
-                "retryRules",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class SplunkAuthenticationLoginAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Authentication method for Discover and Collect REST calls"""
-
-    NONE = "none"
-    BASIC = "basic"
-    BASIC_SECRET = "basicSecret"
-    TOKEN = "token"
-    TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
-
-
-class SplunkAuthenticationLoginCollectRequestParamTypedDict(TypedDict):
-    name: str
-    value: str
-    r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
-
-
-class SplunkAuthenticationLoginCollectRequestParam(BaseModel):
-    name: str
-
-    value: str
-    r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
-
-
-class SplunkAuthenticationLoginCollectRequestHeaderTypedDict(TypedDict):
-    name: str
-    value: str
-    r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
-
-
-class SplunkAuthenticationLoginCollectRequestHeader(BaseModel):
-    name: str
-
-    value: str
-    r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
-
-
-class SplunkAuthenticationLoginSplunkRetryRulesTypeBackoffTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-
-
-class SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class SplunkAuthenticationLoginSplunkRetryRulesTypeStaticTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-
-
-class SplunkAuthenticationLoginSplunkRetryRulesTypeStatic(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-                "multiplier",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class SplunkAuthenticationLoginSplunkRetryRulesTypeNoneTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-
-
-class SplunkAuthenticationLoginSplunkRetryRulesTypeNone(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-SplunkAuthenticationLoginRetryRulesTypedDict = TypeAliasType(
-    "SplunkAuthenticationLoginRetryRulesTypedDict",
-    Union[
-        SplunkAuthenticationLoginSplunkRetryRulesTypeNoneTypedDict,
-        SplunkAuthenticationLoginSplunkRetryRulesTypeStaticTypedDict,
-        SplunkAuthenticationLoginSplunkRetryRulesTypeBackoffTypedDict,
-    ],
-)
-
-
-SplunkAuthenticationLoginRetryRules = Annotated[
-    Union[
-        Annotated[SplunkAuthenticationLoginSplunkRetryRulesTypeNone, Tag("none")],
-        Annotated[SplunkAuthenticationLoginSplunkRetryRulesTypeStatic, Tag("static")],
-        Annotated[SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff, Tag("backoff")],
-    ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
-]
-
-
-class SplunkAuthenticationLoginTypedDict(TypedDict):
-    authentication: SplunkAuthenticationLoginAuthentication
-    r"""Authentication method for Discover and Collect REST calls"""
-    login_url: str
-    r"""URL to use for login API call. This call is expected to be a POST."""
-    username: str
-    password: str
-    login_body: str
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
-    token_resp_attribute: str
-    r"""Path to token attribute in login response body. Nested attributes are allowed."""
-    auth_header_expr: str
-    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
-    search_head: str
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
-    search: str
-    r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-    endpoint: str
-    r"""REST API used to create a search"""
-    output_mode: OutputModeOptionsSplunkCollectorConf
-    r"""Format of the returned output"""
-    earliest: NotRequired[str]
-    r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
-    latest: NotRequired[str]
-    r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    collect_request_params: NotRequired[
-        List[SplunkAuthenticationLoginCollectRequestParamTypedDict]
-    ]
-    r"""Optional collect request parameters"""
-    collect_request_headers: NotRequired[
-        List[SplunkAuthenticationLoginCollectRequestHeaderTypedDict]
-    ]
-    r"""Optional collect request headers"""
-    timeout: NotRequired[float]
-    r"""HTTP request inactivity timeout. Use 0 for no timeout."""
-    use_round_robin_dns: NotRequired[bool]
-    r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
-    disable_time_filter: NotRequired[bool]
-    r"""Disable collector event time filtering when a date range is specified"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
-    handle_escaped_chars: NotRequired[bool]
-    r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
-    retry_rules: NotRequired[SplunkAuthenticationLoginRetryRulesTypedDict]
-
-
-class SplunkAuthenticationLogin(BaseModel):
-    authentication: SplunkAuthenticationLoginAuthentication
-    r"""Authentication method for Discover and Collect REST calls"""
-
-    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
-    r"""URL to use for login API call. This call is expected to be a POST."""
-
-    username: str
-
-    password: str
-
-    login_body: Annotated[str, pydantic.Field(alias="loginBody")]
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
-
-    token_resp_attribute: Annotated[str, pydantic.Field(alias="tokenRespAttribute")]
-    r"""Path to token attribute in login response body. Nested attributes are allowed."""
-
-    auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
-    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
-
-    search_head: Annotated[str, pydantic.Field(alias="searchHead")]
-    r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
-
-    search: str
-    r"""Examples: 'index=myAppLogs level=error channel=myApp' OR '| mstats avg(myStat) as myStat WHERE index=myStatsIndex.'"""
-
-    endpoint: str
-    r"""REST API used to create a search"""
-
-    output_mode: Annotated[
-        OutputModeOptionsSplunkCollectorConf, pydantic.Field(alias="outputMode")
-    ]
-    r"""Format of the returned output"""
-
-    earliest: Optional[str] = None
-    r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
-
-    latest: Optional[str] = None
-    r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-
-    collect_request_params: Annotated[
-        Optional[List[SplunkAuthenticationLoginCollectRequestParam]],
-        pydantic.Field(alias="collectRequestParams"),
-    ] = None
-    r"""Optional collect request parameters"""
-
-    collect_request_headers: Annotated[
-        Optional[List[SplunkAuthenticationLoginCollectRequestHeader]],
-        pydantic.Field(alias="collectRequestHeaders"),
-    ] = None
-    r"""Optional collect request headers"""
-
-    timeout: Optional[float] = None
-    r"""HTTP request inactivity timeout. Use 0 for no timeout."""
-
-    use_round_robin_dns: Annotated[
-        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = None
-    r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
-
-    disable_time_filter: Annotated[
-        Optional[bool], pydantic.Field(alias="disableTimeFilter")
-    ] = None
-    r"""Disable collector event time filtering when a date range is specified"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
-
-    handle_escaped_chars: Annotated[
-        Optional[bool], pydantic.Field(alias="handleEscapedChars")
-    ] = None
-    r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
-
-    retry_rules: Annotated[
-        Optional[SplunkAuthenticationLoginRetryRules],
-        pydantic.Field(alias="retryRules"),
-    ] = None
-
-    @field_serializer("authentication")
-    def serialize_authentication(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SplunkAuthenticationLoginAuthentication(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("output_mode")
-    def serialize_output_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.OutputModeOptionsSplunkCollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "earliest",
-                "latest",
-                "collectRequestParams",
-                "collectRequestHeaders",
-                "timeout",
-                "useRoundRobinDns",
-                "disableTimeFilter",
-                "rejectUnauthorized",
-                "handleEscapedChars",
-                "retryRules",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
 class SplunkAuthenticationTokenSecretAuthentication(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Authentication method for Discover and Collect REST calls"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # Bearer Token
     TOKEN = "token"
+    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationTokenSecretCollectRequestParamTypedDict(TypedDict):
@@ -1334,13 +448,16 @@ class SplunkAuthenticationTokenSecret(BaseModel):
 class SplunkAuthenticationTokenAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # Bearer Token
     TOKEN = "token"
+    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationTokenCollectRequestParamTypedDict(TypedDict):
@@ -1755,13 +872,16 @@ class SplunkAuthenticationBasicSecretAuthentication(
 ):
     r"""Authentication method for Discover and Collect REST calls"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # Bearer Token
     TOKEN = "token"
+    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationBasicSecretCollectRequestParamTypedDict(TypedDict):
@@ -2180,13 +1300,16 @@ class SplunkAuthenticationBasicSecret(BaseModel):
 class SplunkAuthenticationBasicAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # Bearer Token
     TOKEN = "token"
+    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationBasicCollectRequestParamTypedDict(TypedDict):
@@ -2606,13 +1729,16 @@ class SplunkAuthenticationBasic(BaseModel):
 class SplunkAuthenticationNoneAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication method for Discover and Collect REST calls"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
+    # Bearer Token
     TOKEN = "token"
+    # Bearer Token (text secret)
     TOKEN_SECRET = "tokenSecret"
-    LOGIN = "login"
-    LOGIN_SECRET = "loginSecret"
 
 
 class SplunkAuthenticationNoneCollectRequestParamTypedDict(TypedDict):
@@ -3026,8 +2152,6 @@ SplunkCollectorConfTypedDict = TypeAliasType(
         SplunkAuthenticationTokenTypedDict,
         SplunkAuthenticationTokenSecretTypedDict,
         SplunkAuthenticationBasicTypedDict,
-        SplunkAuthenticationLoginSecretTypedDict,
-        SplunkAuthenticationLoginTypedDict,
     ],
 )
 
@@ -3039,8 +2163,6 @@ SplunkCollectorConf = Annotated[
         Annotated[SplunkAuthenticationBasicSecret, Tag("basicSecret")],
         Annotated[SplunkAuthenticationToken, Tag("token")],
         Annotated[SplunkAuthenticationTokenSecret, Tag("tokenSecret")],
-        Annotated[SplunkAuthenticationLogin, Tag("login")],
-        Annotated[SplunkAuthenticationLoginSecret, Tag("loginSecret")],
     ],
     Discriminator(lambda m: get_discriminator(m, "authentication", "authentication")),
 ]

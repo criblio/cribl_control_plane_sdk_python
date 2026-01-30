@@ -9,15 +9,9 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
-from .preprocesstypesavedjobcollectioninput import (
-    PreprocessTypeSavedJobCollectionInput,
-    PreprocessTypeSavedJobCollectionInputTypedDict,
-)
+from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
 from .signatureversionoptionss3collectorconf import (
     SignatureVersionOptionsS3CollectorConf,
 )
@@ -97,8 +91,8 @@ class InputS3TypedDict(TypedDict):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     enable_sqs_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials when accessing Amazon SQS"""
-    preprocess: NotRequired[PreprocessTypeSavedJobCollectionInputTypedDict]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    preprocess: NotRequired[PreprocessTypeTypedDict]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     parquet_chunk_size_mb: NotRequired[float]
     r"""Maximum file size for each Parquet chunk"""
@@ -269,9 +263,9 @@ class InputS3(BaseModel):
     ] = None
     r"""Use Assume Role credentials when accessing Amazon SQS"""
 
-    preprocess: Optional[PreprocessTypeSavedJobCollectionInput] = None
+    preprocess: Optional[PreprocessType] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     parquet_chunk_size_mb: Annotated[

@@ -8,10 +8,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .itemstyperules import ItemsTypeRules, ItemsTypeRulesTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models
@@ -116,7 +113,7 @@ class InputKubeMetricsTypedDict(TypedDict):
     r"""Time, in seconds, between consecutive metrics collections. Default is 15 secs."""
     rules: NotRequired[List[ItemsTypeRulesTypedDict]]
     r"""Add rules to decide which Kubernetes objects to generate metrics for. Events are generated if no rules are given or of all the rules' expressions evaluate to true."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[InputKubeMetricsPersistenceTypedDict]
     description: NotRequired[str]
@@ -158,7 +155,7 @@ class InputKubeMetrics(BaseModel):
     rules: Optional[List[ItemsTypeRules]] = None
     r"""Add rules to decide which Kubernetes objects to generate metrics for. Events are generated if no rules are given or of all the rules' expressions evaluate to true."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     persistence: Optional[InputKubeMetricsPersistence] = None

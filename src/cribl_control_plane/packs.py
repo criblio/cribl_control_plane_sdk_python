@@ -4,6 +4,7 @@ from .basesdk import BaseSDK
 from .sdkconfiguration import SDKConfiguration
 from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
+from cribl_control_plane.packs_destinations import PacksDestinations
 from cribl_control_plane.packs_sources import PacksSources
 from cribl_control_plane.types import BaseModel, OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
@@ -16,6 +17,7 @@ class Packs(BaseSDK):
     r"""Actions related to Packs"""
 
     sources: PacksSources
+    destinations: PacksDestinations
 
     def __init__(
         self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
@@ -26,6 +28,9 @@ class Packs(BaseSDK):
 
     def _init_sdks(self):
         self.sources = PacksSources(self.sdk_configuration, parent_ref=self.parent_ref)
+        self.destinations = PacksDestinations(
+            self.sdk_configuration, parent_ref=self.parent_ref
+        )
 
     def install(
         self,

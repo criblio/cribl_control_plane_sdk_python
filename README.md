@@ -194,43 +194,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>", accelerated_fields=[
-        "<value 1>",
-        "<value 2>",
-    ], bucket_name="<value>", cache_connection={
-        "accelerated_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "backfill_status": models.CacheConnectionBackfillStatus.PENDING,
-        "cache_ref": "<value>",
-        "created_at": 7795.06,
-        "lakehouse_connection_type": models.LakehouseConnectionType.CACHE,
-        "migration_query_id": "<id>",
-        "retention_in_days": 1466.58,
-    }, deletion_started_at=8310.58, description="pleased toothbrush long brush smooth swiftly rightfully phooey chapel", format_=models.FormatOptionsCriblLakeDataset.DDSS, http_da_used=True, metrics={
-        "current_size_bytes": 6170.04,
-        "metrics_date": "<value>",
-    }, retention_period_in_days=456.37, search_config={
-        "datatypes": [
-            "<value 1>",
-        ],
-        "metadata": {
-            "earliest": "<value>",
-            "enable_acceleration": True,
-            "field_list": [
-                "<value 1>",
-                "<value 2>",
-            ],
-            "latest_run_info": {
-                "earliest_scanned_time": 4334.7,
-                "finished_at": 6811.22,
-                "latest_scanned_time": 5303.3,
-                "object_count": 9489.04,
-            },
-            "scan_mode": models.ScanMode.DETAILED,
-        },
-    }, storage_location_id="<id>", view_name="<value>")
+    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="<value>", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, creds_secrets="<value>", password="QpvMa8DI_lUJL_b", request_timeout=4657.19, tags="production,mysql,customer-data", user="Dolores.Feil")
 
     # Handle response
     print(res)
@@ -337,9 +301,28 @@ with CriblControlPlane(
 * [get](docs/sdks/packs/README.md#get) - Get a Pack
 * [update](docs/sdks/packs/README.md#update) - Upgrade a Pack
 
+#### [Packs.Destinations](docs/sdks/packsdestinations/README.md)
+
+* [list](docs/sdks/packsdestinations/README.md#list) - List all Destinations within a Pack
+* [create](docs/sdks/packsdestinations/README.md#create) - Create a Destination within a Pack
+* [get](docs/sdks/packsdestinations/README.md#get) - Get a Destination within a Pack
+* [update](docs/sdks/packsdestinations/README.md#update) - Update a Destination within a Pack
+* [delete](docs/sdks/packsdestinations/README.md#delete) - Delete a Destination within a Pack
+
+##### [Packs.Destinations.Pq](docs/sdks/packsdestinationspq/README.md)
+
+* [clear](docs/sdks/packsdestinationspq/README.md#clear) - Clear the persistent queue for a Destination within a Pack
+* [get](docs/sdks/packsdestinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination within a Pack
+
+##### [Packs.Destinations.Samples](docs/sdks/packssamples/README.md)
+
+* [get](docs/sdks/packssamples/README.md#get) - Get sample event data for a Destination within a Pack
+* [create](docs/sdks/packssamples/README.md#create) - Send sample event data to a Destination within a Pack
+
 #### [Packs.Sources](docs/sdks/packssources/README.md)
 
 * [list](docs/sdks/packssources/README.md#list) - List all Sources within a Pack
+* [create](docs/sdks/packssources/README.md#create) - Create a Source within a Pack
 * [get](docs/sdks/packssources/README.md#get) - Get a Source within a Pack
 * [update](docs/sdks/packssources/README.md#update) - Update a Source within a Pack
 * [delete](docs/sdks/packssources/README.md#delete) - Delete a Source within a Pack
@@ -352,6 +335,7 @@ with CriblControlPlane(
 ##### [Packs.Sources.Pq](docs/sdks/sourcespq/README.md)
 
 * [clear](docs/sdks/sourcespq/README.md#clear) - Clear the persistent queue for a Source within a Pack
+* [get](docs/sdks/sourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source within a Pack
 
 ### [Pipelines](docs/sdks/pipelines/README.md)
 

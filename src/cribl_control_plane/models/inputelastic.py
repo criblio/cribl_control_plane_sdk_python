@@ -9,10 +9,7 @@ from .itemstypeextrahttpheaders import (
     ItemsTypeExtraHTTPHeaders,
     ItemsTypeExtraHTTPHeadersTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
@@ -211,7 +208,7 @@ class InputElasticTypedDict(TypedDict):
     r"""The API version to use for communicating with the server"""
     extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
     r"""Headers to add to all events"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     proxy_mode: NotRequired[InputElasticProxyModeTypedDict]
     description: NotRequired[str]
@@ -340,7 +337,7 @@ class InputElastic(BaseModel):
     ] = None
     r"""Headers to add to all events"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     proxy_mode: Annotated[

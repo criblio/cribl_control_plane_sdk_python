@@ -245,6 +245,10 @@ if TYPE_CHECKING:
         CountedPackUninstallInfoTypedDict,
     )
     from .countedpipeline import CountedPipeline, CountedPipelineTypedDict
+    from .countedrestartresponse import (
+        CountedRestartResponse,
+        CountedRestartResponseTypedDict,
+    )
     from .countedroutes import CountedRoutes, CountedRoutesTypedDict
     from .countedsavedjob import CountedSavedJob, CountedSavedJobTypedDict
     from .countedstring import CountedString, CountedStringTypedDict
@@ -1938,10 +1942,6 @@ if TYPE_CHECKING:
         DeleteInputByIDRequest,
         DeleteInputByIDRequestTypedDict,
     )
-    from .deleteinputpqbyidop import (
-        DeleteInputPqByIDRequest,
-        DeleteInputPqByIDRequestTypedDict,
-    )
     from .deleteinputsystembypackandidop import (
         DeleteInputSystemByPackAndIDRequest,
         DeleteInputSystemByPackAndIDRequestTypedDict,
@@ -2488,7 +2488,6 @@ if TYPE_CHECKING:
         GetFunctionsByIDRequestTypedDict,
     )
     from .getinputbyidop import GetInputByIDRequest, GetInputByIDRequestTypedDict
-    from .getinputpqbyidop import GetInputPqByIDRequest, GetInputPqByIDRequestTypedDict
     from .getinputsystembypackandidop import (
         GetInputSystemByPackAndIDRequest,
         GetInputSystemByPackAndIDRequestTypedDict,
@@ -2532,6 +2531,18 @@ if TYPE_CHECKING:
         GetPipelinesByIDRequest,
         GetPipelinesByIDRequestTypedDict,
     )
+    from .getproductssummaryworkersbyproductop import (
+        GetProductsSummaryWorkersByProductRequest,
+        GetProductsSummaryWorkersByProductRequestTypedDict,
+    )
+    from .getproductsworkersbyproductandidop import (
+        GetProductsWorkersByProductAndIDRequest,
+        GetProductsWorkersByProductAndIDRequestTypedDict,
+    )
+    from .getproductsworkersbyproductop import (
+        GetProductsWorkersByProductRequest,
+        GetProductsWorkersByProductRequestTypedDict,
+    )
     from .getroutesbyidop import GetRoutesByIDRequest, GetRoutesByIDRequestTypedDict
     from .getsavedjobbyidop import (
         GetSavedJobByIDRequest,
@@ -2539,10 +2550,6 @@ if TYPE_CHECKING:
     )
     from .getsavedjobop import GetSavedJobRequest, GetSavedJobRequestTypedDict
     from .getsummaryop import GetSummaryRequest, GetSummaryRequestTypedDict
-    from .getsummaryworkersop import (
-        GetSummaryWorkersRequest,
-        GetSummaryWorkersRequestTypedDict,
-    )
     from .getversioncountop import (
         GetVersionCountRequest,
         GetVersionCountRequestTypedDict,
@@ -2558,7 +2565,6 @@ if TYPE_CHECKING:
         GetVersionStatusRequest,
         GetVersionStatusRequestTypedDict,
     )
-    from .getworkersop import GetWorkersRequest, GetWorkersRequestTypedDict
     from .gitcommitparams import GitCommitParams, GitCommitParamsTypedDict
     from .gitcommitsummary import (
         Author,
@@ -3010,9 +3016,9 @@ if TYPE_CHECKING:
     )
     from .healthserverstatus import (
         HealthServerStatus,
+        HealthServerStatusStatus,
         HealthServerStatusTypedDict,
         Role,
-        Status,
     )
     from .heartbeatmetadata import HeartbeatMetadata, HeartbeatMetadataTypedDict
     from .hiddendefaultbreakersoptionsdatabasecollectorconf import (
@@ -4615,6 +4621,7 @@ if TYPE_CHECKING:
     )
     from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
     from .processtype import ProcessType, ProcessTypeTypedDict
+    from .productsbase import ProductsBase
     from .productscore import ProductsCore
     from .prometheusauthtype import PrometheusAuthType, PrometheusAuthTypeTypedDict
     from .protocoloptions import ProtocolOptions
@@ -4631,6 +4638,12 @@ if TYPE_CHECKING:
     from .regionoptions import RegionOptions
     from .requestformatoptions import RequestFormatOptions
     from .resourcepolicy import ResourcePolicy, ResourcePolicyTypedDict
+    from .restartrequest import RestartRequest, RestartRequestTypedDict
+    from .restartresponse import (
+        RestartResponse,
+        RestartResponseStatus,
+        RestartResponseTypedDict,
+    )
     from .restcollectorconf import (
         RestAuthenticationBasic,
         RestAuthenticationBasicAuthentication,
@@ -5904,6 +5917,10 @@ if TYPE_CHECKING:
         UpdatePipelinesByIDRequest,
         UpdatePipelinesByIDRequestTypedDict,
     )
+    from .updateproductsworkersrestartbyproductop import (
+        UpdateProductsWorkersRestartByProductRequest,
+        UpdateProductsWorkersRestartByProductRequestTypedDict,
+    )
     from .updateroutesbyidop import (
         UpdateRoutesByIDRequest,
         UpdateRoutesByIDRequestTypedDict,
@@ -6170,6 +6187,8 @@ __all__ = [
     "CountedPackUninstallInfoTypedDict",
     "CountedPipeline",
     "CountedPipelineTypedDict",
+    "CountedRestartResponse",
+    "CountedRestartResponseTypedDict",
     "CountedRoutes",
     "CountedRoutesTypedDict",
     "CountedSavedJob",
@@ -7821,8 +7840,6 @@ __all__ = [
     "DeleteDatabaseConnectionConfigByIDRequestTypedDict",
     "DeleteInputByIDRequest",
     "DeleteInputByIDRequestTypedDict",
-    "DeleteInputPqByIDRequest",
-    "DeleteInputPqByIDRequestTypedDict",
     "DeleteInputSystemByPackAndIDRequest",
     "DeleteInputSystemByPackAndIDRequestTypedDict",
     "DeleteInputSystemPqByPackAndIDRequest",
@@ -8212,8 +8229,6 @@ __all__ = [
     "GetFunctionsByIDRequestTypedDict",
     "GetInputByIDRequest",
     "GetInputByIDRequestTypedDict",
-    "GetInputPqByIDRequest",
-    "GetInputPqByIDRequestTypedDict",
     "GetInputSystemByPackAndIDRequest",
     "GetInputSystemByPackAndIDRequestTypedDict",
     "GetInputSystemByPackRequest",
@@ -8240,6 +8255,12 @@ __all__ = [
     "GetPacksRequestTypedDict",
     "GetPipelinesByIDRequest",
     "GetPipelinesByIDRequestTypedDict",
+    "GetProductsSummaryWorkersByProductRequest",
+    "GetProductsSummaryWorkersByProductRequestTypedDict",
+    "GetProductsWorkersByProductAndIDRequest",
+    "GetProductsWorkersByProductAndIDRequestTypedDict",
+    "GetProductsWorkersByProductRequest",
+    "GetProductsWorkersByProductRequestTypedDict",
     "GetRoutesByIDRequest",
     "GetRoutesByIDRequestTypedDict",
     "GetSavedJobByIDRequest",
@@ -8248,8 +8269,6 @@ __all__ = [
     "GetSavedJobRequestTypedDict",
     "GetSummaryRequest",
     "GetSummaryRequestTypedDict",
-    "GetSummaryWorkersRequest",
-    "GetSummaryWorkersRequestTypedDict",
     "GetVersionCountRequest",
     "GetVersionCountRequestTypedDict",
     "GetVersionDiffRequest",
@@ -8262,8 +8281,6 @@ __all__ = [
     "GetVersionShowRequestTypedDict",
     "GetVersionStatusRequest",
     "GetVersionStatusRequestTypedDict",
-    "GetWorkersRequest",
-    "GetWorkersRequestTypedDict",
     "GitCommitParams",
     "GitCommitParamsTypedDict",
     "GitCommitSummary",
@@ -8713,6 +8730,7 @@ __all__ = [
     "HealthCheckCollectorConf",
     "HealthCheckCollectorConfTypedDict",
     "HealthServerStatus",
+    "HealthServerStatusStatus",
     "HealthServerStatusTypedDict",
     "HeartbeatMetadata",
     "HeartbeatMetadataTypedDict",
@@ -9859,6 +9877,7 @@ __all__ = [
     "PrivacyProtocol",
     "ProcessType",
     "ProcessTypeTypedDict",
+    "ProductsBase",
     "ProductsCore",
     "PrometheusAuth1",
     "PrometheusAuth1TypedDict",
@@ -10835,6 +10854,11 @@ __all__ = [
     "RestCollectMethodPostWithBodyTypedDict",
     "RestCollectorConf",
     "RestCollectorConfTypedDict",
+    "RestartRequest",
+    "RestartRequestTypedDict",
+    "RestartResponse",
+    "RestartResponseStatus",
+    "RestartResponseTypedDict",
     "RetryRulesType",
     "RetryRulesType1",
     "RetryRulesType1TypedDict",
@@ -11046,7 +11070,6 @@ __all__ = [
     "State",
     "StatsDestination",
     "StatsDestinationTypedDict",
-    "Status",
     "StorageClassOptions",
     "StorageClassOptions1",
     "StorageClassOptions2",
@@ -11135,6 +11158,8 @@ __all__ = [
     "UpdatePacksRequestTypedDict",
     "UpdatePipelinesByIDRequest",
     "UpdatePipelinesByIDRequestTypedDict",
+    "UpdateProductsWorkersRestartByProductRequest",
+    "UpdateProductsWorkersRestartByProductRequestTypedDict",
     "UpdateRoutesByIDRequest",
     "UpdateRoutesByIDRequestTypedDict",
     "UpdateSavedJobByIDRequest",
@@ -11355,6 +11380,8 @@ _dynamic_imports: dict[str, str] = {
     "CountedPackUninstallInfoTypedDict": ".countedpackuninstallinfo",
     "CountedPipeline": ".countedpipeline",
     "CountedPipelineTypedDict": ".countedpipeline",
+    "CountedRestartResponse": ".countedrestartresponse",
+    "CountedRestartResponseTypedDict": ".countedrestartresponse",
     "CountedRoutes": ".countedroutes",
     "CountedRoutesTypedDict": ".countedroutes",
     "CountedSavedJob": ".countedsavedjob",
@@ -12998,8 +13025,6 @@ _dynamic_imports: dict[str, str] = {
     "DeleteDatabaseConnectionConfigByIDRequestTypedDict": ".deletedatabaseconnectionconfigbyidop",
     "DeleteInputByIDRequest": ".deleteinputbyidop",
     "DeleteInputByIDRequestTypedDict": ".deleteinputbyidop",
-    "DeleteInputPqByIDRequest": ".deleteinputpqbyidop",
-    "DeleteInputPqByIDRequestTypedDict": ".deleteinputpqbyidop",
     "DeleteInputSystemByPackAndIDRequest": ".deleteinputsystembypackandidop",
     "DeleteInputSystemByPackAndIDRequestTypedDict": ".deleteinputsystembypackandidop",
     "DeleteInputSystemPqByPackAndIDRequest": ".deleteinputsystempqbypackandidop",
@@ -13385,8 +13410,6 @@ _dynamic_imports: dict[str, str] = {
     "GetFunctionsByIDRequestTypedDict": ".getfunctionsbyidop",
     "GetInputByIDRequest": ".getinputbyidop",
     "GetInputByIDRequestTypedDict": ".getinputbyidop",
-    "GetInputPqByIDRequest": ".getinputpqbyidop",
-    "GetInputPqByIDRequestTypedDict": ".getinputpqbyidop",
     "GetInputSystemByPackAndIDRequest": ".getinputsystembypackandidop",
     "GetInputSystemByPackAndIDRequestTypedDict": ".getinputsystembypackandidop",
     "GetInputSystemByPackRequest": ".getinputsystembypackop",
@@ -13413,6 +13436,12 @@ _dynamic_imports: dict[str, str] = {
     "GetPacksRequestTypedDict": ".getpacksop",
     "GetPipelinesByIDRequest": ".getpipelinesbyidop",
     "GetPipelinesByIDRequestTypedDict": ".getpipelinesbyidop",
+    "GetProductsSummaryWorkersByProductRequest": ".getproductssummaryworkersbyproductop",
+    "GetProductsSummaryWorkersByProductRequestTypedDict": ".getproductssummaryworkersbyproductop",
+    "GetProductsWorkersByProductAndIDRequest": ".getproductsworkersbyproductandidop",
+    "GetProductsWorkersByProductAndIDRequestTypedDict": ".getproductsworkersbyproductandidop",
+    "GetProductsWorkersByProductRequest": ".getproductsworkersbyproductop",
+    "GetProductsWorkersByProductRequestTypedDict": ".getproductsworkersbyproductop",
     "GetRoutesByIDRequest": ".getroutesbyidop",
     "GetRoutesByIDRequestTypedDict": ".getroutesbyidop",
     "GetSavedJobByIDRequest": ".getsavedjobbyidop",
@@ -13421,8 +13450,6 @@ _dynamic_imports: dict[str, str] = {
     "GetSavedJobRequestTypedDict": ".getsavedjobop",
     "GetSummaryRequest": ".getsummaryop",
     "GetSummaryRequestTypedDict": ".getsummaryop",
-    "GetSummaryWorkersRequest": ".getsummaryworkersop",
-    "GetSummaryWorkersRequestTypedDict": ".getsummaryworkersop",
     "GetVersionCountRequest": ".getversioncountop",
     "GetVersionCountRequestTypedDict": ".getversioncountop",
     "GetVersionDiffRequest": ".getversiondiffop",
@@ -13435,8 +13462,6 @@ _dynamic_imports: dict[str, str] = {
     "GetVersionShowRequestTypedDict": ".getversionshowop",
     "GetVersionStatusRequest": ".getversionstatusop",
     "GetVersionStatusRequestTypedDict": ".getversionstatusop",
-    "GetWorkersRequest": ".getworkersop",
-    "GetWorkersRequestTypedDict": ".getworkersop",
     "GitCommitParams": ".gitcommitparams",
     "GitCommitParamsTypedDict": ".gitcommitparams",
     "Author": ".gitcommitsummary",
@@ -13895,9 +13920,9 @@ _dynamic_imports: dict[str, str] = {
     "HealthCheckCollectorConf": ".healthcheckcollectorconf",
     "HealthCheckCollectorConfTypedDict": ".healthcheckcollectorconf",
     "HealthServerStatus": ".healthserverstatus",
+    "HealthServerStatusStatus": ".healthserverstatus",
     "HealthServerStatusTypedDict": ".healthserverstatus",
     "Role": ".healthserverstatus",
-    "Status": ".healthserverstatus",
     "HeartbeatMetadata": ".heartbeatmetadata",
     "HeartbeatMetadataTypedDict": ".heartbeatmetadata",
     "HiddenDefaultBreakersOptionsDatabaseCollectorConf": ".hiddendefaultbreakersoptionsdatabasecollectorconf",
@@ -15155,6 +15180,7 @@ _dynamic_imports: dict[str, str] = {
     "PreprocessTypeTypedDict": ".preprocesstype",
     "ProcessType": ".processtype",
     "ProcessTypeTypedDict": ".processtype",
+    "ProductsBase": ".productsbase",
     "ProductsCore": ".productscore",
     "PrometheusAuthType": ".prometheusauthtype",
     "PrometheusAuthTypeTypedDict": ".prometheusauthtype",
@@ -15171,6 +15197,11 @@ _dynamic_imports: dict[str, str] = {
     "RequestFormatOptions": ".requestformatoptions",
     "ResourcePolicy": ".resourcepolicy",
     "ResourcePolicyTypedDict": ".resourcepolicy",
+    "RestartRequest": ".restartrequest",
+    "RestartRequestTypedDict": ".restartrequest",
+    "RestartResponse": ".restartresponse",
+    "RestartResponseStatus": ".restartresponse",
+    "RestartResponseTypedDict": ".restartresponse",
     "RestAuthenticationBasic": ".restcollectorconf",
     "RestAuthenticationBasicAuthentication": ".restcollectorconf",
     "RestAuthenticationBasicCollectMethod": ".restcollectorconf",
@@ -16370,6 +16401,8 @@ _dynamic_imports: dict[str, str] = {
     "UpdatePacksRequestTypedDict": ".updatepacksop",
     "UpdatePipelinesByIDRequest": ".updatepipelinesbyidop",
     "UpdatePipelinesByIDRequestTypedDict": ".updatepipelinesbyidop",
+    "UpdateProductsWorkersRestartByProductRequest": ".updateproductsworkersrestartbyproductop",
+    "UpdateProductsWorkersRestartByProductRequestTypedDict": ".updateproductsworkersrestartbyproductop",
     "UpdateRoutesByIDRequest": ".updateroutesbyidop",
     "UpdateRoutesByIDRequestTypedDict": ".updateroutesbyidop",
     "UpdateSavedJobByIDRequest": ".updatesavedjobbyidop",

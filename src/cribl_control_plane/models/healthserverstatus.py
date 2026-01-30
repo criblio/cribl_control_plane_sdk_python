@@ -15,7 +15,7 @@ class Role(str, Enum, metaclass=utils.OpenEnumMeta):
     PRIMARY = "primary"
 
 
-class Status(str, Enum, metaclass=utils.OpenEnumMeta):
+class HealthServerStatusStatus(str, Enum, metaclass=utils.OpenEnumMeta):
     SHUTTING_DOWN = "shutting down"
     HEALTHY = "healthy"
     STANDBY = "standby"
@@ -23,14 +23,14 @@ class Status(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class HealthServerStatusTypedDict(TypedDict):
     start_time: float
-    status: Status
+    status: HealthServerStatusStatus
     role: NotRequired[Role]
 
 
 class HealthServerStatus(BaseModel):
     start_time: Annotated[float, pydantic.Field(alias="startTime")]
 
-    status: Status
+    status: HealthServerStatusStatus
 
     role: Optional[Role] = None
 
@@ -47,7 +47,7 @@ class HealthServerStatus(BaseModel):
     def serialize_status(self, value):
         if isinstance(value, str):
             try:
-                return models.Status(value)
+                return models.HealthServerStatusStatus(value)
             except ValueError:
                 return value
         return value

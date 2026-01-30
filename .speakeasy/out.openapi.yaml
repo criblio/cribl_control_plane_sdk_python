@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769772143018-399c0a71
+  version: 4.17.0-alpha.1769775368672-441acff6
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -35626,6 +35626,12 @@ components:
       required:
         - perms
         - team
+    ProductsBase:
+      type: string
+      enum:
+        - stream
+        - edge
+      x-speakeasy-unknown-values: allow
     CountedCriblLakeDataset:
       type: object
       properties:
@@ -36145,6 +36151,42 @@ components:
         - info
         - lastMsgTime
         - workerProcesses
+    CountedRestartResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/RestartResponse"
+    RestartResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        message:
+          type: string
+        status:
+          type: string
+          enum:
+            - Error
+            - Restarting
+          x-speakeasy-unknown-values: allow
+      required:
+        - id
+        - status
+    RestartRequest:
+      type: object
+      properties:
+        guids:
+          type: array
+          items:
+            type: string
+          description: GUIDs of the Worker or Edge Nodes to restart.
+      required:
+        - guids
     CountedDistributedSummary:
       type: object
       properties:
@@ -42178,6 +42220,14 @@ components:
         maxEvents: 500
         duration: 15
         level: 1
+    RestartWorkersExamplesRestartWorkers:
+      summary: Restart worker/edge Nodes
+      description: Restart multiple Worker/Edge Nodes by providing an array of GUIDs
+      value:
+        guids:
+          - guid-12345678-abcd-1234-abcd-123456789abc
+          - guid-87654321-dcba-4321-dcba-cba987654321
+          - guid-11111111-2222-3333-4444-555555555555
     PackInstallExamplesPackDispensary:
       summary: Install from the Pack Dispensary
       value:
@@ -42931,69 +42981,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Splunk HEC Source.
-  /system/inputs/{id}/pq:
-    delete:
-      operationId: deleteInputPqById
-      tags:
-        - sources
-      x-speakeasy-group: sources.pq
-      x-speakeasy-name-override: clear
-      x-cribl-internal: false
-      summary: Clear the persistent queue for a Source
-      description: Clear the persistent queue (PQ) for the specified Source.
-      responses:
-        "201":
-          description: A list of job ids for the background job that clears the persistent queue
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CountedString"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The <code>id</code> of the Source to clear the PQ for.
-    get:
-      operationId: getInputPqById
-      tags:
-        - sources
-      x-speakeasy-group: sources.pq
-      x-speakeasy-name-override: get
-      x-cribl-internal: false
-      summary: Get information about the latest job to clear the persistent queue for a Source
-      description: Get information about the latest job to clear the persistent queue (PQ) for the specified Source.
-      responses:
-        "200":
-          description: a list of any objects
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CountedObject"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The <code>id</code> of the Source to get PQ job information for.
   /system/inputs/{id}/hectoken/{token}:
     patch:
       operationId: updateInputHecTokenByIdAndToken
@@ -46260,17 +46247,16 @@ paths:
                 $ref: "#/components/examples/CaptureExamplesNestedFieldAccess"
               CaptureExamplesComplexFilter:
                 $ref: "#/components/examples/CaptureExamplesComplexFilter"
-  /master/summary/workers:
+  /products/{product}/summary/workers:
     get:
-      operationId: getSummaryWorkers
+      operationId: getProductsSummaryWorkersByProduct
       tags:
         - workers
       x-speakeasy-group: nodes
       x-speakeasy-name-override: count
       x-cribl-internal: false
-      summary: Get a count of Worker and Edge Nodes
-      description: Get a count of all Worker and Edge Nodes. Deprecated. Use /products/{product}/summary/workers instead.
-      deprecated: true
+      summary: Get a count of Worker or Edge Nodes
+      description: Get a count of all Worker or Edge Nodes for the specified Cribl product.
       responses:
         "200":
           description: a list of number objects
@@ -46278,8 +46264,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedNumber"
+        "400":
+          description: Bad Request if the product is not "stream" or "edge"
         "401":
           description: Unauthorized
+        "403":
+          description: Forbidden to access product because you don't have permissions
         "500":
           description: Unexpected error
           content:
@@ -46287,23 +46277,28 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
+        - name: product
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ProductsBase"
+          description: Name of the Cribl product to get the count of Worker or Edge Nodes for.
         - name: filterExp
           in: query
           required: false
           schema:
             type: string
           description: Filter expression to evaluate against Nodes for inclusion in the response.
-  /master/workers:
+  /products/{product}/workers/{id}:
     get:
-      operationId: getWorkers
+      operationId: getProductsWorkersByProductAndId
       tags:
         - workers
       x-speakeasy-group: nodes
-      x-speakeasy-name-override: list
+      x-speakeasy-name-override: get
       x-cribl-internal: false
-      summary: Get detailed metadata for Worker and Edge Nodes
-      description: Get detailed metadata for Worker and Edge Nodes. Deprecated. Use /products/{product}/workers instead.
-      deprecated: true
+      summary: Get detailed metadata for a Worker or Edge Node
+      description: Get detailed metadata for the specified Worker or Edge Node for the specified Cribl product.
       responses:
         "200":
           description: a list of MasterWorkerEntry objects
@@ -46313,6 +46308,8 @@ paths:
                 $ref: "#/components/schemas/CountedMasterWorkerEntry"
         "401":
           description: Unauthorized
+        "403":
+          description: Forbidden to access product because you don't have permissions
         "500":
           description: Unexpected error
           content:
@@ -46320,6 +46317,54 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
+        - name: product
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ProductsBase"
+          description: Name of the Cribl product that contains the Node.
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Node to get the metadata for.
+  /products/{product}/workers:
+    get:
+      operationId: getProductsWorkersByProduct
+      tags:
+        - workers
+      x-speakeasy-group: nodes
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
+      summary: Get detailed metadata for Worker or Edge Nodes
+      description: Get detailed metadata for Worker or Edge Nodes for the specified Cribl product.
+      responses:
+        "200":
+          description: a list of MasterWorkerEntry objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedMasterWorkerEntry"
+        "400":
+          description: Bad Request if the product is not "stream" or "edge"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden to access product because you don't have permissions
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: product
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ProductsBase"
+          description: Name of the Cribl product to get Worker or Edge Nodes for.
         - name: filterExp
           in: query
           required: false
@@ -46356,6 +46401,52 @@ paths:
           schema:
             type: integer
           description: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+  /products/{product}/workers/restart:
+    patch:
+      operationId: updateProductsWorkersRestartByProduct
+      tags:
+        - workers
+      x-speakeasy-group: nodes
+      x-speakeasy-name-override: restart
+      x-cribl-internal: false
+      summary: Restart Worker or Edge Nodes
+      description: Restart all Worker or Edge Nodes for the specified Cribl product.
+      responses:
+        "200":
+          description: a list of RestartResponse objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedRestartResponse"
+        "400":
+          description: Bad Request if the product is not "stream" or "edge"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden to access product because you don't have permissions
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: RestartRequest object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RestartRequest"
+            examples:
+              RestartWorkersExamplesRestartWorkers:
+                $ref: "#/components/examples/RestartWorkersExamplesRestartWorkers"
+      parameters:
+        - name: product
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/ProductsBase"
+          description: Name of the Cribl product whose Worker or Edge Nodes you want to restart.
   /master/summary:
     get:
       operationId: getSummary

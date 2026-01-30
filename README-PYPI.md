@@ -292,8 +292,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [Nodes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md)
 
-* [~~count~~](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#count) - Get a count of Worker and Edge Nodes :warning: **Deprecated**
-* [~~list~~](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker and Edge Nodes :warning: **Deprecated**
+* [count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#count) - Get a count of Worker or Edge Nodes
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#get) - Get detailed metadata for a Worker or Edge Node
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker or Edge Nodes
+* [restart](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#restart) - Restart Worker or Edge Nodes
 
 #### [Nodes.Summaries](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md)
 
@@ -339,10 +341,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packshectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source within a Pack
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packshectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source within a Pack
 
-##### [Packs.Sources.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcespq/README.md)
+##### [Packs.Sources.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md)
 
-* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcespq/README.md#clear) - Clear the persistent queue for a Source within a Pack
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source within a Pack
+* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md#clear) - Clear the persistent queue for a Source within a Pack
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source within a Pack
 
 ### [Pipelines](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md)
 
@@ -371,11 +373,6 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/hectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/hectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source
-
-#### [Sources.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md)
-
-* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md#clear) - Clear the persistent queue for a Source
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source
 
 ### [System.Captures](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md)
 

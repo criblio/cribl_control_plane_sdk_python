@@ -1,10 +1,10 @@
-openapi: 3.0.2
+openapi: 3.1.0
 servers:
   - url: /
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769795943321-1e5797a3
+  version: 4.17.0-alpha.1769952892661-37214dcd
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -20585,7 +20585,9 @@ components:
           items:
             type: string
         defaultId:
-          type: string
+          type:
+            - string
+            - "null"
           title: Default Output ID
           description: ID of the default output. This will be used whenever a nonexistent/deleted output is referenced.
     OutputWebhook:
@@ -35385,11 +35387,13 @@ components:
         - $ref: "#/components/schemas/SavedJobExecutor"
         - $ref: "#/components/schemas/SavedJobScheduledSearch"
     CloudProvider:
-      type: string
-      nullable: true
+      type:
+        - string
+        - "null"
       enum:
         - aws
         - azure
+        - null
       x-speakeasy-unknown-values: allow
     ConfigGroupCloud:
       type: object
@@ -36469,6 +36473,18 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/GitCommitSummary"
+    GitFileRename:
+      type: object
+      properties:
+        from:
+          type: string
+          description: Original file path before the rename.
+        to:
+          type: string
+          description: New file path after the rename.
+      required:
+        - from
+        - to
     GitCommitSummary:
       type: object
       properties:
@@ -36889,6 +36905,24 @@ components:
         - upgradeGroupSettings
         - upgradeSettings
         - workers
+    CountedSystemRestartResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SystemRestartResponse"
+    SystemRestartResponse:
+      type: object
+      properties:
+        restart:
+          type: boolean
+          const: true
+      required:
+        - restart
     CountedBranchInfo:
       type: object
       properties:
@@ -38659,18 +38693,22 @@ components:
           type: array
           items:
             type: string
+          description: Array of file paths that were created in the commit.
         deleted:
           type: array
           items:
             type: string
+          description: Array of file paths that were deleted in the commit.
         modified:
           type: array
           items:
             type: string
+          description: Array of file paths that were modified in the commit.
         renamed:
           type: array
           items:
-            type: string
+            $ref: "#/components/schemas/GitFileRename"
+          description: Array of file rename operations, each containing the original path and the new path.
     SslTypeSystemSettingsConfApi:
       type: object
       properties:
@@ -47018,6 +47056,38 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/SystemSettingsConf"
+  /system/settings/restart:
+    post:
+      operationId: createSystemSettingsRestart
+      tags:
+        - system
+      x-speakeasy-group: system.settings
+      x-speakeasy-name-override: restart
+      x-cribl-internal: false
+      summary: Restart Cribl server
+      description: Restart Cribl server
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedSystemRestartResponse"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: groupId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Group ID
   /version/branch:
     get:
       operationId: getVersionBranch

@@ -321,6 +321,13 @@ with CriblControlPlane(
 * [get](docs/sdks/packssamples/README.md#get) - Get sample event data for a Destination within a Pack
 * [create](docs/sdks/packssamples/README.md#create) - Send sample event data to a Destination within a Pack
 
+#### [Packs.Routes](docs/sdks/packsroutes/README.md)
+
+* [get](docs/sdks/packsroutes/README.md#get) - Get a Routing table within a Pack
+* [update](docs/sdks/packsroutes/README.md#update) - Update a Route within a Pack
+* [list](docs/sdks/packsroutes/README.md#list) - List all Routes within a Pack
+* [append](docs/sdks/packsroutes/README.md#append) - Add a Route to the end of the Routing table within a Pack
+
 #### [Packs.Sources](docs/sdks/packssources/README.md)
 
 * [list](docs/sdks/packssources/README.md#list) - List all Sources within a Pack

@@ -321,6 +321,13 @@ with CriblControlPlane(
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssamples/README.md#get) - Get sample event data for a Destination within a Pack
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssamples/README.md#create) - Send sample event data to a Destination within a Pack
 
+#### [Packs.Routes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md)
+
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#get) - Get a Routing table within a Pack
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#update) - Update a Route within a Pack
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#list) - List all Routes within a Pack
+* [append](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#append) - Add a Route to the end of the Routing table within a Pack
+
 #### [Packs.Sources](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssources/README.md)
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssources/README.md#list) - List all Sources within a Pack

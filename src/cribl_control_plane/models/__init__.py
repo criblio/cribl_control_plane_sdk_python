@@ -252,6 +252,10 @@ if TYPE_CHECKING:
     from .countedroutes import CountedRoutes, CountedRoutesTypedDict
     from .countedsavedjob import CountedSavedJob, CountedSavedJobTypedDict
     from .countedstring import CountedString, CountedStringTypedDict
+    from .countedsystemrestartresponse import (
+        CountedSystemRestartResponse,
+        CountedSystemRestartResponseTypedDict,
+    )
     from .countedsystemsettingsconf import (
         CountedSystemSettingsConf,
         CountedSystemSettingsConfTypedDict,
@@ -1881,6 +1885,10 @@ if TYPE_CHECKING:
         CreateRoutesAppendByPackAndIDRequestTypedDict,
     )
     from .createsavedjobop import CreateSavedJobRequest, CreateSavedJobRequestTypedDict
+    from .createsystemsettingsrestartop import (
+        CreateSystemSettingsRestartRequest,
+        CreateSystemSettingsRestartRequestTypedDict,
+    )
     from .createversioncommitop import (
         CreateVersionCommitRequest,
         CreateVersionCommitRequestTypedDict,
@@ -2594,6 +2602,7 @@ if TYPE_CHECKING:
     from .gitcountresult import GitCountResult, GitCountResultTypedDict
     from .gitdiffresult import GitDiffResult, GitDiffResultTypedDict
     from .gitfile import GitFile, GitFileTypedDict
+    from .gitfilerename import GitFileRename, GitFileRenameTypedDict
     from .gitfilesresponse import GitFilesResponse, GitFilesResponseTypedDict
     from .gitinfo import GitInfo, GitInfoTypedDict, Remote, RemoteEnum, RemoteTypedDict
     from .gitlogresult import GitLogResult, GitLogResultTypedDict
@@ -5826,6 +5835,10 @@ if TYPE_CHECKING:
         SupportTypeSystemSettingsConf,
         SupportTypeSystemSettingsConfTypedDict,
     )
+    from .systemrestartresponse import (
+        SystemRestartResponse,
+        SystemRestartResponseTypedDict,
+    )
     from .systemsettingsconf import SystemSettingsConf, SystemSettingsConfTypedDict
     from .systemtypesystemsettingsconf import (
         SystemTypeSystemSettingsConf,
@@ -6216,6 +6229,8 @@ __all__ = [
     "CountedSavedJobTypedDict",
     "CountedString",
     "CountedStringTypedDict",
+    "CountedSystemRestartResponse",
+    "CountedSystemRestartResponseTypedDict",
     "CountedSystemSettingsConf",
     "CountedSystemSettingsConfTypedDict",
     "CountedTeamAccessControlList",
@@ -7814,6 +7829,8 @@ __all__ = [
     "CreateRoutesAppendByPackAndIDRequestTypedDict",
     "CreateSavedJobRequest",
     "CreateSavedJobRequestTypedDict",
+    "CreateSystemSettingsRestartRequest",
+    "CreateSystemSettingsRestartRequestTypedDict",
     "CreateVersionCommitRequest",
     "CreateVersionCommitRequestTypedDict",
     "CreateVersionRevertRequest",
@@ -8321,6 +8338,8 @@ __all__ = [
     "GitDiffResult",
     "GitDiffResultTypedDict",
     "GitFile",
+    "GitFileRename",
+    "GitFileRenameTypedDict",
     "GitFileTypedDict",
     "GitFilesResponse",
     "GitFilesResponseTypedDict",
@@ -11113,6 +11132,8 @@ __all__ = [
     "SummaryTypedDict",
     "SupportTypeSystemSettingsConf",
     "SupportTypeSystemSettingsConfTypedDict",
+    "SystemRestartResponse",
+    "SystemRestartResponseTypedDict",
     "SystemSettingsConf",
     "SystemSettingsConfTypedDict",
     "SystemTypeSystemSettingsConf",
@@ -11421,6 +11442,8 @@ _dynamic_imports: dict[str, str] = {
     "CountedSavedJobTypedDict": ".countedsavedjob",
     "CountedString": ".countedstring",
     "CountedStringTypedDict": ".countedstring",
+    "CountedSystemRestartResponse": ".countedsystemrestartresponse",
+    "CountedSystemRestartResponseTypedDict": ".countedsystemrestartresponse",
     "CountedSystemSettingsConf": ".countedsystemsettingsconf",
     "CountedSystemSettingsConfTypedDict": ".countedsystemsettingsconf",
     "CountedTeamAccessControlList": ".countedteamaccesscontrollist",
@@ -13019,6 +13042,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateRoutesAppendByPackAndIDRequestTypedDict": ".createroutesappendbypackandidop",
     "CreateSavedJobRequest": ".createsavedjobop",
     "CreateSavedJobRequestTypedDict": ".createsavedjobop",
+    "CreateSystemSettingsRestartRequest": ".createsystemsettingsrestartop",
+    "CreateSystemSettingsRestartRequestTypedDict": ".createsystemsettingsrestartop",
     "CreateVersionCommitRequest": ".createversioncommitop",
     "CreateVersionCommitRequestTypedDict": ".createversioncommitop",
     "CreateVersionRevertRequest": ".createversionrevertop",
@@ -13519,6 +13544,8 @@ _dynamic_imports: dict[str, str] = {
     "GitDiffResultTypedDict": ".gitdiffresult",
     "GitFile": ".gitfile",
     "GitFileTypedDict": ".gitfile",
+    "GitFileRename": ".gitfilerename",
+    "GitFileRenameTypedDict": ".gitfilerename",
     "GitFilesResponse": ".gitfilesresponse",
     "GitFilesResponseTypedDict": ".gitfilesresponse",
     "GitInfo": ".gitinfo",
@@ -16382,6 +16409,8 @@ _dynamic_imports: dict[str, str] = {
     "SubscriptionPlanOptions": ".subscriptionplanoptions",
     "SupportTypeSystemSettingsConf": ".supporttypesystemsettingsconf",
     "SupportTypeSystemSettingsConfTypedDict": ".supporttypesystemsettingsconf",
+    "SystemRestartResponse": ".systemrestartresponse",
+    "SystemRestartResponseTypedDict": ".systemrestartresponse",
     "SystemSettingsConf": ".systemsettingsconf",
     "SystemSettingsConfTypedDict": ".systemsettingsconf",
     "SystemTypeSystemSettingsConf": ".systemtypesystemsettingsconf",

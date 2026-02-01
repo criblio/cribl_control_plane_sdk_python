@@ -3,9 +3,9 @@
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `created`          | List[*str*]        | :heavy_minus_sign: | N/A                |
-| `deleted`          | List[*str*]        | :heavy_minus_sign: | N/A                |
-| `modified`         | List[*str*]        | :heavy_minus_sign: | N/A                |
-| `renamed`          | List[*str*]        | :heavy_minus_sign: | N/A                |
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `created`                                                                            | List[*str*]                                                                          | :heavy_minus_sign:                                                                   | Array of file paths that were created in the commit.                                 |
+| `deleted`                                                                            | List[*str*]                                                                          | :heavy_minus_sign:                                                                   | Array of file paths that were deleted in the commit.                                 |
+| `modified`                                                                           | List[*str*]                                                                          | :heavy_minus_sign:                                                                   | Array of file paths that were modified in the commit.                                |
+| `renamed`                                                                            | List[[models.GitFileRename](../models/gitfilerename.md)]                             | :heavy_minus_sign:                                                                   | Array of file rename operations, each containing the original path and the new path. |

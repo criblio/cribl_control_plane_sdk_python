@@ -1876,6 +1876,10 @@ if TYPE_CHECKING:
         CreateRoutesAppendByIDRequest,
         CreateRoutesAppendByIDRequestTypedDict,
     )
+    from .createroutesappendbypackandidop import (
+        CreateRoutesAppendByPackAndIDRequest,
+        CreateRoutesAppendByPackAndIDRequestTypedDict,
+    )
     from .createsavedjobop import CreateSavedJobRequest, CreateSavedJobRequestTypedDict
     from .createversioncommitop import (
         CreateVersionCommitRequest,
@@ -2549,6 +2553,14 @@ if TYPE_CHECKING:
         GetProductsWorkersByProductRequestTypedDict,
     )
     from .getroutesbyidop import GetRoutesByIDRequest, GetRoutesByIDRequestTypedDict
+    from .getroutesbypackandidop import (
+        GetRoutesByPackAndIDRequest,
+        GetRoutesByPackAndIDRequestTypedDict,
+    )
+    from .getroutesbypackop import (
+        GetRoutesByPackRequest,
+        GetRoutesByPackRequestTypedDict,
+    )
     from .getsavedjobbyidop import (
         GetSavedJobByIDRequest,
         GetSavedJobByIDRequestTypedDict,
@@ -2582,6 +2594,7 @@ if TYPE_CHECKING:
     from .gitcountresult import GitCountResult, GitCountResultTypedDict
     from .gitdiffresult import GitDiffResult, GitDiffResultTypedDict
     from .gitfile import GitFile, GitFileTypedDict
+    from .gitfilerename import GitFileRename, GitFileRenameTypedDict
     from .gitfilesresponse import GitFilesResponse, GitFilesResponseTypedDict
     from .gitinfo import GitInfo, GitInfoTypedDict, Remote, RemoteEnum, RemoteTypedDict
     from .gitlogresult import GitLogResult, GitLogResultTypedDict
@@ -5930,6 +5943,10 @@ if TYPE_CHECKING:
         UpdateRoutesByIDRequest,
         UpdateRoutesByIDRequestTypedDict,
     )
+    from .updateroutesbypackandidop import (
+        UpdateRoutesByPackAndIDRequest,
+        UpdateRoutesByPackAndIDRequestTypedDict,
+    )
     from .updatesavedjobbyidop import (
         UpdateSavedJobByIDRequest,
         UpdateSavedJobByIDRequestTypedDict,
@@ -7794,6 +7811,8 @@ __all__ = [
     "CreateOutputWriteAction",
     "CreateRoutesAppendByIDRequest",
     "CreateRoutesAppendByIDRequestTypedDict",
+    "CreateRoutesAppendByPackAndIDRequest",
+    "CreateRoutesAppendByPackAndIDRequestTypedDict",
     "CreateSavedJobRequest",
     "CreateSavedJobRequestTypedDict",
     "CreateVersionCommitRequest",
@@ -8272,6 +8291,10 @@ __all__ = [
     "GetProductsWorkersByProductRequestTypedDict",
     "GetRoutesByIDRequest",
     "GetRoutesByIDRequestTypedDict",
+    "GetRoutesByPackAndIDRequest",
+    "GetRoutesByPackAndIDRequestTypedDict",
+    "GetRoutesByPackRequest",
+    "GetRoutesByPackRequestTypedDict",
     "GetSavedJobByIDRequest",
     "GetSavedJobByIDRequestTypedDict",
     "GetSavedJobRequest",
@@ -8299,6 +8322,8 @@ __all__ = [
     "GitDiffResult",
     "GitDiffResultTypedDict",
     "GitFile",
+    "GitFileRename",
+    "GitFileRenameTypedDict",
     "GitFileTypedDict",
     "GitFilesResponse",
     "GitFilesResponseTypedDict",
@@ -11171,6 +11196,8 @@ __all__ = [
     "UpdateProductsWorkersRestartByProductRequestTypedDict",
     "UpdateRoutesByIDRequest",
     "UpdateRoutesByIDRequestTypedDict",
+    "UpdateRoutesByPackAndIDRequest",
+    "UpdateRoutesByPackAndIDRequestTypedDict",
     "UpdateSavedJobByIDRequest",
     "UpdateSavedJobByIDRequestTypedDict",
     "UpgradeGroupSettings1",
@@ -12991,6 +13018,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateOutputTestByIDRequestTypedDict": ".createoutputtestbyidop",
     "CreateRoutesAppendByIDRequest": ".createroutesappendbyidop",
     "CreateRoutesAppendByIDRequestTypedDict": ".createroutesappendbyidop",
+    "CreateRoutesAppendByPackAndIDRequest": ".createroutesappendbypackandidop",
+    "CreateRoutesAppendByPackAndIDRequestTypedDict": ".createroutesappendbypackandidop",
     "CreateSavedJobRequest": ".createsavedjobop",
     "CreateSavedJobRequestTypedDict": ".createsavedjobop",
     "CreateVersionCommitRequest": ".createversioncommitop",
@@ -13457,6 +13486,10 @@ _dynamic_imports: dict[str, str] = {
     "GetProductsWorkersByProductRequestTypedDict": ".getproductsworkersbyproductop",
     "GetRoutesByIDRequest": ".getroutesbyidop",
     "GetRoutesByIDRequestTypedDict": ".getroutesbyidop",
+    "GetRoutesByPackAndIDRequest": ".getroutesbypackandidop",
+    "GetRoutesByPackAndIDRequestTypedDict": ".getroutesbypackandidop",
+    "GetRoutesByPackRequest": ".getroutesbypackop",
+    "GetRoutesByPackRequestTypedDict": ".getroutesbypackop",
     "GetSavedJobByIDRequest": ".getsavedjobbyidop",
     "GetSavedJobByIDRequestTypedDict": ".getsavedjobbyidop",
     "GetSavedJobRequest": ".getsavedjobop",
@@ -13489,6 +13522,8 @@ _dynamic_imports: dict[str, str] = {
     "GitDiffResultTypedDict": ".gitdiffresult",
     "GitFile": ".gitfile",
     "GitFileTypedDict": ".gitfile",
+    "GitFileRename": ".gitfilerename",
+    "GitFileRenameTypedDict": ".gitfilerename",
     "GitFilesResponse": ".gitfilesresponse",
     "GitFilesResponseTypedDict": ".gitfilesresponse",
     "GitInfo": ".gitinfo",
@@ -16418,6 +16453,8 @@ _dynamic_imports: dict[str, str] = {
     "UpdateProductsWorkersRestartByProductRequestTypedDict": ".updateproductsworkersrestartbyproductop",
     "UpdateRoutesByIDRequest": ".updateroutesbyidop",
     "UpdateRoutesByIDRequestTypedDict": ".updateroutesbyidop",
+    "UpdateRoutesByPackAndIDRequest": ".updateroutesbypackandidop",
+    "UpdateRoutesByPackAndIDRequestTypedDict": ".updateroutesbypackandidop",
     "UpdateSavedJobByIDRequest": ".updatesavedjobbyidop",
     "UpdateSavedJobByIDRequestTypedDict": ".updatesavedjobbyidop",
     "UpgradeGroupSettings1": ".upgradegroupsettings_union",

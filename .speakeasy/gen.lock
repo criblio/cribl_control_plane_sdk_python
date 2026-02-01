@@ -18707,7 +18707,7 @@ generatedTests:
 releaseNotes: |
   ## Python SDK Changes
 
-  This version of the SDK is generated for Cribl version 4.16.1.
+  This version of the SDK is generated for Cribl version 4.16.1-20904e45
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

@@ -383,7 +383,11 @@ with CriblControlPlane(
 
 * [create](docs/sdks/captures/README.md#create) - Capture live incoming data
 
-### [System.Settings.Cribl](docs/sdks/cribl/README.md)
+### [System.Settings](docs/sdks/settings/README.md)
+
+* [restart](docs/sdks/settings/README.md#restart) - Restart the Cribl server
+
+#### [System.Settings.Cribl](docs/sdks/cribl/README.md)
 
 * [list](docs/sdks/cribl/README.md#list) - Get Cribl system settings
 * [update](docs/sdks/cribl/README.md#update) - Update Cribl system settings

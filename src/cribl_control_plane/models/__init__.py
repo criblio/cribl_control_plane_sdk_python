@@ -252,6 +252,10 @@ if TYPE_CHECKING:
     from .countedroutes import CountedRoutes, CountedRoutesTypedDict
     from .countedsavedjob import CountedSavedJob, CountedSavedJobTypedDict
     from .countedstring import CountedString, CountedStringTypedDict
+    from .countedsystemrestartresponse import (
+        CountedSystemRestartResponse,
+        CountedSystemRestartResponseTypedDict,
+    )
     from .countedsystemsettingsconf import (
         CountedSystemSettingsConf,
         CountedSystemSettingsConfTypedDict,
@@ -5827,6 +5831,10 @@ if TYPE_CHECKING:
         SupportTypeSystemSettingsConf,
         SupportTypeSystemSettingsConfTypedDict,
     )
+    from .systemrestartresponse import (
+        SystemRestartResponse,
+        SystemRestartResponseTypedDict,
+    )
     from .systemsettingsconf import SystemSettingsConf, SystemSettingsConfTypedDict
     from .systemtypesystemsettingsconf import (
         SystemTypeSystemSettingsConf,
@@ -6217,6 +6225,8 @@ __all__ = [
     "CountedSavedJobTypedDict",
     "CountedString",
     "CountedStringTypedDict",
+    "CountedSystemRestartResponse",
+    "CountedSystemRestartResponseTypedDict",
     "CountedSystemSettingsConf",
     "CountedSystemSettingsConfTypedDict",
     "CountedTeamAccessControlList",
@@ -11116,6 +11126,8 @@ __all__ = [
     "SummaryTypedDict",
     "SupportTypeSystemSettingsConf",
     "SupportTypeSystemSettingsConfTypedDict",
+    "SystemRestartResponse",
+    "SystemRestartResponseTypedDict",
     "SystemSettingsConf",
     "SystemSettingsConfTypedDict",
     "SystemTypeSystemSettingsConf",
@@ -11424,6 +11436,8 @@ _dynamic_imports: dict[str, str] = {
     "CountedSavedJobTypedDict": ".countedsavedjob",
     "CountedString": ".countedstring",
     "CountedStringTypedDict": ".countedstring",
+    "CountedSystemRestartResponse": ".countedsystemrestartresponse",
+    "CountedSystemRestartResponseTypedDict": ".countedsystemrestartresponse",
     "CountedSystemSettingsConf": ".countedsystemsettingsconf",
     "CountedSystemSettingsConfTypedDict": ".countedsystemsettingsconf",
     "CountedTeamAccessControlList": ".countedteamaccesscontrollist",
@@ -16387,6 +16401,8 @@ _dynamic_imports: dict[str, str] = {
     "SubscriptionPlanOptions": ".subscriptionplanoptions",
     "SupportTypeSystemSettingsConf": ".supporttypesystemsettingsconf",
     "SupportTypeSystemSettingsConfTypedDict": ".supporttypesystemsettingsconf",
+    "SystemRestartResponse": ".systemrestartresponse",
+    "SystemRestartResponseTypedDict": ".systemrestartresponse",
     "SystemSettingsConf": ".systemsettingsconf",
     "SystemSettingsConfTypedDict": ".systemsettingsconf",
     "SystemTypeSystemSettingsConf": ".systemtypesystemsettingsconf",

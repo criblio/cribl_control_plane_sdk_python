@@ -383,7 +383,11 @@ with CriblControlPlane(
 
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md#create) - Capture live incoming data
 
-### [System.Settings.Cribl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md)
+### [System.Settings](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/settings/README.md)
+
+* [restart](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/settings/README.md#restart) - Restart the Cribl server
+
+#### [System.Settings.Cribl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md)
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#list) - Get Cribl system settings
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#update) - Update Cribl system settings

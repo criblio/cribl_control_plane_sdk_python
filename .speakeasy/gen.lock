@@ -5,15 +5,15 @@ management:
   docVersion: 4.17.0-alpha.1769952892661-37214dcd
   speakeasyVersion: 1.697.5
   generationVersion: 2.799.0
-  releaseVersion: 0.6.0rc8
-  configChecksum: ea73ccda35ec71d71a1f307feeebc68d
+  releaseVersion: 0.6.0rc9
+  configChecksum: e750ecdab1a91a592a5439aa6c0a48a6
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: c7244961-d099-4c74-8692-1691a24b577c
-  pristine_commit_hash: 41c61daeb3dd54d82af7a76e90c05cff8f631fcb
-  pristine_tree_hash: 2a2cc9b230f9bfa0a51eade5144babeca1cb03be
+  generation_id: c0492813-b228-41ec-8cde-db202e4523ee
+  pristine_commit_hash: 5fc2c69f421d0b0a0c451a1aa5b79257310d1410
+  pristine_tree_hash: 80394f8125635be5665f53f939fe7f5fd5a7cc68
 features:
   python:
     additionalDependencies: 1.0.0
@@ -13299,8 +13299,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:8d6f98d907e86f35f629ae1a7dfa07e6acad52b6
-    pristine_git_object: 08df6f5ca7f1331f9cf0d6e808e7c260551cae55
+    last_write_checksum: sha1:ed0c8ac1829fec0e148df6838a42c9c2913158ea
+    pristine_git_object: 3a4449cb4fab4ab1b6d9aae23efcaa881ba15a1a
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -13331,8 +13331,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:922e11435513696068ac19ad22974bec72812d9e
-    pristine_git_object: 74eafdaaea45325a27ff3515b12759d80ffd00c7
+    last_write_checksum: sha1:5d60c37ba5e71941afa3af9e8e7c008d8403caff
+    pristine_git_object: 48c666da1345012325e5a19caedb674989592f90
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -25597,7 +25597,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.destinations.list()`:  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.destinations.create()`: \n  *  `request_body.[default].default_id` **Changed**\n  *  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.destinations.get()`:  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.destinations.update()`: \n  *  `request.output.[default].default_id` **Changed**\n  *  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.destinations.delete()`:  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[default].default_id` **Changed**\n  *  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[default].default_id` **Changed**\n  *  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.create()`:  `response.items.[].files.renamed.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.versions.commits.revert()`:  `response.items.[].audit.files.renamed.[]` **Changed** **Breaking** :warning:\n* `cribl_control_plane.system.settings.restart()`: **Added**\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

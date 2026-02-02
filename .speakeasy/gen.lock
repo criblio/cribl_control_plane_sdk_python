@@ -5,15 +5,15 @@ management:
   docVersion: 4.17.0-alpha.1769951982349-a4340e10
   speakeasyVersion: 1.697.5
   generationVersion: 2.799.0
-  releaseVersion: 0.6.0b8
-  configChecksum: 9bdb1d61e99291a9e09529ea2ea245c3
+  releaseVersion: 0.6.0b9
+  configChecksum: e24c44ad25de67b97df948059f1c3bf6
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: c4b20194-c23d-465e-9de8-97dc0d2eb249
-  pristine_commit_hash: 9ed4119757dae5c9a869336930f0e619e1232606
-  pristine_tree_hash: 33bcff8e51d69a7ff72b1c0d9652f209cf673d9c
+  generation_id: 006d0705-cf63-4c20-b9d6-7b25a1850b32
+  pristine_commit_hash: 43bb1d2c88e2bcc6966b34f51f3378bd7dea95f4
+  pristine_tree_hash: 1f6cce3649bd374a88314810b78c759541732c37
 features:
   python:
     additionalDependencies: 1.0.0
@@ -13282,8 +13282,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:dfc2e9ef730a244ae9bc541c429ec9b6ae9ffad0
-    pristine_git_object: e3310cae82cfbe40dcaab7019625ba7f3b1b8cae
+    last_write_checksum: sha1:4cbeec57adc50b132594e5c96c6fb1d02dc04ddd
+    pristine_git_object: 1a77b3fb88866301c089f33ad4f03fe84ddd7fb5
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -13314,8 +13314,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:5b1bdc876528dcb695db717cd0226a32a1d9107a
-    pristine_git_object: 409554af7c9ec95d9cd85670804e3d9f895af2e1
+    last_write_checksum: sha1:4c57cce36f2c683dd75e5652babcced376940ddf
+    pristine_git_object: 6a93a530fea090db764a177245fc0eb754a4efb3
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -25567,7 +25567,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.packs.destinations.list()`:  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.destinations.create()`: \n  *  `request_body.[default].default_id` **Changed**\n  *  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.destinations.get()`:  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.destinations.update()`: \n  *  `request.output.[default].default_id` **Changed**\n  *  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.packs.destinations.delete()`:  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.list()`:  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.create()`: \n  *  `request.[default].default_id` **Changed**\n  *  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.get()`:  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.[default].default_id` **Changed**\n  *  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n* `cribl_control_plane.destinations.delete()`:  `response.items.[].[default].default_id` **Changed** **Breaking** :warning:\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

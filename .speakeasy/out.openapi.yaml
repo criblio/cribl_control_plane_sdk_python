@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1769951982349-a4340e10
+  version: 4.17.0-alpha.1770049798737-c7d0387a
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -36905,6 +36905,25 @@ components:
         - upgradeGroupSettings
         - upgradeSettings
         - workers
+    CountedSystemRestartResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SystemRestartResponse"
+    SystemRestartResponse:
+      type: object
+      properties:
+        restart:
+          type: boolean
+          const: true
+          description: Restart operation initiated
+      required:
+        - restart
     CountedBranchInfo:
       type: object
       properties:
@@ -47038,6 +47057,31 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/SystemSettingsConf"
+  /system/settings/restart:
+    post:
+      operationId: createSystemSettingsRestart
+      tags:
+        - system
+      x-speakeasy-group: system.settings
+      x-speakeasy-name-override: restart
+      x-cribl-internal: false
+      summary: Restart the Cribl server
+      description: Restart the Cribl server.Useful for applying configuration changes that require a full process restart, such as changes to system-level settings that cannot be applied by reloading.
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedSystemRestartResponse"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /version/branch:
     get:
       operationId: getVersionBranch

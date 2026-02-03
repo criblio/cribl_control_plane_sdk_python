@@ -5,8 +5,8 @@ Control the number of required acknowledgments.
 
 ## Values
 
-| Name      | Value     |
-| --------- | --------- |
-| `ONE`     | 1         |
-| `ZERO`    | 0         |
-| `MINUS_1` | -1        |
+| Name     | Value    |
+| -------- | -------- |
+| `LEADER` | 1        |
+| `NONE`   | 0        |
+| `ALL`    | -1       |

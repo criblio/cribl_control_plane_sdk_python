@@ -6,5 +6,5 @@ from enum import Enum
 
 
 class NodeFailedUpgradeStatus(int, Enum, metaclass=utils.OpenEnumMeta):
-    ZERO = 0
-    ONE = 1
+    UPGRADE_ERROR_ON_NODE = 0
+    UPGRADE_INSTALLATION_ROLLBACK = 1

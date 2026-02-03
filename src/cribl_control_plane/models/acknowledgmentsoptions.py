@@ -9,8 +9,8 @@ class AcknowledgmentsOptions(int, Enum, metaclass=utils.OpenEnumMeta):
     r"""Control the number of required acknowledgments"""
 
     # Leader
-    ONE = 1
+    LEADER = 1
     # None
-    ZERO = 0
+    NONE = 0
     # All
-    MINUS_1 = -1
+    ALL = -1

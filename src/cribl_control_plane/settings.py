@@ -27,17 +27,15 @@ class Settings(BaseSDK):
     def restart(
         self,
         *,
-        group_id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedSystemRestartResponse:
-        r"""Restart Cribl server
+        r"""Restart the Cribl server
 
-        Restart Cribl server
+        Restart the Cribl server.Useful for applying configuration changes that require a full process restart, such as changes to system-level settings that cannot be applied by reloading.
 
-        :param group_id: Group ID
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -52,17 +50,12 @@ class Settings(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
-
-        request = models.CreateSystemSettingsRestartRequest(
-            group_id=group_id,
-        )
-
         req = self._build_request(
             method="POST",
             path="/system/settings/restart",
             base_url=base_url,
             url_variables=url_variables,
-            request=request,
+            request=None,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -121,17 +114,15 @@ class Settings(BaseSDK):
     async def restart_async(
         self,
         *,
-        group_id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedSystemRestartResponse:
-        r"""Restart Cribl server
+        r"""Restart the Cribl server
 
-        Restart Cribl server
+        Restart the Cribl server.Useful for applying configuration changes that require a full process restart, such as changes to system-level settings that cannot be applied by reloading.
 
-        :param group_id: Group ID
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -146,17 +137,12 @@ class Settings(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
-
-        request = models.CreateSystemSettingsRestartRequest(
-            group_id=group_id,
-        )
-
         req = self._build_request_async(
             method="POST",
             path="/system/settings/restart",
             base_url=base_url,
             url_variables=url_variables,
-            request=request,
+            request=None,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,

@@ -4,11 +4,11 @@
 
 ### Available Operations
 
-* [restart](#restart) - Restart Cribl server
+* [restart](#restart) - Restart the Cribl server
 
 ## restart
 
-Restart Cribl server
+Restart the Cribl server.Useful for applying configuration changes that require a full process restart, such as changes to system-level settings that cannot be applied by reloading.
 
 ### Example Usage
 
@@ -25,7 +25,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.system.settings.restart(group_id="<id>")
+    res = ccp_client.system.settings.restart()
 
     # Handle response
     print(res)
@@ -36,7 +36,6 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `group_id`                                                          | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Group ID                                                            |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

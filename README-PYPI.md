@@ -328,6 +328,14 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssamples/README.md#get) - Get sample event data for a Destination within a Pack
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssamples/README.md#create) - Send sample event data to a Destination within a Pack
 
+#### [Packs.Pipelines](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md)
+
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md#create) - Create a Pipeline within a Pack
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md#list) - List all Pipelines within a Pack
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md#delete) - Delete a Pipeline within a Pack
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md#get) - Get a Pipeline within a Pack
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md#update) - Update a Pipeline within a Pack
+
 #### [Packs.Routes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md)
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#get) - Get a Routing table within a Pack
@@ -392,7 +400,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [System.Settings](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/settings/README.md)
 
-* [restart](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/settings/README.md#restart) - Restart Cribl server
+* [restart](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/settings/README.md#restart) - Restart the Cribl server
 
 #### [System.Settings.Cribl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md)
 

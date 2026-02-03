@@ -1876,6 +1876,10 @@ if TYPE_CHECKING:
         CreateOutputTestByIDRequest,
         CreateOutputTestByIDRequestTypedDict,
     )
+    from .createpipelinesbypackop import (
+        CreatePipelinesByPackRequest,
+        CreatePipelinesByPackRequestTypedDict,
+    )
     from .createroutesappendbyidop import (
         CreateRoutesAppendByIDRequest,
         CreateRoutesAppendByIDRequestTypedDict,
@@ -1885,10 +1889,6 @@ if TYPE_CHECKING:
         CreateRoutesAppendByPackAndIDRequestTypedDict,
     )
     from .createsavedjobop import CreateSavedJobRequest, CreateSavedJobRequestTypedDict
-    from .createsystemsettingsrestartop import (
-        CreateSystemSettingsRestartRequest,
-        CreateSystemSettingsRestartRequestTypedDict,
-    )
     from .createversioncommitop import (
         CreateVersionCommitRequest,
         CreateVersionCommitRequestTypedDict,
@@ -1989,6 +1989,10 @@ if TYPE_CHECKING:
     from .deletepipelinesbyidop import (
         DeletePipelinesByIDRequest,
         DeletePipelinesByIDRequestTypedDict,
+    )
+    from .deletepipelinesbypackandidop import (
+        DeletePipelinesByPackAndIDRequest,
+        DeletePipelinesByPackAndIDRequestTypedDict,
     )
     from .deletesavedjobbyidop import (
         DeleteSavedJobByIDRequest,
@@ -2547,6 +2551,14 @@ if TYPE_CHECKING:
     from .getpipelinesbyidop import (
         GetPipelinesByIDRequest,
         GetPipelinesByIDRequestTypedDict,
+    )
+    from .getpipelinesbypackandidop import (
+        GetPipelinesByPackAndIDRequest,
+        GetPipelinesByPackAndIDRequestTypedDict,
+    )
+    from .getpipelinesbypackop import (
+        GetPipelinesByPackRequest,
+        GetPipelinesByPackRequestTypedDict,
     )
     from .getproductssummaryworkersbyproductop import (
         GetProductsSummaryWorkersByProductRequest,
@@ -5947,6 +5959,10 @@ if TYPE_CHECKING:
         UpdatePipelinesByIDRequest,
         UpdatePipelinesByIDRequestTypedDict,
     )
+    from .updatepipelinesbypackandidop import (
+        UpdatePipelinesByPackAndIDRequest,
+        UpdatePipelinesByPackAndIDRequestTypedDict,
+    )
     from .updateproductsworkersrestartbyproductop import (
         UpdateProductsWorkersRestartByProductRequest,
         UpdateProductsWorkersRestartByProductRequestTypedDict,
@@ -7823,14 +7839,14 @@ __all__ = [
     "CreateOutputURLXsiam",
     "CreateOutputURLXsiamTypedDict",
     "CreateOutputWriteAction",
+    "CreatePipelinesByPackRequest",
+    "CreatePipelinesByPackRequestTypedDict",
     "CreateRoutesAppendByIDRequest",
     "CreateRoutesAppendByIDRequestTypedDict",
     "CreateRoutesAppendByPackAndIDRequest",
     "CreateRoutesAppendByPackAndIDRequestTypedDict",
     "CreateSavedJobRequest",
     "CreateSavedJobRequestTypedDict",
-    "CreateSystemSettingsRestartRequest",
-    "CreateSystemSettingsRestartRequestTypedDict",
     "CreateVersionCommitRequest",
     "CreateVersionCommitRequestTypedDict",
     "CreateVersionRevertRequest",
@@ -7898,6 +7914,8 @@ __all__ = [
     "DeletePacksByIDRequestTypedDict",
     "DeletePipelinesByIDRequest",
     "DeletePipelinesByIDRequestTypedDict",
+    "DeletePipelinesByPackAndIDRequest",
+    "DeletePipelinesByPackAndIDRequestTypedDict",
     "DeleteSavedJobByIDRequest",
     "DeleteSavedJobByIDRequestTypedDict",
     "DeployRequest",
@@ -8299,6 +8317,10 @@ __all__ = [
     "GetPacksRequestTypedDict",
     "GetPipelinesByIDRequest",
     "GetPipelinesByIDRequestTypedDict",
+    "GetPipelinesByPackAndIDRequest",
+    "GetPipelinesByPackAndIDRequestTypedDict",
+    "GetPipelinesByPackRequest",
+    "GetPipelinesByPackRequestTypedDict",
     "GetProductsSummaryWorkersByProductRequest",
     "GetProductsSummaryWorkersByProductRequestTypedDict",
     "GetProductsWorkersByProductAndIDRequest",
@@ -11210,6 +11232,8 @@ __all__ = [
     "UpdatePacksRequestTypedDict",
     "UpdatePipelinesByIDRequest",
     "UpdatePipelinesByIDRequestTypedDict",
+    "UpdatePipelinesByPackAndIDRequest",
+    "UpdatePipelinesByPackAndIDRequestTypedDict",
     "UpdateProductsWorkersRestartByProductRequest",
     "UpdateProductsWorkersRestartByProductRequestTypedDict",
     "UpdateRoutesByIDRequest",
@@ -13036,14 +13060,14 @@ _dynamic_imports: dict[str, str] = {
     "CreateOutputSystemTestByPackAndIDRequestTypedDict": ".createoutputsystemtestbypackandidop",
     "CreateOutputTestByIDRequest": ".createoutputtestbyidop",
     "CreateOutputTestByIDRequestTypedDict": ".createoutputtestbyidop",
+    "CreatePipelinesByPackRequest": ".createpipelinesbypackop",
+    "CreatePipelinesByPackRequestTypedDict": ".createpipelinesbypackop",
     "CreateRoutesAppendByIDRequest": ".createroutesappendbyidop",
     "CreateRoutesAppendByIDRequestTypedDict": ".createroutesappendbyidop",
     "CreateRoutesAppendByPackAndIDRequest": ".createroutesappendbypackandidop",
     "CreateRoutesAppendByPackAndIDRequestTypedDict": ".createroutesappendbypackandidop",
     "CreateSavedJobRequest": ".createsavedjobop",
     "CreateSavedJobRequestTypedDict": ".createsavedjobop",
-    "CreateSystemSettingsRestartRequest": ".createsystemsettingsrestartop",
-    "CreateSystemSettingsRestartRequestTypedDict": ".createsystemsettingsrestartop",
     "CreateVersionCommitRequest": ".createversioncommitop",
     "CreateVersionCommitRequestTypedDict": ".createversioncommitop",
     "CreateVersionRevertRequest": ".createversionrevertop",
@@ -13103,6 +13127,8 @@ _dynamic_imports: dict[str, str] = {
     "DeletePacksByIDRequestTypedDict": ".deletepacksbyidop",
     "DeletePipelinesByIDRequest": ".deletepipelinesbyidop",
     "DeletePipelinesByIDRequestTypedDict": ".deletepipelinesbyidop",
+    "DeletePipelinesByPackAndIDRequest": ".deletepipelinesbypackandidop",
+    "DeletePipelinesByPackAndIDRequestTypedDict": ".deletepipelinesbypackandidop",
     "DeleteSavedJobByIDRequest": ".deletesavedjobbyidop",
     "DeleteSavedJobByIDRequestTypedDict": ".deletesavedjobbyidop",
     "DeployRequest": ".deployrequest",
@@ -13500,6 +13526,10 @@ _dynamic_imports: dict[str, str] = {
     "GetPacksRequestTypedDict": ".getpacksop",
     "GetPipelinesByIDRequest": ".getpipelinesbyidop",
     "GetPipelinesByIDRequestTypedDict": ".getpipelinesbyidop",
+    "GetPipelinesByPackAndIDRequest": ".getpipelinesbypackandidop",
+    "GetPipelinesByPackAndIDRequestTypedDict": ".getpipelinesbypackandidop",
+    "GetPipelinesByPackRequest": ".getpipelinesbypackop",
+    "GetPipelinesByPackRequestTypedDict": ".getpipelinesbypackop",
     "GetProductsSummaryWorkersByProductRequest": ".getproductssummaryworkersbyproductop",
     "GetProductsSummaryWorkersByProductRequestTypedDict": ".getproductssummaryworkersbyproductop",
     "GetProductsWorkersByProductAndIDRequest": ".getproductsworkersbyproductandidop",
@@ -16473,6 +16503,8 @@ _dynamic_imports: dict[str, str] = {
     "UpdatePacksRequestTypedDict": ".updatepacksop",
     "UpdatePipelinesByIDRequest": ".updatepipelinesbyidop",
     "UpdatePipelinesByIDRequestTypedDict": ".updatepipelinesbyidop",
+    "UpdatePipelinesByPackAndIDRequest": ".updatepipelinesbypackandidop",
+    "UpdatePipelinesByPackAndIDRequestTypedDict": ".updatepipelinesbypackandidop",
     "UpdateProductsWorkersRestartByProductRequest": ".updateproductsworkersrestartbyproductop",
     "UpdateProductsWorkersRestartByProductRequestTypedDict": ".updateproductsworkersrestartbyproductop",
     "UpdateRoutesByIDRequest": ".updateroutesbyidop",

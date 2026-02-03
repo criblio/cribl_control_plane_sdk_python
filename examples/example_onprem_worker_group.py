@@ -10,15 +10,15 @@ This example performs the following operations:
 1. Connects to an existing on-prem or hybrid Worker Group.
 2. Retrieves the current system settings for the Worker Group.
 3. Optimizes Worker Process settings following the scaling documentation:
-   - Process count: -2 (CPU cores minus 2, reserves headroom for system/API overhead)
+   - Process count: -2 (to reserve two CPU cores for system/API overhead)
    - Memory: 2048 MB (2 GB per Worker Process)
-   - Minimum process count: 2 (ensures at least 2 processes)
+   - Minimum Worker Process count: 2 (to spawn at least two Worker Processes)
 4. Updates the Worker Group's system settings with the optimized configuration.
 5. Commits the configuration changes to the Worker Group.
 6. Deploys the configuration changes to the Worker Group.
 7. Restarts the Worker Group to apply the changes.
 
-The Cribl documentation provides more information about worker process optimization:
+The Cribl documentation provides more information about optimizing Worker Processes:
 https://docs.cribl.io/stream/scaling/#optimize-a-distributed-deployment-or-hybrid-group
 
 Prerequisites:
@@ -57,7 +57,7 @@ async def main():
     security = Security(bearer_auth=token)
     cribl = CriblControlPlane(server_url=base_url, security=security)
 
-    # Construct the base URL for the worker group
+    # Construct the base URL for the Worker Group
     group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 
     # Verify that Worker Group exists
@@ -75,21 +75,21 @@ async def main():
         raise Exception("Failed to retrieve current system settings")
 
     print(f"📊 Current Worker Process settings:")
-    print(f"   Process count: {current_conf.workers.count}")
+    print(f"   Worker Process count: {current_conf.workers.count}")
     print(f"   Memory: {current_conf.workers.memory} MB")
-    print(f"   Minimum processes: {current_conf.workers.minimum}")
+    print(f"   Minimum Worker Processes: {current_conf.workers.minimum}")
 
     # Configure Worker Process settings following scaling documentation
-    # For x86 hyperthreaded CPUs: Process count = -2 (default, reserves 2 cores for overhead)
-    # Memory: 2048 MB (default 2 GB per Worker Process)
-    # Minimum: 2 (ensures at least 2 processes)
+    # For x86 hyperthreaded CPUs: Process count = -2 (default; reserves 2 CPU cores for system/API overhead)
+    # Memory: 2048 MB (default; 2 GB per Worker Process)
+    # Minimum: 2 (spawn at least two Worker Processes)
     workers_config = WorkersTypeSystemSettingsConf(
-        count=-2,  # Negative number: CPU cores - 2 (reserves headroom for system/API overhead)
-        memory=2048,  # MB - Amount of heap memory available to each Worker Process
+        count=-2,  # Negative number specifies the number of CPU cores to reserve for system/API overhead
+        memory=2048,  # Amount of heap memory available to each Worker Process, in MB
         minimum=2,  # Minimum number of Worker Processes to spawn
     )
 
-    # Update system settings with optimized worker process configuration
+    # Update system settings with the optimized configuration for Worker Processes
     # Preserve other settings from the current configuration
     updated_conf = current_conf.model_copy(update={"workers": workers_config})
     cribl.system.settings.cribl.update(
@@ -97,9 +97,9 @@ async def main():
         server_url=group_url,
     )
     print(f"\n✅ Worker Process settings optimized:")
-    print(f"   Process count: {workers_config.count} (CPU cores - 2 for overhead)")
+    print(f"   Worker Process count: {workers_config.count}")
     print(f"   Memory: {workers_config.memory} MB per Worker Process")
-    print(f"   Minimum processes: {workers_config.minimum}")
+    print(f"   Minimum Worker Processes: {workers_config.minimum}")
 
     # Commit configuration changes
     commit_response = cribl.versions.commits.create(
@@ -112,7 +112,7 @@ async def main():
         raise Exception("Failed to commit configuration changes")
     
     version = commit_response.items[0].commit
-    print(f"✅ Committed configuration changes to the group: {WORKER_GROUP_ID}, commit ID: {version}")
+    print(f"✅ Committed configuration changes to the Worker Group: {WORKER_GROUP_ID}, commit ID: {version}")
 
     # Deploy configuration changes to the Worker Group
     cribl.groups.deploy(

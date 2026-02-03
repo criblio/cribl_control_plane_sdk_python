@@ -28333,21 +28333,21 @@ class CreateOutputSeveritySyslog(int, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for message severity. Will be overwritten by value of __severity if set. Defaults to notice."""
 
     # emergency
-    ZERO = 0
+    EMERGENCY = 0
     # alert
-    ONE = 1
+    ALERT = 1
     # critical
-    TWO = 2
+    CRITICAL = 2
     # error
-    THREE = 3
+    ERROR = 3
     # warning
-    FOUR = 4
+    WARNING = 4
     # notice
-    FIVE = 5
+    NOTICE = 5
     # info
-    SIX = 6
+    INFO = 6
     # debug
-    SEVEN = 7
+    DEBUG = 7
 
 
 class CreateOutputMessageFormat(str, Enum, metaclass=utils.OpenEnumMeta):

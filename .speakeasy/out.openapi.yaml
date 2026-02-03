@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1770049798737-c7d0387a
+  version: 4.17.0-alpha.1770130843605-f2861eab
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -21352,6 +21352,15 @@ components:
             - info
             - debug
           x-speakeasy-unknown-values: allow
+          x-speakeasy-enums:
+            - Emergency
+            - Alert
+            - Critical
+            - Error
+            - Warning
+            - Notice
+            - Info
+            - Debug
         appName:
           type: string
           title: App name
@@ -34776,6 +34785,11 @@ components:
                     - 3. Before post-processing Pipeline
                     - 4. Before the Destination
                   x-speakeasy-unknown-values: allow
+                  x-speakeasy-enums:
+                    - BeforePreProcessingPipeline
+                    - BeforeTheRoutes
+                    - BeforePostProcessingPipeline
+                    - BeforeTheDestination
       type: object
     RunnableJobExecutor:
       required:
@@ -36068,12 +36082,19 @@ components:
         - 1
         - 2
       x-speakeasy-unknown-values: allow
+      x-speakeasy-enums:
+        - Pending
+        - Queued
+        - Upgrading
     NodeFailedUpgradeStatus:
       type: integer
       enum:
         - 0
         - 1
       x-speakeasy-unknown-values: allow
+      x-speakeasy-enums:
+        - UpgradeErrorOnNode
+        - UpgradeInstallationRollback
     NodeSkippedUpgradeStatus:
       type: integer
       enum:
@@ -36082,6 +36103,11 @@ components:
         - 2
         - 3
       x-speakeasy-unknown-values: allow
+      x-speakeasy-enums:
+        - DownloadError
+        - InstallType
+        - MissingPackage
+        - TooOld
     NodeUpgradeState:
       type: integer
       enum:
@@ -36090,6 +36116,11 @@ components:
         - 2
         - 3
       x-speakeasy-unknown-values: allow
+      x-speakeasy-enums:
+        - Active
+        - Current
+        - Failed
+        - Skipped
     NodeUpgradeStatus:
       type: object
       properties:
@@ -38156,6 +38187,10 @@ components:
         - None
         - All
       x-speakeasy-unknown-values: allow
+      x-speakeasy-enums:
+        - Leader
+        - None
+        - All
     RecordDataFormatOptions:
       type: string
       enum:
@@ -38236,6 +38271,10 @@ components:
         - None
         - All
       x-speakeasy-unknown-values: allow
+      x-speakeasy-enums:
+        - Leader
+        - None
+        - All
     RecordDataFormatOptions1:
       type: string
       enum:
@@ -45262,6 +45301,357 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Pipeline to update.
+  /p/{pack}/pipelines:
+    post:
+      operationId: createPipelinesByPack
+      tags:
+        - pipelines
+      x-speakeasy-group: packs.pipelines
+      x-speakeasy-name-override: create
+      x-cribl-internal: false
+      summary: Create a Pipeline within a Pack
+      description: Create a new Pipeline within the specified Pack.
+      responses:
+        "200":
+          description: a list of Pipelines objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedPipeline"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: Pipeline object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pipeline"
+            examples:
+              PipelineExamplesEmpty:
+                $ref: "#/components/examples/PipelineExamplesEmpty"
+              PipelineExamplesAggregations:
+                $ref: "#/components/examples/PipelineExamplesAggregations"
+              PipelineExamplesAggregateMetrics:
+                $ref: "#/components/examples/PipelineExamplesAggregateMetrics"
+              PipelineExamplesAutoTimestamp:
+                $ref: "#/components/examples/PipelineExamplesAutoTimestamp"
+              PipelineExamplesCEFSerializer:
+                $ref: "#/components/examples/PipelineExamplesCEFSerializer"
+              PipelineExamplesChain:
+                $ref: "#/components/examples/PipelineExamplesChain"
+              PipelineExamplesClone:
+                $ref: "#/components/examples/PipelineExamplesClone"
+              PipelineExamplesComment:
+                $ref: "#/components/examples/PipelineExamplesComment"
+              PipelineExamplesDNSLookup:
+                $ref: "#/components/examples/PipelineExamplesDNSLookup"
+              PipelineExamplesDrop:
+                $ref: "#/components/examples/PipelineExamplesDrop"
+              PipelineExamplesDropDimensions:
+                $ref: "#/components/examples/PipelineExamplesDropDimensions"
+              PipelineExamplesDynamicSampling:
+                $ref: "#/components/examples/PipelineExamplesDynamicSampling"
+              PipelineExamplesEval:
+                $ref: "#/components/examples/PipelineExamplesEval"
+              PipelineExamplesEventBreaker:
+                $ref: "#/components/examples/PipelineExamplesEventBreaker"
+              PipelineExamplesFlatten:
+                $ref: "#/components/examples/PipelineExamplesFlatten"
+              PipelineExamplesFoldKeys:
+                $ref: "#/components/examples/PipelineExamplesFoldKeys"
+              PipelineExamplesGeoIP:
+                $ref: "#/components/examples/PipelineExamplesGeoIP"
+              PipelineExamplesGrok:
+                $ref: "#/components/examples/PipelineExamplesGrok"
+              PipelineExamplesGuard:
+                $ref: "#/components/examples/PipelineExamplesGuard"
+              PipelineExamplesJSONUnroll:
+                $ref: "#/components/examples/PipelineExamplesJSONUnroll"
+              PipelineExamplesLookup:
+                $ref: "#/components/examples/PipelineExamplesLookup"
+              PipelineExamplesMask:
+                $ref: "#/components/examples/PipelineExamplesMask"
+              PipelineExamplesNumerify:
+                $ref: "#/components/examples/PipelineExamplesNumerify"
+              PipelineExamplesOTLPLogs:
+                $ref: "#/components/examples/PipelineExamplesOTLPLogs"
+              PipelineExamplesOTLPMetrics:
+                $ref: "#/components/examples/PipelineExamplesOTLPMetrics"
+              PipelineExamplesOTLPTraces:
+                $ref: "#/components/examples/PipelineExamplesOTLPTraces"
+              PipelineExamplesParser:
+                $ref: "#/components/examples/PipelineExamplesParser"
+              PipelineExamplesPublishMetrics:
+                $ref: "#/components/examples/PipelineExamplesPublishMetrics"
+              PipelineExamplesRedis:
+                $ref: "#/components/examples/PipelineExamplesRedis"
+              PipelineExamplesRegexExtract:
+                $ref: "#/components/examples/PipelineExamplesRegexExtract"
+              PipelineExamplesRegexFilter:
+                $ref: "#/components/examples/PipelineExamplesRegexFilter"
+              PipelineExamplesRename:
+                $ref: "#/components/examples/PipelineExamplesRename"
+              PipelineExamplesRollupMetrics:
+                $ref: "#/components/examples/PipelineExamplesRollupMetrics"
+              PipelineExamplesSampling:
+                $ref: "#/components/examples/PipelineExamplesSampling"
+              PipelineExamplesSerialize:
+                $ref: "#/components/examples/PipelineExamplesSerialize"
+              PipelineExamplesSNMPTrapSerialize:
+                $ref: "#/components/examples/PipelineExamplesSNMPTrapSerialize"
+              PipelineExamplesSuppress:
+                $ref: "#/components/examples/PipelineExamplesSuppress"
+              PipelineExamplesTee:
+                $ref: "#/components/examples/PipelineExamplesTee"
+              PipelineExamplesUnroll:
+                $ref: "#/components/examples/PipelineExamplesUnroll"
+              PipelineExamplesXMLUnroll:
+                $ref: "#/components/examples/PipelineExamplesXMLUnroll"
+      parameters:
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to create.
+    get:
+      operationId: getPipelinesByPack
+      tags:
+        - pipelines
+      x-speakeasy-group: packs.pipelines
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
+      summary: List all Pipelines within a Pack
+      description: Get a list of all Pipelines within the specified Pack.
+      responses:
+        "200":
+          description: a list of Pipeline objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedPipeline"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to list.
+  /p/{pack}/pipelines/{id}:
+    delete:
+      operationId: deletePipelinesByPackAndId
+      tags:
+        - pipelines
+      x-speakeasy-group: packs.pipelines
+      x-speakeasy-name-override: delete
+      x-cribl-internal: false
+      summary: Delete a Pipeline within a Pack
+      description: Delete the specified Pipeline within the specified Pack.
+      responses:
+        "200":
+          description: a list of Pipeline objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedPipeline"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pipeline to delete.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to delete.
+    get:
+      operationId: getPipelinesByPackAndId
+      tags:
+        - pipelines
+      x-speakeasy-group: packs.pipelines
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      summary: Get a Pipeline within a Pack
+      description: Get the specified Pipeline within the specified Pack.
+      responses:
+        "200":
+          description: a list of Pipeline objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedPipeline"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pipeline to get.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
+    patch:
+      operationId: updatePipelinesByPackAndId
+      tags:
+        - pipelines
+      x-speakeasy-group: packs.pipelines
+      x-speakeasy-name-override: update
+      x-cribl-internal: false
+      summary: Update a Pipeline within a Pack
+      description: Update the specified Pipeline within the specified Pack.</br></br>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
+      responses:
+        "200":
+          description: a list of Pipeline objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedPipeline"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        description: Pipeline object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pipeline"
+            examples:
+              PipelineExamplesEmpty:
+                $ref: "#/components/examples/PipelineExamplesEmpty"
+              PipelineExamplesAggregations:
+                $ref: "#/components/examples/PipelineExamplesAggregations"
+              PipelineExamplesAggregateMetrics:
+                $ref: "#/components/examples/PipelineExamplesAggregateMetrics"
+              PipelineExamplesAutoTimestamp:
+                $ref: "#/components/examples/PipelineExamplesAutoTimestamp"
+              PipelineExamplesCEFSerializer:
+                $ref: "#/components/examples/PipelineExamplesCEFSerializer"
+              PipelineExamplesChain:
+                $ref: "#/components/examples/PipelineExamplesChain"
+              PipelineExamplesClone:
+                $ref: "#/components/examples/PipelineExamplesClone"
+              PipelineExamplesComment:
+                $ref: "#/components/examples/PipelineExamplesComment"
+              PipelineExamplesDNSLookup:
+                $ref: "#/components/examples/PipelineExamplesDNSLookup"
+              PipelineExamplesDrop:
+                $ref: "#/components/examples/PipelineExamplesDrop"
+              PipelineExamplesDropDimensions:
+                $ref: "#/components/examples/PipelineExamplesDropDimensions"
+              PipelineExamplesDynamicSampling:
+                $ref: "#/components/examples/PipelineExamplesDynamicSampling"
+              PipelineExamplesEval:
+                $ref: "#/components/examples/PipelineExamplesEval"
+              PipelineExamplesEventBreaker:
+                $ref: "#/components/examples/PipelineExamplesEventBreaker"
+              PipelineExamplesFlatten:
+                $ref: "#/components/examples/PipelineExamplesFlatten"
+              PipelineExamplesFoldKeys:
+                $ref: "#/components/examples/PipelineExamplesFoldKeys"
+              PipelineExamplesGeoIP:
+                $ref: "#/components/examples/PipelineExamplesGeoIP"
+              PipelineExamplesGrok:
+                $ref: "#/components/examples/PipelineExamplesGrok"
+              PipelineExamplesGuard:
+                $ref: "#/components/examples/PipelineExamplesGuard"
+              PipelineExamplesJSONUnroll:
+                $ref: "#/components/examples/PipelineExamplesJSONUnroll"
+              PipelineExamplesLookup:
+                $ref: "#/components/examples/PipelineExamplesLookup"
+              PipelineExamplesMask:
+                $ref: "#/components/examples/PipelineExamplesMask"
+              PipelineExamplesNumerify:
+                $ref: "#/components/examples/PipelineExamplesNumerify"
+              PipelineExamplesOTLPLogs:
+                $ref: "#/components/examples/PipelineExamplesOTLPLogs"
+              PipelineExamplesOTLPMetrics:
+                $ref: "#/components/examples/PipelineExamplesOTLPMetrics"
+              PipelineExamplesOTLPTraces:
+                $ref: "#/components/examples/PipelineExamplesOTLPTraces"
+              PipelineExamplesParser:
+                $ref: "#/components/examples/PipelineExamplesParser"
+              PipelineExamplesPublishMetrics:
+                $ref: "#/components/examples/PipelineExamplesPublishMetrics"
+              PipelineExamplesRedis:
+                $ref: "#/components/examples/PipelineExamplesRedis"
+              PipelineExamplesRegexExtract:
+                $ref: "#/components/examples/PipelineExamplesRegexExtract"
+              PipelineExamplesRegexFilter:
+                $ref: "#/components/examples/PipelineExamplesRegexFilter"
+              PipelineExamplesRename:
+                $ref: "#/components/examples/PipelineExamplesRename"
+              PipelineExamplesRollupMetrics:
+                $ref: "#/components/examples/PipelineExamplesRollupMetrics"
+              PipelineExamplesSampling:
+                $ref: "#/components/examples/PipelineExamplesSampling"
+              PipelineExamplesSerialize:
+                $ref: "#/components/examples/PipelineExamplesSerialize"
+              PipelineExamplesSNMPTrapSerialize:
+                $ref: "#/components/examples/PipelineExamplesSNMPTrapSerialize"
+              PipelineExamplesSuppress:
+                $ref: "#/components/examples/PipelineExamplesSuppress"
+              PipelineExamplesTee:
+                $ref: "#/components/examples/PipelineExamplesTee"
+              PipelineExamplesUnroll:
+                $ref: "#/components/examples/PipelineExamplesUnroll"
+              PipelineExamplesXMLUnroll:
+                $ref: "#/components/examples/PipelineExamplesXMLUnroll"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pipeline to update.
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to update.
   /routes/{id}:
     get:
       operationId: getRoutesById

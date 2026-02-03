@@ -31,7 +31,7 @@ generation:
     generateNewTests: false
     skipResponseBodyAssertions: false
 python:
-  version: 0.6.0b11
+  version: 0.6.0b12
   additionalDependencies:
     dev: {}
     main: {}

@@ -39,13 +39,13 @@ class TimeRange(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class WhereToCapture(int, Enum, metaclass=utils.OpenEnumMeta):
     # 1. Before pre-processing Pipeline
-    ZERO = 0
+    BEFORE_PRE_PROCESSING_PIPELINE = 0
     # 2. Before the Routes
-    ONE = 1
+    BEFORE_THE_ROUTES = 1
     # 3. Before post-processing Pipeline
-    TWO = 2
+    BEFORE_POST_PROCESSING_PIPELINE = 2
     # 4. Before the Destination
-    THREE = 3
+    BEFORE_THE_DESTINATION = 3
 
 
 class CaptureSettingsTypedDict(TypedDict):

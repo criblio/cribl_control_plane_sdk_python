@@ -178,8 +178,13 @@ asyncio.run(main())
 
 <!-- No End SDK Example Usage [usage] -->
 
-<!-- Start Authentication [security] -->
 ## Authentication
+
+Except for the `health.get` and `auth.tokens.get` methods, all Cribl SDK requests require you to authenticate with a Bearer token. You must include a valid Bearer token in the configuration when initializing your SDK client. The Bearer token verifies your identity and ensures secure access to the requested resources. The SDK automatically manages the `Authorization` header for subsequent requests once properly authenticated.
+
+For information about Bearer token expiration, see [Token Management](https://docs.cribl.io/cribl-as-code/sdks-auth/#sdks-token-mgmt) in the Cribl as Code documentation.
+
+**Authentication happens once during SDK initialization**. After you initialize the SDK client with authentication as shown in the [authentication examples](#authentication-examples), the SDK automatically handles authentication for all subsequent API calls. You do not need to include authentication parameters in individual API requests. The [SDK Example Usage](#sdk-example-usage) section shows how to initialize the SDK and make API calls, but if you've properly initialized your client as shown in the authentication examples, you only need to make the API method calls themselves without re-initializing.
 
 ### Per-Client Security Schemes
 
@@ -190,26 +195,19 @@ This SDK supports the following security schemes globally:
 | `bearer_auth`  | http   | HTTP Bearer  | `CRIBLCONTROLPLANE_BEARER_AUTH`  |
 | `client_oauth` | oauth2 | OAuth2 token | `CRIBLCONTROLPLANE_CLIENT_OAUTH` |
 
-You can set the security parameters through the `security` optional parameter when initializing the SDK client instance. The selected scheme will be used by default to authenticate with the API for all operations that support it. For example:
-```python
-from cribl_control_plane import CriblControlPlane, models
-import os
+To configure authentication on Cribl.Cloud and in hybrid deployments, use the `client_oauth` security scheme. The SDK uses the OAuth credentials that you provide to obtain a Bearer token and refresh the token within its expiration window using the standard OAuth2 flow.
 
+In on-prem deployments, use the `bearer_auth` security scheme. The SDK uses the username/password credentials that you provide to obtain a Bearer token. Automatically refreshing the Bearer token within its expiration window requires a callback function as shown in the [On-Prem Authentication Example](https://github.com/criblio/cribl_control_plane_sdk_python/blob/main/examples/example_onprem_auth.py).
 
-with CriblControlPlane(
-    server_url="https://api.example.com",
-    security=models.Security(
-        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
-    ),
-) as ccp_client:
+Set the security scheme through the `security` optional parameter when initializing the SDK client instance. The SDK uses the selected scheme by default to authenticate with the API for all operations that support it.
 
-    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="<value>", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, creds_secrets="<value>", password="QpvMa8DI_lUJL_b", request_timeout=4657.19, tags="production,mysql,customer-data", user="Dolores.Feil")
+### Authentication Examples
 
-    # Handle response
-    print(res)
+The [Cribl.Cloud and Hybrid Authentication Example](https://github.com/criblio/cribl_control_plane_sdk_python/blob/main/examples/example_cloud_auth.py) demonstrates how to configure authentication on Cribl.Cloud and in hybrid deployments. To obtain the Client ID and Client Secret you'll need to initialize using the `client_oauth` security schema, follow the [instructions for creating an API Credential](https://docs.cribl.io/cribl-as-code/sdks-auth/#sdks-auth-cloud) in the Cribl as Code documentation.
 
-```
-<!-- End Authentication [security] -->
+The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_plane_sdk_python/blob/main/examples/example_onprem_auth.py) demonstrates how to configure authentication in on-prem deployments using your username and password.
+
+<!-- No Authentication [security] -->
 
 <!-- Start Available Resources and Operations [operations] -->
 ## Available Resources and Operations

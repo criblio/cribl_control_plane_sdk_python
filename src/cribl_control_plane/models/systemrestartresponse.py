@@ -11,6 +11,7 @@ from typing_extensions import Annotated, TypedDict
 
 class SystemRestartResponseTypedDict(TypedDict):
     restart: Literal[True]
+    r"""Restart operation initiated"""
 
 
 class SystemRestartResponse(BaseModel):
@@ -18,3 +19,4 @@ class SystemRestartResponse(BaseModel):
         Annotated[Literal[True], AfterValidator(validate_const(True))],
         pydantic.Field(alias="restart"),
     ] = True
+    r"""Restart operation initiated"""

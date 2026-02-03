@@ -169,10 +169,10 @@ async def main():
 
     # Commit configuration changes
     commit_response = cribl.versions.commits.create(
-        group_id=WORKER_GROUP_ID,
         message="Commit for Cribl Stream example",
         effective=True,
-        files=["."]
+        files=["."],
+        server_url=group_url
     )
     
     if not commit_response.items or len(commit_response.items) == 0:

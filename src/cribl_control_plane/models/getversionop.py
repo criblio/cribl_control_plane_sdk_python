@@ -3,27 +3,17 @@
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
-import pydantic
 from pydantic import model_serializer
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetVersionRequestTypedDict(TypedDict):
-    group_id: NotRequired[str]
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for."""
     count: NotRequired[int]
     r"""Maximum number of commits to return in the response for this request."""
 
 
 class GetVersionRequest(BaseModel):
-    group_id: Annotated[
-        Optional[str],
-        pydantic.Field(alias="groupId"),
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for."""
-
     count: Annotated[
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
@@ -32,7 +22,7 @@ class GetVersionRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["groupId", "count"])
+        optional_fields = set(["count"])
         serialized = handler(self)
         m = {}
 

@@ -3,8 +3,8 @@
 
 ## Values
 
-| Name   | Value  |
-| ------ | ------ |
-| `ZERO` | 0      |
-| `ONE`  | 1      |
-| `TWO`  | 2      |
+| Name        | Value       |
+| ----------- | ----------- |
+| `PENDING`   | 0           |
+| `QUEUED`    | 1           |
+| `UPGRADING` | 2           |

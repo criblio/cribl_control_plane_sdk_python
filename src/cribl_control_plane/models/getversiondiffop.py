@@ -12,8 +12,6 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class GetVersionDiffRequestTypedDict(TypedDict):
     commit: NotRequired[str]
     r"""The Git commit hash to get the diff for."""
-    group_id: NotRequired[str]
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the diff for."""
     filename: NotRequired[str]
     r"""The relative path of the file to get the diff for."""
     diff_line_limit: NotRequired[int]
@@ -26,13 +24,6 @@ class GetVersionDiffRequest(BaseModel):
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""The Git commit hash to get the diff for."""
-
-    group_id: Annotated[
-        Optional[str],
-        pydantic.Field(alias="groupId"),
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the diff for."""
 
     filename: Annotated[
         Optional[str],
@@ -49,7 +40,7 @@ class GetVersionDiffRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["commit", "groupId", "filename", "diffLineLimit"])
+        optional_fields = set(["commit", "filename", "diffLineLimit"])
         serialized = handler(self)
         m = {}
 

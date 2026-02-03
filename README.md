@@ -328,6 +328,14 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](docs/sdks/packssamples/README.md#get) - Get sample event data for a Destination within a Pack
 * [create](docs/sdks/packssamples/README.md#create) - Send sample event data to a Destination within a Pack
 
+#### [Packs.Pipelines](docs/sdks/packspipelines/README.md)
+
+* [create](docs/sdks/packspipelines/README.md#create) - Create a Pipeline within a Pack
+* [list](docs/sdks/packspipelines/README.md#list) - List all Pipelines within a Pack
+* [delete](docs/sdks/packspipelines/README.md#delete) - Delete a Pipeline within a Pack
+* [get](docs/sdks/packspipelines/README.md#get) - Get a Pipeline within a Pack
+* [update](docs/sdks/packspipelines/README.md#update) - Update a Pipeline within a Pack
+
 #### [Packs.Routes](docs/sdks/packsroutes/README.md)
 
 * [get](docs/sdks/packsroutes/README.md#get) - Get a Routing table within a Pack

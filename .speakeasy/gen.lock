@@ -5,15 +5,15 @@ management:
   docVersion: 4.17.0-alpha.1770049798737-c7d0387a
   speakeasyVersion: 1.697.5
   generationVersion: 2.799.0
-  releaseVersion: 0.6.0b10
-  configChecksum: 9a92417c70fef9186519eb1209623c6c
+  releaseVersion: 0.6.0b11
+  configChecksum: eb39857777de9c49250a36da2e0c3809
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 8c0dc8be-9f8d-425a-84bc-25f7c7844d9a
-  pristine_commit_hash: de78ecb9677d5063c0b5ed8f80eaf8a335b75aaf
-  pristine_tree_hash: 5c559b113142cb49cc3c51f5989ae4c2bd599c45
+  generation_id: 594cd079-18f0-40b2-a556-5000c87074b5
+  pristine_commit_hash: c3c3119050c1445fe3c665d1d54d84d1285c5b3e
+  pristine_tree_hash: 16c6f09cee8b4087abc096e0e06b4d5a486dc754
 features:
   python:
     additionalDependencies: 1.0.0
@@ -13295,8 +13295,8 @@ trackedFiles:
     pristine_git_object: 0abbb4d34f2289987b92a4ee3cfe300da8a66143
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:78327dfa7c8810882bcbc071b0c0d1fe8cca713a
-    pristine_git_object: 14becf2a0b84184966850c2d5e8e5e20e2614ba3
+    last_write_checksum: sha1:d6c2f1e7d6971cff2391f6fc59781fc039285376
+    pristine_git_object: be82482fd8a05f8d11551bc17208e1d34d8dbff1
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -13327,8 +13327,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:1bec4a446cf9c0966b35e84c18562361aa9558cd
-    pristine_git_object: f449cc7f36baff708737ed1b7c9fe52ce600be2c
+    last_write_checksum: sha1:b08303c7ed16f60986aa68f3da8d90caf6f5dfca
+    pristine_git_object: 01e9c17efb67c0aa45e62eb3d09116f9d3a69be6
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -25595,9 +25595,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: |
-  ## Python SDK Changes:
-  * `cribl_control_plane.system.settings.restart()`: **Added**
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

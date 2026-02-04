@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1770130843605-f2861eab
+  version: 4.17.0-alpha.1770159814019-7a45cedd
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -47529,13 +47529,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/GitCommitParams"
-      parameters:
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to create a new commit for.
   /version/count:
     get:
       operationId: getVersionCount
@@ -47562,12 +47555,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to get the count for.
         - name: commit
           in: query
           required: false
@@ -47631,12 +47618,6 @@ paths:
           schema:
             type: string
           description: The Git commit hash to get the diff for.
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to get the diff for.
         - name: filename
           in: query
           required: false
@@ -47675,12 +47656,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to get file names and status for.
         - name: commit
           in: query
           required: false
@@ -47738,12 +47713,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for.
         - name: count
           in: query
           required: false
@@ -47807,13 +47776,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/GitRevertParams"
-      parameters:
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to revert the commit for. Required in Distributed deployments. Omit in Single-instance deployments.
   /version/show:
     get:
       operationId: getVersionShow
@@ -47846,12 +47808,6 @@ paths:
           schema:
             type: string
           description: The Git commit hash to retrieve the diff and log message for.
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to get the diff and log message for.
         - name: filename
           in: query
           required: false
@@ -47889,13 +47845,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-      parameters:
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to get the status for.
   /version/undo:
     post:
       operationId: createVersionUndo
@@ -47921,10 +47870,3 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-      parameters:
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for.

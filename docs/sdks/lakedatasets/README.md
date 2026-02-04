@@ -4,15 +4,15 @@
 
 ### Available Operations
 
-* [create](#create) - Create a Lake Dataset
-* [list](#list) - List all Lake Datasets
-* [delete](#delete) - Delete a Lake Dataset
-* [get](#get) - Get a Lake Dataset
-* [update](#update) - Update a Lake Dataset
+* [create](#create) - Create a Lake Dataset (Cribl.Cloud only)
+* [list](#list) - List all Lake Datasets (Cribl.Cloud only)
+* [delete](#delete) - Delete a Lake Dataset (Cribl.Cloud only)
+* [get](#get) - Get a Lake Dataset (Cribl.Cloud only)
+* [update](#update) - Update a Lake Dataset (Cribl.Cloud only)
 
 ## create
 
-Create a new Lake Dataset in the specified Lake.
+Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
 
 ### Example Usage
 
@@ -105,7 +105,7 @@ with CriblControlPlane(
 
 ## list
 
-Get a list of all Lake Datasets in the specified Lake.
+Get a list of all Lake Datasets in the specified Lake (Cribl.Cloud only).
 
 ### Example Usage
 
@@ -155,7 +155,7 @@ with CriblControlPlane(
 
 ## delete
 
-Delete the specified Lake Dataset in the specified Lake
+Delete the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
 
 ### Example Usage
 
@@ -200,7 +200,7 @@ with CriblControlPlane(
 
 ## get
 
-Get the specified Lake Dataset in the specified Lake.
+Get the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
 
 ### Example Usage
 
@@ -245,7 +245,7 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Lake Dataset in the specified Lake.
+Update the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
 
 ### Example Usage
 

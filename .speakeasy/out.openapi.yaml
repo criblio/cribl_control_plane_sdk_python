@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1770131115382-89fbf374
+  version: 4.17.0-alpha.1770230641178-bbdc5eae
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -36288,12 +36288,6 @@ components:
       required:
         - groups
         - workers
-    WorkerTypes:
-      type: string
-      enum:
-        - worker
-        - managed-edge
-      x-speakeasy-unknown-values: allow
     HealthServerStatus:
       type: object
       properties:
@@ -42347,40 +42341,58 @@ security:
 tags:
   - name: auth
     description: Actions related to authentication. Do not use the /auth endpoints in Cribl.Cloud deployments. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to authenticate for Cribl.Cloud.
+    x-cribl-availability: both
   - name: collectors
     description: Actions related to Collectors
+    x-cribl-availability: both
   - name: database-connections
     description: Actions related to Database Connections
+    x-cribl-availability: both
   - name: destinations
     description: Actions related to Destinations
+    x-cribl-availability: both
   - name: distributed
     description: Actions related to Distributed
+    x-cribl-availability: both
   - name: functions
     description: Actions related to functions
+    x-cribl-availability: both
   - name: groups
     description: Actions related to Groups
+    x-cribl-availability: both
   - name: health
     description: Actions related to REST server health
+    x-cribl-availability: both
   - name: lake
     description: Actions related to Lake
+    x-cribl-availability: cloud
   - name: packs
     description: Actions related to Packs
+    x-cribl-availability: both
   - name: pipelines
     description: Actions related to Pipelines
+    x-cribl-availability: both
   - name: preview
     description: Actions related to data preview
+    x-cribl-availability: both
   - name: routes
     description: Actions related to Routes
+    x-cribl-availability: both
   - name: sources
     description: Actions related to Sources
+    x-cribl-availability: both
   - name: system
     description: Actions related to system settings
+    x-cribl-availability: both
   - name: teams
     description: Actions related to Teams
+    x-cribl-availability: both
   - name: versioning
     description: Actions related to Versioning
+    x-cribl-availability: both
   - name: workers
     description: Actions related to Workers
+    x-cribl-availability: both
 paths:
   /lib/database-connections:
     post:
@@ -42390,6 +42402,7 @@ paths:
       x-speakeasy-group: databaseConnections
       x-speakeasy-name-override: create
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Create Database Connection
       description: Create a new Database Connection.
       responses:
@@ -42443,6 +42456,7 @@ paths:
       x-speakeasy-group: databaseConnections
       x-speakeasy-name-override: delete
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Delete a Database Connection
       description: Delete the specified Database Connection.
       responses:
@@ -42474,6 +42488,7 @@ paths:
       x-speakeasy-group: databaseConnections
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get a Database Connection
       description: Get the specified Database Connection.
       responses:
@@ -42507,6 +42522,7 @@ paths:
       x-speakeasy-group: databaseConnections
       x-speakeasy-name-override: update
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Update a Database Connection
       description: Update the specified Database Connection.</br></br>Provide a complete representation of the Database Connection that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Database Connection.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Database Connection might not function as expected.
       responses:
@@ -42567,6 +42583,7 @@ paths:
       x-speakeasy-group: functions
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get a Function
       description: Get the specified Function.
       responses:
@@ -42599,6 +42616,7 @@ paths:
       x-speakeasy-group: functions
       x-speakeasy-name-override: list
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: List all Functions
       description: Get a list of all Functions.
       responses:
@@ -42621,6 +42639,7 @@ paths:
       operationId: listInput
       x-speakeasy-group: sources
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: list
       tags:
         - sources
@@ -42645,6 +42664,7 @@ paths:
       operationId: createInput
       x-speakeasy-group: sources
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: create
       tags:
         - sources
@@ -42798,6 +42818,7 @@ paths:
       operationId: getInputById
       x-speakeasy-group: sources
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: get
       tags:
         - sources
@@ -42829,6 +42850,7 @@ paths:
       operationId: updateInputById
       x-speakeasy-group: sources
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: update
       tags:
         - sources
@@ -42988,6 +43010,7 @@ paths:
       operationId: deleteInputById
       x-speakeasy-group: sources
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: delete
       tags:
         - sources
@@ -43023,6 +43046,7 @@ paths:
       x-speakeasy-group: sources.hecTokens
       x-speakeasy-name-override: create
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Add an HEC token and optional metadata to a Splunk HEC Source
       description: Add an HEC token and optional metadata to the specified Splunk HEC Source.
       responses:
@@ -43067,6 +43091,7 @@ paths:
       x-speakeasy-group: sources.pq
       x-speakeasy-name-override: clear
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Clear the persistent queue for a Source
       description: Clear the persistent queue (PQ) for the specified Source.
       responses:
@@ -43098,6 +43123,7 @@ paths:
       x-speakeasy-group: sources.pq
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get information about the latest job to clear the persistent queue for a Source
       description: Get information about the latest job to clear the persistent queue (PQ) for the specified Source.
       responses:
@@ -43130,6 +43156,7 @@ paths:
       x-speakeasy-group: sources.hecTokens
       x-speakeasy-name-override: update
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Update metadata for an HEC token for a Splunk HEC Source
       description: Update the metadata for the specified HEC token for the specified Splunk HEC Source.
       responses:
@@ -43177,6 +43204,7 @@ paths:
       operationId: getInputSystemByPack
       x-speakeasy-group: packs.sources
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: list
       tags:
         - sources
@@ -43208,6 +43236,7 @@ paths:
       operationId: createInputSystemByPack
       x-speakeasy-group: packs.sources
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: create
       tags:
         - sources
@@ -43368,6 +43397,7 @@ paths:
       operationId: getInputSystemByPackAndId
       x-speakeasy-group: packs.sources
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: get
       tags:
         - sources
@@ -43405,6 +43435,7 @@ paths:
       operationId: updateInputSystemByPackAndId
       x-speakeasy-group: packs.sources
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: update
       tags:
         - sources
@@ -43570,6 +43601,7 @@ paths:
       operationId: deleteInputSystemByPackAndId
       x-speakeasy-group: packs.sources
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: delete
       tags:
         - sources
@@ -43611,6 +43643,7 @@ paths:
       x-speakeasy-group: packs.sources.hecTokens
       x-speakeasy-name-override: create
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Add an HEC token and optional metadata to a Splunk HEC Source within a Pack
       description: Add an HEC token and optional metadata to the specified Splunk HEC Source within the specified Pack.
       responses:
@@ -43661,6 +43694,7 @@ paths:
       x-speakeasy-group: packs.sources.pq
       x-speakeasy-name-override: clear
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Clear the persistent queue for a Source within a Pack
       description: Clear the persistent queue (PQ) for the specified Source within the specified Pack.
       responses:
@@ -43698,6 +43732,7 @@ paths:
       x-speakeasy-group: packs.sources.pq
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get information about the latest job to clear the persistent queue for a Source within a Pack
       description: Get information about the latest job to clear the persistent queue (PQ) for the specified Source within the specified Pack.
       responses:
@@ -43736,6 +43771,7 @@ paths:
       x-speakeasy-group: packs.sources.hecTokens
       x-speakeasy-name-override: update
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Update metadata for an HEC token for a Splunk HEC Source within a Pack
       description: Update the metadata for the specified HEC token for the specified Splunk HEC Source within the specified Pack.
       responses:
@@ -43789,6 +43825,7 @@ paths:
       operationId: listOutput
       x-speakeasy-group: destinations
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: list
       tags:
         - destinations
@@ -43813,6 +43850,7 @@ paths:
       operationId: createOutput
       x-speakeasy-group: destinations
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: create
       tags:
         - destinations
@@ -43986,6 +44024,7 @@ paths:
       operationId: getOutputById
       x-speakeasy-group: destinations
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: get
       tags:
         - destinations
@@ -44017,6 +44056,7 @@ paths:
       operationId: updateOutputById
       x-speakeasy-group: destinations
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: update
       tags:
         - destinations
@@ -44194,6 +44234,7 @@ paths:
       operationId: deleteOutputById
       x-speakeasy-group: destinations
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: delete
       tags:
         - destinations
@@ -44229,6 +44270,7 @@ paths:
       x-speakeasy-group: destinations.pq
       x-speakeasy-name-override: clear
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Clear the persistent queue for a Destination
       description: Clear the persistent queue (PQ) for the specified Destination.
       responses:
@@ -44260,6 +44302,7 @@ paths:
       x-speakeasy-group: destinations.pq
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get information about the latest job to clear the persistent queue for a Destination
       description: Get information about the latest job to clear the persistent queue (PQ) for the specified Destination.
       responses:
@@ -44292,6 +44335,7 @@ paths:
       x-speakeasy-group: destinations.samples
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get sample event data for a Destination
       description: Get sample event data for the specified Destination to validate the configuration or test connectivity.
       responses:
@@ -44324,6 +44368,7 @@ paths:
       x-speakeasy-group: destinations.samples
       x-speakeasy-name-override: create
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Send sample event data to a Destination
       description: Send sample event data to the specified Destination to validate the configuration or test connectivity.
       responses:
@@ -44360,6 +44405,7 @@ paths:
       operationId: getOutputSystemByPack
       x-speakeasy-group: packs.destinations
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: list
       tags:
         - destinations
@@ -44391,6 +44437,7 @@ paths:
       operationId: createOutputSystemByPack
       x-speakeasy-group: packs.destinations
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: create
       tags:
         - destinations
@@ -44571,6 +44618,7 @@ paths:
       operationId: getOutputSystemByPackAndId
       x-speakeasy-group: packs.destinations
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: get
       tags:
         - destinations
@@ -44608,6 +44656,7 @@ paths:
       operationId: updateOutputSystemByPackAndId
       x-speakeasy-group: packs.destinations
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: update
       tags:
         - destinations
@@ -44791,6 +44840,7 @@ paths:
       operationId: deleteOutputSystemByPackAndId
       x-speakeasy-group: packs.destinations
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: delete
       tags:
         - destinations
@@ -44832,6 +44882,7 @@ paths:
       x-speakeasy-group: packs.destinations.pq
       x-speakeasy-name-override: clear
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Clear the persistent queue for a Destination within a Pack
       description: Clear the persistent queue (PQ) for the specified Destination within the specified Pack.
       responses:
@@ -44869,6 +44920,7 @@ paths:
       x-speakeasy-group: packs.destinations.pq
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get information about the latest job to clear the persistent queue for a Destination within a Pack
       description: Get information about the latest job to clear the persistent queue (PQ) for the specified Destination within the specified Pack.
       responses:
@@ -44907,6 +44959,7 @@ paths:
       x-speakeasy-group: packs.destinations.samples
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get sample event data for a Destination within a Pack
       description: Get sample event data for the specified Destination to validate the configuration or test connectivity within the specified Pack.
       responses:
@@ -44945,6 +44998,7 @@ paths:
       x-speakeasy-group: packs.destinations.samples
       x-speakeasy-name-override: create
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Send sample event data to a Destination within a Pack
       description: Send sample event data to the specified Destination to validate the configuration or test connectivity within the specified Pack.
       responses:
@@ -44990,6 +45044,7 @@ paths:
       x-speakeasy-group: pipelines
       x-speakeasy-name-override: create
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Create a Pipeline
       description: Create a new Pipeline.
       responses:
@@ -45102,6 +45157,7 @@ paths:
       x-speakeasy-group: pipelines
       x-speakeasy-name-override: list
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: List all Pipelines
       description: Get a list of all Pipelines.
       responses:
@@ -45127,6 +45183,7 @@ paths:
       x-speakeasy-group: pipelines
       x-speakeasy-name-override: delete
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Delete a Pipeline
       description: Delete the specified Pipeline.
       responses:
@@ -45158,6 +45215,7 @@ paths:
       x-speakeasy-group: pipelines
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get a Pipeline
       description: Get the specified Pipeline.
       responses:
@@ -45189,6 +45247,7 @@ paths:
       x-speakeasy-group: pipelines
       x-speakeasy-name-override: update
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Update a Pipeline
       description: Update the specified Pipeline.</br></br>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
       responses:
@@ -45309,6 +45368,7 @@ paths:
       x-speakeasy-group: packs.pipelines
       x-speakeasy-name-override: create
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Create a Pipeline within a Pack
       description: Create a new Pipeline within the specified Pack.
       responses:
@@ -45428,6 +45488,7 @@ paths:
       x-speakeasy-group: packs.pipelines
       x-speakeasy-name-override: list
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: List all Pipelines within a Pack
       description: Get a list of all Pipelines within the specified Pack.
       responses:
@@ -45460,6 +45521,7 @@ paths:
       x-speakeasy-group: packs.pipelines
       x-speakeasy-name-override: delete
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Delete a Pipeline within a Pack
       description: Delete the specified Pipeline within the specified Pack.
       responses:
@@ -45497,6 +45559,7 @@ paths:
       x-speakeasy-group: packs.pipelines
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get a Pipeline within a Pack
       description: Get the specified Pipeline within the specified Pack.
       responses:
@@ -45534,6 +45597,7 @@ paths:
       x-speakeasy-group: packs.pipelines
       x-speakeasy-name-override: update
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Update a Pipeline within a Pack
       description: Update the specified Pipeline within the specified Pack.</br></br>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
       responses:
@@ -45660,6 +45724,7 @@ paths:
       x-speakeasy-group: routes
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get a Routing table
       description: Get the specified Routing table.
       responses:
@@ -45691,6 +45756,7 @@ paths:
       x-speakeasy-group: routes
       x-speakeasy-name-override: update
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Update a Route
       description: Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
       responses:
@@ -45737,6 +45803,7 @@ paths:
       x-speakeasy-group: routes
       x-speakeasy-name-override: list
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: List all Routes
       description: Get a list of all Routes.
       responses:
@@ -45762,6 +45829,7 @@ paths:
       x-speakeasy-group: routes
       x-speakeasy-name-override: append
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Add a Route to the end of the Routing table
       description: Add a Route to the end of the specified Routing table.
       responses:
@@ -45808,6 +45876,7 @@ paths:
       x-speakeasy-group: packs.routes
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get a Routing table within a Pack
       description: Get the specified Routing table within the specified Pack.
       responses:
@@ -45845,6 +45914,7 @@ paths:
       x-speakeasy-group: packs.routes
       x-speakeasy-name-override: update
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Update a Route within a Pack
       description: Update the specified Route within the specified Pack.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
       responses:
@@ -45897,6 +45967,7 @@ paths:
       x-speakeasy-group: packs.routes
       x-speakeasy-name-override: list
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: List all Routes within a Pack
       description: Get a list of all Routes within the specified Pack.
       responses:
@@ -45929,6 +46000,7 @@ paths:
       x-speakeasy-group: packs.routes
       x-speakeasy-name-override: append
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Add a Route to the end of the Routing table within a Pack
       description: Add a Route to the end of the specified Routing table within the specified Pack.
       responses:
@@ -45981,6 +46053,7 @@ paths:
       x-speakeasy-group: collectors
       x-speakeasy-name-override: create
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Create a Collector
       description: Create a new Collector.
       responses:
@@ -46038,6 +46111,7 @@ paths:
       x-speakeasy-group: collectors
       x-speakeasy-name-override: list
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: List all Collectors
       description: Get a list of all Collectors.
       responses:
@@ -46082,6 +46156,7 @@ paths:
       x-speakeasy-group: collectors
       x-speakeasy-name-override: delete
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Delete a Collector
       description: Delete the specified Collector.
       responses:
@@ -46125,6 +46200,7 @@ paths:
       x-speakeasy-group: collectors
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get a Collector
       description: Get the specified Collector.
       responses:
@@ -46162,6 +46238,7 @@ paths:
       x-speakeasy-group: collectors
       x-speakeasy-name-override: update
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Update a Collector
       description: Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
       responses:
@@ -46222,6 +46299,7 @@ paths:
     get:
       operationId: listConfigGroupByProduct
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: list
       tags:
         - groups
@@ -46259,6 +46337,7 @@ paths:
     post:
       operationId: createConfigGroupByProduct
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: create
       tags:
         - groups
@@ -46307,6 +46386,7 @@ paths:
     get:
       operationId: getConfigGroupByProductAndId
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: get
       tags:
         - groups
@@ -46351,6 +46431,7 @@ paths:
     patch:
       operationId: updateConfigGroupByProductAndId
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: update
       tags:
         - groups
@@ -46399,6 +46480,7 @@ paths:
     delete:
       operationId: deleteConfigGroupByProductAndId
       x-cribl-internal: false
+      x-cribl-availability: both
       x-speakeasy-name-override: delete
       tags:
         - groups
@@ -46442,6 +46524,7 @@ paths:
       x-speakeasy-group: groups.configs.versions
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get the configuration version for a Worker Group, Outpost Group, or Edge Fleet
       description: Get the configuration version for the specified Worker Group, Outpost Group, or Edge Fleet.
       responses:
@@ -46480,6 +46563,7 @@ paths:
       x-speakeasy-group: groups
       x-speakeasy-name-override: deploy
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Deploy commits to a Worker Group, Outpost Group, or Edge Fleet
       description: Deploy commits to the specified Worker Group, Outpost Group, or Edge Fleet.
       responses:
@@ -46525,6 +46609,7 @@ paths:
       x-speakeasy-group: groups.acl.teams
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
       description: Get the Access Control List (ACL) for teams that have permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
       responses:
@@ -46569,6 +46654,7 @@ paths:
       x-speakeasy-group: groups.acl
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get the Access Control List for a Worker Group, Outpost Group, or Edge Fleet
       description: Get the Access Control List (ACL) for the specified Worker Group, Outpost Group, or Edge Fleet.
       responses:
@@ -46613,8 +46699,9 @@ paths:
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: create
       x-cribl-internal: false
-      summary: Create a Lake Dataset
-      description: Create a new Lake Dataset in the specified Lake.
+      x-cribl-availability: cloud
+      summary: Create a Lake Dataset (Cribl.Cloud only)
+      description: Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
       responses:
         "200":
           description: a list of CriblLakeDataset objects
@@ -46651,8 +46738,9 @@ paths:
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: list
       x-cribl-internal: false
-      summary: List all Lake Datasets
-      description: Get a list of all Lake Datasets in the specified Lake.
+      x-cribl-availability: cloud
+      summary: List all Lake Datasets (Cribl.Cloud only)
+      description: Get a list of all Lake Datasets in the specified Lake (Cribl.Cloud only).
       responses:
         "200":
           description: a list of CriblLakeDataset objects
@@ -46719,8 +46807,9 @@ paths:
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: delete
       x-cribl-internal: false
-      summary: Delete a Lake Dataset
-      description: Delete the specified Lake Dataset in the specified Lake
+      x-cribl-availability: cloud
+      summary: Delete a Lake Dataset (Cribl.Cloud only)
+      description: Delete the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
       responses:
         "200":
           description: a list of CriblLakeDataset objects
@@ -46756,8 +46845,9 @@ paths:
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: get
       x-cribl-internal: false
-      summary: Get a Lake Dataset
-      description: Get the specified Lake Dataset in the specified Lake.
+      x-cribl-availability: cloud
+      summary: Get a Lake Dataset (Cribl.Cloud only)
+      description: Get the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
       responses:
         "200":
           description: a list of CriblLakeDataset objects
@@ -46793,8 +46883,9 @@ paths:
       x-speakeasy-group: lakeDatasets
       x-speakeasy-name-override: update
       x-cribl-internal: false
-      summary: Update a Lake Dataset
-      description: Update the specified Lake Dataset in the specified Lake.
+      x-cribl-availability: cloud
+      summary: Update a Lake Dataset (Cribl.Cloud only)
+      description: Update the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
       responses:
         "200":
           description: a list of CriblLakeDataset objects
@@ -46838,6 +46929,7 @@ paths:
       x-speakeasy-group: auth.tokens
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Log in and fetch an authentication token
       description: This endpoint is unavailable on Cribl.Cloud.Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
       security: []
@@ -46879,6 +46971,7 @@ paths:
       x-speakeasy-group: system.captures
       x-speakeasy-name-override: create
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Capture live incoming data
       description: Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
       responses:
@@ -46920,6 +47013,7 @@ paths:
       x-speakeasy-group: nodes
       x-speakeasy-name-override: count
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get a count of Worker or Edge Nodes
       description: Get a count of all Worker or Edge Nodes for the specified Cribl product.
       responses:
@@ -46962,6 +47056,7 @@ paths:
       x-speakeasy-group: nodes
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get detailed metadata for a Worker or Edge Node
       description: Get detailed metadata for the specified Worker or Edge Node for the specified Cribl product.
       responses:
@@ -47002,6 +47097,7 @@ paths:
       x-speakeasy-group: nodes
       x-speakeasy-name-override: list
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get detailed metadata for Worker or Edge Nodes
       description: Get detailed metadata for Worker or Edge Nodes for the specified Cribl product.
       responses:
@@ -47074,6 +47170,7 @@ paths:
       x-speakeasy-group: nodes
       x-speakeasy-name-override: restart
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Restart Worker or Edge Nodes
       description: Restart all Worker or Edge Nodes for the specified Cribl product.
       responses:
@@ -47112,16 +47209,17 @@ paths:
           schema:
             $ref: "#/components/schemas/ProductsBase"
           description: Name of the Cribl product whose Worker or Edge Nodes you want to restart.
-  /master/summary:
+  /products/{product}/summary:
     get:
-      operationId: getSummary
+      operationId: getProductsSummaryByProduct
       tags:
         - distributed
       x-speakeasy-group: nodes.summaries
       x-speakeasy-name-override: get
       x-cribl-internal: false
-      summary: Get a summary of the Distributed deployment
-      description: Get a summary of the Distributed deployment. The response includes counts of Worker Groups, Edge Fleets, Pipelines, Routes, Sources, Destinations, and Worker and Edge Nodes, as well as statistics for the Worker and Edge Nodes.
+      x-cribl-availability: both
+      summary: Get a summary of the Distributed deployment for a specific product
+      description: Get a summary of the Distributed deployment for a specific Cribl product (Stream or Edge). The response includes counts of Worker Groups or Edge Fleets, Pipelines, Routes, Sources, Destinations, and Worker or Edge Nodes, as well as statistics for the nodes.
       responses:
         "200":
           description: a list of DistributedSummary objects
@@ -47129,8 +47227,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedDistributedSummary"
+        "400":
+          description: Bad Request if the product is not "stream" or "edge"
         "401":
           description: Unauthorized
+        "403":
+          description: Forbidden to access product because you don't have permissions
         "500":
           description: Unexpected error
           content:
@@ -47138,12 +47240,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
-        - name: mode
-          in: query
-          required: false
+        - name: product
+          in: path
+          required: true
           schema:
-            $ref: "#/components/schemas/WorkerTypes"
-          description: "Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>)."
+            $ref: "#/components/schemas/ProductsBase"
+          description: Name of the Cribl product to get the summary for.
   /health:
     get:
       operationId: getHealth
@@ -47152,6 +47254,7 @@ paths:
       x-speakeasy-group: health
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Retrieve health status of the server
       description: Get the current health status of the server.
       security: []
@@ -47182,6 +47285,7 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: install
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Install a Pack
       description: Install a Pack.<br><br>To install an uploaded Pack, provide the <code>source</code> value from the <code>PUT /packs</code> response as the <code>source</code> parameter in the request body.<br><br>To install a Pack by importing from a URL, provide the direct URL location of the <code>.crbl</code> file for the Pack as the <code>source</code> parameter in the request body.<br><br>To install a Pack by importing from a Git repository, provide <code>git+<repo-url></code> as the <code>source</code> parameter in the request body.<br><br>If you do not include the <code>source</code> parameter in the request body, an empty Pack is created.
       responses:
@@ -47224,6 +47328,7 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: list
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: List all Packs
       description: Get a list of all Packs.
       responses:
@@ -47255,6 +47360,7 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: upload
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Upload a Pack file
       description: Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs source</code>, which you must call separately.
       responses:
@@ -47295,6 +47401,7 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: delete
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Uninstall a Pack
       description: Uninstall the specified Pack.
       responses:
@@ -47326,6 +47433,7 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get a Pack
       description: Get the specified Pack.
       responses:
@@ -47357,8 +47465,9 @@ paths:
       x-speakeasy-group: packs
       x-speakeasy-name-override: update
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Upgrade a Pack
-      description: Upgrade the specified Pack.</br></br>If the Pack includes any user–modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack.Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
+      description: Upgrade the specified Pack.</br></br>If the Pack includes any user-modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack.Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.</br></br>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
       responses:
         "200":
           description: a list of PackInfo objects
@@ -47399,8 +47508,9 @@ paths:
       x-speakeasy-group: system.settings.cribl
       x-speakeasy-name-override: list
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get Cribl system settings
-      description: Get Cribl system settings
+      description: Get Cribl system settings.
       responses:
         "200":
           description: a list of SystemSettingsConf objects
@@ -47423,8 +47533,9 @@ paths:
       x-speakeasy-group: system.settings.cribl
       x-speakeasy-name-override: update
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Update Cribl system settings
-      description: Update Cribl system settings
+      description: Update Cribl system settings.
       responses:
         "200":
           description: a list of SystemSettingsConf objects
@@ -47455,6 +47566,7 @@ paths:
       x-speakeasy-group: system.settings
       x-speakeasy-name-override: restart
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Restart the Cribl server
       description: Restart the Cribl server.Useful for applying configuration changes that require a full process restart, such as changes to system-level settings that cannot be applied by reloading.
       responses:
@@ -47480,6 +47592,7 @@ paths:
       x-speakeasy-group: versions.branches
       x-speakeasy-name-override: list
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: List all branches in the Git repository used for Cribl configuration
       description: Get a list of all branches in the Git repository used for Cribl configuration.
       responses:
@@ -47505,6 +47618,7 @@ paths:
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: create
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Create a new commit for pending changes to the Cribl configuration
       description: Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
       responses:
@@ -47537,6 +47651,7 @@ paths:
       x-speakeasy-group: versions.commits.files
       x-speakeasy-name-override: count
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get a count of files that changed since a commit
       description: Get a count of the files that changed since a commit. Default is the latest commit (HEAD).
       responses:
@@ -47569,6 +47684,7 @@ paths:
       x-speakeasy-group: versions.branches
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get the name of the Git branch that the Cribl configuration is checked out to
       description: Get the name of the Git branch that the Cribl configuration is checked out to. Useful for verifying the active configuration branch.
       responses:
@@ -47594,6 +47710,7 @@ paths:
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: diff
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get the diff for a commit
       description: Get the diff for a commit. Default is the latest commit (HEAD).
       responses:
@@ -47638,6 +47755,7 @@ paths:
       x-speakeasy-group: versions.commits.files
       x-speakeasy-name-override: list
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get the names and statuses of files that changed since a commit
       description: Get the names and statuses of files that changed since a commit. Default is the latest commit (HEAD).
       responses:
@@ -47670,6 +47788,7 @@ paths:
       x-speakeasy-group: versions.configs
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get the configuration and status for the Git integration
       description: Get the configuration and versioning status for the Git integration for the Cribl configuration.
       responses:
@@ -47695,6 +47814,7 @@ paths:
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: list
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: List the commit history
       description: List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
       responses:
@@ -47727,6 +47847,7 @@ paths:
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: push
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Push local commits to the remote repository
       description: Push all local commits from the local repository to the remote repository.
       responses:
@@ -47752,6 +47873,7 @@ paths:
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: revert
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Revert a commit in the local repository
       description: Revert a commit in the local repository.
       responses:
@@ -47784,6 +47906,7 @@ paths:
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get the diff and log message for a commit
       description: Get the diff and log message for a commit. Default is the latest commit (HEAD).
       responses:
@@ -47828,6 +47951,7 @@ paths:
       x-speakeasy-group: versions.statuses
       x-speakeasy-name-override: get
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Get the status of the current working tree
       description: Get the status of the current working tree of the Git repository used for Cribl configuration. The response includes details about modified, staged, untracked, and conflicted files, as well as branch and remote tracking information.
       responses:
@@ -47853,6 +47977,7 @@ paths:
       x-speakeasy-group: versions.commits
       x-speakeasy-name-override: undo
       x-cribl-internal: false
+      x-cribl-availability: both
       summary: Discard uncommitted (staged) changes
       description: Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
       responses:

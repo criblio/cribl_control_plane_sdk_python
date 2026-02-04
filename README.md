@@ -299,7 +299,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 #### [Nodes.Summaries](docs/sdks/summaries/README.md)
 
-* [get](docs/sdks/summaries/README.md#get) - Get a summary of the Distributed deployment
+* [get](docs/sdks/summaries/README.md#get) - Get a summary of the Distributed deployment for a specific product
 
 ### [Packs](docs/sdks/packs/README.md)
 

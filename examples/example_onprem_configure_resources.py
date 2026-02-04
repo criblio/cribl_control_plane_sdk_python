@@ -25,7 +25,7 @@ from cribl_control_plane.models import (
     CompressionOptions2,
     CompressionLevelOptions,
     Pipeline,
-    RoutesRoute,
+    RouteConf,
     PipelineConf,
     ConfInput,
     PipelineFunctionEval,
@@ -99,7 +99,7 @@ pipeline = Pipeline(
 )
 
 # Route configuration: route data from the Source to the Pipeline and Destination
-route = RoutesRoute(
+route = RouteConf(
     final=False,
     id="my_route",
     name="my_route",

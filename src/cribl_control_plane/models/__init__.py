@@ -2548,6 +2548,10 @@ if TYPE_CHECKING:
         GetPipelinesByPackRequest,
         GetPipelinesByPackRequestTypedDict,
     )
+    from .getproductssummarybyproductop import (
+        GetProductsSummaryByProductRequest,
+        GetProductsSummaryByProductRequestTypedDict,
+    )
     from .getproductssummaryworkersbyproductop import (
         GetProductsSummaryWorkersByProductRequest,
         GetProductsSummaryWorkersByProductRequestTypedDict,
@@ -2574,7 +2578,6 @@ if TYPE_CHECKING:
         GetSavedJobByIDRequestTypedDict,
     )
     from .getsavedjobop import GetSavedJobRequest, GetSavedJobRequestTypedDict
-    from .getsummaryop import GetSummaryRequest, GetSummaryRequestTypedDict
     from .getversioncountop import (
         GetVersionCountRequest,
         GetVersionCountRequestTypedDict,
@@ -5985,7 +5988,6 @@ if TYPE_CHECKING:
         WorkersTypeSystemSettingsConf,
         WorkersTypeSystemSettingsConfTypedDict,
     )
-    from .workertypes import WorkerTypes
 
 __all__ = [
     "AISIEMEndpointPath",
@@ -8299,6 +8301,8 @@ __all__ = [
     "GetPipelinesByPackAndIDRequestTypedDict",
     "GetPipelinesByPackRequest",
     "GetPipelinesByPackRequestTypedDict",
+    "GetProductsSummaryByProductRequest",
+    "GetProductsSummaryByProductRequestTypedDict",
     "GetProductsSummaryWorkersByProductRequest",
     "GetProductsSummaryWorkersByProductRequestTypedDict",
     "GetProductsWorkersByProductAndIDRequest",
@@ -8315,8 +8319,6 @@ __all__ = [
     "GetSavedJobByIDRequestTypedDict",
     "GetSavedJobRequest",
     "GetSavedJobRequestTypedDict",
-    "GetSummaryRequest",
-    "GetSummaryRequestTypedDict",
     "GetVersionCountRequest",
     "GetVersionCountRequestTypedDict",
     "GetVersionDiffRequest",
@@ -11238,7 +11240,6 @@ __all__ = [
     "Value",
     "ValueTypedDict",
     "WhereToCapture",
-    "WorkerTypes",
     "WorkersTypeSystemSettingsConf",
     "WorkersTypeSystemSettingsConfTypedDict",
     "WriteAction",
@@ -13500,6 +13501,8 @@ _dynamic_imports: dict[str, str] = {
     "GetPipelinesByPackAndIDRequestTypedDict": ".getpipelinesbypackandidop",
     "GetPipelinesByPackRequest": ".getpipelinesbypackop",
     "GetPipelinesByPackRequestTypedDict": ".getpipelinesbypackop",
+    "GetProductsSummaryByProductRequest": ".getproductssummarybyproductop",
+    "GetProductsSummaryByProductRequestTypedDict": ".getproductssummarybyproductop",
     "GetProductsSummaryWorkersByProductRequest": ".getproductssummaryworkersbyproductop",
     "GetProductsSummaryWorkersByProductRequestTypedDict": ".getproductssummaryworkersbyproductop",
     "GetProductsWorkersByProductAndIDRequest": ".getproductsworkersbyproductandidop",
@@ -13516,8 +13519,6 @@ _dynamic_imports: dict[str, str] = {
     "GetSavedJobByIDRequestTypedDict": ".getsavedjobbyidop",
     "GetSavedJobRequest": ".getsavedjobop",
     "GetSavedJobRequestTypedDict": ".getsavedjobop",
-    "GetSummaryRequest": ".getsummaryop",
-    "GetSummaryRequestTypedDict": ".getsummaryop",
     "GetVersionCountRequest": ".getversioncountop",
     "GetVersionCountRequestTypedDict": ".getversioncountop",
     "GetVersionDiffRequest": ".getversiondiffop",
@@ -16498,7 +16499,6 @@ _dynamic_imports: dict[str, str] = {
     "UserAccessControlListTypedDict": ".useraccesscontrollist",
     "WorkersTypeSystemSettingsConf": ".workerstypesystemsettingsconf",
     "WorkersTypeSystemSettingsConfTypedDict": ".workerstypesystemsettingsconf",
-    "WorkerTypes": ".workertypes",
 }
 
 

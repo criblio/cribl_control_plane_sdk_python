@@ -12,51 +12,77 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class RouteConfTypedDict(TypedDict):
     final: bool
+    r"""Flag to control whether the event gets consumed by this Route (Final), or cloned into it"""
     id: str
+    r"""Route ID"""
     name: str
+    r"""Route name"""
     pipeline: str
+    r"""Pipeline to send the matching data to"""
     clones: NotRequired[List[Dict[str, str]]]
+    r"""Create clones with the following fields set and feed to Pipeline (original event continues down the Routes)"""
     context: NotRequired[str]
+    r"""Context for the route"""
     description: NotRequired[str]
+    r"""Optional description of this route"""
     disabled: NotRequired[bool]
+    r"""Disable this routing rule"""
     enable_output_expression: NotRequired[bool]
+    r"""Enable to use a JavaScript expression that evaluates to the name of the destination"""
     filter_: NotRequired[str]
+    r"""JavaScript expression to select data to route"""
     group_id: NotRequired[str]
+    r"""Optional group identifier"""
     output: NotRequired[str]
+    r"""Destination to send events to after they are processed by the Pipeline"""
     output_expression: NotRequired[str]
+    r"""JavaScript expression that will be evaluated as the name of the destination. Evaluation happens at Route construction time (not per event)"""
     target_context: NotRequired[TargetContext]
 
 
 class RouteConf(BaseModel):
     final: bool
+    r"""Flag to control whether the event gets consumed by this Route (Final), or cloned into it"""
 
     id: str
+    r"""Route ID"""
 
     name: str
+    r"""Route name"""
 
     pipeline: str
+    r"""Pipeline to send the matching data to"""
 
     clones: Optional[List[Dict[str, str]]] = None
+    r"""Create clones with the following fields set and feed to Pipeline (original event continues down the Routes)"""
 
     context: Optional[str] = None
+    r"""Context for the route"""
 
     description: Optional[str] = None
+    r"""Optional description of this route"""
 
     disabled: Optional[bool] = None
+    r"""Disable this routing rule"""
 
     enable_output_expression: Annotated[
         Optional[bool], pydantic.Field(alias="enableOutputExpression")
     ] = None
+    r"""Enable to use a JavaScript expression that evaluates to the name of the destination"""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
+    r"""JavaScript expression to select data to route"""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
+    r"""Optional group identifier"""
 
     output: Optional[str] = None
+    r"""Destination to send events to after they are processed by the Pipeline"""
 
     output_expression: Annotated[
         Optional[str], pydantic.Field(alias="outputExpression")
     ] = None
+    r"""JavaScript expression that will be evaluated as the name of the destination. Evaluation happens at Route construction time (not per event)"""
 
     target_context: Annotated[
         Optional[TargetContext], pydantic.Field(alias="targetContext")

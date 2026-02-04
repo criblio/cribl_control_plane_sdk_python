@@ -1,4 +1,4 @@
-# AdditionalPropertiesTypePipelineConfGroups
+# PipelineGroups
 
 
 ## Fields

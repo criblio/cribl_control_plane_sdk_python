@@ -1889,18 +1889,6 @@ if TYPE_CHECKING:
         CreateRoutesAppendByPackAndIDRequestTypedDict,
     )
     from .createsavedjobop import CreateSavedJobRequest, CreateSavedJobRequestTypedDict
-    from .createversioncommitop import (
-        CreateVersionCommitRequest,
-        CreateVersionCommitRequestTypedDict,
-    )
-    from .createversionrevertop import (
-        CreateVersionRevertRequest,
-        CreateVersionRevertRequestTypedDict,
-    )
-    from .createversionundoop import (
-        CreateVersionUndoRequest,
-        CreateVersionUndoRequestTypedDict,
-    )
     from .cribllakecollectorconf import (
         CriblLakeCollectorConf,
         CriblLakeCollectorConfTypedDict,
@@ -2598,10 +2586,6 @@ if TYPE_CHECKING:
     )
     from .getversionop import GetVersionRequest, GetVersionRequestTypedDict
     from .getversionshowop import GetVersionShowRequest, GetVersionShowRequestTypedDict
-    from .getversionstatusop import (
-        GetVersionStatusRequest,
-        GetVersionStatusRequestTypedDict,
-    )
     from .gitcommitparams import GitCommitParams, GitCommitParamsTypedDict
     from .gitcommitsummary import (
         Author,
@@ -7847,12 +7831,6 @@ __all__ = [
     "CreateRoutesAppendByPackAndIDRequestTypedDict",
     "CreateSavedJobRequest",
     "CreateSavedJobRequestTypedDict",
-    "CreateVersionCommitRequest",
-    "CreateVersionCommitRequestTypedDict",
-    "CreateVersionRevertRequest",
-    "CreateVersionRevertRequestTypedDict",
-    "CreateVersionUndoRequest",
-    "CreateVersionUndoRequestTypedDict",
     "CriblLakeCollectorConf",
     "CriblLakeCollectorConfTypedDict",
     "CriblLakeDataset",
@@ -8349,8 +8327,6 @@ __all__ = [
     "GetVersionRequestTypedDict",
     "GetVersionShowRequest",
     "GetVersionShowRequestTypedDict",
-    "GetVersionStatusRequest",
-    "GetVersionStatusRequestTypedDict",
     "GitCommitParams",
     "GitCommitParamsTypedDict",
     "GitCommitSummary",
@@ -13068,12 +13044,6 @@ _dynamic_imports: dict[str, str] = {
     "CreateRoutesAppendByPackAndIDRequestTypedDict": ".createroutesappendbypackandidop",
     "CreateSavedJobRequest": ".createsavedjobop",
     "CreateSavedJobRequestTypedDict": ".createsavedjobop",
-    "CreateVersionCommitRequest": ".createversioncommitop",
-    "CreateVersionCommitRequestTypedDict": ".createversioncommitop",
-    "CreateVersionRevertRequest": ".createversionrevertop",
-    "CreateVersionRevertRequestTypedDict": ".createversionrevertop",
-    "CreateVersionUndoRequest": ".createversionundoop",
-    "CreateVersionUndoRequestTypedDict": ".createversionundoop",
     "CriblLakeCollectorConf": ".cribllakecollectorconf",
     "CriblLakeCollectorConfTypedDict": ".cribllakecollectorconf",
     "CriblLakeDataset": ".cribllakedataset",
@@ -13558,8 +13528,6 @@ _dynamic_imports: dict[str, str] = {
     "GetVersionRequestTypedDict": ".getversionop",
     "GetVersionShowRequest": ".getversionshowop",
     "GetVersionShowRequestTypedDict": ".getversionshowop",
-    "GetVersionStatusRequest": ".getversionstatusop",
-    "GetVersionStatusRequestTypedDict": ".getversionstatusop",
     "GitCommitParams": ".gitcommitparams",
     "GitCommitParamsTypedDict": ".gitcommitparams",
     "Author": ".gitcommitsummary",

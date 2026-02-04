@@ -40,9 +40,9 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""Create a Lake Dataset
+        r"""Create a Lake Dataset (Cribl.Cloud only)
 
-        Create a new Lake Dataset in the specified Lake.
+        Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
 
         :param lake_id: The <code>id</code> of the Lake to create the Lake Dataset in.
         :param id:
@@ -194,9 +194,9 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""Create a Lake Dataset
+        r"""Create a Lake Dataset (Cribl.Cloud only)
 
-        Create a new Lake Dataset in the specified Lake.
+        Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
 
         :param lake_id: The <code>id</code> of the Lake to create the Lake Dataset in.
         :param id:
@@ -333,9 +333,9 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""List all Lake Datasets
+        r"""List all Lake Datasets (Cribl.Cloud only)
 
-        Get a list of all Lake Datasets in the specified Lake.
+        Get a list of all Lake Datasets in the specified Lake (Cribl.Cloud only).
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Datasets to list.
         :param storage_location_id: Filter datasets by storage location ID. Use <code>default</code> for default storage location.
@@ -443,9 +443,9 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""List all Lake Datasets
+        r"""List all Lake Datasets (Cribl.Cloud only)
 
-        Get a list of all Lake Datasets in the specified Lake.
+        Get a list of all Lake Datasets in the specified Lake (Cribl.Cloud only).
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Datasets to list.
         :param storage_location_id: Filter datasets by storage location ID. Use <code>default</code> for default storage location.
@@ -548,9 +548,9 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""Delete a Lake Dataset
+        r"""Delete a Lake Dataset (Cribl.Cloud only)
 
-        Delete the specified Lake Dataset in the specified Lake
+        Delete the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to delete.
         :param id: The <code>id</code> of the Lake Dataset to delete.
@@ -643,9 +643,9 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""Delete a Lake Dataset
+        r"""Delete a Lake Dataset (Cribl.Cloud only)
 
-        Delete the specified Lake Dataset in the specified Lake
+        Delete the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to delete.
         :param id: The <code>id</code> of the Lake Dataset to delete.
@@ -738,9 +738,9 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""Get a Lake Dataset
+        r"""Get a Lake Dataset (Cribl.Cloud only)
 
-        Get the specified Lake Dataset in the specified Lake.
+        Get the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to get.
         :param id: The <code>id</code> of the Lake Dataset to get.
@@ -833,9 +833,9 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""Get a Lake Dataset
+        r"""Get a Lake Dataset (Cribl.Cloud only)
 
-        Get the specified Lake Dataset in the specified Lake.
+        Get the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to get.
         :param id: The <code>id</code> of the Lake Dataset to get.
@@ -949,9 +949,9 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""Update a Lake Dataset
+        r"""Update a Lake Dataset (Cribl.Cloud only)
 
-        Update the specified Lake Dataset in the specified Lake.
+        Update the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         :param id_param: The <code>id</code> of the Lake Dataset to update.
@@ -1106,9 +1106,9 @@ class LakeDatasets(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""Update a Lake Dataset
+        r"""Update a Lake Dataset (Cribl.Cloud only)
 
-        Update the specified Lake Dataset in the specified Lake.
+        Update the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         :param id_param: The <code>id</code> of the Lake Dataset to update.

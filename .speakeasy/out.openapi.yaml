@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1770230641178-bbdc5eae
+  version: 4.17.0-alpha.1770234361875-23f559cd
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -35084,7 +35084,21 @@ components:
             groups:
               type: object
               additionalProperties:
-                $ref: "#/components/schemas/AdditionalPropertiesTypePipelineConfGroups"
+                type: object
+                required:
+                  - name
+                properties:
+                  name:
+                    type: string
+                    title: Group Name
+                  description:
+                    type: string
+                    title: Description
+                    description: Short description of this group
+                  disabled:
+                    type: boolean
+                    title: Disabled
+                    description: Whether this group is disabled
     CountedRoutes:
       type: object
       properties:
@@ -35095,84 +35109,30 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Routes"
-    RoutesRoute:
+    RouteComment:
       type: object
-      additionalProperties: true
-      required:
-        - pipeline
-        - name
       properties:
+        comment:
+          type: string
+          description: Optional, short description of this Route's purpose
+        groupId:
+          type: string
+          description: Optional group identifier
         id:
           type: string
-          title: Route ID
-        name:
-          type: string
-          title: Route name
-        disabled:
-          type: boolean
-          title: Disabled
-          description: Disable this routing rule
-        filter:
-          type: string
-          title: Filter
-          description: JavaScript expression to select data to route
-        pipeline:
-          type: string
-          title: Pipeline
-          description: Pipeline to send the matching data to
-        enableOutputExpression:
-          type: boolean
-          title: Enable expression
-          description: Enable to use a JavaScript expression that evaluates to the name of the Description below
-        output: {}
-        outputExpression: {}
-        description:
-          type: string
-          title: Description
-        final:
-          title: Final
-          description: Flag to control whether the event gets consumed by this Route (Final), or cloned into it
-          type: boolean
-    Routes:
-      type: object
-      additionalProperties: false
+          description: Unique identifier for the comment
+        index:
+          type: number
+          description: Position index of the comment
       required:
-        - routes
-      properties:
-        id:
-          type: string
-          title: ID
-          description: Routes ID
-        routes:
-          type: array
-          title: Route
-          description: Pipeline routing rules
-          items:
-            $ref: "#/components/schemas/RoutesRoute"
-        groups:
-          type: object
-          additionalProperties:
-            $ref: "#/components/schemas/AdditionalPropertiesTypePipelineConfGroups"
-        comments:
-          type: array
-          title: Comments
-          description: Comments
-          items:
-            type: object
-            properties:
-              comment:
-                type: string
-                title: Comment
-                description: Optional, short description of this Route's purpose
-            additionalProperties: true
+        - comment
+        - id
+        - index
     RouteCloneConf:
       type: object
-      title: Fields
-      description: Key value pairs to set/overwrite in the clone
-      properties: {}
       additionalProperties:
         type: string
-        title: Clone fields
+      description: Key value pairs to set/overwrite in the clone
     TargetContext:
       type: string
       enum:
@@ -35186,37 +35146,88 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/RouteCloneConf"
+          description: Create clones with the following fields set and feed to Pipeline (original event continues down the Routes)
         context:
           type: string
+          description: Context for the route
         description:
           type: string
+          description: Optional description of this route
         disabled:
           type: boolean
+          description: Disable this routing rule
         enableOutputExpression:
           type: boolean
+          description: Enable to use a JavaScript expression that evaluates to the name of the destination
         filter:
           type: string
+          description: JavaScript expression to select data to route
         final:
           type: boolean
+          description: Flag to control whether the event gets consumed by this Route (Final), or cloned into it
         groupId:
           type: string
+          description: Optional group identifier
         id:
           type: string
+          description: Route ID
         name:
           type: string
+          description: Route name
         output:
           type: string
+          description: Destination to send events to after they are processed by the Pipeline
         outputExpression:
           type: string
+          description: JavaScript expression that will be evaluated as the name of the destination. Evaluation happens at Route construction time (not per event)
         pipeline:
           type: string
+          description: Pipeline to send the matching data to
         targetContext:
           $ref: "#/components/schemas/TargetContext"
+          description: Identifies the context we want to route events to
       required:
         - final
         - id
         - name
         - pipeline
+    Routes:
+      type: object
+      properties:
+        comments:
+          type: array
+          items:
+            $ref: "#/components/schemas/RouteComment"
+          description: Comments
+        groups:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              description:
+                type: string
+                description: Short description of this group.
+              index:
+                type: number
+                description: Index of the group
+              name:
+                type: string
+                description: Group name.
+            required:
+              - index
+              - name
+          description: Map of route groups
+        id:
+          type: string
+          description: Routes ID
+        routes:
+          type: array
+          items:
+            $ref: "#/components/schemas/RouteConf"
+          description: Pipeline routing rules
+      required:
+        - id
+        - routes
     RouteDefinitions:
       type: array
       items:
@@ -38538,22 +38549,6 @@ components:
         - type: object
           additionalProperties:
             type: number
-    AdditionalPropertiesTypePipelineConfGroups:
-      type: object
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          title: Group Name
-        description:
-          type: string
-          title: Description
-          description: Short description of this group
-        disabled:
-          type: boolean
-          title: Disabled
-          description: Whether this group is disabled
     EstimatedIngestRateOptionsConfigGroup:
       type: integer
       enum:

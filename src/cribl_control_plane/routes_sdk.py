@@ -220,10 +220,10 @@ class RoutesSDK(BaseSDK):
         Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
 
         :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
-        :param id: Routes ID
-        :param routes: Pipeline routing rules
-        :param comments: Comments
-        :param groups: Map of route groups
+        :param id: Routes ID.
+        :param routes: Pipeline routing rules.
+        :param comments: Comments.
+        :param groups: Map of route groups.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -339,10 +339,10 @@ class RoutesSDK(BaseSDK):
         Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
 
         :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
-        :param id: Routes ID
-        :param routes: Pipeline routing rules
-        :param comments: Comments
-        :param groups: Map of route groups
+        :param id: Routes ID.
+        :param routes: Pipeline routing rules.
+        :param comments: Comments.
+        :param groups: Map of route groups.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

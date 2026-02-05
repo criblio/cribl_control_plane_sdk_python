@@ -31,7 +31,7 @@ class Captures(BaseSDK):
 
         :param duration: Amount of time to keep capture open, in seconds.
         :param filter_: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators.
-        :param level: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination
+        :param level: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination.
         :param max_events: Maximum number of events to capture.
         :param step_duration: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer.
         :param worker_id: Unique ID of the Worker.
@@ -153,7 +153,7 @@ class Captures(BaseSDK):
 
         :param duration: Amount of time to keep capture open, in seconds.
         :param filter_: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators.
-        :param level: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination
+        :param level: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination.
         :param max_events: Maximum number of events to capture.
         :param step_duration: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer.
         :param worker_id: Unique ID of the Worker.

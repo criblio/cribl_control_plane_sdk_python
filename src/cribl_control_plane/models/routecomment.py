@@ -10,27 +10,27 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class RouteCommentTypedDict(TypedDict):
     comment: str
-    r"""Optional, short description of this Route's purpose"""
+    r"""Description of this Route's purpose."""
     id: str
-    r"""Unique identifier for the comment"""
+    r"""Unique identifier for the comment."""
     index: float
-    r"""Position index of the comment"""
+    r"""Position index of the comment."""
     group_id: NotRequired[str]
-    r"""Optional group identifier"""
+    r"""Optional group identifier."""
 
 
 class RouteComment(BaseModel):
     comment: str
-    r"""Optional, short description of this Route's purpose"""
+    r"""Description of this Route's purpose."""
 
     id: str
-    r"""Unique identifier for the comment"""
+    r"""Unique identifier for the comment."""
 
     index: float
-    r"""Position index of the comment"""
+    r"""Position index of the comment."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Optional group identifier"""
+    r"""Optional group identifier."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

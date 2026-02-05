@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1770234361875-23f559cd
+  version: 4.17.0-alpha.1770282368056-bcecbac3
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -35114,16 +35114,16 @@ components:
       properties:
         comment:
           type: string
-          description: Optional, short description of this Route's purpose
+          description: Description of this Route's purpose.
         groupId:
           type: string
-          description: Optional group identifier
+          description: Optional group identifier.
         id:
           type: string
-          description: Unique identifier for the comment
+          description: Unique identifier for the comment.
         index:
           type: number
-          description: Position index of the comment
+          description: Position index of the comment.
       required:
         - comment
         - id
@@ -35132,7 +35132,7 @@ components:
       type: object
       additionalProperties:
         type: string
-      description: Key value pairs to set/overwrite in the clone
+      description: Key value pairs to set/overwrite in the clone.
     TargetContext:
       type: string
       enum:
@@ -35146,46 +35146,46 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/RouteCloneConf"
-          description: Create clones with the following fields set and feed to Pipeline (original event continues down the Routes)
+          description: Create clones with the following fields set and feed to Pipeline (original event continues down the Routes).
         context:
           type: string
-          description: Context for the route
+          description: Context for the route.
         description:
           type: string
-          description: Optional description of this route
+          description: Description of this route.
         disabled:
           type: boolean
-          description: Disable this routing rule
+          description: Disable this routing rule.
         enableOutputExpression:
           type: boolean
-          description: Enable to use a JavaScript expression that evaluates to the name of the destination
+          description: Enable to use a JavaScript expression that evaluates to the name of the destination.
         filter:
           type: string
-          description: JavaScript expression to select data to route
+          description: JavaScript expression to select data to route.
         final:
           type: boolean
-          description: Flag to control whether the event gets consumed by this Route (Final), or cloned into it
+          description: Flag to control whether the event gets consumed by this Route (Final), or cloned into it.
         groupId:
           type: string
-          description: Optional group identifier
+          description: Route group identifier.
         id:
           type: string
-          description: Route ID
+          description: Route ID.
         name:
           type: string
-          description: Route name
+          description: Route name.
         output:
           type: string
-          description: Destination to send events to after they are processed by the Pipeline
+          description: Destination to send events to after they are processed by the Pipeline.
         outputExpression:
           type: string
-          description: JavaScript expression that will be evaluated as the name of the destination. Evaluation happens at Route construction time (not per event)
+          description: JavaScript expression that will be evaluated as the name of the destination. Evaluation happens at Route construction time (not per event).
         pipeline:
           type: string
-          description: Pipeline to send the matching data to
+          description: Pipeline to send the matching data to.
         targetContext:
           $ref: "#/components/schemas/TargetContext"
-          description: Identifies the context we want to route events to
+          description: Identifies the context we want to route events to.
       required:
         - final
         - id
@@ -35198,7 +35198,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/RouteComment"
-          description: Comments
+          description: Comments.
         groups:
           type: object
           additionalProperties:
@@ -35209,22 +35209,22 @@ components:
                 description: Short description of this group.
               index:
                 type: number
-                description: Index of the group
+                description: Index of the group.
               name:
                 type: string
                 description: Group name.
             required:
               - index
               - name
-          description: Map of route groups
+          description: Map of route groups.
         id:
           type: string
-          description: Routes ID
+          description: Routes ID.
         routes:
           type: array
           items:
             $ref: "#/components/schemas/RouteConf"
-          description: Pipeline routing rules
+          description: Pipeline routing rules.
       required:
         - id
         - routes
@@ -35864,7 +35864,7 @@ components:
         - 1
         - 2
         - 3
-      description: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination
+      description: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination.
       x-speakeasy-enum-descriptions:
         - 1. Before pre-processing Pipeline
         - 2. Before the Routes
@@ -36957,7 +36957,7 @@ components:
         restart:
           type: boolean
           const: true
-          description: Restart operation initiated
+          description: Restart operation initiated.
       required:
         - restart
     CountedBranchInfo:

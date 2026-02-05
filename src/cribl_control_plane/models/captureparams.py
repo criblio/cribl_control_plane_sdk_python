@@ -16,7 +16,7 @@ class CaptureParamsTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators."""
     level: CaptureLevel
-    r"""Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination"""
+    r"""Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination."""
     max_events: int
     r"""Maximum number of events to capture."""
     step_duration: NotRequired[int]
@@ -35,7 +35,7 @@ class CaptureParams(BaseModel):
     r"""JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators."""
 
     level: CaptureLevel
-    r"""Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination"""
+    r"""Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination."""
 
     max_events: Annotated[int, pydantic.Field(alias="maxEvents")]
     r"""Maximum number of events to capture."""

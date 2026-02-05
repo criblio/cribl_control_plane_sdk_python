@@ -226,10 +226,10 @@ class PacksRoutes(BaseSDK):
 
         :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
         :param pack: The <code>id</code> of the Pack to update.
-        :param id: Routes ID
-        :param routes: Pipeline routing rules
-        :param comments: Comments
-        :param groups: Map of route groups
+        :param id: Routes ID.
+        :param routes: Pipeline routing rules.
+        :param comments: Comments.
+        :param groups: Map of route groups.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -348,10 +348,10 @@ class PacksRoutes(BaseSDK):
 
         :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
         :param pack: The <code>id</code> of the Pack to update.
-        :param id: Routes ID
-        :param routes: Pipeline routing rules
-        :param comments: Comments
-        :param groups: Map of route groups
+        :param id: Routes ID.
+        :param routes: Pipeline routing rules.
+        :param comments: Comments.
+        :param groups: Map of route groups.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

@@ -11,7 +11,7 @@ from typing_extensions import NotRequired, TypedDict
 
 class RoutesGroupsTypedDict(TypedDict):
     index: float
-    r"""Index of the group"""
+    r"""Index of the group."""
     name: str
     r"""Group name."""
     description: NotRequired[str]
@@ -20,7 +20,7 @@ class RoutesGroupsTypedDict(TypedDict):
 
 class RoutesGroups(BaseModel):
     index: float
-    r"""Index of the group"""
+    r"""Index of the group."""
 
     name: str
     r"""Group name."""
@@ -47,27 +47,27 @@ class RoutesGroups(BaseModel):
 
 class RoutesTypedDict(TypedDict):
     id: str
-    r"""Routes ID"""
+    r"""Routes ID."""
     routes: List[RouteConfTypedDict]
-    r"""Pipeline routing rules"""
+    r"""Pipeline routing rules."""
     comments: NotRequired[List[RouteCommentTypedDict]]
-    r"""Comments"""
+    r"""Comments."""
     groups: NotRequired[Dict[str, RoutesGroupsTypedDict]]
-    r"""Map of route groups"""
+    r"""Map of route groups."""
 
 
 class Routes(BaseModel):
     id: str
-    r"""Routes ID"""
+    r"""Routes ID."""
 
     routes: List[RouteConf]
-    r"""Pipeline routing rules"""
+    r"""Pipeline routing rules."""
 
     comments: Optional[List[RouteComment]] = None
-    r"""Comments"""
+    r"""Comments."""
 
     groups: Optional[Dict[str, RoutesGroups]] = None
-    r"""Map of route groups"""
+    r"""Map of route groups."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

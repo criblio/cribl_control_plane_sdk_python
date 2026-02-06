@@ -84,29 +84,59 @@ jobs:
         # pyright will automatically use the venv configuration from pyproject.toml
         pyright examples/example_*.py
 
-  # auto_merge:
-  #   name: Auto-merge Speakeasy PR (dev/stage only)
-  #   needs: examples_build
-  #   runs-on: ubuntu-latest
-  #   if: >-
-  #     needs.examples_build.outputs.is_speakeasy_pr == 'true' &&
-  #     (needs.examples_build.outputs.target_branch == 'dev' || needs.examples_build.outputs.target_branch == 'stage')
-  #   permissions:
-  #     contents: write
-  #     pull-requests: write
-  #   steps:
-  #     - name: Auto-merge PR
-  #       env:
-  #         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         PR_NUMBER: ${{ github.event.pull_request.number }}
-  #         TARGET_BRANCH: ${{ needs.examples_build.outputs.target_branch }}
-  #       run: |
-  #         echo "Auto-merging Speakeasy PR #${PR_NUMBER} targeting ${TARGET_BRANCH}..."
-  #         
-  #         gh pr merge "${PR_NUMBER}" \
-  #           --repo "${{ github.repository }}" \
-  #           --squash \
-  #           --delete-branch \
-  #           --auto
-  #         
-  #         echo "✅ Auto-merge enabled for PR #${PR_NUMBER}"
+  auto_merge:
+    name: Auto-merge Speakeasy PR (dev/stage only)
+    needs: examples_build
+    runs-on: ubuntu-latest
+    if: >-
+      needs.examples_build.outputs.is_speakeasy_pr == 'true' &&
+      (needs.examples_build.outputs.target_branch == 'dev' || needs.examples_build.outputs.target_branch == 'stage')
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - name: Auto-merge PR and trigger publish
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          TARGET_BRANCH: ${{ needs.examples_build.outputs.target_branch }}
+        run: |
+          echo "Enabling auto-merge for Speakeasy PR #${PR_NUMBER} targeting ${TARGET_BRANCH}..."
+          
+          gh pr merge "${PR_NUMBER}" \
+            --repo "${{ github.repository }}" \
+            --squash \
+            --delete-branch \
+            --auto
+          
+          echo "✅ Auto-merge enabled, waiting for PR to be merged..."
+          
+          # Poll until PR is merged (max 10 minutes)
+          for i in {1..60}; do
+            STATE=$(gh pr view "${PR_NUMBER}" --repo "${{ github.repository }}" --json state --jq '.state')
+            echo "PR state: ${STATE} (attempt ${i}/60)"
+            
+            if [ "$STATE" = "MERGED" ]; then
+              echo "✅ PR #${PR_NUMBER} has been merged!"
+              
+              # Trigger sdk_publish workflow on the target branch
+              echo "Triggering sdk_publish.yaml on ${TARGET_BRANCH} branch..."
+              gh workflow run sdk_publish.yaml \
+                --repo "${{ github.repository }}" \
+                --ref "${TARGET_BRANCH}"
+              
+              echo "✅ sdk_publish.yaml triggered successfully"
+              exit 0
+            fi
+            
+            if [ "$STATE" = "CLOSED" ]; then
+              echo "❌ PR #${PR_NUMBER} was closed without merging"
+              exit 1
+            fi
+            
+            sleep 10
+          done
+          
+          echo "⏱️ Timeout waiting for PR to merge (10 minutes)"
+          exit 1

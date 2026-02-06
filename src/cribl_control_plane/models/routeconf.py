@@ -12,51 +12,77 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class RouteConfTypedDict(TypedDict):
     final: bool
+    r"""If <code>true</code> the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events."""
     id: str
+    r"""Unique identifier for the Route."""
     name: str
+    r"""Name of the Route."""
     pipeline: str
+    r"""Pipeline that the Route sends matching events to."""
     clones: NotRequired[List[Dict[str, str]]]
+    r"""Array of clone configurations, each with a key-value pair to set or overwrite in cloned events. Original events continue to the next Route."""
     context: NotRequired[str]
+    r"""Context for the Route: <code>group</code> (Worker Group or Edge Fleet) or <code>pack</code>."""
     description: NotRequired[str]
+    r"""Brief description of the Route."""
     disabled: NotRequired[bool]
+    r"""If <code>true</code>, disable the Route. Otherwise, <code>false</code>."""
     enable_output_expression: NotRequired[bool]
+    r"""If <code>true</code>, use the <code>outputExpression</code> for dynamic Destination selection. Otherwise, <code>false</code>."""
     filter_: NotRequired[str]
+    r"""JavaScript expression to select events for routing."""
     group_id: NotRequired[str]
+    r"""Unique identifier for the Route Group that the Route is associated with."""
     output: NotRequired[str]
+    r"""Destination that the Route sends matching events to after the Pipeline processes the events."""
     output_expression: NotRequired[str]
+    r"""JavaScript expression to evaluate for dynamic Destination selection. Evaluation occurs when the Route is constructed, not for each event."""
     target_context: NotRequired[TargetContext]
 
 
 class RouteConf(BaseModel):
     final: bool
+    r"""If <code>true</code> the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events."""
 
     id: str
+    r"""Unique identifier for the Route."""
 
     name: str
+    r"""Name of the Route."""
 
     pipeline: str
+    r"""Pipeline that the Route sends matching events to."""
 
     clones: Optional[List[Dict[str, str]]] = None
+    r"""Array of clone configurations, each with a key-value pair to set or overwrite in cloned events. Original events continue to the next Route."""
 
     context: Optional[str] = None
+    r"""Context for the Route: <code>group</code> (Worker Group or Edge Fleet) or <code>pack</code>."""
 
     description: Optional[str] = None
+    r"""Brief description of the Route."""
 
     disabled: Optional[bool] = None
+    r"""If <code>true</code>, disable the Route. Otherwise, <code>false</code>."""
 
     enable_output_expression: Annotated[
         Optional[bool], pydantic.Field(alias="enableOutputExpression")
     ] = None
+    r"""If <code>true</code>, use the <code>outputExpression</code> for dynamic Destination selection. Otherwise, <code>false</code>."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
+    r"""JavaScript expression to select events for routing."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
+    r"""Unique identifier for the Route Group that the Route is associated with."""
 
     output: Optional[str] = None
+    r"""Destination that the Route sends matching events to after the Pipeline processes the events."""
 
     output_expression: Annotated[
         Optional[str], pydantic.Field(alias="outputExpression")
     ] = None
+    r"""JavaScript expression to evaluate for dynamic Destination selection. Evaluation occurs when the Route is constructed, not for each event."""
 
     target_context: Annotated[
         Optional[TargetContext], pydantic.Field(alias="targetContext")

@@ -200,16 +200,15 @@ class RoutesSDK(BaseSDK):
         self,
         *,
         id_param: str,
-        routes: Union[List[models.RoutesRoute], List[models.RoutesRouteTypedDict]],
-        id: Optional[str] = None,
+        id: str,
+        routes: Union[List[models.RouteConf], List[models.RouteConfTypedDict]],
+        comments: Optional[
+            Union[List[models.RouteComment], List[models.RouteCommentTypedDict]]
+        ] = None,
         groups: Optional[
             Union[
-                Dict[str, models.AdditionalPropertiesTypePipelineConfGroups],
-                Dict[str, models.AdditionalPropertiesTypePipelineConfGroupsTypedDict],
+                Dict[str, models.RoutesGroups], Dict[str, models.RoutesGroupsTypedDict]
             ]
-        ] = None,
-        comments: Optional[
-            Union[List[models.Comment], List[models.CommentTypedDict]]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -221,10 +220,10 @@ class RoutesSDK(BaseSDK):
         Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
 
         :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
-        :param routes: Pipeline routing rules
-        :param id: Routes ID
-        :param groups:
-        :param comments: Comments
+        :param id: Unique identifier for the Routing table. The supported value is <code>default</code>.
+        :param routes: Array of Route configurations that define how events are processed and routed.
+        :param comments: Array of user-provided comments that describe or annotate Routes.
+        :param groups: Information about the Route Groups that the Route is associated with.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -243,17 +242,14 @@ class RoutesSDK(BaseSDK):
         request = models.UpdateRoutesByIDRequest(
             id_param=id_param,
             routes=models.Routes(
-                id=id,
-                routes=utils.get_pydantic_model(routes, List[models.RoutesRoute]),
-                groups=utils.get_pydantic_model(
-                    groups,
-                    Optional[
-                        Dict[str, models.AdditionalPropertiesTypePipelineConfGroups]
-                    ],
-                ),
                 comments=utils.get_pydantic_model(
-                    comments, Optional[List[models.Comment]]
+                    comments, Optional[List[models.RouteComment]]
                 ),
+                groups=utils.get_pydantic_model(
+                    groups, Optional[Dict[str, models.RoutesGroups]]
+                ),
+                id=id,
+                routes=utils.get_pydantic_model(routes, List[models.RouteConf]),
             ),
         )
 
@@ -323,16 +319,15 @@ class RoutesSDK(BaseSDK):
         self,
         *,
         id_param: str,
-        routes: Union[List[models.RoutesRoute], List[models.RoutesRouteTypedDict]],
-        id: Optional[str] = None,
+        id: str,
+        routes: Union[List[models.RouteConf], List[models.RouteConfTypedDict]],
+        comments: Optional[
+            Union[List[models.RouteComment], List[models.RouteCommentTypedDict]]
+        ] = None,
         groups: Optional[
             Union[
-                Dict[str, models.AdditionalPropertiesTypePipelineConfGroups],
-                Dict[str, models.AdditionalPropertiesTypePipelineConfGroupsTypedDict],
+                Dict[str, models.RoutesGroups], Dict[str, models.RoutesGroupsTypedDict]
             ]
-        ] = None,
-        comments: Optional[
-            Union[List[models.Comment], List[models.CommentTypedDict]]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -344,10 +339,10 @@ class RoutesSDK(BaseSDK):
         Update a Route in the specified Routing table.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
 
         :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
-        :param routes: Pipeline routing rules
-        :param id: Routes ID
-        :param groups:
-        :param comments: Comments
+        :param id: Unique identifier for the Routing table. The supported value is <code>default</code>.
+        :param routes: Array of Route configurations that define how events are processed and routed.
+        :param comments: Array of user-provided comments that describe or annotate Routes.
+        :param groups: Information about the Route Groups that the Route is associated with.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -366,17 +361,14 @@ class RoutesSDK(BaseSDK):
         request = models.UpdateRoutesByIDRequest(
             id_param=id_param,
             routes=models.Routes(
-                id=id,
-                routes=utils.get_pydantic_model(routes, List[models.RoutesRoute]),
-                groups=utils.get_pydantic_model(
-                    groups,
-                    Optional[
-                        Dict[str, models.AdditionalPropertiesTypePipelineConfGroups]
-                    ],
-                ),
                 comments=utils.get_pydantic_model(
-                    comments, Optional[List[models.Comment]]
+                    comments, Optional[List[models.RouteComment]]
                 ),
+                groups=utils.get_pydantic_model(
+                    groups, Optional[Dict[str, models.RoutesGroups]]
+                ),
+                id=id,
+                routes=utils.get_pydantic_model(routes, List[models.RouteConf]),
             ),
         )
 

@@ -73,30 +73,42 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", routes=[
-        models.RoutesRoute(
-            id="default",
-            name="my-route",
-            disabled=True,
-            filter_="source == \"access.log\"",
-            pipeline="main",
-            enable_output_expression=False,
-            output="<value>",
-            output_expression="<value>",
-            description="Route access logs to main pipeline",
-            final=True,
-        ),
-    ], id="default", groups={
-        "key": {
-            "name": "<value>",
-            "description": "ridge impassioned amount happily",
-            "disabled": False,
+    res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="default", routes=[
+        {
+            "clones": [
+                {
+                    "key": "<value>",
+                    "key1": "<value>",
+                },
+            ],
+            "context": "<value>",
+            "description": "Route access logs to main pipeline",
+            "disabled": True,
+            "enable_output_expression": False,
+            "filter_": "source == \"access.log\"",
+            "final": True,
+            "group_id": "<id>",
+            "id": "default",
+            "name": "my-route",
+            "output": "<value>",
+            "output_expression": "<value>",
+            "pipeline": "main",
+            "target_context": models.TargetContext.GROUP,
         },
-    }, comments=[
-        models.Comment(
-            comment="New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
-        ),
-    ])
+    ], comments=[
+        {
+            "comment": "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
+            "group_id": "<id>",
+            "id": "<id>",
+            "index": 4999.72,
+        },
+    ], groups={
+        "key": {
+            "description": "ridge impassioned amount happily",
+            "index": 8485.39,
+            "name": "<value>",
+        },
+    })
 
     # Handle response
     print(res)
@@ -105,15 +117,15 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                                                  | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `id_param`                                                                                                                 | *str*                                                                                                                      | :heavy_check_mark:                                                                                                         | The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.   |
-| `pack`                                                                                                                     | *str*                                                                                                                      | :heavy_check_mark:                                                                                                         | The <code>id</code> of the Pack to update.                                                                                 |
-| `routes`                                                                                                                   | List[[models.RoutesRoute](../../models/routesroute.md)]                                                                    | :heavy_check_mark:                                                                                                         | Pipeline routing rules                                                                                                     |
-| `id`                                                                                                                       | *Optional[str]*                                                                                                            | :heavy_minus_sign:                                                                                                         | Routes ID                                                                                                                  |
-| `groups`                                                                                                                   | Dict[str, [models.AdditionalPropertiesTypePipelineConfGroups](../../models/additionalpropertiestypepipelineconfgroups.md)] | :heavy_minus_sign:                                                                                                         | N/A                                                                                                                        |
-| `comments`                                                                                                                 | List[[models.Comment](../../models/comment.md)]                                                                            | :heavy_minus_sign:                                                                                                         | Comments                                                                                                                   |
-| `retries`                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                           | :heavy_minus_sign:                                                                                                         | Configuration to override the default retry behavior of the client.                                                        |
+| Parameter                                                                                                                | Type                                                                                                                     | Required                                                                                                                 | Description                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `id_param`                                                                                                               | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>. |
+| `pack`                                                                                                                   | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | The <code>id</code> of the Pack to update.                                                                               |
+| `id`                                                                                                                     | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | Unique identifier for the Routing table. The supported value is <code>default</code>.                                    |
+| `routes`                                                                                                                 | List[[models.RouteConf](../../models/routeconf.md)]                                                                      | :heavy_check_mark:                                                                                                       | Array of Route configurations that define how events are processed and routed.                                           |
+| `comments`                                                                                                               | List[[models.RouteComment](../../models/routecomment.md)]                                                                | :heavy_minus_sign:                                                                                                       | Array of user-provided comments that describe or annotate Routes.                                                        |
+| `groups`                                                                                                                 | Dict[str, [models.RoutesGroups](../../models/routesgroups.md)]                                                           | :heavy_minus_sign:                                                                                                       | Information about the Route Groups that the Route is associated with.                                                    |
+| `retries`                                                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                         | :heavy_minus_sign:                                                                                                       | Configuration to override the default retry behavior of the client.                                                      |
 
 ### Response
 

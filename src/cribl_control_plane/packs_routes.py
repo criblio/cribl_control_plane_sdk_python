@@ -205,16 +205,15 @@ class PacksRoutes(BaseSDK):
         *,
         id_param: str,
         pack: str,
-        routes: Union[List[models.RoutesRoute], List[models.RoutesRouteTypedDict]],
-        id: Optional[str] = None,
+        id: str,
+        routes: Union[List[models.RouteConf], List[models.RouteConfTypedDict]],
+        comments: Optional[
+            Union[List[models.RouteComment], List[models.RouteCommentTypedDict]]
+        ] = None,
         groups: Optional[
             Union[
-                Dict[str, models.AdditionalPropertiesTypePipelineConfGroups],
-                Dict[str, models.AdditionalPropertiesTypePipelineConfGroupsTypedDict],
+                Dict[str, models.RoutesGroups], Dict[str, models.RoutesGroupsTypedDict]
             ]
-        ] = None,
-        comments: Optional[
-            Union[List[models.Comment], List[models.CommentTypedDict]]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -227,10 +226,10 @@ class PacksRoutes(BaseSDK):
 
         :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
         :param pack: The <code>id</code> of the Pack to update.
-        :param routes: Pipeline routing rules
-        :param id: Routes ID
-        :param groups:
-        :param comments: Comments
+        :param id: Unique identifier for the Routing table. The supported value is <code>default</code>.
+        :param routes: Array of Route configurations that define how events are processed and routed.
+        :param comments: Array of user-provided comments that describe or annotate Routes.
+        :param groups: Information about the Route Groups that the Route is associated with.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -250,17 +249,14 @@ class PacksRoutes(BaseSDK):
             id_param=id_param,
             pack=pack,
             routes=models.Routes(
-                id=id,
-                routes=utils.get_pydantic_model(routes, List[models.RoutesRoute]),
-                groups=utils.get_pydantic_model(
-                    groups,
-                    Optional[
-                        Dict[str, models.AdditionalPropertiesTypePipelineConfGroups]
-                    ],
-                ),
                 comments=utils.get_pydantic_model(
-                    comments, Optional[List[models.Comment]]
+                    comments, Optional[List[models.RouteComment]]
                 ),
+                groups=utils.get_pydantic_model(
+                    groups, Optional[Dict[str, models.RoutesGroups]]
+                ),
+                id=id,
+                routes=utils.get_pydantic_model(routes, List[models.RouteConf]),
             ),
         )
 
@@ -331,16 +327,15 @@ class PacksRoutes(BaseSDK):
         *,
         id_param: str,
         pack: str,
-        routes: Union[List[models.RoutesRoute], List[models.RoutesRouteTypedDict]],
-        id: Optional[str] = None,
+        id: str,
+        routes: Union[List[models.RouteConf], List[models.RouteConfTypedDict]],
+        comments: Optional[
+            Union[List[models.RouteComment], List[models.RouteCommentTypedDict]]
+        ] = None,
         groups: Optional[
             Union[
-                Dict[str, models.AdditionalPropertiesTypePipelineConfGroups],
-                Dict[str, models.AdditionalPropertiesTypePipelineConfGroupsTypedDict],
+                Dict[str, models.RoutesGroups], Dict[str, models.RoutesGroupsTypedDict]
             ]
-        ] = None,
-        comments: Optional[
-            Union[List[models.Comment], List[models.CommentTypedDict]]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -353,10 +348,10 @@ class PacksRoutes(BaseSDK):
 
         :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
         :param pack: The <code>id</code> of the Pack to update.
-        :param routes: Pipeline routing rules
-        :param id: Routes ID
-        :param groups:
-        :param comments: Comments
+        :param id: Unique identifier for the Routing table. The supported value is <code>default</code>.
+        :param routes: Array of Route configurations that define how events are processed and routed.
+        :param comments: Array of user-provided comments that describe or annotate Routes.
+        :param groups: Information about the Route Groups that the Route is associated with.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -376,17 +371,14 @@ class PacksRoutes(BaseSDK):
             id_param=id_param,
             pack=pack,
             routes=models.Routes(
-                id=id,
-                routes=utils.get_pydantic_model(routes, List[models.RoutesRoute]),
-                groups=utils.get_pydantic_model(
-                    groups,
-                    Optional[
-                        Dict[str, models.AdditionalPropertiesTypePipelineConfGroups]
-                    ],
-                ),
                 comments=utils.get_pydantic_model(
-                    comments, Optional[List[models.Comment]]
+                    comments, Optional[List[models.RouteComment]]
                 ),
+                groups=utils.get_pydantic_model(
+                    groups, Optional[Dict[str, models.RoutesGroups]]
+                ),
+                id=id,
+                routes=utils.get_pydantic_model(routes, List[models.RouteConf]),
             ),
         )
 

@@ -13,10 +13,6 @@ if TYPE_CHECKING:
         AdditionalPropertiesTypeJobInfoStats,
         AdditionalPropertiesTypeJobInfoStatsTypedDict,
     )
-    from .additionalpropertiestypepipelineconfgroups import (
-        AdditionalPropertiesTypePipelineConfGroups,
-        AdditionalPropertiesTypePipelineConfGroupsTypedDict,
-    )
     from .apitypesystemsettingsconf import (
         APITypeSystemSettingsConf,
         APITypeSystemSettingsConfTypedDict,
@@ -2028,11 +2024,11 @@ if TYPE_CHECKING:
     from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
     from .distributedsummary import (
         DistributedSummary,
+        DistributedSummaryGroups,
+        DistributedSummaryGroupsTypedDict,
         DistributedSummaryTypedDict,
         DistributedSummaryWorkers,
         DistributedSummaryWorkersTypedDict,
-        Groups,
-        GroupsTypedDict,
     )
     from .estimatedingestrateoptionsconfiggroup import (
         EstimatedIngestRateOptionsConfigGroup,
@@ -4185,16 +4181,16 @@ if TYPE_CHECKING:
         PiiSettingsUnionTypedDict,
     )
     from .pipeline import (
+        ConfInput,
+        ConfInputTypedDict,
         Pipeline,
         PipelineConf,
         PipelineConfTypedDict,
-        PipelineTypedDict,
-    )
-    from .pipeline_input import (
-        ConfInput,
-        ConfInputTypedDict,
+        PipelineGroups,
+        PipelineGroupsTypedDict,
         PipelineInput,
         PipelineInputTypedDict,
+        PipelineTypedDict,
     )
     from .pipelinefunctionaggregatemetrics import (
         Aggregation,
@@ -5631,9 +5627,9 @@ if TYPE_CHECKING:
         RollbackSettingsUnion,
         RollbackSettingsUnionTypedDict,
     )
+    from .routecomment import RouteComment, RouteCommentTypedDict
     from .routeconf import RouteConf, RouteConfTypedDict
-    from .routes import Comment, CommentTypedDict, Routes, RoutesTypedDict
-    from .routesroute import RoutesRoute, RoutesRouteTypedDict
+    from .routes import Routes, RoutesGroups, RoutesGroupsTypedDict, RoutesTypedDict
     from .runnablejob import RunnableJob, RunnableJobTypedDict
     from .runnablejobcollection import (
         CaptureSettings,
@@ -6007,8 +6003,6 @@ __all__ = [
     "AdditionalFieldTypedDict",
     "AdditionalPropertiesTypeJobInfoStats",
     "AdditionalPropertiesTypeJobInfoStatsTypedDict",
-    "AdditionalPropertiesTypePipelineConfGroups",
-    "AdditionalPropertiesTypePipelineConfGroupsTypedDict",
     "AdditionalProperty",
     "AdditionalPropertyTypedDict",
     "Aggregation",
@@ -6143,8 +6137,6 @@ __all__ = [
     "ColumnMappingTypedDict",
     "Command",
     "CommandTypedDict",
-    "Comment",
-    "CommentTypedDict",
     "Commit",
     "CommitTypedDict",
     "CompressionLevelOptions",
@@ -7937,6 +7929,8 @@ __all__ = [
     "DistinctConfiguration",
     "DistinctConfigurationTypedDict",
     "DistributedSummary",
+    "DistributedSummaryGroups",
+    "DistributedSummaryGroupsTypedDict",
     "DistributedSummaryTypedDict",
     "DistributedSummaryWorkers",
     "DistributedSummaryWorkersTypedDict",
@@ -8387,8 +8381,6 @@ __all__ = [
     "GoogleCloudStorageCollectorConfTypedDict",
     "GroupCreateRequest",
     "GroupCreateRequestTypedDict",
-    "Groups",
-    "GroupsTypedDict",
     "HBCriblInfo",
     "HBCriblInfoTypedDict",
     "HBLeaderInfo",
@@ -9920,6 +9912,8 @@ __all__ = [
     "PipelineFunctionXMLUnrollConfTypedDict",
     "PipelineFunctionXMLUnrollID",
     "PipelineFunctionXMLUnrollTypedDict",
+    "PipelineGroups",
+    "PipelineGroupsTypedDict",
     "PipelineInput",
     "PipelineInputTypedDict",
     "PipelineTypedDict",
@@ -10935,11 +10929,13 @@ __all__ = [
     "RollbackSettings2TypedDict",
     "RollbackSettingsUnion",
     "RollbackSettingsUnionTypedDict",
+    "RouteComment",
+    "RouteCommentTypedDict",
     "RouteConf",
     "RouteConfTypedDict",
     "Routes",
-    "RoutesRoute",
-    "RoutesRouteTypedDict",
+    "RoutesGroups",
+    "RoutesGroupsTypedDict",
     "RoutesTypedDict",
     "RulesetType",
     "RunSettingsTypeRunnableJobCollectionSchedule",
@@ -11264,8 +11260,6 @@ _dynamic_imports: dict[str, str] = {
     "AddHecTokenRequestTypedDict": ".addhectokenrequest",
     "AdditionalPropertiesTypeJobInfoStats": ".additionalpropertiestypejobinfostats",
     "AdditionalPropertiesTypeJobInfoStatsTypedDict": ".additionalpropertiestypejobinfostats",
-    "AdditionalPropertiesTypePipelineConfGroups": ".additionalpropertiestypepipelineconfgroups",
-    "AdditionalPropertiesTypePipelineConfGroupsTypedDict": ".additionalpropertiestypepipelineconfgroups",
     "APITypeSystemSettingsConf": ".apitypesystemsettingsconf",
     "APITypeSystemSettingsConfTypedDict": ".apitypesystemsettingsconf",
     "AuthenticationMethodOptions": ".authenticationmethodoptions",
@@ -13148,11 +13142,11 @@ _dynamic_imports: dict[str, str] = {
     "DiskSpoolingType": ".diskspoolingtype",
     "DiskSpoolingTypeTypedDict": ".diskspoolingtype",
     "DistributedSummary": ".distributedsummary",
+    "DistributedSummaryGroups": ".distributedsummary",
+    "DistributedSummaryGroupsTypedDict": ".distributedsummary",
     "DistributedSummaryTypedDict": ".distributedsummary",
     "DistributedSummaryWorkers": ".distributedsummary",
     "DistributedSummaryWorkersTypedDict": ".distributedsummary",
-    "Groups": ".distributedsummary",
-    "GroupsTypedDict": ".distributedsummary",
     "EstimatedIngestRateOptionsConfigGroup": ".estimatedingestrateoptionsconfiggroup",
     "EventBreakerRuleFields": ".eventbreakerrulefields",
     "EventBreakerRuleFieldsTypedDict": ".eventbreakerrulefields",
@@ -14937,14 +14931,16 @@ _dynamic_imports: dict[str, str] = {
     "PiiSettings2TypedDict": ".piisettings_union",
     "PiiSettingsUnion": ".piisettings_union",
     "PiiSettingsUnionTypedDict": ".piisettings_union",
+    "ConfInput": ".pipeline",
+    "ConfInputTypedDict": ".pipeline",
     "Pipeline": ".pipeline",
     "PipelineConf": ".pipeline",
     "PipelineConfTypedDict": ".pipeline",
+    "PipelineGroups": ".pipeline",
+    "PipelineGroupsTypedDict": ".pipeline",
+    "PipelineInput": ".pipeline",
+    "PipelineInputTypedDict": ".pipeline",
     "PipelineTypedDict": ".pipeline",
-    "ConfInput": ".pipeline_input",
-    "ConfInputTypedDict": ".pipeline_input",
-    "PipelineInput": ".pipeline_input",
-    "PipelineInputTypedDict": ".pipeline_input",
     "Aggregation": ".pipelinefunctionaggregatemetrics",
     "AggregationTypedDict": ".pipelinefunctionaggregatemetrics",
     "PipelineFunctionAggregateMetrics": ".pipelinefunctionaggregatemetrics",
@@ -16242,14 +16238,14 @@ _dynamic_imports: dict[str, str] = {
     "RollbackSettings2TypedDict": ".rollbacksettings_union",
     "RollbackSettingsUnion": ".rollbacksettings_union",
     "RollbackSettingsUnionTypedDict": ".rollbacksettings_union",
+    "RouteComment": ".routecomment",
+    "RouteCommentTypedDict": ".routecomment",
     "RouteConf": ".routeconf",
     "RouteConfTypedDict": ".routeconf",
-    "Comment": ".routes",
-    "CommentTypedDict": ".routes",
     "Routes": ".routes",
+    "RoutesGroups": ".routes",
+    "RoutesGroupsTypedDict": ".routes",
     "RoutesTypedDict": ".routes",
-    "RoutesRoute": ".routesroute",
-    "RoutesRouteTypedDict": ".routesroute",
     "RunnableJob": ".runnablejob",
     "RunnableJobTypedDict": ".runnablejob",
     "CaptureSettings": ".runnablejobcollection",

@@ -74,30 +74,41 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.routes.update(id_param="<value>", routes=[
-        models.RoutesRoute(
-            id="default",
-            name="my-route",
-            disabled=True,
-            filter_="source == \"access.log\"",
-            pipeline="main",
-            enable_output_expression=False,
-            output="<value>",
-            output_expression="<value>",
-            description="Route access logs to main pipeline",
-            final=True,
-        ),
-    ], id="default", groups={
-        "key": {
-            "name": "<value>",
-            "description": "ugh eyeliner authorized even burgeon chime expansion boldly midst and",
-            "disabled": False,
+    res = ccp_client.routes.update(id_param="<value>", id="default", routes=[
+        {
+            "clones": [
+                {
+                    "key": "<value>",
+                },
+            ],
+            "context": "<value>",
+            "description": "Route access logs to main pipeline",
+            "disabled": True,
+            "enable_output_expression": False,
+            "filter_": "source == \"access.log\"",
+            "final": True,
+            "group_id": "<id>",
+            "id": "default",
+            "name": "my-route",
+            "output": "<value>",
+            "output_expression": "<value>",
+            "pipeline": "main",
+            "target_context": models.TargetContext.GROUP,
         },
-    }, comments=[
-        models.Comment(
-            comment="New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
-        ),
-    ])
+    ], comments=[
+        {
+            "comment": "New range of formal shirts are designed keeping you in mind. With fits and styling that will make you stand apart",
+            "group_id": "<id>",
+            "id": "<id>",
+            "index": 3844.57,
+        },
+    ], groups={
+        "key": {
+            "description": "ugh eyeliner authorized even burgeon chime expansion boldly midst and",
+            "index": 8899.36,
+            "name": "<value>",
+        },
+    })
 
     # Handle response
     print(res)
@@ -106,14 +117,14 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                                                  | Type                                                                                                                       | Required                                                                                                                   | Description                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `id_param`                                                                                                                 | *str*                                                                                                                      | :heavy_check_mark:                                                                                                         | The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.   |
-| `routes`                                                                                                                   | List[[models.RoutesRoute](../../models/routesroute.md)]                                                                    | :heavy_check_mark:                                                                                                         | Pipeline routing rules                                                                                                     |
-| `id`                                                                                                                       | *Optional[str]*                                                                                                            | :heavy_minus_sign:                                                                                                         | Routes ID                                                                                                                  |
-| `groups`                                                                                                                   | Dict[str, [models.AdditionalPropertiesTypePipelineConfGroups](../../models/additionalpropertiestypepipelineconfgroups.md)] | :heavy_minus_sign:                                                                                                         | N/A                                                                                                                        |
-| `comments`                                                                                                                 | List[[models.Comment](../../models/comment.md)]                                                                            | :heavy_minus_sign:                                                                                                         | Comments                                                                                                                   |
-| `retries`                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                           | :heavy_minus_sign:                                                                                                         | Configuration to override the default retry behavior of the client.                                                        |
+| Parameter                                                                                                                | Type                                                                                                                     | Required                                                                                                                 | Description                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `id_param`                                                                                                               | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>. |
+| `id`                                                                                                                     | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | Unique identifier for the Routing table. The supported value is <code>default</code>.                                    |
+| `routes`                                                                                                                 | List[[models.RouteConf](../../models/routeconf.md)]                                                                      | :heavy_check_mark:                                                                                                       | Array of Route configurations that define how events are processed and routed.                                           |
+| `comments`                                                                                                               | List[[models.RouteComment](../../models/routecomment.md)]                                                                | :heavy_minus_sign:                                                                                                       | Array of user-provided comments that describe or annotate Routes.                                                        |
+| `groups`                                                                                                                 | Dict[str, [models.RoutesGroups](../../models/routesgroups.md)]                                                           | :heavy_minus_sign:                                                                                                       | Information about the Route Groups that the Route is associated with.                                                    |
+| `retries`                                                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                         | :heavy_minus_sign:                                                                                                       | Configuration to override the default retry behavior of the client.                                                      |
 
 ### Response
 

@@ -11,22 +11,22 @@ from typing_extensions import NotRequired, TypedDict
 
 class RoutesGroupsTypedDict(TypedDict):
     index: float
-    r"""Index of the group."""
+    r"""Relative position of the Route Group among all Route Groups. Routes are evaluated in ascending order according to the index value of their Route Group."""
     name: str
-    r"""Group name."""
+    r"""Name of the Route Group."""
     description: NotRequired[str]
-    r"""Short description of this group."""
+    r"""Brief description of the Route Group."""
 
 
 class RoutesGroups(BaseModel):
     index: float
-    r"""Index of the group."""
+    r"""Relative position of the Route Group among all Route Groups. Routes are evaluated in ascending order according to the index value of their Route Group."""
 
     name: str
-    r"""Group name."""
+    r"""Name of the Route Group."""
 
     description: Optional[str] = None
-    r"""Short description of this group."""
+    r"""Brief description of the Route Group."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -47,27 +47,27 @@ class RoutesGroups(BaseModel):
 
 class RoutesTypedDict(TypedDict):
     id: str
-    r"""Routes ID."""
+    r"""Unique identifier for the Routing table. The supported value is <code>default</code>."""
     routes: List[RouteConfTypedDict]
-    r"""Pipeline routing rules."""
+    r"""Array of Route configurations that define how events are processed and routed."""
     comments: NotRequired[List[RouteCommentTypedDict]]
-    r"""Comments."""
+    r"""Array of user-provided comments that describe or annotate Routes."""
     groups: NotRequired[Dict[str, RoutesGroupsTypedDict]]
-    r"""Map of route groups."""
+    r"""Information about the Route Groups that the Route is associated with."""
 
 
 class Routes(BaseModel):
     id: str
-    r"""Routes ID."""
+    r"""Unique identifier for the Routing table. The supported value is <code>default</code>."""
 
     routes: List[RouteConf]
-    r"""Pipeline routing rules."""
+    r"""Array of Route configurations that define how events are processed and routed."""
 
     comments: Optional[List[RouteComment]] = None
-    r"""Comments."""
+    r"""Array of user-provided comments that describe or annotate Routes."""
 
     groups: Optional[Dict[str, RoutesGroups]] = None
-    r"""Map of route groups."""
+    r"""Information about the Route Groups that the Route is associated with."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

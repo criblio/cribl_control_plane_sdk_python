@@ -162,6 +162,7 @@ if TYPE_CHECKING:
         ConfigGroupLookupsLookupTypedDict,
         ConfigGroupLookupsTypedDict,
     )
+    from .countedboolean import CountedBoolean, CountedBooleanTypedDict
     from .countedbranchinfo import CountedBranchInfo, CountedBranchInfoTypedDict
     from .countedconfiggroup import CountedConfigGroup, CountedConfigGroupTypedDict
     from .countedcribllakedataset import (
@@ -215,6 +216,7 @@ if TYPE_CHECKING:
         CountedInputSplunkHec,
         CountedInputSplunkHecTypedDict,
     )
+    from .countedinputstatus import CountedInputStatus, CountedInputStatusTypedDict
     from .countedjobinfo import CountedJobInfo, CountedJobInfoTypedDict
     from .countedmasterworkerentry import (
         CountedMasterWorkerEntry,
@@ -227,6 +229,7 @@ if TYPE_CHECKING:
         CountedOutputSamplesResponse,
         CountedOutputSamplesResponseTypedDict,
     )
+    from .countedoutputstatus import CountedOutputStatus, CountedOutputStatusTypedDict
     from .countedoutputtestresponse import (
         CountedOutputTestResponse,
         CountedOutputTestResponseTypedDict,
@@ -583,6 +586,8 @@ if TYPE_CHECKING:
         CreateInputSystemSystemMetricsTypedDict,
         CreateInputSystemWindowsMetrics,
         CreateInputSystemWindowsMetricsTypedDict,
+        CreateInputTLSSettingsServerSide,
+        CreateInputTLSSettingsServerSideTypedDict,
         CreateInputTarget,
         CreateInputTargetTypedDict,
         CreateInputTypeAppscope,
@@ -950,6 +955,8 @@ if TYPE_CHECKING:
         CreateInputSystemByPackSystemSystemMetricsTypedDict,
         CreateInputSystemByPackSystemWindowsMetrics,
         CreateInputSystemByPackSystemWindowsMetricsTypedDict,
+        CreateInputSystemByPackTLSSettingsServerSide,
+        CreateInputSystemByPackTLSSettingsServerSideTypedDict,
         CreateInputSystemByPackTarget,
         CreateInputSystemByPackTargetTypedDict,
         CreateInputSystemByPackTypeAppscope,
@@ -2026,6 +2033,8 @@ if TYPE_CHECKING:
         DistributedSummaryWorkers,
         DistributedSummaryWorkersTypedDict,
     )
+    from .errortypestatus import ErrorTypeStatus, ErrorTypeStatusTypedDict
+    from .errortypestatuspq import ErrorTypeStatusPq, ErrorTypeStatusPqTypedDict
     from .estimatedingestrateoptionsconfiggroup import (
         EstimatedIngestRateOptionsConfigGroup,
     )
@@ -2493,6 +2502,19 @@ if TYPE_CHECKING:
     )
     from .getinputbyidop import GetInputByIDRequest, GetInputByIDRequestTypedDict
     from .getinputpqbyidop import GetInputPqByIDRequest, GetInputPqByIDRequestTypedDict
+    from .getinputstatusbyidop import (
+        GetInputStatusByIDRequest,
+        GetInputStatusByIDRequestTypedDict,
+    )
+    from .getinputstatusop import GetInputStatusRequest, GetInputStatusRequestTypedDict
+    from .getinputstatussysteminputsbypackandidop import (
+        GetInputStatusSystemInputsByPackAndIDRequest,
+        GetInputStatusSystemInputsByPackAndIDRequestTypedDict,
+    )
+    from .getinputstatussysteminputsbypackop import (
+        GetInputStatusSystemInputsByPackRequest,
+        GetInputStatusSystemInputsByPackRequestTypedDict,
+    )
     from .getinputsystembypackandidop import (
         GetInputSystemByPackAndIDRequest,
         GetInputSystemByPackAndIDRequestTypedDict,
@@ -2513,6 +2535,22 @@ if TYPE_CHECKING:
     from .getoutputsamplesbyidop import (
         GetOutputSamplesByIDRequest,
         GetOutputSamplesByIDRequestTypedDict,
+    )
+    from .getoutputstatusbyidop import (
+        GetOutputStatusByIDRequest,
+        GetOutputStatusByIDRequestTypedDict,
+    )
+    from .getoutputstatusop import (
+        GetOutputStatusRequest,
+        GetOutputStatusRequestTypedDict,
+    )
+    from .getoutputstatussystemoutputsbypackandidop import (
+        GetOutputStatusSystemOutputsByPackAndIDRequest,
+        GetOutputStatusSystemOutputsByPackAndIDRequestTypedDict,
+    )
+    from .getoutputstatussystemoutputsbypackop import (
+        GetOutputStatusSystemOutputsByPackRequest,
+        GetOutputStatusSystemOutputsByPackRequestTypedDict,
     )
     from .getoutputsystembypackandidop import (
         GetOutputSystemByPackAndIDRequest,
@@ -3035,12 +3073,14 @@ if TYPE_CHECKING:
         HealthCheckCollectorConf,
         HealthCheckCollectorConfTypedDict,
     )
+    from .healthcounttype import HealthCountType, HealthCountTypeTypedDict
     from .healthserverstatus import (
         HealthServerStatus,
         HealthServerStatusStatus,
         HealthServerStatusTypedDict,
         Role,
     )
+    from .healthstringtype import HealthStringType
     from .heartbeatmetadata import HeartbeatMetadata, HeartbeatMetadataTypedDict
     from .hiddendefaultbreakersoptionsdatabasecollectorconf import (
         HiddenDefaultBreakersOptionsDatabaseCollectorConf,
@@ -3073,6 +3113,8 @@ if TYPE_CHECKING:
         InputCloudflareHecAuthenticationMethod,
         InputCloudflareHecType,
         InputCloudflareHecTypedDict,
+        TLSSettingsServerSide,
+        TLSSettingsServerSideTypedDict,
     )
     from .inputcollection import (
         InputCollection,
@@ -3313,6 +3355,7 @@ if TYPE_CHECKING:
         InputSplunkSearchTypedDict,
     )
     from .inputsqs import InputSqs, InputSqsQueueType, InputSqsType, InputSqsTypedDict
+    from .inputstatus import InputStatus, InputStatusTypedDict
     from .inputsyslog_union import (
         InputSyslogSyslog1,
         InputSyslogSyslog1TypedDict,
@@ -4078,6 +4121,7 @@ if TYPE_CHECKING:
         OutputStatsdExtType,
         OutputStatsdExtTypedDict,
     )
+    from .outputstatus import OutputStatus, OutputStatusTypedDict
     from .outputsumologic import (
         OutputSumoLogic,
         OutputSumoLogicDataFormat,
@@ -4640,6 +4684,7 @@ if TYPE_CHECKING:
         PqTypePqControlsTypedDict,
         PqTypeTypedDict,
     )
+    from .pqtypestatus import PqTypeStatus, PqTypeStatusTypedDict
     from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
     from .processtype import ProcessType, ProcessTypeTypedDict
     from .productsbase import ProductsBase
@@ -5822,6 +5867,7 @@ if TYPE_CHECKING:
         SslTypeSystemSettingsConfAPI,
         SslTypeSystemSettingsConfAPITypedDict,
     )
+    from .statustype import StatusType, StatusTypeTypedDict
     from .storageclassoptions import StorageClassOptions
     from .storageclassoptions1 import StorageClassOptions1
     from .storageclassoptions2 import StorageClassOptions2
@@ -6159,6 +6205,8 @@ __all__ = [
     "Container",
     "ContainerTypedDict",
     "CountComparator",
+    "CountedBoolean",
+    "CountedBooleanTypedDict",
     "CountedBranchInfo",
     "CountedBranchInfoTypedDict",
     "CountedConfigGroup",
@@ -6192,6 +6240,8 @@ __all__ = [
     "CountedInput",
     "CountedInputSplunkHec",
     "CountedInputSplunkHecTypedDict",
+    "CountedInputStatus",
+    "CountedInputStatusTypedDict",
     "CountedInputTypedDict",
     "CountedJobInfo",
     "CountedJobInfoTypedDict",
@@ -6204,6 +6254,8 @@ __all__ = [
     "CountedOutput",
     "CountedOutputSamplesResponse",
     "CountedOutputSamplesResponseTypedDict",
+    "CountedOutputStatus",
+    "CountedOutputStatusTypedDict",
     "CountedOutputTestResponse",
     "CountedOutputTestResponseTypedDict",
     "CountedOutputTypedDict",
@@ -6839,6 +6891,8 @@ __all__ = [
     "CreateInputSystemByPackSystemSystemMetricsTypedDict",
     "CreateInputSystemByPackSystemWindowsMetrics",
     "CreateInputSystemByPackSystemWindowsMetricsTypedDict",
+    "CreateInputSystemByPackTLSSettingsServerSide",
+    "CreateInputSystemByPackTLSSettingsServerSideTypedDict",
     "CreateInputSystemByPackTarget",
     "CreateInputSystemByPackTargetTypedDict",
     "CreateInputSystemByPackTypeAppscope",
@@ -6908,6 +6962,8 @@ __all__ = [
     "CreateInputSystemSystemMetricsTypedDict",
     "CreateInputSystemWindowsMetrics",
     "CreateInputSystemWindowsMetricsTypedDict",
+    "CreateInputTLSSettingsServerSide",
+    "CreateInputTLSSettingsServerSideTypedDict",
     "CreateInputTarget",
     "CreateInputTargetTypedDict",
     "CreateInputTypeAppscope",
@@ -7936,6 +7992,10 @@ __all__ = [
     "EndpointType",
     "EnvVar",
     "EnvVarTypedDict",
+    "ErrorTypeStatus",
+    "ErrorTypeStatusPq",
+    "ErrorTypeStatusPqTypedDict",
+    "ErrorTypeStatusTypedDict",
     "EstimatedIngestRateOptionsConfigGroup",
     "EventBreakerRuleFields",
     "EventBreakerRuleFieldsTypedDict",
@@ -8265,6 +8325,14 @@ __all__ = [
     "GetInputByIDRequestTypedDict",
     "GetInputPqByIDRequest",
     "GetInputPqByIDRequestTypedDict",
+    "GetInputStatusByIDRequest",
+    "GetInputStatusByIDRequestTypedDict",
+    "GetInputStatusRequest",
+    "GetInputStatusRequestTypedDict",
+    "GetInputStatusSystemInputsByPackAndIDRequest",
+    "GetInputStatusSystemInputsByPackAndIDRequestTypedDict",
+    "GetInputStatusSystemInputsByPackRequest",
+    "GetInputStatusSystemInputsByPackRequestTypedDict",
     "GetInputSystemByPackAndIDRequest",
     "GetInputSystemByPackAndIDRequestTypedDict",
     "GetInputSystemByPackRequest",
@@ -8277,6 +8345,14 @@ __all__ = [
     "GetOutputPqByIDRequestTypedDict",
     "GetOutputSamplesByIDRequest",
     "GetOutputSamplesByIDRequestTypedDict",
+    "GetOutputStatusByIDRequest",
+    "GetOutputStatusByIDRequestTypedDict",
+    "GetOutputStatusRequest",
+    "GetOutputStatusRequestTypedDict",
+    "GetOutputStatusSystemOutputsByPackAndIDRequest",
+    "GetOutputStatusSystemOutputsByPackAndIDRequestTypedDict",
+    "GetOutputStatusSystemOutputsByPackRequest",
+    "GetOutputStatusSystemOutputsByPackRequestTypedDict",
     "GetOutputSystemByPackAndIDRequest",
     "GetOutputSystemByPackAndIDRequestTypedDict",
     "GetOutputSystemByPackRequest",
@@ -8771,9 +8847,12 @@ __all__ = [
     "HealthCheckCollectMethodPostWithBodyTypedDict",
     "HealthCheckCollectorConf",
     "HealthCheckCollectorConfTypedDict",
+    "HealthCountType",
+    "HealthCountTypeTypedDict",
     "HealthServerStatus",
     "HealthServerStatusStatus",
     "HealthServerStatusTypedDict",
+    "HealthStringType",
     "HeartbeatMetadata",
     "HeartbeatMetadataTypedDict",
     "HiddenDefaultBreakersOptionsDatabaseCollectorConf",
@@ -8986,6 +9065,8 @@ __all__ = [
     "InputSqsQueueType",
     "InputSqsType",
     "InputSqsTypedDict",
+    "InputStatus",
+    "InputStatusTypedDict",
     "InputSyslogSyslog1",
     "InputSyslogSyslog1TypedDict",
     "InputSyslogSyslog2",
@@ -9557,6 +9638,8 @@ __all__ = [
     "OutputStatsdPqControlsTypedDict",
     "OutputStatsdType",
     "OutputStatsdTypedDict",
+    "OutputStatus",
+    "OutputStatusTypedDict",
     "OutputSumoLogic",
     "OutputSumoLogicDataFormat",
     "OutputSumoLogicPqControls",
@@ -9914,6 +9997,8 @@ __all__ = [
     "PqType",
     "PqTypePqControls",
     "PqTypePqControlsTypedDict",
+    "PqTypeStatus",
+    "PqTypeStatusTypedDict",
     "PqTypeTypedDict",
     "PrefixOptional",
     "PreprocessType",
@@ -11116,6 +11201,8 @@ __all__ = [
     "State",
     "StatsDestination",
     "StatsDestinationTypedDict",
+    "StatusType",
+    "StatusTypeTypedDict",
     "StorageClassOptions",
     "StorageClassOptions1",
     "StorageClassOptions2",
@@ -11147,8 +11234,10 @@ __all__ = [
     "TLSSettingsClientSideTypeKafkaSchemaRegistry",
     "TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict",
     "TLSSettingsClientSideTypeTypedDict",
+    "TLSSettingsServerSide",
     "TLSSettingsServerSideType",
     "TLSSettingsServerSideTypeTypedDict",
+    "TLSSettingsServerSideTypedDict",
     "TLSSettingsUnion",
     "TLSSettingsUnionTypedDict",
     "TagAfterProcessingOptions",
@@ -11373,6 +11462,8 @@ _dynamic_imports: dict[str, str] = {
     "ConfigGroupLookupsLookup": ".configgrouplookups",
     "ConfigGroupLookupsLookupTypedDict": ".configgrouplookups",
     "ConfigGroupLookupsTypedDict": ".configgrouplookups",
+    "CountedBoolean": ".countedboolean",
+    "CountedBooleanTypedDict": ".countedboolean",
     "CountedBranchInfo": ".countedbranchinfo",
     "CountedBranchInfoTypedDict": ".countedbranchinfo",
     "CountedConfigGroup": ".countedconfiggroup",
@@ -11407,6 +11498,8 @@ _dynamic_imports: dict[str, str] = {
     "CountedInputTypedDict": ".countedinput",
     "CountedInputSplunkHec": ".countedinputsplunkhec",
     "CountedInputSplunkHecTypedDict": ".countedinputsplunkhec",
+    "CountedInputStatus": ".countedinputstatus",
+    "CountedInputStatusTypedDict": ".countedinputstatus",
     "CountedJobInfo": ".countedjobinfo",
     "CountedJobInfoTypedDict": ".countedjobinfo",
     "CountedMasterWorkerEntry": ".countedmasterworkerentry",
@@ -11419,6 +11512,8 @@ _dynamic_imports: dict[str, str] = {
     "CountedOutputTypedDict": ".countedoutput",
     "CountedOutputSamplesResponse": ".countedoutputsamplesresponse",
     "CountedOutputSamplesResponseTypedDict": ".countedoutputsamplesresponse",
+    "CountedOutputStatus": ".countedoutputstatus",
+    "CountedOutputStatusTypedDict": ".countedoutputstatus",
     "CountedOutputTestResponse": ".countedoutputtestresponse",
     "CountedOutputTestResponseTypedDict": ".countedoutputtestresponse",
     "CountedPackInfo": ".countedpackinfo",
@@ -11755,6 +11850,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateInputSystemSystemMetricsTypedDict": ".createinputop",
     "CreateInputSystemWindowsMetrics": ".createinputop",
     "CreateInputSystemWindowsMetricsTypedDict": ".createinputop",
+    "CreateInputTLSSettingsServerSide": ".createinputop",
+    "CreateInputTLSSettingsServerSideTypedDict": ".createinputop",
     "CreateInputTarget": ".createinputop",
     "CreateInputTargetTypedDict": ".createinputop",
     "CreateInputTypeAppscope": ".createinputop",
@@ -12120,6 +12217,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateInputSystemByPackSystemSystemMetricsTypedDict": ".createinputsystembypackop",
     "CreateInputSystemByPackSystemWindowsMetrics": ".createinputsystembypackop",
     "CreateInputSystemByPackSystemWindowsMetricsTypedDict": ".createinputsystembypackop",
+    "CreateInputSystemByPackTLSSettingsServerSide": ".createinputsystembypackop",
+    "CreateInputSystemByPackTLSSettingsServerSideTypedDict": ".createinputsystembypackop",
     "CreateInputSystemByPackTarget": ".createinputsystembypackop",
     "CreateInputSystemByPackTargetTypedDict": ".createinputsystembypackop",
     "CreateInputSystemByPackTypeAppscope": ".createinputsystembypackop",
@@ -13131,6 +13230,10 @@ _dynamic_imports: dict[str, str] = {
     "DistributedSummaryTypedDict": ".distributedsummary",
     "DistributedSummaryWorkers": ".distributedsummary",
     "DistributedSummaryWorkersTypedDict": ".distributedsummary",
+    "ErrorTypeStatus": ".errortypestatus",
+    "ErrorTypeStatusTypedDict": ".errortypestatus",
+    "ErrorTypeStatusPq": ".errortypestatuspq",
+    "ErrorTypeStatusPqTypedDict": ".errortypestatuspq",
     "EstimatedIngestRateOptionsConfigGroup": ".estimatedingestrateoptionsconfiggroup",
     "EventBreakerRuleFields": ".eventbreakerrulefields",
     "EventBreakerRuleFieldsTypedDict": ".eventbreakerrulefields",
@@ -13465,6 +13568,14 @@ _dynamic_imports: dict[str, str] = {
     "GetInputByIDRequestTypedDict": ".getinputbyidop",
     "GetInputPqByIDRequest": ".getinputpqbyidop",
     "GetInputPqByIDRequestTypedDict": ".getinputpqbyidop",
+    "GetInputStatusByIDRequest": ".getinputstatusbyidop",
+    "GetInputStatusByIDRequestTypedDict": ".getinputstatusbyidop",
+    "GetInputStatusRequest": ".getinputstatusop",
+    "GetInputStatusRequestTypedDict": ".getinputstatusop",
+    "GetInputStatusSystemInputsByPackAndIDRequest": ".getinputstatussysteminputsbypackandidop",
+    "GetInputStatusSystemInputsByPackAndIDRequestTypedDict": ".getinputstatussysteminputsbypackandidop",
+    "GetInputStatusSystemInputsByPackRequest": ".getinputstatussysteminputsbypackop",
+    "GetInputStatusSystemInputsByPackRequestTypedDict": ".getinputstatussysteminputsbypackop",
     "GetInputSystemByPackAndIDRequest": ".getinputsystembypackandidop",
     "GetInputSystemByPackAndIDRequestTypedDict": ".getinputsystembypackandidop",
     "GetInputSystemByPackRequest": ".getinputsystembypackop",
@@ -13477,6 +13588,14 @@ _dynamic_imports: dict[str, str] = {
     "GetOutputPqByIDRequestTypedDict": ".getoutputpqbyidop",
     "GetOutputSamplesByIDRequest": ".getoutputsamplesbyidop",
     "GetOutputSamplesByIDRequestTypedDict": ".getoutputsamplesbyidop",
+    "GetOutputStatusByIDRequest": ".getoutputstatusbyidop",
+    "GetOutputStatusByIDRequestTypedDict": ".getoutputstatusbyidop",
+    "GetOutputStatusRequest": ".getoutputstatusop",
+    "GetOutputStatusRequestTypedDict": ".getoutputstatusop",
+    "GetOutputStatusSystemOutputsByPackAndIDRequest": ".getoutputstatussystemoutputsbypackandidop",
+    "GetOutputStatusSystemOutputsByPackAndIDRequestTypedDict": ".getoutputstatussystemoutputsbypackandidop",
+    "GetOutputStatusSystemOutputsByPackRequest": ".getoutputstatussystemoutputsbypackop",
+    "GetOutputStatusSystemOutputsByPackRequestTypedDict": ".getoutputstatussystemoutputsbypackop",
     "GetOutputSystemByPackAndIDRequest": ".getoutputsystembypackandidop",
     "GetOutputSystemByPackAndIDRequestTypedDict": ".getoutputsystembypackandidop",
     "GetOutputSystemByPackRequest": ".getoutputsystembypackop",
@@ -13982,10 +14101,13 @@ _dynamic_imports: dict[str, str] = {
     "HealthCheckCollectMethodPostWithBodyTypedDict": ".healthcheckcollectorconf",
     "HealthCheckCollectorConf": ".healthcheckcollectorconf",
     "HealthCheckCollectorConfTypedDict": ".healthcheckcollectorconf",
+    "HealthCountType": ".healthcounttype",
+    "HealthCountTypeTypedDict": ".healthcounttype",
     "HealthServerStatus": ".healthserverstatus",
     "HealthServerStatusStatus": ".healthserverstatus",
     "HealthServerStatusTypedDict": ".healthserverstatus",
     "Role": ".healthserverstatus",
+    "HealthStringType": ".healthstringtype",
     "HeartbeatMetadata": ".heartbeatmetadata",
     "HeartbeatMetadataTypedDict": ".heartbeatmetadata",
     "HiddenDefaultBreakersOptionsDatabaseCollectorConf": ".hiddendefaultbreakersoptionsdatabasecollectorconf",
@@ -14011,6 +14133,8 @@ _dynamic_imports: dict[str, str] = {
     "InputCloudflareHecAuthenticationMethod": ".inputcloudflarehec",
     "InputCloudflareHecType": ".inputcloudflarehec",
     "InputCloudflareHecTypedDict": ".inputcloudflarehec",
+    "TLSSettingsServerSide": ".inputcloudflarehec",
+    "TLSSettingsServerSideTypedDict": ".inputcloudflarehec",
     "InputCollection": ".inputcollection",
     "InputCollectionType": ".inputcollection",
     "InputCollectionTypedDict": ".inputcollection",
@@ -14225,6 +14349,8 @@ _dynamic_imports: dict[str, str] = {
     "InputSqsQueueType": ".inputsqs",
     "InputSqsType": ".inputsqs",
     "InputSqsTypedDict": ".inputsqs",
+    "InputStatus": ".inputstatus",
+    "InputStatusTypedDict": ".inputstatus",
     "InputSyslogSyslog1": ".inputsyslog_union",
     "InputSyslogSyslog1TypedDict": ".inputsyslog_union",
     "InputSyslogSyslog2": ".inputsyslog_union",
@@ -14833,6 +14959,8 @@ _dynamic_imports: dict[str, str] = {
     "OutputStatsdExtPqControlsTypedDict": ".outputstatsdext",
     "OutputStatsdExtType": ".outputstatsdext",
     "OutputStatsdExtTypedDict": ".outputstatsdext",
+    "OutputStatus": ".outputstatus",
+    "OutputStatusTypedDict": ".outputstatus",
     "OutputSumoLogic": ".outputsumologic",
     "OutputSumoLogicDataFormat": ".outputsumologic",
     "OutputSumoLogicPqControls": ".outputsumologic",
@@ -15241,6 +15369,8 @@ _dynamic_imports: dict[str, str] = {
     "PqTypePqControls": ".pqtype",
     "PqTypePqControlsTypedDict": ".pqtype",
     "PqTypeTypedDict": ".pqtype",
+    "PqTypeStatus": ".pqtypestatus",
+    "PqTypeStatusTypedDict": ".pqtypestatus",
     "PreprocessType": ".preprocesstype",
     "PreprocessTypeTypedDict": ".preprocesstype",
     "ProcessType": ".processtype",
@@ -16398,6 +16528,8 @@ _dynamic_imports: dict[str, str] = {
     "SplunkCollectorConfTypedDict": ".splunkcollectorconf",
     "SslTypeSystemSettingsConfAPI": ".ssltypesystemsettingsconfapi",
     "SslTypeSystemSettingsConfAPITypedDict": ".ssltypesystemsettingsconfapi",
+    "StatusType": ".statustype",
+    "StatusTypeTypedDict": ".statustype",
     "StorageClassOptions": ".storageclassoptions",
     "StorageClassOptions1": ".storageclassoptions1",
     "StorageClassOptions2": ".storageclassoptions2",

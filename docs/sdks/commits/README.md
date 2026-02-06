@@ -320,7 +320,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedObject](../../models/countedobject.md)**
+**[models.CountedBoolean](../../models/countedboolean.md)**
 
 ### Errors
 

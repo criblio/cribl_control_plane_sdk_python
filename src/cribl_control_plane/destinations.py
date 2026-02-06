@@ -5,6 +5,7 @@ from .sdkconfiguration import SDKConfiguration
 from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.destinations_pq import DestinationsPq
+from cribl_control_plane.destinations_statuses import DestinationsStatuses
 from cribl_control_plane.samples import Samples
 from cribl_control_plane.types import BaseModel, OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
@@ -17,6 +18,7 @@ class Destinations(BaseSDK):
 
     pq: DestinationsPq
     samples: Samples
+    statuses: DestinationsStatuses
 
     def __init__(
         self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
@@ -28,6 +30,9 @@ class Destinations(BaseSDK):
     def _init_sdks(self):
         self.pq = DestinationsPq(self.sdk_configuration, parent_ref=self.parent_ref)
         self.samples = Samples(self.sdk_configuration, parent_ref=self.parent_ref)
+        self.statuses = DestinationsStatuses(
+            self.sdk_configuration, parent_ref=self.parent_ref
+        )
 
     def list(
         self,

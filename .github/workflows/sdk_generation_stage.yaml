@@ -83,8 +83,9 @@ jobs:
           
           # Helper to check tag existence with/without 'v'
           tag_exists() {
-            git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||' \
-              | grep -qx -e "${1}" -e "v${1}"
+            local tags
+            tags=$(git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||')
+            echo "$tags" | grep -qx -e "${1}" -e "v${1}" >/dev/null 2>&1
           }
 
           # Find next available alpha number

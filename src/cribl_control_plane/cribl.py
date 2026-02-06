@@ -20,7 +20,7 @@ class Cribl(BaseSDK):
     ) -> models.CountedSystemSettingsConf:
         r"""Get Cribl system settings
 
-        Get Cribl system settings
+        Get Cribl system settings.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -105,7 +105,7 @@ class Cribl(BaseSDK):
     ) -> models.CountedSystemSettingsConf:
         r"""Get Cribl system settings
 
-        Get Cribl system settings
+        Get Cribl system settings.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -242,7 +242,7 @@ class Cribl(BaseSDK):
     ) -> models.CountedSystemSettingsConf:
         r"""Update Cribl system settings
 
-        Update Cribl system settings
+        Update Cribl system settings.
 
         :param api:
         :param backups:
@@ -432,7 +432,7 @@ class Cribl(BaseSDK):
     ) -> models.CountedSystemSettingsConf:
         r"""Update Cribl system settings
 
-        Update Cribl system settings
+        Update Cribl system settings.
 
         :param api:
         :param backups:

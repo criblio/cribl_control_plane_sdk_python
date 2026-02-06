@@ -62,3 +62,30 @@ jobs:
         # Type check all example files using pyright
         # pyright will automatically use the venv configuration from pyproject.toml
         pyright examples/example_*.py
+
+  # auto_merge:
+  #   name: Auto-merge Speakeasy PR (dev/stage only)
+  #   needs: examples_build
+  #   runs-on: ubuntu-latest
+  #   if: >-
+  #     needs.examples_build.outputs.is_speakeasy_pr == 'true' &&
+  #     (needs.examples_build.outputs.target_branch == 'dev' || needs.examples_build.outputs.target_branch == 'stage')
+  #   permissions:
+  #     contents: write
+  #     pull-requests: write
+  #   steps:
+  #     - name: Auto-merge PR
+  #       env:
+  #         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         PR_NUMBER: ${{ github.event.pull_request.number }}
+  #         TARGET_BRANCH: ${{ needs.examples_build.outputs.target_branch }}
+  #       run: |
+  #         echo "Auto-merging Speakeasy PR #${PR_NUMBER} targeting ${TARGET_BRANCH}..."
+  #         
+  #         gh pr merge "${PR_NUMBER}" \
+  #           --repo "${{ github.repository }}" \
+  #           --squash \
+  #           --delete-branch \
+  #           --auto
+  #         
+  #         echo "✅ Auto-merge enabled for PR #${PR_NUMBER}"

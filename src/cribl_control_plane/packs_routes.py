@@ -226,10 +226,10 @@ class PacksRoutes(BaseSDK):
 
         :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
         :param pack: The <code>id</code> of the Pack to update.
-        :param id: Routes ID.
-        :param routes: Pipeline routing rules.
-        :param comments: Comments.
-        :param groups: Map of route groups.
+        :param id: Unique identifier for the Routing table. The supported value is <code>default</code>.
+        :param routes: Array of Route configurations that define how events are processed and routed.
+        :param comments: Array of user-provided comments that describe or annotate Routes.
+        :param groups: Information about the Route Groups that the Route is associated with.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -348,10 +348,10 @@ class PacksRoutes(BaseSDK):
 
         :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
         :param pack: The <code>id</code> of the Pack to update.
-        :param id: Routes ID.
-        :param routes: Pipeline routing rules.
-        :param comments: Comments.
-        :param groups: Map of route groups.
+        :param id: Unique identifier for the Routing table. The supported value is <code>default</code>.
+        :param routes: Array of Route configurations that define how events are processed and routed.
+        :param comments: Array of user-provided comments that describe or annotate Routes.
+        :param groups: Information about the Route Groups that the Route is associated with.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

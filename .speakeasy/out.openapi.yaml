@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1770282368056-bcecbac3
+  version: 4.17.0-alpha.1770402095089-0716b55b
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -20241,7 +20241,49 @@ components:
                 items:
                   $ref: "#/components/schemas/ItemsTypeMetadata"
         tls:
-          $ref: "#/components/schemas/TlsSettingsServerSideType"
+          type: object
+          title: TLS settings (server side)
+          properties:
+            disabled:
+              type: boolean
+              title: Disabled
+              description: Enable or disable TLS. Defaults to enabled for Cloudflare sources.
+            requestCert:
+              type: boolean
+              title: Authenticate client (mutual auth)
+              description: Require clients to present their certificates. Used to perform client authentication using SSL certs.
+            rejectUnauthorized:
+              type: boolean
+              title: Validate client certificates
+              description: Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)
+            commonNameRegex:
+              type: string
+              title: Common name
+              description: Regex matching allowable common names in peer certificates' subject attribute
+            certificateName:
+              type: string
+              title: Certificate
+              description: The name of the predefined certificate
+            privKeyPath:
+              type: string
+              title: Private key path
+              description: Path on server containing the private key to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl private key when TLS is enabled.
+            passphrase:
+              type: string
+              title: Passphrase
+              description: Passphrase to use to decrypt private key
+            certPath:
+              type: string
+              title: Certificate path
+              description: Path on server containing certificates to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl certificate when TLS is enabled.
+            caPath:
+              type: string
+              title: CA certificate path
+              description: Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
+            minVersion:
+              $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+            maxVersion:
+              $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
         maxActiveReq:
           type: number
           title: Active request limit
@@ -35114,16 +35156,16 @@ components:
       properties:
         comment:
           type: string
-          description: Description of this Route's purpose.
+          description: Brief description of the Route.
         groupId:
           type: string
-          description: Optional group identifier.
+          description: Unique identifier for the Route Group that the Route is associated with.
         id:
           type: string
           description: Unique identifier for the comment.
         index:
           type: number
-          description: Position index of the comment.
+          description: Relative position of the comment among all comments for the Route.
       required:
         - comment
         - id
@@ -35132,7 +35174,7 @@ components:
       type: object
       additionalProperties:
         type: string
-      description: Key value pairs to set/overwrite in the clone.
+      description: Key-value pairs to set or overwrite in the cloned event.
     TargetContext:
       type: string
       enum:
@@ -35146,46 +35188,46 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/RouteCloneConf"
-          description: Create clones with the following fields set and feed to Pipeline (original event continues down the Routes).
+          description: Array of clone configurations, each with a key-value pair to set or overwrite in cloned events. Original events continue to the next Route.
         context:
           type: string
-          description: Context for the route.
+          description: "Context for the Route: <code>group</code> (Worker Group or Edge Fleet) or <code>pack</code>."
         description:
           type: string
-          description: Description of this route.
+          description: Brief description of the Route.
         disabled:
           type: boolean
-          description: Disable this routing rule.
+          description: If <code>true</code>, disable the Route. Otherwise, <code>false</code>.
         enableOutputExpression:
           type: boolean
-          description: Enable to use a JavaScript expression that evaluates to the name of the destination.
+          description: If <code>true</code>, use the <code>outputExpression</code> for dynamic Destination selection. Otherwise, <code>false</code>.
         filter:
           type: string
-          description: JavaScript expression to select data to route.
+          description: JavaScript expression to select events for routing.
         final:
           type: boolean
-          description: Flag to control whether the event gets consumed by this Route (Final), or cloned into it.
+          description: If <code>true</code> the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events.
         groupId:
           type: string
-          description: Route group identifier.
+          description: Unique identifier for the Route Group that the Route is associated with.
         id:
           type: string
-          description: Route ID.
+          description: Unique identifier for the Route.
         name:
           type: string
-          description: Route name.
+          description: Name of the Route.
         output:
           type: string
-          description: Destination to send events to after they are processed by the Pipeline.
+          description: Destination that the Route sends matching events to after the Pipeline processes the events.
         outputExpression:
           type: string
-          description: JavaScript expression that will be evaluated as the name of the destination. Evaluation happens at Route construction time (not per event).
+          description: JavaScript expression to evaluate for dynamic Destination selection. Evaluation occurs when the Route is constructed, not for each event.
         pipeline:
           type: string
-          description: Pipeline to send the matching data to.
+          description: Pipeline that the Route sends matching events to.
         targetContext:
           $ref: "#/components/schemas/TargetContext"
-          description: Identifies the context we want to route events to.
+          description: "Target context for subsequent event processing after applying the Route: <code>group</code> (Worker Group or Edge Fleet) or <code>pack</code>."
       required:
         - final
         - id
@@ -35198,7 +35240,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/RouteComment"
-          description: Comments.
+          description: Array of user-provided comments that describe or annotate Routes.
         groups:
           type: object
           additionalProperties:
@@ -35206,25 +35248,25 @@ components:
             properties:
               description:
                 type: string
-                description: Short description of this group.
+                description: Brief description of the Route Group.
               index:
                 type: number
-                description: Index of the group.
+                description: Relative position of the Route Group among all Route Groups. Routes are evaluated in ascending order according to the index value of their Route Group.
               name:
                 type: string
-                description: Group name.
+                description: Name of the Route Group.
             required:
               - index
               - name
-          description: Map of route groups.
+          description: Information about the Route Groups that the Route is associated with.
         id:
           type: string
-          description: Routes ID.
+          description: Unique identifier for the Routing table. The supported value is <code>default</code>.
         routes:
           type: array
           items:
             $ref: "#/components/schemas/RouteConf"
-          description: Pipeline routing rules.
+          description: Array of Route configurations that define how events are processed and routed.
       required:
         - id
         - routes
@@ -35232,6 +35274,78 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/RouteConf"
+    CountedInputStatus:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/InputStatus"
+    HealthStringType:
+      type: string
+      enum:
+        - Green
+        - Yellow
+        - Red
+        - Unknown
+      x-speakeasy-unknown-values: allow
+    HealthCountType:
+      type: object
+      properties:
+        Green:
+          type: number
+        Yellow:
+          type: number
+        Red:
+          type: number
+        Unknown:
+          type: number
+      required:
+        - Green
+        - Red
+        - Unknown
+        - Yellow
+    InputStatus:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the Source or Destination.
+        status:
+          $ref: "#/components/schemas/StatusType"
+        type:
+          type: string
+          description: Type of the Source or Destination.
+      required:
+        - id
+        - status
+    CountedOutputStatus:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OutputStatus"
+    OutputStatus:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the Source or Destination.
+        status:
+          $ref: "#/components/schemas/StatusType"
+        type:
+          type: string
+          description: Type of the Source or Destination.
+      required:
+        - id
+        - status
     CountedSavedJob:
       type: object
       properties:
@@ -37132,6 +37246,16 @@ components:
         - not_added
         - renamed
         - staged
+    CountedBoolean:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            type: boolean
     EventBreakerRuleFields:
       type: object
       properties:
@@ -38549,6 +38673,32 @@ components:
         - type: object
           additionalProperties:
             type: number
+    ErrorTypeStatus:
+      type: object
+      properties:
+        details:
+          type: object
+          additionalProperties: true
+          description: Additional error details, which may include stack traces, request information, and other diagnostic data.
+        message:
+          type: string
+          description: Human-readable message that describes the error.
+      required:
+        - message
+      description: Error information, if applicable.
+    ErrorTypeStatusPq:
+      type: object
+      properties:
+        details:
+          type: object
+          additionalProperties: true
+          description: Additional details for the persistent queue error.
+        message:
+          type: string
+          description: Human-readable message that describes the persistent queue error.
+      required:
+        - message
+      description: Error information for the persistent queue, if applicable.
     EstimatedIngestRateOptionsConfigGroup:
       type: integer
       enum:
@@ -39483,6 +39633,25 @@ components:
           description: Determines whether or not to write task results to disk
         conf:
           $ref: "#/components/schemas/ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor"
+    PqTypeStatus:
+      type: object
+      properties:
+        error:
+          $ref: "#/components/schemas/ErrorTypeStatusPq"
+        health:
+          $ref: "#/components/schemas/HealthStringType"
+          description: Health status of the persistent queue.
+        healthCounts:
+          $ref: "#/components/schemas/HealthCountType"
+          description: Counts of persistent queue health statuses for the Source or Destination across all Worker Processes.
+        timestamp:
+          type: number
+          description: Timestamp (in Unix time) when the persistent queue status was last updated.
+      required:
+        - health
+        - healthCounts
+        - timestamp
+      description: Persistent queue status information (if persistent queue is enabled).
     KubeTypeHeartbeatMetadata:
       type: object
       properties:
@@ -39646,6 +39815,31 @@ components:
       allOf:
         - $ref: "#/components/schemas/TypeCollectionConstraint"
         - $ref: "#/components/schemas/RunnableJobCollectionPart1TypeScheduleRun"
+    StatusType:
+      type: object
+      properties:
+        error:
+          $ref: "#/components/schemas/ErrorTypeStatus"
+        health:
+          $ref: "#/components/schemas/HealthStringType"
+          description: Overall health status of the Source or Destination.
+        healthCounts:
+          $ref: "#/components/schemas/HealthCountType"
+          description: Counts of health statuses for the Source or Destination across all Worker Processes.
+        metrics:
+          type: object
+          additionalProperties: true
+          description: Metrics data for the Source or Destination, including base metrics, aggregated across all Worker Processes. For load-balanced Destinations, includes item-level metrics.
+        pq:
+          $ref: "#/components/schemas/PqTypeStatus"
+        timestamp:
+          type: number
+          description: Timestamp (in Unix time) when the status was last updated.
+      required:
+        - health
+        - healthCounts
+        - timestamp
+      description: Status information for the Source or Destination, aggregated across all Worker Processes.
     RunSettingsTypeSavedJobCollectionSchedule:
       type: object
       title: Run settings
@@ -46040,6 +46234,366 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Pack to append.
+  /system/status/inputs/{id}:
+    get:
+      operationId: getInputStatusById
+      tags:
+        - sources
+      x-speakeasy-group: sources.statuses
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: Get the status of a Source
+      description: Get the status and optional metrics for the specified Source.
+      responses:
+        "200":
+          description: a list of InputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to get the status for.
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
+  /system/status/inputs:
+    get:
+      operationId: getInputStatus
+      tags:
+        - sources
+      x-speakeasy-group: sources.statuses
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: List the status of all Sources
+      description: Get a list of status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet.
+      responses:
+        "200":
+          description: a list of InputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
+  /p/{pack}/system/status/inputs/{id}:
+    get:
+      operationId: getInputStatusSystemInputsByPackAndId
+      tags:
+        - sources
+      x-speakeasy-group: packs.sources.statuses
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: Get the status of a Source within a Pack
+      description: Get the status and optional metrics for the specified Source within the specified Pack.
+      responses:
+        "200":
+          description: a list of InputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to get the status for.
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
+  /p/{pack}/system/status/inputs:
+    get:
+      operationId: getInputStatusSystemInputsByPack
+      tags:
+        - sources
+      x-speakeasy-group: packs.sources.statuses
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: List the status of all Sources within a Pack
+      description: Get a list of status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet within the specified Pack.
+      responses:
+        "200":
+          description: a list of InputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to list.
+  /system/status/outputs/{id}:
+    get:
+      operationId: getOutputStatusById
+      tags:
+        - destinations
+      x-speakeasy-group: destinations.statuses
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: Get the status of a Destination
+      description: Get the status and optional metrics for the specified Destination.
+      responses:
+        "200":
+          description: a list of OutputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Destination to get the status for.
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).
+  /system/status/outputs:
+    get:
+      operationId: getOutputStatus
+      tags:
+        - destinations
+      x-speakeasy-group: destinations.statuses
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: List the status of all Destinations
+      description: Get a list of status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet.
+      responses:
+        "200":
+          description: a list of OutputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).
+  /p/{pack}/system/status/outputs/{id}:
+    get:
+      operationId: getOutputStatusSystemOutputsByPackAndId
+      tags:
+        - destinations
+      x-speakeasy-group: packs.destinations.statuses
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: Get the status of a Destination within a Pack
+      description: Get the status and optional metrics for the specified Destination within the specified Pack.
+      responses:
+        "200":
+          description: a list of OutputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Destination to get the status for.
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
+  /p/{pack}/system/status/outputs:
+    get:
+      operationId: getOutputStatusSystemOutputsByPack
+      tags:
+        - destinations
+      x-speakeasy-group: packs.destinations.statuses
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: List the status of all Destinations within a Pack
+      description: Get a list of status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
+      responses:
+        "200":
+          description: a list of OutputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to list.
   /lib/jobs:
     post:
       operationId: createSavedJob
@@ -47977,11 +48531,11 @@ paths:
       description: Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
       responses:
         "200":
-          description: a list of object objects
+          description: a list of boolean objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedObject"
+                $ref: "#/components/schemas/CountedBoolean"
         "401":
           description: Unauthorized
         "500":

@@ -71,10 +71,59 @@ jobs:
 
           PREFIX="${BASE}rc"
 
+          # Helper to get tags with retry on broken pipe
+          get_tags() {
+            local attempt=1
+            local max_attempts=5
+            local output
+            
+            while [ $attempt -le $max_attempts ]; do
+              # Capture both stdout and stderr, check for broken pipe error
+              if ! output=$(git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||' 2>&1); then
+                # Command failed, check if it's a broken pipe error
+                if echo "$output" | grep -q "Broken pipe"; then
+                  if [ $attempt -lt $max_attempts ]; then
+                    echo "⚠️  Broken pipe detected (attempt $attempt/$max_attempts), retrying..."
+                    attempt=$((attempt + 1))
+                    sleep 1
+                    continue
+                  else
+                    echo "❌ Failed to get tags after $max_attempts attempts"
+                    return 1
+                  fi
+                else
+                  # Other error, fail immediately
+                  echo "❌ Error getting tags: $output"
+                  return 1
+                fi
+              fi
+              
+              # Check for broken pipe error in output even if command succeeded
+              if echo "$output" | grep -q "Broken pipe"; then
+                if [ $attempt -lt $max_attempts ]; then
+                  echo "⚠️  Broken pipe detected (attempt $attempt/$max_attempts), retrying..."
+                  attempt=$((attempt + 1))
+                  sleep 1
+                  continue
+                else
+                  echo "❌ Failed to get tags after $max_attempts attempts"
+                  return 1
+                fi
+              fi
+              
+              # Success - output contains tags
+              echo "$output"
+              return 0
+            done
+          }
+
           # Helper to check tag existence with/without 'v' (use --refs; no sed with \^\{\})
           tag_exists() {
             local tags
-            tags=$(git ls-remote --tags --refs origin | awk '{print $2}' | sed 's|refs/tags/||')
+            if ! tags=$(get_tags); then
+              echo "❌ Error: Failed to check tag existence"
+              exit 1
+            fi
             echo "$tags" | grep -qx -e "${1}" -e "v${1}" >/dev/null 2>&1
           }
 

@@ -6,11 +6,13 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptionalTypedDict,
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
-from .pqtype import PqType, PqTypeTypedDict
-from .tlssettingsserversidetype import (
-    TLSSettingsServerSideType,
-    TLSSettingsServerSideTypeTypedDict,
+from .maximumtlsversionoptionskafkaschemaregistrytls import (
+    MaximumTLSVersionOptionsKafkaSchemaRegistryTLS,
 )
+from .minimumtlsversionoptionskafkaschemaregistrytls import (
+    MinimumTLSVersionOptionsKafkaSchemaRegistryTLS,
+)
+from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -104,6 +106,122 @@ class InputCloudflareHecAuthToken(BaseModel):
         return m
 
 
+class TLSSettingsServerSideTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    r"""Enable or disable TLS. Defaults to enabled for Cloudflare sources."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+    common_name_regex: NotRequired[str]
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl private key when TLS is enabled."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl certificate when TLS is enabled."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    min_version: NotRequired[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS]
+    max_version: NotRequired[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS]
+
+
+class TLSSettingsServerSide(BaseModel):
+    disabled: Optional[bool] = None
+    r"""Enable or disable TLS. Defaults to enabled for Cloudflare sources."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = None
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+
+    common_name_regex: Annotated[
+        Optional[str], pydantic.Field(alias="commonNameRegex")
+    ] = None
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl private key when TLS is enabled."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl certificate when TLS is enabled."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+    @field_serializer("min_version")
+    def serialize_min_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.MinimumTLSVersionOptionsKafkaSchemaRegistryTLS(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("max_version")
+    def serialize_max_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.MaximumTLSVersionOptionsKafkaSchemaRegistryTLS(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "requestCert",
+                "rejectUnauthorized",
+                "commonNameRegex",
+                "certificateName",
+                "privKeyPath",
+                "passphrase",
+                "certPath",
+                "caPath",
+                "minVersion",
+                "maxVersion",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 class InputCloudflareHecTypedDict(TypedDict):
     type: InputCloudflareHecType
     host: str
@@ -130,7 +248,7 @@ class InputCloudflareHecTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     auth_tokens: NotRequired[List[InputCloudflareHecAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    tls: NotRequired[TLSSettingsServerSideTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -217,7 +335,7 @@ class InputCloudflareHec(BaseModel):
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
-    tls: Optional[TLSSettingsServerSideType] = None
+    tls: Optional[TLSSettingsServerSide] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None

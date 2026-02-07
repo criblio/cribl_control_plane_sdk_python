@@ -10,9 +10,101 @@
 
 Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
 
-### Example Usage
+### Example Usage: CaptureExamplesBasicCapture
 
-<!-- UsageSnippet language="python" operationID="createSystemCapture" method="post" path="/system/capture" -->
+<!-- UsageSnippet language="python" operationID="createSystemCapture" method="post" path="/system/capture" example="CaptureExamplesBasicCapture" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.system.captures.create(duration=5, filter_="true", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100, step_duration=571732, worker_id="<id>", worker_threshold=609412)
+
+    with res as jsonl_stream:
+        for event in jsonl_stream:
+            # handle event
+            print(event, flush=True)
+
+```
+### Example Usage: CaptureExamplesComplexFilter
+
+<!-- UsageSnippet language="python" operationID="createSystemCapture" method="post" path="/system/capture" example="CaptureExamplesComplexFilter" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.system.captures.create(duration=15, filter_="__inputId.startsWith(\"http:\") && status >= 400 && status < 500", level=models.CaptureLevel.BEFORE_ROUTES, max_events=500, step_duration=921861, worker_id="<id>", worker_threshold=208781)
+
+    with res as jsonl_stream:
+        for event in jsonl_stream:
+            # handle event
+            print(event, flush=True)
+
+```
+### Example Usage: CaptureExamplesCompoundAndExpression
+
+<!-- UsageSnippet language="python" operationID="createSystemCapture" method="post" path="/system/capture" example="CaptureExamplesCompoundAndExpression" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.system.captures.create(duration=5, filter_="sourcetype===\"pan:traffic\" && src_zone===\"trusted\"", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100, step_duration=882563, worker_id="<id>", worker_threshold=392678)
+
+    with res as jsonl_stream:
+        for event in jsonl_stream:
+            # handle event
+            print(event, flush=True)
+
+```
+### Example Usage: CaptureExamplesNestedFieldAccess
+
+<!-- UsageSnippet language="python" operationID="createSystemCapture" method="post" path="/system/capture" example="CaptureExamplesNestedFieldAccess" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.system.captures.create(duration=5, filter_="sourcetype===\"pan:traffic\" && dest_geoip.country.iso_code === \"US\"", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100, step_duration=377776, worker_id="<id>", worker_threshold=429562)
+
+    with res as jsonl_stream:
+        for event in jsonl_stream:
+            # handle event
+            print(event, flush=True)
+
+```
+### Example Usage: CaptureExamplesSimpleExpression
+
+<!-- UsageSnippet language="python" operationID="createSystemCapture" method="post" path="/system/capture" example="CaptureExamplesSimpleExpression" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

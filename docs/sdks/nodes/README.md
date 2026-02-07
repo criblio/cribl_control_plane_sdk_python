@@ -155,7 +155,7 @@ Restart all Worker or Edge Nodes for the specified Cribl product.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="updateProductsWorkersRestartByProduct" method="patch" path="/products/{product}/workers/restart" -->
+<!-- UsageSnippet language="python" operationID="updateProductsWorkersRestartByProduct" method="patch" path="/products/{product}/workers/restart" example="RestartWorkersExamplesRestartWorkers" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

@@ -162,6 +162,7 @@ if TYPE_CHECKING:
         ConfigGroupLookupsLookupTypedDict,
         ConfigGroupLookupsTypedDict,
     )
+    from .countedboolean import CountedBoolean, CountedBooleanTypedDict
     from .countedbranchinfo import CountedBranchInfo, CountedBranchInfoTypedDict
     from .countedconfiggroup import CountedConfigGroup, CountedConfigGroupTypedDict
     from .countedcribllakedataset import (
@@ -6165,6 +6166,8 @@ __all__ = [
     "Container",
     "ContainerTypedDict",
     "CountComparator",
+    "CountedBoolean",
+    "CountedBooleanTypedDict",
     "CountedBranchInfo",
     "CountedBranchInfoTypedDict",
     "CountedConfigGroup",
@@ -11385,6 +11388,8 @@ _dynamic_imports: dict[str, str] = {
     "ConfigGroupLookupsLookup": ".configgrouplookups",
     "ConfigGroupLookupsLookupTypedDict": ".configgrouplookups",
     "ConfigGroupLookupsTypedDict": ".configgrouplookups",
+    "CountedBoolean": ".countedboolean",
+    "CountedBooleanTypedDict": ".countedboolean",
     "CountedBranchInfo": ".countedbranchinfo",
     "CountedBranchInfoTypedDict": ".countedbranchinfo",
     "CountedConfigGroup": ".countedconfiggroup",

@@ -16,9 +16,325 @@ Actions related to Collectors
 
 Create a new Collector.
 
-### Example Usage
+### Example Usage: CollectorExamplesAzureBlob
 
-<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" -->
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="CollectorExamplesAzureBlob" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(saved_job={
+        "id": "<id>",
+        "description": "which um whenever pro chase video uh-huh atop baritone yum",
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": True,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 7324.19,
+                "latest": 6945.52,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+            "<value 3>",
+        ],
+        "executor": {
+            "type": "<value>",
+            "store_task_results": True,
+            "conf": {},
+        },
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesCriblLake
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="CollectorExamplesCriblLake" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(saved_job={
+        "id": "<id>",
+        "description": "cautiously annual worth before cleaner parsnip nimble onset once burgeon",
+        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": True,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 2728.52,
+                "latest": 4162.9,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "saved_query_id": "<id>",
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesDatabase
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="CollectorExamplesDatabase" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(saved_job={
+        "id": "<id>",
+        "description": "pomelo outside offensively ew",
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": True,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 432.8,
+                "latest": 2023.34,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "executor": {
+            "type": "<value>",
+            "store_task_results": True,
+            "conf": {},
+        },
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesFilesystem
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="CollectorExamplesFilesystem" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(saved_job={
+        "id": "<id>",
+        "description": "pomelo outside offensively ew",
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": True,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 432.8,
+                "latest": 2023.34,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "executor": {
+            "type": "<value>",
+            "store_task_results": True,
+            "conf": {},
+        },
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesGoogleCloudStorage
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="CollectorExamplesGoogleCloudStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(saved_job={
+        "id": "<id>",
+        "description": "cautiously annual worth before cleaner parsnip nimble onset once burgeon",
+        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": True,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 2728.52,
+                "latest": 4162.9,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "saved_query_id": "<id>",
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesRest
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="CollectorExamplesRest" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -112,6 +428,187 @@ with CriblControlPlane(
             output="<value>",
         ),
     ), cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesS3
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="CollectorExamplesS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(saved_job={
+        "id": "<id>",
+        "description": "pomelo outside offensively ew",
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": True,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 432.8,
+                "latest": 2023.34,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "saved_query_id": "<id>",
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesScript
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="CollectorExamplesScript" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(saved_job={
+        "id": "<id>",
+        "description": "cautiously annual worth before cleaner parsnip nimble onset once burgeon",
+        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": True,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 2728.52,
+                "latest": 4162.9,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "saved_query_id": "<id>",
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesSplunk
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="CollectorExamplesSplunk" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(saved_job={
+        "id": "<id>",
+        "description": "cautiously annual worth before cleaner parsnip nimble onset once burgeon",
+        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": True,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 2728.52,
+                "latest": 4162.9,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "saved_query_id": "<id>",
+    }, cribl_pack="<value>")
 
     # Handle response
     print(res)
@@ -278,9 +775,322 @@ with CriblControlPlane(
 
 Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
 
-### Example Usage
+### Example Usage: CollectorExamplesAzureBlob
 
-<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" -->
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="CollectorExamplesAzureBlob" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "id": "<id>",
+        "description": "wee supposing blaring spectate dark",
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": False,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 4891.8,
+                "latest": 5936.75,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "executor": {
+            "type": "<value>",
+            "store_task_results": True,
+            "conf": {},
+        },
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesCriblLake
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="CollectorExamplesCriblLake" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "id": "<id>",
+        "description": "unabashedly notwithstanding ugh digestive",
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": True,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 9142.96,
+                "latest": 521.08,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "saved_query_id": "<id>",
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesDatabase
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="CollectorExamplesDatabase" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "id": "<id>",
+        "description": "unabashedly notwithstanding ugh digestive",
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": True,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 9142.96,
+                "latest": 521.08,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "saved_query_id": "<id>",
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesFilesystem
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="CollectorExamplesFilesystem" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "id": "<id>",
+        "description": "wee supposing blaring spectate dark",
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": False,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 4891.8,
+                "latest": 5936.75,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "executor": {
+            "type": "<value>",
+            "store_task_results": True,
+            "conf": {},
+        },
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesGoogleCloudStorage
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="CollectorExamplesGoogleCloudStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "id": "<id>",
+        "description": "horde before huzzah apud ha even murky favorite",
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": False,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 6033.18,
+                "latest": 6852.51,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "saved_query_id": "<id>",
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesRest
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="CollectorExamplesRest" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -377,6 +1187,197 @@ with CriblControlPlane(
             output="<value>",
         ),
     ), cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesS3
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="CollectorExamplesS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "id": "<id>",
+        "description": "unabashedly notwithstanding ugh digestive",
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": True,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 9142.96,
+                "latest": 521.08,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "saved_query_id": "<id>",
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesScript
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="CollectorExamplesScript" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "id": "<id>",
+        "description": "wee supposing blaring spectate dark",
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": False,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 4891.8,
+                "latest": 5936.75,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "executor": {
+            "type": "<value>",
+            "store_task_results": True,
+            "conf": {},
+        },
+    }, cribl_pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CollectorExamplesSplunk
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="CollectorExamplesSplunk" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "id": "<id>",
+        "description": "unabashedly notwithstanding ugh digestive",
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "ttl": "4h",
+        "ignore_group_jobs_limit": False,
+        "remove_fields": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "resume_on_boot": False,
+        "environment": "<value>",
+        "schedule": {
+            "enabled": True,
+            "skippable": True,
+            "resume_missed": False,
+            "cron_schedule": "*/5 * * * *",
+            "max_concurrent_runs": 1,
+            "run": {
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "reschedule_dropped_tasks": True,
+                "max_task_reschedule": 1,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
+                "job_timeout": "0",
+                "mode": "list",
+                "time_range_type": "relative",
+                "earliest": 9142.96,
+                "latest": 521.08,
+                "timestamp_timezone": "<value>",
+                "time_warning": {},
+                "expression": "true",
+                "min_task_size": "1MB",
+                "max_task_size": "10MB",
+            },
+        },
+        "streamtags": [
+            "<value 1>",
+            "<value 2>",
+        ],
+        "executor": {
+            "type": "<value>",
+            "store_task_results": True,
+            "conf": {},
+        },
+    }, cribl_pack="<value>")
 
     # Handle response
     print(res)

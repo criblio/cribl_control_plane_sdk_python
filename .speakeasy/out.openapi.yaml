@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1770402095089-0716b55b
+  version: 4.17.0-alpha.1770471758445-330377e1
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -36038,6 +36038,13 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/MasterWorkerEntry"
+    ConnectionProtocol:
+      type: string
+      enum:
+        - tcp
+        - tls
+        - http2
+      x-speakeasy-unknown-values: allow
     LookupVersions:
       type: object
       additionalProperties:
@@ -36265,6 +36272,8 @@ components:
     MasterWorkerEntry:
       type: object
       properties:
+        connectionProtocol:
+          $ref: "#/components/schemas/ConnectionProtocol"
         deployable:
           type: boolean
         disconnected:

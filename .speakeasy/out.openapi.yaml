@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1770369982779-3bb94363
+  version: 4.17.0-alpha.1770418996032-ced3a288
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -37174,6 +37174,16 @@ components:
         - not_added
         - renamed
         - staged
+    CountedBoolean:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            type: boolean
     EventBreakerRuleFields:
       type: object
       properties:
@@ -48019,11 +48029,11 @@ paths:
       description: Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
       responses:
         "200":
-          description: a list of object objects
+          description: a list of boolean objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedObject"
+                $ref: "#/components/schemas/CountedBoolean"
         "401":
           description: Unauthorized
         "500":

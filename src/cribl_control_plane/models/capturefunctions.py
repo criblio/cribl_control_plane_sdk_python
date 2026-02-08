@@ -8,25 +8,34 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class HealthCountTypeTypedDict(TypedDict):
-    green: NotRequired[float]
-    yellow: NotRequired[float]
-    red: NotRequired[float]
-    unknown: NotRequired[float]
+class CaptureFunctionsTypedDict(TypedDict):
+    bytes_in: float
+    bytes_out: float
+    duration: float
+    events_in: float
+    events_out: float
+    func: str
+    disabled: NotRequired[bool]
 
 
-class HealthCountType(BaseModel):
-    green: Annotated[Optional[float], pydantic.Field(alias="Green")] = None
+class CaptureFunctions(BaseModel):
+    bytes_in: Annotated[float, pydantic.Field(alias="bytesIn")]
 
-    yellow: Annotated[Optional[float], pydantic.Field(alias="Yellow")] = None
+    bytes_out: Annotated[float, pydantic.Field(alias="bytesOut")]
 
-    red: Annotated[Optional[float], pydantic.Field(alias="Red")] = None
+    duration: float
 
-    unknown: Annotated[Optional[float], pydantic.Field(alias="Unknown")] = None
+    events_in: Annotated[float, pydantic.Field(alias="eventsIn")]
+
+    events_out: Annotated[float, pydantic.Field(alias="eventsOut")]
+
+    func: str
+
+    disabled: Optional[bool] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["Green", "Yellow", "Red", "Unknown"])
+        optional_fields = set(["disabled"])
         serialized = handler(self)
         m = {}
 

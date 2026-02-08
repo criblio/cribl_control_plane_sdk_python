@@ -252,11 +252,6 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](docs/sdks/samples/README.md#get) - Get sample event data for a Destination
 * [create](docs/sdks/samples/README.md#create) - Send sample event data to a Destination
 
-#### [Destinations.Statuses](docs/sdks/destinationsstatuses/README.md)
-
-* [get](docs/sdks/destinationsstatuses/README.md#get) - Get the status of a Destination
-* [list](docs/sdks/destinationsstatuses/README.md#list) - List the status of all Destinations
-
 ### [Functions](docs/sdks/functions/README.md)
 
 * [get](docs/sdks/functions/README.md#get) - Get a Function
@@ -333,11 +328,6 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](docs/sdks/packssamples/README.md#get) - Get sample event data for a Destination within a Pack
 * [create](docs/sdks/packssamples/README.md#create) - Send sample event data to a Destination within a Pack
 
-##### [Packs.Destinations.Statuses](docs/sdks/packsdestinationsstatuses/README.md)
-
-* [get](docs/sdks/packsdestinationsstatuses/README.md#get) - Get the status of a Destination within a Pack
-* [list](docs/sdks/packsdestinationsstatuses/README.md#list) - List the status of all Destinations within a Pack
-
 #### [Packs.Pipelines](docs/sdks/packspipelines/README.md)
 
 * [create](docs/sdks/packspipelines/README.md#create) - Create a Pipeline within a Pack
@@ -370,11 +360,6 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [clear](docs/sdks/packssourcespq/README.md#clear) - Clear the persistent queue for a Source within a Pack
 * [get](docs/sdks/packssourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source within a Pack
-
-##### [Packs.Sources.Statuses](docs/sdks/packssourcesstatuses/README.md)
-
-* [get](docs/sdks/packssourcesstatuses/README.md#get) - Get the status of a Source within a Pack
-* [list](docs/sdks/packssourcesstatuses/README.md#list) - List the status of all Sources within a Pack
 
 ### [Pipelines](docs/sdks/pipelines/README.md)
 
@@ -409,14 +394,13 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [clear](docs/sdks/sourcespq/README.md#clear) - Clear the persistent queue for a Source
 * [get](docs/sdks/sourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source
 
-#### [Sources.Statuses](docs/sdks/sourcesstatuses/README.md)
-
-* [get](docs/sdks/sourcesstatuses/README.md#get) - Get the status of a Source
-* [list](docs/sdks/sourcesstatuses/README.md#list) - List the status of all Sources
-
 ### [System.Captures](docs/sdks/captures/README.md)
 
 * [create](docs/sdks/captures/README.md#create) - Capture live incoming data
+
+### [System.Previews](docs/sdks/previews/README.md)
+
+* [create](docs/sdks/previews/README.md#create) - Send sample events through a Pipeline and review results
 
 ### [System.Settings](docs/sdks/settings/README.md)
 
@@ -451,9 +435,9 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [get](docs/sdks/versionsconfigs/README.md#get) - Get the configuration and status for the Git integration
 
-### [Versions.Statuses](docs/sdks/versionsstatuses/README.md)
+### [Versions.Statuses](docs/sdks/statuses/README.md)
 
-* [get](docs/sdks/versionsstatuses/README.md#get) - Get the status of the current working tree
+* [get](docs/sdks/statuses/README.md#get) - Get the status of the current working tree
 
 </details>
 <!-- End Available Resources and Operations [operations] -->

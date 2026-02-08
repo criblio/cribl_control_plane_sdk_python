@@ -252,11 +252,6 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/samples/README.md#get) - Get sample event data for a Destination
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/samples/README.md#create) - Send sample event data to a Destination
 
-#### [Destinations.Statuses](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationsstatuses/README.md)
-
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationsstatuses/README.md#get) - Get the status of a Destination
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationsstatuses/README.md#list) - List the status of all Destinations
-
 ### [Functions](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/functions/README.md)
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/functions/README.md#get) - Get a Function
@@ -333,11 +328,6 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssamples/README.md#get) - Get sample event data for a Destination within a Pack
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssamples/README.md#create) - Send sample event data to a Destination within a Pack
 
-##### [Packs.Destinations.Statuses](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinationsstatuses/README.md)
-
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinationsstatuses/README.md#get) - Get the status of a Destination within a Pack
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinationsstatuses/README.md#list) - List the status of all Destinations within a Pack
-
 #### [Packs.Pipelines](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md)
 
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md#create) - Create a Pipeline within a Pack
@@ -370,11 +360,6 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcespq/README.md#clear) - Clear the persistent queue for a Source within a Pack
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source within a Pack
-
-##### [Packs.Sources.Statuses](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcesstatuses/README.md)
-
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcesstatuses/README.md#get) - Get the status of a Source within a Pack
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcesstatuses/README.md#list) - List the status of all Sources within a Pack
 
 ### [Pipelines](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md)
 
@@ -409,14 +394,13 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md#clear) - Clear the persistent queue for a Source
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source
 
-#### [Sources.Statuses](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcesstatuses/README.md)
-
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcesstatuses/README.md#get) - Get the status of a Source
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcesstatuses/README.md#list) - List the status of all Sources
-
 ### [System.Captures](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md)
 
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md#create) - Capture live incoming data
+
+### [System.Previews](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/previews/README.md)
+
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/previews/README.md#create) - Send sample events through a Pipeline and review results
 
 ### [System.Settings](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/settings/README.md)
 
@@ -451,9 +435,9 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versionsconfigs/README.md#get) - Get the configuration and status for the Git integration
 
-### [Versions.Statuses](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versionsstatuses/README.md)
+### [Versions.Statuses](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/statuses/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versionsstatuses/README.md#get) - Get the status of the current working tree
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/statuses/README.md#get) - Get the status of the current working tree
 
 </details>
 <!-- End Available Resources and Operations [operations] -->

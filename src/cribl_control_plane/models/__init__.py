@@ -162,6 +162,7 @@ if TYPE_CHECKING:
         ConfigGroupLookupsLookupTypedDict,
         ConfigGroupLookupsTypedDict,
     )
+    from .connectionprotocol import ConnectionProtocol
     from .countedboolean import CountedBoolean, CountedBooleanTypedDict
     from .countedbranchinfo import CountedBranchInfo, CountedBranchInfoTypedDict
     from .countedconfiggroup import CountedConfigGroup, CountedConfigGroupTypedDict
@@ -6163,6 +6164,7 @@ __all__ = [
     "ConfigGroupLookupsTypedDict",
     "ConfigGroupTypedDict",
     "ConfigTypedDict",
+    "ConnectionProtocol",
     "Container",
     "ContainerTypedDict",
     "CountComparator",
@@ -11388,6 +11390,7 @@ _dynamic_imports: dict[str, str] = {
     "ConfigGroupLookupsLookup": ".configgrouplookups",
     "ConfigGroupLookupsLookupTypedDict": ".configgrouplookups",
     "ConfigGroupLookupsTypedDict": ".configgrouplookups",
+    "ConnectionProtocol": ".connectionprotocol",
     "CountedBoolean": ".countedboolean",
     "CountedBooleanTypedDict": ".countedboolean",
     "CountedBranchInfo": ".countedbranchinfo",

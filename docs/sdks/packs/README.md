@@ -17,9 +17,109 @@ Actions related to Packs
 
 Install a Pack.<br><br>To install an uploaded Pack, provide the <code>source</code> value from the <code>PUT /packs</code> response as the <code>source</code> parameter in the request body.<br><br>To install a Pack by importing from a URL, provide the direct URL location of the <code>.crbl</code> file for the Pack as the <code>source</code> parameter in the request body.<br><br>To install a Pack by importing from a Git repository, provide <code>git+<repo-url></code> as the <code>source</code> parameter in the request body.<br><br>If you do not include the <code>source</code> parameter in the request body, an empty Pack is created.
 
-### Example Usage
+### Example Usage: PackInstallExamplesEmptyPack
 
-<!-- UsageSnippet language="python" operationID="createPacks" method="post" path="/packs" -->
+<!-- UsageSnippet language="python" operationID="createPacks" method="post" path="/packs" example="PackInstallExamplesEmptyPack" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.install(request={
+        "id": "<id>",
+        "spec": "<value>",
+        "version": "<value>",
+        "min_log_stream_version": "<value>",
+        "display_name": "Amely_Gusikowski",
+        "author": "<value>",
+        "description": "crowded that truly sideboard ample yahoo gracious enraged",
+        "source": "<value>",
+        "tags": {
+            "data_type": [
+                "double",
+                "boolean",
+            ],
+            "domain": [
+                "delectable-transom.com",
+                "radiant-sightseeing.info",
+            ],
+            "streamtags": [
+                "<value 1>",
+                "<value 2>",
+                "<value 3>",
+            ],
+            "technology": [
+                "<value 1>",
+            ],
+        },
+        "allow_custom_functions": False,
+        "force": True,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PackInstallExamplesGitRepository
+
+<!-- UsageSnippet language="python" operationID="createPacks" method="post" path="/packs" example="PackInstallExamplesGitRepository" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.install(request={
+        "id": "<id>",
+        "spec": "<value>",
+        "version": "<value>",
+        "min_log_stream_version": "<value>",
+        "display_name": "Jennyfer.Bogan",
+        "author": "<value>",
+        "description": "ack that sparkling if blah bourgeoisie or phooey",
+        "source": "git+https://github.com/criblio/cribl_ocsf_postprocessing",
+        "tags": {
+            "data_type": [
+                "double",
+                "boolean",
+            ],
+            "domain": [
+                "delectable-transom.com",
+                "radiant-sightseeing.info",
+            ],
+            "streamtags": [
+                "<value 1>",
+                "<value 2>",
+                "<value 3>",
+            ],
+            "technology": [
+                "<value 1>",
+            ],
+        },
+        "allow_custom_functions": False,
+        "force": True,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PackInstallExamplesPackDispensary
+
+<!-- UsageSnippet language="python" operationID="createPacks" method="post" path="/packs" example="PackInstallExamplesPackDispensary" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -60,6 +160,106 @@ with CriblControlPlane(
             ],
         },
         "allow_custom_functions": True,
+        "force": True,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PackInstallExamplesURL
+
+<!-- UsageSnippet language="python" operationID="createPacks" method="post" path="/packs" example="PackInstallExamplesURL" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.install(request={
+        "id": "<id>",
+        "spec": "<value>",
+        "version": "<value>",
+        "min_log_stream_version": "<value>",
+        "display_name": "Lavon.Russel",
+        "author": "<value>",
+        "description": "ferociously haunting meh into instantly",
+        "source": "https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl",
+        "tags": {
+            "data_type": [
+                "double",
+                "boolean",
+            ],
+            "domain": [
+                "delectable-transom.com",
+                "radiant-sightseeing.info",
+            ],
+            "streamtags": [
+                "<value 1>",
+                "<value 2>",
+                "<value 3>",
+            ],
+            "technology": [
+                "<value 1>",
+            ],
+        },
+        "allow_custom_functions": False,
+        "force": False,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PackInstallExamplesUploadedFile
+
+<!-- UsageSnippet language="python" operationID="createPacks" method="post" path="/packs" example="PackInstallExamplesUploadedFile" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.install(request={
+        "id": "cribl-search-missing-logs",
+        "spec": "<value>",
+        "version": "<value>",
+        "min_log_stream_version": "<value>",
+        "display_name": "Onie_Miller",
+        "author": "<value>",
+        "description": "than eek before fledgling absent astride depart till",
+        "source": "cribl-search-missing-logs-1.0.1.Do7DH5I.crbl",
+        "tags": {
+            "data_type": [
+                "double",
+                "boolean",
+            ],
+            "domain": [
+                "delectable-transom.com",
+                "radiant-sightseeing.info",
+            ],
+            "streamtags": [
+                "<value 1>",
+                "<value 2>",
+                "<value 3>",
+            ],
+            "technology": [
+                "<value 1>",
+            ],
+        },
+        "allow_custom_functions": False,
         "force": True,
     })
 
@@ -269,7 +469,7 @@ Upgrade the specified Pack.</br></br>If the Pack includes any user-modified vers
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="updatePacksById" method="patch" path="/packs/{id}" -->
+<!-- UsageSnippet language="python" operationID="updatePacksById" method="patch" path="/packs/{id}" example="PackUpgradeExamplesUpgradeFromURL" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

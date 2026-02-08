@@ -6,22 +6,46 @@ from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional
+from typing import Any, Dict, List, Mapping, Optional
 
 
-class VersionsStatuses(BaseSDK):
-    def get(
+class Previews(BaseSDK):
+    def create(
         self,
         *,
+        mode: models.PreviewDataParamsMode,
+        pipeline_id: str,
+        sample_id: str,
+        cpu_profile: Optional[bool] = None,
+        dropped: Optional[bool] = None,
+        enhance_metrics_output: Optional[bool] = None,
+        events: Optional[List[Dict[str, Any]]] = None,
+        input_id: Optional[str] = None,
+        level: Optional[float] = None,
+        memory: Optional[float] = None,
+        sample_pipeline_id: Optional[str] = None,
+        timeout: Optional[float] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedGitStatusResult:
-        r"""Get the status of the current working tree
+    ) -> models.PreviewResponse:
+        r"""Send sample events through a Pipeline and review results
 
-        Get the status of the current working tree of the Git repository used for Cribl configuration. The response includes details about modified, staged, untracked, and conflicted files, as well as branch and remote tracking information.
+        Send sample events through the specified Pipeline.The response contains an array of objects, each showing the transformations,additions, and removals for an event after it passes through the pipeline.Useful for testing Pipeline logic with sample data before deploying changes.
 
+        :param mode:
+        :param pipeline_id:
+        :param sample_id:
+        :param cpu_profile:
+        :param dropped:
+        :param enhance_metrics_output:
+        :param events:
+        :param input_id:
+        :param level:
+        :param memory:
+        :param sample_pipeline_id:
+        :param timeout:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -36,19 +60,38 @@ class VersionsStatuses(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.PreviewDataParams(
+            cpu_profile=cpu_profile,
+            dropped=dropped,
+            enhance_metrics_output=enhance_metrics_output,
+            events=events,
+            input_id=input_id,
+            level=level,
+            memory=memory,
+            mode=mode,
+            pipeline_id=pipeline_id,
+            sample_id=sample_id,
+            sample_pipeline_id=sample_pipeline_id,
+            timeout=timeout,
+        )
+
         req = self._build_request(
-            method="GET",
-            path="/version/status",
+            method="POST",
+            path="/preview",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
-            request_body_required=False,
+            request=request,
+            request_body_required=True,
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request, False, False, "json", models.PreviewDataParams
+            ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
@@ -69,7 +112,7 @@ class VersionsStatuses(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getVersionStatus",
+                operation_id="createPreview",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -82,7 +125,7 @@ class VersionsStatuses(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedGitStatusResult, http_res)
+            return unmarshal_json_response(models.PreviewResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -95,18 +138,42 @@ class VersionsStatuses(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def get_async(
+    async def create_async(
         self,
         *,
+        mode: models.PreviewDataParamsMode,
+        pipeline_id: str,
+        sample_id: str,
+        cpu_profile: Optional[bool] = None,
+        dropped: Optional[bool] = None,
+        enhance_metrics_output: Optional[bool] = None,
+        events: Optional[List[Dict[str, Any]]] = None,
+        input_id: Optional[str] = None,
+        level: Optional[float] = None,
+        memory: Optional[float] = None,
+        sample_pipeline_id: Optional[str] = None,
+        timeout: Optional[float] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedGitStatusResult:
-        r"""Get the status of the current working tree
+    ) -> models.PreviewResponse:
+        r"""Send sample events through a Pipeline and review results
 
-        Get the status of the current working tree of the Git repository used for Cribl configuration. The response includes details about modified, staged, untracked, and conflicted files, as well as branch and remote tracking information.
+        Send sample events through the specified Pipeline.The response contains an array of objects, each showing the transformations,additions, and removals for an event after it passes through the pipeline.Useful for testing Pipeline logic with sample data before deploying changes.
 
+        :param mode:
+        :param pipeline_id:
+        :param sample_id:
+        :param cpu_profile:
+        :param dropped:
+        :param enhance_metrics_output:
+        :param events:
+        :param input_id:
+        :param level:
+        :param memory:
+        :param sample_pipeline_id:
+        :param timeout:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -121,19 +188,38 @@ class VersionsStatuses(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.PreviewDataParams(
+            cpu_profile=cpu_profile,
+            dropped=dropped,
+            enhance_metrics_output=enhance_metrics_output,
+            events=events,
+            input_id=input_id,
+            level=level,
+            memory=memory,
+            mode=mode,
+            pipeline_id=pipeline_id,
+            sample_id=sample_id,
+            sample_pipeline_id=sample_pipeline_id,
+            timeout=timeout,
+        )
+
         req = self._build_request_async(
-            method="GET",
-            path="/version/status",
+            method="POST",
+            path="/preview",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
-            request_body_required=False,
+            request=request,
+            request_body_required=True,
             request_has_path_params=False,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request, False, False, "json", models.PreviewDataParams
+            ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
@@ -154,7 +240,7 @@ class VersionsStatuses(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getVersionStatus",
+                operation_id="createPreview",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
@@ -167,7 +253,7 @@ class VersionsStatuses(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedGitStatusResult, http_res)
+            return unmarshal_json_response(models.PreviewResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

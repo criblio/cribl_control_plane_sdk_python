@@ -5,7 +5,7 @@
 
 | Field              | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
-| `green`            | *float*            | :heavy_check_mark: | N/A                |
-| `yellow`           | *float*            | :heavy_check_mark: | N/A                |
-| `red`              | *float*            | :heavy_check_mark: | N/A                |
-| `unknown`          | *float*            | :heavy_check_mark: | N/A                |
+| `green`            | *Optional[float]*  | :heavy_minus_sign: | N/A                |
+| `yellow`           | *Optional[float]*  | :heavy_minus_sign: | N/A                |
+| `red`              | *Optional[float]*  | :heavy_minus_sign: | N/A                |
+| `unknown`          | *Optional[float]*  | :heavy_minus_sign: | N/A                |

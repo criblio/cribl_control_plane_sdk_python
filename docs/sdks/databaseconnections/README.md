@@ -28,7 +28,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="<value>", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, creds_secrets="<value>", password="QpvMa8DI_lUJL_b", request_timeout=4657.19, tags="production,mysql,customer-data", user="Dolores.Feil")
+    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, tags="production,mysql,customer-data")
 
     # Handle response
     print(res)
@@ -49,7 +49,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", config_obj="<value>", connection_string="<value>", connection_timeout=15000, creds_secrets="<value>", password="QdEG1YZma4X6Q0d", request_timeout=8016.38, tags="analytics,mysql", user="Deon.Zulauf40")
+    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", connection_timeout=15000, tags="analytics,mysql")
 
     # Handle response
     print(res)
@@ -70,7 +70,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle ERP database", id="oracle-erp", config_obj="<value>", connection_string="oracle.example.com:1521/ORCL", connection_timeout=15000, creds_secrets="<value>", password="Oracle_Pass456!", request_timeout=8432.44, tags="erp,oracle,finance", user="erp_user")
+    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle ERP database", id="oracle-erp", connection_string="oracle.example.com:1521/ORCL", connection_timeout=15000, password="Oracle_Pass456!", tags="erp,oracle,finance", user="erp_user")
 
     # Handle response
     print(res)
@@ -91,7 +91,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secrets", database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", config_obj="<value>", connection_string="<value>", connection_timeout=15000, creds_secrets="oracle-secure-credentials", password="O0ma5h_gwqFSiXO", request_timeout=5552.27, tags="secure,oracle,sensitive-data", user="Alek_Dibbert")
+    res = ccp_client.database_connections.create(auth_type="secrets", database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", connection_timeout=15000, creds_secrets="oracle-secure-credentials", tags="secure,oracle,sensitive-data")
 
     # Handle response
     print(res)
@@ -112,7 +112,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", config_obj="<value>", connection_string="<value>", connection_timeout=20000, creds_secrets="<value>", password="Warehouse_Pass789!", request_timeout=1474.54, tags="warehouse,oracle,reporting", user="warehouse_user")
+    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", connection_timeout=20000, password="Warehouse_Pass789!", tags="warehouse,oracle,reporting", user="warehouse_user")
 
     # Handle response
     print(res)
@@ -133,7 +133,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.POSTGRES, description="Data warehouse PostgreSQL database", id="postgres-warehouse", config_obj="<value>", connection_string="postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", connection_timeout=15000, creds_secrets="<value>", password="iRpyPXc98_8DDCo", request_timeout=6489.43, tags="warehouse,postgres,reporting", user="Ashlynn_Cassin")
+    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.POSTGRES, description="Data warehouse PostgreSQL database", id="postgres-warehouse", connection_string="postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", connection_timeout=15000, tags="warehouse,postgres,reporting")
 
     # Handle response
     print(res)
@@ -154,7 +154,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", config_obj="<value>", connection_string="<value>", connection_timeout=10000, creds_secrets="<value>", password="S_R5PzDp3_vEzJr", request_timeout=3972.05, tags="logs,postgres", user="Eldon53")
+    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", connection_timeout=10000, tags="logs,postgres")
 
     # Handle response
     print(res)
@@ -175,7 +175,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="configObj", database_type=models.DatabaseConnectionType.SQLSERVER, description="Reporting SQL Server database with custom config", id="sqlserver-reporting", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", connection_string="<value>", connection_timeout=4499.78, creds_secrets="<value>", password="g9Dv7PtDzLx0pmQ", request_timeout=60000, tags="reporting,sqlserver,analytics", user="Aubree_Herman32")
+    res = ccp_client.database_connections.create(auth_type="configObj", database_type=models.DatabaseConnectionType.SQLSERVER, description="Reporting SQL Server database with custom config", id="sqlserver-reporting", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", request_timeout=60000, tags="reporting,sqlserver,analytics")
 
     # Handle response
     print(res)
@@ -196,7 +196,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.SQLSERVER, description="ERP SQL Server database", id="sqlserver-erp", config_obj="<value>", connection_string="Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", connection_timeout=15000, creds_secrets="<value>", password="KdnOen49IaSDMY2", request_timeout=30000, tags="erp,sqlserver,finance", user="Jessika_Smitham")
+    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.SQLSERVER, description="ERP SQL Server database", id="sqlserver-erp", connection_string="Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", connection_timeout=15000, request_timeout=30000, tags="erp,sqlserver,finance")
 
     # Handle response
     print(res)
@@ -217,7 +217,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", config_obj="<value>", connection_string="<value>", connection_timeout=15000, creds_secrets="<value>", password="Ua8rfhO1uYnrBPC", request_timeout=15000, tags="crm,sqlserver,sales", user="Genevieve.Douglas13")
+    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", connection_timeout=15000, request_timeout=15000, tags="crm,sqlserver,sales")
 
     # Handle response
     print(res)
@@ -360,7 +360,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", config_obj="<value>", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, creds_secrets="<value>", password="Fu8u0O8uNNPcA9S", request_timeout=7946.16, tags="production,mysql,customer-data", user="Rubie93")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, tags="production,mysql,customer-data")
 
     # Handle response
     print(res)
@@ -381,7 +381,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", config_obj="<value>", connection_string="<value>", connection_timeout=15000, creds_secrets="<value>", password="I4rBabWGYRpCqjN", request_timeout=3077.93, tags="analytics,mysql", user="Gunnar_Hickle-Davis")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", connection_timeout=15000, tags="analytics,mysql")
 
     # Handle response
     print(res)
@@ -402,7 +402,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle ERP database", id="oracle-erp", config_obj="<value>", connection_string="oracle.example.com:1521/ORCL", connection_timeout=15000, creds_secrets="<value>", password="Oracle_Pass456!", request_timeout=4812.37, tags="erp,oracle,finance", user="erp_user")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle ERP database", id="oracle-erp", connection_string="oracle.example.com:1521/ORCL", connection_timeout=15000, password="Oracle_Pass456!", tags="erp,oracle,finance", user="erp_user")
 
     # Handle response
     print(res)
@@ -423,7 +423,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secrets", database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", config_obj="<value>", connection_string="<value>", connection_timeout=15000, creds_secrets="oracle-secure-credentials", password="h2R8xU7uFdKI0S6", request_timeout=9629.77, tags="secure,oracle,sensitive-data", user="Kay83")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secrets", database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", connection_timeout=15000, creds_secrets="oracle-secure-credentials", tags="secure,oracle,sensitive-data")
 
     # Handle response
     print(res)
@@ -444,7 +444,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", config_obj="<value>", connection_string="<value>", connection_timeout=20000, creds_secrets="<value>", password="Warehouse_Pass789!", request_timeout=2147.18, tags="warehouse,oracle,reporting", user="warehouse_user")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", connection_timeout=20000, password="Warehouse_Pass789!", tags="warehouse,oracle,reporting", user="warehouse_user")
 
     # Handle response
     print(res)
@@ -465,7 +465,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.POSTGRES, description="Data warehouse PostgreSQL database", id="postgres-warehouse", config_obj="<value>", connection_string="postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", connection_timeout=15000, creds_secrets="<value>", password="SJ185mzGNnaospV", request_timeout=4073.17, tags="warehouse,postgres,reporting", user="Charlene27")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.POSTGRES, description="Data warehouse PostgreSQL database", id="postgres-warehouse", connection_string="postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", connection_timeout=15000, tags="warehouse,postgres,reporting")
 
     # Handle response
     print(res)
@@ -486,7 +486,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", config_obj="<value>", connection_string="<value>", connection_timeout=10000, creds_secrets="<value>", password="bJaM8xGlX7QHy5k", request_timeout=145.27, tags="logs,postgres", user="Ulices_Morar85")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", connection_timeout=10000, tags="logs,postgres")
 
     # Handle response
     print(res)
@@ -507,7 +507,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="configObj", database_type=models.DatabaseConnectionType.SQLSERVER, description="Reporting SQL Server database with custom config", id="sqlserver-reporting", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", connection_string="<value>", connection_timeout=1192.73, creds_secrets="<value>", password="uj_P5dL_oZDsm0P", request_timeout=60000, tags="reporting,sqlserver,analytics", user="Retta_Welch")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="configObj", database_type=models.DatabaseConnectionType.SQLSERVER, description="Reporting SQL Server database with custom config", id="sqlserver-reporting", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", request_timeout=60000, tags="reporting,sqlserver,analytics")
 
     # Handle response
     print(res)
@@ -528,7 +528,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.SQLSERVER, description="ERP SQL Server database", id="sqlserver-erp", config_obj="<value>", connection_string="Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", connection_timeout=15000, creds_secrets="<value>", password="gAICi7pHE7tEZAQ", request_timeout=30000, tags="erp,sqlserver,finance", user="Jennifer60")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.SQLSERVER, description="ERP SQL Server database", id="sqlserver-erp", connection_string="Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", connection_timeout=15000, request_timeout=30000, tags="erp,sqlserver,finance")
 
     # Handle response
     print(res)
@@ -549,7 +549,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", config_obj="<value>", connection_string="<value>", connection_timeout=15000, creds_secrets="<value>", password="uplhN8ZaDm8LRt_", request_timeout=15000, tags="crm,sqlserver,sales", user="Millie.Dickens93")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", connection_timeout=15000, request_timeout=15000, tags="crm,sqlserver,sales")
 
     # Handle response
     print(res)

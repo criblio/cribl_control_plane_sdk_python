@@ -481,7 +481,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.system.captures.create(duration=5, filter_="sourcetype===\"pan:traffic\"", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100, step_duration=994184, worker_id="<id>", worker_threshold=771620)
+    res = ccp_client.system.captures.create(duration=5, filter_="sourcetype===\"pan:traffic\"", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100)
 
     with res as jsonl_stream:
         for event in jsonl_stream:

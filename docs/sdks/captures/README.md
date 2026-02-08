@@ -48,7 +48,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.system.captures.create(duration=15, filter_="__inputId.startsWith(\"http:\") && status >= 400 && status < 500", level=models.CaptureLevel.BEFORE_ROUTES, max_events=500, step_duration=921861, worker_id="<id>", worker_threshold=208781)
+    res = ccp_client.system.captures.create(duration=15, filter_="__inputId.startsWith(\"http:\") && status >= 400 && status < 500", level=models.CaptureLevel.BEFORE_ROUTES, max_events=500)
 
     with res as jsonl_stream:
         for event in jsonl_stream:
@@ -71,7 +71,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.system.captures.create(duration=5, filter_="sourcetype===\"pan:traffic\" && src_zone===\"trusted\"", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100, step_duration=882563, worker_id="<id>", worker_threshold=392678)
+    res = ccp_client.system.captures.create(duration=5, filter_="sourcetype===\"pan:traffic\" && src_zone===\"trusted\"", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100)
 
     with res as jsonl_stream:
         for event in jsonl_stream:
@@ -94,7 +94,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.system.captures.create(duration=5, filter_="sourcetype===\"pan:traffic\" && dest_geoip.country.iso_code === \"US\"", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100, step_duration=377776, worker_id="<id>", worker_threshold=429562)
+    res = ccp_client.system.captures.create(duration=5, filter_="sourcetype===\"pan:traffic\" && dest_geoip.country.iso_code === \"US\"", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100)
 
     with res as jsonl_stream:
         for event in jsonl_stream:
@@ -117,7 +117,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.system.captures.create(duration=5, filter_="sourcetype===\"pan:traffic\"", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100, step_duration=994184, worker_id="<id>", worker_threshold=771620)
+    res = ccp_client.system.captures.create(duration=5, filter_="sourcetype===\"pan:traffic\"", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100)
 
     with res as jsonl_stream:
         for event in jsonl_stream:

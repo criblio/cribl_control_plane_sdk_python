@@ -70,32 +70,9 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.system.settings.cribl.update(api={
-        "base_url": "https://both-draw.com/",
-        "disable_api_cache": True,
         "disabled": False,
-        "headers": {
-
-        },
         "host": "meaty-spring.biz",
-        "idle_session_ttl": 89.27,
-        "listen_on_port": True,
-        "login_rate_limit": "<value>",
         "port": 2424.38,
-        "protocol": "<value>",
-        "scripts": True,
-        "sensitive_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "ssl": {
-            "ca_path": "<value>",
-            "cert_path": "<value>",
-            "disabled": True,
-            "passphrase": "<value>",
-            "priv_key_path": "<value>",
-        },
-        "sso_rate_limit": "<value>",
-        "worker_remote_access": True,
     }, backups={
         "backup_persistence": "<value>",
         "backups_directory": "<value>",
@@ -125,39 +102,10 @@ with CriblControlPlane(
         "quantity": 7915.07,
         "retry_count": 4414.66,
         "retry_delay": 4374.4,
-    }, upgrade_settings={
-        "automatic_upgrade_check_period": "<value>",
-        "disable_automatic_upgrade": False,
-        "enable_legacy_edge_upgrade": False,
-        "package_urls": [
-            {
-                "package_hash_url": "https://thrifty-teammate.net/",
-                "package_url": "https://skeletal-dwell.info/",
-            },
-        ],
-        "upgrade_source": "<value>",
-    }, workers={
+    }, upgrade_settings={}, workers={
         "count": 2124.14,
-        "enable_heap_snapshots": True,
-        "load_throttle_perc": 2538.71,
         "memory": 20.53,
         "minimum": 6157.83,
-        "startup_max_conns": 4731.29,
-        "startup_throttle_timeout": 1613.48,
-        "v8_single_thread": True,
-    }, custom_logo={
-        "enabled": False,
-        "logo_description": "<value>",
-        "logo_image": "<value>",
-    }, sockets={
-        "directory": "/usr/ports",
-    }, support={
-        "feature_flag_overrides": [
-            {
-                "disabled": True,
-                "flag_id": "<id>",
-            },
-        ],
     })
 
     # Handle response

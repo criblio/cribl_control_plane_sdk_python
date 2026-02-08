@@ -3,22 +3,22 @@ id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
   docChecksum: 7427e8767527e428dc4da149809d481d
   docVersion: 4.16.1-alpha.1769555026407-0074e6cb
-  speakeasyVersion: 1.706.1
-  generationVersion: 2.809.2
-  releaseVersion: 0.6.0a5
-  configChecksum: 8d44778a5c4e1382acace1de00e1a12e
+  speakeasyVersion: 1.708.2
+  generationVersion: 2.811.4
+  releaseVersion: 0.6.0a6
+  configChecksum: 787639385c2cf5dcd35fde6f960ec818
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 24fd58df-9b4d-4455-b9b5-e5be78b28668
-  pristine_commit_hash: 83de54be319a4f213c4edec6efbac496de22b864
-  pristine_tree_hash: 1a7deac285456f54e314ec701063b08b7816150c
+  generation_id: f26cea8c-52ba-41cc-833d-ad732ec8d9e0
+  pristine_commit_hash: ed6140ee4c3136deb08076b24d52e73f74e99046
+  pristine_tree_hash: 5f6a1a10da7d22aa894e8a1c4edc58a990507f74
 features:
   python:
     additionalDependencies: 1.0.0
     additionalProperties: 1.0.1
-    core: 6.0.3
+    core: 6.0.4
     defaultEnabledRetries: 0.2.0
     devContainers: 3.0.0
     enumUnions: 0.1.0
@@ -11008,8 +11008,8 @@ trackedFiles:
     pristine_git_object: 9ff84a333105f858510fba6bcaa32df6ad8666a8
   docs/sdks/collectorssdk/README.md:
     id: fb156921e8e5
-    last_write_checksum: sha1:7c09aa83ec65d05a3630ac41cb8947f02b806a52
-    pristine_git_object: c9835a9258fabbb0f381f96ed703b8e24f171409
+    last_write_checksum: sha1:c8bb04333da0d9c49e115b30bd0c59ba12287d80
+    pristine_git_object: d9fe183cfdb8748c9b5991de3c254f722330d883
   docs/sdks/commits/README.md:
     id: ae81a8318c17
     last_write_checksum: sha1:a09044452547cb1311271c0252b83e88720db30e
@@ -11024,8 +11024,8 @@ trackedFiles:
     pristine_git_object: adf95e205ba2721bb6a1b389c98004fc94b35574
   docs/sdks/destinations/README.md:
     id: e83d288899aa
-    last_write_checksum: sha1:f667fb56dfde1f299ed0624b96eb57a692120ef7
-    pristine_git_object: 7eb958aeaa9ec03f3e3df86ced84c4aa298d06aa
+    last_write_checksum: sha1:871ff98a058db4491b5c0c7b15fb0f3921dbee4e
+    pristine_git_object: b06263a90a7fd0cd2baa3402f15ce763f3b1b7bc
   docs/sdks/files/README.md:
     id: e576d7a117f0
     last_write_checksum: sha1:9733468fe85ebae72aa8ce2ed91f0b4d50c3929a
@@ -11036,16 +11036,16 @@ trackedFiles:
     pristine_git_object: 329c42e8ca351f096dbec26d2740340f45be4792
   docs/sdks/groupssdk/README.md:
     id: e1199079357d
-    last_write_checksum: sha1:1e037c9ee9a39e3f72fda730a41baebe4119dd4d
-    pristine_git_object: 8f6b408193afa92305cd7ded57f6e0b4df83c8fd
+    last_write_checksum: sha1:7cce3c95fa35e264b1d152b8e7863c8729d241de
+    pristine_git_object: 554ba11535bbee5a17bd1e2397e7a2ac2ea7c39e
   docs/sdks/health/README.md:
     id: 5082c50d5e82
     last_write_checksum: sha1:ac407c2952bbc76ef29e045d55eecb2068d0867a
     pristine_git_object: 93feda8880e1aca4b3fe90d79f01ec5b0bcd3b88
   docs/sdks/hectokens/README.md:
     id: 341daeeec3d1
-    last_write_checksum: sha1:6ac4b33cf2c1fa035104b367195fefac76db44b9
-    pristine_git_object: 6d531b6f43f5cf511543b4fdd70ba13a1685a8d3
+    last_write_checksum: sha1:b71b660cd1c8c903772ee85bdf10e763d3233846
+    pristine_git_object: 74789408af1ef758333bbc2fc8e9f598ff6c3405
   docs/sdks/lakedatasets/README.md:
     id: 525057cafa86
     last_write_checksum: sha1:5d6ffc34eae1d5c8f9459c57bfac64785a51e1b1
@@ -11056,28 +11056,28 @@ trackedFiles:
     pristine_git_object: 933cc6d3ccc146453110411dd5f48a657dee1434
   docs/sdks/packs/README.md:
     id: aea0b099af37
-    last_write_checksum: sha1:92c356b6af5f7072d511eb87018ba4f6a763a922
-    pristine_git_object: c1d588bc1062fe5be527095fd5bd5be1b998e5a6
+    last_write_checksum: sha1:ed36ff8315f9f5daa2a6608b7dd432504017e751
+    pristine_git_object: f08a970d18e4e33741398c3bf66dc7b15017a05c
   docs/sdks/pipelines/README.md:
     id: 96306a4a5f5a
-    last_write_checksum: sha1:f7230f3c05d0e3f3fdad47a370eda80f73fd47cf
-    pristine_git_object: b5c90e24e9622fe33d4df9b5f2ff6389f58de38e
+    last_write_checksum: sha1:4cc6a6c769e8c583249add26aba5c2a550e5c471
+    pristine_git_object: 328727719e602fe72534a82412a262a9a9f469e8
   docs/sdks/pq/README.md:
     id: 47d89d172a34
     last_write_checksum: sha1:68156495dbc6e929d062a67b3855c7da55dd2357
     pristine_git_object: 134cde206e1123617da7f5e82cdd8b0b96f54f9e
   docs/sdks/routessdk/README.md:
     id: 7c151891b0a4
-    last_write_checksum: sha1:f865a7c6f1b6616a8065dc02ca334e1b55ea84e3
-    pristine_git_object: f95355ff96ae4c54d3b5ef43b2c9ac0b8bbcd0d5
+    last_write_checksum: sha1:54c9a7e8f8a9073d1d167796bed1c9cb8e6fb37d
+    pristine_git_object: 23997c410578bc2e3a6fc1159d6e957253698dfd
   docs/sdks/samples/README.md:
     id: 2b3e67e9f9a5
     last_write_checksum: sha1:a53acb0d2735404448c545e76abe3803bd43b93d
     pristine_git_object: d9fcf3d4714e558bc6d82803e5c27030bdfcdd40
   docs/sdks/sources/README.md:
     id: c1396b2a57d9
-    last_write_checksum: sha1:c2846ccd6cc0290bc0e1b8c177942a990da9a123
-    pristine_git_object: e0c13c5a482ef5f4f8e6a4b826d622aa6a43d942
+    last_write_checksum: sha1:cf601234b7c6963295a67c156c8a8fb102ad1aac
+    pristine_git_object: 2f855343a2525215d3702231af5e8578e6ef2bf0
   docs/sdks/statuses/README.md:
     id: 9d2c1d2e9b17
     last_write_checksum: sha1:5a02c5424f5b2912b443f73dfd344e46edb1f26b
@@ -11112,8 +11112,8 @@ trackedFiles:
     pristine_git_object: 3b5264a8808fdf5051e1705480046617395a718e
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:c21029304f980968a972f0f0158642174127bfc1
-    pristine_git_object: 26811ecac132fc10f0a013b7dd071b6fe47f0980
+    last_write_checksum: sha1:92bb91f29bbee0064a691652ec483c1d25e426cb
+    pristine_git_object: ca76b3d31355787c0f80c22e4393dec14ba6ce04
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -11144,8 +11144,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:e097eac0ed6ea3db68be9ba0b791e4333192c4f5
-    pristine_git_object: 7e17a803f9527a93a6ef41440641241c45725c2b
+    last_write_checksum: sha1:adcc5d9c5e21670a59f502be30c7c3814df87107
+    pristine_git_object: 93041a31eb6318e83107c3262a9e0b4fbf3af168
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17

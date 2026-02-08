@@ -83,34 +83,8 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.packs.install(request={
-        "id": "<id>",
-        "spec": "<value>",
-        "version": "<value>",
-        "min_log_stream_version": "<value>",
-        "display_name": "Jennyfer.Bogan",
-        "author": "<value>",
-        "description": "ack that sparkling if blah bourgeoisie or phooey",
         "source": "git+https://github.com/criblio/cribl_ocsf_postprocessing",
-        "tags": {
-            "data_type": [
-                "double",
-                "boolean",
-            ],
-            "domain": [
-                "delectable-transom.com",
-                "radiant-sightseeing.info",
-            ],
-            "streamtags": [
-                "<value 1>",
-                "<value 2>",
-                "<value 3>",
-            ],
-            "technology": [
-                "<value 1>",
-            ],
-        },
         "allow_custom_functions": False,
-        "force": True,
     })
 
     # Handle response
@@ -133,32 +107,7 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.packs.install(request={
-        "id": "<id>",
-        "spec": "<value>",
-        "version": "<value>",
-        "min_log_stream_version": "<value>",
-        "display_name": "June30",
-        "author": "<value>",
-        "description": "and banish crossly abacus",
         "source": "https://packs.cribl.io/dl/cribl-duo-rest-io/latest/cribl-duo-rest-io-latest.crbl",
-        "tags": {
-            "data_type": [
-                "double",
-                "boolean",
-            ],
-            "domain": [
-                "delectable-transom.com",
-                "radiant-sightseeing.info",
-            ],
-            "streamtags": [
-                "<value 1>",
-                "<value 2>",
-                "<value 3>",
-            ],
-            "technology": [
-                "<value 1>",
-            ],
-        },
         "allow_custom_functions": True,
         "force": True,
     })
@@ -183,34 +132,8 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.packs.install(request={
-        "id": "<id>",
-        "spec": "<value>",
-        "version": "<value>",
-        "min_log_stream_version": "<value>",
-        "display_name": "Lavon.Russel",
-        "author": "<value>",
-        "description": "ferociously haunting meh into instantly",
         "source": "https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl",
-        "tags": {
-            "data_type": [
-                "double",
-                "boolean",
-            ],
-            "domain": [
-                "delectable-transom.com",
-                "radiant-sightseeing.info",
-            ],
-            "streamtags": [
-                "<value 1>",
-                "<value 2>",
-                "<value 3>",
-            ],
-            "technology": [
-                "<value 1>",
-            ],
-        },
         "allow_custom_functions": False,
-        "force": False,
     })
 
     # Handle response
@@ -234,33 +157,8 @@ with CriblControlPlane(
 
     res = ccp_client.packs.install(request={
         "id": "cribl-search-missing-logs",
-        "spec": "<value>",
-        "version": "<value>",
-        "min_log_stream_version": "<value>",
-        "display_name": "Onie_Miller",
-        "author": "<value>",
-        "description": "than eek before fledgling absent astride depart till",
         "source": "cribl-search-missing-logs-1.0.1.Do7DH5I.crbl",
-        "tags": {
-            "data_type": [
-                "double",
-                "boolean",
-            ],
-            "domain": [
-                "delectable-transom.com",
-                "radiant-sightseeing.info",
-            ],
-            "streamtags": [
-                "<value 1>",
-                "<value 2>",
-                "<value 3>",
-            ],
-            "technology": [
-                "<value 1>",
-            ],
-        },
         "allow_custom_functions": False,
-        "force": True,
     })
 
     # Handle response
@@ -482,7 +380,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.update(id="<id>", source="https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl", allow_custom_functions=True, minor="<value>", spec="<value>")
+    res = ccp_client.packs.update(id="<id>", source="https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl")
 
     # Handle response
     print(res)

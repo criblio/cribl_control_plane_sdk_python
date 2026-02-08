@@ -40,14 +40,10 @@ with CriblControlPlane(
             {
                 "filter_": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) || (_metric == 'proc.mem_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.mem_perc'\")) || (_metric == 'proc.bytes_in' || __criblMetrics[0].nameExpr.includes(\"'proc.bytes_in'\"))",
                 "id": models.PipelineFunctionAggregateMetricsID.AGGREGATE_METRICS,
-                "description": "humiliating guidance highly hundred er round zowie ew",
-                "disabled": False,
-                "final": False,
                 "conf": {
                     "passthrough": False,
                     "preserve_group_bys": False,
                     "sufficient_stats_only": False,
-                    "prefix": "<value>",
                     "time_window": "10s",
                     "aggregations": [
                         {
@@ -66,19 +62,10 @@ with CriblControlPlane(
                     "groupbys": [
                         "proc",
                     ],
-                    "flush_event_limit": 5554.41,
-                    "flush_mem_limit": "<value>",
                     "cumulative": False,
                     "should_treat_dots_as_literals": True,
-                    "add": [
-                        {
-                            "name": "<value>",
-                            "value": "<value>",
-                        },
-                    ],
                     "flush_on_input_close": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -114,15 +101,11 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionAggregationID.AGGREGATION,
-                "description": "classic huzzah slip gah or from versus spirit worth down",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "passthrough": False,
                     "preserve_group_bys": False,
                     "sufficient_stats_only": False,
                     "metrics_mode": False,
-                    "prefix": "<value>",
                     "time_window": "10s",
                     "aggregations": [
                         "sum(bytes).where(action==\"REJECT\").as(TotalBytes)",
@@ -130,20 +113,10 @@ with CriblControlPlane(
                     "groupbys": [
                         "srcaddr",
                     ],
-                    "flush_event_limit": 6647.4,
-                    "flush_mem_limit": "<value>",
                     "cumulative": False,
-                    "search_agg_mode": "<value>",
-                    "add": [
-                        {
-                            "name": "<value>",
-                            "value": "<value>",
-                        },
-                    ],
                     "should_treat_dots_as_literals": False,
                     "flush_on_input_close": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -179,9 +152,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionAutoTimestampID.AUTO_TIMESTAMP,
-                "description": "out slide blah irresponsible even squeaky finally atop noisily",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "src_field": "_raw",
                     "dst_field": "_time",
@@ -191,7 +161,6 @@ with CriblControlPlane(
                     "max_len": 150,
                     "default_time": models.DefaultTime.NOW,
                     "latest_date_allowed": "+1week",
-                    "spacer": "<value>",
                     "earliest_date_allowed": "-420weeks",
                     "timestamps": [
                         {
@@ -200,7 +169,6 @@ with CriblControlPlane(
                         },
                     ],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -236,9 +204,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionCefID.CEF,
-                "description": "gadzooks always as likable aboard ad gadzooks foolish ham",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "output_field": "_raw",
                     "header": [
@@ -271,7 +236,6 @@ with CriblControlPlane(
                         },
                     ],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -307,13 +271,9 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionChainID.CHAIN,
-                "description": "cantaloupe hasty where gee yum excepting",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "processor": "prometheus_metrics",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -349,9 +309,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionCloneID.CLONE,
-                "description": "sailor finally magnetize plus aware forenenst good gloss",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "clones": [
                         {
@@ -362,7 +319,6 @@ with CriblControlPlane(
                         },
                     ],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -398,13 +354,9 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionCommentID.COMMENT,
-                "description": "weekly boggle oof modulo when pleased consequently oddly",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "comment": "This function processes security events and enriches them with DNS lookups",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -440,9 +392,6 @@ with CriblControlPlane(
             models.PipelineFunctionDNSLookup(
                 filter_="true",
                 id=models.PipelineFunctionDNSLookupID.DNS_LOOKUP,
-                description="unlike victoriously dredger lest frightfully gifted instantly",
-                disabled=False,
-                final=True,
                 conf=models.FunctionConfSchemaDNSLookup(
                     dns_lookup_fields=[
                         models.DNSLookupField(
@@ -457,19 +406,12 @@ with CriblControlPlane(
                             out_field_name="src_hostname",
                         ),
                     ],
-                    dns_servers=[
-                        "<value 1>",
-                    ],
                     cache_ttl=30,
                     max_cache_size=5000,
                     use_resolv_conf=False,
                     lookup_fallback=False,
-                    domain_overrides=[
-                        "<value 1>",
-                    ],
                     lookup_fail_log_level=models.LogLevelForFailedLookups.ERROR,
                 ),
-                group_id="<id>",
             ),
         ],
         "groups": {
@@ -505,11 +447,7 @@ with CriblControlPlane(
             {
                 "filter_": "_raw.search(/success/i)>=0",
                 "id": models.PipelineFunctionDropID.DROP,
-                "description": "yahoo restfully hearten meanwhile absent naturally",
-                "disabled": False,
-                "final": True,
                 "conf": {},
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -545,9 +483,6 @@ with CriblControlPlane(
             {
                 "filter_": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) && (__criblMetrics[0].dims.includes(\"proc\"))",
                 "id": models.PipelineFunctionDropDimensionsID.DROP_DIMENSIONS,
-                "description": "vacation wrongly hmph celebrate ignite",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "time_window": "10s",
                     "drop_dimensions": [
@@ -557,7 +492,6 @@ with CriblControlPlane(
                     ],
                     "flush_on_input_close": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -593,9 +527,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionDynamicSamplingID.DYNAMIC_SAMPLING,
-                "description": "gee ick why sniff um mouser mosh utterly monthly er",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "mode": models.SampleMode.SQRT,
                     "key_expr": "`${domain}:${httpCode}`",
@@ -603,7 +534,6 @@ with CriblControlPlane(
                     "min_events": 3,
                     "max_sample_rate": 3,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -669,20 +599,15 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionEvalID.EVAL,
-                "description": "well-to-do boo jaunty bank censor magnificent",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "add": [
                         {
                             "name": "action",
                             "value": "login == 'error' ? 'blocked' : action",
-                            "disabled": True,
                         },
                         {
                             "name": "myTags",
                             "value": "login == 'error' ? [...myTags, 'error'] : myTags",
-                            "disabled": True,
                         },
                     ],
                     "keep": [
@@ -695,7 +620,6 @@ with CriblControlPlane(
                         "identification",
                     ],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -731,14 +655,10 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionEventBreakerID.EVENT_BREAKER,
-                "description": "outside utterly each toward sailor",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "existing_or_new": models.ExistingOrNew.NEW,
                     "should_mark_cribl_breaker": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -774,16 +694,12 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionFlattenID.FLATTEN,
-                "description": "countess majority excluding staid woot when swill",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "fields": [],
                     "prefix": "",
                     "depth": 5,
                     "delimiter": "_",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -819,15 +735,11 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionFoldkeysID.FOLDKEYS,
-                "description": "evenly eek aw but grave uh-huh",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "delete_original": True,
                     "separator": "_",
                     "selection_reg_exp": "^data",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -863,9 +775,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionGeoipID.GEOIP,
-                "description": "likewise abnormally fishery supposing quizzically",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "file": "GeoLite2-City.mmdb",
                     "in_field": "ip",
@@ -876,9 +785,7 @@ with CriblControlPlane(
                             "extra_out_field": "src_geoip",
                         },
                     ],
-                    "out_field_mappings": {},
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -914,15 +821,11 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionGrokID.GROK,
-                "description": "wildly secondary diligently relieve ack like intermix christen upright",
-                "disabled": False,
-                "final": False,
                 "conf": {
                     "pattern": "%{TIMESTAMP_ISO8601:event_time} %{LOGLEVEL:log_level} %{GREEDYDATA:log_message}",
                     "pattern_list": [],
                     "source": "_raw",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -958,9 +861,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSensitiveDataScannerID.SENSITIVE_DATA_SCANNER,
-                "description": "sadly inasmuch waft modulo ah yippee upright those colorfully aw",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "rules": [
                         {
@@ -980,9 +880,7 @@ with CriblControlPlane(
                         },
                     ],
                     "include_detected_rules": True,
-                    "background_detection": False,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1018,14 +916,10 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionJSONUnrollID.JSON_UNROLL,
-                "description": "dispense ha psst across role ha",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "path": "allCars",
                     "name": "cars",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1061,14 +955,10 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionLookupID.LOOKUP,
-                "description": "ouch whether unnaturally ha",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "file": "ip_locations.csv",
                     "db_lookup": False,
                     "match_mode": "exact",
-                    "match_type": "<value>",
                     "reload_period_sec": -1,
                     "in_fields": [
                         {
@@ -1086,7 +976,6 @@ with CriblControlPlane(
                     "add_to_event": False,
                     "ignore_case": False,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1122,9 +1011,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionMaskID.MASK,
-                "description": "uselessly quinoa over smuggle acidly libel whenever",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "rules": [
                         {
@@ -1137,14 +1023,7 @@ with CriblControlPlane(
                         "_raw",
                     ],
                     "depth": 5,
-                    "flags": [
-                        {
-                            "name": "<value>",
-                            "value": "<value>",
-                        },
-                    ],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1180,16 +1059,12 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionNumerifyID.NUMERIFY,
-                "description": "reward badly loyally eek toward unless mild quirkily noxious blah",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "depth": 5,
                     "ignore_fields": [],
                     "filter_expr": "",
                     "format_": models.FunctionConfSchemaNumerifyFormat.NONE,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1225,14 +1100,10 @@ with CriblControlPlane(
             {
                 "filter_": "__inputId=='open_telemetry:open_telemetry'",
                 "id": models.PipelineFunctionOtlpLogsID.OTLP_LOGS,
-                "description": "import dividend between reassuringly",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "drop_non_log_events": False,
                     "batch_otlp_logs": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1268,9 +1139,6 @@ with CriblControlPlane(
             {
                 "filter_": "__inputId=='prometheus_rw:prom_rw_in'",
                 "id": models.PipelineFunctionOtlpMetricsID.OTLP_METRICS,
-                "description": "institutionalize briskly whether intend",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "resource_attribute_prefixes": [
                         "service",
@@ -1285,7 +1153,6 @@ with CriblControlPlane(
                     "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
                     "batch_otlp_metrics": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1321,15 +1188,11 @@ with CriblControlPlane(
             {
                 "filter_": "__inputId=='open_telemetry:open_telemetry'",
                 "id": models.PipelineFunctionOtlpTracesID.OTLP_TRACES,
-                "description": "fortunately duh yearly",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "drop_non_trace_events": False,
                     "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
                     "batch_otlp_traces": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1365,21 +1228,12 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSerdeID.SERDE,
-                "description": "finally brr whoever as yippee igloo at against",
-                "disabled": False,
-                "final": False,
                 "conf": {
                     "mode": models.OperationMode.EXTRACT,
                     "type": models.TypeOptions.KVP,
-                    "delim_char": "<value>",
-                    "quote_char": "<value>",
-                    "escape_char": "<value>",
-                    "null_value": "<value>",
                     "src_field": "_raw",
-                    "dst_field": "<value>",
                     "clean_fields": False,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1415,9 +1269,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionPublishMetricsID.PUBLISH_METRICS,
-                "description": "pace inborn atomize emboss pronoun tremendously",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "fields": [
                         {
@@ -1440,7 +1291,6 @@ with CriblControlPlane(
                     "remove_metrics": [],
                     "remove_dimensions": [],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1476,9 +1326,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionRedisID.REDIS,
-                "description": "gadzooks kosher hollow cumbersome loose but webbed solidly mousse furthermore",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "commands": [
                         {
@@ -1491,9 +1338,7 @@ with CriblControlPlane(
                     "deployment_type": models.DeploymentType.STANDALONE,
                     "auth_type": models.PipelineFunctionRedisAuthenticationMethod.NONE,
                     "max_block_secs": 60,
-                    "enable_client_side_caching": False,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1529,22 +1374,12 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionRegexExtractID.REGEX_EXTRACT,
-                "description": "scrape spew playfully jaggedly whether follower ah sarcastic",
-                "disabled": False,
-                "final": False,
                 "conf": {
                     "regex": "/metric1=(?<metric1>\\d+)/",
-                    "regex_list": [
-                        {
-                            "regex": "<value>",
-                        },
-                    ],
                     "source": "_raw",
                     "iterations": 100,
-                    "field_name_expression": "<value>",
                     "overwrite": False,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1580,19 +1415,10 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionRegexFilterID.REGEX_FILTER,
-                "description": "colorize reprimand cope appertain",
-                "disabled": False,
-                "final": False,
                 "conf": {
                     "regex": "/Opera/",
-                    "regex_list": [
-                        {
-                            "regex": "<value>",
-                        },
-                    ],
                     "field": "_raw",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1628,9 +1454,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionRenameID.RENAME,
-                "description": "amidst within solvency lay",
-                "disabled": False,
-                "final": False,
                 "conf": {
                     "base_fields": [],
                     "rename": [
@@ -1642,7 +1465,6 @@ with CriblControlPlane(
                     "rename_expr": "name.startsWith('out') ? name.toUpperCase() : name",
                     "wildcard_depth": 5,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1678,9 +1500,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionRollupMetricsID.ROLLUP_METRICS,
-                "description": "consequently drat wasteful inasmuch terribly unabashedly",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "dimensions": [
                         "*",
@@ -1688,7 +1507,6 @@ with CriblControlPlane(
                     "time_window": "30s",
                     "gauge_rollup": models.GaugeUpdate.LAST,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1724,20 +1542,10 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "description": "on while among crushing sheepishly",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "strict": True,
                     "drop_failed_events": True,
-                    "v3_user": {
-                        "name": "<value>",
-                        "auth_protocol": models.AuthenticationProtocolOptionsV3User.SHA512,
-                        "auth_key": "<value>",
-                        "priv_protocol": "<value>",
-                    },
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1773,9 +1581,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSamplingID.SAMPLING,
-                "description": "animated obtrude jive dental",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "rules": [
                         {
@@ -1784,7 +1589,6 @@ with CriblControlPlane(
                         },
                     ],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1820,15 +1624,8 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSerializeID.SERIALIZE,
-                "description": "midst kissingly deduct versus embossing possible fraudster dislocate barring",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "type": models.PipelineFunctionSerializeType.JSON,
-                    "delim_char": "<value>",
-                    "quote_char": "<value>",
-                    "escape_char": "<value>",
-                    "null_value": "<value>",
                     "fields": [
                         "city",
                         "state",
@@ -1836,7 +1633,6 @@ with CriblControlPlane(
                     "src_field": "",
                     "dst_field": "_raw",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1872,9 +1668,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSuppressID.SUPPRESS,
-                "description": "excepting drat lucky bah however account outrun gah lightly that",
-                "disabled": False,
-                "final": False,
                 "conf": {
                     "key_expr": "`${ip}:${port}`",
                     "allow": 1,
@@ -1884,7 +1677,6 @@ with CriblControlPlane(
                     "cache_idle_timeout_periods": 2,
                     "num_events_idle_timeout_trigger": 10000,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1920,9 +1712,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionTeeID.TEE,
-                "description": "somber splash oh following against alongside",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "command": "tee",
                     "args": [
@@ -1933,7 +1722,6 @@ with CriblControlPlane(
 
                     },
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -1969,14 +1757,10 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionUnrollID.UNROLL,
-                "description": "soupy familiar how psst",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "src_expr": "_raw.split(/\\n/)",
                     "dst_field": "_raw",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2012,16 +1796,12 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionXMLUnrollID.XML_UNROLL,
-                "description": "within or pfft",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "unroll": "^Parent\\.Child$",
                     "inherit": "^Parent\\.(myID|branchLocation)$",
                     "unroll_idx_field": "unroll_idx",
                     "pretty": False,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2212,14 +1992,10 @@ with CriblControlPlane(
             {
                 "filter_": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) || (_metric == 'proc.mem_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.mem_perc'\")) || (_metric == 'proc.bytes_in' || __criblMetrics[0].nameExpr.includes(\"'proc.bytes_in'\"))",
                 "id": models.PipelineFunctionAggregateMetricsID.AGGREGATE_METRICS,
-                "description": "off fooey tight supposing or oval underneath",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "passthrough": False,
                     "preserve_group_bys": False,
                     "sufficient_stats_only": False,
-                    "prefix": "<value>",
                     "time_window": "10s",
                     "aggregations": [
                         {
@@ -2238,19 +2014,10 @@ with CriblControlPlane(
                     "groupbys": [
                         "proc",
                     ],
-                    "flush_event_limit": 4997.28,
-                    "flush_mem_limit": "<value>",
                     "cumulative": False,
                     "should_treat_dots_as_literals": True,
-                    "add": [
-                        {
-                            "name": "<value>",
-                            "value": "<value>",
-                        },
-                    ],
                     "flush_on_input_close": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2286,15 +2053,11 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionAggregationID.AGGREGATION,
-                "description": "snowplow brr onto ripe object outfit extremely gee wrongly",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "passthrough": False,
                     "preserve_group_bys": False,
                     "sufficient_stats_only": False,
                     "metrics_mode": False,
-                    "prefix": "<value>",
                     "time_window": "10s",
                     "aggregations": [
                         "sum(bytes).where(action==\"REJECT\").as(TotalBytes)",
@@ -2302,20 +2065,10 @@ with CriblControlPlane(
                     "groupbys": [
                         "srcaddr",
                     ],
-                    "flush_event_limit": 5885.07,
-                    "flush_mem_limit": "<value>",
                     "cumulative": False,
-                    "search_agg_mode": "<value>",
-                    "add": [
-                        {
-                            "name": "<value>",
-                            "value": "<value>",
-                        },
-                    ],
                     "should_treat_dots_as_literals": False,
                     "flush_on_input_close": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2351,9 +2104,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionAutoTimestampID.AUTO_TIMESTAMP,
-                "description": "around captain moralise now yum parsnip inasmuch pleased sleepily",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "src_field": "_raw",
                     "dst_field": "_time",
@@ -2363,7 +2113,6 @@ with CriblControlPlane(
                     "max_len": 150,
                     "default_time": models.DefaultTime.NOW,
                     "latest_date_allowed": "+1week",
-                    "spacer": "<value>",
                     "earliest_date_allowed": "-420weeks",
                     "timestamps": [
                         {
@@ -2372,7 +2121,6 @@ with CriblControlPlane(
                         },
                     ],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2408,9 +2156,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionCefID.CEF,
-                "description": "elegantly solemnly dash um gadzooks apt transom barring",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "output_field": "_raw",
                     "header": [
@@ -2443,7 +2188,6 @@ with CriblControlPlane(
                         },
                     ],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2479,13 +2223,9 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionChainID.CHAIN,
-                "description": "outside ack doing highlight outside round impractical steep alongside gorgeous",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "processor": "prometheus_metrics",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2521,9 +2261,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionCloneID.CLONE,
-                "description": "pepper successfully husky duh ack",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "clones": [
                         {
@@ -2534,7 +2271,6 @@ with CriblControlPlane(
                         },
                     ],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2570,13 +2306,9 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionCommentID.COMMENT,
-                "description": "gigantic ick yahoo admonish",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "comment": "This function processes security events and enriches them with DNS lookups",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2612,9 +2344,6 @@ with CriblControlPlane(
             models.PipelineFunctionDNSLookup(
                 filter_="true",
                 id=models.PipelineFunctionDNSLookupID.DNS_LOOKUP,
-                description="penalise above mockingly questionable",
-                disabled=True,
-                final=True,
                 conf=models.FunctionConfSchemaDNSLookup(
                     dns_lookup_fields=[
                         models.DNSLookupField(
@@ -2629,22 +2358,12 @@ with CriblControlPlane(
                             out_field_name="src_hostname",
                         ),
                     ],
-                    dns_servers=[
-                        "<value 1>",
-                        "<value 2>",
-                    ],
                     cache_ttl=30,
                     max_cache_size=5000,
                     use_resolv_conf=False,
                     lookup_fallback=False,
-                    domain_overrides=[
-                        "<value 1>",
-                        "<value 2>",
-                        "<value 3>",
-                    ],
                     lookup_fail_log_level=models.LogLevelForFailedLookups.ERROR,
                 ),
-                group_id="<id>",
             ),
         ],
         "groups": {
@@ -2680,11 +2399,7 @@ with CriblControlPlane(
             {
                 "filter_": "_raw.search(/success/i)>=0",
                 "id": models.PipelineFunctionDropID.DROP,
-                "description": "vengeful rout worth quickly in anti amongst cop-out",
-                "disabled": True,
-                "final": False,
                 "conf": {},
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2720,9 +2435,6 @@ with CriblControlPlane(
             {
                 "filter_": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) && (__criblMetrics[0].dims.includes(\"proc\"))",
                 "id": models.PipelineFunctionDropDimensionsID.DROP_DIMENSIONS,
-                "description": "amongst slather yippee resource which yippee weary crumble",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "time_window": "10s",
                     "drop_dimensions": [
@@ -2732,7 +2444,6 @@ with CriblControlPlane(
                     ],
                     "flush_on_input_close": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2768,9 +2479,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionDynamicSamplingID.DYNAMIC_SAMPLING,
-                "description": "physically wilted scornful gosh lest smart oof damaged inside",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "mode": models.SampleMode.SQRT,
                     "key_expr": "`${domain}:${httpCode}`",
@@ -2778,7 +2486,6 @@ with CriblControlPlane(
                     "min_events": 3,
                     "max_sample_rate": 3,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2844,20 +2551,15 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionEvalID.EVAL,
-                "description": "misread as noted clamp",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "add": [
                         {
                             "name": "action",
                             "value": "login == 'error' ? 'blocked' : action",
-                            "disabled": True,
                         },
                         {
                             "name": "myTags",
                             "value": "login == 'error' ? [...myTags, 'error'] : myTags",
-                            "disabled": False,
                         },
                     ],
                     "keep": [
@@ -2870,7 +2572,6 @@ with CriblControlPlane(
                         "identification",
                     ],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2906,14 +2607,10 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionEventBreakerID.EVENT_BREAKER,
-                "description": "and voluminous dramatize incidentally but wasabi anenst brook unlike",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "existing_or_new": models.ExistingOrNew.NEW,
                     "should_mark_cribl_breaker": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2949,16 +2646,12 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionFlattenID.FLATTEN,
-                "description": "expostulate fragrant why whose whereas if unless whoever reconsideration",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "fields": [],
                     "prefix": "",
                     "depth": 5,
                     "delimiter": "_",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -2994,15 +2687,11 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionFoldkeysID.FOLDKEYS,
-                "description": "deceivingly amongst stunning anenst",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "delete_original": True,
                     "separator": "_",
                     "selection_reg_exp": "^data",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3038,9 +2727,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionGeoipID.GEOIP,
-                "description": "busy anti geez savour jellyfish along oh",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "file": "GeoLite2-City.mmdb",
                     "in_field": "ip",
@@ -3051,9 +2737,7 @@ with CriblControlPlane(
                             "extra_out_field": "src_geoip",
                         },
                     ],
-                    "out_field_mappings": {},
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3089,15 +2773,11 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionGrokID.GROK,
-                "description": "notwithstanding the yowza harp however shrill scrape",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "pattern": "%{TIMESTAMP_ISO8601:event_time} %{LOGLEVEL:log_level} %{GREEDYDATA:log_message}",
                     "pattern_list": [],
                     "source": "_raw",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3133,9 +2813,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSensitiveDataScannerID.SENSITIVE_DATA_SCANNER,
-                "description": "readily snappy yuck absent ad phew unlike sand harvest instead",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "rules": [
                         {
@@ -3155,9 +2832,7 @@ with CriblControlPlane(
                         },
                     ],
                     "include_detected_rules": True,
-                    "background_detection": False,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3193,14 +2868,10 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionJSONUnrollID.JSON_UNROLL,
-                "description": "upward curiously deafening famously likewise whenever than",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "path": "allCars",
                     "name": "cars",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3236,14 +2907,10 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionLookupID.LOOKUP,
-                "description": "chainstay though overcooked expostulate midst worldly within",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "file": "ip_locations.csv",
                     "db_lookup": False,
                     "match_mode": "exact",
-                    "match_type": "<value>",
                     "reload_period_sec": -1,
                     "in_fields": [
                         {
@@ -3261,7 +2928,6 @@ with CriblControlPlane(
                     "add_to_event": False,
                     "ignore_case": False,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3297,9 +2963,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionMaskID.MASK,
-                "description": "afore good remark switch on harvest downshift once but",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "rules": [
                         {
@@ -3312,14 +2975,7 @@ with CriblControlPlane(
                         "_raw",
                     ],
                     "depth": 5,
-                    "flags": [
-                        {
-                            "name": "<value>",
-                            "value": "<value>",
-                        },
-                    ],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3355,16 +3011,12 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionNumerifyID.NUMERIFY,
-                "description": "oof brr spork quit versus excepting dwell delight slipper likewise",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "depth": 5,
                     "ignore_fields": [],
                     "filter_expr": "",
                     "format_": models.FunctionConfSchemaNumerifyFormat.NONE,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3400,14 +3052,10 @@ with CriblControlPlane(
             {
                 "filter_": "__inputId=='open_telemetry:open_telemetry'",
                 "id": models.PipelineFunctionOtlpLogsID.OTLP_LOGS,
-                "description": "frenetically mortise eek boohoo downright fly basket whoever",
-                "disabled": False,
-                "final": False,
                 "conf": {
                     "drop_non_log_events": False,
                     "batch_otlp_logs": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3443,9 +3091,6 @@ with CriblControlPlane(
             {
                 "filter_": "__inputId=='prometheus_rw:prom_rw_in'",
                 "id": models.PipelineFunctionOtlpMetricsID.OTLP_METRICS,
-                "description": "fortunate happily knight coincide anenst",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "resource_attribute_prefixes": [
                         "service",
@@ -3460,7 +3105,6 @@ with CriblControlPlane(
                     "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
                     "batch_otlp_metrics": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3496,15 +3140,11 @@ with CriblControlPlane(
             {
                 "filter_": "__inputId=='open_telemetry:open_telemetry'",
                 "id": models.PipelineFunctionOtlpTracesID.OTLP_TRACES,
-                "description": "wobbly meaningfully necklace dependable jet aboard",
-                "disabled": False,
-                "final": False,
                 "conf": {
                     "drop_non_trace_events": False,
                     "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
                     "batch_otlp_traces": True,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3540,21 +3180,12 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSerdeID.SERDE,
-                "description": "although by gadzooks agile gift inferior pish",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "mode": models.OperationMode.EXTRACT,
                     "type": models.TypeOptions.KVP,
-                    "delim_char": "<value>",
-                    "quote_char": "<value>",
-                    "escape_char": "<value>",
-                    "null_value": "<value>",
                     "src_field": "_raw",
-                    "dst_field": "<value>",
                     "clean_fields": False,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3590,9 +3221,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionPublishMetricsID.PUBLISH_METRICS,
-                "description": "plan what phooey guide",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "fields": [
                         {
@@ -3615,7 +3243,6 @@ with CriblControlPlane(
                     "remove_metrics": [],
                     "remove_dimensions": [],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3651,9 +3278,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionRedisID.REDIS,
-                "description": "young along per candid wetly gently upliftingly wearily",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "commands": [
                         {
@@ -3666,9 +3290,7 @@ with CriblControlPlane(
                     "deployment_type": models.DeploymentType.STANDALONE,
                     "auth_type": models.PipelineFunctionRedisAuthenticationMethod.NONE,
                     "max_block_secs": 60,
-                    "enable_client_side_caching": False,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3704,22 +3326,12 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionRegexExtractID.REGEX_EXTRACT,
-                "description": "anti onto incidentally thankfully draw drat pulverize custom while sticky",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "regex": "/metric1=(?<metric1>\\d+)/",
-                    "regex_list": [
-                        {
-                            "regex": "<value>",
-                        },
-                    ],
                     "source": "_raw",
                     "iterations": 100,
-                    "field_name_expression": "<value>",
                     "overwrite": False,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3755,19 +3367,10 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionRegexFilterID.REGEX_FILTER,
-                "description": "dreamily generously a yahoo until ah enthusiastically unexpectedly fixed explode",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "regex": "/Opera/",
-                    "regex_list": [
-                        {
-                            "regex": "<value>",
-                        },
-                    ],
                     "field": "_raw",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3803,9 +3406,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionRenameID.RENAME,
-                "description": "across yahoo including direct absent if ravel despite cap owlishly",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "base_fields": [],
                     "rename": [
@@ -3817,7 +3417,6 @@ with CriblControlPlane(
                     "rename_expr": "name.startsWith('out') ? name.toUpperCase() : name",
                     "wildcard_depth": 5,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3853,9 +3452,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionRollupMetricsID.ROLLUP_METRICS,
-                "description": "woot bourgeoisie hot harvest inasmuch definite out psst traditionalism lively",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "dimensions": [
                         "*",
@@ -3863,7 +3459,6 @@ with CriblControlPlane(
                     "time_window": "30s",
                     "gauge_rollup": models.GaugeUpdate.LAST,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3899,20 +3494,10 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "description": "ack scaly ingratiate when finally troubled coordinated",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "strict": True,
                     "drop_failed_events": True,
-                    "v3_user": {
-                        "name": "<value>",
-                        "auth_protocol": models.AuthenticationProtocolOptionsV3User.SHA384,
-                        "auth_key": "<value>",
-                        "priv_protocol": "<value>",
-                    },
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3948,9 +3533,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSamplingID.SAMPLING,
-                "description": "atop up ironclad",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "rules": [
                         {
@@ -3959,7 +3541,6 @@ with CriblControlPlane(
                         },
                     ],
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -3995,15 +3576,8 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSerializeID.SERIALIZE,
-                "description": "maroon white indeed obstruct deafening chubby openly",
-                "disabled": True,
-                "final": False,
                 "conf": {
                     "type": models.PipelineFunctionSerializeType.JSON,
-                    "delim_char": "<value>",
-                    "quote_char": "<value>",
-                    "escape_char": "<value>",
-                    "null_value": "<value>",
                     "fields": [
                         "city",
                         "state",
@@ -4011,7 +3585,6 @@ with CriblControlPlane(
                     "src_field": "",
                     "dst_field": "_raw",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -4047,9 +3620,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionSuppressID.SUPPRESS,
-                "description": "per blushing growing",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "key_expr": "`${ip}:${port}`",
                     "allow": 1,
@@ -4059,7 +3629,6 @@ with CriblControlPlane(
                     "cache_idle_timeout_periods": 2,
                     "num_events_idle_timeout_trigger": 10000,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -4095,9 +3664,6 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionTeeID.TEE,
-                "description": "torn out than",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "command": "tee",
                     "args": [
@@ -4108,7 +3674,6 @@ with CriblControlPlane(
 
                     },
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -4144,14 +3709,10 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionUnrollID.UNROLL,
-                "description": "youthfully blah whoa regarding anti loyally hm peppery measly",
-                "disabled": False,
-                "final": True,
                 "conf": {
                     "src_expr": "_raw.split(/\\n/)",
                     "dst_field": "_raw",
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {
@@ -4187,16 +3748,12 @@ with CriblControlPlane(
             {
                 "filter_": "true",
                 "id": models.PipelineFunctionXMLUnrollID.XML_UNROLL,
-                "description": "gee than next forearm kissingly cluttered meh despite",
-                "disabled": True,
-                "final": True,
                 "conf": {
                     "unroll": "^Parent\\.Child$",
                     "inherit": "^Parent\\.(myID|branchLocation)$",
                     "unroll_idx_field": "unroll_idx",
                     "pretty": False,
                 },
-                "group_id": "<id>",
             },
         ],
         "groups": {

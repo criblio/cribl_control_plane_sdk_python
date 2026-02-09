@@ -75,40 +75,14 @@ with CriblControlPlane(
 
     res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="default", routes=[
         {
-            "clones": [
-                {
-                    "key": "<value>",
-                    "key1": "<value>",
-                },
-            ],
-            "context": "<value>",
             "description": "Route access logs to main pipeline",
-            "disabled": True,
-            "enable_output_expression": False,
             "filter_": "source == \"access.log\"",
             "final": True,
-            "group_id": "<id>",
             "id": "default",
             "name": "my-route",
-            "output": "<value>",
-            "output_expression": "<value>",
             "pipeline": "main",
-            "target_context": models.TargetContext.GROUP,
         },
-    ], comments=[
-        {
-            "comment": "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
-            "group_id": "<id>",
-            "id": "<id>",
-            "index": 4999.72,
-        },
-    ], groups={
-        "key": {
-            "description": "ridge impassioned amount happily",
-            "index": 8485.39,
-            "name": "<value>",
-        },
-    })
+    ])
 
     # Handle response
     print(res)
@@ -131,110 +105,42 @@ with CriblControlPlane(
 
     res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="default", routes=[
         {
-            "clones": [
-                {
-                    "key": "<value>",
-                },
-                {
-                    "key": "<value>",
-                    "key1": "<value>",
-                },
-                {
-                    "key": "<value>",
-                },
-            ],
-            "context": "<value>",
             "description": "Route speedtest logs",
-            "disabled": True,
-            "enable_output_expression": False,
             "filter_": "source == \"speedtest.log\"",
             "final": False,
-            "group_id": "<id>",
             "id": "route-speedtest",
             "name": "speedtest",
             "output": "default",
-            "output_expression": "<value>",
             "pipeline": "main",
-            "target_context": models.TargetContext.PACK,
         },
         {
-            "clones": [
-                {
-
-                },
-            ],
-            "context": "<value>",
             "description": "Route mtr logs",
-            "disabled": False,
-            "enable_output_expression": False,
             "filter_": "source == \"mtr.log\"",
             "final": False,
-            "group_id": "<id>",
             "id": "route-mtr",
             "name": "mtr",
             "output": "default",
-            "output_expression": "<value>",
             "pipeline": "passthru",
-            "target_context": models.TargetContext.GROUP,
         },
         {
-            "clones": [
-                {
-
-                },
-            ],
-            "context": "<value>",
             "description": "Route statsd metrics",
-            "disabled": True,
-            "enable_output_expression": False,
             "filter_": "source == \"statsd.log\"",
             "final": False,
-            "group_id": "<id>",
             "id": "route-statsd",
             "name": "statsd",
             "output": "devnull",
-            "output_expression": "<value>",
             "pipeline": "prometheus_metrics",
-            "target_context": models.TargetContext.GROUP,
         },
         {
-            "clones": [
-                {
-
-                },
-                {
-                    "key": "<value>",
-                    "key1": "<value>",
-                },
-            ],
-            "context": "<value>",
             "description": "Catch-all Route for all other events",
-            "disabled": False,
-            "enable_output_expression": False,
             "filter_": "true",
             "final": True,
-            "group_id": "<id>",
             "id": "route-default",
             "name": "default",
             "output": "default",
-            "output_expression": "<value>",
             "pipeline": "main",
-            "target_context": models.TargetContext.GROUP,
         },
-    ], comments=[
-        {
-            "comment": "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
-            "group_id": "<id>",
-            "id": "<id>",
-            "index": 2877.94,
-        },
-    ], groups={
-        "key": {
-            "description": "ridge impassioned amount happily",
-            "index": 7418.21,
-            "name": "<value>",
-        },
-    })
+    ])
 
     # Handle response
     print(res)
@@ -257,41 +163,16 @@ with CriblControlPlane(
 
     res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="default", routes=[
         {
-            "clones": [
-                {
-                    "key": "<value>",
-                    "key1": "<value>",
-                    "key2": "<value>",
-                },
-            ],
-            "context": "<value>",
             "description": "Route with dynamic Destination based on environment",
-            "disabled": True,
             "enable_output_expression": True,
             "filter_": "source == \"dynamic.log\"",
             "final": True,
-            "group_id": "<id>",
             "id": "route-dynamic",
             "name": "dynamic-output",
-            "output": "<value>",
             "output_expression": "`myDest_${C.logStreamEnv}`",
             "pipeline": "main",
-            "target_context": models.TargetContext.GROUP,
         },
-    ], comments=[
-        {
-            "comment": "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
-            "group_id": "<id>",
-            "id": "<id>",
-            "index": 7514.98,
-        },
-    ], groups={
-        "key": {
-            "description": "ridge impassioned amount happily",
-            "index": 3321.41,
-            "name": "<value>",
-        },
-    })
+    ])
 
     # Handle response
     print(res)
@@ -386,57 +267,22 @@ with CriblControlPlane(
 
     res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[
         {
-            "clones": [
-                {
-                    "key": "<value>",
-                    "key1": "<value>",
-                },
-                {
-                    "key": "<value>",
-                    "key1": "<value>",
-                    "key2": "<value>",
-                },
-                {
-                    "key": "<value>",
-                    "key1": "<value>",
-                    "key2": "<value>",
-                },
-            ],
-            "context": "<value>",
             "description": "Route audit logs",
-            "disabled": False,
-            "enable_output_expression": False,
             "filter_": "source == \"audit.log\"",
             "final": False,
-            "group_id": "<id>",
             "id": "route-audit",
             "name": "audit",
             "output": "default",
-            "output_expression": "<value>",
             "pipeline": "main",
-            "target_context": models.TargetContext.GROUP,
         },
         {
-            "clones": [
-                {
-                    "key": "<value>",
-                    "key1": "<value>",
-                    "key2": "<value>",
-                },
-            ],
-            "context": "<value>",
             "description": "Route security logs",
-            "disabled": False,
-            "enable_output_expression": False,
             "filter_": "source == \"security.log\"",
             "final": False,
-            "group_id": "<id>",
             "id": "route-security",
             "name": "security",
             "output": "devnull",
-            "output_expression": "<value>",
             "pipeline": "passthru",
-            "target_context": models.TargetContext.PACK,
         },
     ])
 
@@ -461,29 +307,14 @@ with CriblControlPlane(
 
     res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[
         {
-            "clones": [
-                {
-                    "key": "<value>",
-                },
-                {
-                    "key": "<value>",
-                    "key1": "<value>",
-                    "key2": "<value>",
-                },
-            ],
-            "context": "<value>",
             "description": "Route with dynamic Destination based on environment",
-            "disabled": True,
             "enable_output_expression": True,
             "filter_": "source == \"dynamic.log\"",
             "final": True,
-            "group_id": "<id>",
             "id": "route-dynamic-append",
             "name": "dynamic-append",
-            "output": "<value>",
             "output_expression": "`myDest_${C.logStreamEnv}`",
             "pipeline": "main",
-            "target_context": models.TargetContext.PACK,
         },
     ])
 
@@ -508,27 +339,12 @@ with CriblControlPlane(
 
     res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[
         {
-            "clones": [
-                {
-
-                },
-                {
-                    "key": "<value>",
-                },
-            ],
-            "context": "<value>",
             "description": "Route new logs to main pipeline",
-            "disabled": False,
-            "enable_output_expression": True,
             "filter_": "source == \"new.log\"",
             "final": True,
-            "group_id": "<id>",
             "id": "route-new",
             "name": "new-route",
-            "output": "<value>",
-            "output_expression": "<value>",
             "pipeline": "main",
-            "target_context": models.TargetContext.PACK,
         },
     ])
 

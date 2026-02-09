@@ -77,38 +77,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatOnPremDollyWg", cloud={
-        "provider": models.CloudProvider.AWS,
-        "region": "<value>",
-    }, deploying_worker_count=2591.38, description="Worker Group cloned from goatOnPremIanWg with identical configuration", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, git={
-        "commit": "<value>",
-        "local_changes": 2413.01,
-        "log": [
-            {
-                "author_email": "<value>",
-                "author_name": "<value>",
-                "date_": "2024-04-03",
-                "hash": "<value>",
-                "message": "<value>",
-                "short": "<value>",
-            },
-        ],
-    }, incompatible_worker_count=1660.08, inherits="<value>", is_fleet=False, is_search=False, lookup_deployments=[
-        {
-            "context": "<value>",
-            "lookups": [
-                {
-                    "deployed_version": "<value>",
-                    "file": "<value>",
-                    "version": "<value>",
-                },
-            ],
-        },
-    ], max_worker_age="<value>", name="goatOnPremDollyWg", on_prem=True, provisioned=True, source_group_id="goatOnPremIanWg", streamtags=[
-        "<value 1>",
-        "<value 2>",
-        "<value 3>",
-    ], tags="<value>", type_=models.TypeOptionsConfigGroup.LAKE_ACCESS, upgrade_version="<value>", worker_count=5075.63, worker_remote_access=True)
+    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatOnPremDollyWg", description="Worker Group cloned from goatOnPremIanWg with identical configuration", is_fleet=False, is_search=False, name="goatOnPremDollyWg", on_prem=True, source_group_id="goatOnPremIanWg", worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -132,35 +101,7 @@ with CriblControlPlane(
     res = ccp_client.groups.create(product=models.ProductsCore.STREAM, id="goatCloudIanWg", cloud={
         "provider": models.CloudProvider.AWS,
         "region": "us-west-2",
-    }, deploying_worker_count=5631.58, description="ack resort boohoo", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE24_MB_PER_SEC, git={
-        "commit": "<value>",
-        "local_changes": 2413.01,
-        "log": [
-            {
-                "author_email": "<value>",
-                "author_name": "<value>",
-                "date_": "2024-04-03",
-                "hash": "<value>",
-                "message": "<value>",
-                "short": "<value>",
-            },
-        ],
-    }, incompatible_worker_count=7174.43, inherits="<value>", is_fleet=False, is_search=False, lookup_deployments=[
-        {
-            "context": "<value>",
-            "lookups": [
-                {
-                    "deployed_version": "<value>",
-                    "file": "<value>",
-                    "version": "<value>",
-                },
-            ],
-        },
-    ], max_worker_age="<value>", name="goatCloudIanWg", on_prem=False, provisioned=True, source_group_id="<id>", streamtags=[
-        "<value 1>",
-        "<value 2>",
-        "<value 3>",
-    ], tags="<value>", type_=models.TypeOptionsConfigGroup.LAKE_ACCESS, upgrade_version="<value>", worker_count=4980.41, worker_remote_access=True)
+    }, estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE24_MB_PER_SEC, is_fleet=False, is_search=False, name="goatCloudIanWg", on_prem=False, provisioned=True, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -181,37 +122,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatIanEdgeFleet", cloud={
-        "provider": models.CloudProvider.AWS,
-        "region": "<value>",
-    }, deploying_worker_count=9605.18, description="Create a new Edge Fleet", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE84_MB_PER_SEC, git={
-        "commit": "<value>",
-        "local_changes": 2413.01,
-        "log": [
-            {
-                "author_email": "<value>",
-                "author_name": "<value>",
-                "date_": "2024-04-03",
-                "hash": "<value>",
-                "message": "<value>",
-                "short": "<value>",
-            },
-        ],
-    }, incompatible_worker_count=9429.96, inherits="<value>", is_fleet=True, is_search=False, lookup_deployments=[
-        {
-            "context": "<value>",
-            "lookups": [
-                {
-                    "deployed_version": "<value>",
-                    "file": "<value>",
-                    "version": "<value>",
-                },
-            ],
-        },
-    ], max_worker_age="<value>", name="goatIanEdgeFleet", on_prem=True, provisioned=False, source_group_id="<id>", streamtags=[
-        "<value 1>",
-        "<value 2>",
-    ], tags="<value>", type_=models.TypeOptionsConfigGroup.LAKE_ACCESS, upgrade_version="<value>", worker_count=3096.3, worker_remote_access=True)
+    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatIanEdgeFleet", description="Create a new Edge Fleet", is_fleet=True, is_search=False, name="goatIanEdgeFleet", on_prem=True, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -232,36 +143,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatOnPremIanWg", cloud={
-        "provider": models.CloudProvider.AWS,
-        "region": "<value>",
-    }, deploying_worker_count=9081.3, description="Worker group in customer-managed deployment", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE36_MB_PER_SEC, git={
-        "commit": "<value>",
-        "local_changes": 2413.01,
-        "log": [
-            {
-                "author_email": "<value>",
-                "author_name": "<value>",
-                "date_": "2024-04-03",
-                "hash": "<value>",
-                "message": "<value>",
-                "short": "<value>",
-            },
-        ],
-    }, incompatible_worker_count=7060.3, inherits="<value>", is_fleet=False, is_search=False, lookup_deployments=[
-        {
-            "context": "<value>",
-            "lookups": [
-                {
-                    "deployed_version": "<value>",
-                    "file": "<value>",
-                    "version": "<value>",
-                },
-            ],
-        },
-    ], max_worker_age="<value>", name="goatOnPremIanWg", on_prem=True, provisioned=False, source_group_id="<id>", streamtags=[
-        "<value 1>",
-    ], tags="<value>", type_=models.TypeOptionsConfigGroup.LAKE_ACCESS, upgrade_version="<value>", worker_count=1230.11, worker_remote_access=True)
+    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatOnPremIanWg", description="Worker group in customer-managed deployment", is_fleet=False, is_search=False, name="goatOnPremIanWg", on_prem=True, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -376,29 +258,7 @@ with CriblControlPlane(
     res = ccp_client.groups.update(product=models.ProductsCore.EDGE, id_param="<value>", id="goatCloudIanWg", cloud={
         "provider": models.CloudProvider.AWS,
         "region": "us-west-2",
-    }, config_version="<value>", deploying_worker_count=7786.61, description="Scaled Worker Group with estimated ingest rate of 4096 (48 MB/s, 21 Worker Processes) for increased capacity", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, git={
-        "commit": "<value>",
-        "local_changes": 776.15,
-        "log": [
-            {
-                "author_email": "<value>",
-                "author_name": "<value>",
-                "date_": "2024-09-29",
-                "hash": "<value>",
-                "message": "<value>",
-                "short": "<value>",
-            },
-        ],
-    }, incompatible_worker_count=2874.65, inherits="<value>", is_fleet=False, is_search=False, lookup_deployments=[
-        {
-            "context": "<value>",
-            "lookups": [],
-        },
-    ], max_worker_age="<value>", name="goatCloudIanWg", on_prem=False, provisioned=True, streamtags=[
-        "<value 1>",
-        "<value 2>",
-        "<value 3>",
-    ], tags="<value>", type_=models.TypeOptionsConfigGroup.LAKE_ACCESS, upgrade_version="<value>", worker_count=835.08, worker_remote_access=True)
+    }, description="Scaled Worker Group with estimated ingest rate of 4096 (48 MB/s, 21 Worker Processes) for increased capacity", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, is_fleet=False, is_search=False, name="goatCloudIanWg", on_prem=False, provisioned=True, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -510,12 +370,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.deploy(product=models.ProductsCore.STREAM, id="<id>", version="<value>", lookups=[
-        {
-            "context": "<value>",
-            "lookups": [],
-        },
-    ])
+    res = ccp_client.groups.deploy(product=models.ProductsCore.STREAM, id="<id>", version="<value>")
 
     # Handle response
     print(res)

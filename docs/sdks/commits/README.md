@@ -31,9 +31,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.create(message="<value>", group_id="<id>", effective=False, files=[
-        "<value 1>",
-    ], group="<value>")
+    res = ccp_client.versions.commits.create(message="<value>", group_id="<id>")
 
     # Handle response
     print(res)
@@ -216,7 +214,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.revert(commit="<value>", group_id="<id>", force=False, message="<value>")
+    res = ccp_client.versions.commits.revert(commit="<value>", group_id="<id>")
 
     # Handle response
     print(res)

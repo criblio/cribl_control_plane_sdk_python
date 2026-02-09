@@ -121,26 +121,12 @@ with CriblControlPlane(
         models.RoutesRoute(
             id="default",
             name="my-route",
-            disabled=True,
             filter_="source == \"access.log\"",
             pipeline="main",
-            enable_output_expression=False,
-            output="<value>",
-            output_expression="<value>",
             description="Route access logs to main pipeline",
             final=True,
         ),
-    ], id="default", groups={
-        "key": {
-            "name": "<value>",
-            "description": "drat yet spectacles ha",
-            "disabled": False,
-        },
-    }, comments=[
-        models.Comment(
-            comment="The Football Is Good For Training And Recreational Purposes",
-        ),
-    ])
+    ], id="default")
 
     # Handle response
     print(res)
@@ -165,62 +151,40 @@ with CriblControlPlane(
         models.RoutesRoute(
             id="route-speedtest",
             name="speedtest",
-            disabled=False,
             filter_="source == \"speedtest.log\"",
             pipeline="main",
-            enable_output_expression=True,
             output="default",
-            output_expression="<value>",
             description="Route speedtest logs",
             final=False,
         ),
         models.RoutesRoute(
             id="route-mtr",
             name="mtr",
-            disabled=False,
             filter_="source == \"mtr.log\"",
             pipeline="passthru",
-            enable_output_expression=True,
             output="default",
-            output_expression="<value>",
             description="Route mtr logs",
             final=False,
         ),
         models.RoutesRoute(
             id="route-statsd",
             name="statsd",
-            disabled=False,
             filter_="source == \"statsd.log\"",
             pipeline="prometheus_metrics",
-            enable_output_expression=False,
             output="devnull",
-            output_expression="<value>",
             description="Route statsd metrics",
             final=False,
         ),
         models.RoutesRoute(
             id="route-default",
             name="default",
-            disabled=False,
             filter_="true",
             pipeline="main",
-            enable_output_expression=False,
             output="default",
-            output_expression="<value>",
             description="Catch-all Route for all other events",
             final=True,
         ),
-    ], id="default", groups={
-        "key": {
-            "name": "<value>",
-            "description": "drat yet spectacles ha",
-            "disabled": False,
-        },
-    }, comments=[
-        models.Comment(
-            comment="The Football Is Good For Training And Recreational Purposes",
-        ),
-    ])
+    ], id="default")
 
     # Handle response
     print(res)
@@ -245,26 +209,14 @@ with CriblControlPlane(
         models.RoutesRoute(
             id="route-dynamic",
             name="dynamic-output",
-            disabled=True,
             filter_="source == \"dynamic.log\"",
             pipeline="main",
             enable_output_expression=True,
-            output="<value>",
             output_expression="`myDest_${C.logStreamEnv}`",
             description="Route with dynamic Destination based on environment",
             final=True,
         ),
-    ], id="default", groups={
-        "key": {
-            "name": "<value>",
-            "description": "drat yet spectacles ha",
-            "disabled": False,
-        },
-    }, comments=[
-        models.Comment(
-            comment="The Football Is Good For Training And Recreational Purposes",
-        ),
-    ])
+    ], id="default")
 
     # Handle response
     print(res)
@@ -314,48 +266,21 @@ with CriblControlPlane(
 
     res = ccp_client.routes.append(id="<id>", request_body=[
         {
-            "clones": [
-                {
-                    "key": "<value>",
-                    "key1": "<value>",
-                },
-            ],
-            "context": "<value>",
             "description": "Route audit logs",
-            "disabled": False,
-            "enable_output_expression": False,
             "filter_": "source == \"audit.log\"",
             "final": False,
-            "group_id": "<id>",
             "id": "route-audit",
             "name": "audit",
             "output": "default",
-            "output_expression": "<value>",
             "pipeline": "main",
         },
         {
-            "clones": [
-                {
-
-                },
-                {
-
-                },
-                {
-
-                },
-            ],
-            "context": "<value>",
             "description": "Route security logs",
-            "disabled": True,
-            "enable_output_expression": False,
             "filter_": "source == \"security.log\"",
             "final": False,
-            "group_id": "<id>",
             "id": "route-security",
             "name": "security",
             "output": "devnull",
-            "output_expression": "<value>",
             "pipeline": "passthru",
         },
     ])
@@ -381,22 +306,12 @@ with CriblControlPlane(
 
     res = ccp_client.routes.append(id="<id>", request_body=[
         {
-            "clones": [
-                {
-                    "key": "<value>",
-                    "key1": "<value>",
-                },
-            ],
-            "context": "<value>",
             "description": "Route with dynamic Destination based on environment",
-            "disabled": False,
             "enable_output_expression": True,
             "filter_": "source == \"dynamic.log\"",
             "final": True,
-            "group_id": "<id>",
             "id": "route-dynamic-append",
             "name": "dynamic-append",
-            "output": "<value>",
             "output_expression": "`myDest_${C.logStreamEnv}`",
             "pipeline": "main",
         },
@@ -423,25 +338,11 @@ with CriblControlPlane(
 
     res = ccp_client.routes.append(id="<id>", request_body=[
         {
-            "clones": [
-                {
-                    "key": "<value>",
-                },
-                {
-
-                },
-            ],
-            "context": "<value>",
             "description": "Route new logs to main pipeline",
-            "disabled": True,
-            "enable_output_expression": True,
             "filter_": "source == \"new.log\"",
             "final": True,
-            "group_id": "<id>",
             "id": "route-new",
             "name": "new-route",
-            "output": "<value>",
-            "output_expression": "<value>",
             "pipeline": "main",
         },
     ])

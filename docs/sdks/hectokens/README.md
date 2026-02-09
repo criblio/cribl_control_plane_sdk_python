@@ -26,9 +26,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.hec_tokens.create(id="<id>", token="12345678901", allowed_indexes_at_token=[
-        "<value 1>",
-    ], description="toward precedent merry vaguely across ha fooey ingratiate jealously outlying", enabled=True, metadata=[
+    res = ccp_client.sources.hec_tokens.create(id="<id>", token="12345678901", enabled=True, metadata=[
         {
             "name": "fieldX",
             "value": "valueX",
@@ -56,12 +54,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.hec_tokens.create(id="<id>", token="12345678901", allowed_indexes_at_token=[
         "myIndex6",
-    ], description="circa aw dazzling official own amid in for gadzooks", enabled=True, metadata=[
-        {
-            "name": "<value>",
-            "value": "<value>",
-        },
-    ])
+    ], enabled=True)
 
     # Handle response
     print(res)
@@ -110,9 +103,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.hec_tokens.update(id="<id>", token="<value>", allowed_indexes_at_token=[
-        "<value 1>",
-    ], description="once lively fooey who though while dampen please denitrify pish", enabled=True, metadata=[
+    res = ccp_client.sources.hec_tokens.update(id="<id>", token="<value>", enabled=True, metadata=[
         {
             "name": "fieldX",
             "value": "valueX",
@@ -140,12 +131,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.hec_tokens.update(id="<id>", token="<value>", allowed_indexes_at_token=[
         "myIndex6",
-    ], description="sleet for uh-huh", enabled=True, metadata=[
-        {
-            "name": "<value>",
-            "value": "<value>",
-        },
-    ])
+    ], enabled=True)
 
     # Handle response
     print(res)

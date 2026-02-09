@@ -26,9 +26,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.sources.hec_tokens.create(id="<id>", pack="<value>", token="12345678901", allowed_indexes_at_token=[
-        "<value 1>",
-    ], description="SUV velvety without", enabled=True, metadata=[
+    res = ccp_client.packs.sources.hec_tokens.create(id="<id>", pack="<value>", token="12345678901", enabled=True, metadata=[
         {
             "name": "fieldX",
             "value": "valueX",
@@ -56,12 +54,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.hec_tokens.create(id="<id>", pack="<value>", token="12345678901", allowed_indexes_at_token=[
         "myIndex6",
-    ], description="extremely till outside healthily sensitize even gosh royal", enabled=True, metadata=[
-        {
-            "name": "<value>",
-            "value": "<value>",
-        },
-    ])
+    ], enabled=True)
 
     # Handle response
     print(res)
@@ -111,11 +104,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.sources.hec_tokens.update(id="<id>", token="<value>", pack="<value>", allowed_indexes_at_token=[
-        "<value 1>",
-        "<value 2>",
-        "<value 3>",
-    ], description="straw critical famously dream after delightfully", enabled=True, metadata=[
+    res = ccp_client.packs.sources.hec_tokens.update(id="<id>", token="<value>", pack="<value>", enabled=True, metadata=[
         {
             "name": "fieldX",
             "value": "valueX",
@@ -143,12 +132,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.hec_tokens.update(id="<id>", token="<value>", pack="<value>", allowed_indexes_at_token=[
         "myIndex6",
-    ], description="geez capitalise curiously enfold jubilantly", enabled=True, metadata=[
-        {
-            "name": "<value>",
-            "value": "<value>",
-        },
-    ])
+    ], enabled=True)
 
     # Handle response
     print(res)

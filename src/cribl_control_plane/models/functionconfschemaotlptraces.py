@@ -6,18 +6,56 @@ from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import Any, List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class FunctionConfSchemaOtlpTracesTypedDict(TypedDict):
-    drop_non_trace_events: NotRequired[bool]
-    otlp_version: NotRequired[OtlpVersionOptions]
+class OTLPTracesBatchOTLPTracesTrueTypedDict(TypedDict):
     batch_otlp_traces: NotRequired[bool]
     r"""Batch OTLP traces by shared top-level `resource` attributes"""
+    send_batch_size: NotRequired[float]
+    r"""Number of spans after which a batch will be sent, regardless of the timeout"""
+    timeout: NotRequired[float]
+    r"""Time duration after which a batch will be sent, regardless of size"""
+    send_batch_max_size: NotRequired[float]
+    r"""Maximum batch size. Enter 0 for no maximum."""
+    metadata_keys: NotRequired[List[Any]]
+    r"""When set, this processor will create one batcher instance per distinct combination of values in the metadata"""
+    metadata_cardinality_limit: NotRequired[float]
+    r"""Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped."""
+    drop_non_trace_events: NotRequired[bool]
+    otlp_version: NotRequired[OtlpVersionOptions]
 
 
-class FunctionConfSchemaOtlpTraces(BaseModel):
+class OTLPTracesBatchOTLPTracesTrue(BaseModel):
+    batch_otlp_traces: Annotated[
+        Optional[bool], pydantic.Field(alias="batchOTLPTraces")
+    ] = None
+    r"""Batch OTLP traces by shared top-level `resource` attributes"""
+
+    send_batch_size: Annotated[
+        Optional[float], pydantic.Field(alias="sendBatchSize")
+    ] = None
+    r"""Number of spans after which a batch will be sent, regardless of the timeout"""
+
+    timeout: Optional[float] = None
+    r"""Time duration after which a batch will be sent, regardless of size"""
+
+    send_batch_max_size: Annotated[
+        Optional[float], pydantic.Field(alias="sendBatchMaxSize")
+    ] = None
+    r"""Maximum batch size. Enter 0 for no maximum."""
+
+    metadata_keys: Annotated[
+        Optional[List[Any]], pydantic.Field(alias="metadataKeys")
+    ] = None
+    r"""When set, this processor will create one batcher instance per distinct combination of values in the metadata"""
+
+    metadata_cardinality_limit: Annotated[
+        Optional[float], pydantic.Field(alias="metadataCardinalityLimit")
+    ] = None
+    r"""Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped."""
+
     drop_non_trace_events: Annotated[
         Optional[bool], pydantic.Field(alias="dropNonTraceEvents")
     ] = None
@@ -25,11 +63,6 @@ class FunctionConfSchemaOtlpTraces(BaseModel):
     otlp_version: Annotated[
         Optional[OtlpVersionOptions], pydantic.Field(alias="otlpVersion")
     ] = None
-
-    batch_otlp_traces: Annotated[
-        Optional[bool], pydantic.Field(alias="batchOTLPTraces")
-    ] = None
-    r"""Batch OTLP traces by shared top-level `resource` attributes"""
 
     @field_serializer("otlp_version")
     def serialize_otlp_version(self, value):
@@ -42,7 +75,18 @@ class FunctionConfSchemaOtlpTraces(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["dropNonTraceEvents", "otlpVersion", "batchOTLPTraces"])
+        optional_fields = set(
+            [
+                "batchOTLPTraces",
+                "sendBatchSize",
+                "timeout",
+                "sendBatchMaxSize",
+                "metadataKeys",
+                "metadataCardinalityLimit",
+                "dropNonTraceEvents",
+                "otlpVersion",
+            ]
+        )
         serialized = handler(self)
         m = {}
 
@@ -55,3 +99,64 @@ class FunctionConfSchemaOtlpTraces(BaseModel):
                     m[k] = val
 
         return m
+
+
+class OTLPTracesBatchOTLPTracesFalseTypedDict(TypedDict):
+    batch_otlp_traces: NotRequired[bool]
+    r"""Batch OTLP traces by shared top-level `resource` attributes"""
+    drop_non_trace_events: NotRequired[bool]
+    otlp_version: NotRequired[OtlpVersionOptions]
+
+
+class OTLPTracesBatchOTLPTracesFalse(BaseModel):
+    batch_otlp_traces: Annotated[
+        Optional[bool], pydantic.Field(alias="batchOTLPTraces")
+    ] = None
+    r"""Batch OTLP traces by shared top-level `resource` attributes"""
+
+    drop_non_trace_events: Annotated[
+        Optional[bool], pydantic.Field(alias="dropNonTraceEvents")
+    ] = None
+
+    otlp_version: Annotated[
+        Optional[OtlpVersionOptions], pydantic.Field(alias="otlpVersion")
+    ] = None
+
+    @field_serializer("otlp_version")
+    def serialize_otlp_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.OtlpVersionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["batchOTLPTraces", "dropNonTraceEvents", "otlpVersion"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+FunctionConfSchemaOtlpTracesTypedDict = TypeAliasType(
+    "FunctionConfSchemaOtlpTracesTypedDict",
+    Union[
+        OTLPTracesBatchOTLPTracesFalseTypedDict, OTLPTracesBatchOTLPTracesTrueTypedDict
+    ],
+)
+
+
+FunctionConfSchemaOtlpTraces = TypeAliasType(
+    "FunctionConfSchemaOtlpTraces",
+    Union[OTLPTracesBatchOTLPTracesFalse, OTLPTracesBatchOTLPTracesTrue],
+)

@@ -868,13 +868,724 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
         return m
 
 
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -1278,22 +1989,31 @@ RestAuthenticationHmacPaginationUnion = Annotated[
 ]
 
 
-class RestAuthenticationHmacRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationHmacRestRetryRulesTypeBackoff(BaseModel):
+class RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -1306,8 +2026,6 @@ class RestAuthenticationHmacRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -1330,12 +2048,13 @@ class RestAuthenticationHmacRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -1354,30 +2073,133 @@ class RestAuthenticationHmacRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestAuthenticationHmacRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationHmacRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestAuthenticationHmacRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationHmacRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestAuthenticationHmacRestRetryRulesTypeBackoff",
+    Union[
+        RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
 
 
-class RestAuthenticationHmacRestRetryRulesTypeStatic(BaseModel):
+class RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
     limit: Optional[Any] = None
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -1406,10 +2228,11 @@ class RestAuthenticationHmacRestRetryRulesTypeStatic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
                 "multiplier",
@@ -1428,6 +2251,102 @@ class RestAuthenticationHmacRestRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationHmacRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestAuthenticationHmacRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationHmacRestRetryRulesTypeStatic = TypeAliasType(
+    "RestAuthenticationHmacRestRetryRulesTypeStatic",
+    Union[
+        RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
 
 
 class RestAuthenticationHmacRestRetryRulesTypeNoneTypedDict(TypedDict):
@@ -1588,9 +2507,6 @@ class RestAuthenticationHmacTypedDict(TypedDict):
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     collect_method: RestAuthenticationHmacCollectMethod
     discovery: NotRequired[RestAuthenticationHmacDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -1630,14 +2546,6 @@ class RestAuthenticationHmac(BaseModel):
     ]
 
     discovery: Optional[RestAuthenticationHmacDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -1713,9 +2621,6 @@ class RestAuthenticationHmac(BaseModel):
         optional_fields = set(
             [
                 "discovery",
-                "collectVerb",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -2609,13 +3514,724 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         return m
 
 
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -3050,22 +4666,33 @@ RestAuthenticationGoogleOauthSecretPaginationUnion = Annotated[
 ]
 
 
-class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoff(BaseModel):
+class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrue(
+    BaseModel
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -3078,8 +4705,6 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -3102,12 +4727,13 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -3126,30 +4752,137 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalse(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoff",
+    Union[
+        RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
 
 
-class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStatic(BaseModel):
+class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderTrue(
+    BaseModel
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
     limit: Optional[Any] = None
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -3178,10 +4911,11 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStatic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
                 "multiplier",
@@ -3200,6 +4934,104 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderFalse(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStatic = TypeAliasType(
+    "RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStatic",
+    Union[
+        RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
 
 
 class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeNoneTypedDict(TypedDict):
@@ -3372,9 +5204,6 @@ class RestAuthenticationGoogleOauthSecretTypedDict(TypedDict):
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     collect_method: RestAuthenticationGoogleOauthSecretCollectMethod
     discovery: NotRequired[RestAuthenticationGoogleOauthSecretDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -3421,14 +5250,6 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
     ]
 
     discovery: Optional[RestAuthenticationGoogleOauthSecretDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -3506,9 +5327,6 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
         optional_fields = set(
             [
                 "discovery",
-                "collectVerb",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -4396,13 +6214,724 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         return m
 
 
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -4821,22 +7350,31 @@ RestAuthenticationGoogleOauthPaginationUnion = Annotated[
 ]
 
 
-class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoff(BaseModel):
+class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -4849,8 +7387,6 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -4873,12 +7409,13 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -4897,30 +7434,135 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderFalse(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationGoogleOauthRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestAuthenticationGoogleOauthRestRetryRulesTypeBackoff",
+    Union[
+        RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
 
 
-class RestAuthenticationGoogleOauthRestRetryRulesTypeStatic(BaseModel):
+class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
     limit: Optional[Any] = None
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -4949,10 +7591,11 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStatic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
                 "multiplier",
@@ -4971,6 +7614,102 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationGoogleOauthRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestAuthenticationGoogleOauthRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationGoogleOauthRestRetryRulesTypeStatic = TypeAliasType(
+    "RestAuthenticationGoogleOauthRestRetryRulesTypeStatic",
+    Union[
+        RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
 
 
 class RestAuthenticationGoogleOauthRestRetryRulesTypeNoneTypedDict(TypedDict):
@@ -5137,9 +7876,6 @@ class RestAuthenticationGoogleOauthTypedDict(TypedDict):
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     collect_method: RestAuthenticationGoogleOauthCollectMethod
     discovery: NotRequired[RestAuthenticationGoogleOauthDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -5188,14 +7924,6 @@ class RestAuthenticationGoogleOauth(BaseModel):
     ]
 
     discovery: Optional[RestAuthenticationGoogleOauthDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -5273,9 +8001,6 @@ class RestAuthenticationGoogleOauth(BaseModel):
         optional_fields = set(
             [
                 "discovery",
-                "collectVerb",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -6163,13 +8888,724 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         return m
 
 
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -6588,22 +10024,31 @@ RestAuthenticationOauthSecretPaginationUnion = Annotated[
 ]
 
 
-class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationOauthSecretRestRetryRulesTypeBackoff(BaseModel):
+class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -6616,8 +10061,6 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -6640,12 +10083,13 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -6664,30 +10108,135 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestAuthenticationOauthSecretRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalse(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationOauthSecretRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestAuthenticationOauthSecretRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationOauthSecretRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestAuthenticationOauthSecretRestRetryRulesTypeBackoff",
+    Union[
+        RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
 
 
-class RestAuthenticationOauthSecretRestRetryRulesTypeStatic(BaseModel):
+class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
     limit: Optional[Any] = None
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -6716,10 +10265,11 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStatic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
                 "multiplier",
@@ -6738,6 +10288,102 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationOauthSecretRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestAuthenticationOauthSecretRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationOauthSecretRestRetryRulesTypeStatic = TypeAliasType(
+    "RestAuthenticationOauthSecretRestRetryRulesTypeStatic",
+    Union[
+        RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
 
 
 class RestAuthenticationOauthSecretRestRetryRulesTypeNoneTypedDict(TypedDict):
@@ -6917,9 +10563,6 @@ class RestAuthenticationOauthSecretTypedDict(TypedDict):
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     discovery: NotRequired[RestAuthenticationOauthSecretDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -6992,14 +10635,6 @@ class RestAuthenticationOauthSecret(BaseModel):
     ] = None
 
     discovery: Optional[RestAuthenticationOauthSecretDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -7081,9 +10716,6 @@ class RestAuthenticationOauthSecret(BaseModel):
                 "authRequestParams",
                 "authRequestHeaders",
                 "discovery",
-                "collectVerb",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -7959,13 +11591,724 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(Base
         return m
 
 
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -8370,22 +12713,31 @@ RestAuthenticationOauthPaginationUnion = Annotated[
 ]
 
 
-class RestAuthenticationOauthRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationOauthRestRetryRulesTypeBackoff(BaseModel):
+class RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -8398,8 +12750,6 @@ class RestAuthenticationOauthRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -8422,12 +12772,13 @@ class RestAuthenticationOauthRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -8446,30 +12797,133 @@ class RestAuthenticationOauthRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestAuthenticationOauthRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationOauthRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestAuthenticationOauthRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationOauthRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestAuthenticationOauthRestRetryRulesTypeBackoff",
+    Union[
+        RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
 
 
-class RestAuthenticationOauthRestRetryRulesTypeStatic(BaseModel):
+class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
     limit: Optional[Any] = None
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -8498,10 +12952,11 @@ class RestAuthenticationOauthRestRetryRulesTypeStatic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
                 "multiplier",
@@ -8520,6 +12975,102 @@ class RestAuthenticationOauthRestRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationOauthRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestAuthenticationOauthRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationOauthRestRetryRulesTypeStatic = TypeAliasType(
+    "RestAuthenticationOauthRestRetryRulesTypeStatic",
+    Union[
+        RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
 
 
 class RestAuthenticationOauthRestRetryRulesTypeNoneTypedDict(TypedDict):
@@ -8697,9 +13248,6 @@ class RestAuthenticationOauthTypedDict(TypedDict):
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     discovery: NotRequired[RestAuthenticationOauthDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -8773,14 +13321,6 @@ class RestAuthenticationOauth(BaseModel):
     ] = None
 
     discovery: Optional[RestAuthenticationOauthDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -8861,9 +13401,6 @@ class RestAuthenticationOauth(BaseModel):
                 "authRequestParams",
                 "authRequestHeaders",
                 "discovery",
-                "collectVerb",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -8892,7 +13429,7 @@ class RestAuthenticationOauth(BaseModel):
         return m
 
 
-class RestAuthenticationLoginSecretAuthentication(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueAuthentication(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
@@ -8909,7 +13446,7 @@ class RestAuthenticationLoginSecretAuthentication(
     HMAC = "hmac"
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeNoneDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNoneDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -8920,16 +13457,18 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeNoneDiscoverType(
     NONE = "none"
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeNoneTypedDict(TypedDict):
-    discover_type: (
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeNoneDiscoverType
-    )
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNoneDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeNone(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNone(
+    BaseModel
+):
     discover_type: Annotated[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeNoneDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNoneDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -8938,7 +13477,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeNone(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeNoneDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNoneDiscoverType(
                     value
                 )
             except ValueError:
@@ -8946,7 +13485,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeNone(BaseModel):
         return value
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeListDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeListDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -8957,18 +13496,20 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeListDiscoverType(
     NONE = "none"
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeListTypedDict(TypedDict):
-    discover_type: (
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeListDiscoverType
-    )
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeListDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     item_list: List[str]
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeList(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeList(
+    BaseModel
+):
     discover_type: Annotated[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeListDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeListDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -8980,7 +13521,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeList(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeListDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeListDiscoverType(
                     value
                 )
             except ValueError:
@@ -8988,7 +13529,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeList(BaseModel):
         return value
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSONDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSONDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -8999,10 +13540,10 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSONDiscoverType(
     NONE = "none"
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSONTypedDict(TypedDict):
-    discover_type: (
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSONDiscoverType
-    )
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSONDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
@@ -9010,9 +13551,11 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSONTypedDict(TypedD
     r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSON(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSON(
+    BaseModel
+):
     discover_type: Annotated[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSONDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSONDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -9029,7 +13572,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSON(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSONDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSONDiscoverType(
                     value
                 )
             except ValueError:
@@ -9053,7 +13596,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSON(BaseModel):
         return m
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # GET
@@ -9066,7 +13609,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     OTHER = "other"
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -9077,13 +13620,13 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     NONE = "none"
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPaginationTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPaginationTypedDict(
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPagination(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPagination(
     BaseModel
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
@@ -9100,12 +13643,12 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         return value
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict(
     TypedDict
 ):
-    discover_method: RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
     discover_verb: Any
-    discover_type: RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
@@ -9115,7 +13658,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     pagination: NotRequired[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPaginationTypedDict
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPaginationTypedDict
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -9125,18 +13668,18 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     enable_discover_code: NotRequired[bool]
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
     BaseModel
 ):
     discover_method: Annotated[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod,
         pydantic.Field(alias="discoverMethod"),
     ]
 
     discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
 
     discover_type: Annotated[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -9156,7 +13699,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     ] = None
 
     pagination: Optional[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPagination
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPagination
     ] = None
 
     discover_data_field: Annotated[
@@ -9181,7 +13724,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     def serialize_discover_method(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod(
                     value
                 )
             except ValueError:
@@ -9192,7 +13735,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType(
                     value
                 )
             except ValueError:
@@ -9227,7 +13770,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         return m
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # GET
@@ -9240,7 +13783,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     OTHER = "other"
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -9251,13 +13794,13 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     NONE = "none"
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPaginationTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPaginationTypedDict(
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPagination(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPagination(
     BaseModel
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
@@ -9274,12 +13817,12 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         return value
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
     TypedDict
 ):
-    discover_method: RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
     discover_body: Any
-    discover_type: RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
@@ -9289,7 +13832,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     pagination: NotRequired[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPaginationTypedDict
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPaginationTypedDict
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -9299,18 +13842,18 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     enable_discover_code: NotRequired[bool]
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
     BaseModel
 ):
     discover_method: Annotated[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
         pydantic.Field(alias="discoverMethod"),
     ]
 
     discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
 
     discover_type: Annotated[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -9330,7 +13873,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     ] = None
 
     pagination: Optional[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPagination
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPagination
     ] = None
 
     discover_data_field: Annotated[
@@ -9355,7 +13898,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     def serialize_discover_method(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
                     value
                 )
             except ValueError:
@@ -9366,7 +13909,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
                     value
                 )
             except ValueError:
@@ -9401,7 +13944,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         return m
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # GET
@@ -9414,7 +13957,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     OTHER = "other"
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -9425,13 +13968,13 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     NONE = "none"
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPaginationTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPaginationTypedDict(
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination(
     BaseModel
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
@@ -9448,11 +13991,11 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         return value
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
     TypedDict
 ):
-    discover_method: RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
-    discover_type: RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
@@ -9463,7 +14006,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     pagination: NotRequired[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPaginationTypedDict
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPaginationTypedDict
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -9473,16 +14016,16 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     enable_discover_code: NotRequired[bool]
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
     BaseModel
 ):
     discover_method: Annotated[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
         pydantic.Field(alias="discoverMethod"),
     ]
 
     discover_type: Annotated[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -9504,7 +14047,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     ] = None
 
     pagination: Optional[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination
     ] = None
 
     discover_data_field: Annotated[
@@ -9529,7 +14072,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     def serialize_discover_method(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
                     value
                 )
             except ValueError:
@@ -9540,7 +14083,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
                     value
                 )
             except ValueError:
@@ -9576,7 +14119,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         return m
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # GET
@@ -9589,7 +14132,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     OTHER = "other"
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -9600,13 +14143,13 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     NONE = "none"
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPaginationTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPaginationTypedDict(
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagination(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagination(
     BaseModel
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
@@ -9623,11 +14166,11 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         return value
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
     TypedDict
 ):
-    discover_method: RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
-    discover_type: RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
@@ -9638,7 +14181,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     pagination: NotRequired[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPaginationTypedDict
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPaginationTypedDict
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -9648,16 +14191,16 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     enable_discover_code: NotRequired[bool]
 
 
-class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
     BaseModel
 ):
     discover_method: Annotated[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
         pydantic.Field(alias="discoverMethod"),
     ]
 
     discover_type: Annotated[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -9679,7 +14222,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     ] = None
 
     pagination: Optional[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagination
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagination
     ] = None
 
     discover_data_field: Annotated[
@@ -9704,7 +14247,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     def serialize_discover_method(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
                     value
                 )
             except ValueError:
@@ -9715,7 +14258,7 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
                     value
                 )
             except ValueError:
@@ -9751,33 +14294,744 @@ class RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         return m
 
 
-RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
-    "RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPTypedDict",
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
 
-RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTP = Annotated[
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTP = Annotated[
     Union[
         Annotated[
-            RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
             Tag("get"),
         ],
         Annotated[
-            RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
             Tag("post"),
         ],
         Annotated[
-            RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
             Tag("post_with_body"),
         ],
         Annotated[
-            RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther,
             Tag("other"),
         ],
     ],
@@ -9785,37 +15039,41 @@ RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTP = Annotated[
 ]
 
 
-RestAuthenticationLoginSecretDiscoveryTypedDict = TypeAliasType(
-    "RestAuthenticationLoginSecretDiscoveryTypedDict",
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscoveryTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscoveryTypedDict",
     Union[
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeNoneTypedDict,
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeListTypedDict,
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSONTypedDict,
-        RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNoneTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeListTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSONTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
 
 
-RestAuthenticationLoginSecretDiscovery = Annotated[
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscovery = Annotated[
     Union[
         Annotated[
-            RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTP, Tag("http")
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
         ],
         Annotated[
-            RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSON, Tag("json")
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSON,
+            Tag("json"),
         ],
         Annotated[
-            RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeList, Tag("list")
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeList,
+            Tag("list"),
         ],
         Annotated[
-            RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeNone, Tag("none")
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNone,
+            Tag("none"),
         ],
     ],
     Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
 ]
 
 
-class RestAuthenticationLoginSecretCollectMethod(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueCollectMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # GET
@@ -9828,7 +15086,9 @@ class RestAuthenticationLoginSecretCollectMethod(
     OTHER = "other"
 
 
-class RestAuthenticationLoginSecretRestPaginationTypeRequestPageTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeRequestPageTypedDict(
+    TypedDict
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
     page_field: str
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
@@ -9848,7 +15108,9 @@ class RestAuthenticationLoginSecretRestPaginationTypeRequestPageTypedDict(TypedD
     r"""Name of the attribute in the response that contains the total number of records for the query"""
 
 
-class RestAuthenticationLoginSecretRestPaginationTypeRequestPage(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeRequestPage(
+    BaseModel
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
     page_field: Annotated[str, pydantic.Field(alias="pageField")]
@@ -9907,7 +15169,9 @@ class RestAuthenticationLoginSecretRestPaginationTypeRequestPage(BaseModel):
         return m
 
 
-class RestAuthenticationLoginSecretRestPaginationTypeRequestOffsetTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeRequestOffsetTypedDict(
+    TypedDict
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
     offset_field: str
     r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
@@ -9925,7 +15189,9 @@ class RestAuthenticationLoginSecretRestPaginationTypeRequestOffsetTypedDict(Type
     r"""Name of the attribute in the response that contains the total number of records for the query"""
 
 
-class RestAuthenticationLoginSecretRestPaginationTypeRequestOffset(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeRequestOffset(
+    BaseModel
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
     offset_field: Annotated[str, pydantic.Field(alias="offsetField")]
@@ -9979,7 +15245,7 @@ class RestAuthenticationLoginSecretRestPaginationTypeRequestOffset(BaseModel):
         return m
 
 
-class RestAuthenticationLoginSecretRestPaginationTypeResponseHeaderLinkTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeaderLinkTypedDict(
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
@@ -9991,7 +15257,9 @@ class RestAuthenticationLoginSecretRestPaginationTypeResponseHeaderLinkTypedDict
     r"""Relation name used in the link header that refers to the current result set. Example: rel=\"self\" refers to the current page of results: <https://myHost/curPage>; rel=\"self\" """
 
 
-class RestAuthenticationLoginSecretRestPaginationTypeResponseHeaderLink(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeaderLink(
+    BaseModel
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
     next_relation_attribute: Annotated[
@@ -10035,7 +15303,9 @@ class RestAuthenticationLoginSecretRestPaginationTypeResponseHeaderLink(BaseMode
         return m
 
 
-class RestAuthenticationLoginSecretRestPaginationTypeResponseHeaderTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeaderTypedDict(
+    TypedDict
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
     attribute: List[str]
     r"""Names of attributes within the response that contain next-page information"""
@@ -10043,7 +15313,9 @@ class RestAuthenticationLoginSecretRestPaginationTypeResponseHeaderTypedDict(Typ
     r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
 
 
-class RestAuthenticationLoginSecretRestPaginationTypeResponseHeader(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeader(
+    BaseModel
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
     attribute: List[str]
@@ -10064,7 +15336,9 @@ class RestAuthenticationLoginSecretRestPaginationTypeResponseHeader(BaseModel):
         return value
 
 
-class RestAuthenticationLoginSecretRestPaginationTypeResponseBodyTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeResponseBodyTypedDict(
+    TypedDict
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
     attribute: List[str]
     r"""Names of attributes within the response that contain next-page information"""
@@ -10074,7 +15348,9 @@ class RestAuthenticationLoginSecretRestPaginationTypeResponseBodyTypedDict(Typed
     r"""JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section."""
 
 
-class RestAuthenticationLoginSecretRestPaginationTypeResponseBody(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeResponseBody(
+    BaseModel
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
     attribute: List[str]
@@ -10116,11 +15392,15 @@ class RestAuthenticationLoginSecretRestPaginationTypeResponseBody(BaseModel):
         return m
 
 
-class RestAuthenticationLoginSecretRestPaginationTypeNoneTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeNoneTypedDict(
+    TypedDict
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
 
-class RestAuthenticationLoginSecretRestPaginationTypeNone(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeNone(
+    BaseModel
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
     @field_serializer("type")
@@ -10135,40 +15415,43 @@ class RestAuthenticationLoginSecretRestPaginationTypeNone(BaseModel):
         return value
 
 
-RestAuthenticationLoginSecretPaginationUnionTypedDict = TypeAliasType(
-    "RestAuthenticationLoginSecretPaginationUnionTypedDict",
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePaginationUnionTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePaginationUnionTypedDict",
     Union[
-        RestAuthenticationLoginSecretRestPaginationTypeNoneTypedDict,
-        RestAuthenticationLoginSecretRestPaginationTypeResponseHeaderTypedDict,
-        RestAuthenticationLoginSecretRestPaginationTypeResponseBodyTypedDict,
-        RestAuthenticationLoginSecretRestPaginationTypeResponseHeaderLinkTypedDict,
-        RestAuthenticationLoginSecretRestPaginationTypeRequestOffsetTypedDict,
-        RestAuthenticationLoginSecretRestPaginationTypeRequestPageTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeNoneTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeaderTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeResponseBodyTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeaderLinkTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeRequestOffsetTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeRequestPageTypedDict,
     ],
 )
 
 
-RestAuthenticationLoginSecretPaginationUnion = Annotated[
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePaginationUnion = Annotated[
     Union[
-        Annotated[RestAuthenticationLoginSecretRestPaginationTypeNone, Tag("none")],
         Annotated[
-            RestAuthenticationLoginSecretRestPaginationTypeResponseBody,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeNone,
+            Tag("none"),
+        ],
+        Annotated[
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeResponseBody,
             Tag("response_body"),
         ],
         Annotated[
-            RestAuthenticationLoginSecretRestPaginationTypeResponseHeader,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeader,
             Tag("response_header"),
         ],
         Annotated[
-            RestAuthenticationLoginSecretRestPaginationTypeResponseHeaderLink,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeaderLink,
             Tag("response_header_link"),
         ],
         Annotated[
-            RestAuthenticationLoginSecretRestPaginationTypeRequestOffset,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeRequestOffset,
             Tag("request_offset"),
         ],
         Annotated[
-            RestAuthenticationLoginSecretRestPaginationTypeRequestPage,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeRequestPage,
             Tag("request_page"),
         ],
     ],
@@ -10176,22 +15459,33 @@ RestAuthenticationLoginSecretPaginationUnion = Annotated[
 ]
 
 
-class RestAuthenticationLoginSecretRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationLoginSecretRestRetryRulesTypeBackoff(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderTrue(
+    BaseModel
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -10204,8 +15498,6 @@ class RestAuthenticationLoginSecretRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -10228,12 +15520,13 @@ class RestAuthenticationLoginSecretRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -10252,98 +15545,28 @@ class RestAuthenticationLoginSecretRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestAuthenticationLoginSecretRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationLoginSecretRestRetryRulesTypeStatic(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderFalse(
+    BaseModel
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
 
     enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class RestAuthenticationLoginSecretRestRetryRulesTypeNoneTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-
-
-class RestAuthenticationLoginSecretRestRetryRulesTypeNone(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
 
@@ -10356,8 +15579,6 @@ class RestAuthenticationLoginSecretRestRetryRulesTypeNone(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -10380,12 +15601,12 @@ class RestAuthenticationLoginSecretRestRetryRulesTypeNone(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -10404,34 +15625,325 @@ class RestAuthenticationLoginSecretRestRetryRulesTypeNone(BaseModel):
         return m
 
 
-RestAuthenticationLoginSecretRetryRulesTypedDict = TypeAliasType(
-    "RestAuthenticationLoginSecretRetryRulesTypedDict",
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffTypedDict",
     Union[
-        RestAuthenticationLoginSecretRestRetryRulesTypeNoneTypedDict,
-        RestAuthenticationLoginSecretRestRetryRulesTypeStaticTypedDict,
-        RestAuthenticationLoginSecretRestRetryRulesTypeBackoffTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
     ],
 )
 
 
-RestAuthenticationLoginSecretRetryRules = Annotated[
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoff",
     Union[
-        Annotated[RestAuthenticationLoginSecretRestRetryRulesTypeNone, Tag("none")],
-        Annotated[RestAuthenticationLoginSecretRestRetryRulesTypeStatic, Tag("static")],
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderTrue(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "retryHeaderName",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderFalse(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStatic = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStatic",
+    Union[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeNoneTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeNone(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRetryRulesTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRetryRulesTypedDict",
+    Union[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeNoneTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRetryRules = Annotated[
+    Union[
         Annotated[
-            RestAuthenticationLoginSecretRestRetryRulesTypeBackoff, Tag("backoff")
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeNone,
+            Tag("none"),
+        ],
+        Annotated[
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStatic,
+            Tag("static"),
+        ],
+        Annotated[
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoff,
+            Tag("backoff"),
         ],
     ],
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]
 
 
-class RestAuthenticationLoginSecretStateTrackingTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueStateTrackingTypedDict(
+    TypedDict
+):
     enabled: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
 
 
-class RestAuthenticationLoginSecretStateTracking(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
 
@@ -10452,13 +15964,17 @@ class RestAuthenticationLoginSecretStateTracking(BaseModel):
         return m
 
 
-class RestAuthenticationLoginSecretSchedulingTypedDict(TypedDict):
-    state_tracking: NotRequired[RestAuthenticationLoginSecretStateTrackingTypedDict]
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueSchedulingTypedDict(
+    TypedDict
+):
+    state_tracking: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueStateTrackingTypedDict
+    ]
 
 
-class RestAuthenticationLoginSecretScheduling(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueScheduling(BaseModel):
     state_tracking: Annotated[
-        Optional[RestAuthenticationLoginSecretStateTracking],
+        Optional[RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
 
@@ -10479,8 +15995,10 @@ class RestAuthenticationLoginSecretScheduling(BaseModel):
         return m
 
 
-class RestAuthenticationLoginSecretTypedDict(TypedDict):
-    authentication: RestAuthenticationLoginSecretAuthentication
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueTypedDict(TypedDict):
+    authentication: (
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueAuthentication
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     login_url: str
     r"""URL to use for login API call. This call is expected to be a POST."""
@@ -10492,7 +16010,7 @@ class RestAuthenticationLoginSecretTypedDict(TypedDict):
     r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    collect_method: RestAuthenticationLoginSecretCollectMethod
+    collect_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueCollectMethod
     get_auth_token_from_header: NotRequired[bool]
     r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
     auth_header_key: NotRequired[str]
@@ -10500,14 +16018,15 @@ class RestAuthenticationLoginSecretTypedDict(TypedDict):
     auth_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
-    discovery: NotRequired[RestAuthenticationLoginSecretDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
+    discovery: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscoveryTypedDict
+    ]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
-    pagination: NotRequired[RestAuthenticationLoginSecretPaginationUnionTypedDict]
+    pagination: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePaginationUnionTypedDict
+    ]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     use_round_robin_dns: NotRequired[bool]
@@ -10524,12 +16043,18 @@ class RestAuthenticationLoginSecretTypedDict(TypedDict):
     r"""Stop pagination when the Event Breaker produces no events"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    retry_rules: NotRequired[RestAuthenticationLoginSecretRetryRulesTypedDict]
-    scheduling: NotRequired[RestAuthenticationLoginSecretSchedulingTypedDict]
+    retry_rules: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRetryRulesTypedDict
+    ]
+    scheduling: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueSchedulingTypedDict
+    ]
 
 
-class RestAuthenticationLoginSecret(BaseModel):
-    authentication: RestAuthenticationLoginSecretAuthentication
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue(BaseModel):
+    authentication: (
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueAuthentication
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
@@ -10548,7 +16073,7 @@ class RestAuthenticationLoginSecret(BaseModel):
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
     collect_method: Annotated[
-        RestAuthenticationLoginSecretCollectMethod,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueCollectMethod,
         pydantic.Field(alias="collectMethod"),
     ]
 
@@ -10567,22 +16092,18 @@ class RestAuthenticationLoginSecret(BaseModel):
         pydantic.Field(alias="authRequestHeaders"),
     ] = None
 
-    discovery: Optional[RestAuthenticationLoginSecretDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
+    discovery: Optional[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueDiscovery
     ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="collectRequestHeaders"),
     ] = None
 
-    pagination: Optional[RestAuthenticationLoginSecretPaginationUnion] = None
+    pagination: Optional[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTruePaginationUnion
+    ] = None
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -10621,12 +16142,12 @@ class RestAuthenticationLoginSecret(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     retry_rules: Annotated[
-        Optional[RestAuthenticationLoginSecretRetryRules],
+        Optional[RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
 
     scheduling: Annotated[
-        Optional[RestAuthenticationLoginSecretScheduling],
+        Optional[RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueScheduling],
         pydantic.Field(alias="__scheduling"),
     ] = None
 
@@ -10634,7 +16155,9 @@ class RestAuthenticationLoginSecret(BaseModel):
     def serialize_authentication(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretAuthentication(value)
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueAuthentication(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -10643,7 +16166,9 @@ class RestAuthenticationLoginSecret(BaseModel):
     def serialize_collect_method(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginSecretCollectMethod(value)
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueCollectMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -10656,9 +16181,6 @@ class RestAuthenticationLoginSecret(BaseModel):
                 "authHeaderKey",
                 "authRequestHeaders",
                 "discovery",
-                "collectVerb",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -10687,7 +16209,9 @@ class RestAuthenticationLoginSecret(BaseModel):
         return m
 
 
-class RestAuthenticationLoginAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseAuthentication(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     NONE = "none"
@@ -10702,7 +16226,7 @@ class RestAuthenticationLoginAuthentication(str, Enum, metaclass=utils.OpenEnumM
     HMAC = "hmac"
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeNoneDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNoneDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -10713,14 +16237,18 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeNoneDiscoverType(
     NONE = "none"
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeNoneTypedDict(TypedDict):
-    discover_type: RestAuthenticationLoginRestDiscoveryDiscoverTypeNoneDiscoverType
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNoneDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeNone(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNone(
+    BaseModel
+):
     discover_type: Annotated[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeNoneDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNoneDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -10729,7 +16257,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeNone(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginRestDiscoveryDiscoverTypeNoneDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNoneDiscoverType(
                     value
                 )
             except ValueError:
@@ -10737,7 +16265,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeNone(BaseModel):
         return value
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeListDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeListDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -10748,16 +16276,20 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeListDiscoverType(
     NONE = "none"
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeListTypedDict(TypedDict):
-    discover_type: RestAuthenticationLoginRestDiscoveryDiscoverTypeListDiscoverType
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeListDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     item_list: List[str]
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeList(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeList(
+    BaseModel
+):
     discover_type: Annotated[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeListDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeListDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -10769,7 +16301,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeList(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginRestDiscoveryDiscoverTypeListDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeListDiscoverType(
                     value
                 )
             except ValueError:
@@ -10777,7 +16309,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeList(BaseModel):
         return value
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeJSONDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSONDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -10788,8 +16320,10 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeJSONDiscoverType(
     NONE = "none"
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeJSONTypedDict(TypedDict):
-    discover_type: RestAuthenticationLoginRestDiscoveryDiscoverTypeJSONDiscoverType
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSONDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
@@ -10797,9 +16331,11 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeJSONTypedDict(TypedDict):
     r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeJSON(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSON(
+    BaseModel
+):
     discover_type: Annotated[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeJSONDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSONDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -10816,7 +16352,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeJSON(BaseModel):
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginRestDiscoveryDiscoverTypeJSONDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSONDiscoverType(
                     value
                 )
             except ValueError:
@@ -10840,7 +16376,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeJSON(BaseModel):
         return m
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # GET
@@ -10853,7 +16389,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDis
     OTHER = "other"
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -10864,13 +16400,13 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDis
     NONE = "none"
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPaginationTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPaginationTypedDict(
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPagination(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPagination(
     BaseModel
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
@@ -10887,12 +16423,12 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPag
         return value
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict(
     TypedDict
 ):
-    discover_method: RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
     discover_verb: Any
-    discover_type: RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
@@ -10902,7 +16438,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTyp
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     pagination: NotRequired[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPaginationTypedDict
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPaginationTypedDict
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -10912,18 +16448,18 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTyp
     enable_discover_code: NotRequired[bool]
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
     BaseModel
 ):
     discover_method: Annotated[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod,
         pydantic.Field(alias="discoverMethod"),
     ]
 
     discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
 
     discover_type: Annotated[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -10943,7 +16479,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
     ] = None
 
     pagination: Optional[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPagination
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPagination
     ] = None
 
     discover_data_field: Annotated[
@@ -10968,7 +16504,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
     def serialize_discover_method(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod(
                     value
                 )
             except ValueError:
@@ -10979,7 +16515,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType(
                     value
                 )
             except ValueError:
@@ -11014,7 +16550,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
         return m
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # GET
@@ -11027,7 +16563,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
     OTHER = "other"
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -11038,13 +16574,13 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
     NONE = "none"
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPaginationTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPaginationTypedDict(
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPagination(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPagination(
     BaseModel
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
@@ -11061,12 +16597,12 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
         return value
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
     TypedDict
 ):
-    discover_method: RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
     discover_body: Any
-    discover_type: RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
@@ -11076,7 +16612,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     pagination: NotRequired[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPaginationTypedDict
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPaginationTypedDict
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -11086,18 +16622,18 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
     enable_discover_code: NotRequired[bool]
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
     BaseModel
 ):
     discover_method: Annotated[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
         pydantic.Field(alias="discoverMethod"),
     ]
 
     discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
 
     discover_type: Annotated[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -11117,7 +16653,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
     ] = None
 
     pagination: Optional[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPagination
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPagination
     ] = None
 
     discover_data_field: Annotated[
@@ -11142,7 +16678,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
     def serialize_discover_method(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
                     value
                 )
             except ValueError:
@@ -11153,7 +16689,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
                     value
                 )
             except ValueError:
@@ -11188,7 +16724,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
         return m
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # GET
@@ -11201,7 +16737,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDisc
     OTHER = "other"
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -11212,13 +16748,13 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDisc
     NONE = "none"
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPaginationTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPaginationTypedDict(
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination(
     BaseModel
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
@@ -11235,11 +16771,11 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagi
         return value
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
     TypedDict
 ):
-    discover_method: RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
-    discover_type: RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
@@ -11250,7 +16786,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostType
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     pagination: NotRequired[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPaginationTypedDict
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPaginationTypedDict
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -11260,14 +16796,16 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostType
     enable_discover_code: NotRequired[bool]
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
     discover_method: Annotated[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
         pydantic.Field(alias="discoverMethod"),
     ]
 
     discover_type: Annotated[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -11289,7 +16827,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Bas
     ] = None
 
     pagination: Optional[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination
     ] = None
 
     discover_data_field: Annotated[
@@ -11314,7 +16852,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Bas
     def serialize_discover_method(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
                     value
                 )
             except ValueError:
@@ -11325,7 +16863,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Bas
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
                     value
                 )
             except ValueError:
@@ -11361,7 +16899,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Bas
         return m
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # GET
@@ -11374,7 +16912,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDisco
     OTHER = "other"
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -11385,13 +16923,13 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDisco
     NONE = "none"
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPaginationTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPaginationTypedDict(
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagination(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagination(
     BaseModel
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
@@ -11408,11 +16946,11 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagin
         return value
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
     TypedDict
 ):
-    discover_method: RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
-    discover_type: RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
@@ -11423,7 +16961,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTyped
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
     pagination: NotRequired[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPaginationTypedDict
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPaginationTypedDict
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -11433,14 +16971,16 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTyped
     enable_discover_code: NotRequired[bool]
 
 
-class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
     discover_method: Annotated[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
         pydantic.Field(alias="discoverMethod"),
     ]
 
     discover_type: Annotated[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
         pydantic.Field(alias="discoverType"),
     ]
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
@@ -11462,7 +17002,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(Base
     ] = None
 
     pagination: Optional[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagination
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagination
     ] = None
 
     discover_data_field: Annotated[
@@ -11487,7 +17027,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(Base
     def serialize_discover_method(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
                     value
                 )
             except ValueError:
@@ -11498,7 +17038,7 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(Base
     def serialize_discover_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
                     value
                 )
             except ValueError:
@@ -11534,33 +17074,744 @@ class RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(Base
         return m
 
 
-RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
-    "RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPTypedDict",
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
 
-RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTP = Annotated[
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTP = Annotated[
     Union[
         Annotated[
-            RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
             Tag("get"),
         ],
         Annotated[
-            RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
             Tag("post"),
         ],
         Annotated[
-            RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
             Tag("post_with_body"),
         ],
         Annotated[
-            RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther,
             Tag("other"),
         ],
     ],
@@ -11568,29 +17819,43 @@ RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTP = Annotated[
 ]
 
 
-RestAuthenticationLoginDiscoveryTypedDict = TypeAliasType(
-    "RestAuthenticationLoginDiscoveryTypedDict",
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscoveryTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscoveryTypedDict",
     Union[
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeNoneTypedDict,
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeListTypedDict,
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeJSONTypedDict,
-        RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNoneTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeListTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSONTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
 
 
-RestAuthenticationLoginDiscovery = Annotated[
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscovery = Annotated[
     Union[
-        Annotated[RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTP, Tag("http")],
-        Annotated[RestAuthenticationLoginRestDiscoveryDiscoverTypeJSON, Tag("json")],
-        Annotated[RestAuthenticationLoginRestDiscoveryDiscoverTypeList, Tag("list")],
-        Annotated[RestAuthenticationLoginRestDiscoveryDiscoverTypeNone, Tag("none")],
+        Annotated[
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
+        ],
+        Annotated[
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSON,
+            Tag("json"),
+        ],
+        Annotated[
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeList,
+            Tag("list"),
+        ],
+        Annotated[
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNone,
+            Tag("none"),
+        ],
     ],
     Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
 ]
 
 
-class RestAuthenticationLoginCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseCollectMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     # GET
     GET = "get"
     # POST
@@ -11601,7 +17866,9 @@ class RestAuthenticationLoginCollectMethod(str, Enum, metaclass=utils.OpenEnumMe
     OTHER = "other"
 
 
-class RestAuthenticationLoginRestPaginationTypeRequestPageTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeRequestPageTypedDict(
+    TypedDict
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
     page_field: str
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
@@ -11621,7 +17888,9 @@ class RestAuthenticationLoginRestPaginationTypeRequestPageTypedDict(TypedDict):
     r"""Name of the attribute in the response that contains the total number of records for the query"""
 
 
-class RestAuthenticationLoginRestPaginationTypeRequestPage(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeRequestPage(
+    BaseModel
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
     page_field: Annotated[str, pydantic.Field(alias="pageField")]
@@ -11680,7 +17949,9 @@ class RestAuthenticationLoginRestPaginationTypeRequestPage(BaseModel):
         return m
 
 
-class RestAuthenticationLoginRestPaginationTypeRequestOffsetTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeRequestOffsetTypedDict(
+    TypedDict
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
     offset_field: str
     r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
@@ -11698,7 +17969,9 @@ class RestAuthenticationLoginRestPaginationTypeRequestOffsetTypedDict(TypedDict)
     r"""Name of the attribute in the response that contains the total number of records for the query"""
 
 
-class RestAuthenticationLoginRestPaginationTypeRequestOffset(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeRequestOffset(
+    BaseModel
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
     offset_field: Annotated[str, pydantic.Field(alias="offsetField")]
@@ -11752,7 +18025,9 @@ class RestAuthenticationLoginRestPaginationTypeRequestOffset(BaseModel):
         return m
 
 
-class RestAuthenticationLoginRestPaginationTypeResponseHeaderLinkTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeaderLinkTypedDict(
+    TypedDict
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
     next_relation_attribute: str
     r"""Relation name used in the link header that refers to the next page in the result set. Example: rel=\"next\" refers to the next page of results: <https://myHost/nextPage>; rel=\"next\" """
@@ -11762,7 +18037,9 @@ class RestAuthenticationLoginRestPaginationTypeResponseHeaderLinkTypedDict(Typed
     r"""Relation name used in the link header that refers to the current result set. Example: rel=\"self\" refers to the current page of results: <https://myHost/curPage>; rel=\"self\" """
 
 
-class RestAuthenticationLoginRestPaginationTypeResponseHeaderLink(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeaderLink(
+    BaseModel
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
     next_relation_attribute: Annotated[
@@ -11806,7 +18083,9 @@ class RestAuthenticationLoginRestPaginationTypeResponseHeaderLink(BaseModel):
         return m
 
 
-class RestAuthenticationLoginRestPaginationTypeResponseHeaderTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeaderTypedDict(
+    TypedDict
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
     attribute: List[str]
     r"""Names of attributes within the response that contain next-page information"""
@@ -11814,7 +18093,9 @@ class RestAuthenticationLoginRestPaginationTypeResponseHeaderTypedDict(TypedDict
     r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
 
 
-class RestAuthenticationLoginRestPaginationTypeResponseHeader(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeader(
+    BaseModel
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
     attribute: List[str]
@@ -11835,7 +18116,9 @@ class RestAuthenticationLoginRestPaginationTypeResponseHeader(BaseModel):
         return value
 
 
-class RestAuthenticationLoginRestPaginationTypeResponseBodyTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeResponseBodyTypedDict(
+    TypedDict
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
     attribute: List[str]
     r"""Names of attributes within the response that contain next-page information"""
@@ -11845,7 +18128,9 @@ class RestAuthenticationLoginRestPaginationTypeResponseBodyTypedDict(TypedDict):
     r"""JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section."""
 
 
-class RestAuthenticationLoginRestPaginationTypeResponseBody(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeResponseBody(
+    BaseModel
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
     attribute: List[str]
@@ -11887,11 +18172,15 @@ class RestAuthenticationLoginRestPaginationTypeResponseBody(BaseModel):
         return m
 
 
-class RestAuthenticationLoginRestPaginationTypeNoneTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeNoneTypedDict(
+    TypedDict
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
 
-class RestAuthenticationLoginRestPaginationTypeNone(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeNone(
+    BaseModel
+):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
     @field_serializer("type")
@@ -11906,61 +18195,77 @@ class RestAuthenticationLoginRestPaginationTypeNone(BaseModel):
         return value
 
 
-RestAuthenticationLoginPaginationUnionTypedDict = TypeAliasType(
-    "RestAuthenticationLoginPaginationUnionTypedDict",
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationUnionTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationUnionTypedDict",
     Union[
-        RestAuthenticationLoginRestPaginationTypeNoneTypedDict,
-        RestAuthenticationLoginRestPaginationTypeResponseHeaderTypedDict,
-        RestAuthenticationLoginRestPaginationTypeResponseBodyTypedDict,
-        RestAuthenticationLoginRestPaginationTypeResponseHeaderLinkTypedDict,
-        RestAuthenticationLoginRestPaginationTypeRequestOffsetTypedDict,
-        RestAuthenticationLoginRestPaginationTypeRequestPageTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeNoneTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeaderTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeResponseBodyTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeaderLinkTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeRequestOffsetTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeRequestPageTypedDict,
     ],
 )
 
 
-RestAuthenticationLoginPaginationUnion = Annotated[
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationUnion = Annotated[
     Union[
-        Annotated[RestAuthenticationLoginRestPaginationTypeNone, Tag("none")],
         Annotated[
-            RestAuthenticationLoginRestPaginationTypeResponseBody, Tag("response_body")
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeNone,
+            Tag("none"),
         ],
         Annotated[
-            RestAuthenticationLoginRestPaginationTypeResponseHeader,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeResponseBody,
+            Tag("response_body"),
+        ],
+        Annotated[
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeader,
             Tag("response_header"),
         ],
         Annotated[
-            RestAuthenticationLoginRestPaginationTypeResponseHeaderLink,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeaderLink,
             Tag("response_header_link"),
         ],
         Annotated[
-            RestAuthenticationLoginRestPaginationTypeRequestOffset,
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeRequestOffset,
             Tag("request_offset"),
         ],
         Annotated[
-            RestAuthenticationLoginRestPaginationTypeRequestPage, Tag("request_page")
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationTypeRequestPage,
+            Tag("request_page"),
         ],
     ],
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]
 
 
-class RestAuthenticationLoginRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationLoginRestRetryRulesTypeBackoff(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderTrue(
+    BaseModel
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -11973,8 +18278,6 @@ class RestAuthenticationLoginRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -11997,12 +18300,13 @@ class RestAuthenticationLoginRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -12021,98 +18325,28 @@ class RestAuthenticationLoginRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestAuthenticationLoginRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationLoginRestRetryRulesTypeStatic(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderFalse(
+    BaseModel
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
 
     enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class RestAuthenticationLoginRestRetryRulesTypeNoneTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-
-
-class RestAuthenticationLoginRestRetryRulesTypeNone(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[Any] = None
 
@@ -12125,8 +18359,6 @@ class RestAuthenticationLoginRestRetryRulesTypeNone(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -12149,12 +18381,12 @@ class RestAuthenticationLoginRestRetryRulesTypeNone(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -12173,32 +18405,325 @@ class RestAuthenticationLoginRestRetryRulesTypeNone(BaseModel):
         return m
 
 
-RestAuthenticationLoginRetryRulesTypedDict = TypeAliasType(
-    "RestAuthenticationLoginRetryRulesTypedDict",
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffTypedDict",
     Union[
-        RestAuthenticationLoginRestRetryRulesTypeNoneTypedDict,
-        RestAuthenticationLoginRestRetryRulesTypeStaticTypedDict,
-        RestAuthenticationLoginRestRetryRulesTypeBackoffTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
     ],
 )
 
 
-RestAuthenticationLoginRetryRules = Annotated[
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoff",
     Union[
-        Annotated[RestAuthenticationLoginRestRetryRulesTypeNone, Tag("none")],
-        Annotated[RestAuthenticationLoginRestRetryRulesTypeStatic, Tag("static")],
-        Annotated[RestAuthenticationLoginRestRetryRulesTypeBackoff, Tag("backoff")],
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderTrue(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "retryHeaderName",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderFalse(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStatic = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStatic",
+    Union[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeNoneTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeNone(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRetryRulesTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRetryRulesTypedDict",
+    Union[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeNoneTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRetryRules = Annotated[
+    Union[
+        Annotated[
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeNone,
+            Tag("none"),
+        ],
+        Annotated[
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStatic,
+            Tag("static"),
+        ],
+        Annotated[
+            RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoff,
+            Tag("backoff"),
+        ],
     ],
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]
 
 
-class RestAuthenticationLoginStateTrackingTypedDict(TypedDict):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseStateTrackingTypedDict(
+    TypedDict
+):
     enabled: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
 
 
-class RestAuthenticationLoginStateTracking(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseStateTracking(BaseModel):
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
 
@@ -12219,13 +18744,17 @@ class RestAuthenticationLoginStateTracking(BaseModel):
         return m
 
 
-class RestAuthenticationLoginSchedulingTypedDict(TypedDict):
-    state_tracking: NotRequired[RestAuthenticationLoginStateTrackingTypedDict]
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseSchedulingTypedDict(
+    TypedDict
+):
+    state_tracking: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseStateTrackingTypedDict
+    ]
 
 
-class RestAuthenticationLoginScheduling(BaseModel):
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseScheduling(BaseModel):
     state_tracking: Annotated[
-        Optional[RestAuthenticationLoginStateTracking],
+        Optional[RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
 
@@ -12246,35 +18775,42 @@ class RestAuthenticationLoginScheduling(BaseModel):
         return m
 
 
-class RestAuthenticationLoginTypedDict(TypedDict):
-    authentication: RestAuthenticationLoginAuthentication
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseTypedDict(TypedDict):
+    authentication: (
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseAuthentication
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     login_url: str
     r"""URL to use for login API call. This call is expected to be a POST."""
-    username: str
-    password: str
+    credentials_secret: str
+    r"""Select or create a stored secret that references your login credentials"""
     login_body: str
     r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
     auth_header_expr: str
-    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
-    collect_method: RestAuthenticationLoginCollectMethod
+    collect_method: (
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseCollectMethod
+    )
     get_auth_token_from_header: NotRequired[bool]
     r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
     auth_header_key: NotRequired[str]
     r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
     auth_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
-    discovery: NotRequired[RestAuthenticationLoginDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
+    discovery: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscoveryTypedDict
+    ]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
-    pagination: NotRequired[RestAuthenticationLoginPaginationUnionTypedDict]
+    pagination: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationUnionTypedDict
+    ]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     use_round_robin_dns: NotRequired[bool]
@@ -12291,38 +18827,49 @@ class RestAuthenticationLoginTypedDict(TypedDict):
     r"""Stop pagination when the Event Breaker produces no events"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    retry_rules: NotRequired[RestAuthenticationLoginRetryRulesTypedDict]
-    scheduling: NotRequired[RestAuthenticationLoginSchedulingTypedDict]
+    retry_rules: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRetryRulesTypedDict
+    ]
+    scheduling: NotRequired[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseSchedulingTypedDict
+    ]
 
 
-class RestAuthenticationLogin(BaseModel):
-    authentication: RestAuthenticationLoginAuthentication
+class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse(BaseModel):
+    authentication: (
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseAuthentication
+    )
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
     r"""URL to use for login API call. This call is expected to be a POST."""
 
-    username: str
-
-    password: str
+    credentials_secret: Annotated[str, pydantic.Field(alias="credentialsSecret")]
+    r"""Select or create a stored secret that references your login credentials"""
 
     login_body: Annotated[str, pydantic.Field(alias="loginBody")]
     r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
 
     auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
-    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+    r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
 
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
 
     collect_method: Annotated[
-        RestAuthenticationLoginCollectMethod, pydantic.Field(alias="collectMethod")
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseCollectMethod,
+        pydantic.Field(alias="collectMethod"),
     ]
 
     get_auth_token_from_header: Annotated[
         Optional[bool], pydantic.Field(alias="getAuthTokenFromHeader")
     ] = None
     r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
 
     auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
         None
@@ -12334,22 +18881,18 @@ class RestAuthenticationLogin(BaseModel):
         pydantic.Field(alias="authRequestHeaders"),
     ] = None
 
-    discovery: Optional[RestAuthenticationLoginDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
+    discovery: Optional[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseDiscovery
     ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="collectRequestHeaders"),
     ] = None
 
-    pagination: Optional[RestAuthenticationLoginPaginationUnion] = None
+    pagination: Optional[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalsePaginationUnion
+    ] = None
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -12388,11 +18931,12 @@ class RestAuthenticationLogin(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     retry_rules: Annotated[
-        Optional[RestAuthenticationLoginRetryRules], pydantic.Field(alias="retryRules")
+        Optional[RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRetryRules],
+        pydantic.Field(alias="retryRules"),
     ] = None
 
     scheduling: Annotated[
-        Optional[RestAuthenticationLoginScheduling],
+        Optional[RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseScheduling],
         pydantic.Field(alias="__scheduling"),
     ] = None
 
@@ -12400,7 +18944,9 @@ class RestAuthenticationLogin(BaseModel):
     def serialize_authentication(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginAuthentication(value)
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseAuthentication(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -12409,7 +18955,9 @@ class RestAuthenticationLogin(BaseModel):
     def serialize_collect_method(self, value):
         if isinstance(value, str):
             try:
-                return models.RestAuthenticationLoginCollectMethod(value)
+                return models.RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseCollectMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -12419,12 +18967,10 @@ class RestAuthenticationLogin(BaseModel):
         optional_fields = set(
             [
                 "getAuthTokenFromHeader",
+                "tokenRespAttribute",
                 "authHeaderKey",
                 "authRequestHeaders",
                 "discovery",
-                "collectVerb",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -12451,6 +18997,5728 @@ class RestAuthenticationLogin(BaseModel):
                     m[k] = val
 
         return m
+
+
+RestAuthenticationLoginSecretTypedDict = TypeAliasType(
+    "RestAuthenticationLoginSecretTypedDict",
+    Union[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginSecret = TypeAliasType(
+    "RestAuthenticationLoginSecret",
+    Union[
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse,
+    ],
+)
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueAuthentication(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
+    NONE = "none"
+    BASIC = "basic"
+    BASIC_SECRET = "basicSecret"
+    LOGIN = "login"
+    LOGIN_SECRET = "loginSecret"
+    OAUTH = "oauth"
+    OAUTH_SECRET = "oauthSecret"
+    GOOGLE_OAUTH = "google_oauth"
+    GOOGLE_OAUTH_SECRET = "google_oauthSecret"
+    HMAC = "hmac"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNoneDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNoneDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNone(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNoneDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNoneDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeListDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeListDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    item_list: List[str]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeList(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeListDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    item_list: Annotated[List[str], pydantic.Field(alias="itemList")]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeListDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSONDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSONDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    manual_discover_result: str
+    r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
+    discover_data_field: NotRequired[str]
+    r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSON(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSONDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    manual_discover_result: Annotated[str, pydantic.Field(alias="manualDiscoverResult")]
+    r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSONDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["discoverDataField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict(
+    TypedDict
+):
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
+    discover_verb: Any
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
+    BaseModel
+):
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverBody",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+    TypedDict
+):
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    discover_body: Any
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+    BaseModel
+):
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+    TypedDict
+):
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_request_params: NotRequired[Any]
+    discover_verb: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverVerb",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+    TypedDict
+):
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_request_params: NotRequired[Any]
+    discover_verb: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverVerb",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueTypedDict(TypedDict):
+    authentication: RestAuthenticationLoginGetAuthTokenFromHeaderTrueAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    login_url: str
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    username: str
+    password: str
+    login_body: str
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    auth_header_expr: str
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+    collect_url: str
+    r"""URL (constant or JavaScript expression) to use for the Collect operation"""
+    collect_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueCollectMethod
+    get_auth_token_from_header: NotRequired[bool]
+    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+    auth_header_key: NotRequired[str]
+    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
+    auth_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    discovery: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscoveryTypedDict
+    ]
+    collect_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTruePaginationUnionTypedDict
+    ]
+    timeout: NotRequired[float]
+    r"""HTTP request inactivity timeout. Use 0 to disable."""
+    use_round_robin_dns: NotRequired[bool]
+    r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
+    disable_time_filter: NotRequired[bool]
+    r"""Disable Collector event time filtering when a date range is specified"""
+    decode_url: NotRequired[bool]
+    r"""Decode the URL before sending requests (including pagination requests)"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
+    capture_headers: NotRequired[bool]
+    r"""Enable to add response headers to the resHeaders field under the __collectible object"""
+    stop_on_empty_results: NotRequired[bool]
+    r"""Stop pagination when the Event Breaker produces no events"""
+    safe_headers: NotRequired[List[str]]
+    r"""List of headers that are safe to log in plain text"""
+    retry_rules: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRetryRulesTypedDict
+    ]
+    scheduling: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueSchedulingTypedDict
+    ]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrue(BaseModel):
+    authentication: RestAuthenticationLoginGetAuthTokenFromHeaderTrueAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
+    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    username: str
+
+    password: str
+
+    login_body: Annotated[str, pydantic.Field(alias="loginBody")]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+
+    auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
+    r"""URL (constant or JavaScript expression) to use for the Collect operation"""
+
+    collect_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueCollectMethod,
+        pydantic.Field(alias="collectMethod"),
+    ]
+
+    get_auth_token_from_header: Annotated[
+        Optional[bool], pydantic.Field(alias="getAuthTokenFromHeader")
+    ] = None
+    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+
+    auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
+        None
+    )
+    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
+
+    auth_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="authRequestHeaders"),
+    ] = None
+
+    discovery: Optional[RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscovery] = (
+        None
+    )
+
+    collect_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="collectRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTruePaginationUnion
+    ] = None
+
+    timeout: Optional[float] = None
+    r"""HTTP request inactivity timeout. Use 0 to disable."""
+
+    use_round_robin_dns: Annotated[
+        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
+    ] = None
+    r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
+
+    disable_time_filter: Annotated[
+        Optional[bool], pydantic.Field(alias="disableTimeFilter")
+    ] = None
+    r"""Disable Collector event time filtering when a date range is specified"""
+
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
+    r"""Decode the URL before sending requests (including pagination requests)"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = None
+    r"""Enable to add response headers to the resHeaders field under the __collectible object"""
+
+    stop_on_empty_results: Annotated[
+        Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
+    ] = None
+    r"""Stop pagination when the Event Breaker produces no events"""
+
+    safe_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="safeHeaders")
+    ] = None
+    r"""List of headers that are safe to log in plain text"""
+
+    retry_rules: Annotated[
+        Optional[RestAuthenticationLoginGetAuthTokenFromHeaderTrueRetryRules],
+        pydantic.Field(alias="retryRules"),
+    ] = None
+
+    scheduling: Annotated[
+        Optional[RestAuthenticationLoginGetAuthTokenFromHeaderTrueScheduling],
+        pydantic.Field(alias="__scheduling"),
+    ] = None
+
+    @field_serializer("authentication")
+    def serialize_authentication(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueAuthentication(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("collect_method")
+    def serialize_collect_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderTrueCollectMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "getAuthTokenFromHeader",
+                "authHeaderKey",
+                "authRequestHeaders",
+                "discovery",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseAuthentication(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
+    NONE = "none"
+    BASIC = "basic"
+    BASIC_SECRET = "basicSecret"
+    LOGIN = "login"
+    LOGIN_SECRET = "loginSecret"
+    OAUTH = "oauth"
+    OAUTH_SECRET = "oauthSecret"
+    GOOGLE_OAUTH = "google_oauth"
+    GOOGLE_OAUTH_SECRET = "google_oauthSecret"
+    HMAC = "hmac"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNoneDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNoneTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNoneDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNone(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNoneDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNoneDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeListDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeListTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeListDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    item_list: List[str]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeList(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeListDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    item_list: Annotated[List[str], pydantic.Field(alias="itemList")]
+    r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeListDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSONDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSONTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSONDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    manual_discover_result: str
+    r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
+    discover_data_field: NotRequired[str]
+    r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSON(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSONDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    manual_discover_result: Annotated[str, pydantic.Field(alias="manualDiscoverResult")]
+    r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSONDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["discoverDataField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict(
+    TypedDict
+):
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
+    discover_verb: Any
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
+    BaseModel
+):
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherPagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverBody",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict(
+    TypedDict
+):
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
+    discover_body: Any
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody(
+    BaseModel
+):
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyPagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict(
+    TypedDict
+):
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_request_params: NotRequired[Any]
+    discover_verb: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(
+    BaseModel
+):
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostPagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverVerb",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTP = Annotated[
+    Union[
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            Tag("get"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            Tag("post"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            Tag("post_with_body"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther,
+            Tag("other"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_method", "discoverMethod")),
+]
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscoveryTypedDict = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscoveryTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNoneTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeListTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSONTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderTrueDiscovery = Annotated[
+    Union[
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeJSON,
+            Tag("json"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeList,
+            Tag("list"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeNone,
+            Tag("none"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
+]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueCollectMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeRequestPageTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    page_field: str
+    r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
+    size_field: str
+    r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
+    size: float
+    r"""Maximum number of records to collect per page"""
+    max_pages: float
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+    zero_indexed: bool
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+    page: NotRequired[float]
+    r"""Page number from which to start request. Defaults to undefined, which will start collection from the first page."""
+    total_page_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of pages for the query"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeRequestPage(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    page_field: Annotated[str, pydantic.Field(alias="pageField")]
+    r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
+
+    size_field: Annotated[str, pydantic.Field(alias="sizeField")]
+    r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
+
+    size: float
+    r"""Maximum number of records to collect per page"""
+
+    max_pages: Annotated[float, pydantic.Field(alias="maxPages")]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+
+    zero_indexed: Annotated[bool, pydantic.Field(alias="zeroIndexed")]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
+    page: Optional[float] = None
+    r"""Page number from which to start request. Defaults to undefined, which will start collection from the first page."""
+
+    total_page_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalPageField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of pages for the query"""
+
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["page", "totalPageField", "totalRecordField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeRequestOffsetTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    offset_field: str
+    r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
+    limit_field: str
+    r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
+    limit: float
+    r"""Maximum number of records to collect per request"""
+    max_pages: float
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+    zero_indexed: bool
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+    offset: NotRequired[float]
+    r"""Offset index from which to start request. Defaults to undefined, which will start collection from the first record."""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeRequestOffset(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    offset_field: Annotated[str, pydantic.Field(alias="offsetField")]
+    r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
+
+    limit_field: Annotated[str, pydantic.Field(alias="limitField")]
+    r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
+
+    limit: float
+    r"""Maximum number of records to collect per request"""
+
+    max_pages: Annotated[float, pydantic.Field(alias="maxPages")]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+
+    zero_indexed: Annotated[bool, pydantic.Field(alias="zeroIndexed")]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
+    offset: Optional[float] = None
+    r"""Offset index from which to start request. Defaults to undefined, which will start collection from the first record."""
+
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["offset", "totalRecordField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeaderLinkTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    next_relation_attribute: str
+    r"""Relation name used in the link header that refers to the next page in the result set. Example: rel=\"next\" refers to the next page of results: <https://myHost/nextPage>; rel=\"next\" """
+    max_pages: float
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+    cur_relation_attribute: NotRequired[str]
+    r"""Relation name used in the link header that refers to the current result set. Example: rel=\"self\" refers to the current page of results: <https://myHost/curPage>; rel=\"self\" """
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeaderLink(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    next_relation_attribute: Annotated[
+        str, pydantic.Field(alias="nextRelationAttribute")
+    ]
+    r"""Relation name used in the link header that refers to the next page in the result set. Example: rel=\"next\" refers to the next page of results: <https://myHost/nextPage>; rel=\"next\" """
+
+    max_pages: Annotated[float, pydantic.Field(alias="maxPages")]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+
+    cur_relation_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="curRelationAttribute")
+    ] = None
+    r"""Relation name used in the link header that refers to the current result set. Example: rel=\"self\" refers to the current page of results: <https://myHost/curPage>; rel=\"self\" """
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["curRelationAttribute"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeaderTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    attribute: List[str]
+    r"""Names of attributes within the response that contain next-page information"""
+    max_pages: float
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeader(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    attribute: List[str]
+    r"""Names of attributes within the response that contain next-page information"""
+
+    max_pages: Annotated[float, pydantic.Field(alias="maxPages")]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeResponseBodyTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    attribute: List[str]
+    r"""Names of attributes within the response that contain next-page information"""
+    max_pages: float
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+    last_page_expr: NotRequired[str]
+    r"""JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section."""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeResponseBody(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    attribute: List[str]
+    r"""Names of attributes within the response that contain next-page information"""
+
+    max_pages: Annotated[float, pydantic.Field(alias="maxPages")]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+
+    last_page_expr: Annotated[Optional[str], pydantic.Field(alias="lastPageExpr")] = (
+        None
+    )
+    r"""JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section."""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["lastPageExpr"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeNoneTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeNone(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderTruePaginationUnionTypedDict = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderTruePaginationUnionTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeNoneTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeaderTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeResponseBodyTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeaderLinkTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeRequestOffsetTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeRequestPageTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderTruePaginationUnion = Annotated[
+    Union[
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeNone,
+            Tag("none"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeResponseBody,
+            Tag("response_body"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeader,
+            Tag("response_header"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeResponseHeaderLink,
+            Tag("response_header_link"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeRequestOffset,
+            Tag("request_offset"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestPaginationTypeRequestPage,
+            Tag("request_page"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderTrue(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "retryHeaderName",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderFalse(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoff",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderTrue(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "retryHeaderName",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderFalse(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStatic = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStatic",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeNoneTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeNone(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderTrueRetryRulesTypedDict = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderTrueRetryRulesTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeNoneTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderTrueRetryRules = Annotated[
+    Union[
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeNone,
+            Tag("none"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStatic,
+            Tag("static"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoff,
+            Tag("backoff"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueStateTrackingTypedDict(
+    TypedDict
+):
+    enabled: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions"""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueStateTracking(BaseModel):
+    enabled: Optional[bool] = None
+    r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueSchedulingTypedDict(TypedDict):
+    state_tracking: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueStateTrackingTypedDict
+    ]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderTrueScheduling(BaseModel):
+    state_tracking: Annotated[
+        Optional[RestAuthenticationLoginGetAuthTokenFromHeaderTrueStateTracking],
+        pydantic.Field(alias="stateTracking"),
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict(
+    TypedDict
+):
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_request_params: NotRequired[Any]
+    discover_verb: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(
+    BaseModel
+):
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetPagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "discoverRequestParams",
+                "discoverVerb",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTP = Annotated[
+    Union[
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet,
+            Tag("get"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost,
+            Tag("post"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody,
+            Tag("post_with_body"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther,
+            Tag("other"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_method", "discoverMethod")),
+]
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscoveryTypedDict = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscoveryTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNoneTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeListTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSONTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscovery = Annotated[
+    Union[
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTP,
+            Tag("http"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeJSON,
+            Tag("json"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeList,
+            Tag("list"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeNone,
+            Tag("none"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "discover_type", "discoverType")),
+]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseCollectMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeRequestPageTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    page_field: str
+    r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
+    size_field: str
+    r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
+    size: float
+    r"""Maximum number of records to collect per page"""
+    max_pages: float
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+    zero_indexed: bool
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+    page: NotRequired[float]
+    r"""Page number from which to start request. Defaults to undefined, which will start collection from the first page."""
+    total_page_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of pages for the query"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeRequestPage(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    page_field: Annotated[str, pydantic.Field(alias="pageField")]
+    r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
+
+    size_field: Annotated[str, pydantic.Field(alias="sizeField")]
+    r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
+
+    size: float
+    r"""Maximum number of records to collect per page"""
+
+    max_pages: Annotated[float, pydantic.Field(alias="maxPages")]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+
+    zero_indexed: Annotated[bool, pydantic.Field(alias="zeroIndexed")]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
+    page: Optional[float] = None
+    r"""Page number from which to start request. Defaults to undefined, which will start collection from the first page."""
+
+    total_page_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalPageField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of pages for the query"""
+
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["page", "totalPageField", "totalRecordField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeRequestOffsetTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    offset_field: str
+    r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
+    limit_field: str
+    r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
+    limit: float
+    r"""Maximum number of records to collect per request"""
+    max_pages: float
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+    zero_indexed: bool
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+    offset: NotRequired[float]
+    r"""Offset index from which to start request. Defaults to undefined, which will start collection from the first record."""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeRequestOffset(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    offset_field: Annotated[str, pydantic.Field(alias="offsetField")]
+    r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
+
+    limit_field: Annotated[str, pydantic.Field(alias="limitField")]
+    r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
+
+    limit: float
+    r"""Maximum number of records to collect per request"""
+
+    max_pages: Annotated[float, pydantic.Field(alias="maxPages")]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+
+    zero_indexed: Annotated[bool, pydantic.Field(alias="zeroIndexed")]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
+    offset: Optional[float] = None
+    r"""Offset index from which to start request. Defaults to undefined, which will start collection from the first record."""
+
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["offset", "totalRecordField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeaderLinkTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    next_relation_attribute: str
+    r"""Relation name used in the link header that refers to the next page in the result set. Example: rel=\"next\" refers to the next page of results: <https://myHost/nextPage>; rel=\"next\" """
+    max_pages: float
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+    cur_relation_attribute: NotRequired[str]
+    r"""Relation name used in the link header that refers to the current result set. Example: rel=\"self\" refers to the current page of results: <https://myHost/curPage>; rel=\"self\" """
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeaderLink(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    next_relation_attribute: Annotated[
+        str, pydantic.Field(alias="nextRelationAttribute")
+    ]
+    r"""Relation name used in the link header that refers to the next page in the result set. Example: rel=\"next\" refers to the next page of results: <https://myHost/nextPage>; rel=\"next\" """
+
+    max_pages: Annotated[float, pydantic.Field(alias="maxPages")]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+
+    cur_relation_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="curRelationAttribute")
+    ] = None
+    r"""Relation name used in the link header that refers to the current result set. Example: rel=\"self\" refers to the current page of results: <https://myHost/curPage>; rel=\"self\" """
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["curRelationAttribute"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeaderTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    attribute: List[str]
+    r"""Names of attributes within the response that contain next-page information"""
+    max_pages: float
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeader(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    attribute: List[str]
+    r"""Names of attributes within the response that contain next-page information"""
+
+    max_pages: Annotated[float, pydantic.Field(alias="maxPages")]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeResponseBodyTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    attribute: List[str]
+    r"""Names of attributes within the response that contain next-page information"""
+    max_pages: float
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+    last_page_expr: NotRequired[str]
+    r"""JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section."""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeResponseBody(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    attribute: List[str]
+    r"""Names of attributes within the response that contain next-page information"""
+
+    max_pages: Annotated[float, pydantic.Field(alias="maxPages")]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
+
+    last_page_expr: Annotated[Optional[str], pydantic.Field(alias="lastPageExpr")] = (
+        None
+    )
+    r"""JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section."""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["lastPageExpr"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeNoneTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeNone(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderFalsePaginationUnionTypedDict = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderFalsePaginationUnionTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeNoneTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeaderTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeResponseBodyTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeaderLinkTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeRequestOffsetTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeRequestPageTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderFalsePaginationUnion = Annotated[
+    Union[
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeNone,
+            Tag("none"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeResponseBody,
+            Tag("response_body"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeader,
+            Tag("response_header"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeResponseHeaderLink,
+            Tag("response_header_link"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeRequestOffset,
+            Tag("request_offset"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestPaginationTypeRequestPage,
+            Tag("request_page"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderTrue(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "retryHeaderName",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderFalse(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoff",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderTrue(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "retryHeaderName",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderFalse(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStatic = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStatic",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeNoneTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    enable_header: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeNone(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderFalseRetryRulesTypedDict = TypeAliasType(
+    "RestAuthenticationLoginGetAuthTokenFromHeaderFalseRetryRulesTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeNoneTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffTypedDict,
+    ],
+)
+
+
+RestAuthenticationLoginGetAuthTokenFromHeaderFalseRetryRules = Annotated[
+    Union[
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeNone,
+            Tag("none"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStatic,
+            Tag("static"),
+        ],
+        Annotated[
+            RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoff,
+            Tag("backoff"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseStateTrackingTypedDict(
+    TypedDict
+):
+    enabled: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions"""
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseStateTracking(BaseModel):
+    enabled: Optional[bool] = None
+    r"""Track collection progress between consecutive scheduled executions"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseSchedulingTypedDict(TypedDict):
+    state_tracking: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseStateTrackingTypedDict
+    ]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseScheduling(BaseModel):
+    state_tracking: Annotated[
+        Optional[RestAuthenticationLoginGetAuthTokenFromHeaderFalseStateTracking],
+        pydantic.Field(alias="stateTracking"),
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["stateTracking"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalseTypedDict(TypedDict):
+    authentication: RestAuthenticationLoginGetAuthTokenFromHeaderFalseAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+    login_url: str
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    username: str
+    password: str
+    login_body: str
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    auth_header_expr: str
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+    collect_url: str
+    r"""URL (constant or JavaScript expression) to use for the Collect operation"""
+    collect_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseCollectMethod
+    get_auth_token_from_header: NotRequired[bool]
+    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+    auth_header_key: NotRequired[str]
+    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
+    auth_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    discovery: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscoveryTypedDict
+    ]
+    collect_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalsePaginationUnionTypedDict
+    ]
+    timeout: NotRequired[float]
+    r"""HTTP request inactivity timeout. Use 0 to disable."""
+    use_round_robin_dns: NotRequired[bool]
+    r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
+    disable_time_filter: NotRequired[bool]
+    r"""Disable Collector event time filtering when a date range is specified"""
+    decode_url: NotRequired[bool]
+    r"""Decode the URL before sending requests (including pagination requests)"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
+    capture_headers: NotRequired[bool]
+    r"""Enable to add response headers to the resHeaders field under the __collectible object"""
+    stop_on_empty_results: NotRequired[bool]
+    r"""Stop pagination when the Event Breaker produces no events"""
+    safe_headers: NotRequired[List[str]]
+    r"""List of headers that are safe to log in plain text"""
+    retry_rules: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRetryRulesTypedDict
+    ]
+    scheduling: NotRequired[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseSchedulingTypedDict
+    ]
+
+
+class RestAuthenticationLoginGetAuthTokenFromHeaderFalse(BaseModel):
+    authentication: RestAuthenticationLoginGetAuthTokenFromHeaderFalseAuthentication
+    r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
+
+    login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    username: str
+
+    password: str
+
+    login_body: Annotated[str, pydantic.Field(alias="loginBody")]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+
+    auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
+    r"""URL (constant or JavaScript expression) to use for the Collect operation"""
+
+    collect_method: Annotated[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseCollectMethod,
+        pydantic.Field(alias="collectMethod"),
+    ]
+
+    get_auth_token_from_header: Annotated[
+        Optional[bool], pydantic.Field(alias="getAuthTokenFromHeader")
+    ] = None
+    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+
+    auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
+        None
+    )
+    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
+
+    auth_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="authRequestHeaders"),
+    ] = None
+
+    discovery: Optional[RestAuthenticationLoginGetAuthTokenFromHeaderFalseDiscovery] = (
+        None
+    )
+
+    collect_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="collectRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalsePaginationUnion
+    ] = None
+
+    timeout: Optional[float] = None
+    r"""HTTP request inactivity timeout. Use 0 to disable."""
+
+    use_round_robin_dns: Annotated[
+        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
+    ] = None
+    r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
+
+    disable_time_filter: Annotated[
+        Optional[bool], pydantic.Field(alias="disableTimeFilter")
+    ] = None
+    r"""Disable Collector event time filtering when a date range is specified"""
+
+    decode_url: Annotated[Optional[bool], pydantic.Field(alias="decodeUrl")] = None
+    r"""Decode the URL before sending requests (including pagination requests)"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = None
+    r"""Enable to add response headers to the resHeaders field under the __collectible object"""
+
+    stop_on_empty_results: Annotated[
+        Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
+    ] = None
+    r"""Stop pagination when the Event Breaker produces no events"""
+
+    safe_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="safeHeaders")
+    ] = None
+    r"""List of headers that are safe to log in plain text"""
+
+    retry_rules: Annotated[
+        Optional[RestAuthenticationLoginGetAuthTokenFromHeaderFalseRetryRules],
+        pydantic.Field(alias="retryRules"),
+    ] = None
+
+    scheduling: Annotated[
+        Optional[RestAuthenticationLoginGetAuthTokenFromHeaderFalseScheduling],
+        pydantic.Field(alias="__scheduling"),
+    ] = None
+
+    @field_serializer("authentication")
+    def serialize_authentication(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseAuthentication(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("collect_method")
+    def serialize_collect_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationLoginGetAuthTokenFromHeaderFalseCollectMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "getAuthTokenFromHeader",
+                "tokenRespAttribute",
+                "authHeaderKey",
+                "authRequestHeaders",
+                "discovery",
+                "collectRequestHeaders",
+                "pagination",
+                "timeout",
+                "useRoundRobinDns",
+                "disableTimeFilter",
+                "decodeUrl",
+                "rejectUnauthorized",
+                "captureHeaders",
+                "stopOnEmptyResults",
+                "safeHeaders",
+                "retryRules",
+                "__scheduling",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationLoginTypedDict = TypeAliasType(
+    "RestAuthenticationLoginTypedDict",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseTypedDict,
+    ],
+)
+
+
+RestAuthenticationLogin = TypeAliasType(
+    "RestAuthenticationLogin",
+    Union[
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrue,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalse,
+    ],
+)
 
 
 class RestAuthenticationBasicSecretAuthentication(
@@ -13312,13 +25580,724 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         return m
 
 
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -13737,22 +26716,31 @@ RestAuthenticationBasicSecretPaginationUnion = Annotated[
 ]
 
 
-class RestAuthenticationBasicSecretRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationBasicSecretRestRetryRulesTypeBackoff(BaseModel):
+class RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -13765,8 +26753,6 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -13789,12 +26775,13 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -13813,30 +26800,135 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestAuthenticationBasicSecretRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderFalse(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationBasicSecretRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestAuthenticationBasicSecretRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationBasicSecretRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestAuthenticationBasicSecretRestRetryRulesTypeBackoff",
+    Union[
+        RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
 
 
-class RestAuthenticationBasicSecretRestRetryRulesTypeStatic(BaseModel):
+class RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
     limit: Optional[Any] = None
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -13865,10 +26957,11 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeStatic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
                 "multiplier",
@@ -13887,6 +26980,102 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationBasicSecretRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestAuthenticationBasicSecretRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationBasicSecretRestRetryRulesTypeStatic = TypeAliasType(
+    "RestAuthenticationBasicSecretRestRetryRulesTypeStatic",
+    Union[
+        RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
 
 
 class RestAuthenticationBasicSecretRestRetryRulesTypeNoneTypedDict(TypedDict):
@@ -14049,9 +27238,6 @@ class RestAuthenticationBasicSecretTypedDict(TypedDict):
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     collect_method: RestAuthenticationBasicSecretCollectMethod
     discovery: NotRequired[RestAuthenticationBasicSecretDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -14092,14 +27278,6 @@ class RestAuthenticationBasicSecret(BaseModel):
     ]
 
     discovery: Optional[RestAuthenticationBasicSecretDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -14177,9 +27355,6 @@ class RestAuthenticationBasicSecret(BaseModel):
         optional_fields = set(
             [
                 "discovery",
-                "collectVerb",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -15055,13 +28230,596 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(Base
         return m
 
 
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
 RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -15466,22 +29224,31 @@ RestAuthenticationBasicPaginationUnion = Annotated[
 ]
 
 
-class RestAuthenticationBasicRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestAuthenticationBasicRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationBasicRestRetryRulesTypeBackoff(BaseModel):
+class RestAuthenticationBasicRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -15494,8 +29261,6 @@ class RestAuthenticationBasicRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -15518,12 +29283,13 @@ class RestAuthenticationBasicRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -15542,30 +29308,133 @@ class RestAuthenticationBasicRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestAuthenticationBasicRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestAuthenticationBasicRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationBasicRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationBasicRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestAuthenticationBasicRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestAuthenticationBasicRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestAuthenticationBasicRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationBasicRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestAuthenticationBasicRestRetryRulesTypeBackoff",
+    Union[
+        RestAuthenticationBasicRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestAuthenticationBasicRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
 
 
-class RestAuthenticationBasicRestRetryRulesTypeStatic(BaseModel):
+class RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
     limit: Optional[Any] = None
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -15594,10 +29463,11 @@ class RestAuthenticationBasicRestRetryRulesTypeStatic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
                 "multiplier",
@@ -15616,6 +29486,102 @@ class RestAuthenticationBasicRestRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationBasicRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestAuthenticationBasicRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationBasicRestRetryRulesTypeStatic = TypeAliasType(
+    "RestAuthenticationBasicRestRetryRulesTypeStatic",
+    Union[
+        RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
 
 
 class RestAuthenticationBasicRestRetryRulesTypeNoneTypedDict(TypedDict):
@@ -15776,9 +29742,6 @@ class RestAuthenticationBasicTypedDict(TypedDict):
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     collect_method: RestAuthenticationBasicCollectMethod
     discovery: NotRequired[RestAuthenticationBasicDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -15819,14 +29782,6 @@ class RestAuthenticationBasic(BaseModel):
     ]
 
     discovery: Optional[RestAuthenticationBasicDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -15903,9 +29858,6 @@ class RestAuthenticationBasic(BaseModel):
         optional_fields = set(
             [
                 "discovery",
-                "collectVerb",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -16781,13 +30733,724 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
         return m
 
 
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -17191,22 +31854,31 @@ RestAuthenticationNonePaginationUnion = Annotated[
 ]
 
 
-class RestAuthenticationNoneRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestAuthenticationNoneRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestAuthenticationNoneRestRetryRulesTypeBackoff(BaseModel):
+class RestAuthenticationNoneRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -17219,8 +31891,6 @@ class RestAuthenticationNoneRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -17243,12 +31913,13 @@ class RestAuthenticationNoneRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -17267,30 +31938,133 @@ class RestAuthenticationNoneRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestAuthenticationNoneRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestAuthenticationNoneRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestAuthenticationNoneRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationNoneRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestAuthenticationNoneRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestAuthenticationNoneRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestAuthenticationNoneRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationNoneRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestAuthenticationNoneRestRetryRulesTypeBackoff",
+    Union[
+        RestAuthenticationNoneRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestAuthenticationNoneRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
 
 
-class RestAuthenticationNoneRestRetryRulesTypeStatic(BaseModel):
+class RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
     limit: Optional[Any] = None
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -17319,10 +32093,11 @@ class RestAuthenticationNoneRestRetryRulesTypeStatic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
                 "multiplier",
@@ -17341,6 +32116,102 @@ class RestAuthenticationNoneRestRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestAuthenticationNoneRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestAuthenticationNoneRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestAuthenticationNoneRestRetryRulesTypeStatic = TypeAliasType(
+    "RestAuthenticationNoneRestRetryRulesTypeStatic",
+    Union[
+        RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
 
 
 class RestAuthenticationNoneRestRetryRulesTypeNoneTypedDict(TypedDict):
@@ -17499,9 +32370,6 @@ class RestAuthenticationNoneTypedDict(TypedDict):
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     collect_method: RestAuthenticationNoneCollectMethod
     discovery: NotRequired[RestAuthenticationNoneDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -17538,14 +32406,6 @@ class RestAuthenticationNone(BaseModel):
     ]
 
     discovery: Optional[RestAuthenticationNoneDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -17621,9 +32481,6 @@ class RestAuthenticationNone(BaseModel):
         optional_fields = set(
             [
                 "discovery",
-                "collectVerb",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -18495,13 +33352,724 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
         return m
 
 
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -18909,22 +34477,31 @@ class RestCollectMethodOtherAuthentication(str, Enum, metaclass=utils.OpenEnumMe
     HMAC = "hmac"
 
 
-class RestCollectMethodOtherRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestCollectMethodOtherRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestCollectMethodOtherRestRetryRulesTypeBackoff(BaseModel):
+class RestCollectMethodOtherRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -18937,8 +34514,6 @@ class RestCollectMethodOtherRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -18961,12 +34536,13 @@ class RestCollectMethodOtherRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -18985,30 +34561,133 @@ class RestCollectMethodOtherRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestCollectMethodOtherRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestCollectMethodOtherRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestCollectMethodOtherRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestCollectMethodOtherRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestCollectMethodOtherRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestCollectMethodOtherRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestCollectMethodOtherRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestCollectMethodOtherRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestCollectMethodOtherRestRetryRulesTypeBackoff",
+    Union[
+        RestCollectMethodOtherRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestCollectMethodOtherRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
 
 
-class RestCollectMethodOtherRestRetryRulesTypeStatic(BaseModel):
+class RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
     limit: Optional[Any] = None
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -19037,10 +34716,11 @@ class RestCollectMethodOtherRestRetryRulesTypeStatic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
                 "multiplier",
@@ -19059,6 +34739,102 @@ class RestCollectMethodOtherRestRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestCollectMethodOtherRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestCollectMethodOtherRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestCollectMethodOtherRestRetryRulesTypeStatic = TypeAliasType(
+    "RestCollectMethodOtherRestRetryRulesTypeStatic",
+    Union[
+        RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
 
 
 class RestCollectMethodOtherRestRetryRulesTypeNoneTypedDict(TypedDict):
@@ -19212,13 +34988,17 @@ class RestCollectMethodOtherScheduling(BaseModel):
 
 class RestCollectMethodOtherTypedDict(TypedDict):
     collect_method: RestCollectMethodOtherCollectMethod
-    collect_verb: Any
+    collect_verb: str
+    r"""Custom HTTP method to use for the Collect operation"""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     authentication: RestCollectMethodOtherAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-    collect_body: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
+    collect_body: NotRequired[str]
+    r"""Template for body to send with the Collect request. Reference global variables, functions, or parameters from the Discover response using template parameters: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`"""
+    collect_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discovery: NotRequired[RestCollectMethodOtherDiscoveryTypedDict]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
@@ -19249,7 +35029,8 @@ class RestCollectMethodOther(BaseModel):
         RestCollectMethodOtherCollectMethod, pydantic.Field(alias="collectMethod")
     ]
 
-    collect_verb: Annotated[Any, pydantic.Field(alias="collectVerb")]
+    collect_verb: Annotated[str, pydantic.Field(alias="collectVerb")]
+    r"""Custom HTTP method to use for the Collect operation"""
 
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
@@ -19257,10 +35038,12 @@ class RestCollectMethodOther(BaseModel):
     authentication: RestCollectMethodOtherAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
+    collect_body: Annotated[Optional[str], pydantic.Field(alias="collectBody")] = None
+    r"""Template for body to send with the Collect request. Reference global variables, functions, or parameters from the Discover response using template parameters: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`"""
 
     collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="collectRequestParams"),
     ] = None
 
     discovery: Optional[RestCollectMethodOtherDiscovery] = None
@@ -20224,13 +36007,724 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         return m
 
 
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -20653,22 +37147,31 @@ class RestCollectMethodPostWithBodyAuthentication(
     HMAC = "hmac"
 
 
-class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoff(BaseModel):
+class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -20681,8 +37184,6 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -20705,12 +37206,13 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -20729,30 +37231,135 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestCollectMethodPostWithBodyRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderFalse(
+    BaseModel
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestCollectMethodPostWithBodyRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestCollectMethodPostWithBodyRestRetryRulesTypeBackoff",
+    Union[
+        RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
 
 
-class RestCollectMethodPostWithBodyRestRetryRulesTypeStatic(BaseModel):
+class RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
     limit: Optional[Any] = None
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -20781,10 +37388,11 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeStatic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
                 "multiplier",
@@ -20803,6 +37411,102 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestCollectMethodPostWithBodyRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestCollectMethodPostWithBodyRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestCollectMethodPostWithBodyRestRetryRulesTypeStatic = TypeAliasType(
+    "RestCollectMethodPostWithBodyRestRetryRulesTypeStatic",
+    Union[
+        RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
 
 
 class RestCollectMethodPostWithBodyRestRetryRulesTypeNoneTypedDict(TypedDict):
@@ -20958,14 +37662,13 @@ class RestCollectMethodPostWithBodyScheduling(BaseModel):
 
 class RestCollectMethodPostWithBodyTypedDict(TypedDict):
     collect_method: RestCollectMethodPostWithBodyCollectMethod
-    collect_body: Any
+    collect_body: str
+    r"""Template for POST body to send with the Collect request. Reference global variables, functions, or parameters from the Discover response using template params: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`"""
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     authentication: RestCollectMethodPostWithBodyAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     discovery: NotRequired[RestCollectMethodPostWithBodyDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_request_params: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -20996,7 +37699,8 @@ class RestCollectMethodPostWithBody(BaseModel):
         pydantic.Field(alias="collectMethod"),
     ]
 
-    collect_body: Annotated[Any, pydantic.Field(alias="collectBody")]
+    collect_body: Annotated[str, pydantic.Field(alias="collectBody")]
+    r"""Template for POST body to send with the Collect request. Reference global variables, functions, or parameters from the Discover response using template params: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`"""
 
     collect_url: Annotated[str, pydantic.Field(alias="collectUrl")]
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
@@ -21005,12 +37709,6 @@ class RestCollectMethodPostWithBody(BaseModel):
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     discovery: Optional[RestCollectMethodPostWithBodyDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -21088,8 +37786,6 @@ class RestCollectMethodPostWithBody(BaseModel):
         optional_fields = set(
             [
                 "discovery",
-                "collectVerb",
-                "collectRequestParams",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -21963,13 +38659,724 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseMo
         return m
 
 
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -22377,22 +39784,31 @@ class RestCollectMethodPostAuthentication(str, Enum, metaclass=utils.OpenEnumMet
     HMAC = "hmac"
 
 
-class RestCollectMethodPostRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestCollectMethodPostRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestCollectMethodPostRestRetryRulesTypeBackoff(BaseModel):
+class RestCollectMethodPostRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -22405,8 +39821,6 @@ class RestCollectMethodPostRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -22429,12 +39843,13 @@ class RestCollectMethodPostRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -22453,30 +39868,131 @@ class RestCollectMethodPostRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestCollectMethodPostRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestCollectMethodPostRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestCollectMethodPostRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestCollectMethodPostRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestCollectMethodPostRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestCollectMethodPostRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestCollectMethodPostRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestCollectMethodPostRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestCollectMethodPostRestRetryRulesTypeBackoff",
+    Union[
+        RestCollectMethodPostRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestCollectMethodPostRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
 
 
-class RestCollectMethodPostRestRetryRulesTypeStatic(BaseModel):
+class RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
     limit: Optional[Any] = None
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -22505,10 +40021,11 @@ class RestCollectMethodPostRestRetryRulesTypeStatic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
                 "multiplier",
@@ -22527,6 +40044,102 @@ class RestCollectMethodPostRestRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
+    TypedDict
+):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestCollectMethodPostRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestCollectMethodPostRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestCollectMethodPostRestRetryRulesTypeStatic = TypeAliasType(
+    "RestCollectMethodPostRestRetryRulesTypeStatic",
+    Union[
+        RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
 
 
 class RestCollectMethodPostRestRetryRulesTypeNoneTypedDict(TypedDict):
@@ -22684,10 +40297,10 @@ class RestCollectMethodPostTypedDict(TypedDict):
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     authentication: RestCollectMethodPostAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-    collect_request_params: NotRequired[Any]
+    collect_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discovery: NotRequired[RestCollectMethodPostDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -22724,14 +40337,11 @@ class RestCollectMethodPost(BaseModel):
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="collectRequestParams"),
     ] = None
 
     discovery: Optional[RestCollectMethodPostDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -22808,8 +40418,6 @@ class RestCollectMethodPost(BaseModel):
             [
                 "collectRequestParams",
                 "discovery",
-                "collectVerb",
-                "collectBody",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -23687,13 +41295,724 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseMod
         return m
 
 
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict(
+    TypedDict
+):
+    discover_type: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    format_result_code: NotRequired[str]
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    format_result_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatResultCode")
+    ] = None
+    r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "formatResultCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+    enable_discover_code: NotRequired[bool]
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_response_format: NotRequired[Any]
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableDiscoverCode",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableStrictDiscoverParsing",
+                "discoverResponseFormat",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
+    TypedDict
+):
+    discover_response_format: Any
+    discover_type: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    enable_discover_code: NotRequired[bool]
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrue(
+    BaseModel
+):
+    discover_response_format: Annotated[
+        Any, pydantic.Field(alias="discoverResponseFormat")
+    ]
+
+    discover_type: Annotated[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTruePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    HTTP = "http"
+    JSON = "json"
+    LIST = "list"
+    NONE = "none"
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # GET
+    GET = "get"
+    # POST
+    POST = "post"
+    # POST with Body
+    POST_WITH_BODY = "post_with_body"
+    # Other
+    OTHER = "other"
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict(
+    TypedDict
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination(
+    BaseModel
+):
+    type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict(
+    TypedDict
+):
+    discover_type: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+    discover_url: str
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    discover_method: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
+    enable_strict_discover_parsing: NotRequired[bool]
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+    discover_verb: NotRequired[Any]
+    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[Any]
+    discover_request_headers: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
+    pagination: NotRequired[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePaginationTypedDict
+    ]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+    discover_response_format: NotRequired[Any]
+    enable_discover_code: NotRequired[bool]
+
+
+class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalse(
+    BaseModel
+):
+    discover_type: Annotated[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType,
+        pydantic.Field(alias="discoverType"),
+    ]
+    r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
+
+    discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
+    r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    discover_method: Annotated[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod,
+        pydantic.Field(alias="discoverMethod"),
+    ]
+
+    enable_strict_discover_parsing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
+    ] = None
+    r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
+
+    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
+
+    discover_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+    ] = None
+
+    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+
+    discover_request_headers: Annotated[
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestHeaders"),
+    ] = None
+
+    pagination: Optional[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalsePagination
+    ] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
+
+    discover_response_format: Annotated[
+        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
+    ] = None
+
+    enable_discover_code: Annotated[
+        Optional[bool], pydantic.Field(alias="enableDiscoverCode")
+    ] = None
+
+    @field_serializer("discover_type")
+    def serialize_discover_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverType(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("discover_method")
+    def serialize_discover_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableStrictDiscoverParsing",
+                "discoverVerb",
+                "discoverRequestParams",
+                "discoverBody",
+                "discoverRequestHeaders",
+                "pagination",
+                "discoverDataField",
+                "discoverResponseFormat",
+                "enableDiscoverCode",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -24100,22 +42419,29 @@ class RestCollectMethodGetAuthentication(str, Enum, metaclass=utils.OpenEnumMeta
     HMAC = "hmac"
 
 
-class RestCollectMethodGetRestRetryRulesTypeBackoffTypedDict(TypedDict):
+class RestCollectMethodGetRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
 
 
-class RestCollectMethodGetRestRetryRulesTypeBackoff(BaseModel):
+class RestCollectMethodGetRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
@@ -24128,8 +42454,6 @@ class RestCollectMethodGetRestRetryRulesTypeBackoff(BaseModel):
     )
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -24152,12 +42476,13 @@ class RestCollectMethodGetRestRetryRulesTypeBackoff(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "multiplier",
                 "maxIntervalMs",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
             ]
@@ -24176,30 +42501,131 @@ class RestCollectMethodGetRestRetryRulesTypeBackoff(BaseModel):
         return m
 
 
-class RestCollectMethodGetRestRetryRulesTypeStaticTypedDict(TypedDict):
+class RestCollectMethodGetRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
+    TypedDict
+):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+
+
+class RestCollectMethodGetRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestCollectMethodGetRestRetryRulesTypeBackoffTypedDict = TypeAliasType(
+    "RestCollectMethodGetRestRetryRulesTypeBackoffTypedDict",
+    Union[
+        RestCollectMethodGetRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict,
+        RestCollectMethodGetRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestCollectMethodGetRestRetryRulesTypeBackoff = TypeAliasType(
+    "RestCollectMethodGetRestRetryRulesTypeBackoff",
+    Union[
+        RestCollectMethodGetRestRetryRulesTypeBackoffEnableHeaderFalse,
+        RestCollectMethodGetRestRetryRulesTypeBackoffEnableHeaderTrue,
+    ],
+)
+
+
+class RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    retry_header_name: NotRequired[str]
     interval: NotRequired[Any]
     limit: NotRequired[Any]
     codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
     retry_connect_timeout: NotRequired[Any]
     retry_connect_reset: NotRequired[Any]
     multiplier: NotRequired[Any]
     max_interval_ms: NotRequired[Any]
 
 
-class RestCollectMethodGetRestRetryRulesTypeStatic(BaseModel):
+class RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    retry_header_name: Annotated[
+        Optional[str], pydantic.Field(alias="retryHeaderName")
+    ] = None
 
     interval: Optional[Any] = None
 
     limit: Optional[Any] = None
 
     codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     retry_connect_timeout: Annotated[
         Optional[Any], pydantic.Field(alias="retryConnectTimeout")
@@ -24228,10 +42654,11 @@ class RestCollectMethodGetRestRetryRulesTypeStatic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "enableHeader",
+                "retryHeaderName",
                 "interval",
                 "limit",
                 "codes",
-                "enableHeader",
                 "retryConnectTimeout",
                 "retryConnectReset",
                 "multiplier",
@@ -24250,6 +42677,100 @@ class RestCollectMethodGetRestRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    enable_header: NotRequired[Any]
+    interval: NotRequired[Any]
+    limit: NotRequired[Any]
+    codes: NotRequired[Any]
+    retry_connect_timeout: NotRequired[Any]
+    retry_connect_reset: NotRequired[Any]
+    multiplier: NotRequired[Any]
+    max_interval_ms: NotRequired[Any]
+
+
+class RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+
+    interval: Optional[Any] = None
+
+    limit: Optional[Any] = None
+
+    codes: Optional[Any] = None
+
+    retry_connect_timeout: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+
+    retry_connect_reset: Annotated[
+        Optional[Any], pydantic.Field(alias="retryConnectReset")
+    ] = None
+
+    multiplier: Optional[Any] = None
+
+    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+        None
+    )
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enableHeader",
+                "interval",
+                "limit",
+                "codes",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RestCollectMethodGetRestRetryRulesTypeStaticTypedDict = TypeAliasType(
+    "RestCollectMethodGetRestRetryRulesTypeStaticTypedDict",
+    Union[
+        RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderFalseTypedDict,
+        RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderTrueTypedDict,
+    ],
+)
+
+
+RestCollectMethodGetRestRetryRulesTypeStatic = TypeAliasType(
+    "RestCollectMethodGetRestRetryRulesTypeStatic",
+    Union[
+        RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderFalse,
+        RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderTrue,
+    ],
+)
 
 
 class RestCollectMethodGetRestRetryRulesTypeNoneTypedDict(TypedDict):
@@ -24407,10 +42928,10 @@ class RestCollectMethodGetTypedDict(TypedDict):
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     authentication: RestCollectMethodGetAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
-    collect_request_params: NotRequired[Any]
+    collect_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discovery: NotRequired[RestCollectMethodGetDiscoveryTypedDict]
-    collect_verb: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -24447,14 +42968,11 @@ class RestCollectMethodGet(BaseModel):
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="collectRequestParams"),
     ] = None
 
     discovery: Optional[RestCollectMethodGetDiscovery] = None
-
-    collect_verb: Annotated[Optional[Any], pydantic.Field(alias="collectVerb")] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -24531,8 +43049,6 @@ class RestCollectMethodGet(BaseModel):
             [
                 "collectRequestParams",
                 "discovery",
-                "collectVerb",
-                "collectBody",
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
@@ -24564,20 +43080,20 @@ class RestCollectMethodGet(BaseModel):
 RestCollectorConfTypedDict = TypeAliasType(
     "RestCollectorConfTypedDict",
     Union[
-        RestCollectMethodGetTypedDict,
+        RestAuthenticationNoneTypedDict,
+        RestAuthenticationHmacTypedDict,
         RestCollectMethodPostTypedDict,
         RestCollectMethodPostWithBodyTypedDict,
-        RestCollectMethodOtherTypedDict,
-        RestAuthenticationNoneTypedDict,
+        RestCollectMethodGetTypedDict,
         RestAuthenticationBasicSecretTypedDict,
-        RestAuthenticationHmacTypedDict,
         RestAuthenticationBasicTypedDict,
+        RestCollectMethodOtherTypedDict,
         RestAuthenticationGoogleOauthTypedDict,
         RestAuthenticationGoogleOauthSecretTypedDict,
-        RestAuthenticationLoginSecretTypedDict,
-        RestAuthenticationLoginTypedDict,
         RestAuthenticationOauthTypedDict,
         RestAuthenticationOauthSecretTypedDict,
+        RestAuthenticationLoginSecretTypedDict,
+        RestAuthenticationLoginTypedDict,
     ],
 )
 

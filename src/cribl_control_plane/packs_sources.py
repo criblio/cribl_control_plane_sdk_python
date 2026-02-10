@@ -6,6 +6,7 @@ from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.packs_hectokens import PacksHecTokens
 from cribl_control_plane.packs_sources_pq import PacksSourcesPq
+from cribl_control_plane.packs_sources_statuses import PacksSourcesStatuses
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
@@ -15,6 +16,7 @@ from typing import Any, Mapping, Optional, Union
 class PacksSources(BaseSDK):
     hec_tokens: PacksHecTokens
     pq: PacksSourcesPq
+    statuses: PacksSourcesStatuses
 
     def __init__(
         self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
@@ -28,6 +30,9 @@ class PacksSources(BaseSDK):
             self.sdk_configuration, parent_ref=self.parent_ref
         )
         self.pq = PacksSourcesPq(self.sdk_configuration, parent_ref=self.parent_ref)
+        self.statuses = PacksSourcesStatuses(
+            self.sdk_configuration, parent_ref=self.parent_ref
+        )
 
     def list(
         self,

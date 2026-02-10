@@ -6,6 +6,7 @@ from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.hectokens import HecTokens
 from cribl_control_plane.sources_pq import SourcesPq
+from cribl_control_plane.sources_statuses import SourcesStatuses
 from cribl_control_plane.types import BaseModel, OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
@@ -17,6 +18,7 @@ class Sources(BaseSDK):
 
     hec_tokens: HecTokens
     pq: SourcesPq
+    statuses: SourcesStatuses
 
     def __init__(
         self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
@@ -28,6 +30,9 @@ class Sources(BaseSDK):
     def _init_sdks(self):
         self.hec_tokens = HecTokens(self.sdk_configuration, parent_ref=self.parent_ref)
         self.pq = SourcesPq(self.sdk_configuration, parent_ref=self.parent_ref)
+        self.statuses = SourcesStatuses(
+            self.sdk_configuration, parent_ref=self.parent_ref
+        )
 
     def list(
         self,

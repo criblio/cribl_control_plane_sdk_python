@@ -16,10 +16,6 @@ from .itemstypehealthcheckauthenticationoauthauthrequestparams import (
     ItemsTypeHealthCheckAuthenticationOauthAuthRequestParams,
     ItemsTypeHealthCheckAuthenticationOauthAuthRequestParamsTypedDict,
 )
-from .itemstypehealthcheckcollectmethodpostcollectrequestparams import (
-    ItemsTypeHealthCheckCollectMethodPostCollectRequestParams,
-    ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict,
-)
 from .retrytypeoptionshealthcheckcollectorconfretryrules import (
     RetryTypeOptionsHealthCheckCollectorConfRetryRules,
 )
@@ -901,6 +897,8 @@ class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
     ]
     r"""Optional authentication request headers."""
     discovery: NotRequired[HealthCheckAuthenticationOauthSecretDiscoveryTypedDict]
+    collect_request_params: NotRequired[Any]
+    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationOauthSecretCollectRequestHeaderTypedDict]
     ]
@@ -962,6 +960,12 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
     r"""Optional authentication request headers."""
 
     discovery: Optional[HealthCheckAuthenticationOauthSecretDiscovery] = None
+
+    collect_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="collectRequestParams")
+    ] = None
+
+    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationOauthSecretCollectRequestHeader]],
@@ -1034,6 +1038,8 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
                 "authRequestParams",
                 "authRequestHeaders",
                 "discovery",
+                "collectRequestParams",
+                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -1919,6 +1925,8 @@ class HealthCheckAuthenticationOauthTypedDict(TypedDict):
     ]
     r"""Optional authentication request headers."""
     discovery: NotRequired[HealthCheckAuthenticationOauthDiscoveryTypedDict]
+    collect_request_params: NotRequired[Any]
+    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationOauthCollectRequestHeaderTypedDict]
     ]
@@ -1982,6 +1990,12 @@ class HealthCheckAuthenticationOauth(BaseModel):
     r"""Optional authentication request headers."""
 
     discovery: Optional[HealthCheckAuthenticationOauthDiscovery] = None
+
+    collect_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="collectRequestParams")
+    ] = None
+
+    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationOauthCollectRequestHeader]],
@@ -2052,6 +2066,8 @@ class HealthCheckAuthenticationOauth(BaseModel):
                 "authRequestParams",
                 "authRequestHeaders",
                 "discovery",
+                "collectRequestParams",
+                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -2939,6 +2955,8 @@ class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
     ]
     r"""Optional authentication request headers."""
     discovery: NotRequired[HealthCheckAuthenticationLoginSecretDiscoveryTypedDict]
+    collect_request_params: NotRequired[Any]
+    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationLoginSecretCollectRequestHeaderTypedDict]
     ]
@@ -2992,6 +3010,12 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
     r"""Optional authentication request headers."""
 
     discovery: Optional[HealthCheckAuthenticationLoginSecretDiscovery] = None
+
+    collect_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="collectRequestParams")
+    ] = None
+
+    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationLoginSecretCollectRequestHeader]],
@@ -3063,6 +3087,8 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
                 "tokenRespAttribute",
                 "authRequestHeaders",
                 "discovery",
+                "collectRequestParams",
+                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -3946,6 +3972,8 @@ class HealthCheckAuthenticationLoginTypedDict(TypedDict):
     ]
     r"""Optional authentication request headers."""
     discovery: NotRequired[HealthCheckAuthenticationLoginDiscoveryTypedDict]
+    collect_request_params: NotRequired[Any]
+    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationLoginCollectRequestHeaderTypedDict]
     ]
@@ -4002,6 +4030,12 @@ class HealthCheckAuthenticationLogin(BaseModel):
     r"""Optional authentication request headers."""
 
     discovery: Optional[HealthCheckAuthenticationLoginDiscovery] = None
+
+    collect_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="collectRequestParams")
+    ] = None
+
+    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationLoginCollectRequestHeader]],
@@ -4071,6 +4105,8 @@ class HealthCheckAuthenticationLogin(BaseModel):
                 "tokenRespAttribute",
                 "authRequestHeaders",
                 "discovery",
+                "collectRequestParams",
+                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -4946,6 +4982,8 @@ class HealthCheckAuthenticationBasicSecretTypedDict(TypedDict):
     collect_method: HealthCheckAuthenticationBasicSecretHealthCheckMethod
     r"""Health check HTTP method."""
     discovery: NotRequired[HealthCheckAuthenticationBasicSecretDiscoveryTypedDict]
+    collect_request_params: NotRequired[Any]
+    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationBasicSecretCollectRequestHeaderTypedDict]
     ]
@@ -4979,6 +5017,12 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
     r"""Health check HTTP method."""
 
     discovery: Optional[HealthCheckAuthenticationBasicSecretDiscovery] = None
+
+    collect_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="collectRequestParams")
+    ] = None
+
+    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationBasicSecretCollectRequestHeader]],
@@ -5048,6 +5092,8 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
         optional_fields = set(
             [
                 "discovery",
+                "collectRequestParams",
+                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -5919,6 +5965,8 @@ class HealthCheckAuthenticationBasicTypedDict(TypedDict):
     collect_method: HealthCheckAuthenticationBasicHealthCheckMethod
     r"""Health check HTTP method."""
     discovery: NotRequired[HealthCheckAuthenticationBasicDiscoveryTypedDict]
+    collect_request_params: NotRequired[Any]
+    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationBasicCollectRequestHeaderTypedDict]
     ]
@@ -5955,6 +6003,12 @@ class HealthCheckAuthenticationBasic(BaseModel):
     r"""Health check HTTP method."""
 
     discovery: Optional[HealthCheckAuthenticationBasicDiscovery] = None
+
+    collect_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="collectRequestParams")
+    ] = None
+
+    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationBasicCollectRequestHeader]],
@@ -6022,6 +6076,8 @@ class HealthCheckAuthenticationBasic(BaseModel):
         optional_fields = set(
             [
                 "discovery",
+                "collectRequestParams",
+                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -6887,6 +6943,8 @@ class HealthCheckAuthenticationNoneTypedDict(TypedDict):
     collect_method: HealthCheckAuthenticationNoneHealthCheckMethod
     r"""Health check HTTP method."""
     discovery: NotRequired[HealthCheckAuthenticationNoneDiscoveryTypedDict]
+    collect_request_params: NotRequired[Any]
+    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationNoneCollectRequestHeaderTypedDict]
     ]
@@ -6917,6 +6975,12 @@ class HealthCheckAuthenticationNone(BaseModel):
     r"""Health check HTTP method."""
 
     discovery: Optional[HealthCheckAuthenticationNoneDiscovery] = None
+
+    collect_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="collectRequestParams")
+    ] = None
+
+    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationNoneCollectRequestHeader]],
@@ -6984,6 +7048,8 @@ class HealthCheckAuthenticationNone(BaseModel):
         optional_fields = set(
             [
                 "discovery",
+                "collectRequestParams",
+                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -7856,9 +7922,9 @@ class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
     authentication: HealthCheckCollectMethodPostWithBodyAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
-    collect_body: NotRequired[str]
-    r"""Template for POST body to send with the health check request. You can reference parameters from the Discover response, using template params of the form: ${variable}."""
+    collect_body: NotRequired[Any]
     discovery: NotRequired[HealthCheckCollectMethodPostWithBodyDiscoveryTypedDict]
+    collect_request_params: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckCollectMethodPostWithBodyCollectRequestHeaderTypedDict]
     ]
@@ -7888,10 +7954,13 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
     authentication: HealthCheckCollectMethodPostWithBodyAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
-    collect_body: Annotated[Optional[str], pydantic.Field(alias="collectBody")] = None
-    r"""Template for POST body to send with the health check request. You can reference parameters from the Discover response, using template params of the form: ${variable}."""
+    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     discovery: Optional[HealthCheckCollectMethodPostWithBodyDiscovery] = None
+
+    collect_request_params: Annotated[
+        Optional[Any], pydantic.Field(alias="collectRequestParams")
+    ] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckCollectMethodPostWithBodyCollectRequestHeader]],
@@ -7962,6 +8031,7 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
             [
                 "collectBody",
                 "discovery",
+                "collectRequestParams",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -8825,11 +8895,9 @@ class HealthCheckCollectMethodPostTypedDict(TypedDict):
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
     authentication: HealthCheckCollectMethodPostAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
-    collect_request_params: NotRequired[
-        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
-    ]
-    r"""Optional health check request parameters."""
+    collect_request_params: NotRequired[Any]
     discovery: NotRequired[HealthCheckCollectMethodPostDiscoveryTypedDict]
+    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckCollectMethodPostCollectRequestHeaderTypedDict]
     ]
@@ -8860,12 +8928,12 @@ class HealthCheckCollectMethodPost(BaseModel):
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     collect_request_params: Annotated[
-        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
-        pydantic.Field(alias="collectRequestParams"),
+        Optional[Any], pydantic.Field(alias="collectRequestParams")
     ] = None
-    r"""Optional health check request parameters."""
 
     discovery: Optional[HealthCheckCollectMethodPostDiscovery] = None
+
+    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckCollectMethodPostCollectRequestHeader]],
@@ -8934,6 +9002,7 @@ class HealthCheckCollectMethodPost(BaseModel):
             [
                 "collectRequestParams",
                 "discovery",
+                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -8968,21 +9037,6 @@ class HealthCheckCollectMethodGetHealthCheckMethod(
     POST = "post"
     # POST with Body
     POST_WITH_BODY = "post_with_body"
-
-
-class HealthCheckCollectMethodGetCollectRequestParamTypedDict(TypedDict):
-    name: str
-    r"""Parameter name"""
-    value: str
-    r"""JavaScript expression to compute the parameter value (can be a constant)."""
-
-
-class HealthCheckCollectMethodGetCollectRequestParam(BaseModel):
-    name: str
-    r"""Parameter name"""
-
-    value: str
-    r"""JavaScript expression to compute the parameter value (can be a constant)."""
 
 
 class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNoneDiscoverType(
@@ -9808,11 +9862,9 @@ class HealthCheckCollectMethodGetTypedDict(TypedDict):
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
     authentication: HealthCheckCollectMethodGetAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
-    collect_request_params: NotRequired[
-        List[HealthCheckCollectMethodGetCollectRequestParamTypedDict]
-    ]
-    r"""Optional health check request parameters."""
+    collect_request_params: NotRequired[Any]
     discovery: NotRequired[HealthCheckCollectMethodGetDiscoveryTypedDict]
+    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckCollectMethodGetCollectRequestHeaderTypedDict]
     ]
@@ -9843,12 +9895,12 @@ class HealthCheckCollectMethodGet(BaseModel):
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     collect_request_params: Annotated[
-        Optional[List[HealthCheckCollectMethodGetCollectRequestParam]],
-        pydantic.Field(alias="collectRequestParams"),
+        Optional[Any], pydantic.Field(alias="collectRequestParams")
     ] = None
-    r"""Optional health check request parameters."""
 
     discovery: Optional[HealthCheckCollectMethodGetDiscovery] = None
+
+    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckCollectMethodGetCollectRequestHeader]],
@@ -9917,6 +9969,7 @@ class HealthCheckCollectMethodGet(BaseModel):
             [
                 "collectRequestParams",
                 "discovery",
+                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -9943,10 +9996,10 @@ class HealthCheckCollectMethodGet(BaseModel):
 HealthCheckCollectorConfTypedDict = TypeAliasType(
     "HealthCheckCollectorConfTypedDict",
     Union[
-        HealthCheckAuthenticationNoneTypedDict,
         HealthCheckCollectMethodGetTypedDict,
         HealthCheckCollectMethodPostTypedDict,
         HealthCheckCollectMethodPostWithBodyTypedDict,
+        HealthCheckAuthenticationNoneTypedDict,
         HealthCheckAuthenticationBasicSecretTypedDict,
         HealthCheckAuthenticationBasicTypedDict,
         HealthCheckAuthenticationLoginSecretTypedDict,

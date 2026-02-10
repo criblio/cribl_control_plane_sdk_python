@@ -10,20 +10,20 @@ from typing import Any, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class SnmpTrapSerializeV3UserAuthProtocolNoneTypedDict(TypedDict):
-    auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
+class FunctionConfSchemaSnmpTrapSerializeV3UserTypedDict(TypedDict):
     name: NotRequired[str]
+    auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
     auth_key: NotRequired[Any]
     priv_protocol: NotRequired[str]
 
 
-class SnmpTrapSerializeV3UserAuthProtocolNone(BaseModel):
+class FunctionConfSchemaSnmpTrapSerializeV3User(BaseModel):
+    name: Optional[str] = None
+
     auth_protocol: Annotated[
         Optional[AuthenticationProtocolOptionsV3User],
         pydantic.Field(alias="authProtocol"),
     ] = None
-
-    name: Optional[str] = None
 
     auth_key: Annotated[Optional[Any], pydantic.Field(alias="authKey")] = None
 
@@ -40,7 +40,7 @@ class SnmpTrapSerializeV3UserAuthProtocolNone(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["authProtocol", "name", "authKey", "privProtocol"])
+        optional_fields = set(["name", "authProtocol", "authKey", "privProtocol"])
         serialized = handler(self)
         m = {}
 
@@ -55,18 +55,12 @@ class SnmpTrapSerializeV3UserAuthProtocolNone(BaseModel):
         return m
 
 
-V3UserTypedDict = SnmpTrapSerializeV3UserAuthProtocolNoneTypedDict
-
-
-V3User = SnmpTrapSerializeV3UserAuthProtocolNone
-
-
 class FunctionConfSchemaSnmpTrapSerializeTypedDict(TypedDict):
     strict: NotRequired[bool]
     r"""Prevent event serialization if any required fields are missing. When disabled, @{product} will attempt to serialize the event even if required fields are missing, which could cause unexpected behavior at the downstream receiver."""
     drop_failed_events: NotRequired[bool]
     r"""When disabled, `snmpSerializeErrors` will be set on the event, and the `__snmpRaw` field will be removed to prevent @{product} from sending the event from the SNMP Trap Destination"""
-    v3_user: NotRequired[V3UserTypedDict]
+    v3_user: NotRequired[FunctionConfSchemaSnmpTrapSerializeV3UserTypedDict]
 
 
 class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
@@ -78,7 +72,10 @@ class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
     ] = None
     r"""When disabled, `snmpSerializeErrors` will be set on the event, and the `__snmpRaw` field will be removed to prevent @{product} from sending the event from the SNMP Trap Destination"""
 
-    v3_user: Annotated[Optional[V3User], pydantic.Field(alias="v3User")] = None
+    v3_user: Annotated[
+        Optional[FunctionConfSchemaSnmpTrapSerializeV3User],
+        pydantic.Field(alias="v3User"),
+    ] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

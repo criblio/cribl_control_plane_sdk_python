@@ -13,7 +13,7 @@ from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import List, Optional, Union
+from typing import Any, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -78,6 +78,7 @@ class S3AwsAuthenticationMethodSecretTypedDict(TypedDict):
     r"""Duration of the Assumed Role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata objects to batch before recording as results"""
+    recurse: NotRequired[Any]
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests to improve performance"""
     reject_unauthorized: NotRequired[bool]
@@ -163,6 +164,8 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
+    recurse: Optional[Any] = None
+
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
     ] = None
@@ -230,6 +233,7 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
                 "assumeRoleExternalId",
                 "durationSeconds",
                 "maxBatchSize",
+                "recurse",
                 "reuseConnections",
                 "rejectUnauthorized",
                 "verifyPermissions",
@@ -313,6 +317,7 @@ class S3AwsAuthenticationMethodManualTypedDict(TypedDict):
     r"""Duration of the Assumed Role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata objects to batch before recording as results"""
+    recurse: NotRequired[Any]
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests to improve performance"""
     reject_unauthorized: NotRequired[bool]
@@ -403,6 +408,8 @@ class S3AwsAuthenticationMethodManual(BaseModel):
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
+    recurse: Optional[Any] = None
+
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
     ] = None
@@ -471,6 +478,7 @@ class S3AwsAuthenticationMethodManual(BaseModel):
                 "assumeRoleExternalId",
                 "durationSeconds",
                 "maxBatchSize",
+                "recurse",
                 "reuseConnections",
                 "rejectUnauthorized",
                 "verifyPermissions",
@@ -550,6 +558,7 @@ class S3AwsAuthenticationMethodAutoTypedDict(TypedDict):
     r"""Duration of the Assumed Role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata objects to batch before recording as results"""
+    recurse: NotRequired[Any]
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests to improve performance"""
     reject_unauthorized: NotRequired[bool]
@@ -632,6 +641,8 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
+    recurse: Optional[Any] = None
+
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
     ] = None
@@ -698,6 +709,7 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
                 "assumeRoleExternalId",
                 "durationSeconds",
                 "maxBatchSize",
+                "recurse",
                 "reuseConnections",
                 "rejectUnauthorized",
                 "verifyPermissions",
@@ -749,8 +761,7 @@ class S3PartitioningSchemeNoneTypedDict(TypedDict):
     r"""S3 Bucket from which to collect data"""
     partitioning_scheme: NotRequired[S3PartitioningSchemeNonePartitioningScheme]
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
-    recurse: NotRequired[bool]
-    r"""Traverse and include files from subdirectories. Leave this option enabled to ensure that all nested directories are searched and their contents collected."""
+    recurse: NotRequired[Any]
     output_name: NotRequired[str]
     r"""Name of the predefined Destination that will be used to auto-populate Collector settings"""
     parquet_chunk_size_mb: NotRequired[float]
@@ -799,8 +810,7 @@ class S3PartitioningSchemeNone(BaseModel):
     ] = None
     r"""Partitioning scheme used for this dataset. Using a known scheme like DDSS enables more efficient data reading and retrieval."""
 
-    recurse: Optional[bool] = None
-    r"""Traverse and include files from subdirectories. Leave this option enabled to ensure that all nested directories are searched and their contents collected."""
+    recurse: Optional[Any] = None
 
     output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
     r"""Name of the predefined Destination that will be used to auto-populate Collector settings"""
@@ -1010,6 +1020,7 @@ class S3PartitioningSchemeDdssTypedDict(TypedDict):
     r"""Duration of the Assumed Role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata objects to batch before recording as results"""
+    recurse: NotRequired[Any]
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests to improve performance"""
     reject_unauthorized: NotRequired[bool]
@@ -1092,6 +1103,8 @@ class S3PartitioningSchemeDdss(BaseModel):
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
+    recurse: Optional[Any] = None
+
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
     ] = None
@@ -1158,6 +1171,7 @@ class S3PartitioningSchemeDdss(BaseModel):
                 "assumeRoleExternalId",
                 "durationSeconds",
                 "maxBatchSize",
+                "recurse",
                 "reuseConnections",
                 "rejectUnauthorized",
                 "verifyPermissions",
@@ -1182,8 +1196,8 @@ S3CollectorConfTypedDict = TypeAliasType(
     "S3CollectorConfTypedDict",
     Union[
         S3PartitioningSchemeDdssTypedDict,
-        S3AwsAuthenticationMethodAutoTypedDict,
         S3PartitioningSchemeNoneTypedDict,
+        S3AwsAuthenticationMethodAutoTypedDict,
         S3AwsAuthenticationMethodSecretTypedDict,
         S3AwsAuthenticationMethodManualTypedDict,
     ],

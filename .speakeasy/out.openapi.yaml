@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1770556392004-5bba80fa
+  version: 4.17.0-alpha.1770735098248-c5462425
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -97,9 +97,904 @@ components:
             delete: "#/components/schemas/DiffLineDelete"
             insert: "#/components/schemas/DiffLineInsert"
             context: "#/components/schemas/DiffLineContext"
+    AggregateMetricsCumulativeTrue:
+      type: object
+      properties:
+        cumulative:
+          type: boolean
+          const: true
+    AggregateMetricsCumulativeFalse:
+      type: object
+      properties:
+        cumulative:
+          type: boolean
+          const: false
+        lagTolerance:
+          type: string
+          title: Lag tolerance
+          description: The tumbling window tolerance to late events. Must be a valid time string (such as 10s).
+          pattern: \d+[sm]$
+        idleTimeLimit:
+          type: string
+          title: Idle bucket time limit
+          description: How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s).
+          pattern: \d+[sm]$
+    AggregationCumulativeTrue:
+      type: object
+      properties:
+        cumulative:
+          type: boolean
+          const: true
+    AggregationCumulativeFalse:
+      type: object
+      properties:
+        cumulative:
+          type: boolean
+          const: false
+        lagTolerance:
+          type: string
+          title: Lag tolerance
+          description: The tumbling window tolerance to late events. Must be a valid time string (such as 10s).
+          pattern: \d+[sm]$
+        idleTimeLimit:
+          type: string
+          title: Idle bucket time limit
+          description: How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s).
+          pattern: \d+[sm]$
+    EventBreakerExistingOrNewNewRuleTypeRegex:
+      type: object
+      properties:
+        ruleType:
+          enum:
+            - regex
+          type: string
+        eventBreakerRegex:
+          type: string
+          title: Event Breaker
+          description: The regex used to break the stream into events at the beginning of the match. Matched content will be consumed, unless you use a lookahead regex such as (?=pattern) to keep it. Do NOT use capturing groups in the pattern.
+      required:
+        - eventBreakerRegex
+    EventBreakerExistingOrNewNewRuleTypeJson:
+      type: object
+      properties:
+        ruleType:
+          enum:
+            - json
+            - timestamp
+            - aws_cloudtrail
+            - aws_vpcflow
+            - azure_flowlog
+          type: string
+    EventBreakerExistingOrNewNewRuleTypeJsonArrayJsonExtractAllTrue:
+      type: object
+      properties:
+        jsonExtractAll:
+          type: boolean
+          const: true
+        jsonTimeField:
+          type: string
+          title: Timestamp field
+          description: Optional path to timestamp field in extracted events, such as eventTime or level1.level2.eventTime.
+    EventBreakerExistingOrNewNewRuleTypeJsonArrayJsonExtractAllFalse:
+      type: object
+      properties:
+        jsonExtractAll:
+          type: boolean
+          const: false
+    EventBreakerExistingOrNewNewRuleTypeJsonArray:
+      type: object
+      properties:
+        ruleType:
+          enum:
+            - json_array
+          type: string
+        jsonArrayField:
+          type: string
+          title: Array field
+          description: The path to an array in a JSON event with records to extract, such as Records or level1.level2.events. Leave blank if result itself is an array, such as [{...},{...}]
+        parentFieldsToCopy:
+          title: Parent fields to copy
+          description: Top-level fields to copy to the output events. Nested fields are not supported. 'Array field' is always excluded. If 'Array field' points to a nested array, the entire top-level object will be excluded. Supports * wildcards. Enclose field names containing special characters in single or double quotes.
+          type: array
+          items:
+            type: string
+        jsonExtractAll:
+          type: boolean
+          title: JSON extract fields
+          description: Automatically extract fields from JSON events. When disabled, only _raw and _time are defined on extracted events.
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeJsonArrayJsonExtractAllTrue"
+            - $ref: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeJsonArrayJsonExtractAllFalse"
+    EventBreakerExistingOrNewNewRuleTypeHeader:
+      type: object
+      properties:
+        ruleType:
+          enum:
+            - header
+          type: string
+        delimiterRegex:
+          type: string
+          title: Field delimiter
+          description: Field delimiter regex
+        fieldsLineRegex:
+          type: string
+          title: Fields regex
+          description: Regex with one capturing group that captures all fields (and delimiters) to be broken by field delimiter
+        headerLineRegex:
+          type: string
+          title: Header line
+          description: Regex matching a file header line
+        nullFieldVal:
+          type: string
+          title: Null value
+          description: Representation of a null value. Null fields are not added to events.
+        cleanFields:
+          type: boolean
+          title: Clean fields
+          description: Clean field names by replacing non [a-zA-Z0-9] characters with _
+      required:
+        - delimiterRegex
+        - fieldsLineRegex
+        - headerLineRegex
+    EventBreakerExistingOrNewNewRuleTypeCsv:
+      type: object
+      properties:
+        ruleType:
+          enum:
+            - csv
+          type: string
+        delimiter:
+          type: string
+          title: Delimiter
+          minLength: 1
+          description: Delimiter character to use to split values
+        quoteChar:
+          type: string
+          title: Quote char
+          minLength: 1
+          description: Character used to quote literal values
+        escapeChar:
+          type: string
+          title: Escape char
+          minLength: 1
+          description: Character used to escape the quote character in field values
+        timeField:
+          type: string
+          title: Timestamp field
+          description: Optional timestamp field name in extracted events
+      required:
+        - delimiter
+        - quoteChar
+        - escapeChar
+    EventBreakerExistingOrNewNew:
+      type: object
+      properties:
+        existingOrNew:
+          enum:
+            - new
+          type: string
+        ruleType:
+          $ref: "#/components/schemas/EventBreakerTypeOptionsEventBreakerExistingOrNewNew"
+        maxEventBytes:
+          type: number
+          title: Event byte limit
+          description: The maximum number of bytes that an event can be before being flushed to the Pipelines
+          minimum: 1
+          maximum: 1.34217728e+08
+        timestampAnchorRegex:
+          type: string
+          title: Timestamp anchor
+          description: Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction.
+        timestamp:
+          type: object
+          required:
+            - type
+          title: Timestamp format
+          properties:
+            type:
+              $ref: "#/components/schemas/TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp"
+            length:
+              type: number
+              title: Length
+              minimum: 2
+            format:
+              type: string
+              title: Format
+        timestampTimezone:
+          type: string
+          title: Default timezone
+          description: Timezone to assign to timestamps without timezone info
+        timestampEarliest:
+          title: Earliest timestamp allowed
+          description: The earliest timestamp value allowed relative to now, such as -42years. Parsed values prior to this date will be set to current time.
+          type: string
+        timestampLatest:
+          title: Future timestamp allowed
+          description: The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time.
+          type: string
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeRegex"
+            - $ref: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeJson"
+            - $ref: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeJsonArray"
+            - $ref: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeHeader"
+            - $ref: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeCsv"
+          discriminator:
+            propertyName: ruleType
+            mapping:
+              regex: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeRegex"
+              json: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeJson"
+              json_array: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeJsonArray"
+              header: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeHeader"
+              csv: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeCsv"
+    EventBreakerExistingOrNewExisting:
+      type: object
+      properties:
+        existingOrNew:
+          enum:
+            - existing
+          type: string
+        existingRule:
+          type: string
+          title: Existing ruleset
+          minLength: 1
+    LookupDbLookupTrue:
+      type: object
+      properties:
+        dbLookup:
+          type: boolean
+          const: true
+    LookupDbLookupFalseMatchModeCidr:
+      type: object
+      properties:
+        matchMode:
+          enum:
+            - cidr
+            - regex
+          type: string
+        matchType:
+          title: Match type
+          type: string
+          description: "Further defines how to handle multiple matches: return the first match, the most specific match, or all matches"
+          enum:
+            - first
+            - specific
+            - all
+          x-speakeasy-unknown-values: allow
+    LookupDbLookupFalseMatchModeExact:
+      type: object
+      properties:
+        matchMode:
+          enum:
+            - exact
+          type: string
+        ignoreCase:
+          type: boolean
+          title: Ignore case
+          description: "Whether to ignore case when performing lookups using Match Mode: Exact"
+    LookupDbLookupFalse:
+      type: object
+      properties:
+        dbLookup:
+          type: boolean
+          const: false
+        matchMode:
+          title: Match mode
+          type: string
+          description: Specifies the matching method based on the format and logic used in the lookup file
+          enum:
+            - exact
+            - cidr
+            - regex
+          x-speakeasy-enum-descriptions:
+            - Exact
+            - CIDR
+            - Regex
+          x-speakeasy-unknown-values: allow
+        reloadPeriodSec:
+          type: number
+          title: Reload period (sec)
+          description: Checks the lookup file periodically for changes and reloads it if modified. Set to -1 to disable reloading (default). Useful for lookups not managed by Stream or not updated by an external process. [Learn more](https://docs.cribl.io/stream/lookup-function/#advanced-settings)
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/LookupDbLookupFalseMatchModeCidr"
+            - $ref: "#/components/schemas/LookupDbLookupFalseMatchModeExact"
+          discriminator:
+            propertyName: matchMode
+            mapping:
+              cidr: "#/components/schemas/LookupDbLookupFalseMatchModeCidr"
+              exact: "#/components/schemas/LookupDbLookupFalseMatchModeExact"
+    NumerifyFormatFix:
+      type: object
+      properties:
+        format:
+          enum:
+            - fix
+          type: string
+        digits:
+          type: number
+          title: Digits
+          description: Number of digits after the decimal point, between 0 and 20. If left blank, defaults to 2.
+          minimum: 0
+          maximum: 20
+    NumerifyFormatNone:
+      type: object
+      properties:
+        format:
+          enum:
+            - none
+            - floor
+            - ceil
+          type: string
+    OtlpLogsBatchOTLPLogsFalse:
+      type: object
+      properties:
+        batchOTLPLogs:
+          type: boolean
+          const: false
+    OtlpLogsBatchOTLPLogsTrue:
+      type: object
+      properties:
+        batchOTLPLogs:
+          type: boolean
+          const: true
+        sendBatchSize:
+          type: number
+          title: Batch size
+          description: Number of log records after which a batch will be sent, regardless of the timeout
+        timeout:
+          type: number
+          title: Batch timeout (ms)
+          description: Time duration after which a batch will be sent, regardless of size
+        sendBatchMaxSize:
+          type: number
+          title: Batch size limit (kb)
+          description: Maximum batch size. Enter 0 for no maximum.
+        metadataKeys:
+          type: array
+          title: Batch log metadata keys
+          description: When set, this processor will create one batcher instance per distinct combination of values in the metadata
+        metadataCardinalityLimit:
+          type: number
+          title: Metadata cardinality limit
+          description: "Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped. "
+    OtlpMetricsBatchOTLPMetricsFalse:
+      type: object
+      properties:
+        batchOTLPMetrics:
+          type: boolean
+          const: false
+    OtlpMetricsBatchOTLPMetricsTrue:
+      type: object
+      properties:
+        batchOTLPMetrics:
+          type: boolean
+          const: true
+        sendBatchSize:
+          type: number
+          title: Batch size
+          description: Number of metric data points after which a batch will be sent, regardless of the timeout
+        timeout:
+          type: number
+          title: Batch timeout (ms)
+          description: Time duration after which a batch will be sent, regardless of size
+        sendBatchMaxSize:
+          type: number
+          title: Batch size limit (kb)
+          description: Maximum batch size. Enter 0 for no maximum.
+        metadataKeys:
+          type: array
+          title: Batch metrics metadata keys
+          description: When set, this processor will create one batcher instance per distinct combination of values in the metadata
+        metadataCardinalityLimit:
+          type: number
+          title: Metadata cardinality limit
+          description: Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped.
+    OtlpTracesBatchOTLPTracesFalse:
+      type: object
+      properties:
+        batchOTLPTraces:
+          type: boolean
+          const: false
+    OtlpTracesBatchOTLPTracesTrue:
+      type: object
+      properties:
+        batchOTLPTraces:
+          type: boolean
+          const: true
+        sendBatchSize:
+          type: number
+          title: Batch size
+          description: Number of spans after which a batch will be sent, regardless of the timeout
+        timeout:
+          type: number
+          title: Batch timeout (ms)
+          description: Time duration after which a batch will be sent, regardless of size
+        sendBatchMaxSize:
+          type: number
+          title: Batch size limit (kb)
+          description: Maximum batch size. Enter 0 for no maximum.
+        metadataKeys:
+          type: array
+          title: Batch traces metadata keys
+          description: When set, this processor will create one batcher instance per distinct combination of values in the metadata
+        metadataCardinalityLimit:
+          type: number
+          title: Metadata cardinality limit
+          description: Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped.
+    RedisDeploymentTypeStandalone:
+      type: object
+      properties:
+        deploymentType:
+          enum:
+            - standalone
+          type: string
+        url:
+          title: Redis URL
+          description: "Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+          type: string
+        tlsOptions:
+          type: object
+          properties:
+            rejectUnauthorized:
+              type: boolean
+              title: Validate server certs
+              description: Reject certificates that are not authorized by a CA in the 'CA certificate path', or by another trusted CA (such as the system's CA)
+            servername:
+              type: string
+              title: Server name (SNI)
+              description: Server name for the SNI (Server Name Indication) TLS extension. Must be a host name, not an IP address.
+            certificateName:
+              type: string
+              title: Certificate
+              description: The name of the predefined certificate
+            caPath:
+              type: string
+              title: CA certificate path
+              description: Path on client in which to find CA certificates to verify the server's certificate. PEM format. Can reference $ENV_VARS.
+            privKeyPath:
+              type: string
+              title: Private key path (mutual auth)
+              description: Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS.
+            certPath:
+              type: string
+              title: Certificate path (mutual auth)
+              description: Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
+            passphrase:
+              type: string
+              title: Passphrase
+              description: Passphrase to use to decrypt private key
+            minVersion:
+              $ref: "#/components/schemas/MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
+            maxVersion:
+              $ref: "#/components/schemas/MaximumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
+      required:
+        - url
+    RedisDeploymentTypeClusterTlsTrue:
+      type: object
+      properties:
+        tls:
+          type: boolean
+          const: true
+        tlsOptions:
+          $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeClusterTlsTrue"
+    RedisDeploymentTypeClusterTlsFalse:
+      type: object
+      properties:
+        tls:
+          type: boolean
+          const: false
+    RedisDeploymentTypeCluster:
+      type: object
+      properties:
+        deploymentType:
+          enum:
+            - cluster
+          type: string
+        rootNodes:
+          title: Root nodes
+          description: Root nodes to which the cluster connection should be initiated
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required:
+              - host
+              - port
+            properties:
+              host:
+                type: string
+                title: Hostname
+                description: "Hostname of cluster node. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."
+              port:
+                type: number
+                title: Port
+                description: Port of cluster node
+        tls:
+          title: TLS
+          type: boolean
+          description: Use TLS for connections to this cluster
+        scaleReads:
+          title: Scale reads
+          type: string
+          description: Which nodes read commands should be sent to
+          enum:
+            - master
+            - replica
+            - all
+          x-speakeasy-enum-descriptions:
+            - Masters
+            - Replicas
+            - Masters and Replicas
+          x-speakeasy-unknown-values: allow
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/RedisDeploymentTypeClusterTlsTrue"
+            - $ref: "#/components/schemas/RedisDeploymentTypeClusterTlsFalse"
+    RedisDeploymentTypeSentinelTlsTrue:
+      type: object
+      properties:
+        tls:
+          type: boolean
+          const: true
+        tlsOptions:
+          $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeClusterTlsTrue"
+    RedisDeploymentTypeSentinelTlsFalse:
+      type: object
+      properties:
+        tls:
+          type: boolean
+          const: false
+    RedisDeploymentTypeSentinel:
+      type: object
+      properties:
+        deploymentType:
+          enum:
+            - sentinel
+          type: string
+        masterName:
+          title: Master group name
+          type: string
+        rootNodes:
+          title: Sentinels
+          description: List of sentinels to be used
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required:
+              - host
+              - port
+            properties:
+              host:
+                type: string
+                title: Hostname
+                description: "Hostname of sentinel node. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."
+              port:
+                type: number
+                title: Port
+                description: Port of sentinel node
+        tls:
+          title: TLS
+          type: boolean
+          description: Use TLS for connections to this cluster
+      required:
+        - masterName
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/RedisDeploymentTypeSentinelTlsTrue"
+            - $ref: "#/components/schemas/RedisDeploymentTypeSentinelTlsFalse"
+    RedisAuthTypeNone:
+      type: object
+      properties:
+        authType:
+          enum:
+            - none
+          type: string
+    RedisAuthTypeManual:
+      type: object
+      properties:
+        authType:
+          enum:
+            - manual
+          type: string
+        username:
+          title: Username
+          type: string
+        password:
+          title: Password
+          type: string
+      required:
+        - password
+    RedisAuthTypeCredentialsSecret:
+      type: object
+      properties:
+        authType:
+          enum:
+            - credentialsSecret
+          type: string
+        credentialsSecret:
+          type: string
+          title: User secret
+          description: Secret that references Redis username and password
+      required:
+        - credentialsSecret
+    RedisAuthTypeTextSecret:
+      type: object
+      properties:
+        authType:
+          enum:
+            - textSecret
+          type: string
+        textSecret:
+          type: string
+          title: Admin secret
+          description: Secret that references Redis admin password
+      required:
+        - textSecret
+    SerdeTypeKvp:
+      type: object
+      properties:
+        type:
+          enum:
+            - kvp
+          type: string
+        keep:
+          title: Fields to keep
+          description: List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'.
+          type: array
+          items:
+            type: string
+        remove:
+          title: Fields to remove
+          description: List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'.
+          type: array
+          items:
+            type: string
+        fieldFilterExpr:
+          title: Fields filter expression
+          description: Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it.
+          type: string
+        cleanFields:
+          type: boolean
+          title: Clean fields
+          description: Clean field names by replacing non [a-zA-Z0-9] characters with _
+        allowedKeyChars:
+          type: array
+          items:
+            type: string
+          title: Allowed key characters
+          description: A list of characters that may be present in a key name, even though they are normally separator or control characters
+        allowedValueChars:
+          type: array
+          items:
+            type: string
+          title: Allowed value characters
+          description: A list of characters that may be present in a value, even though they are normally separator or control characters
+    SerdeTypeDelim:
+      type: object
+      properties:
+        type:
+          enum:
+            - delim
+          type: string
+        fields:
+          title: List of fields
+          description: The fields to be extracted, listed in order. Will auto-generate if empty.
+          type: array
+          items:
+            type: string
+        keep:
+          title: Fields to keep
+          description: List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'.
+          type: array
+          items:
+            type: string
+        remove:
+          title: Fields to remove
+          description: List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'.
+          type: array
+          items:
+            type: string
+        fieldFilterExpr:
+          title: Fields filter expression
+          description: Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it.
+          type: string
+        delimChar:
+          type: string
+          title: Delimiter
+          minLength: 1
+          description: Delimiter character to use to split values
+        quoteChar:
+          type: string
+          title: Quote char
+          minLength: 1
+          description: Character used to quote literal values
+        escapeChar:
+          type: string
+          title: Escape char
+          minLength: 1
+          description: Escape character used to escape delimiter or quote character
+        nullValue:
+          type: string
+          title: Null value
+          description: Field value representing the null value. Null fields will be omitted.
+    SerdeTypeCsv:
+      type: object
+      properties:
+        type:
+          enum:
+            - csv
+            - elff
+            - clf
+          type: string
+        fields:
+          title: List of fields
+          description: The fields to be extracted, listed in order. Will auto-generate if empty.
+          type: array
+          items:
+            type: string
+        keep:
+          title: Fields to keep
+          description: List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'.
+          type: array
+          items:
+            type: string
+        remove:
+          title: Fields to remove
+          description: List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'.
+          type: array
+          items:
+            type: string
+        fieldFilterExpr:
+          title: Fields filter expression
+          description: Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it.
+          type: string
+    SerdeTypeJson:
+      type: object
+      properties:
+        type:
+          enum:
+            - json
+          type: string
+        keep:
+          title: Fields to keep
+          description: List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'.
+          type: array
+          items:
+            type: string
+        remove:
+          title: Fields to remove
+          description: List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'.
+          type: array
+          items:
+            type: string
+        fieldFilterExpr:
+          title: Fields filter expression
+          description: Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it.
+          type: string
+    SerdeTypeRegex:
+      type: object
+      properties:
+        type:
+          enum:
+            - regex
+          type: string
+        regex:
+          type: string
+          title: Regex
+          description: Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)
+        regexList:
+          type: array
+          title: Additional regex
+          items:
+            $ref: "#/components/schemas/ItemsTypeSerdeTypeRegexRegexList"
+        iterations:
+          type: number
+          title: Max exec
+          description: The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups
+          minimum: 1
+        fieldNameExpression:
+          title: Field name format expression
+          description: "JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."
+          type: string
+        overwrite:
+          type: boolean
+          title: Overwrite existing fields
+          description: Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array.
+      required:
+        - regex
+    SerdeTypeGrok:
+      type: object
+      properties:
+        type:
+          enum:
+            - grok
+          type: string
+        pattern:
+          type: string
+          title: Pattern
+          description: "Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"
+        patternList:
+          type: array
+          title: Additional Grok patterns
+          items:
+            $ref: "#/components/schemas/ItemsTypeSerdeTypeGrokPatternList"
+      required:
+        - pattern
+    SerializeTypeKvp:
+      type: object
+      properties:
+        type:
+          enum:
+            - kvp
+          type: string
+        cleanFields:
+          type: boolean
+          title: Clean fields
+          description: Clean field names by replacing non-[a-zA-Z0-9] characters with _
+        fields:
+          title: Fields to serialize
+          description: "Required for CSV, ELFF, and CLF. All other formats support wildcard field lists. Examples: host, myField, !source *"
+          type: array
+          items:
+            type: string
+        pairDelimiter:
+          type: string
+          title: Pair delimiter
+          minLength: 1
+          description: Delimiter used to separate key=value pairs. Defaults to a single space character. Should not have common characters with key-value delimiter.
+        keyValueDelimiter:
+          type: string
+          title: Key-Value delimiter
+          minLength: 1
+          description: Delimiter used to separate key and value in pair. Defaults to a '='. Should not have common characters with pair delimiter.
+    SerializeTypeDelim:
+      type: object
+      properties:
+        type:
+          enum:
+            - delim
+          type: string
+        delimChar:
+          type: string
+          title: Delimiter
+          minLength: 1
+          description: Delimiter character to use to split values. If left blank, will default to ','.
+        quoteChar:
+          type: string
+          title: Quote char
+          minLength: 1
+          description: Character used to quote literal values. If left blank, will default to '"'.
+        escapeChar:
+          type: string
+          title: Escape char
+          minLength: 1
+          description: Escape character used to escape delimiter or quote character. If left blank, will default to the Quote char.
+        nullValue:
+          type: string
+          title: Null value
+          description: Field value representing the null value. Null fields will be omitted.
+    SerializeTypeCsv:
+      type: object
+      properties:
+        type:
+          enum:
+            - csv
+            - elff
+            - clf
+            - json
+          type: string
+    SnmpTrapSerializeV3UserAuthProtocolNone:
+      type: object
+      properties:
+        authProtocol:
+          enum:
+            - none
+          type: string
     FunctionConfSchemaAggregateMetrics:
       type: object
-      title: ""
       properties:
         passthrough:
           type: boolean
@@ -195,6 +1090,10 @@ components:
           type: boolean
           title: Flush on stream close
           description: Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior.
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/AggregateMetricsCumulativeTrue"
+            - $ref: "#/components/schemas/AggregateMetricsCumulativeFalse"
     FunctionAggregateMetrics:
       type: object
       properties:
@@ -241,7 +1140,6 @@ components:
         - version
     FunctionConfSchemaAggregation:
       type: object
-      title: ""
       properties:
         passthrough:
           type: boolean
@@ -313,6 +1211,10 @@ components:
           type: boolean
           title: Flush on stream close
           description: Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior.
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/AggregationCumulativeTrue"
+            - $ref: "#/components/schemas/AggregationCumulativeFalse"
     FunctionAggregation:
       type: object
       properties:
@@ -359,7 +1261,6 @@ components:
         - version
     FunctionConfSchemaAutoTimestamp:
       type: object
-      title: ""
       additionalProperties: false
       properties:
         srcField:
@@ -475,7 +1376,6 @@ components:
         - version
     FunctionConfSchemaCef:
       type: object
-      title: ""
       additionalProperties: false
       properties:
         outputField:
@@ -563,7 +1463,6 @@ components:
         - version
     FunctionConfSchemaChain:
       type: object
-      title: ""
       properties:
         processor:
           title: Processor
@@ -615,7 +1514,6 @@ components:
         - version
     FunctionConfSchemaClone:
       type: object
-      title: ""
       properties:
         clones:
           type: array
@@ -674,7 +1572,6 @@ components:
         - version
     FunctionConfSchemaCode:
       type: object
-      title: ""
       additionalProperties: false
       properties:
         code:
@@ -743,7 +1640,6 @@ components:
         - version
     FunctionConfSchemaComment:
       type: object
-      title: ""
       properties:
         comment:
           type: string
@@ -864,7 +1760,6 @@ components:
         - version
     FunctionConfSchemaDnsLookup:
       type: object
-      title: ""
       additionalProperties: true
       properties:
         dnsLookupFields:
@@ -1066,7 +1961,6 @@ components:
         - version
     FunctionConfSchemaDropDimensions:
       type: object
-      title: ""
       properties:
         timeWindow:
           pattern: \d+[sm]$
@@ -1130,7 +2024,6 @@ components:
         - version
     FunctionConfSchemaDynamicSampling:
       type: object
-      title: ""
       additionalProperties: false
       properties:
         mode:
@@ -1207,7 +2100,6 @@ components:
         - version
     FunctionConfSchemaEval:
       type: object
-      title: ""
       additionalProperties: false
       properties:
         add:
@@ -1287,7 +2179,6 @@ components:
         - version
     FunctionConfSchemaEventBreaker:
       type: object
-      title: ""
       properties:
         existingOrNew:
           title: Existing or new?
@@ -1303,6 +2194,15 @@ components:
           type: boolean
           title: Add to cribl_breaker
           description: Add this Function name to the cribl_breaker field
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/EventBreakerExistingOrNewNew"
+            - $ref: "#/components/schemas/EventBreakerExistingOrNewExisting"
+          discriminator:
+            propertyName: existingOrNew
+            mapping:
+              new: "#/components/schemas/EventBreakerExistingOrNewNew"
+              existing: "#/components/schemas/EventBreakerExistingOrNewExisting"
     FunctionEventBreaker:
       type: object
       properties:
@@ -1418,9 +2318,6 @@ components:
         - version
     FunctionConfSchemaExternaldata:
       type: object
-      title: ""
-      additionalProperties: false
-      properties: {}
     FunctionExternaldata:
       type: object
       properties:
@@ -1467,7 +2364,6 @@ components:
         - version
     FunctionConfSchemaFlatten:
       type: object
-      title: ""
       properties:
         fields:
           type: array
@@ -1647,7 +2543,6 @@ components:
         - version
     FunctionConfSchemaGeoip:
       type: object
-      title: ""
       additionalProperties: false
       properties:
         file:
@@ -1730,7 +2625,6 @@ components:
         - version
     FunctionConfSchemaGrok:
       type: object
-      title: ""
       properties:
         pattern:
           type: string
@@ -1740,14 +2634,7 @@ components:
           type: array
           title: Additional Grok patterns
           items:
-            type: object
-            required:
-              - pattern
-            properties:
-              pattern:
-                type: string
-                title: Pattern
-                description: "Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"
+            $ref: "#/components/schemas/ItemsTypeSerdeTypeGrokPatternList"
         source:
           type: string
           title: Source field
@@ -1798,7 +2685,6 @@ components:
         - version
     FunctionConfSchemaHandlebars:
       type: object
-      title: ""
       properties:
         templates:
           type: array
@@ -1975,7 +2861,6 @@ components:
         - version
     FunctionConfSchemaJsonUnroll:
       type: object
-      title: ""
       properties:
         path:
           type: string
@@ -2104,7 +2989,6 @@ components:
         - version
     FunctionConfSchemaLimit:
       type: object
-      title: ""
       additionalProperties: false
       properties:
         limit:
@@ -2157,10 +3041,7 @@ components:
         - uischema
         - version
     FunctionConfSchemaLocalSearchDatatypeParser:
-      title: ""
       type: object
-      additionalProperties: false
-      properties: {}
     FunctionLocalSearchDatatypeParser:
       type: object
       properties:
@@ -2207,7 +3088,6 @@ components:
         - version
     FunctionConfSchemaLocalSearchRulesetRunner:
       type: object
-      title: ""
       additionalProperties: false
       properties:
         rulesetType:
@@ -2273,7 +3153,6 @@ components:
         - version
     FunctionConfSchemaLookup:
       type: object
-      title: ""
       properties:
         file:
           type: string
@@ -2284,9 +3163,6 @@ components:
           type: boolean
           title: Use Disk-Based Lookup
           description: Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups.
-        matchMode: {}
-        matchType: {}
-        reloadPeriodSec: {}
         inFields:
           type: array
           title: Lookup fields
@@ -2332,7 +3208,10 @@ components:
           type: boolean
           title: Add to raw event
           description: Add the looked-up values to _raw, as key=value pairs
-        ignoreCase: {}
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/LookupDbLookupTrue"
+            - $ref: "#/components/schemas/LookupDbLookupFalse"
     FunctionLookup:
       type: object
       properties:
@@ -2379,7 +3258,6 @@ components:
         - version
     FunctionConfSchemaMask:
       type: object
-      title: ""
       properties:
         rules:
           type: array
@@ -2467,7 +3345,6 @@ components:
         - version
     FunctionConfSchemaMvExpand:
       type: object
-      title: ""
       additionalProperties: false
       properties:
         sourceFields:
@@ -2753,7 +3630,6 @@ components:
         - version
     FunctionConfSchemaNotifications:
       type: object
-      title: ""
       additionalProperties: false
       properties:
         id:
@@ -2940,7 +3816,6 @@ components:
         - uischema
         - version
     FunctionConfSchemaNumerify:
-      title: ""
       type: object
       properties:
         depth:
@@ -2974,6 +3849,15 @@ components:
             - Floor
             - Ceil
           x-speakeasy-unknown-values: allow
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/NumerifyFormatFix"
+            - $ref: "#/components/schemas/NumerifyFormatNone"
+          discriminator:
+            propertyName: format
+            mapping:
+              fix: "#/components/schemas/NumerifyFormatFix"
+              none: "#/components/schemas/NumerifyFormatNone"
     FunctionNumerify:
       type: object
       properties:
@@ -3020,7 +3904,6 @@ components:
         - version
     FunctionConfSchemaOtlpLogs:
       type: object
-      title: ""
       properties:
         dropNonLogEvents:
           type: boolean
@@ -3029,6 +3912,10 @@ components:
           type: boolean
           title: Batch OTLP logs
           description: Batch OTLP log records by shared top-level `resource` attributes
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/OtlpLogsBatchOTLPLogsFalse"
+            - $ref: "#/components/schemas/OtlpLogsBatchOTLPLogsTrue"
     FunctionOtlpLogs:
       type: object
       properties:
@@ -3075,7 +3962,6 @@ components:
         - version
     FunctionConfSchemaOtlpMetrics:
       type: object
-      title: ""
       properties:
         resourceAttributePrefixes:
           type: array
@@ -3093,6 +3979,10 @@ components:
           type: boolean
           title: Batch OTLP metrics
           description: Batch OTLP metrics by shared top-level `resource` attributes
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/OtlpMetricsBatchOTLPMetricsFalse"
+            - $ref: "#/components/schemas/OtlpMetricsBatchOTLPMetricsTrue"
     FunctionOtlpMetrics:
       type: object
       properties:
@@ -3139,7 +4029,6 @@ components:
         - version
     FunctionConfSchemaOtlpTraces:
       type: object
-      title: ""
       properties:
         dropNonTraceEvents:
           type: boolean
@@ -3150,6 +4039,10 @@ components:
           type: boolean
           title: Batch OTLP traces
           description: Batch OTLP traces by shared top-level `resource` attributes
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/OtlpTracesBatchOTLPTracesFalse"
+            - $ref: "#/components/schemas/OtlpTracesBatchOTLPTracesTrue"
     FunctionOtlpTraces:
       type: object
       properties:
@@ -3196,7 +4089,6 @@ components:
         - version
     FunctionConfSchemaPack:
       type: object
-      title: ""
       properties:
         unpackedFields:
           title: Unpacked fields
@@ -3321,7 +4213,6 @@ components:
         - version
     FunctionConfSchemaPublishMetrics:
       type: object
-      title: ""
       additionalProperties: false
       properties:
         fields:
@@ -3491,6 +4382,29 @@ components:
           type: boolean
           title: Client-side cache
           description: Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache.
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/RedisDeploymentTypeStandalone"
+            - $ref: "#/components/schemas/RedisDeploymentTypeCluster"
+            - $ref: "#/components/schemas/RedisDeploymentTypeSentinel"
+          discriminator:
+            propertyName: deploymentType
+            mapping:
+              standalone: "#/components/schemas/RedisDeploymentTypeStandalone"
+              cluster: "#/components/schemas/RedisDeploymentTypeCluster"
+              sentinel: "#/components/schemas/RedisDeploymentTypeSentinel"
+        - oneOf:
+            - $ref: "#/components/schemas/RedisAuthTypeNone"
+            - $ref: "#/components/schemas/RedisAuthTypeManual"
+            - $ref: "#/components/schemas/RedisAuthTypeCredentialsSecret"
+            - $ref: "#/components/schemas/RedisAuthTypeTextSecret"
+          discriminator:
+            propertyName: authType
+            mapping:
+              none: "#/components/schemas/RedisAuthTypeNone"
+              manual: "#/components/schemas/RedisAuthTypeManual"
+              credentialsSecret: "#/components/schemas/RedisAuthTypeCredentialsSecret"
+              textSecret: "#/components/schemas/RedisAuthTypeTextSecret"
     FunctionRedis:
       type: object
       properties:
@@ -3537,7 +4451,6 @@ components:
         - version
     FunctionConfSchemaRegexExtract:
       type: object
-      title: ""
       properties:
         regex:
           type: string
@@ -3547,15 +4460,7 @@ components:
           type: array
           title: Additional regex
           items:
-            type: object
-            required:
-              - regex
-            properties:
-              regex:
-                type: string
-                title: Regex
-                description: Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as (?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)
-                minLength: 1
+            $ref: "#/components/schemas/ItemsTypeSerdeTypeRegexRegexList"
         source:
           type: string
           title: Source field
@@ -3619,7 +4524,6 @@ components:
         - version
     FunctionConfSchemaRegexFilter:
       type: object
-      title: ""
       properties:
         regex:
           title: Regex
@@ -3688,7 +4592,6 @@ components:
         - version
     FunctionConfSchemaRename:
       type: object
-      title: ""
       properties:
         baseFields:
           title: Parent fields
@@ -3771,7 +4674,6 @@ components:
         - version
     FunctionConfSchemaRollupMetrics:
       type: object
-      title: ""
       properties:
         dimensions:
           title: Dimensions
@@ -3845,7 +4747,6 @@ components:
         - version
     FunctionConfSchemaSampling:
       type: object
-      title: ""
       properties:
         rules:
           type: array
@@ -4001,7 +4902,6 @@ components:
         - version
     FunctionConfSchemaSensitiveDataScanner:
       type: object
-      title: ""
       properties:
         rules:
           type: array
@@ -4104,7 +5004,6 @@ components:
         - uischema
         - version
     FunctionConfSchemaSerde:
-      title: ""
       type: object
       properties:
         mode:
@@ -4120,10 +5019,6 @@ components:
           x-speakeasy-unknown-values: allow
         type:
           $ref: "#/components/schemas/TypeOptions"
-        delimChar: {}
-        quoteChar: {}
-        escapeChar: {}
-        nullValue: {}
         srcField:
           title: Source field
           description: Field containing text to be parsed
@@ -4132,7 +5027,23 @@ components:
           title: Destination field
           description: Name of the field to add fields to. Extract mode only.
           type: string
-        cleanFields: {}
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/SerdeTypeKvp"
+            - $ref: "#/components/schemas/SerdeTypeDelim"
+            - $ref: "#/components/schemas/SerdeTypeCsv"
+            - $ref: "#/components/schemas/SerdeTypeJson"
+            - $ref: "#/components/schemas/SerdeTypeRegex"
+            - $ref: "#/components/schemas/SerdeTypeGrok"
+          discriminator:
+            propertyName: type
+            mapping:
+              kvp: "#/components/schemas/SerdeTypeKvp"
+              delim: "#/components/schemas/SerdeTypeDelim"
+              csv: "#/components/schemas/SerdeTypeCsv"
+              json: "#/components/schemas/SerdeTypeJson"
+              regex: "#/components/schemas/SerdeTypeRegex"
+              grok: "#/components/schemas/SerdeTypeGrok"
     FunctionSerde:
       type: object
       properties:
@@ -4178,7 +5089,6 @@ components:
         - uischema
         - version
     FunctionConfSchemaSerialize:
-      title: ""
       type: object
       properties:
         type:
@@ -4200,10 +5110,6 @@ components:
             - JSON Object
             - Delimited values
           x-speakeasy-unknown-values: allow
-        delimChar: {}
-        quoteChar: {}
-        escapeChar: {}
-        nullValue: {}
         fields:
           title: Fields to serialize
           description: "Required for CSV, ELFF, CLF, and Delimited values. All other formats support wildcard field lists. Examples: host, array*, !host *"
@@ -4218,6 +5124,17 @@ components:
           title: Destination field
           description: Field to serialize data to
           type: string
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/SerializeTypeKvp"
+            - $ref: "#/components/schemas/SerializeTypeDelim"
+            - $ref: "#/components/schemas/SerializeTypeCsv"
+          discriminator:
+            propertyName: type
+            mapping:
+              kvp: "#/components/schemas/SerializeTypeKvp"
+              delim: "#/components/schemas/SerializeTypeDelim"
+              csv: "#/components/schemas/SerializeTypeCsv"
     FunctionSerialize:
       type: object
       properties:
@@ -4264,7 +5181,6 @@ components:
         - version
     FunctionConfSchemaSidlookup:
       type: object
-      title: ""
       properties:
         fields:
           title: Lookup fields
@@ -4407,6 +5323,9 @@ components:
             authKey: {}
             privProtocol:
               type: string
+          allOf:
+            - oneOf:
+                - $ref: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNone"
     FunctionSnmpTrapSerialize:
       type: object
       properties:
@@ -4611,7 +5530,6 @@ components:
         - version
     FunctionConfSchemaSuppress:
       type: object
-      title: ""
       properties:
         keyExpr:
           type: string
@@ -4689,7 +5607,6 @@ components:
         - version
     FunctionConfSchemaTee:
       type: object
-      title: ""
       properties:
         command:
           type: string
@@ -4756,7 +5673,6 @@ components:
         - version
     FunctionConfSchemaTrimTimestamp:
       type: object
-      title: ""
       properties:
         field:
           type: string
@@ -4868,7 +5784,6 @@ components:
         - version
     FunctionConfSchemaUnroll:
       type: object
-      title: ""
       properties:
         srcExpr:
           type: string
@@ -4924,7 +5839,6 @@ components:
         - version
     FunctionConfSchemaWindow:
       type: object
-      title: ""
       additionalProperties: false
       properties:
         eventWindowId:
@@ -4992,7 +5906,6 @@ components:
         - version
     FunctionConfSchemaXmlUnroll:
       type: object
-      title: ""
       properties:
         unroll:
           type: string
@@ -7753,9 +8666,9 @@ components:
       type: object
       properties:
         authType:
-          type: string
           enum:
             - manual
+          type: string
         connectionString:
           type: string
           title: Connection string
@@ -7766,9 +8679,9 @@ components:
       type: object
       properties:
         authType:
-          type: string
           enum:
             - secret
+          type: string
         textSecret:
           type: string
           title: Connection string (text secret)
@@ -7779,9 +8692,9 @@ components:
       type: object
       properties:
         authType:
-          type: string
           enum:
             - clientSecret
+          type: string
         storageAccountName:
           type: string
           title: Storage account name
@@ -7815,9 +8728,9 @@ components:
       type: object
       properties:
         authType:
-          type: string
           enum:
             - clientCert
+          type: string
         storageAccountName:
           type: string
           title: Storage account name
@@ -8077,16 +8990,16 @@ components:
       type: object
       properties:
         authType:
-          type: string
           enum:
             - auto
+          type: string
     GoogleCloudStorageAuthTypeManual:
       type: object
       properties:
         authType:
-          type: string
           enum:
             - manual
+          type: string
         serviceAccountCredentials:
           type: string
           title: Service account credentials
@@ -8097,9 +9010,9 @@ components:
       type: object
       properties:
         authType:
-          type: string
           enum:
             - secret
+          type: string
         textSecret:
           type: string
           title: Service account credentials (text secret)
@@ -8211,9 +9124,9 @@ components:
       type: object
       properties:
         collectMethod:
-          type: string
           enum:
             - get
+          type: string
         collectRequestParams:
           title: Health check parameters
           description: Optional health check request parameters.
@@ -8236,9 +9149,9 @@ components:
       type: object
       properties:
         collectMethod:
-          type: string
           enum:
             - post
+          type: string
         collectRequestParams:
           title: Health check parameters
           description: Optional health check request parameters.
@@ -8249,9 +9162,9 @@ components:
       type: object
       properties:
         collectMethod:
-          type: string
           enum:
             - post_with_body
+          type: string
         collectBody:
           type: string
           title: Health check POST Body
@@ -8260,16 +9173,16 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - none
+          type: string
     HealthCheckAuthenticationBasic:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - basic
+          type: string
         username:
           type: string
           title: Username
@@ -8285,9 +9198,9 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - basicSecret
+          type: string
         credentialsSecret:
           type: string
           title: Credentials secret
@@ -8298,9 +9211,9 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - login
+          type: string
         loginUrl:
           type: string
           title: Login URL
@@ -8343,9 +9256,9 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - loginSecret
+          type: string
         loginUrl:
           type: string
           title: Login URL
@@ -8381,9 +9294,9 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - oauth
+          type: string
         loginUrl:
           type: string
           title: Login URL
@@ -8425,9 +9338,9 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - oauthSecret
+          type: string
         loginUrl:
           type: string
           title: Login URL
@@ -8469,9 +9382,9 @@ components:
       type: object
       properties:
         discoverMethod:
-          type: string
           enum:
             - get
+          type: string
         discoverRequestParams:
           title: Discover parameters
           description: Optional discover request parameters.
@@ -8482,9 +9395,9 @@ components:
       type: object
       properties:
         discoverMethod:
-          type: string
           enum:
             - post
+          type: string
         discoverRequestParams:
           title: Discover parameters
           description: Optional discover request parameters.
@@ -8495,9 +9408,9 @@ components:
       type: object
       properties:
         discoverMethod:
-          type: string
           enum:
             - post_with_body
+          type: string
         discoverBody:
           type: string
           title: Discover POST body
@@ -8506,9 +9419,9 @@ components:
       type: object
       properties:
         discoverType:
-          type: string
           enum:
             - http
+          type: string
         discoverUrl:
           type: string
           title: Discover URL
@@ -8556,9 +9469,9 @@ components:
       type: object
       properties:
         discoverType:
-          type: string
           enum:
             - json
+          type: string
         manualDiscoverResult:
           type: string
           title: Discover result
@@ -8573,9 +9486,9 @@ components:
       type: object
       properties:
         discoverType:
-          type: string
           enum:
             - list
+          type: string
         itemList:
           type: array
           title: Discover items
@@ -8591,23 +9504,23 @@ components:
       type: object
       properties:
         discoverType:
-          type: string
           enum:
             - none
+          type: string
     HealthCheckRetryRulesTypeNone:
       type: object
       properties:
         type:
-          type: string
           enum:
             - none
+          type: string
     HealthCheckRetryRulesTypeStatic:
       type: object
       properties:
         type:
-          type: string
           enum:
             - static
+          type: string
         interval:
           type: number
           title: Wait (ms)
@@ -8636,9 +9549,9 @@ components:
       type: object
       properties:
         type:
-          type: string
           enum:
             - backoff
+          type: string
         interval:
           type: number
           title: Initial retry interval (ms)
@@ -8727,8 +9640,6 @@ components:
             - POST
             - POST with Body
           x-speakeasy-unknown-values: allow
-        collectRequestParams: {}
-        collectBody: {}
         collectRequestHeaders:
           title: Health check headers
           description: Optional health check request headers.
@@ -8851,9 +9762,9 @@ components:
       type: object
       properties:
         collectMethod:
-          type: string
           enum:
             - get
+          type: string
         collectRequestParams:
           title: Collect parameters
           type: array
@@ -8863,9 +9774,9 @@ components:
       type: object
       properties:
         collectMethod:
-          type: string
           enum:
             - post
+          type: string
         collectRequestParams:
           title: Collect parameters
           type: array
@@ -8875,9 +9786,9 @@ components:
       type: object
       properties:
         collectMethod:
-          type: string
           enum:
             - post_with_body
+          type: string
         collectBody:
           type: string
           title: Collect POST body
@@ -8888,9 +9799,9 @@ components:
       type: object
       properties:
         collectMethod:
-          type: string
           enum:
             - other
+          type: string
         collectVerb:
           type: string
           title: Collect verb
@@ -8910,16 +9821,16 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - none
+          type: string
     RestAuthenticationBasic:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - basic
+          type: string
         username:
           type: string
           title: Username
@@ -8933,22 +9844,38 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - basicSecret
+          type: string
         credentialsSecret:
           type: string
           title: Credentials secret
           description: Select or create a stored secret that references your credentials
       required:
         - credentialsSecret
+    RestAuthenticationLoginGetAuthTokenFromHeaderFalse:
+      type: object
+      properties:
+        getAuthTokenFromHeader:
+          type: boolean
+          const: false
+        tokenRespAttribute:
+          type: string
+          title: Token attribute
+          description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
+    RestAuthenticationLoginGetAuthTokenFromHeaderTrue:
+      type: object
+      properties:
+        getAuthTokenFromHeader:
+          type: boolean
+          const: true
     RestAuthenticationLogin:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - login
+          type: string
         loginUrl:
           type: string
           title: Login URL
@@ -8988,13 +9915,33 @@ components:
         - password
         - loginBody
         - authHeaderExpr
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/RestAuthenticationLoginGetAuthTokenFromHeaderFalse"
+            - $ref: "#/components/schemas/RestAuthenticationLoginGetAuthTokenFromHeaderTrue"
+    RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse:
+      type: object
+      properties:
+        getAuthTokenFromHeader:
+          type: boolean
+          const: false
+        tokenRespAttribute:
+          type: string
+          title: Token attribute
+          description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
+    RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue:
+      type: object
+      properties:
+        getAuthTokenFromHeader:
+          type: boolean
+          const: true
     RestAuthenticationLoginSecret:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - loginSecret
+          type: string
         loginUrl:
           type: string
           title: Login URL
@@ -9029,13 +9976,17 @@ components:
         - credentialsSecret
         - loginBody
         - authHeaderExpr
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse"
+            - $ref: "#/components/schemas/RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue"
     RestAuthenticationOauth:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - oauth
+          type: string
         loginUrl:
           type: string
           title: Login URL
@@ -9080,9 +10031,9 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - oauthSecret
+          type: string
         loginUrl:
           type: string
           title: Login URL
@@ -9127,9 +10078,9 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - google_oauth
+          type: string
         scopes:
           type: array
           title: Scopes
@@ -9155,9 +10106,9 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - google_oauthSecret
+          type: string
         scopes:
           type: array
           title: Scopes
@@ -9182,22 +10133,56 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - hmac
+          type: string
         hmacFunctionId:
           type: string
           title: HMAC Function
           description: Select or create an HMAC Function to use with authentication
       required:
         - hmacFunctionId
+    RestDiscoveryDiscoverTypeHttpEnableStrictDiscoverParsingFalse:
+      type: object
+      properties:
+        enableStrictDiscoverParsing:
+          type: boolean
+          const: false
+    RestDiscoveryDiscoverTypeHttpEnableStrictDiscoverParsingTrue:
+      type: object
+      properties:
+        enableStrictDiscoverParsing:
+          type: boolean
+          const: true
+        discoverResponseFormat:
+          type: string
+          title: Discover response format
+          description: If 'Strict discover response parsing' parsing is enabled, provide the response format
+      required:
+        - discoverResponseFormat
+    RestDiscoveryDiscoverTypeHttpEnableDiscoverCodeFalse:
+      type: object
+      properties:
+        enableDiscoverCode:
+          type: boolean
+          const: false
+    RestDiscoveryDiscoverTypeHttpEnableDiscoverCodeTrue:
+      type: object
+      properties:
+        enableDiscoverCode:
+          type: boolean
+          const: true
+        formatResultCode:
+          type: string
+          title: Format discover result
+          description: "Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."
     RestDiscoveryDiscoverTypeHttpDiscoverMethodGet:
       type: object
       properties:
         discoverMethod:
-          type: string
           enum:
             - get
+          type: string
         discoverRequestParams:
           title: Discover parameters
           type: array
@@ -9207,9 +10192,9 @@ components:
       type: object
       properties:
         discoverMethod:
-          type: string
           enum:
             - post
+          type: string
         discoverRequestParams:
           title: Discover parameters
           type: array
@@ -9219,9 +10204,9 @@ components:
       type: object
       properties:
         discoverMethod:
-          type: string
           enum:
             - post_with_body
+          type: string
         discoverBody:
           type: string
           title: Discover POST body
@@ -9232,9 +10217,9 @@ components:
       type: object
       properties:
         discoverMethod:
-          type: string
           enum:
             - other
+          type: string
         discoverVerb:
           type: string
           title: Discover verb
@@ -9254,9 +10239,9 @@ components:
       type: object
       properties:
         discoverType:
-          type: string
           enum:
             - http
+          type: string
         discoverUrl:
           type: string
           title: Discover URL
@@ -9307,6 +10292,12 @@ components:
         - discoverMethod
       allOf:
         - oneOf:
+            - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpEnableStrictDiscoverParsingFalse"
+            - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpEnableStrictDiscoverParsingTrue"
+        - oneOf:
+            - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpEnableDiscoverCodeFalse"
+            - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpEnableDiscoverCodeTrue"
+        - oneOf:
             - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodGet"
             - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodPost"
             - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodPostWithBody"
@@ -9322,9 +10313,9 @@ components:
       type: object
       properties:
         discoverType:
-          type: string
           enum:
             - json
+          type: string
         manualDiscoverResult:
           type: string
           title: Discover result
@@ -9339,9 +10330,9 @@ components:
       type: object
       properties:
         discoverType:
-          type: string
           enum:
             - list
+          type: string
         itemList:
           type: array
           title: Discover items
@@ -9357,23 +10348,23 @@ components:
       type: object
       properties:
         discoverType:
-          type: string
           enum:
             - none
+          type: string
     RestPaginationTypeNone:
       type: object
       properties:
         type:
-          type: string
           enum:
             - none
+          type: string
     RestPaginationTypeResponseBody:
       type: object
       properties:
         type:
-          type: string
           enum:
             - response_body
+          type: string
         attribute:
           type: array
           title: Response attributes
@@ -9396,9 +10387,9 @@ components:
       type: object
       properties:
         type:
-          type: string
           enum:
             - response_header
+          type: string
         attribute:
           type: array
           title: Response attributes
@@ -9417,9 +10408,9 @@ components:
       type: object
       properties:
         type:
-          type: string
           enum:
             - response_header_link
+          type: string
         nextRelationAttribute:
           type: string
           title: Next page relation name
@@ -9440,9 +10431,9 @@ components:
       type: object
       properties:
         type:
-          type: string
           enum:
             - request_offset
+          type: string
         offsetField:
           type: string
           title: Offset field name
@@ -9483,9 +10474,9 @@ components:
       type: object
       properties:
         type:
-          type: string
           enum:
             - request_page
+          type: string
         pageField:
           type: string
           title: Page number field name
@@ -9530,16 +10521,31 @@ components:
       type: object
       properties:
         type:
-          type: string
           enum:
             - none
+          type: string
+    RestRetryRulesTypeStaticEnableHeaderFalse:
+      type: object
+      properties:
+        enableHeader:
+          type: boolean
+          const: false
+    RestRetryRulesTypeStaticEnableHeaderTrue:
+      type: object
+      properties:
+        enableHeader:
+          type: boolean
+          const: true
+        retryHeaderName:
+          type: string
+          title: Retry-After header name
     RestRetryRulesTypeStatic:
       type: object
       properties:
         type:
-          type: string
           enum:
             - static
+          type: string
         interval:
           type: number
           title: Wait (ms)
@@ -9572,13 +10578,32 @@ components:
           type: boolean
           title: Retry connection reset
           description: Retry request when a connection reset (ECONNRESET) error occurs
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/RestRetryRulesTypeStaticEnableHeaderFalse"
+            - $ref: "#/components/schemas/RestRetryRulesTypeStaticEnableHeaderTrue"
+    RestRetryRulesTypeBackoffEnableHeaderFalse:
+      type: object
+      properties:
+        enableHeader:
+          type: boolean
+          const: false
+    RestRetryRulesTypeBackoffEnableHeaderTrue:
+      type: object
+      properties:
+        enableHeader:
+          type: boolean
+          const: true
+        retryHeaderName:
+          type: string
+          title: Retry-After header name
     RestRetryRulesTypeBackoff:
       type: object
       properties:
         type:
-          type: string
           enum:
             - backoff
+          type: string
         interval:
           type: number
           title: Initial retry interval (ms)
@@ -9621,6 +10646,10 @@ components:
           type: boolean
           title: Retry connection reset
           description: Retry request when a connection reset (ECONNRESET) error occurs
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/RestRetryRulesTypeBackoffEnableHeaderFalse"
+            - $ref: "#/components/schemas/RestRetryRulesTypeBackoffEnableHeaderTrue"
     RestCollectorConf:
       type: object
       title: ""
@@ -9675,9 +10704,6 @@ components:
             - POST with Body
             - Other
           x-speakeasy-unknown-values: allow
-        collectVerb: {}
-        collectRequestParams: {}
-        collectBody: {}
         collectRequestHeaders:
           title: Collect headers
           type: array
@@ -9849,16 +10875,16 @@ components:
       type: object
       properties:
         partitioningScheme:
-          type: string
           enum:
             - ddss
+          type: string
     S3PartitioningSchemeNone:
       type: object
       properties:
         partitioningScheme:
-          type: string
           enum:
             - none
+          type: string
         recurse:
           type: boolean
           title: Recursive
@@ -9867,16 +10893,16 @@ components:
       type: object
       properties:
         awsAuthenticationMethod:
-          type: string
           enum:
             - auto
+          type: string
     S3AwsAuthenticationMethodManual:
       type: object
       properties:
         awsAuthenticationMethod:
-          type: string
           enum:
             - manual
+          type: string
         awsApiKey:
           type: string
           title: Access key
@@ -9889,9 +10915,9 @@ components:
       type: object
       properties:
         awsAuthenticationMethod:
-          type: string
           enum:
             - secret
+          type: string
         awsSecret:
           type: string
           title: Secret key pair
@@ -9995,7 +11021,6 @@ components:
           title: Batch size limit (objects)
           description: Maximum number of metadata objects to batch before recording as results
           minimum: 1
-        recurse: {}
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -10102,16 +11127,16 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - none
+          type: string
     SplunkAuthenticationBasic:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - basic
+          type: string
         username:
           type: string
           title: Username
@@ -10127,9 +11152,9 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - basicSecret
+          type: string
         credentialsSecret:
           type: string
           title: Credentials secret
@@ -10140,9 +11165,9 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - token
+          type: string
         token:
           type: string
           title: Bearer token
@@ -10152,9 +11177,9 @@ components:
       type: object
       properties:
         authentication:
-          type: string
           enum:
             - tokenSecret
+          type: string
         tokenSecret:
           type: string
           title: Bearer token secret
@@ -10165,16 +11190,16 @@ components:
       type: object
       properties:
         type:
-          type: string
           enum:
             - none
+          type: string
     SplunkRetryRulesTypeStatic:
       type: object
       properties:
         type:
-          type: string
           enum:
             - static
+          type: string
         interval:
           type: number
           title: Wait (ms)
@@ -10211,9 +11236,9 @@ components:
       type: object
       properties:
         type:
-          type: string
           enum:
             - backoff
+          type: string
         interval:
           type: number
           title: Initial retry interval (ms)
@@ -35274,6 +36299,73 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/RouteConf"
+    CountedInputStatus:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/InputStatus"
+    HealthStringType:
+      type: string
+      enum:
+        - Green
+        - Yellow
+        - Red
+        - Unknown
+      x-speakeasy-unknown-values: allow
+    HealthCountType:
+      type: object
+      properties:
+        Green:
+          type: number
+        Yellow:
+          type: number
+        Red:
+          type: number
+        Unknown:
+          type: number
+    InputStatus:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the Source or Destination.
+        status:
+          $ref: "#/components/schemas/StatusType"
+        type:
+          type: string
+          description: Type of the Source or Destination.
+      required:
+        - id
+        - status
+    CountedOutputStatus:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/OutputStatus"
+    OutputStatus:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the Source or Destination.
+        status:
+          $ref: "#/components/schemas/StatusType"
+        type:
+          type: string
+          description: Type of the Source or Destination.
+      required:
+        - id
+        - status
     CountedSavedJob:
       type: object
       properties:
@@ -36550,115 +37642,6 @@ components:
           type: string
       required:
         - source
-    CaptureFunctions:
-      type: object
-      properties:
-        bytesIn:
-          type: number
-        bytesOut:
-          type: number
-        disabled:
-          type: boolean
-        duration:
-          type: number
-        eventsIn:
-          type: number
-        eventsOut:
-          type: number
-        func:
-          type: string
-      required:
-        - bytesIn
-        - bytesOut
-        - duration
-        - eventsIn
-        - eventsOut
-        - func
-    CaptureStats:
-      type: object
-      properties:
-        cpu:
-          type: object
-          properties:
-            system:
-              type: number
-            user:
-              type: number
-          required:
-            - system
-            - user
-        duration:
-          type: number
-        functions:
-          type: array
-          items:
-            $ref: "#/components/schemas/CaptureFunctions"
-      required:
-        - cpu
-        - duration
-        - functions
-    PreviewResponse:
-      type: object
-      properties:
-        count:
-          type: number
-          description: Total count of captured events.
-        items:
-          type: array
-          items:
-            $ref: "#/components/schemas/CapturedEvent"
-          description: Array of events captured during Pipeline preview.
-        message:
-          type: string
-        profile:
-          type: string
-        stats:
-          $ref: "#/components/schemas/CaptureStats"
-        stderr:
-          type: string
-      required:
-        - count
-        - items
-        - stderr
-    PreviewDataParams:
-      type: object
-      properties:
-        cpuProfile:
-          type: boolean
-        dropped:
-          type: boolean
-        enhanceMetricsOutput:
-          type: boolean
-        events:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        inputId:
-          type: string
-        level:
-          type: number
-        memory:
-          type: number
-        mode:
-          type: string
-          enum:
-            - pipe
-            - route
-            - routeAndSend
-          x-speakeasy-unknown-values: allow
-        pipelineId:
-          type: string
-        sampleId:
-          type: string
-        samplePipelineId:
-          type: string
-        timeout:
-          type: number
-      required:
-        - mode
-        - pipelineId
-        - sampleId
     CountedGitCommitSummary:
       type: object
       properties:
@@ -37312,6 +38295,77 @@ components:
       required:
         - name
         - value
+    EventBreakerTypeOptionsEventBreakerExistingOrNewNew:
+      type: string
+      title: Event Breaker type
+      enum:
+        - regex
+        - json
+        - json_array
+        - header
+        - timestamp
+        - csv
+        - aws_cloudtrail
+        - aws_vpcflow
+        - azure_flowlog
+      x-speakeasy-enum-descriptions:
+        - Regex
+        - JSON Newline Delimited
+        - JSON Array
+        - File Header
+        - Timestamp
+        - CSV
+        - AWS CloudTrail
+        - AWS VPC Flow Log
+        - Azure VNet Flow Log
+      x-speakeasy-unknown-values: allow
+    TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp:
+      type: string
+      title: Timestamp type
+      enum:
+        - auto
+        - format
+        - current
+      x-speakeasy-unknown-values: allow
+    MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions:
+      type: string
+      title: Minimum TLS version
+      description: Minimum TLS version to use when connecting
+      enum:
+        - TLSv1
+        - TLSv1.1
+        - TLSv1.2
+        - TLSv1.3
+      x-speakeasy-unknown-values: allow
+    MaximumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions:
+      type: string
+      title: Maximum TLS version
+      description: Maximum TLS version to use when connecting
+      enum:
+        - TLSv1
+        - TLSv1.1
+        - TLSv1.2
+        - TLSv1.3
+      x-speakeasy-unknown-values: allow
+    ItemsTypeSerdeTypeRegexRegexList:
+      type: object
+      required:
+        - regex
+      properties:
+        regex:
+          type: string
+          title: Regex
+          description: Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as (?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)
+          minLength: 1
+    ItemsTypeSerdeTypeGrokPatternList:
+      type: object
+      required:
+        - pattern
+      properties:
+        pattern:
+          type: string
+          title: Pattern
+          description: "Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"
     ItemsTypeAdd:
       type: object
       required:
@@ -38719,6 +39773,32 @@ components:
         - type: object
           additionalProperties:
             type: number
+    ErrorTypeStatus:
+      type: object
+      properties:
+        details:
+          type: object
+          additionalProperties: true
+          description: Additional error details, which may include stack traces, request information, and other diagnostic data.
+        message:
+          type: string
+          description: Human-readable message that describes the error.
+      required:
+        - message
+      description: Error information, if applicable.
+    ErrorTypeStatusPq:
+      type: object
+      properties:
+        details:
+          type: object
+          additionalProperties: true
+          description: Additional details for the persistent queue error.
+        message:
+          type: string
+          description: Human-readable message that describes the persistent queue error.
+      required:
+        - message
+      description: Error information for the persistent queue, if applicable.
     EstimatedIngestRateOptionsConfigGroup:
       type: integer
       enum:
@@ -38994,6 +40074,41 @@ components:
         - count
         - memory
         - minimum
+    TlsOptionsTypeRedisDeploymentTypeClusterTlsTrue:
+      type: object
+      properties:
+        rejectUnauthorized:
+          type: boolean
+          title: Validate server certs
+          description: Reject certs that are not authorized by a CA in the CA certificate path, or by another trusted CA (such as the system's CA)
+        servername:
+          type: string
+          title: Server name (SNI)
+          description: Server name for the SNI (Server Name Indication) TLS extension. Must be a host name, not an IP address.
+        certificateName:
+          type: string
+          title: Certificate
+          description: The name of the predefined certificate
+        caPath:
+          type: string
+          title: CA certificate path
+          description: Path on client in which to find CA certificates to verify the server's certificate. PEM format. Can reference $ENV_VARS.
+        privKeyPath:
+          type: string
+          title: Private key path (mutual auth)
+          description: Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS.
+        certPath:
+          type: string
+          title: Certificate path (mutual auth)
+          description: Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
+        passphrase:
+          type: string
+          title: Passphrase
+          description: Passphrase to use to decrypt private key
+        minVersion:
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
+        maxVersion:
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
     PqType:
       type: object
       properties:
@@ -39653,6 +40768,25 @@ components:
           description: Determines whether or not to write task results to disk
         conf:
           $ref: "#/components/schemas/ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor"
+    PqTypeStatus:
+      type: object
+      properties:
+        error:
+          $ref: "#/components/schemas/ErrorTypeStatusPq"
+        health:
+          $ref: "#/components/schemas/HealthStringType"
+          description: Health status of the persistent queue.
+        healthCounts:
+          $ref: "#/components/schemas/HealthCountType"
+          description: Counts of persistent queue health statuses for the Source or Destination across all Worker Processes.
+        timestamp:
+          type: number
+          description: Timestamp (in Unix time) when the persistent queue status was last updated.
+      required:
+        - health
+        - healthCounts
+        - timestamp
+      description: Persistent queue status information (if persistent queue is enabled).
     KubeTypeHeartbeatMetadata:
       type: object
       properties:
@@ -39816,6 +40950,31 @@ components:
       allOf:
         - $ref: "#/components/schemas/TypeCollectionConstraint"
         - $ref: "#/components/schemas/RunnableJobCollectionPart1TypeScheduleRun"
+    StatusType:
+      type: object
+      properties:
+        error:
+          $ref: "#/components/schemas/ErrorTypeStatus"
+        health:
+          $ref: "#/components/schemas/HealthStringType"
+          description: Overall health status of the Source or Destination.
+        healthCounts:
+          $ref: "#/components/schemas/HealthCountType"
+          description: Counts of health statuses for the Source or Destination across all Worker Processes.
+        metrics:
+          type: object
+          additionalProperties: true
+          description: Metrics data for the Source or Destination, including base metrics, aggregated across all Worker Processes. For load-balanced Destinations, includes item-level metrics.
+        pq:
+          $ref: "#/components/schemas/PqTypeStatus"
+        timestamp:
+          type: number
+          description: Timestamp (in Unix time) when the status was last updated.
+      required:
+        - health
+        - healthCounts
+        - timestamp
+      description: Status information for the Source or Destination, aggregated across all Worker Processes.
     RunSettingsTypeSavedJobCollectionSchedule:
       type: object
       title: Run settings
@@ -46210,6 +47369,366 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Pack to append.
+  /system/status/inputs/{id}:
+    get:
+      operationId: getInputStatusById
+      tags:
+        - sources
+      x-speakeasy-group: sources.statuses
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: Get the status of a Source
+      description: Get the status and optional metrics for the specified Source.
+      responses:
+        "200":
+          description: a list of InputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to get the status for.
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
+  /system/status/inputs:
+    get:
+      operationId: getInputStatus
+      tags:
+        - sources
+      x-speakeasy-group: sources.statuses
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: List the status of all Sources
+      description: Get a list of status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet.
+      responses:
+        "200":
+          description: a list of InputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
+  /p/{pack}/system/status/inputs/{id}:
+    get:
+      operationId: getInputStatusSystemInputsByPackAndId
+      tags:
+        - sources
+      x-speakeasy-group: packs.sources.statuses
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: Get the status of a Source within a Pack
+      description: Get the status and optional metrics for the specified Source within the specified Pack.
+      responses:
+        "200":
+          description: a list of InputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Source to get the status for.
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
+  /p/{pack}/system/status/inputs:
+    get:
+      operationId: getInputStatusSystemInputsByPack
+      tags:
+        - sources
+      x-speakeasy-group: packs.sources.statuses
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: List the status of all Sources within a Pack
+      description: Get a list of status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet within the specified Pack.
+      responses:
+        "200":
+          description: a list of InputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedInputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to list.
+  /system/status/outputs/{id}:
+    get:
+      operationId: getOutputStatusById
+      tags:
+        - destinations
+      x-speakeasy-group: destinations.statuses
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: Get the status of a Destination
+      description: Get the status and optional metrics for the specified Destination.
+      responses:
+        "200":
+          description: a list of OutputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Destination to get the status for.
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).
+  /system/status/outputs:
+    get:
+      operationId: getOutputStatus
+      tags:
+        - destinations
+      x-speakeasy-group: destinations.statuses
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: List the status of all Destinations
+      description: Get a list of status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet.
+      responses:
+        "200":
+          description: a list of OutputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).
+  /p/{pack}/system/status/outputs/{id}:
+    get:
+      operationId: getOutputStatusSystemOutputsByPackAndId
+      tags:
+        - destinations
+      x-speakeasy-group: packs.destinations.statuses
+      x-speakeasy-name-override: get
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: Get the status of a Destination within a Pack
+      description: Get the status and optional metrics for the specified Destination within the specified Pack.
+      responses:
+        "200":
+          description: a list of OutputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Destination to get the status for.
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to get.
+  /p/{pack}/system/status/outputs:
+    get:
+      operationId: getOutputStatusSystemOutputsByPack
+      tags:
+        - destinations
+      x-speakeasy-group: packs.destinations.statuses
+      x-speakeasy-name-override: list
+      x-cribl-internal: false
+      x-cribl-availability: both
+      summary: List the status of all Destinations within a Pack
+      description: Get a list of status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
+      responses:
+        "200":
+          description: a list of OutputStatus objects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountedOutputStatus"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      parameters:
+        - name: metrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).
+        - name: pack
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The <code>id</code> of the Pack to list.
   /lib/jobs:
     post:
       operationId: createSavedJob
@@ -47665,39 +49184,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Pack to upgrade.
-  /preview:
-    post:
-      operationId: createPreview
-      tags:
-        - preview
-      x-speakeasy-group: system.previews
-      x-speakeasy-name-override: create
-      x-cribl-internal: false
-      x-cribl-availability: both
-      summary: Send sample events through a Pipeline and review results
-      description: Send sample events through the specified Pipeline.The response contains an array of objects, each showing the transformations,additions, and removals for an event after it passes through the pipeline.Useful for testing Pipeline logic with sample data before deploying changes.
-      responses:
-        "200":
-          description: PreviewResponse object
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PreviewResponse"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      requestBody:
-        description: PreviewDataParams object
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PreviewDataParams"
   /system/settings/conf:
     get:
       operationId: getSystemSettingsConf

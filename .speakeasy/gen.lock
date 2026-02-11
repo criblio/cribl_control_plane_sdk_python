@@ -3,17 +3,17 @@ id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
   docChecksum: 7427e8767527e428dc4da149809d481d
   docVersion: 4.16.1-alpha.1769555026407-0074e6cb
-  speakeasyVersion: 1.708.2
-  generationVersion: 2.811.4
-  releaseVersion: 0.6.0a8
-  configChecksum: db9dbdb99f0ac5bc84393cbb2f5555e3
+  speakeasyVersion: 1.709.3
+  generationVersion: 2.814.0
+  releaseVersion: 0.6.0a9
+  configChecksum: 62a14baba3ef2fb65efdd779e6c603c4
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 9660380b-2773-4bfb-91b6-661759a88173
-  pristine_commit_hash: 9294b87898b2fe727a83e81ce4354ff3b50f26b6
-  pristine_tree_hash: 87ae4756419558e0b5e06dd45ac07c0b36df7956
+  generation_id: fce72a4a-be08-4f39-ae87-ba50dbac64dc
+  pristine_commit_hash: 600322ceaef966b356bba7ee7641bdcf37df97ff
+  pristine_tree_hash: 69b282d1f7be6cb339d6fa21a7995ff23ad44bf6
 features:
   python:
     additionalDependencies: 1.0.0
@@ -11112,8 +11112,8 @@ trackedFiles:
     pristine_git_object: 3b5264a8808fdf5051e1705480046617395a718e
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:4ce458c8882d2ee85a4b81a8accbc9e2c9407152
-    pristine_git_object: 72abbfb98a7f2cd68cac3635d2531f31a37f7f6d
+    last_write_checksum: sha1:407dc2946a9f2498f382ce5c7c9e5b88eeae98c5
+    pristine_git_object: e693cb7478a4de2df5dbf50976d173eb859c9ed6
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -11144,8 +11144,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:e2ce9c694a108d4ec5f6b8841de6c6140064ba1d
-    pristine_git_object: 282925f17a1e3fd1080cfe921ae53ebc5567f510
+    last_write_checksum: sha1:2a67e9f91727a36334ec9bef66fcfb9207ebe4e3
+    pristine_git_object: c0a8bb99b3f331beba9ffa2d39ff7a4024230391
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17

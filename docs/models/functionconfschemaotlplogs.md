@@ -1,9 +1,17 @@
 # FunctionConfSchemaOtlpLogs
 
 
-## Fields
+## Supported Types
 
-| Field                                                            | Type                                                             | Required                                                         | Description                                                      |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
-| `drop_non_log_events`                                            | *Optional[bool]*                                                 | :heavy_minus_sign:                                               | N/A                                                              |
-| `batch_otlp_logs`                                                | *Optional[bool]*                                                 | :heavy_minus_sign:                                               | Batch OTLP log records by shared top-level `resource` attributes |
+### `models.OTLPLogsBatchOTLPLogsFalse`
+
+```python
+value: models.OTLPLogsBatchOTLPLogsFalse = /* values here */
+```
+
+### `models.OTLPLogsBatchOTLPLogsTrue`
+
+```python
+value: models.OTLPLogsBatchOTLPLogsTrue = /* values here */
+```
+

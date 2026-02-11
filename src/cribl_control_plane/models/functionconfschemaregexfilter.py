@@ -8,12 +8,12 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class RegexListTypedDict(TypedDict):
+class FunctionConfSchemaRegexFilterRegexListTypedDict(TypedDict):
     regex: str
     r"""Regex to test against"""
 
 
-class RegexList(BaseModel):
+class FunctionConfSchemaRegexFilterRegexList(BaseModel):
     regex: str
     r"""Regex to test against"""
 
@@ -21,7 +21,7 @@ class RegexList(BaseModel):
 class FunctionConfSchemaRegexFilterTypedDict(TypedDict):
     regex: NotRequired[str]
     r"""Regex to test against"""
-    regex_list: NotRequired[List[RegexListTypedDict]]
+    regex_list: NotRequired[List[FunctionConfSchemaRegexFilterRegexListTypedDict]]
     field: NotRequired[str]
     r"""Name of the field to apply the regex on (defaults to _raw)"""
 
@@ -31,7 +31,8 @@ class FunctionConfSchemaRegexFilter(BaseModel):
     r"""Regex to test against"""
 
     regex_list: Annotated[
-        Optional[List[RegexList]], pydantic.Field(alias="regexList")
+        Optional[List[FunctionConfSchemaRegexFilterRegexList]],
+        pydantic.Field(alias="regexList"),
     ] = None
 
     field: Optional[str] = None

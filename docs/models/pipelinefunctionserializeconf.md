@@ -1,23 +1,15 @@
 # PipelineFunctionSerializeConf
 
 
-## Supported Types
+## Fields
 
-### `models.SerializeTypeKvp`
-
-```python
-value: models.SerializeTypeKvp = /* values here */
-```
-
-### `models.SerializeTypeDelim`
-
-```python
-value: models.SerializeTypeDelim = /* values here */
-```
-
-### `models.SerializeTypeCsv`
-
-```python
-value: models.SerializeTypeCsv = /* values here */
-```
-
+| Field                                                                                                                              | Type                                                                                                                               | Required                                                                                                                           | Description                                                                                                                        |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `type`                                                                                                                             | [models.PipelineFunctionSerializeType](../models/pipelinefunctionserializetype.md)                                                 | :heavy_check_mark:                                                                                                                 | Data output format                                                                                                                 |
+| `delim_char`                                                                                                                       | *Optional[Any]*                                                                                                                    | :heavy_minus_sign:                                                                                                                 | N/A                                                                                                                                |
+| `quote_char`                                                                                                                       | *Optional[Any]*                                                                                                                    | :heavy_minus_sign:                                                                                                                 | N/A                                                                                                                                |
+| `escape_char`                                                                                                                      | *Optional[Any]*                                                                                                                    | :heavy_minus_sign:                                                                                                                 | N/A                                                                                                                                |
+| `null_value`                                                                                                                       | *Optional[Any]*                                                                                                                    | :heavy_minus_sign:                                                                                                                 | N/A                                                                                                                                |
+| `fields`                                                                                                                           | List[*str*]                                                                                                                        | :heavy_minus_sign:                                                                                                                 | Required for CSV, ELFF, CLF, and Delimited values. All other formats support wildcard field lists. Examples: host, array*, !host * |
+| `src_field`                                                                                                                        | *Optional[str]*                                                                                                                    | :heavy_minus_sign:                                                                                                                 | Field containing object to serialize. Leave blank to serialize top-level event fields.                                             |
+| `dst_field`                                                                                                                        | *Optional[str]*                                                                                                                    | :heavy_minus_sign:                                                                                                                 | Field to serialize data to                                                                                                         |

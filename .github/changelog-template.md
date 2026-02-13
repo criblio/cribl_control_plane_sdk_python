@@ -2,7 +2,10 @@
 Template for Cribl SDKs for the control and management planes.
 Usage:
 - Omit any section that has no entries for this release.
-- Text inside angle brackets < > represents example changelog notes.
+- Text inside angle brackets < > represents example changelog notes
+  and varying details like version numbers and dates. Replace each < > 
+  and its contents with the relevant information for the SDK version 
+  that the changelog describes.
   Replace each < > and its contents with actual changelog notes.
 -->
 

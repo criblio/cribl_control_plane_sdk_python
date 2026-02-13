@@ -6,7 +6,6 @@ Usage:
   and varying details like version numbers and dates. Replace each < > 
   and its contents with the relevant information for the SDK version 
   that the changelog describes.
-  Replace each < > and its contents with actual changelog notes.
 -->
 
 # Changelog: <Language> SDK for the <Control or Management> Plane

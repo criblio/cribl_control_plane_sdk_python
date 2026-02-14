@@ -87,3 +87,9 @@ class FunctionMvPull(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionMvPull.model_rebuild()
+except NameError:
+    pass

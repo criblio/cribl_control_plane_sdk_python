@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1770790995514-c4a066f9
+  version: 4.17.0-alpha.1771032350496-659e5324
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -993,6 +993,60 @@ components:
           enum:
             - none
           type: string
+    SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNone:
+      type: object
+      properties:
+        privProtocol:
+          enum:
+            - none
+          type: string
+    SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone:
+      type: object
+      properties:
+        privProtocol:
+          type: string
+          enum:
+            - des
+            - aes
+            - aes256b
+            - aes256r
+        privKey:
+          type: string
+          title: V3 privacy key
+      required:
+        - privKey
+    SnmpTrapSerializeV3UserAuthProtocolNotNone:
+      type: object
+      properties:
+        authProtocol:
+          type: string
+          enum:
+            - md5
+            - sha
+            - sha224
+            - sha256
+            - sha384
+            - sha512
+        authKey:
+          type: string
+          title: V3 authentication key
+        privProtocol:
+          $ref: "#/components/schemas/PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone"
+      required:
+        - authKey
+        - name
+      allOf:
+        - oneOf:
+            - $ref: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNone"
+            - $ref: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone"
+          discriminator:
+            propertyName: privProtocol
+            mapping:
+              none: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNone"
+              des: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone"
+              aes: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone"
+              aes256b: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone"
+              aes256r: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone"
     FunctionConfSchemaAggregateMetrics:
       type: object
       properties:
@@ -5326,6 +5380,17 @@ components:
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNone"
+                - $ref: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNone"
+              discriminator:
+                propertyName: authProtocol
+                mapping:
+                  none: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNone"
+                  md5: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNone"
+                  sha: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNone"
+                  sha224: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNone"
+                  sha256: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNone"
+                  sha384: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNone"
+                  sha512: "#/components/schemas/SnmpTrapSerializeV3UserAuthProtocolNotNone"
     FunctionSnmpTrapSerialize:
       type: object
       properties:
@@ -18563,21 +18628,7 @@ components:
                     type: string
                     title: V3 authentication key
                   privProtocol:
-                    enum:
-                      - none
-                      - des
-                      - aes
-                      - aes256b
-                      - aes256r
-                    type: string
-                    x-speakeasy-enum-descriptions:
-                      - None
-                      - DES
-                      - AES128
-                      - AES256b (Blumenthal)
-                      - AES256r (Reeder)
-                    title: Privacy protocol
-                    x-speakeasy-unknown-values: allow
+                    $ref: "#/components/schemas/PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone"
                   privKey:
                     type: string
                     title: V3 privacy key
@@ -38366,6 +38417,22 @@ components:
           type: string
           title: Pattern
           description: "Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"
+    PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone:
+      type: string
+      enum:
+        - none
+        - des
+        - aes
+        - aes256b
+        - aes256r
+      x-speakeasy-enum-descriptions:
+        - None
+        - DES
+        - AES128
+        - AES256b (Blumenthal)
+        - AES256r (Reeder)
+      title: Privacy protocol
+      x-speakeasy-unknown-values: allow
     ItemsTypeAdd:
       type: object
       required:

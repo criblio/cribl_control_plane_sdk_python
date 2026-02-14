@@ -1757,3 +1757,85 @@ class PipelineFunctionRedis(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    RedisAuthTypeTextSecretCommand.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisAuthTypeTextSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisAuthTypeCredentialsSecretCommand.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisAuthTypeCredentialsSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisAuthTypeManualCommand.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisAuthTypeManual.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisAuthTypeNoneCommand.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisAuthTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeSentinelTLSFalseCommand.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeSentinelTLSFalse.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeSentinelTLSTrueCommand.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeSentinelTLSTrue.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeClusterTLSFalseCommand.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeClusterTLSFalse.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeClusterTLSTrueCommand.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeClusterTLSTrue.model_rebuild()
+except NameError:
+    pass
+try:
+    TLSOptions.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeStandaloneCommand.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeStandalone.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionRedis.model_rebuild()
+except NameError:
+    pass

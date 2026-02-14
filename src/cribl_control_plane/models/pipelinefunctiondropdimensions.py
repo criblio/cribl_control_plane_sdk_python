@@ -105,3 +105,13 @@ class PipelineFunctionDropDimensions(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionDropDimensionsConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionDropDimensions.model_rebuild()
+except NameError:
+    pass

@@ -293,3 +293,9 @@ class InputEventhub(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputEventhub.model_rebuild()
+except NameError:
+    pass

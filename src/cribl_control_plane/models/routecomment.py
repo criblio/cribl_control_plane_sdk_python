@@ -47,3 +47,9 @@ class RouteComment(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    RouteComment.model_rebuild()
+except NameError:
+    pass

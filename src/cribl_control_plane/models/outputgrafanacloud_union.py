@@ -839,3 +839,13 @@ OutputGrafanaCloudUnion = TypeAliasType(
     "OutputGrafanaCloudUnion",
     Union[OutputGrafanaCloudGrafanaCloud1, OutputGrafanaCloudGrafanaCloud2],
 )
+
+
+try:
+    OutputGrafanaCloudGrafanaCloud2.model_rebuild()
+except NameError:
+    pass
+try:
+    OutputGrafanaCloudGrafanaCloud1.model_rebuild()
+except NameError:
+    pass

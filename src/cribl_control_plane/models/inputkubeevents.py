@@ -113,3 +113,9 @@ class InputKubeEvents(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputKubeEvents.model_rebuild()
+except NameError:
+    pass

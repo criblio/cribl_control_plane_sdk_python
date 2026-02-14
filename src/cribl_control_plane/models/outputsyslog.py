@@ -516,3 +516,9 @@ class OutputSyslog(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputSyslog.model_rebuild()
+except NameError:
+    pass

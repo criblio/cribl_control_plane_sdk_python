@@ -29,3 +29,9 @@ SniSettingsUnionTypedDict = TypeAliasType(
 
 
 SniSettingsUnion = TypeAliasType("SniSettingsUnion", Union[SniSettings2, SniSettings1])
+
+
+try:
+    SniSettings1.model_rebuild()
+except NameError:
+    pass

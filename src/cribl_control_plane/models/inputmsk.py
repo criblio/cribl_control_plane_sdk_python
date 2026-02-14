@@ -447,3 +447,9 @@ class InputMsk(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputMsk.model_rebuild()
+except NameError:
+    pass

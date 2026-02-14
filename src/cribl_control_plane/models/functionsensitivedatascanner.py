@@ -87,3 +87,9 @@ class FunctionSensitiveDataScanner(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionSensitiveDataScanner.model_rebuild()
+except NameError:
+    pass

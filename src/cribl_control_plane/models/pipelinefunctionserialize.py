@@ -348,3 +348,21 @@ class PipelineFunctionSerialize(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    SerializeTypeCsv.model_rebuild()
+except NameError:
+    pass
+try:
+    SerializeTypeDelim.model_rebuild()
+except NameError:
+    pass
+try:
+    SerializeTypeKvp.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionSerialize.model_rebuild()
+except NameError:
+    pass

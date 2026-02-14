@@ -237,3 +237,9 @@ class InputCriblHTTP(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputCriblHTTP.model_rebuild()
+except NameError:
+    pass

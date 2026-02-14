@@ -157,3 +157,13 @@ FunctionConfSchemaNumerify = Annotated[
     ],
     Discriminator(lambda m: get_discriminator(m, "format_", "format")),
 ]
+
+
+try:
+    NumerifyFormatNone.model_rebuild()
+except NameError:
+    pass
+try:
+    NumerifyFormatFix.model_rebuild()
+except NameError:
+    pass

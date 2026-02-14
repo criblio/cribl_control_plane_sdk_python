@@ -122,3 +122,13 @@ class InputDatagen(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    Sample.model_rebuild()
+except NameError:
+    pass
+try:
+    InputDatagen.model_rebuild()
+except NameError:
+    pass

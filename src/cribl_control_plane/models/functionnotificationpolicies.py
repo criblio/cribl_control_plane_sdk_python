@@ -87,3 +87,9 @@ class FunctionNotificationPolicies(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionNotificationPolicies.model_rebuild()
+except NameError:
+    pass

@@ -143,3 +143,13 @@ class PipelineFunctionMask(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionMaskRule.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionMask.model_rebuild()
+except NameError:
+    pass

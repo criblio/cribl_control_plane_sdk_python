@@ -346,3 +346,17 @@ class PipelineFunctionAggregation(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    AggregationCumulativeFalse.model_rebuild()
+except NameError:
+    pass
+try:
+    AggregationCumulativeTrue.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionAggregation.model_rebuild()
+except NameError:
+    pass

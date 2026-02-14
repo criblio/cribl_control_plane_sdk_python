@@ -183,3 +183,13 @@ FunctionConfSchemaOtlpMetrics = TypeAliasType(
     "FunctionConfSchemaOtlpMetrics",
     Union[OTLPMetricsBatchOTLPMetricsFalse, OTLPMetricsBatchOTLPMetricsTrue],
 )
+
+
+try:
+    OTLPMetricsBatchOTLPMetricsTrue.model_rebuild()
+except NameError:
+    pass
+try:
+    OTLPMetricsBatchOTLPMetricsFalse.model_rebuild()
+except NameError:
+    pass

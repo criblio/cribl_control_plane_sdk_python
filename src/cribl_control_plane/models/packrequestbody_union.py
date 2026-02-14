@@ -167,3 +167,13 @@ PackRequestBodyUnionTypedDict = TypeAliasType(
 PackRequestBodyUnion = TypeAliasType(
     "PackRequestBodyUnion", Union[PackRequestBody1, PackRequestBody2]
 )
+
+
+try:
+    PackRequestBody2.model_rebuild()
+except NameError:
+    pass
+try:
+    PackRequestBody1.model_rebuild()
+except NameError:
+    pass

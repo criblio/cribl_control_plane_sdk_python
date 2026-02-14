@@ -705,3 +705,33 @@ class PipelineFunctionSerde(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    SerdeTypeGrok.model_rebuild()
+except NameError:
+    pass
+try:
+    SerdeTypeRegex.model_rebuild()
+except NameError:
+    pass
+try:
+    SerdeTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    SerdeTypeCsv.model_rebuild()
+except NameError:
+    pass
+try:
+    SerdeTypeDelim.model_rebuild()
+except NameError:
+    pass
+try:
+    SerdeTypeKvp.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionSerde.model_rebuild()
+except NameError:
+    pass

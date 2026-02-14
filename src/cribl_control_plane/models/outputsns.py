@@ -388,3 +388,9 @@ class OutputSns(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputSns.model_rebuild()
+except NameError:
+    pass

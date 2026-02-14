@@ -75,3 +75,9 @@ class CaptureParams(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    CaptureParams.model_rebuild()
+except NameError:
+    pass

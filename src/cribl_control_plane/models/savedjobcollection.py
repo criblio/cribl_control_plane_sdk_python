@@ -128,3 +128,9 @@ class SavedJobCollection(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    SavedJobCollection.model_rebuild()
+except NameError:
+    pass

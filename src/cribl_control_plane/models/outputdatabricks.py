@@ -479,3 +479,9 @@ class OutputDatabricks(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputDatabricks.model_rebuild()
+except NameError:
+    pass

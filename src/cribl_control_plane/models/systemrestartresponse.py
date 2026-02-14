@@ -20,3 +20,9 @@ class SystemRestartResponse(BaseModel):
         pydantic.Field(alias="restart"),
     ] = True
     r"""Restart operation initiated."""
+
+
+try:
+    SystemRestartResponse.model_rebuild()
+except NameError:
+    pass

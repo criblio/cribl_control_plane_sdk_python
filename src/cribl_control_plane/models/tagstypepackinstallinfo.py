@@ -39,3 +39,9 @@ class TagsTypePackInstallInfo(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    TagsTypePackInstallInfo.model_rebuild()
+except NameError:
+    pass

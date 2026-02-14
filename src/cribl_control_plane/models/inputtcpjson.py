@@ -230,3 +230,9 @@ class InputTcpjson(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputTcpjson.model_rebuild()
+except NameError:
+    pass

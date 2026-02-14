@@ -87,3 +87,9 @@ class FunctionClone(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionClone.model_rebuild()
+except NameError:
+    pass

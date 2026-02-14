@@ -87,3 +87,9 @@ class FunctionEventstats(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionEventstats.model_rebuild()
+except NameError:
+    pass

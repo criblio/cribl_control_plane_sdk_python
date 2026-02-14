@@ -369,3 +369,17 @@ class RunnableJobCollection(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    CaptureSettings.model_rebuild()
+except NameError:
+    pass
+try:
+    RunnableJobCollectionRun.model_rebuild()
+except NameError:
+    pass
+try:
+    RunnableJobCollection.model_rebuild()
+except NameError:
+    pass

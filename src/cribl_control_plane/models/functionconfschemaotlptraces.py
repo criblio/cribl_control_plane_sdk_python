@@ -160,3 +160,13 @@ FunctionConfSchemaOtlpTraces = TypeAliasType(
     "FunctionConfSchemaOtlpTraces",
     Union[OTLPTracesBatchOTLPTracesFalse, OTLPTracesBatchOTLPTracesTrue],
 )
+
+
+try:
+    OTLPTracesBatchOTLPTracesTrue.model_rebuild()
+except NameError:
+    pass
+try:
+    OTLPTracesBatchOTLPTracesFalse.model_rebuild()
+except NameError:
+    pass

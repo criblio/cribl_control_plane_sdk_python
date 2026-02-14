@@ -105,3 +105,9 @@ class APITypeSystemSettingsConf(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    APITypeSystemSettingsConf.model_rebuild()
+except NameError:
+    pass

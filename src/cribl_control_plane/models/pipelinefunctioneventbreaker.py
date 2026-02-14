@@ -1289,3 +1289,61 @@ class PipelineFunctionEventBreaker(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    EventBreakerExistingOrNewExisting.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewRuleTypeCsvTimestampFormat.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewRuleTypeCsv.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewRuleTypeHeaderTimestampFormat.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewRuleTypeHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseTimestampFormat.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalse.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueTimestampFormat.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewRuleTypeJSONTimestampFormat.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewRuleTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewRuleTypeRegexTimestampFormat.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewRuleTypeRegex.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionEventBreaker.model_rebuild()
+except NameError:
+    pass

@@ -8,7 +8,10 @@ from .itemstypeconnectionsoptional import (
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
-from cribl_control_plane import models, utils
+from .privacyprotocoloptionssnmptrapserializev3userauthprotocolnotnone import (
+    PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone,
+)
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -21,24 +24,13 @@ class InputSnmpType(str, Enum):
     SNMP = "snmp"
 
 
-class PrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
-    # None
-    NONE = "none"
-    # DES
-    DES = "des"
-    # AES128
-    AES = "aes"
-    # AES256b (Blumenthal)
-    AES256B = "aes256b"
-    # AES256r (Reeder)
-    AES256R = "aes256r"
-
-
 class InputSnmpV3UserTypedDict(TypedDict):
     name: str
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
     auth_key: NotRequired[str]
-    priv_protocol: NotRequired[PrivacyProtocol]
+    priv_protocol: NotRequired[
+        PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
+    ]
     priv_key: NotRequired[str]
 
 
@@ -53,7 +45,8 @@ class InputSnmpV3User(BaseModel):
     auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
 
     priv_protocol: Annotated[
-        Optional[PrivacyProtocol], pydantic.Field(alias="privProtocol")
+        Optional[PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone],
+        pydantic.Field(alias="privProtocol"),
     ] = None
 
     priv_key: Annotated[Optional[str], pydantic.Field(alias="privKey")] = None
@@ -71,7 +64,9 @@ class InputSnmpV3User(BaseModel):
     def serialize_priv_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.PrivacyProtocol(value)
+                return models.PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -296,3 +291,17 @@ class InputSnmp(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputSnmpV3User.model_rebuild()
+except NameError:
+    pass
+try:
+    SNMPv3Authentication.model_rebuild()
+except NameError:
+    pass
+try:
+    InputSnmp.model_rebuild()
+except NameError:
+    pass

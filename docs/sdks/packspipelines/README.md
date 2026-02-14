@@ -1571,14 +1571,14 @@ with CriblControlPlane(
         "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations",
         "streamtags": [],
         "functions": [
-            {
-                "filter_": "true",
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {
-                    "strict": True,
-                    "drop_failed_events": True,
-                },
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                filter_="true",
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(
+                    strict=True,
+                    drop_failed_events=True,
+                ),
+            ),
         ],
         "groups": {
 
@@ -3555,14 +3555,14 @@ with CriblControlPlane(
         "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations",
         "streamtags": [],
         "functions": [
-            {
-                "filter_": "true",
-                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                "conf": {
-                    "strict": True,
-                    "drop_failed_events": True,
-                },
-            },
+            models.PipelineFunctionSnmpTrapSerialize(
+                filter_="true",
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(
+                    strict=True,
+                    drop_failed_events=True,
+                ),
+            ),
         ],
         "groups": {
 

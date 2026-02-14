@@ -76,3 +76,9 @@ class ScheduleTypeRunnableJobCollection(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    ScheduleTypeRunnableJobCollection.model_rebuild()
+except NameError:
+    pass

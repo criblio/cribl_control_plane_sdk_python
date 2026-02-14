@@ -574,3 +574,45 @@ class PipelineFunctionLookup(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    LookupDbLookupFalseMatchModeExactInField.model_rebuild()
+except NameError:
+    pass
+try:
+    LookupDbLookupFalseMatchModeExactOutField.model_rebuild()
+except NameError:
+    pass
+try:
+    LookupDbLookupFalseMatchModeExact.model_rebuild()
+except NameError:
+    pass
+try:
+    LookupDbLookupFalseMatchModeCidrInField.model_rebuild()
+except NameError:
+    pass
+try:
+    LookupDbLookupFalseMatchModeCidrOutField.model_rebuild()
+except NameError:
+    pass
+try:
+    LookupDbLookupFalseMatchModeCidr.model_rebuild()
+except NameError:
+    pass
+try:
+    LookupDbLookupTrueInField.model_rebuild()
+except NameError:
+    pass
+try:
+    LookupDbLookupTrueOutField.model_rebuild()
+except NameError:
+    pass
+try:
+    LookupDbLookupTrue.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionLookup.model_rebuild()
+except NameError:
+    pass

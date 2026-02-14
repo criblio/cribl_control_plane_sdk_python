@@ -183,3 +183,13 @@ class PipelineInput(BaseModel):
     id: str
 
     conf: ConfInput
+
+
+try:
+    PipelineConf.model_rebuild()
+except NameError:
+    pass
+try:
+    ConfInput.model_rebuild()
+except NameError:
+    pass

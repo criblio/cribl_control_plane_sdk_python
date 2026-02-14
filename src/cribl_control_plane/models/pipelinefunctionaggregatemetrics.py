@@ -457,3 +457,25 @@ class PipelineFunctionAggregateMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    AggregateMetricsCumulativeFalseAggregation.model_rebuild()
+except NameError:
+    pass
+try:
+    AggregateMetricsCumulativeFalse.model_rebuild()
+except NameError:
+    pass
+try:
+    AggregateMetricsCumulativeTrueAggregation.model_rebuild()
+except NameError:
+    pass
+try:
+    AggregateMetricsCumulativeTrue.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionAggregateMetrics.model_rebuild()
+except NameError:
+    pass

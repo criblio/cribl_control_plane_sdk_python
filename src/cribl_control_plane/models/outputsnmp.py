@@ -132,3 +132,13 @@ class OutputSnmp(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputSnmpHost.model_rebuild()
+except NameError:
+    pass
+try:
+    OutputSnmp.model_rebuild()
+except NameError:
+    pass

@@ -194,3 +194,13 @@ class InputKubeMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputKubeMetricsPersistence.model_rebuild()
+except NameError:
+    pass
+try:
+    InputKubeMetrics.model_rebuild()
+except NameError:
+    pass

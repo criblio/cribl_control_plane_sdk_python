@@ -59,6 +59,9 @@ from .modeoptionshost import ModeOptionsHost
 from .outputmodeoptionssplunkcollectorconf import OutputModeOptionsSplunkCollectorConf
 from .pqtype import PqType, PqTypeTypedDict
 from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
+from .privacyprotocoloptionssnmptrapserializev3userauthprotocolnotnone import (
+    PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone,
+)
 from .processtype import ProcessType, ProcessTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
@@ -5392,24 +5395,13 @@ class CreateInputSystemByPackTypeSnmp(str, Enum):
     SNMP = "snmp"
 
 
-class CreateInputSystemByPackPrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
-    # None
-    NONE = "none"
-    # DES
-    DES = "des"
-    # AES128
-    AES = "aes"
-    # AES256b (Blumenthal)
-    AES256B = "aes256b"
-    # AES256r (Reeder)
-    AES256R = "aes256r"
-
-
 class CreateInputSystemByPackV3UserTypedDict(TypedDict):
     name: str
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
     auth_key: NotRequired[str]
-    priv_protocol: NotRequired[CreateInputSystemByPackPrivacyProtocol]
+    priv_protocol: NotRequired[
+        PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
+    ]
     priv_key: NotRequired[str]
 
 
@@ -5424,7 +5416,7 @@ class CreateInputSystemByPackV3User(BaseModel):
     auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
 
     priv_protocol: Annotated[
-        Optional[CreateInputSystemByPackPrivacyProtocol],
+        Optional[PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone],
         pydantic.Field(alias="privProtocol"),
     ] = None
 
@@ -5443,7 +5435,9 @@ class CreateInputSystemByPackV3User(BaseModel):
     def serialize_priv_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackPrivacyProtocol(value)
+                return models.PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -19019,3 +19013,413 @@ class CreateInputSystemByPackRequest(BaseModel):
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
     r"""Input object"""
+
+
+try:
+    CreateInputSystemByPackAuthTokenCloudflareHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackTLSSettingsServerSide.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputCloudflareHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackAuthTokenZscalerHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputZscalerHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputSecurityLake.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputNetflow.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputWizWebhook.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackContentConfigWiz.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputWiz.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputJournalFilesRule.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputJournalFiles.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputRawUDP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputWinEventLogs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackMTLSSettings.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackQuery.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackSubscription.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputWef.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackFilterAppscope.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackPersistenceAppscope.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputAppscope.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputTCP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputFile.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputSyslogSyslog2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputSyslogSyslog1.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputSqs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputModelDrivenTelemetry.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputOpenTelemetry.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackV3User.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackSNMPv3Authentication.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputSnmp.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputS3Inventory.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputS3.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputCriblmetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputKinesis.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputHTTPRaw.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackSample.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputDatagen.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackProxyModeDatadogAgent.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputDatadogAgent.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputCrowdstrike.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackCPUWindowsMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackNetworkWindowsMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackDiskWindowsMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackPersistenceWindowsMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputWindowsMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputKubeEvents.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackRuleKubeLogs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputKubeLogs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackPersistenceKubeMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputKubeMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackCollectors.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackPersistenceSystemState.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputSystemState.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackCPUSystemMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackNetworkSystemMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackDiskSystemMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackContainer.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackPersistenceSystemMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputSystemMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputTcpjson.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackSplunkHecMetadata.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackElasticsearchMetadata.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackAuthTokensExt.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputCriblLakeHTTP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputCriblHTTP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputCriblTCP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputCribl.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputGooglePubsub.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputFirehose.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputExec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputEventhub.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackCertOptions.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputOffice365MsgTrace.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackContentConfigOffice365Service.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputOffice365Service.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackContentConfigOffice365Mgmt.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputOffice365Mgmt.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackPodFilter.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputEdgePrometheus.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputPrometheus.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputPrometheusRw.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputLoki.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackPrometheusAuth2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackLokiAuth2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputGrafanaGrafana2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackPrometheusAuth1.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackLokiAuth1.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputGrafanaGrafana1.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputConfluentCloud.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackProxyModeElastic.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputElastic.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputAzureBlob.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackAuthTokenSplunkHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputSplunkHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputSplunkSearch.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputSplunk.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputHTTP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputMsk.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputKafka.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputCollection.model_rebuild()
+except NameError:
+    pass

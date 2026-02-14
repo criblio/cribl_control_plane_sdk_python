@@ -127,3 +127,13 @@ FunctionConfSchemaOtlpLogs = TypeAliasType(
     "FunctionConfSchemaOtlpLogs",
     Union[OTLPLogsBatchOTLPLogsFalse, OTLPLogsBatchOTLPLogsTrue],
 )
+
+
+try:
+    OTLPLogsBatchOTLPLogsTrue.model_rebuild()
+except NameError:
+    pass
+try:
+    OTLPLogsBatchOTLPLogsFalse.model_rebuild()
+except NameError:
+    pass

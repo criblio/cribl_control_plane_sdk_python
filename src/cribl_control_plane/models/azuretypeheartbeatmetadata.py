@@ -77,3 +77,9 @@ class AzureTypeHeartbeatMetadata(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    AzureTypeHeartbeatMetadata.model_rebuild()
+except NameError:
+    pass

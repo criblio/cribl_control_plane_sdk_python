@@ -187,3 +187,9 @@ class InputMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputMetrics.model_rebuild()
+except NameError:
+    pass

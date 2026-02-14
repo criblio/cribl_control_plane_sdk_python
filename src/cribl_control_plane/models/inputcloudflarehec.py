@@ -486,3 +486,17 @@ class InputCloudflareHec(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputCloudflareHecAuthToken.model_rebuild()
+except NameError:
+    pass
+try:
+    TLSSettingsServerSide.model_rebuild()
+except NameError:
+    pass
+try:
+    InputCloudflareHec.model_rebuild()
+except NameError:
+    pass

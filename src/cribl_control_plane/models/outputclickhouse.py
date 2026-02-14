@@ -633,3 +633,17 @@ class OutputClickHouse(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    StatsDestination.model_rebuild()
+except NameError:
+    pass
+try:
+    ColumnMapping.model_rebuild()
+except NameError:
+    pass
+try:
+    OutputClickHouse.model_rebuild()
+except NameError:
+    pass

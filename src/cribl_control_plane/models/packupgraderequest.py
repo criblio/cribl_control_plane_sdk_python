@@ -41,3 +41,9 @@ class PackUpgradeRequest(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PackUpgradeRequest.model_rebuild()
+except NameError:
+    pass

@@ -30525,3 +30525,345 @@ class CreateOutputSystemByPackRequest(BaseModel):
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
     r"""Output object"""
+
+
+try:
+    CreateOutputSystemByPackOutputCloudflareR2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackAuthentication.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputMicrosoftFabric.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputDatabricks.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackCustomLabel.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputChronicle.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputSentinelOneAiSiem.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputDynatraceOtlp.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputDynatraceHTTP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackHostNetflow.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputNetflow.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputXsiam.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackStatsDestination.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackColumnMapping.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputClickHouse.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputDiskSpool.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputCriblLake.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputSecurityLake.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputDlS3.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputCrowdstrikeNextGenSiem.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputHumioHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputCriblSearchEngine.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputCriblHTTP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputCriblTCP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputDataset.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputServiceNow.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputOpenTelemetry.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputRing.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputPrometheus.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputLoki.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud1.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputDatadog.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputSumoLogic.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackHostSnmp.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputSnmp.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputSqs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputSns.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackRule.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputRouter.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputGraphite.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputStatsdExt.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputStatsd.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputMinio.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputCloudwatch.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputInfluxdb.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputNewrelicEvents.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputNewrelic.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputElasticCloud.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackURLElastic.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputElastic.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputMsk.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputConfluentCloud.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputKafka.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputExabeam.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputGooglePubsub.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputGoogleCloudLogging.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputGoogleCloudStorage.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackExtraLogType.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputGoogleChronicle.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputAzureEventhub.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputHoneycomb.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputKinesis.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputAzureLogs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackCertificate.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputAzureDataExplorer.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputAzureBlob.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputS3.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputFilesystem.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputSignalfx.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputWavefront.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputTcpjson.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputWizHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackURLSplunkHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputSplunkHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackAuthToken.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackIndexerDiscoveryConfigs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputSplunkLb.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputSplunk.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputSyslog.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputDevnull.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputSentinel.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackURLWebhook.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputWebhook.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputDefault.model_rebuild()
+except NameError:
+    pass

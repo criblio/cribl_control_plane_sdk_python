@@ -574,3 +574,13 @@ InputSyslogUnionTypedDict = TypeAliasType(
 InputSyslogUnion = TypeAliasType(
     "InputSyslogUnion", Union[InputSyslogSyslog1, InputSyslogSyslog2]
 )
+
+
+try:
+    InputSyslogSyslog2.model_rebuild()
+except NameError:
+    pass
+try:
+    InputSyslogSyslog1.model_rebuild()
+except NameError:
+    pass

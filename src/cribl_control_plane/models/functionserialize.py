@@ -87,3 +87,9 @@ class FunctionSerialize(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionSerialize.model_rebuild()
+except NameError:
+    pass

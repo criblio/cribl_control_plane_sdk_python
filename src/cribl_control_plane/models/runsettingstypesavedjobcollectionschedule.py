@@ -164,3 +164,9 @@ class RunSettingsTypeSavedJobCollectionSchedule(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    RunSettingsTypeSavedJobCollectionSchedule.model_rebuild()
+except NameError:
+    pass

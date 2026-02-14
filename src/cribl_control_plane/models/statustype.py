@@ -71,3 +71,9 @@ class StatusType(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    StatusType.model_rebuild()
+except NameError:
+    pass

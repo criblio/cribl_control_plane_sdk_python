@@ -35,3 +35,9 @@ class UpgradePackageUrls(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    UpgradePackageUrls.model_rebuild()
+except NameError:
+    pass

@@ -87,3 +87,9 @@ class FunctionLimit(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionLimit.model_rebuild()
+except NameError:
+    pass

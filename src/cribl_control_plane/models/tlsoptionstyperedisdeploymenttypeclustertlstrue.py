@@ -127,3 +127,9 @@ class TLSOptionsTypeRedisDeploymentTypeClusterTLSTrue(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    TLSOptionsTypeRedisDeploymentTypeClusterTLSTrue.model_rebuild()
+except NameError:
+    pass

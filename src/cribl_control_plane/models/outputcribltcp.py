@@ -365,3 +365,9 @@ class OutputCriblTCP(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputCriblTCP.model_rebuild()
+except NameError:
+    pass

@@ -387,3 +387,9 @@ class OutputTcpjson(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputTcpjson.model_rebuild()
+except NameError:
+    pass

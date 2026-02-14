@@ -66,3 +66,13 @@ class FunctionConfSchemaRename(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    Rename.model_rebuild()
+except NameError:
+    pass
+try:
+    FunctionConfSchemaRename.model_rebuild()
+except NameError:
+    pass

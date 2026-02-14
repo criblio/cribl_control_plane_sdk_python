@@ -87,3 +87,9 @@ class FunctionNotify(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionNotify.model_rebuild()
+except NameError:
+    pass

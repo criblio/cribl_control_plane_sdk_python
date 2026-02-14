@@ -408,3 +408,13 @@ class InputOffice365MsgTrace(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    CertOptions.model_rebuild()
+except NameError:
+    pass
+try:
+    InputOffice365MsgTrace.model_rebuild()
+except NameError:
+    pass

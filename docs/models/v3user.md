@@ -9,3 +9,39 @@
 value: models.SnmpTrapSerializeV3UserAuthProtocolNone = /* values here */
 ```
 
+### `models.SnmpTrapSerializeV3UserAuthProtocolNotNone`
+
+```python
+value: models.SnmpTrapSerializeV3UserAuthProtocolNotNone = /* values here */
+```
+
+### `models.SnmpTrapSerializeV3UserAuthProtocolNotNone`
+
+```python
+value: models.SnmpTrapSerializeV3UserAuthProtocolNotNone = /* values here */
+```
+
+### `models.SnmpTrapSerializeV3UserAuthProtocolNotNone`
+
+```python
+value: models.SnmpTrapSerializeV3UserAuthProtocolNotNone = /* values here */
+```
+
+### `models.SnmpTrapSerializeV3UserAuthProtocolNotNone`
+
+```python
+value: models.SnmpTrapSerializeV3UserAuthProtocolNotNone = /* values here */
+```
+
+### `models.SnmpTrapSerializeV3UserAuthProtocolNotNone`
+
+```python
+value: models.SnmpTrapSerializeV3UserAuthProtocolNotNone = /* values here */
+```
+
+### `models.SnmpTrapSerializeV3UserAuthProtocolNotNone`
+
+```python
+value: models.SnmpTrapSerializeV3UserAuthProtocolNotNone = /* values here */
+```
+

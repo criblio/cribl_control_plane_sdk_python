@@ -19,3 +19,9 @@ class ItemsTypePoliciesItemsTemplateTargetPairs(BaseModel):
 
     target_id: Annotated[str, pydantic.Field(alias="targetId")]
     r"""ID of the notification target (output)"""
+
+
+try:
+    ItemsTypePoliciesItemsTemplateTargetPairs.model_rebuild()
+except NameError:
+    pass

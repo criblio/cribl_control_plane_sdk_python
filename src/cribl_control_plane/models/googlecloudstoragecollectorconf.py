@@ -447,3 +447,17 @@ GoogleCloudStorageCollectorConf = Annotated[
     ],
     Discriminator(lambda m: get_discriminator(m, "auth_type", "authType")),
 ]
+
+
+try:
+    GoogleCloudStorageAuthTypeSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    GoogleCloudStorageAuthTypeManual.model_rebuild()
+except NameError:
+    pass
+try:
+    GoogleCloudStorageAuthTypeAuto.model_rebuild()
+except NameError:
+    pass

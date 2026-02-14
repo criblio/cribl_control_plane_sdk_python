@@ -39,3 +39,9 @@ class HealthCountType(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    HealthCountType.model_rebuild()
+except NameError:
+    pass

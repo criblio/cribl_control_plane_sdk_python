@@ -19,3 +19,9 @@ class GitFileRename(BaseModel):
 
     to: str
     r"""New file path after the rename."""
+
+
+try:
+    GitFileRename.model_rebuild()
+except NameError:
+    pass

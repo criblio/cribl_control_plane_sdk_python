@@ -383,3 +383,21 @@ class InputCriblLakeHTTP(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    SplunkHecMetadata.model_rebuild()
+except NameError:
+    pass
+try:
+    ElasticsearchMetadata.model_rebuild()
+except NameError:
+    pass
+try:
+    AuthTokensExt.model_rebuild()
+except NameError:
+    pass
+try:
+    InputCriblLakeHTTP.model_rebuild()
+except NameError:
+    pass

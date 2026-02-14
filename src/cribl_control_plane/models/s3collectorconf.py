@@ -1202,3 +1202,25 @@ S3CollectorConf = Annotated[
         )
     ),
 ]
+
+
+try:
+    S3AwsAuthenticationMethodSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    S3AwsAuthenticationMethodManual.model_rebuild()
+except NameError:
+    pass
+try:
+    S3AwsAuthenticationMethodAuto.model_rebuild()
+except NameError:
+    pass
+try:
+    S3PartitioningSchemeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    S3PartitioningSchemeDdss.model_rebuild()
+except NameError:
+    pass

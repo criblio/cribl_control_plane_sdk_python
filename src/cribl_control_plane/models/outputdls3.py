@@ -697,3 +697,9 @@ class OutputDlS3(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputDlS3.model_rebuild()
+except NameError:
+    pass

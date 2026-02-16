@@ -55,8 +55,8 @@ python:
   flattenGlobalSecurity: true
   flattenRequests: true
   flatteningOrder: parameters-first
-  forwardCompatibleEnumsByDefault: true
-  forwardCompatibleUnionsByDefault: tagged-only
+  forwardCompatibleEnumsByDefault: false
+  forwardCompatibleUnionsByDefault: "false"
   imports:
     option: openapi
     paths:

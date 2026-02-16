@@ -3,17 +3,17 @@ id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
   docChecksum: 272412b09eb4568345e00caf91c6d0d2
   docVersion: 4.17.0-alpha.1771032350496-659e5324
-  speakeasyVersion: 1.716.0
-  generationVersion: 2.823.1
-  releaseVersion: 0.6.0rc22
-  configChecksum: 4ec9abe6ebd5828b859b409d56480781
+  speakeasyVersion: 1.719.0
+  generationVersion: 2.824.1
+  releaseVersion: 0.6.0rc23
+  configChecksum: eaeb6c75e4d0ea3901d3dccc9674558c
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 749b3675-520f-4e1d-abaf-1a05ae8576fd
-  pristine_commit_hash: c30fce2c9a458c15ea31136a7ebf6d9c4bd4dd6a
-  pristine_tree_hash: dc6200e34234329a515f22b365e2b625e63a243b
+  generation_id: d164731e-de34-49ce-9025-9b4ecabc5c4b
+  pristine_commit_hash: 77ff1479247758d712ebf8e4b01c49fbbe4bbf89
+  pristine_tree_hash: 725a6de0fb36bb111489c67194f12a31269a9ae3
 features:
   python:
     additionalDependencies: 1.0.0
@@ -15475,8 +15475,8 @@ trackedFiles:
     pristine_git_object: 3b5264a8808fdf5051e1705480046617395a718e
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:b443f9bccd9503a5ffda3e677ef682ef597240ff
-    pristine_git_object: 3654f29eefa9b08bcd000f1bf3820adc9e063d59
+    last_write_checksum: sha1:5ac4f9230d6cdd5cc1154eaade0ebe1d8703ac3e
+    pristine_git_object: 433cb186cdd5eebb12b4637c679d56871e35c05d
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -15507,8 +15507,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:6ee8286029e49de963b6cbe3609ba26782123eaf
-    pristine_git_object: eff28408383348e030a3d162a9b59c0079b76464
+    last_write_checksum: sha1:96e8eb82cea9b28a5a2268ceb563b8a1d442d9aa
+    pristine_git_object: 6e23d90c6f70548327ae848fc2a27fc328780345
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -28995,7 +28995,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.packs.pipelines.create()`: \n  *  `request.conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n  *  `response.items[].conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.pipelines.list()`:  `response.items[].conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.pipelines.delete()`:  `response.items[].conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.pipelines.get()`:  `response.items[].conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.pipelines.update()`: \n  *  `request.conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n  *  `response.items[].conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.pipelines.create()`: \n  *  `request.conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n  *  `response.items[].conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.pipelines.list()`:  `response.items[].conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.pipelines.delete()`:  `response.items[].conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.pipelines.get()`:  `response.items[].conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.pipelines.update()`: \n  *  `request.conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n  *  `response.items[].conf.functions[].union(snmp_trap_serialize).conf.v3user` **Changed** (Breaking ⚠️)\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

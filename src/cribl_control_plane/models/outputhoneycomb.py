@@ -381,3 +381,9 @@ class OutputHoneycomb(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputHoneycomb.model_rebuild()
+except NameError:
+    pass

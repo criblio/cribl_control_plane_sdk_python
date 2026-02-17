@@ -282,3 +282,9 @@ class InputHTTP(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputHTTP.model_rebuild()
+except NameError:
+    pass

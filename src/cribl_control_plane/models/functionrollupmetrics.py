@@ -87,3 +87,9 @@ class FunctionRollupMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionRollupMetrics.model_rebuild()
+except NameError:
+    pass

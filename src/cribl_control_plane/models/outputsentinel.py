@@ -599,3 +599,9 @@ class OutputSentinel(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputSentinel.model_rebuild()
+except NameError:
+    pass

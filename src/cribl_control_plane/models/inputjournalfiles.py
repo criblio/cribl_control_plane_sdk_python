@@ -171,3 +171,13 @@ class InputJournalFiles(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputJournalFilesRule.model_rebuild()
+except NameError:
+    pass
+try:
+    InputJournalFiles.model_rebuild()
+except NameError:
+    pass

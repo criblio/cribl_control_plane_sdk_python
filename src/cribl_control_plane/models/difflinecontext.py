@@ -26,3 +26,9 @@ class DiffLineContext(BaseModel):
     old_number: Annotated[float, pydantic.Field(alias="oldNumber")]
 
     content: str
+
+
+try:
+    DiffLineContext.model_rebuild()
+except NameError:
+    pass

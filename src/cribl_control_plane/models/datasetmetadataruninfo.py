@@ -45,3 +45,9 @@ class DatasetMetadataRunInfo(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    DatasetMetadataRunInfo.model_rebuild()
+except NameError:
+    pass

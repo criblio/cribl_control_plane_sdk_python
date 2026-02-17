@@ -146,3 +146,13 @@ class HBCriblInfo(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    Config.model_rebuild()
+except NameError:
+    pass
+try:
+    HBCriblInfo.model_rebuild()
+except NameError:
+    pass

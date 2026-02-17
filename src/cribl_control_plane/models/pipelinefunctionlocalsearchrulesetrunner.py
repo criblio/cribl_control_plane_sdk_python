@@ -71,3 +71,9 @@ class PipelineFunctionLocalSearchRulesetRunner(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionLocalSearchRulesetRunner.model_rebuild()
+except NameError:
+    pass

@@ -469,3 +469,9 @@ class OutputXsiam(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputXsiam.model_rebuild()
+except NameError:
+    pass

@@ -360,3 +360,9 @@ class OutputAzureEventhub(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputAzureEventhub.model_rebuild()
+except NameError:
+    pass

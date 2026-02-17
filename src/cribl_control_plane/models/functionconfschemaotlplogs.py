@@ -39,3 +39,9 @@ class FunctionConfSchemaOtlpLogs(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaOtlpLogs.model_rebuild()
+except NameError:
+    pass

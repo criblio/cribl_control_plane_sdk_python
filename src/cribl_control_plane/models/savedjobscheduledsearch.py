@@ -111,3 +111,9 @@ class SavedJobScheduledSearch(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    SavedJobScheduledSearch.model_rebuild()
+except NameError:
+    pass

@@ -130,3 +130,17 @@ class PipelineFunctionJoin(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FieldCondition.model_rebuild()
+except NameError:
+    pass
+try:
+    JoinConfiguration.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionJoin.model_rebuild()
+except NameError:
+    pass

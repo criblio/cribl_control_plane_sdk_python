@@ -87,3 +87,9 @@ class FunctionNumerify(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionNumerify.model_rebuild()
+except NameError:
+    pass

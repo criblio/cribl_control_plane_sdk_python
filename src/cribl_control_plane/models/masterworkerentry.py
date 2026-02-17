@@ -128,3 +128,9 @@ class MasterWorkerEntry(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    MasterWorkerEntry.model_rebuild()
+except NameError:
+    pass

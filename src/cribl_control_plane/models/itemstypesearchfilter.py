@@ -20,3 +20,9 @@ class ItemsTypeSearchFilter(BaseModel):
 
     values: Annotated[List[str], pydantic.Field(alias="Values")]
     r"""Values to match within this row's attribute. If empty, search will return only running EC2 instances."""
+
+
+try:
+    ItemsTypeSearchFilter.model_rebuild()
+except NameError:
+    pass

@@ -24597,3 +24597,957 @@ RestCollectorConf = Annotated[
     ],
     Discriminator(lambda m: get_discriminator(m, "authentication", "authentication")),
 ]
+
+
+try:
+    RestAuthenticationHmacRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmacScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationHmac.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecretScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauthScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationGoogleOauth.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecretScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauth.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecretScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLoginScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationLogin.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecretScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasicScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationBasic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNoneScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOtherScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBodyScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPostScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestPaginationTypeRequestPage.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestPaginationTypeRequestOffset.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestPaginationTypeResponseHeaderLink.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestPaginationTypeResponseHeader.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestPaginationTypeResponseBody.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGetScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    RestCollectMethodGet.model_rebuild()
+except NameError:
+    pass

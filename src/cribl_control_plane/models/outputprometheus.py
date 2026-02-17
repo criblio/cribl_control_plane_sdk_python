@@ -426,3 +426,9 @@ class OutputPrometheus(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputPrometheus.model_rebuild()
+except NameError:
+    pass

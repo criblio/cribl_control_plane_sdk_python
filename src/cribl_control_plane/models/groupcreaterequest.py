@@ -176,3 +176,9 @@ class GroupCreateRequest(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    GroupCreateRequest.model_rebuild()
+except NameError:
+    pass

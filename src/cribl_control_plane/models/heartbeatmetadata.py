@@ -60,3 +60,9 @@ class HeartbeatMetadata(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    HeartbeatMetadata.model_rebuild()
+except NameError:
+    pass

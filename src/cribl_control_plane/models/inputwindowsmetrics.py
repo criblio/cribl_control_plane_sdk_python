@@ -583,3 +583,25 @@ class InputWindowsMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputWindowsMetricsCPU.model_rebuild()
+except NameError:
+    pass
+try:
+    InputWindowsMetricsNetwork.model_rebuild()
+except NameError:
+    pass
+try:
+    InputWindowsMetricsDisk.model_rebuild()
+except NameError:
+    pass
+try:
+    InputWindowsMetricsPersistence.model_rebuild()
+except NameError:
+    pass
+try:
+    InputWindowsMetrics.model_rebuild()
+except NameError:
+    pass

@@ -92,3 +92,13 @@ class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaSnmpTrapSerializeV3User.model_rebuild()
+except NameError:
+    pass
+try:
+    FunctionConfSchemaSnmpTrapSerialize.model_rebuild()
+except NameError:
+    pass

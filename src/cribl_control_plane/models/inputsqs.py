@@ -348,3 +348,9 @@ class InputSqs(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputSqs.model_rebuild()
+except NameError:
+    pass

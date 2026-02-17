@@ -60,3 +60,9 @@ class PqTypeStatus(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PqTypeStatus.model_rebuild()
+except NameError:
+    pass

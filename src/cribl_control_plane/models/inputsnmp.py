@@ -296,3 +296,17 @@ class InputSnmp(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputSnmpV3User.model_rebuild()
+except NameError:
+    pass
+try:
+    SNMPv3Authentication.model_rebuild()
+except NameError:
+    pass
+try:
+    InputSnmp.model_rebuild()
+except NameError:
+    pass

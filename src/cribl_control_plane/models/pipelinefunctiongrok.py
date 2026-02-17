@@ -113,3 +113,13 @@ class PipelineFunctionGrok(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionGrokConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionGrok.model_rebuild()
+except NameError:
+    pass

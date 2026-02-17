@@ -58,3 +58,9 @@ UpgradeGroupSettingsUnionTypedDict = TypeAliasType(
 UpgradeGroupSettingsUnion = TypeAliasType(
     "UpgradeGroupSettingsUnion", Union[UpgradeGroupSettings2, UpgradeGroupSettings1]
 )
+
+
+try:
+    UpgradeGroupSettings1.model_rebuild()
+except NameError:
+    pass

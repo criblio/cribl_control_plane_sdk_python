@@ -133,3 +133,13 @@ class PipelineFunctionRegexExtract(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionRegexExtractConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionRegexExtract.model_rebuild()
+except NameError:
+    pass

@@ -50,3 +50,9 @@ class AddHecTokenRequest(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    AddHecTokenRequest.model_rebuild()
+except NameError:
+    pass

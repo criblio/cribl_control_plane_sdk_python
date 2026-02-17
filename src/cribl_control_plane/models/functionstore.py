@@ -87,3 +87,9 @@ class FunctionStore(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionStore.model_rebuild()
+except NameError:
+    pass

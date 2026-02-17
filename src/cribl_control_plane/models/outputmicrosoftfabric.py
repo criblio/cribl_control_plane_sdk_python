@@ -514,3 +514,13 @@ class OutputMicrosoftFabric(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputMicrosoftFabricAuthentication.model_rebuild()
+except NameError:
+    pass
+try:
+    OutputMicrosoftFabric.model_rebuild()
+except NameError:
+    pass

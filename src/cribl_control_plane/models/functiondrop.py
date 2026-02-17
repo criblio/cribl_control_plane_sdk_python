@@ -87,3 +87,9 @@ class FunctionDrop(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionDrop.model_rebuild()
+except NameError:
+    pass

@@ -162,3 +162,13 @@ class PipelineFunctionStore(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    StoreFunctionConfiguration.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionStore.model_rebuild()
+except NameError:
+    pass

@@ -123,3 +123,13 @@ class DatabaseCollectorConf(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    DatabaseCollectorConfScheduling.model_rebuild()
+except NameError:
+    pass
+try:
+    DatabaseCollectorConf.model_rebuild()
+except NameError:
+    pass

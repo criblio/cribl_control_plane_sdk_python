@@ -113,3 +113,9 @@ class CriblLakeDatasetUpdate(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    CriblLakeDatasetUpdate.model_rebuild()
+except NameError:
+    pass

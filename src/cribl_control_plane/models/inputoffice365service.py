@@ -282,3 +282,13 @@ class InputOffice365Service(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputOffice365ServiceContentConfig.model_rebuild()
+except NameError:
+    pass
+try:
+    InputOffice365Service.model_rebuild()
+except NameError:
+    pass

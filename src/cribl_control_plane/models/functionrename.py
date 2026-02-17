@@ -87,3 +87,9 @@ class FunctionRename(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionRename.model_rebuild()
+except NameError:
+    pass

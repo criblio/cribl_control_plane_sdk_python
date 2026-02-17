@@ -143,3 +143,9 @@ class InputCollection(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputCollection.model_rebuild()
+except NameError:
+    pass

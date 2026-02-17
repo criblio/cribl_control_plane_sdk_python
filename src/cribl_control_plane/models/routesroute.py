@@ -98,3 +98,9 @@ class RoutesRoute(BaseModel):
             m[k] = v
 
         return m
+
+
+try:
+    RoutesRoute.model_rebuild()
+except NameError:
+    pass

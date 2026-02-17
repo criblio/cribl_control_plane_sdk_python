@@ -451,3 +451,9 @@ class OutputNewrelic(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputNewrelic.model_rebuild()
+except NameError:
+    pass

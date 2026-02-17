@@ -115,3 +115,13 @@ class PipelineFunctionSort(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    SortConfiguration.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionSort.model_rebuild()
+except NameError:
+    pass

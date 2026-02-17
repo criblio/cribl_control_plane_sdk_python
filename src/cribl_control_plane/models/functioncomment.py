@@ -87,3 +87,9 @@ class FunctionComment(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionComment.model_rebuild()
+except NameError:
+    pass

@@ -3044,3 +3044,117 @@ SplunkCollectorConf = Annotated[
     ],
     Discriminator(lambda m: get_discriminator(m, "authentication", "authentication")),
 ]
+
+
+try:
+    SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationLoginSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationLoginSplunkRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationLoginSplunkRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationLogin.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationTokenSecretSplunkRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationTokenSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationTokenSplunkRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationTokenSplunkRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationTokenSplunkRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationToken.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationBasicSecretSplunkRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationBasicSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationBasicSplunkRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationBasicSplunkRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationBasicSplunkRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationBasic.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationNoneSplunkRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationNoneSplunkRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationNoneSplunkRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationNone.model_rebuild()
+except NameError:
+    pass

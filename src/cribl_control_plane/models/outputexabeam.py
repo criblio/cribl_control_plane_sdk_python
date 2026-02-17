@@ -346,3 +346,9 @@ class OutputExabeam(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputExabeam.model_rebuild()
+except NameError:
+    pass

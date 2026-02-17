@@ -87,3 +87,9 @@ class FunctionTee(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionTee.model_rebuild()
+except NameError:
+    pass

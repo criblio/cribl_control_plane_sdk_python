@@ -29279,3 +29279,325 @@ CreateOutputRequest = Annotated[
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]
 r"""Output object"""
+
+
+try:
+    CreateOutputOutputCloudflareR2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputAuthentication.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputMicrosoftFabric.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputDatabricks.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputCustomLabel.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputChronicle.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputSentinelOneAiSiem.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputDynatraceOtlp.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputDynatraceHTTP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputNetflow.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputXsiam.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputStatsDestination.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputColumnMapping.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputClickHouse.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputDiskSpool.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputCriblLake.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputSecurityLake.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputDlS3.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputCrowdstrikeNextGenSiem.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputHumioHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputCriblSearchEngine.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputCriblHTTP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputCriblTCP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputDataset.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputServiceNow.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputOpenTelemetry.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputRing.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputPrometheus.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputLoki.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputGrafanaCloudGrafanaCloud2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputGrafanaCloudGrafanaCloud1.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputDatadog.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputSumoLogic.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputSnmp.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputSqs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputSns.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputRule.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputRouter.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputGraphite.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputStatsdExt.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputStatsd.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputMinio.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputCloudwatch.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputInfluxdb.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputNewrelicEvents.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputNewrelic.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputElasticCloud.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputElastic.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputMsk.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputConfluentCloud.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputKafka.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputExabeam.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputGooglePubsub.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputGoogleCloudLogging.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputGoogleCloudStorage.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputExtraLogType.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputGoogleChronicle.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputAzureEventhub.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputHoneycomb.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputKinesis.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputAzureLogs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputCertificate.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputAzureDataExplorer.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputAzureBlob.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputS3.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputFilesystem.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputSignalfx.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputWavefront.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputTcpjson.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputWizHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputSplunkHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputAuthToken.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputIndexerDiscoveryConfigs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputSplunkLb.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputSplunk.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputSyslog.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputDevnull.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputSentinel.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputWebhook.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputDefault.model_rebuild()
+except NameError:
+    pass

@@ -497,3 +497,9 @@ class OutputDynatraceOtlp(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputDynatraceOtlp.model_rebuild()
+except NameError:
+    pass

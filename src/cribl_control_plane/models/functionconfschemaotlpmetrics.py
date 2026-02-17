@@ -69,3 +69,9 @@ class FunctionConfSchemaOtlpMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaOtlpMetrics.model_rebuild()
+except NameError:
+    pass

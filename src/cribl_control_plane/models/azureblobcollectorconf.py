@@ -651,3 +651,21 @@ AzureBlobCollectorConf = Annotated[
     ],
     Discriminator(lambda m: get_discriminator(m, "auth_type", "authType")),
 ]
+
+
+try:
+    AzureBlobAuthTypeClientCert.model_rebuild()
+except NameError:
+    pass
+try:
+    AzureBlobAuthTypeClientSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    AzureBlobAuthTypeSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    AzureBlobAuthTypeManual.model_rebuild()
+except NameError:
+    pass

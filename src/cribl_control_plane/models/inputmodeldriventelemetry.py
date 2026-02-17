@@ -143,3 +143,9 @@ class InputModelDrivenTelemetry(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputModelDrivenTelemetry.model_rebuild()
+except NameError:
+    pass

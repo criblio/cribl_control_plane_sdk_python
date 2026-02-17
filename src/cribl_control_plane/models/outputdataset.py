@@ -480,3 +480,9 @@ class OutputDataset(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputDataset.model_rebuild()
+except NameError:
+    pass

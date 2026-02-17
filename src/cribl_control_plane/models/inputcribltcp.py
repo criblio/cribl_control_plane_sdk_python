@@ -184,3 +184,9 @@ class InputCriblTCP(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputCriblTCP.model_rebuild()
+except NameError:
+    pass

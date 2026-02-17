@@ -18081,3 +18081,409 @@ CreateInputRequest = Annotated[
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]
 r"""Input object"""
+
+
+try:
+    AuthTokenCloudflareHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputCloudflareHec.model_rebuild()
+except NameError:
+    pass
+try:
+    AuthTokenZscalerHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputZscalerHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputSecurityLake.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputNetflow.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputWizWebhook.model_rebuild()
+except NameError:
+    pass
+try:
+    ContentConfigWiz.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputWiz.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputJournalFilesRule.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputJournalFiles.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputRawUDP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputWinEventLogs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputMTLSSettings.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputQuery.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSubscription.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputWef.model_rebuild()
+except NameError:
+    pass
+try:
+    FilterAppscope.model_rebuild()
+except NameError:
+    pass
+try:
+    PersistenceAppscope.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputAppscope.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputTCP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputFile.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputSyslogSyslog2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputSyslogSyslog1.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputSqs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputModelDrivenTelemetry.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputOpenTelemetry.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputV3User.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSNMPv3Authentication.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputSnmp.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputS3Inventory.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputS3.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputCriblmetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputKinesis.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputHTTPRaw.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSample.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputDatagen.model_rebuild()
+except NameError:
+    pass
+try:
+    ProxyModeDatadogAgent.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputDatadogAgent.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputCrowdstrike.model_rebuild()
+except NameError:
+    pass
+try:
+    CPUWindowsMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    NetworkWindowsMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    DiskWindowsMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    PersistenceWindowsMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputWindowsMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputKubeEvents.model_rebuild()
+except NameError:
+    pass
+try:
+    RuleKubeLogs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputKubeLogs.model_rebuild()
+except NameError:
+    pass
+try:
+    PersistenceKubeMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputKubeMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputCollectors.model_rebuild()
+except NameError:
+    pass
+try:
+    PersistenceSystemState.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputSystemState.model_rebuild()
+except NameError:
+    pass
+try:
+    CPUSystemMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    NetworkSystemMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    DiskSystemMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputContainer.model_rebuild()
+except NameError:
+    pass
+try:
+    PersistenceSystemMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputSystemMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputTcpjson.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSplunkHecMetadata.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputElasticsearchMetadata.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputAuthTokensExt.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputCriblLakeHTTP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputCriblHTTP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputCriblTCP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputCribl.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputGooglePubsub.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputFirehose.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputExec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputEventhub.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputCertOptions.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputOffice365MsgTrace.model_rebuild()
+except NameError:
+    pass
+try:
+    ContentConfigOffice365Service.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputOffice365Service.model_rebuild()
+except NameError:
+    pass
+try:
+    ContentConfigOffice365Mgmt.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputOffice365Mgmt.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputPodFilter.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputEdgePrometheus.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputPrometheus.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputPrometheusRw.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputLoki.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputPrometheusAuth2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputLokiAuth2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputGrafanaGrafana2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputPrometheusAuth1.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputLokiAuth1.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputGrafanaGrafana1.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputConfluentCloud.model_rebuild()
+except NameError:
+    pass
+try:
+    ProxyModeElastic.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputElastic.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputAzureBlob.model_rebuild()
+except NameError:
+    pass
+try:
+    AuthTokenSplunkHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputSplunkHec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputSplunkSearch.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputSplunk.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputHTTP.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputMsk.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputKafka.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputCollection.model_rebuild()
+except NameError:
+    pass

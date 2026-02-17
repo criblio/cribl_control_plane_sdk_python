@@ -47,3 +47,9 @@ class UpdateHecTokenRequest(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    UpdateHecTokenRequest.model_rebuild()
+except NameError:
+    pass

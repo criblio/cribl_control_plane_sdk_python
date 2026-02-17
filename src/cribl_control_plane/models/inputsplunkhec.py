@@ -387,3 +387,13 @@ class InputSplunkHec(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputSplunkHecAuthToken.model_rebuild()
+except NameError:
+    pass
+try:
+    InputSplunkHec.model_rebuild()
+except NameError:
+    pass

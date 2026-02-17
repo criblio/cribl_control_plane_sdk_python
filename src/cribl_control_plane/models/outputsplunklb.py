@@ -550,3 +550,17 @@ class OutputSplunkLb(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputSplunkLbAuthToken.model_rebuild()
+except NameError:
+    pass
+try:
+    IndexerDiscoveryConfigs.model_rebuild()
+except NameError:
+    pass
+try:
+    OutputSplunkLb.model_rebuild()
+except NameError:
+    pass

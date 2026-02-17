@@ -69,3 +69,9 @@ class OutputDefault(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputDefault.model_rebuild()
+except NameError:
+    pass

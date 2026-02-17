@@ -438,3 +438,9 @@ class OutputCriblSearchEngine(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputCriblSearchEngine.model_rebuild()
+except NameError:
+    pass

@@ -641,3 +641,9 @@ class OutputS3(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputS3.model_rebuild()
+except NameError:
+    pass

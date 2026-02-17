@@ -71,3 +71,9 @@ class PipelineFunctionRollupMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionRollupMetrics.model_rebuild()
+except NameError:
+    pass

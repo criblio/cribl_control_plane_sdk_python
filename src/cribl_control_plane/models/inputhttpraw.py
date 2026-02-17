@@ -267,3 +267,9 @@ class InputHTTPRaw(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputHTTPRaw.model_rebuild()
+except NameError:
+    pass

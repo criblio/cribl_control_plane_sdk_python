@@ -46,3 +46,9 @@ class ExecutorTypeSavedJobExecutor(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    ExecutorTypeSavedJobExecutor.model_rebuild()
+except NameError:
+    pass

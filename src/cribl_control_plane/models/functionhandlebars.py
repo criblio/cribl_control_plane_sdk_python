@@ -87,3 +87,9 @@ class FunctionHandlebars(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionHandlebars.model_rebuild()
+except NameError:
+    pass

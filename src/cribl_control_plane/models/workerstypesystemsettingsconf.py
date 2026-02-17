@@ -69,3 +69,9 @@ class WorkersTypeSystemSettingsConf(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    WorkersTypeSystemSettingsConf.model_rebuild()
+except NameError:
+    pass

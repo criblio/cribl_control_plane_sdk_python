@@ -118,3 +118,9 @@ class OutputNetflow(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputNetflow.model_rebuild()
+except NameError:
+    pass

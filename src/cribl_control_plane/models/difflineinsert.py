@@ -23,3 +23,9 @@ class DiffLineInsert(BaseModel):
     new_number: Annotated[float, pydantic.Field(alias="newNumber")]
 
     content: str
+
+
+try:
+    DiffLineInsert.model_rebuild()
+except NameError:
+    pass

@@ -45,3 +45,9 @@ class AwsTypeHeartbeatMetadata(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    AwsTypeHeartbeatMetadata.model_rebuild()
+except NameError:
+    pass

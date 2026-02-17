@@ -10022,3 +10022,405 @@ HealthCheckCollectorConf = Annotated[
     ],
     Discriminator(lambda m: get_discriminator(m, "authentication", "authentication")),
 ]
+
+
+try:
+    HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauth.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLogin.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostHealthCheckRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPostHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeList.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSON.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBody.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodPost.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGet.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodGetHealthCheckRetryRulesTypeBackoff.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodGetHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodGetHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckCollectMethodGet.model_rebuild()
+except NameError:
+    pass

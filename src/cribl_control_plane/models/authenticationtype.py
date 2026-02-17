@@ -167,3 +167,9 @@ class AuthenticationType(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    AuthenticationType.model_rebuild()
+except NameError:
+    pass

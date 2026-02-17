@@ -324,3 +324,13 @@ class InputOffice365Mgmt(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputOffice365MgmtContentConfig.model_rebuild()
+except NameError:
+    pass
+try:
+    InputOffice365Mgmt.model_rebuild()
+except NameError:
+    pass

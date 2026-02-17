@@ -300,3 +300,9 @@ class InputKafka(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputKafka.model_rebuild()
+except NameError:
+    pass

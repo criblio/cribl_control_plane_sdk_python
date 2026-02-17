@@ -53,3 +53,9 @@ class FunctionConfSchemaRegexFilter(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaRegexFilter.model_rebuild()
+except NameError:
+    pass

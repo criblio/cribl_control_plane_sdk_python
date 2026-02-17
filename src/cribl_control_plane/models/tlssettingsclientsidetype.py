@@ -37,3 +37,9 @@ class TLSSettingsClientSideType(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    TLSSettingsClientSideType.model_rebuild()
+except NameError:
+    pass

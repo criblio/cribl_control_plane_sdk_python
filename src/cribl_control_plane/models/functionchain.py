@@ -87,3 +87,9 @@ class FunctionChain(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionChain.model_rebuild()
+except NameError:
+    pass

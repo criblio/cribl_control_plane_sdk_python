@@ -280,3 +280,9 @@ class InputWizWebhook(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputWizWebhook.model_rebuild()
+except NameError:
+    pass

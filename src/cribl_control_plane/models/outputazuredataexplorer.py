@@ -1015,3 +1015,13 @@ class OutputAzureDataExplorer(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    Certificate.model_rebuild()
+except NameError:
+    pass
+try:
+    OutputAzureDataExplorer.model_rebuild()
+except NameError:
+    pass

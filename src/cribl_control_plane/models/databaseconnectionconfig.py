@@ -93,3 +93,9 @@ class DatabaseConnectionConfig(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    DatabaseConnectionConfig.model_rebuild()
+except NameError:
+    pass

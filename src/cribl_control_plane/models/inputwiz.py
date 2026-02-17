@@ -370,3 +370,13 @@ class InputWiz(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputWizContentConfig.model_rebuild()
+except NameError:
+    pass
+try:
+    InputWiz.model_rebuild()
+except NameError:
+    pass

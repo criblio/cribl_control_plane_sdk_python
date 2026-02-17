@@ -456,3 +456,9 @@ class InputS3Inventory(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputS3Inventory.model_rebuild()
+except NameError:
+    pass

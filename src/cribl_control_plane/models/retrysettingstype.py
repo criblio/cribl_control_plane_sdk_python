@@ -68,3 +68,9 @@ class RetrySettingsType(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    RetrySettingsType.model_rebuild()
+except NameError:
+    pass

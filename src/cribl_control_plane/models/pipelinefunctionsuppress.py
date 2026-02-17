@@ -138,3 +138,13 @@ class PipelineFunctionSuppress(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionSuppressConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionSuppress.model_rebuild()
+except NameError:
+    pass

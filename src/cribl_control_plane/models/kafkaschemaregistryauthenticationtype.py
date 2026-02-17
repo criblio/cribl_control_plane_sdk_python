@@ -81,3 +81,9 @@ class KafkaSchemaRegistryAuthenticationType(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    KafkaSchemaRegistryAuthenticationType.model_rebuild()
+except NameError:
+    pass

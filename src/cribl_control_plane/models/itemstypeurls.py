@@ -44,3 +44,9 @@ class ItemsTypeUrls(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    ItemsTypeUrls.model_rebuild()
+except NameError:
+    pass

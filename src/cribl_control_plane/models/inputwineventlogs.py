@@ -206,3 +206,9 @@ class InputWinEventLogs(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputWinEventLogs.model_rebuild()
+except NameError:
+    pass

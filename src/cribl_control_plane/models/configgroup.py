@@ -176,3 +176,9 @@ class ConfigGroup(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    ConfigGroup.model_rebuild()
+except NameError:
+    pass

@@ -565,3 +565,21 @@ class InputWef(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    MTLSSettings.model_rebuild()
+except NameError:
+    pass
+try:
+    Query.model_rebuild()
+except NameError:
+    pass
+try:
+    Subscription.model_rebuild()
+except NameError:
+    pass
+try:
+    InputWef.model_rebuild()
+except NameError:
+    pass

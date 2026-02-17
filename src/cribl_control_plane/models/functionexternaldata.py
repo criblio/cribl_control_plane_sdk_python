@@ -87,3 +87,9 @@ class FunctionExternaldata(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionExternaldata.model_rebuild()
+except NameError:
+    pass

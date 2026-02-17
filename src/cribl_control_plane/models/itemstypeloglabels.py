@@ -19,3 +19,9 @@ class ItemsTypeLogLabels(BaseModel):
 
     value_expression: Annotated[str, pydantic.Field(alias="valueExpression")]
     r"""JavaScript expression to compute the label's value."""
+
+
+try:
+    ItemsTypeLogLabels.model_rebuild()
+except NameError:
+    pass

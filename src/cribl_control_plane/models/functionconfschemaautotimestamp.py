@@ -141,3 +141,9 @@ class FunctionConfSchemaAutoTimestamp(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaAutoTimestamp.model_rebuild()
+except NameError:
+    pass

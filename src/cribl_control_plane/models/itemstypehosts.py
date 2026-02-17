@@ -79,3 +79,9 @@ class ItemsTypeHosts(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    ItemsTypeHosts.model_rebuild()
+except NameError:
+    pass

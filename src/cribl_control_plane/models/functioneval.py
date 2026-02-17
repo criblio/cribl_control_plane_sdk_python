@@ -87,3 +87,9 @@ class FunctionEval(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionEval.model_rebuild()
+except NameError:
+    pass

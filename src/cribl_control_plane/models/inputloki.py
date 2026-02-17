@@ -329,3 +329,9 @@ class InputLoki(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputLoki.model_rebuild()
+except NameError:
+    pass

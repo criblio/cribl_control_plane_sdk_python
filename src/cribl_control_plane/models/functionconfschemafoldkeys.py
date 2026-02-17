@@ -46,3 +46,9 @@ class FunctionConfSchemaFoldkeys(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaFoldkeys.model_rebuild()
+except NameError:
+    pass

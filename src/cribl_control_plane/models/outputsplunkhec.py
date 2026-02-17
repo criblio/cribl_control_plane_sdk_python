@@ -478,3 +478,9 @@ class OutputSplunkHec(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputSplunkHec.model_rebuild()
+except NameError:
+    pass

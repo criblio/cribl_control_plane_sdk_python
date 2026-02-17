@@ -82,3 +82,9 @@ class RouteConf(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    RouteConf.model_rebuild()
+except NameError:
+    pass

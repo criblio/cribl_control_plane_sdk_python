@@ -179,3 +179,9 @@ class InputNetflow(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputNetflow.model_rebuild()
+except NameError:
+    pass

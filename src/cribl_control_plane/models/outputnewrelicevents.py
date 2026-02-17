@@ -406,3 +406,9 @@ class OutputNewrelicEvents(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputNewrelicEvents.model_rebuild()
+except NameError:
+    pass

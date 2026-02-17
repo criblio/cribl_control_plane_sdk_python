@@ -575,3 +575,9 @@ class OutputSecurityLake(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputSecurityLake.model_rebuild()
+except NameError:
+    pass

@@ -140,3 +140,17 @@ class PipelineFunctionGeoip(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    AdditionalField.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionGeoipConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionGeoip.model_rebuild()
+except NameError:
+    pass

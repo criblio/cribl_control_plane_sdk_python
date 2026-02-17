@@ -398,3 +398,17 @@ class InputAppscope(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputAppscopeFilter.model_rebuild()
+except NameError:
+    pass
+try:
+    InputAppscopePersistence.model_rebuild()
+except NameError:
+    pass
+try:
+    InputAppscope.model_rebuild()
+except NameError:
+    pass

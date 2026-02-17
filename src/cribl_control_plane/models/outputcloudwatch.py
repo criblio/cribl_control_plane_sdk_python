@@ -341,3 +341,9 @@ class OutputCloudwatch(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputCloudwatch.model_rebuild()
+except NameError:
+    pass

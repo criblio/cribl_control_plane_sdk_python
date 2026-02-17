@@ -159,3 +159,9 @@ class InputRawUDP(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputRawUDP.model_rebuild()
+except NameError:
+    pass

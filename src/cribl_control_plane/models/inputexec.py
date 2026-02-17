@@ -173,3 +173,9 @@ class InputExec(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputExec.model_rebuild()
+except NameError:
+    pass

@@ -162,3 +162,13 @@ class PipelineFunctionSerde(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionSerdeConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionSerde.model_rebuild()
+except NameError:
+    pass

@@ -475,3 +475,13 @@ class OutputChronicle(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    CustomLabel.model_rebuild()
+except NameError:
+    pass
+try:
+    OutputChronicle.model_rebuild()
+except NameError:
+    pass

@@ -71,3 +71,9 @@ class PipelineFunctionOtlpMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionOtlpMetrics.model_rebuild()
+except NameError:
+    pass

@@ -209,3 +209,9 @@ class InputGooglePubsub(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputGooglePubsub.model_rebuild()
+except NameError:
+    pass

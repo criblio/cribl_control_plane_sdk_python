@@ -242,3 +242,13 @@ class ScheduleTypeSavedJobCollection(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    ScheduleTypeSavedJobCollectionRunSettings.model_rebuild()
+except NameError:
+    pass
+try:
+    ScheduleTypeSavedJobCollection.model_rebuild()
+except NameError:
+    pass

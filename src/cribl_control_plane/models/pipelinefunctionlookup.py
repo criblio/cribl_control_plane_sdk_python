@@ -209,3 +209,21 @@ class PipelineFunctionLookup(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InField.model_rebuild()
+except NameError:
+    pass
+try:
+    OutField.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionLookupConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionLookup.model_rebuild()
+except NameError:
+    pass

@@ -64,3 +64,9 @@ class DatasetMetadata(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    DatasetMetadata.model_rebuild()
+except NameError:
+    pass

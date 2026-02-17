@@ -87,3 +87,9 @@ class FunctionSend(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionSend.model_rebuild()
+except NameError:
+    pass

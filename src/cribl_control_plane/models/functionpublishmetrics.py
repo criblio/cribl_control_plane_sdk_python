@@ -87,3 +87,9 @@ class FunctionPublishMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionPublishMetrics.model_rebuild()
+except NameError:
+    pass

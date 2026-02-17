@@ -990,3 +990,29 @@ InputGrafanaUnionTypedDict = TypeAliasType(
 InputGrafanaUnion = TypeAliasType(
     "InputGrafanaUnion", Union[InputGrafanaGrafana1, InputGrafanaGrafana2]
 )
+
+
+try:
+    PrometheusAuth2.model_rebuild()
+except NameError:
+    pass
+try:
+    LokiAuth2.model_rebuild()
+except NameError:
+    pass
+try:
+    InputGrafanaGrafana2.model_rebuild()
+except NameError:
+    pass
+try:
+    PrometheusAuth1.model_rebuild()
+except NameError:
+    pass
+try:
+    LokiAuth1.model_rebuild()
+except NameError:
+    pass
+try:
+    InputGrafanaGrafana1.model_rebuild()
+except NameError:
+    pass

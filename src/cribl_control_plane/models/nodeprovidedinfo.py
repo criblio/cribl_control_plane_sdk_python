@@ -148,3 +148,9 @@ class NodeProvidedInfo(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    NodeProvidedInfo.model_rebuild()
+except NameError:
+    pass

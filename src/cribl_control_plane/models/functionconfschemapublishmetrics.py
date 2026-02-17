@@ -124,3 +124,13 @@ class FunctionConfSchemaPublishMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaPublishMetricsField.model_rebuild()
+except NameError:
+    pass
+try:
+    FunctionConfSchemaPublishMetrics.model_rebuild()
+except NameError:
+    pass

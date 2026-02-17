@@ -380,3 +380,9 @@ class InputS3(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputS3.model_rebuild()
+except NameError:
+    pass

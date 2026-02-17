@@ -67,3 +67,9 @@ class HealthServerStatus(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    HealthServerStatus.model_rebuild()
+except NameError:
+    pass

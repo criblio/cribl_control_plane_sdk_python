@@ -12,3 +12,9 @@ class ShutdownTypeSystemSettingsConfTypedDict(TypedDict):
 
 class ShutdownTypeSystemSettingsConf(BaseModel):
     drain_timeout: Annotated[float, pydantic.Field(alias="drainTimeout")]
+
+
+try:
+    ShutdownTypeSystemSettingsConf.model_rebuild()
+except NameError:
+    pass

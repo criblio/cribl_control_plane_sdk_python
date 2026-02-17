@@ -157,3 +157,13 @@ class PipelineFunctionSerialize(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionSerializeConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionSerialize.model_rebuild()
+except NameError:
+    pass

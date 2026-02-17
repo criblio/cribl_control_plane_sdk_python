@@ -384,3 +384,9 @@ class OutputSignalfx(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputSignalfx.model_rebuild()
+except NameError:
+    pass

@@ -569,3 +569,9 @@ class OutputGoogleCloudStorage(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputGoogleCloudStorage.model_rebuild()
+except NameError:
+    pass

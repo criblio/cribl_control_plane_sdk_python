@@ -71,3 +71,9 @@ class PipelineFunctionEval(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionEval.model_rebuild()
+except NameError:
+    pass

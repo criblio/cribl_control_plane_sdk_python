@@ -89,7 +89,7 @@ class MessageFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     RFC5424 = "rfc5424"
 
 
-class TimestampFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputSyslogTimestampFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Timestamp format to use when serializing event's time field"""
 
     # Syslog
@@ -128,7 +128,7 @@ class OutputSyslogTypedDict(TypedDict):
     r"""Default name for device or application that originated the message. Defaults to Cribl, but will be overwritten by value of __appname if set."""
     message_format: NotRequired[MessageFormat]
     r"""The syslog message format depending on the receiver's support"""
-    timestamp_format: NotRequired[TimestampFormat]
+    timestamp_format: NotRequired[OutputSyslogTimestampFormat]
     r"""Timestamp format to use when serializing event's time field"""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
@@ -231,7 +231,7 @@ class OutputSyslog(BaseModel):
     r"""The syslog message format depending on the receiver's support"""
 
     timestamp_format: Annotated[
-        Optional[TimestampFormat], pydantic.Field(alias="timestampFormat")
+        Optional[OutputSyslogTimestampFormat], pydantic.Field(alias="timestampFormat")
     ] = None
     r"""Timestamp format to use when serializing event's time field"""
 
@@ -414,7 +414,7 @@ class OutputSyslog(BaseModel):
     def serialize_timestamp_format(self, value):
         if isinstance(value, str):
             try:
-                return models.TimestampFormat(value)
+                return models.OutputSyslogTimestampFormat(value)
             except ValueError:
                 return value
         return value

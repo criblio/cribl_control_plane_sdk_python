@@ -59,6 +59,9 @@ from .modeoptionshost import ModeOptionsHost
 from .outputmodeoptionssplunkcollectorconf import OutputModeOptionsSplunkCollectorConf
 from .pqtype import PqType, PqTypeTypedDict
 from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
+from .privacyprotocoloptionssnmptrapserializev3userauthprotocolnotnone import (
+    PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone,
+)
 from .processtype import ProcessType, ProcessTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
@@ -5367,24 +5370,13 @@ class CreateInputTypeSnmp(str, Enum):
     SNMP = "snmp"
 
 
-class CreateInputPrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
-    # None
-    NONE = "none"
-    # DES
-    DES = "des"
-    # AES128
-    AES = "aes"
-    # AES256b (Blumenthal)
-    AES256B = "aes256b"
-    # AES256r (Reeder)
-    AES256R = "aes256r"
-
-
 class CreateInputV3UserTypedDict(TypedDict):
     name: str
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
     auth_key: NotRequired[str]
-    priv_protocol: NotRequired[CreateInputPrivacyProtocol]
+    priv_protocol: NotRequired[
+        PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
+    ]
     priv_key: NotRequired[str]
 
 
@@ -5399,7 +5391,8 @@ class CreateInputV3User(BaseModel):
     auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
 
     priv_protocol: Annotated[
-        Optional[CreateInputPrivacyProtocol], pydantic.Field(alias="privProtocol")
+        Optional[PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone],
+        pydantic.Field(alias="privProtocol"),
     ] = None
 
     priv_key: Annotated[Optional[str], pydantic.Field(alias="privKey")] = None
@@ -5417,7 +5410,9 @@ class CreateInputV3User(BaseModel):
     def serialize_priv_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputPrivacyProtocol(value)
+                return models.PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone(
+                    value
+                )
             except ValueError:
                 return value
         return value

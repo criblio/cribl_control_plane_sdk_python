@@ -6,8 +6,8 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class PipelineFunctionAggregationID(str, Enum):
@@ -16,11 +16,17 @@ class PipelineFunctionAggregationID(str, Enum):
     AGGREGATION = "aggregation"
 
 
-class PipelineFunctionAggregationConfTypedDict(TypedDict):
+class AggregationCumulativeFalseTypedDict(TypedDict):
     time_window: str
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
     aggregations: List[str]
     r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
+    cumulative: NotRequired[bool]
+    r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
+    lag_tolerance: NotRequired[str]
+    r"""The tumbling window tolerance to late events. Must be a valid time string (such as 10s)."""
+    idle_time_limit: NotRequired[str]
+    r"""How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s)."""
     passthrough: NotRequired[bool]
     r"""Pass through the original events along with the aggregation events"""
     preserve_group_bys: NotRequired[bool]
@@ -37,8 +43,6 @@ class PipelineFunctionAggregationConfTypedDict(TypedDict):
     r"""The maximum number of events to include in any given aggregation event"""
     flush_mem_limit: NotRequired[str]
     r"""The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."""
-    cumulative: NotRequired[bool]
-    r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
     search_agg_mode: NotRequired[str]
     r"""Allows Cribl Search-specific aggregation configuration"""
     add: NotRequired[List[ItemsTypeAddTypedDict]]
@@ -49,12 +53,23 @@ class PipelineFunctionAggregationConfTypedDict(TypedDict):
     r"""Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior."""
 
 
-class PipelineFunctionAggregationConf(BaseModel):
+class AggregationCumulativeFalse(BaseModel):
     time_window: Annotated[str, pydantic.Field(alias="timeWindow")]
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
 
     aggregations: List[str]
     r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
+
+    cumulative: Optional[bool] = None
+    r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
+
+    lag_tolerance: Annotated[Optional[str], pydantic.Field(alias="lagTolerance")] = None
+    r"""The tumbling window tolerance to late events. Must be a valid time string (such as 10s)."""
+
+    idle_time_limit: Annotated[Optional[str], pydantic.Field(alias="idleTimeLimit")] = (
+        None
+    )
+    r"""How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s)."""
 
     passthrough: Optional[bool] = None
     r"""Pass through the original events along with the aggregation events"""
@@ -88,8 +103,133 @@ class PipelineFunctionAggregationConf(BaseModel):
     )
     r"""The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."""
 
+    search_agg_mode: Annotated[Optional[str], pydantic.Field(alias="searchAggMode")] = (
+        None
+    )
+    r"""Allows Cribl Search-specific aggregation configuration"""
+
+    add: Optional[List[ItemsTypeAdd]] = None
+    r"""Set of key-value pairs to evaluate and add/set"""
+
+    should_treat_dots_as_literals: Annotated[
+        Optional[bool], pydantic.Field(alias="shouldTreatDotsAsLiterals")
+    ] = None
+    r"""Treat dots in dimension names as literals. This is useful for top-level dimensions that contain dots, such as 'service.name'."""
+
+    flush_on_input_close: Annotated[
+        Optional[bool], pydantic.Field(alias="flushOnInputClose")
+    ] = None
+    r"""Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "cumulative",
+                "lagTolerance",
+                "idleTimeLimit",
+                "passthrough",
+                "preserveGroupBys",
+                "sufficientStatsOnly",
+                "metricsMode",
+                "prefix",
+                "groupbys",
+                "flushEventLimit",
+                "flushMemLimit",
+                "searchAggMode",
+                "add",
+                "shouldTreatDotsAsLiterals",
+                "flushOnInputClose",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class AggregationCumulativeTrueTypedDict(TypedDict):
+    time_window: str
+    r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
+    aggregations: List[str]
+    r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
+    cumulative: NotRequired[bool]
+    r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
+    passthrough: NotRequired[bool]
+    r"""Pass through the original events along with the aggregation events"""
+    preserve_group_bys: NotRequired[bool]
+    r"""Preserve the structure of the original aggregation event's groupby fields"""
+    sufficient_stats_only: NotRequired[bool]
+    r"""Output only statistics that are sufficient for the supplied aggregations"""
+    metrics_mode: NotRequired[bool]
+    r"""Enable to output the aggregates as metrics. When disabled, aggregates are output as events."""
+    prefix: NotRequired[str]
+    r"""A prefix that is prepended to all of the fields output by this Aggregations Function"""
+    groupbys: NotRequired[List[str]]
+    r"""Optional: One or more fields to group aggregates by. Supports wildcard expressions. Warning: Using wildcard '*' causes all fields in the event to be included, which can result in high cardinality and increased memory usage. Exclude fields that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"""
+    flush_event_limit: NotRequired[float]
+    r"""The maximum number of events to include in any given aggregation event"""
+    flush_mem_limit: NotRequired[str]
+    r"""The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."""
+    search_agg_mode: NotRequired[str]
+    r"""Allows Cribl Search-specific aggregation configuration"""
+    add: NotRequired[List[ItemsTypeAddTypedDict]]
+    r"""Set of key-value pairs to evaluate and add/set"""
+    should_treat_dots_as_literals: NotRequired[bool]
+    r"""Treat dots in dimension names as literals. This is useful for top-level dimensions that contain dots, such as 'service.name'."""
+    flush_on_input_close: NotRequired[bool]
+    r"""Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior."""
+
+
+class AggregationCumulativeTrue(BaseModel):
+    time_window: Annotated[str, pydantic.Field(alias="timeWindow")]
+    r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
+
+    aggregations: List[str]
+    r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
+
     cumulative: Optional[bool] = None
     r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
+
+    passthrough: Optional[bool] = None
+    r"""Pass through the original events along with the aggregation events"""
+
+    preserve_group_bys: Annotated[
+        Optional[bool], pydantic.Field(alias="preserveGroupBys")
+    ] = None
+    r"""Preserve the structure of the original aggregation event's groupby fields"""
+
+    sufficient_stats_only: Annotated[
+        Optional[bool], pydantic.Field(alias="sufficientStatsOnly")
+    ] = None
+    r"""Output only statistics that are sufficient for the supplied aggregations"""
+
+    metrics_mode: Annotated[Optional[bool], pydantic.Field(alias="metricsMode")] = None
+    r"""Enable to output the aggregates as metrics. When disabled, aggregates are output as events."""
+
+    prefix: Optional[str] = None
+    r"""A prefix that is prepended to all of the fields output by this Aggregations Function"""
+
+    groupbys: Optional[List[str]] = None
+    r"""Optional: One or more fields to group aggregates by. Supports wildcard expressions. Warning: Using wildcard '*' causes all fields in the event to be included, which can result in high cardinality and increased memory usage. Exclude fields that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"""
+
+    flush_event_limit: Annotated[
+        Optional[float], pydantic.Field(alias="flushEventLimit")
+    ] = None
+    r"""The maximum number of events to include in any given aggregation event"""
+
+    flush_mem_limit: Annotated[Optional[str], pydantic.Field(alias="flushMemLimit")] = (
+        None
+    )
+    r"""The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."""
 
     search_agg_mode: Annotated[Optional[str], pydantic.Field(alias="searchAggMode")] = (
         None
@@ -113,6 +253,7 @@ class PipelineFunctionAggregationConf(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "cumulative",
                 "passthrough",
                 "preserveGroupBys",
                 "sufficientStatsOnly",
@@ -121,7 +262,6 @@ class PipelineFunctionAggregationConf(BaseModel):
                 "groupbys",
                 "flushEventLimit",
                 "flushMemLimit",
-                "cumulative",
                 "searchAggMode",
                 "add",
                 "shouldTreatDotsAsLiterals",
@@ -140,6 +280,18 @@ class PipelineFunctionAggregationConf(BaseModel):
                     m[k] = val
 
         return m
+
+
+PipelineFunctionAggregationConfTypedDict = TypeAliasType(
+    "PipelineFunctionAggregationConfTypedDict",
+    Union[AggregationCumulativeTrueTypedDict, AggregationCumulativeFalseTypedDict],
+)
+
+
+PipelineFunctionAggregationConf = TypeAliasType(
+    "PipelineFunctionAggregationConf",
+    Union[AggregationCumulativeTrue, AggregationCumulativeFalse],
+)
 
 
 class PipelineFunctionAggregationTypedDict(TypedDict):
@@ -197,7 +349,11 @@ class PipelineFunctionAggregation(BaseModel):
 
 
 try:
-    PipelineFunctionAggregationConf.model_rebuild()
+    AggregationCumulativeFalse.model_rebuild()
+except NameError:
+    pass
+try:
+    AggregationCumulativeTrue.model_rebuild()
 except NameError:
     pass
 try:

@@ -4,30 +4,34 @@ from __future__ import annotations
 from .authenticationprotocoloptionsv3user import AuthenticationProtocolOptionsV3User
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.utils import get_discriminator
 import pydantic
-from pydantic import field_serializer, model_serializer
-from typing import Any, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from pydantic import Discriminator, Tag, field_serializer, model_serializer
+from typing import Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class FunctionConfSchemaSnmpTrapSerializeV3UserTypedDict(TypedDict):
-    name: NotRequired[str]
-    auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
-    auth_key: NotRequired[Any]
+class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNoneTypedDict(TypedDict):
+    priv_key: str
+    auth_key: str
+    name: str
     priv_protocol: NotRequired[str]
+    auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
 
 
-class FunctionConfSchemaSnmpTrapSerializeV3User(BaseModel):
-    name: Optional[str] = None
+class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone(BaseModel):
+    priv_key: Annotated[str, pydantic.Field(alias="privKey")]
+
+    auth_key: Annotated[str, pydantic.Field(alias="authKey")]
+
+    name: str
+
+    priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = None
 
     auth_protocol: Annotated[
         Optional[AuthenticationProtocolOptionsV3User],
         pydantic.Field(alias="authProtocol"),
     ] = None
-
-    auth_key: Annotated[Optional[Any], pydantic.Field(alias="authKey")] = None
-
-    priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = None
 
     @field_serializer("auth_protocol")
     def serialize_auth_protocol(self, value):
@@ -40,7 +44,7 @@ class FunctionConfSchemaSnmpTrapSerializeV3User(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["name", "authProtocol", "authKey", "privProtocol"])
+        optional_fields = set(["privProtocol", "authProtocol"])
         serialized = handler(self)
         m = {}
 
@@ -55,12 +59,155 @@ class FunctionConfSchemaSnmpTrapSerializeV3User(BaseModel):
         return m
 
 
+class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNoneTypedDict(TypedDict):
+    auth_key: str
+    name: str
+    priv_protocol: NotRequired[str]
+    auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
+
+
+class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNone(BaseModel):
+    auth_key: Annotated[str, pydantic.Field(alias="authKey")]
+
+    name: str
+
+    priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = None
+
+    auth_protocol: Annotated[
+        Optional[AuthenticationProtocolOptionsV3User],
+        pydantic.Field(alias="authProtocol"),
+    ] = None
+
+    @field_serializer("auth_protocol")
+    def serialize_auth_protocol(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationProtocolOptionsV3User(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["privProtocol", "authProtocol"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+SnmpTrapSerializeV3UserAuthProtocolNotNoneTypedDict = TypeAliasType(
+    "SnmpTrapSerializeV3UserAuthProtocolNotNoneTypedDict",
+    Union[
+        SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNoneTypedDict,
+        SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNoneTypedDict,
+    ],
+)
+
+
+SnmpTrapSerializeV3UserAuthProtocolNotNone = Annotated[
+    Union[
+        Annotated[
+            SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNone, Tag("none")
+        ],
+        Annotated[
+            SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone, Tag("des")
+        ],
+        Annotated[
+            SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone, Tag("aes")
+        ],
+        Annotated[
+            SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
+            Tag("aes256b"),
+        ],
+        Annotated[
+            SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
+            Tag("aes256r"),
+        ],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "priv_protocol", "privProtocol")),
+]
+
+
+class SnmpTrapSerializeV3UserAuthProtocolNoneTypedDict(TypedDict):
+    auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
+    name: NotRequired[str]
+    priv_protocol: NotRequired[str]
+
+
+class SnmpTrapSerializeV3UserAuthProtocolNone(BaseModel):
+    auth_protocol: Annotated[
+        Optional[AuthenticationProtocolOptionsV3User],
+        pydantic.Field(alias="authProtocol"),
+    ] = None
+
+    name: Optional[str] = None
+
+    priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = None
+
+    @field_serializer("auth_protocol")
+    def serialize_auth_protocol(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationProtocolOptionsV3User(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["authProtocol", "name", "privProtocol"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+V3UserTypedDict = TypeAliasType(
+    "V3UserTypedDict",
+    Union[
+        SnmpTrapSerializeV3UserAuthProtocolNoneTypedDict,
+        SnmpTrapSerializeV3UserAuthProtocolNotNoneTypedDict,
+    ],
+)
+
+
+V3User = Annotated[
+    Union[
+        Annotated[SnmpTrapSerializeV3UserAuthProtocolNone, Tag("none")],
+        Annotated[SnmpTrapSerializeV3UserAuthProtocolNotNone, Tag("md5")],
+        Annotated[SnmpTrapSerializeV3UserAuthProtocolNotNone, Tag("sha")],
+        Annotated[SnmpTrapSerializeV3UserAuthProtocolNotNone, Tag("sha224")],
+        Annotated[SnmpTrapSerializeV3UserAuthProtocolNotNone, Tag("sha256")],
+        Annotated[SnmpTrapSerializeV3UserAuthProtocolNotNone, Tag("sha384")],
+        Annotated[SnmpTrapSerializeV3UserAuthProtocolNotNone, Tag("sha512")],
+    ],
+    Discriminator(lambda m: get_discriminator(m, "auth_protocol", "authProtocol")),
+]
+
+
 class FunctionConfSchemaSnmpTrapSerializeTypedDict(TypedDict):
     strict: NotRequired[bool]
     r"""Prevent event serialization if any required fields are missing. When disabled, @{product} will attempt to serialize the event even if required fields are missing, which could cause unexpected behavior at the downstream receiver."""
     drop_failed_events: NotRequired[bool]
     r"""When disabled, `snmpSerializeErrors` will be set on the event, and the `__snmpRaw` field will be removed to prevent @{product} from sending the event from the SNMP Trap Destination"""
-    v3_user: NotRequired[FunctionConfSchemaSnmpTrapSerializeV3UserTypedDict]
+    v3_user: NotRequired[V3UserTypedDict]
 
 
 class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
@@ -72,10 +219,7 @@ class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
     ] = None
     r"""When disabled, `snmpSerializeErrors` will be set on the event, and the `__snmpRaw` field will be removed to prevent @{product} from sending the event from the SNMP Trap Destination"""
 
-    v3_user: Annotated[
-        Optional[FunctionConfSchemaSnmpTrapSerializeV3User],
-        pydantic.Field(alias="v3User"),
-    ] = None
+    v3_user: Annotated[Optional[V3User], pydantic.Field(alias="v3User")] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -95,7 +239,15 @@ class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
 
 
 try:
-    FunctionConfSchemaSnmpTrapSerializeV3User.model_rebuild()
+    SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone.model_rebuild()
+except NameError:
+    pass
+try:
+    SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNone.model_rebuild()
+except NameError:
+    pass
+try:
+    SnmpTrapSerializeV3UserAuthProtocolNone.model_rebuild()
 except NameError:
     pass
 try:

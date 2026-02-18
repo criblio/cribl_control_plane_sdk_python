@@ -6,8 +6,8 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class PipelineFunctionAggregateMetricsID(str, Enum):
@@ -16,7 +16,7 @@ class PipelineFunctionAggregateMetricsID(str, Enum):
     AGGREGATE_METRICS = "aggregate_metrics"
 
 
-class PipelineFunctionAggregateMetricsMetricType(
+class AggregateMetricsCumulativeFalseMetricType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""The output metric type"""
@@ -30,16 +30,16 @@ class PipelineFunctionAggregateMetricsMetricType(
     TIMER = "timer"
 
 
-class AggregationTypedDict(TypedDict):
-    metric_type: PipelineFunctionAggregateMetricsMetricType
+class AggregateMetricsCumulativeFalseAggregationTypedDict(TypedDict):
+    metric_type: AggregateMetricsCumulativeFalseMetricType
     r"""The output metric type"""
     agg: str
     r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
 
 
-class Aggregation(BaseModel):
+class AggregateMetricsCumulativeFalseAggregation(BaseModel):
     metric_type: Annotated[
-        PipelineFunctionAggregateMetricsMetricType, pydantic.Field(alias="metricType")
+        AggregateMetricsCumulativeFalseMetricType, pydantic.Field(alias="metricType")
     ]
     r"""The output metric type"""
 
@@ -50,19 +50,19 @@ class Aggregation(BaseModel):
     def serialize_metric_type(self, value):
         if isinstance(value, str):
             try:
-                return models.PipelineFunctionAggregateMetricsMetricType(value)
+                return models.AggregateMetricsCumulativeFalseMetricType(value)
             except ValueError:
                 return value
         return value
 
 
-class PipelineFunctionAggregateMetricsAddTypedDict(TypedDict):
+class AggregateMetricsCumulativeFalseAddTypedDict(TypedDict):
     value: str
     r"""JavaScript expression to compute the value (can be constant)"""
     name: NotRequired[str]
 
 
-class PipelineFunctionAggregateMetricsAdd(BaseModel):
+class AggregateMetricsCumulativeFalseAdd(BaseModel):
     value: str
     r"""JavaScript expression to compute the value (can be constant)"""
 
@@ -85,11 +85,17 @@ class PipelineFunctionAggregateMetricsAdd(BaseModel):
         return m
 
 
-class PipelineFunctionAggregateMetricsConfTypedDict(TypedDict):
+class AggregateMetricsCumulativeFalseTypedDict(TypedDict):
     time_window: str
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
-    aggregations: List[AggregationTypedDict]
+    aggregations: List[AggregateMetricsCumulativeFalseAggregationTypedDict]
     r"""Combination of Aggregation function and output metric type"""
+    cumulative: NotRequired[bool]
+    r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
+    lag_tolerance: NotRequired[str]
+    r"""The tumbling window tolerance to late events. Must be a valid time string (such as 10s)."""
+    idle_time_limit: NotRequired[str]
+    r"""How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s)."""
     passthrough: NotRequired[bool]
     r"""Pass through the original events along with the aggregation events"""
     preserve_group_bys: NotRequired[bool]
@@ -104,22 +110,31 @@ class PipelineFunctionAggregateMetricsConfTypedDict(TypedDict):
     r"""The maximum number of events to include in any given aggregation event"""
     flush_mem_limit: NotRequired[str]
     r"""The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."""
-    cumulative: NotRequired[bool]
-    r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
     should_treat_dots_as_literals: NotRequired[bool]
     r"""Treat dots in dimension names as literals. This is useful for top-level dimensions that contain dots, such as 'service.name'."""
-    add: NotRequired[List[PipelineFunctionAggregateMetricsAddTypedDict]]
+    add: NotRequired[List[AggregateMetricsCumulativeFalseAddTypedDict]]
     r"""Set of key-value pairs to evaluate and add/set"""
     flush_on_input_close: NotRequired[bool]
     r"""Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior."""
 
 
-class PipelineFunctionAggregateMetricsConf(BaseModel):
+class AggregateMetricsCumulativeFalse(BaseModel):
     time_window: Annotated[str, pydantic.Field(alias="timeWindow")]
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
 
-    aggregations: List[Aggregation]
+    aggregations: List[AggregateMetricsCumulativeFalseAggregation]
     r"""Combination of Aggregation function and output metric type"""
+
+    cumulative: Optional[bool] = None
+    r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
+
+    lag_tolerance: Annotated[Optional[str], pydantic.Field(alias="lagTolerance")] = None
+    r"""The tumbling window tolerance to late events. Must be a valid time string (such as 10s)."""
+
+    idle_time_limit: Annotated[Optional[str], pydantic.Field(alias="idleTimeLimit")] = (
+        None
+    )
+    r"""How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s)."""
 
     passthrough: Optional[bool] = None
     r"""Pass through the original events along with the aggregation events"""
@@ -150,15 +165,12 @@ class PipelineFunctionAggregateMetricsConf(BaseModel):
     )
     r"""The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."""
 
-    cumulative: Optional[bool] = None
-    r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
-
     should_treat_dots_as_literals: Annotated[
         Optional[bool], pydantic.Field(alias="shouldTreatDotsAsLiterals")
     ] = None
     r"""Treat dots in dimension names as literals. This is useful for top-level dimensions that contain dots, such as 'service.name'."""
 
-    add: Optional[List[PipelineFunctionAggregateMetricsAdd]] = None
+    add: Optional[List[AggregateMetricsCumulativeFalseAdd]] = None
     r"""Set of key-value pairs to evaluate and add/set"""
 
     flush_on_input_close: Annotated[
@@ -170,6 +182,9 @@ class PipelineFunctionAggregateMetricsConf(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "cumulative",
+                "lagTolerance",
+                "idleTimeLimit",
                 "passthrough",
                 "preserveGroupBys",
                 "sufficientStatsOnly",
@@ -177,7 +192,6 @@ class PipelineFunctionAggregateMetricsConf(BaseModel):
                 "groupbys",
                 "flushEventLimit",
                 "flushMemLimit",
-                "cumulative",
                 "shouldTreatDotsAsLiterals",
                 "add",
                 "flushOnInputClose",
@@ -195,6 +209,200 @@ class PipelineFunctionAggregateMetricsConf(BaseModel):
                     m[k] = val
 
         return m
+
+
+class AggregateMetricsCumulativeTrueMetricType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The output metric type"""
+
+    AUTOMATIC = "automatic"
+    COUNTER = "counter"
+    DISTRIBUTION = "distribution"
+    GAUGE = "gauge"
+    HISTOGRAM = "histogram"
+    SUMMARY = "summary"
+    TIMER = "timer"
+
+
+class AggregateMetricsCumulativeTrueAggregationTypedDict(TypedDict):
+    metric_type: AggregateMetricsCumulativeTrueMetricType
+    r"""The output metric type"""
+    agg: str
+    r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
+
+
+class AggregateMetricsCumulativeTrueAggregation(BaseModel):
+    metric_type: Annotated[
+        AggregateMetricsCumulativeTrueMetricType, pydantic.Field(alias="metricType")
+    ]
+    r"""The output metric type"""
+
+    agg: str
+    r"""Aggregate function to perform on events. Example: sum(bytes).where(action=='REJECT').as(TotalBytes)"""
+
+    @field_serializer("metric_type")
+    def serialize_metric_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AggregateMetricsCumulativeTrueMetricType(value)
+            except ValueError:
+                return value
+        return value
+
+
+class AggregateMetricsCumulativeTrueAddTypedDict(TypedDict):
+    value: str
+    r"""JavaScript expression to compute the value (can be constant)"""
+    name: NotRequired[str]
+
+
+class AggregateMetricsCumulativeTrueAdd(BaseModel):
+    value: str
+    r"""JavaScript expression to compute the value (can be constant)"""
+
+    name: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["name"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class AggregateMetricsCumulativeTrueTypedDict(TypedDict):
+    time_window: str
+    r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
+    aggregations: List[AggregateMetricsCumulativeTrueAggregationTypedDict]
+    r"""Combination of Aggregation function and output metric type"""
+    cumulative: NotRequired[bool]
+    r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
+    passthrough: NotRequired[bool]
+    r"""Pass through the original events along with the aggregation events"""
+    preserve_group_bys: NotRequired[bool]
+    r"""Preserve the structure of the original aggregation event's groupby fields"""
+    sufficient_stats_only: NotRequired[bool]
+    r"""Output only statistics that are sufficient for the supplied aggregations"""
+    prefix: NotRequired[str]
+    r"""A prefix that is prepended to all of the fields output by this Aggregations Function"""
+    groupbys: NotRequired[List[str]]
+    r"""Optional: One or more dimensions to group aggregates by. Supports wildcard expressions. Wrap dimension names in quotes if using literal identifiers, such as 'service.name'. Warning: Using wildcard '*' causes all dimensions in the event to be included, which can result in high cardinality and increased memory usage. Exclude dimensions that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"""
+    flush_event_limit: NotRequired[float]
+    r"""The maximum number of events to include in any given aggregation event"""
+    flush_mem_limit: NotRequired[str]
+    r"""The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."""
+    should_treat_dots_as_literals: NotRequired[bool]
+    r"""Treat dots in dimension names as literals. This is useful for top-level dimensions that contain dots, such as 'service.name'."""
+    add: NotRequired[List[AggregateMetricsCumulativeTrueAddTypedDict]]
+    r"""Set of key-value pairs to evaluate and add/set"""
+    flush_on_input_close: NotRequired[bool]
+    r"""Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior."""
+
+
+class AggregateMetricsCumulativeTrue(BaseModel):
+    time_window: Annotated[str, pydantic.Field(alias="timeWindow")]
+    r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
+
+    aggregations: List[AggregateMetricsCumulativeTrueAggregation]
+    r"""Combination of Aggregation function and output metric type"""
+
+    cumulative: Optional[bool] = None
+    r"""Enable to retain aggregations for cumulative aggregations when flushing out an aggregation table event. When disabled (the default), aggregations are reset to 0 on flush."""
+
+    passthrough: Optional[bool] = None
+    r"""Pass through the original events along with the aggregation events"""
+
+    preserve_group_bys: Annotated[
+        Optional[bool], pydantic.Field(alias="preserveGroupBys")
+    ] = None
+    r"""Preserve the structure of the original aggregation event's groupby fields"""
+
+    sufficient_stats_only: Annotated[
+        Optional[bool], pydantic.Field(alias="sufficientStatsOnly")
+    ] = None
+    r"""Output only statistics that are sufficient for the supplied aggregations"""
+
+    prefix: Optional[str] = None
+    r"""A prefix that is prepended to all of the fields output by this Aggregations Function"""
+
+    groupbys: Optional[List[str]] = None
+    r"""Optional: One or more dimensions to group aggregates by. Supports wildcard expressions. Wrap dimension names in quotes if using literal identifiers, such as 'service.name'. Warning: Using wildcard '*' causes all dimensions in the event to be included, which can result in high cardinality and increased memory usage. Exclude dimensions that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *"""
+
+    flush_event_limit: Annotated[
+        Optional[float], pydantic.Field(alias="flushEventLimit")
+    ] = None
+    r"""The maximum number of events to include in any given aggregation event"""
+
+    flush_mem_limit: Annotated[Optional[str], pydantic.Field(alias="flushMemLimit")] = (
+        None
+    )
+    r"""The memory usage limit to impose upon aggregations. Defaults to 80% of the process memory; value configured above default limit is ignored. Accepts numerals with units like KB and MB (example: 128MB)."""
+
+    should_treat_dots_as_literals: Annotated[
+        Optional[bool], pydantic.Field(alias="shouldTreatDotsAsLiterals")
+    ] = None
+    r"""Treat dots in dimension names as literals. This is useful for top-level dimensions that contain dots, such as 'service.name'."""
+
+    add: Optional[List[AggregateMetricsCumulativeTrueAdd]] = None
+    r"""Set of key-value pairs to evaluate and add/set"""
+
+    flush_on_input_close: Annotated[
+        Optional[bool], pydantic.Field(alias="flushOnInputClose")
+    ] = None
+    r"""Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "cumulative",
+                "passthrough",
+                "preserveGroupBys",
+                "sufficientStatsOnly",
+                "prefix",
+                "groupbys",
+                "flushEventLimit",
+                "flushMemLimit",
+                "shouldTreatDotsAsLiterals",
+                "add",
+                "flushOnInputClose",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+PipelineFunctionAggregateMetricsConfTypedDict = TypeAliasType(
+    "PipelineFunctionAggregateMetricsConfTypedDict",
+    Union[
+        AggregateMetricsCumulativeTrueTypedDict,
+        AggregateMetricsCumulativeFalseTypedDict,
+    ],
+)
+
+
+PipelineFunctionAggregateMetricsConf = TypeAliasType(
+    "PipelineFunctionAggregateMetricsConf",
+    Union[AggregateMetricsCumulativeTrue, AggregateMetricsCumulativeFalse],
+)
 
 
 class PipelineFunctionAggregateMetricsTypedDict(TypedDict):
@@ -252,11 +460,19 @@ class PipelineFunctionAggregateMetrics(BaseModel):
 
 
 try:
-    Aggregation.model_rebuild()
+    AggregateMetricsCumulativeFalseAggregation.model_rebuild()
 except NameError:
     pass
 try:
-    PipelineFunctionAggregateMetricsConf.model_rebuild()
+    AggregateMetricsCumulativeFalse.model_rebuild()
+except NameError:
+    pass
+try:
+    AggregateMetricsCumulativeTrueAggregation.model_rebuild()
+except NameError:
+    pass
+try:
+    AggregateMetricsCumulativeTrue.model_rebuild()
 except NameError:
     pass
 try:

@@ -7,13 +7,13 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import get_discriminator
 import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import Any, Optional, Union
+from typing import Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNoneTypedDict(TypedDict):
     priv_key: str
-    auth_key: Any
+    auth_key: str
     name: str
     priv_protocol: NotRequired[str]
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
@@ -22,7 +22,7 @@ class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNoneTypedDict(Typ
 class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone(BaseModel):
     priv_key: Annotated[str, pydantic.Field(alias="privKey")]
 
-    auth_key: Annotated[Any, pydantic.Field(alias="authKey")]
+    auth_key: Annotated[str, pydantic.Field(alias="authKey")]
 
     name: str
 
@@ -60,14 +60,14 @@ class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone(BaseModel):
 
 
 class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNoneTypedDict(TypedDict):
-    auth_key: Any
+    auth_key: str
     name: str
     priv_protocol: NotRequired[str]
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
 
 
 class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNone(BaseModel):
-    auth_key: Annotated[Any, pydantic.Field(alias="authKey")]
+    auth_key: Annotated[str, pydantic.Field(alias="authKey")]
 
     name: str
 
@@ -140,7 +140,6 @@ SnmpTrapSerializeV3UserAuthProtocolNotNone = Annotated[
 class SnmpTrapSerializeV3UserAuthProtocolNoneTypedDict(TypedDict):
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
     name: NotRequired[str]
-    auth_key: NotRequired[Any]
     priv_protocol: NotRequired[str]
 
 
@@ -151,8 +150,6 @@ class SnmpTrapSerializeV3UserAuthProtocolNone(BaseModel):
     ] = None
 
     name: Optional[str] = None
-
-    auth_key: Annotated[Optional[Any], pydantic.Field(alias="authKey")] = None
 
     priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = None
 
@@ -167,7 +164,7 @@ class SnmpTrapSerializeV3UserAuthProtocolNone(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["authProtocol", "name", "authKey", "privProtocol"])
+        optional_fields = set(["authProtocol", "name", "privProtocol"])
         serialized = handler(self)
         m = {}
 

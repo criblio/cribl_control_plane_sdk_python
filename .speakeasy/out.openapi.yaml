@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1771384594583-17ceb448
+  version: 4.17.0-alpha.1771393551164-7cc6a375
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -9503,8 +9503,6 @@ components:
             - POST
             - POST with Body
           x-speakeasy-unknown-values: allow
-        discoverRequestParams: {}
-        discoverBody: {}
         discoverRequestHeaders:
           title: Discover Headers
           description: Optional discover request headers.
@@ -10319,9 +10317,6 @@ components:
             - POST with Body
             - Other
           x-speakeasy-unknown-values: allow
-        discoverVerb: {}
-        discoverRequestParams: {}
-        discoverBody: {}
         discoverRequestHeaders:
           title: Discover headers
           type: array
@@ -10342,7 +10337,6 @@ components:
           type: boolean
           title: Strict discover response parsing
           description: Explicitly set the discover response format. When disabled, best effort parsing is used.
-        discoverResponseFormat: {}
         enableDiscoverCode:
           type: boolean
           title: Format discover result with custom code

@@ -1994,46 +1994,62 @@ class RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2078,41 +2094,57 @@ class RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2174,46 +2206,52 @@ class RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2235,8 +2273,6 @@ class RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -2258,41 +2294,47 @@ class RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2313,8 +2355,6 @@ class RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel)
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -2352,41 +2392,11 @@ RestAuthenticationHmacRestRetryRulesTypeStatic = TypeAliasType(
 class RestAuthenticationHmacRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestAuthenticationHmacRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2396,33 +2406,6 @@ class RestAuthenticationHmacRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestAuthenticationHmacRetryRulesTypedDict = TypeAliasType(
@@ -4671,15 +4654,22 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderTr
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrue(
@@ -4688,31 +4678,40 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderTr
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -4757,14 +4756,21 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderFa
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalse(
@@ -4773,27 +4779,36 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderFa
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -4855,15 +4870,19 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderTru
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderTrue(
@@ -4872,31 +4891,33 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderTru
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -4918,8 +4939,6 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderTru
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -4941,14 +4960,18 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderFal
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderFalse(
@@ -4957,27 +4980,29 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderFal
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -4998,8 +5023,6 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderFal
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -5037,41 +5060,11 @@ RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStatic = TypeAliasType(
 class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -5081,33 +5074,6 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestAuthenticationGoogleOauthSecretRetryRulesTypedDict = TypeAliasType(
@@ -7355,46 +7321,62 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderTrueType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -7439,14 +7421,21 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderFalseTyp
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderFalse(
@@ -7455,27 +7444,36 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderFalse(
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -7537,46 +7535,52 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderTrueTyped
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -7598,8 +7602,6 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderTrue(Base
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -7621,41 +7623,47 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderFalseType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -7676,8 +7684,6 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderFalse(Bas
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -7715,41 +7721,11 @@ RestAuthenticationGoogleOauthRestRetryRulesTypeStatic = TypeAliasType(
 class RestAuthenticationGoogleOauthRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestAuthenticationGoogleOauthRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -7759,33 +7735,6 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestAuthenticationGoogleOauthRetryRulesTypedDict = TypeAliasType(
@@ -10029,46 +9978,62 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrueType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -10113,14 +10078,21 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalseTyp
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalse(
@@ -10129,27 +10101,36 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalse(
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -10211,46 +10192,52 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderTrueTyped
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -10272,8 +10259,6 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderTrue(Base
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -10295,41 +10280,47 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderFalseType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -10350,8 +10341,6 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderFalse(Bas
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -10389,41 +10378,11 @@ RestAuthenticationOauthSecretRestRetryRulesTypeStatic = TypeAliasType(
 class RestAuthenticationOauthSecretRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestAuthenticationOauthSecretRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -10433,33 +10392,6 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestAuthenticationOauthSecretRetryRulesTypedDict = TypeAliasType(
@@ -12718,46 +12650,62 @@ class RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -12802,41 +12750,57 @@ class RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -12898,46 +12862,52 @@ class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -12959,8 +12929,6 @@ class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel)
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -12982,41 +12950,47 @@ class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -13037,8 +13011,6 @@ class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -13076,41 +13048,11 @@ RestAuthenticationOauthRestRetryRulesTypeStatic = TypeAliasType(
 class RestAuthenticationOauthRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestAuthenticationOauthRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -13120,33 +13062,6 @@ class RestAuthenticationOauthRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestAuthenticationOauthRetryRulesTypedDict = TypeAliasType(
@@ -15464,15 +15379,22 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeB
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderTrue(
@@ -15481,31 +15403,40 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeB
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -15550,14 +15481,21 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeB
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderFalse(
@@ -15566,27 +15504,36 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeB
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -15648,15 +15595,19 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeS
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderTrue(
@@ -15665,31 +15616,33 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeS
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -15711,8 +15664,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeS
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -15734,14 +15685,18 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeS
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderFalse(
@@ -15750,27 +15705,29 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeS
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -15791,8 +15748,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeS
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -15832,14 +15787,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeN
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeNone(
@@ -15847,28 +15794,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeN
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -15878,33 +15803,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeN
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRetryRulesTypedDict = TypeAliasType(
@@ -18244,15 +18142,22 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderTrue(
@@ -18261,31 +18166,40 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -18330,14 +18244,21 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderFalse(
@@ -18346,27 +18267,36 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -18428,15 +18358,19 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderTrue(
@@ -18445,31 +18379,33 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -18491,8 +18427,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -18514,14 +18448,18 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderFalse(
@@ -18530,27 +18468,29 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -18571,8 +18511,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -18612,14 +18550,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeNone(
@@ -18627,28 +18557,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -18658,33 +18566,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRetryRulesTypedDict = TypeAliasType(
@@ -22081,15 +21962,22 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoff
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderTrue(
@@ -22098,31 +21986,40 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoff
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -22167,14 +22064,21 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoff
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoffEnableHeaderFalse(
@@ -22183,27 +22087,36 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeBackoff
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -22265,15 +22178,19 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticE
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderTrue(
@@ -22282,31 +22199,33 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticE
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -22328,8 +22247,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticE
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -22351,14 +22268,18 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticE
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticEnableHeaderFalse(
@@ -22367,27 +22288,29 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticE
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -22408,8 +22331,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeStaticE
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -22449,14 +22370,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeNoneTyp
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeNone(
@@ -22464,28 +22377,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeNone(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -22495,33 +22386,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeNone(
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestAuthenticationLoginGetAuthTokenFromHeaderTrueRetryRulesTypedDict = TypeAliasType(
@@ -23955,15 +23819,22 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackof
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderTrue(
@@ -23972,31 +23843,40 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackof
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -24041,14 +23921,21 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackof
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackoffEnableHeaderFalse(
@@ -24057,27 +23944,36 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeBackof
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -24139,15 +24035,19 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStatic
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderTrue(
@@ -24156,31 +24056,33 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStatic
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -24202,8 +24104,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStatic
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -24225,14 +24125,18 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStatic
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderFalse(
@@ -24241,27 +24145,29 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStatic
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -24282,8 +24188,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStatic
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -24323,14 +24227,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeNoneTy
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeNone(
@@ -24338,28 +24234,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeNone(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -24369,33 +24243,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeNone(
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestAuthenticationLoginGetAuthTokenFromHeaderFalseRetryRulesTypedDict = TypeAliasType(
@@ -26721,46 +26568,62 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderTrueType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -26805,14 +26668,21 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderFalseTyp
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderFalse(
@@ -26821,27 +26691,36 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeBackoffEnableHeaderFalse(
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -26903,46 +26782,52 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderTrueTyped
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -26964,8 +26849,6 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderTrue(Base
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -26987,41 +26870,47 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderFalseType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -27042,8 +26931,6 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeStaticEnableHeaderFalse(Bas
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -27081,41 +26968,11 @@ RestAuthenticationBasicSecretRestRetryRulesTypeStatic = TypeAliasType(
 class RestAuthenticationBasicSecretRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestAuthenticationBasicSecretRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -27125,33 +26982,6 @@ class RestAuthenticationBasicSecretRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestAuthenticationBasicSecretRetryRulesTypedDict = TypeAliasType(
@@ -29229,46 +29059,62 @@ class RestAuthenticationBasicRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationBasicRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -29313,41 +29159,57 @@ class RestAuthenticationBasicRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationBasicRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -29409,46 +29271,52 @@ class RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -29470,8 +29338,6 @@ class RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel)
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -29493,41 +29359,47 @@ class RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -29548,8 +29420,6 @@ class RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -29587,41 +29457,11 @@ RestAuthenticationBasicRestRetryRulesTypeStatic = TypeAliasType(
 class RestAuthenticationBasicRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestAuthenticationBasicRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -29631,33 +29471,6 @@ class RestAuthenticationBasicRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestAuthenticationBasicRetryRulesTypedDict = TypeAliasType(
@@ -31859,46 +31672,62 @@ class RestAuthenticationNoneRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationNoneRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -31943,41 +31772,57 @@ class RestAuthenticationNoneRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationNoneRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -32039,46 +31884,52 @@ class RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -32100,8 +31951,6 @@ class RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -32123,41 +31972,47 @@ class RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -32178,8 +32033,6 @@ class RestAuthenticationNoneRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel)
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -32217,41 +32070,11 @@ RestAuthenticationNoneRestRetryRulesTypeStatic = TypeAliasType(
 class RestAuthenticationNoneRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestAuthenticationNoneRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -32261,33 +32084,6 @@ class RestAuthenticationNoneRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestAuthenticationNoneRetryRulesTypedDict = TypeAliasType(
@@ -34482,46 +34278,62 @@ class RestCollectMethodOtherRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodOtherRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -34566,41 +34378,57 @@ class RestCollectMethodOtherRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodOtherRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -34662,46 +34490,52 @@ class RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -34723,8 +34557,6 @@ class RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -34746,41 +34578,47 @@ class RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -34801,8 +34639,6 @@ class RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel)
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -34840,41 +34676,11 @@ RestCollectMethodOtherRestRetryRulesTypeStatic = TypeAliasType(
 class RestCollectMethodOtherRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestCollectMethodOtherRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -34884,33 +34690,6 @@ class RestCollectMethodOtherRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestCollectMethodOtherRetryRulesTypedDict = TypeAliasType(
@@ -37152,46 +36931,62 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderTrueType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -37236,14 +37031,21 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderFalseTyp
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderFalse(
@@ -37252,27 +37054,36 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffEnableHeaderFalse(
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -37334,46 +37145,52 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderTrueTyped
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -37395,8 +37212,6 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderTrue(Base
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -37418,41 +37233,47 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderFalseType
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -37473,8 +37294,6 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeStaticEnableHeaderFalse(Bas
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -37512,41 +37331,11 @@ RestCollectMethodPostWithBodyRestRetryRulesTypeStatic = TypeAliasType(
 class RestCollectMethodPostWithBodyRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestCollectMethodPostWithBodyRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -37556,33 +37345,6 @@ class RestCollectMethodPostWithBodyRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestCollectMethodPostWithBodyRetryRulesTypedDict = TypeAliasType(
@@ -39789,46 +39551,62 @@ class RestCollectMethodPostRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodPostRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -39873,41 +39651,57 @@ class RestCollectMethodPostRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodPostRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -39967,46 +39761,52 @@ RestCollectMethodPostRestRetryRulesTypeBackoff = TypeAliasType(
 class RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -40028,8 +39828,6 @@ class RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -40051,41 +39849,47 @@ class RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -40106,8 +39910,6 @@ class RestCollectMethodPostRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -40145,41 +39947,11 @@ RestCollectMethodPostRestRetryRulesTypeStatic = TypeAliasType(
 class RestCollectMethodPostRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestCollectMethodPostRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -40189,33 +39961,6 @@ class RestCollectMethodPostRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestCollectMethodPostRetryRulesTypedDict = TypeAliasType(
@@ -42422,46 +42167,62 @@ class RestCollectMethodGetAuthentication(str, Enum, metaclass=utils.OpenEnumMeta
 class RestCollectMethodGetRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodGetRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -42506,41 +42267,57 @@ class RestCollectMethodGetRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between a failed request and the first retry"""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodGetRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
-    codes: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between a failed request and the first retry"""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -42600,46 +42377,52 @@ RestCollectMethodGetRestRetryRulesTypeBackoff = TypeAliasType(
 class RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
     retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
     ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
 
     retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
     ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -42661,8 +42444,6 @@ class RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -42682,41 +42463,47 @@ class RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
 class RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    enable_header: NotRequired[Any]
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
         None
     )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -42737,8 +42524,6 @@ class RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
-                "multiplier",
-                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -42776,41 +42561,11 @@ RestCollectMethodGetRestRetryRulesTypeStatic = TypeAliasType(
 class RestCollectMethodGetRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    max_interval_ms: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    retry_connect_timeout: NotRequired[Any]
-    retry_connect_reset: NotRequired[Any]
 
 
 class RestCollectMethodGetRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    max_interval_ms: Annotated[Optional[Any], pydantic.Field(alias="maxIntervalMs")] = (
-        None
-    )
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    retry_connect_timeout: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectTimeout")
-    ] = None
-
-    retry_connect_reset: Annotated[
-        Optional[Any], pydantic.Field(alias="retryConnectReset")
-    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -42820,33 +42575,6 @@ class RestCollectMethodGetRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "interval",
-                "limit",
-                "multiplier",
-                "maxIntervalMs",
-                "codes",
-                "enableHeader",
-                "retryConnectTimeout",
-                "retryConnectReset",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 RestCollectMethodGetRetryRulesTypedDict = TypeAliasType(
@@ -43196,10 +42924,6 @@ try:
 except NameError:
     pass
 try:
-    RestAuthenticationHmacRestRetryRulesTypeNone.model_rebuild()
-except NameError:
-    pass
-try:
     RestAuthenticationHmacScheduling.model_rebuild()
 except NameError:
     pass
@@ -43285,10 +43009,6 @@ except NameError:
     pass
 try:
     RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderFalse.model_rebuild()
-except NameError:
-    pass
-try:
-    RestAuthenticationGoogleOauthSecretRestRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:
@@ -43380,10 +43100,6 @@ try:
 except NameError:
     pass
 try:
-    RestAuthenticationGoogleOauthRestRetryRulesTypeNone.model_rebuild()
-except NameError:
-    pass
-try:
     RestAuthenticationGoogleOauthScheduling.model_rebuild()
 except NameError:
     pass
@@ -43469,10 +43185,6 @@ except NameError:
     pass
 try:
     RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderFalse.model_rebuild()
-except NameError:
-    pass
-try:
-    RestAuthenticationOauthSecretRestRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:
@@ -43564,10 +43276,6 @@ try:
 except NameError:
     pass
 try:
-    RestAuthenticationOauthRestRetryRulesTypeNone.model_rebuild()
-except NameError:
-    pass
-try:
     RestAuthenticationOauthScheduling.model_rebuild()
 except NameError:
     pass
@@ -43656,10 +43364,6 @@ try:
 except NameError:
     pass
 try:
-    RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeNone.model_rebuild()
-except NameError:
-    pass
-try:
     RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueScheduling.model_rebuild()
 except NameError:
     pass
@@ -43745,10 +43449,6 @@ except NameError:
     pass
 try:
     RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderFalse.model_rebuild()
-except NameError:
-    pass
-try:
-    RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:
@@ -43872,10 +43572,6 @@ try:
 except NameError:
     pass
 try:
-    RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestRetryRulesTypeNone.model_rebuild()
-except NameError:
-    pass
-try:
     RestAuthenticationLoginGetAuthTokenFromHeaderTrueScheduling.model_rebuild()
 except NameError:
     pass
@@ -43933,10 +43629,6 @@ except NameError:
     pass
 try:
     RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeStaticEnableHeaderFalse.model_rebuild()
-except NameError:
-    pass
-try:
-    RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:
@@ -44028,10 +43720,6 @@ try:
 except NameError:
     pass
 try:
-    RestAuthenticationBasicSecretRestRetryRulesTypeNone.model_rebuild()
-except NameError:
-    pass
-try:
     RestAuthenticationBasicSecretScheduling.model_rebuild()
 except NameError:
     pass
@@ -44113,10 +43801,6 @@ except NameError:
     pass
 try:
     RestAuthenticationBasicRestRetryRulesTypeStaticEnableHeaderFalse.model_rebuild()
-except NameError:
-    pass
-try:
-    RestAuthenticationBasicRestRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:
@@ -44208,10 +43892,6 @@ try:
 except NameError:
     pass
 try:
-    RestAuthenticationNoneRestRetryRulesTypeNone.model_rebuild()
-except NameError:
-    pass
-try:
     RestAuthenticationNoneScheduling.model_rebuild()
 except NameError:
     pass
@@ -44297,10 +43977,6 @@ except NameError:
     pass
 try:
     RestCollectMethodOtherRestRetryRulesTypeStaticEnableHeaderFalse.model_rebuild()
-except NameError:
-    pass
-try:
-    RestCollectMethodOtherRestRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:
@@ -44392,10 +44068,6 @@ try:
 except NameError:
     pass
 try:
-    RestCollectMethodPostWithBodyRestRetryRulesTypeNone.model_rebuild()
-except NameError:
-    pass
-try:
     RestCollectMethodPostWithBodyScheduling.model_rebuild()
 except NameError:
     pass
@@ -44484,10 +44156,6 @@ try:
 except NameError:
     pass
 try:
-    RestCollectMethodPostRestRetryRulesTypeNone.model_rebuild()
-except NameError:
-    pass
-try:
     RestCollectMethodPostScheduling.model_rebuild()
 except NameError:
     pass
@@ -44573,10 +44241,6 @@ except NameError:
     pass
 try:
     RestCollectMethodGetRestRetryRulesTypeStaticEnableHeaderFalse.model_rebuild()
-except NameError:
-    pass
-try:
-    RestCollectMethodGetRestRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:

@@ -4,7 +4,7 @@ servers:
 info:
   title: Cribl API Reference
   description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1771032350496-659e5324
+  version: 4.17.0-alpha.1771384594583-17ceb448
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -5374,7 +5374,6 @@ components:
               minLength: 1
             authProtocol:
               $ref: "#/components/schemas/AuthenticationProtocolOptionsV3User"
-            authKey: {}
             privProtocol:
               type: string
           allOf:
@@ -9765,11 +9764,6 @@ components:
           properties:
             type:
               $ref: "#/components/schemas/RetryTypeOptionsHealthCheckCollectorConfRetryRules"
-            interval: {}
-            limit: {}
-            multiplier: {}
-            codes: {}
-            enableHeader: {}
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/HealthCheckRetryRulesTypeNone"
@@ -10857,14 +10851,6 @@ components:
           properties:
             type:
               $ref: "#/components/schemas/RetryTypeOptionsHealthCheckCollectorConfRetryRules"
-            interval: {}
-            limit: {}
-            multiplier: {}
-            maxIntervalMs: {}
-            codes: {}
-            enableHeader: {}
-            retryConnectTimeout: {}
-            retryConnectReset: {}
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/RestRetryRulesTypeNone"
@@ -11454,13 +11440,6 @@ components:
           properties:
             type:
               $ref: "#/components/schemas/RetryTypeOptionsHealthCheckCollectorConfRetryRules"
-            interval: {}
-            limit: {}
-            multiplier: {}
-            codes: {}
-            enableHeader: {}
-            retryConnectTimeout: {}
-            retryConnectReset: {}
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/SplunkRetryRulesTypeNone"

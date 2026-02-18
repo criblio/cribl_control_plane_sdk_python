@@ -50,6 +50,8 @@ python:
   enumFormat: enum
   envVarPrefix: CRIBLCONTROLPLANE
   fixFlags:
+    asyncPaginationSep2025: true
+    conflictResistantModelImportsFeb2026: true
     responseRequiredSep2024: true
   flattenGlobalSecurity: true
   flattenRequests: true

@@ -32,7 +32,7 @@ generation:
     generateNewTests: false
     skipResponseBodyAssertions: false
 python:
-  version: 0.6.0b31
+  version: 0.6.0b32
   additionalDependencies:
     dev: {}
     main: {}
@@ -51,6 +51,8 @@ python:
   enumFormat: enum
   envVarPrefix: CRIBLCONTROLPLANE
   fixFlags:
+    asyncPaginationSep2025: false
+    conflictResistantModelImportsFeb2026: false
     responseRequiredSep2024: true
   flattenGlobalSecurity: true
   flattenRequests: true

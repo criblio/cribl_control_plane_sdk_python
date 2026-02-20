@@ -21,7 +21,7 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -60,14 +60,12 @@ class OutputCloudflareR2TypedDict(TypedDict):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`)."""
-    region: NotRequired[Any]
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     dest_path: NotRequired[str]
     r"""Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks."""
     signature_version: NotRequired[SignatureVersionOptions5]
     r"""Signature version to use for signing MinIO requests"""
-    object_acl: NotRequired[Any]
     storage_class: NotRequired[StorageClassOptions2]
     r"""Storage class to select for uploaded objects"""
     server_side_encryption: NotRequired[ServerSideEncryptionOptions]
@@ -194,8 +192,6 @@ class OutputCloudflareR2(BaseModel):
     )
     r"""Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`)."""
 
-    region: Optional[Any] = None
-
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
     ] = None
@@ -208,8 +204,6 @@ class OutputCloudflareR2(BaseModel):
         Optional[SignatureVersionOptions5], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing MinIO requests"""
-
-    object_acl: Annotated[Optional[Any], pydantic.Field(alias="objectACL")] = None
 
     storage_class: Annotated[
         Optional[StorageClassOptions2], pydantic.Field(alias="storageClass")
@@ -529,11 +523,9 @@ class OutputCloudflareR2(BaseModel):
                 "streamtags",
                 "awsAuthenticationMethod",
                 "awsSecretKey",
-                "region",
                 "addIdToStagePath",
                 "destPath",
                 "signatureVersion",
-                "objectACL",
                 "storageClass",
                 "serverSideEncryption",
                 "reuseConnections",

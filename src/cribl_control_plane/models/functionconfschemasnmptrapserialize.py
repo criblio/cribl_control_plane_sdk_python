@@ -4,10 +4,12 @@ from __future__ import annotations
 from .authenticationprotocoloptionsv3user import AuthenticationProtocolOptionsV3User
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from cribl_control_plane.utils import get_discriminator
+from cribl_control_plane.utils.unions import parse_open_union
+from functools import partial
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import Optional, Union
+from pydantic import ConfigDict, field_serializer, model_serializer
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, Literal, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -113,27 +115,43 @@ SnmpTrapSerializeV3UserAuthProtocolNotNoneTypedDict = TypeAliasType(
 )
 
 
+class UnknownSnmpTrapSerializeV3UserAuthProtocolNotNone(BaseModel):
+    r"""A SnmpTrapSerializeV3UserAuthProtocolNotNone variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    priv_protocol: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_SNMP_TRAP_SERIALIZE_V3_USER_AUTH_PROTOCOL_NOT_NONE_VARIANTS: dict[str, Any] = {
+    "none": SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNone,
+    "des": SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
+    "aes": SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
+    "aes256b": SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
+    "aes256r": SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
+}
+
+
 SnmpTrapSerializeV3UserAuthProtocolNotNone = Annotated[
     Union[
-        Annotated[
-            SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNone, Tag("none")
-        ],
-        Annotated[
-            SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone, Tag("des")
-        ],
-        Annotated[
-            SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone, Tag("aes")
-        ],
-        Annotated[
-            SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
-            Tag("aes256b"),
-        ],
-        Annotated[
-            SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
-            Tag("aes256r"),
-        ],
+        SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNone,
+        SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
+        SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
+        SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
+        SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone,
+        UnknownSnmpTrapSerializeV3UserAuthProtocolNotNone,
     ],
-    Discriminator(lambda m: get_discriminator(m, "priv_protocol", "privProtocol")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="privProtocol",
+            variants=_SNMP_TRAP_SERIALIZE_V3_USER_AUTH_PROTOCOL_NOT_NONE_VARIANTS,
+            unknown_cls=UnknownSnmpTrapSerializeV3UserAuthProtocolNotNone,
+            union_name="SnmpTrapSerializeV3UserAuthProtocolNotNone",
+        )
+    ),
 ]
 
 
@@ -188,17 +206,47 @@ V3UserTypedDict = TypeAliasType(
 )
 
 
+class UnknownV3User(BaseModel):
+    r"""A V3User variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    auth_protocol: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_V3_USER_VARIANTS: dict[str, Any] = {
+    "none": SnmpTrapSerializeV3UserAuthProtocolNone,
+    "md5": SnmpTrapSerializeV3UserAuthProtocolNotNone,
+    "sha": SnmpTrapSerializeV3UserAuthProtocolNotNone,
+    "sha224": SnmpTrapSerializeV3UserAuthProtocolNotNone,
+    "sha256": SnmpTrapSerializeV3UserAuthProtocolNotNone,
+    "sha384": SnmpTrapSerializeV3UserAuthProtocolNotNone,
+    "sha512": SnmpTrapSerializeV3UserAuthProtocolNotNone,
+}
+
+
 V3User = Annotated[
     Union[
-        Annotated[SnmpTrapSerializeV3UserAuthProtocolNone, Tag("none")],
-        Annotated[SnmpTrapSerializeV3UserAuthProtocolNotNone, Tag("md5")],
-        Annotated[SnmpTrapSerializeV3UserAuthProtocolNotNone, Tag("sha")],
-        Annotated[SnmpTrapSerializeV3UserAuthProtocolNotNone, Tag("sha224")],
-        Annotated[SnmpTrapSerializeV3UserAuthProtocolNotNone, Tag("sha256")],
-        Annotated[SnmpTrapSerializeV3UserAuthProtocolNotNone, Tag("sha384")],
-        Annotated[SnmpTrapSerializeV3UserAuthProtocolNotNone, Tag("sha512")],
+        SnmpTrapSerializeV3UserAuthProtocolNone,
+        SnmpTrapSerializeV3UserAuthProtocolNotNone,
+        SnmpTrapSerializeV3UserAuthProtocolNotNone,
+        SnmpTrapSerializeV3UserAuthProtocolNotNone,
+        SnmpTrapSerializeV3UserAuthProtocolNotNone,
+        SnmpTrapSerializeV3UserAuthProtocolNotNone,
+        SnmpTrapSerializeV3UserAuthProtocolNotNone,
+        UnknownV3User,
     ],
-    Discriminator(lambda m: get_discriminator(m, "auth_protocol", "authProtocol")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="authProtocol",
+            variants=_V3_USER_VARIANTS,
+            unknown_cls=UnknownV3User,
+            union_name="V3User",
+        )
+    ),
 ]
 
 

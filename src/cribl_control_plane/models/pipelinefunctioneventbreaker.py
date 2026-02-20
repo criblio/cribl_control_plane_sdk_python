@@ -9,11 +9,13 @@ from .timestamptypeoptionseventbreakerexistingornewnewtimestamp import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from cribl_control_plane.utils import get_discriminator
+from cribl_control_plane.utils.unions import parse_open_union
 from enum import Enum
+from functools import partial
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import List, Optional, Union
+from pydantic import ConfigDict, field_serializer, model_serializer
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, List, Literal, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -1207,15 +1209,43 @@ EventBreakerExistingOrNewNewTypedDict = TypeAliasType(
 )
 
 
+class UnknownEventBreakerExistingOrNewNew(BaseModel):
+    r"""A EventBreakerExistingOrNewNew variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    rule_type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_EVENT_BREAKER_EXISTING_OR_NEW_NEW_VARIANTS: dict[str, Any] = {
+    "regex": EventBreakerExistingOrNewNewRuleTypeRegex,
+    "json": EventBreakerExistingOrNewNewRuleTypeJSON,
+    "json_array": EventBreakerExistingOrNewNewRuleTypeJSONArray,
+    "header": EventBreakerExistingOrNewNewRuleTypeHeader,
+    "csv": EventBreakerExistingOrNewNewRuleTypeCsv,
+}
+
+
 EventBreakerExistingOrNewNew = Annotated[
     Union[
-        Annotated[EventBreakerExistingOrNewNewRuleTypeRegex, Tag("regex")],
-        Annotated[EventBreakerExistingOrNewNewRuleTypeJSON, Tag("json")],
-        Annotated[EventBreakerExistingOrNewNewRuleTypeJSONArray, Tag("json_array")],
-        Annotated[EventBreakerExistingOrNewNewRuleTypeHeader, Tag("header")],
-        Annotated[EventBreakerExistingOrNewNewRuleTypeCsv, Tag("csv")],
+        EventBreakerExistingOrNewNewRuleTypeRegex,
+        EventBreakerExistingOrNewNewRuleTypeJSON,
+        EventBreakerExistingOrNewNewRuleTypeJSONArray,
+        EventBreakerExistingOrNewNewRuleTypeHeader,
+        EventBreakerExistingOrNewNewRuleTypeCsv,
+        UnknownEventBreakerExistingOrNewNew,
     ],
-    Discriminator(lambda m: get_discriminator(m, "rule_type", "ruleType")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="ruleType",
+            variants=_EVENT_BREAKER_EXISTING_OR_NEW_NEW_VARIANTS,
+            unknown_cls=UnknownEventBreakerExistingOrNewNew,
+            union_name="EventBreakerExistingOrNewNew",
+        )
+    ),
 ]
 
 
@@ -1228,12 +1258,37 @@ PipelineFunctionEventBreakerConfTypedDict = TypeAliasType(
 )
 
 
+class UnknownPipelineFunctionEventBreakerConf(BaseModel):
+    r"""A PipelineFunctionEventBreakerConf variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    existing_or_new: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_PIPELINE_FUNCTION_EVENT_BREAKER_CONF_VARIANTS: dict[str, Any] = {
+    "new": EventBreakerExistingOrNewNew,
+    "existing": EventBreakerExistingOrNewExisting,
+}
+
+
 PipelineFunctionEventBreakerConf = Annotated[
     Union[
-        Annotated[EventBreakerExistingOrNewNew, Tag("new")],
-        Annotated[EventBreakerExistingOrNewExisting, Tag("existing")],
+        EventBreakerExistingOrNewNew,
+        EventBreakerExistingOrNewExisting,
+        UnknownPipelineFunctionEventBreakerConf,
     ],
-    Discriminator(lambda m: get_discriminator(m, "existing_or_new", "existingOrNew")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="existingOrNew",
+            variants=_PIPELINE_FUNCTION_EVENT_BREAKER_CONF_VARIANTS,
+            unknown_cls=UnknownPipelineFunctionEventBreakerConf,
+            union_name="PipelineFunctionEventBreakerConf",
+        )
+    ),
 ]
 
 

@@ -3,11 +3,25 @@ servers:
   - url: /
 info:
   title: Cribl API Reference
-  description: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io).
-  version: 4.17.0-alpha.1771393551164-7cc6a375
+  description: >-
+    This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources.
+
+    Base URL contexts for reference:
+
+    - Leader context: /api/v1
+
+    - Worker Group or Edge Fleet context: /api/v1/m/{groupName}
+
+    - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
+
+    - Search context: /api/v1/m/default_search
+  version: 4.17.0-alpha.1771589747951-c3d7ab45
   contact:
     name: Support
     url: https://portal.support.cribl.io
+externalDocs:
+  description: See our complementary product documentation
+  url: https://docs.cribl.io
 x-speakeasy-retries:
   strategy: backoff
   statusCodes:
@@ -11589,6 +11603,8 @@ components:
         requestTimeout:
           type: number
         tags:
+          type: string
+        textSecret:
           type: string
         user:
           type: string

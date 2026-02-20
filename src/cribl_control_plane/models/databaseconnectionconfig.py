@@ -22,6 +22,7 @@ class DatabaseConnectionConfigTypedDict(TypedDict):
     password: NotRequired[str]
     request_timeout: NotRequired[float]
     tags: NotRequired[str]
+    text_secret: NotRequired[str]
     user: NotRequired[str]
 
 
@@ -56,6 +57,8 @@ class DatabaseConnectionConfig(BaseModel):
 
     tags: Optional[str] = None
 
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+
     user: Optional[str] = None
 
     @field_serializer("database_type")
@@ -78,6 +81,7 @@ class DatabaseConnectionConfig(BaseModel):
                 "password",
                 "requestTimeout",
                 "tags",
+                "textSecret",
                 "user",
             ]
         )

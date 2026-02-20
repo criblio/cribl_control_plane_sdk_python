@@ -49,7 +49,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", connection_timeout=15000, tags="analytics,mysql")
+    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", connection_timeout=15000, tags="analytics,mysql", text_secret="mysql-analytics-connection")
 
     # Handle response
     print(res)
@@ -91,7 +91,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secrets", database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", connection_timeout=15000, creds_secrets="oracle-secure-credentials", tags="secure,oracle,sensitive-data")
+    res = ccp_client.database_connections.create(auth_type="secrets", database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", connection_timeout=15000, creds_secrets="oracle-secure-credentials", tags="secure,oracle,sensitive-data", text_secret="oracle-secure-connection")
 
     # Handle response
     print(res)
@@ -112,7 +112,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", connection_timeout=20000, password="Warehouse_Pass789!", tags="warehouse,oracle,reporting", user="warehouse_user")
+    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", connection_timeout=20000, password="Warehouse_Pass789!", tags="warehouse,oracle,reporting", text_secret="oracle-warehouse-connection", user="warehouse_user")
 
     # Handle response
     print(res)
@@ -154,7 +154,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", connection_timeout=10000, tags="logs,postgres")
+    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", connection_timeout=10000, tags="logs,postgres", text_secret="postgres-logs-connection")
 
     # Handle response
     print(res)
@@ -217,7 +217,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", connection_timeout=15000, request_timeout=15000, tags="crm,sqlserver,sales")
+    res = ccp_client.database_connections.create(auth_type="secret", database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", connection_timeout=15000, request_timeout=15000, tags="crm,sqlserver,sales", text_secret="sqlserver-crm-connection")
 
     # Handle response
     print(res)
@@ -239,6 +239,7 @@ with CriblControlPlane(
 | `password`                                                              | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
 | `request_timeout`                                                       | *Optional[float]*                                                       | :heavy_minus_sign:                                                      | N/A                                                                     |
 | `tags`                                                                  | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
+| `text_secret`                                                           | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
 | `user`                                                                  | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
 | `retries`                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)        | :heavy_minus_sign:                                                      | Configuration to override the default retry behavior of the client.     |
 
@@ -381,7 +382,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", connection_timeout=15000, tags="analytics,mysql")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", connection_timeout=15000, tags="analytics,mysql", text_secret="mysql-analytics-connection")
 
     # Handle response
     print(res)
@@ -423,7 +424,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secrets", database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", connection_timeout=15000, creds_secrets="oracle-secure-credentials", tags="secure,oracle,sensitive-data")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secrets", database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", connection_timeout=15000, creds_secrets="oracle-secure-credentials", tags="secure,oracle,sensitive-data", text_secret="oracle-secure-connection")
 
     # Handle response
     print(res)
@@ -444,7 +445,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", connection_timeout=20000, password="Warehouse_Pass789!", tags="warehouse,oracle,reporting", user="warehouse_user")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", connection_timeout=20000, password="Warehouse_Pass789!", tags="warehouse,oracle,reporting", text_secret="oracle-warehouse-connection", user="warehouse_user")
 
     # Handle response
     print(res)
@@ -486,7 +487,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", connection_timeout=10000, tags="logs,postgres")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", connection_timeout=10000, tags="logs,postgres", text_secret="postgres-logs-connection")
 
     # Handle response
     print(res)
@@ -549,7 +550,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", connection_timeout=15000, request_timeout=15000, tags="crm,sqlserver,sales")
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", connection_timeout=15000, request_timeout=15000, tags="crm,sqlserver,sales", text_secret="sqlserver-crm-connection")
 
     # Handle response
     print(res)
@@ -572,6 +573,7 @@ with CriblControlPlane(
 | `password`                                                              | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
 | `request_timeout`                                                       | *Optional[float]*                                                       | :heavy_minus_sign:                                                      | N/A                                                                     |
 | `tags`                                                                  | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
+| `text_secret`                                                           | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
 | `user`                                                                  | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
 | `retries`                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)        | :heavy_minus_sign:                                                      | Configuration to override the default retry behavior of the client.     |
 

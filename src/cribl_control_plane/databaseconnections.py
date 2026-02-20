@@ -24,6 +24,7 @@ class DatabaseConnections(BaseSDK):
         password: Optional[str] = None,
         request_timeout: Optional[float] = None,
         tags: Optional[str] = None,
+        text_secret: Optional[str] = None,
         user: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -45,6 +46,7 @@ class DatabaseConnections(BaseSDK):
         :param password:
         :param request_timeout:
         :param tags:
+        :param text_secret:
         :param user:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -73,6 +75,7 @@ class DatabaseConnections(BaseSDK):
             password=password,
             request_timeout=request_timeout,
             tags=tags,
+            text_secret=text_secret,
             user=user,
         )
 
@@ -154,6 +157,7 @@ class DatabaseConnections(BaseSDK):
         password: Optional[str] = None,
         request_timeout: Optional[float] = None,
         tags: Optional[str] = None,
+        text_secret: Optional[str] = None,
         user: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -175,6 +179,7 @@ class DatabaseConnections(BaseSDK):
         :param password:
         :param request_timeout:
         :param tags:
+        :param text_secret:
         :param user:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -203,6 +208,7 @@ class DatabaseConnections(BaseSDK):
             password=password,
             request_timeout=request_timeout,
             tags=tags,
+            text_secret=text_secret,
             user=user,
         )
 
@@ -661,6 +667,7 @@ class DatabaseConnections(BaseSDK):
         password: Optional[str] = None,
         request_timeout: Optional[float] = None,
         tags: Optional[str] = None,
+        text_secret: Optional[str] = None,
         user: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -683,6 +690,7 @@ class DatabaseConnections(BaseSDK):
         :param password:
         :param request_timeout:
         :param tags:
+        :param text_secret:
         :param user:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -713,6 +721,7 @@ class DatabaseConnections(BaseSDK):
                 password=password,
                 request_timeout=request_timeout,
                 tags=tags,
+                text_secret=text_secret,
                 user=user,
             ),
         )
@@ -800,6 +809,7 @@ class DatabaseConnections(BaseSDK):
         password: Optional[str] = None,
         request_timeout: Optional[float] = None,
         tags: Optional[str] = None,
+        text_secret: Optional[str] = None,
         user: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -822,6 +832,7 @@ class DatabaseConnections(BaseSDK):
         :param password:
         :param request_timeout:
         :param tags:
+        :param text_secret:
         :param user:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -852,6 +863,7 @@ class DatabaseConnections(BaseSDK):
                 password=password,
                 request_timeout=request_timeout,
                 tags=tags,
+                text_secret=text_secret,
                 user=user,
             ),
         )

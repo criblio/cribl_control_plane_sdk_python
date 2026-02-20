@@ -19,7 +19,7 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -147,7 +147,6 @@ class InputSplunkHecTypedDict(TypedDict):
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
     keep_alive_timeout: NotRequired[float]
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[Any]
     ip_allowlist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
@@ -269,10 +268,6 @@ class InputSplunkHec(BaseModel):
     ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
-    enable_health_check: Annotated[
-        Optional[Any], pydantic.Field(alias="enableHealthCheck")
-    ] = None
-
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
     ] = None
@@ -376,7 +371,6 @@ class InputSplunkHec(BaseModel):
                 "requestTimeout",
                 "socketTimeout",
                 "keepAliveTimeout",
-                "enableHealthCheck",
                 "ipAllowlistRegex",
                 "ipDenylistRegex",
                 "metadata",

@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-alpha.1771589747951-c3d7ab45
+  version: 4.17.0-alpha.1771592147797-dd1a75bc
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -12820,7 +12820,6 @@ components:
           description: After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes).
           minimum: 1
           maximum: 600
-        enableHealthCheck: {}
         ipAllowlistRegex:
           type: string
           title: IP allowlist regex
@@ -18727,9 +18726,6 @@ components:
           title: Requests-per-socket limit
           description: Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited).
           minimum: 0
-        enableProxyHeader: {}
-        captureHeaders: {}
-        activityLogSampleRate: {}
         requestTimeout:
           type: number
           title: Request timeout (seconds)
@@ -19838,8 +19834,6 @@ components:
               type: boolean
               title: Verify certificate via OCSP
               description: Enable OCSP check of certificate
-            keytab: {}
-            principal: {}
             ocspCheckFailClose:
               type: boolean
               title: Strict validation
@@ -21144,7 +21138,6 @@ components:
           description: After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes).
           minimum: 1
           maximum: 600
-        enableHealthCheck: {}
         ipAllowlistRegex:
           type: string
           title: IP allowlist regex
@@ -21271,7 +21264,6 @@ components:
           description: "Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."
           items:
             type: object
-            required: []
             properties:
               authType:
                 title: Authentication method
@@ -21284,7 +21276,6 @@ components:
                 type: string
                 title: Token secret (text secret)
                 description: Select or create a stored text secret
-              token: {}
               enabled:
                 type: boolean
                 title: Enable token
@@ -21388,7 +21379,6 @@ components:
           description: After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes).
           minimum: 1
           maximum: 600
-        enableHealthCheck: {}
         ipAllowlistRegex:
           type: string
           title: IP allowlist regex
@@ -23249,7 +23239,6 @@ components:
           description: Tags for filtering and grouping in @{product}
           items:
             type: string
-        loadBalanced: {}
         nextQueue:
           type: string
           title: Next Processing Queue
@@ -23309,7 +23298,6 @@ components:
           description: List of headers that are safe to log in plain text
           items:
             type: string
-        enableMultiMetrics: {}
         authType:
           $ref: "#/components/schemas/AuthenticationMethodOptionsAuthTokensItems"
         responseRetrySettings:
@@ -33813,10 +33801,7 @@ components:
           minItems: 1
           items:
             type: object
-            required:
-              - url
             properties:
-              url: {}
               weight:
                 type: number
                 title: Load Weight
@@ -35377,7 +35362,6 @@ components:
           type: string
           title: Secret key
           description: Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`).
-        region: {}
         stagePath:
           type: string
           title: Staging location
@@ -35392,7 +35376,6 @@ components:
           description: Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks.
         signatureVersion:
           $ref: "#/components/schemas/SignatureVersionOptions5"
-        objectACL: {}
         storageClass:
           $ref: "#/components/schemas/StorageClassOptions2"
         serverSideEncryption:

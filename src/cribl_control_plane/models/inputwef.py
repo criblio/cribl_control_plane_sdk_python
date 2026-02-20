@@ -18,7 +18,7 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -58,8 +58,6 @@ class MTLSSettingsTypedDict(TypedDict):
     max_version: NotRequired[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS]
     ocsp_check: NotRequired[bool]
     r"""Enable OCSP check of certificate"""
-    keytab: NotRequired[Any]
-    principal: NotRequired[Any]
     ocsp_check_fail_close: NotRequired[bool]
     r"""If enabled, checks will fail on any OCSP error. Otherwise, checks will fail only when a certificate is revoked, ignoring other errors."""
 
@@ -111,10 +109,6 @@ class MTLSSettings(BaseModel):
     ocsp_check: Annotated[Optional[bool], pydantic.Field(alias="ocspCheck")] = None
     r"""Enable OCSP check of certificate"""
 
-    keytab: Optional[Any] = None
-
-    principal: Optional[Any] = None
-
     ocsp_check_fail_close: Annotated[
         Optional[bool], pydantic.Field(alias="ocspCheckFailClose")
     ] = None
@@ -151,8 +145,6 @@ class MTLSSettings(BaseModel):
                 "minVersion",
                 "maxVersion",
                 "ocspCheck",
-                "keytab",
-                "principal",
                 "ocspCheckFailClose",
             ]
         )

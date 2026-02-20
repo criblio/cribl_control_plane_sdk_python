@@ -54,7 +54,7 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional, Union
+from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -75,7 +75,6 @@ class CreateInputSystemByPackAuthTokenCloudflareHecTypedDict(TypedDict):
     r"""Select Secret to use a text secret to authenticate"""
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    token: NotRequired[Any]
     enabled: NotRequired[bool]
     description: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
@@ -93,8 +92,6 @@ class CreateInputSystemByPackAuthTokenCloudflareHec(BaseModel):
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored text secret"""
-
-    token: Optional[Any] = None
 
     enabled: Optional[bool] = None
 
@@ -125,7 +122,6 @@ class CreateInputSystemByPackAuthTokenCloudflareHec(BaseModel):
             [
                 "authType",
                 "tokenSecret",
-                "token",
                 "enabled",
                 "description",
                 "allowedIndexesAtToken",
@@ -307,7 +303,6 @@ class CreateInputSystemByPackInputCloudflareHecTypedDict(TypedDict):
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
     keep_alive_timeout: NotRequired[float]
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[Any]
     ip_allowlist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
@@ -420,10 +415,6 @@ class CreateInputSystemByPackInputCloudflareHec(BaseModel):
     ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
-    enable_health_check: Annotated[
-        Optional[Any], pydantic.Field(alias="enableHealthCheck")
-    ] = None
-
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
     ] = None
@@ -501,7 +492,6 @@ class CreateInputSystemByPackInputCloudflareHec(BaseModel):
                 "requestTimeout",
                 "socketTimeout",
                 "keepAliveTimeout",
-                "enableHealthCheck",
                 "ipAllowlistRegex",
                 "ipDenylistRegex",
                 "metadata",
@@ -652,7 +642,6 @@ class CreateInputSystemByPackInputZscalerHecTypedDict(TypedDict):
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
     keep_alive_timeout: NotRequired[float]
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[Any]
     ip_allowlist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
@@ -765,10 +754,6 @@ class CreateInputSystemByPackInputZscalerHec(BaseModel):
     ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
-    enable_health_check: Annotated[
-        Optional[Any], pydantic.Field(alias="enableHealthCheck")
-    ] = None
-
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
     ] = None
@@ -844,7 +829,6 @@ class CreateInputSystemByPackInputZscalerHec(BaseModel):
                 "requestTimeout",
                 "socketTimeout",
                 "keepAliveTimeout",
-                "enableHealthCheck",
                 "ipAllowlistRegex",
                 "ipDenylistRegex",
                 "metadata",
@@ -2625,8 +2609,6 @@ class CreateInputSystemByPackMTLSSettingsTypedDict(TypedDict):
     max_version: NotRequired[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS]
     ocsp_check: NotRequired[bool]
     r"""Enable OCSP check of certificate"""
-    keytab: NotRequired[Any]
-    principal: NotRequired[Any]
     ocsp_check_fail_close: NotRequired[bool]
     r"""If enabled, checks will fail on any OCSP error. Otherwise, checks will fail only when a certificate is revoked, ignoring other errors."""
 
@@ -2678,10 +2660,6 @@ class CreateInputSystemByPackMTLSSettings(BaseModel):
     ocsp_check: Annotated[Optional[bool], pydantic.Field(alias="ocspCheck")] = None
     r"""Enable OCSP check of certificate"""
 
-    keytab: Optional[Any] = None
-
-    principal: Optional[Any] = None
-
     ocsp_check_fail_close: Annotated[
         Optional[bool], pydantic.Field(alias="ocspCheckFailClose")
     ] = None
@@ -2718,8 +2696,6 @@ class CreateInputSystemByPackMTLSSettings(BaseModel):
                 "minVersion",
                 "maxVersion",
                 "ocspCheck",
-                "keytab",
-                "principal",
                 "ocspCheckFailClose",
             ]
         )
@@ -5065,9 +5041,6 @@ class CreateInputSystemByPackInputOpenTelemetryTypedDict(TypedDict):
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[Any]
-    capture_headers: NotRequired[Any]
-    activity_log_sample_rate: NotRequired[Any]
     request_timeout: NotRequired[float]
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
     socket_timeout: NotRequired[float]
@@ -5158,18 +5131,6 @@ class CreateInputSystemByPackInputOpenTelemetry(BaseModel):
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
     ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[Any], pydantic.Field(alias="enableProxyHeader")
-    ] = None
-
-    capture_headers: Annotated[
-        Optional[Any], pydantic.Field(alias="captureHeaders")
-    ] = None
-
-    activity_log_sample_rate: Annotated[
-        Optional[Any], pydantic.Field(alias="activityLogSampleRate")
-    ] = None
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
@@ -5305,9 +5266,6 @@ class CreateInputSystemByPackInputOpenTelemetry(BaseModel):
                 "tls",
                 "maxActiveReq",
                 "maxRequestsPerSocket",
-                "enableProxyHeader",
-                "captureHeaders",
-                "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
                 "keepAliveTimeout",

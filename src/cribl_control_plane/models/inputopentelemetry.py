@@ -17,7 +17,7 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -70,9 +70,6 @@ class InputOpenTelemetryTypedDict(TypedDict):
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[Any]
-    capture_headers: NotRequired[Any]
-    activity_log_sample_rate: NotRequired[Any]
     request_timeout: NotRequired[float]
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
     socket_timeout: NotRequired[float]
@@ -163,18 +160,6 @@ class InputOpenTelemetry(BaseModel):
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
     ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[Any], pydantic.Field(alias="enableProxyHeader")
-    ] = None
-
-    capture_headers: Annotated[
-        Optional[Any], pydantic.Field(alias="captureHeaders")
-    ] = None
-
-    activity_log_sample_rate: Annotated[
-        Optional[Any], pydantic.Field(alias="activityLogSampleRate")
-    ] = None
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
@@ -310,9 +295,6 @@ class InputOpenTelemetry(BaseModel):
                 "tls",
                 "maxActiveReq",
                 "maxRequestsPerSocket",
-                "enableProxyHeader",
-                "captureHeaders",
-                "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
                 "keepAliveTimeout",

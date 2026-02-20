@@ -17,7 +17,7 @@ from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import Any, List, Optional, Union
+from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -225,13 +225,17 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherType
     TypedDict
 ):
     discover_method: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -242,7 +246,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherType
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -252,7 +255,8 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -263,10 +267,12 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -287,10 +293,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -328,7 +330,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -397,13 +398,12 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     TypedDict
 ):
     discover_method: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -414,7 +414,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -426,7 +425,8 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -436,12 +436,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -461,10 +455,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -496,13 +486,10 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -575,9 +562,9 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTyped
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -588,7 +575,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTyped
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -608,12 +594,9 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -633,10 +616,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -669,13 +648,10 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -750,9 +726,9 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedD
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -763,7 +739,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedD
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -783,12 +758,9 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -808,10 +780,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -844,13 +812,10 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -926,9 +891,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueT
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -939,7 +901,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueT
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -968,14 +929,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -994,10 +947,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -1027,14 +976,10 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -1107,9 +1052,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -1120,7 +1062,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -1144,14 +1085,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -1170,10 +1103,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -1202,14 +1131,10 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -1276,7 +1201,8 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
 class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -1284,9 +1210,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     discover_method: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -1302,8 +1225,9 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -1323,14 +1247,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -1377,9 +1293,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -1457,9 +1370,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     discover_method: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -1468,7 +1378,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -1494,14 +1403,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -1515,10 +1416,6 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -1551,13 +1448,9 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -1579,13 +1472,13 @@ RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -2850,13 +2743,17 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     TypedDict
 ):
     discover_method: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -2867,7 +2764,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -2879,7 +2775,8 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -2890,10 +2787,12 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -2914,10 +2813,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -2955,7 +2850,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -3024,13 +2918,12 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     TypedDict
 ):
     discover_method: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -3041,7 +2934,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -3053,7 +2945,8 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -3063,12 +2956,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -3088,10 +2975,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -3123,13 +3006,10 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -3202,9 +3082,9 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -3215,7 +3095,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -3237,12 +3116,9 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -3262,10 +3138,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -3298,13 +3170,10 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -3377,9 +3246,9 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -3390,7 +3259,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -3412,12 +3280,9 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -3437,10 +3302,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -3473,13 +3334,10 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -3555,9 +3413,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDisc
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -3568,7 +3423,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDisc
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -3597,14 +3451,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDisc
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -3623,10 +3469,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDisc
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -3656,14 +3498,10 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDisc
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -3736,9 +3574,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDisc
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -3749,7 +3584,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDisc
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -3773,14 +3607,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDisc
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -3799,10 +3625,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDisc
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -3831,14 +3653,10 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDisc
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -3905,7 +3723,8 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStri
 class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -3913,9 +3732,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStri
     discover_method: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -3931,8 +3747,9 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStri
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -3952,14 +3769,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStri
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -4006,9 +3815,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStri
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -4086,9 +3892,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStri
     discover_method: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -4097,7 +3900,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStri
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -4123,14 +3925,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStri
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -4144,10 +3938,6 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStri
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -4180,13 +3970,9 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStri
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -4208,13 +3994,13 @@ RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPTypedDict = Type
     "RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -5533,13 +5319,17 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     TypedDict
 ):
     discover_method: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -5550,7 +5340,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -5562,7 +5351,8 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -5573,10 +5363,12 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -5597,10 +5389,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -5638,7 +5426,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -5707,13 +5494,12 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     TypedDict
 ):
     discover_method: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -5724,7 +5510,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -5736,7 +5521,8 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -5746,12 +5532,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -5771,10 +5551,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -5806,13 +5582,10 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -5885,9 +5658,9 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -5898,7 +5671,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -5920,12 +5692,9 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -5945,10 +5714,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -5981,13 +5746,10 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -6060,9 +5822,9 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -6073,7 +5835,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -6095,12 +5856,9 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -6120,10 +5878,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -6156,13 +5910,10 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -6238,9 +5989,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -6251,7 +5999,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -6280,14 +6027,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -6306,10 +6045,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -6339,14 +6074,10 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -6419,9 +6150,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -6432,7 +6160,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -6456,14 +6183,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -6482,10 +6201,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -6514,14 +6229,10 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -6588,7 +6299,8 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
 class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -6596,9 +6308,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     discover_method: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -6614,8 +6323,9 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -6635,14 +6345,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -6689,9 +6391,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -6769,9 +6468,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     discover_method: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -6780,7 +6476,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -6806,14 +6501,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -6827,10 +6514,6 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -6863,13 +6546,9 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -6891,13 +6570,13 @@ RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasT
     "RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -8190,13 +7869,17 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     TypedDict
 ):
     discover_method: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -8207,7 +7890,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -8219,7 +7901,8 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -8230,10 +7913,12 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -8254,10 +7939,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -8295,7 +7976,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -8364,13 +8044,12 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     TypedDict
 ):
     discover_method: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -8381,7 +8060,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -8393,7 +8071,8 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -8403,12 +8082,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -8428,10 +8101,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -8463,13 +8132,10 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -8542,9 +8208,9 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -8555,7 +8221,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -8577,12 +8242,9 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -8602,10 +8264,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -8638,13 +8296,10 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -8717,9 +8372,9 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -8730,7 +8385,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -8752,12 +8406,9 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -8777,10 +8428,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -8813,13 +8460,10 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -8895,9 +8539,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -8908,7 +8549,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -8937,14 +8577,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -8963,10 +8595,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -8996,14 +8624,10 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -9076,9 +8700,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -9089,7 +8710,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -9113,14 +8733,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -9139,10 +8751,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -9171,14 +8779,10 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -9245,7 +8849,8 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
 class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -9253,9 +8858,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     discover_method: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -9271,8 +8873,9 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -9292,14 +8895,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -9346,9 +8941,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -9426,9 +9018,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     discover_method: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -9437,7 +9026,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -9463,14 +9051,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -9484,10 +9064,6 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -9520,13 +9096,9 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -9548,13 +9120,13 @@ RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasT
     "RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -10880,13 +10452,17 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTyp
     TypedDict
 ):
     discover_method: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -10897,7 +10473,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTyp
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -10909,7 +10484,8 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -10920,10 +10496,12 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -10944,10 +10522,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -10985,7 +10559,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -11054,13 +10627,12 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
     TypedDict
 ):
     discover_method: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -11071,7 +10643,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -11083,7 +10654,8 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -11093,12 +10665,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -11118,10 +10684,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -11153,13 +10715,10 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -11232,9 +10791,9 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -11245,7 +10804,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostType
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -11265,12 +10823,9 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Bas
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -11290,10 +10845,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Bas
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -11326,13 +10877,10 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Bas
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -11405,9 +10953,9 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTyped
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -11418,7 +10966,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTyped
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -11438,12 +10985,9 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(Base
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -11463,10 +11007,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(Base
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -11499,13 +11039,10 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(Base
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -11581,9 +11118,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -11594,7 +11128,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -11623,14 +11156,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -11649,10 +11174,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -11682,14 +11203,10 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -11762,9 +11279,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFals
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -11775,7 +11289,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFals
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -11799,14 +11312,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFals
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -11825,10 +11330,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFals
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -11857,14 +11358,10 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFals
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -11931,7 +11428,8 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
 class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -11939,9 +11437,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
     discover_method: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -11957,8 +11452,9 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -11978,14 +11474,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -12032,9 +11520,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -12112,9 +11597,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
     discover_method: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -12123,7 +11605,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -12149,14 +11630,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -12170,10 +11643,6 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -12206,13 +11675,9 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -12234,13 +11699,13 @@ RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -13562,13 +13027,17 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     TypedDict
 ):
     discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -13579,7 +13048,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -13591,7 +13059,8 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -13602,10 +13071,12 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -13626,10 +13097,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -13667,7 +13134,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -13736,13 +13202,12 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     TypedDict
 ):
     discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -13753,7 +13218,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -13765,7 +13229,8 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -13775,12 +13240,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -13800,10 +13259,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -13835,13 +13290,10 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -13914,9 +13366,9 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -13927,7 +13379,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -13949,12 +13400,9 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -13974,10 +13422,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -14010,13 +13454,10 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -14089,9 +13530,9 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -14102,7 +13543,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -14124,12 +13564,9 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -14149,10 +13586,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -14185,13 +13618,10 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -14267,9 +13697,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -14280,7 +13707,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -14309,14 +13735,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -14335,10 +13753,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -14368,14 +13782,10 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -14448,9 +13858,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -14461,7 +13868,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -14485,14 +13891,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -14511,10 +13909,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -14543,14 +13937,10 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -14617,7 +14007,8 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -14625,9 +14016,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -14643,8 +14031,9 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -14664,14 +14053,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -14718,9 +14099,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -14798,9 +14176,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -14809,7 +14184,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -14835,14 +14209,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -14856,10 +14222,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -14892,13 +14254,9 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -14920,13 +14278,13 @@ RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     "RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -16325,13 +15683,17 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     TypedDict
 ):
     discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -16342,7 +15704,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -16354,7 +15715,8 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -16365,10 +15727,12 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -16389,10 +15753,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -16430,7 +15790,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -16499,13 +15858,12 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     TypedDict
 ):
     discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -16516,7 +15874,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -16528,7 +15885,8 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -16538,12 +15896,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -16563,10 +15915,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -16598,13 +15946,10 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -16677,9 +16022,9 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -16690,7 +16035,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -16712,12 +16056,9 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -16737,10 +16078,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -16773,13 +16110,10 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -16852,9 +16186,9 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -16865,7 +16199,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -16887,12 +16220,9 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -16912,10 +16242,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -16948,13 +16274,10 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -17030,9 +16353,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -17043,7 +16363,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -17072,14 +16391,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -17098,10 +16409,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -17131,14 +16438,10 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -17211,9 +16514,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -17224,7 +16524,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -17248,14 +16547,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -17274,10 +16565,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -17306,14 +16593,10 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -17380,7 +16663,8 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
 class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -17388,9 +16672,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -17406,8 +16687,9 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -17427,14 +16709,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -17481,9 +16755,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -17561,9 +16832,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     discover_method: RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -17572,7 +16840,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -17598,14 +16865,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -17619,10 +16878,6 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -17655,13 +16910,9 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -17683,13 +16934,13 @@ RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     "RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -19116,13 +18367,17 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     TypedDict
 ):
     discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -19133,7 +18388,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -19145,7 +18399,8 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -19156,10 +18411,12 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -19180,10 +18437,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -19221,7 +18474,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -19290,13 +18542,12 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     TypedDict
 ):
     discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -19307,7 +18558,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -19319,7 +18569,8 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -19329,12 +18580,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -19354,10 +18599,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -19389,13 +18630,10 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -19468,9 +18706,9 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -19481,7 +18719,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -19503,12 +18740,9 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -19528,10 +18762,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -19564,13 +18794,10 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -19643,9 +18870,9 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -19656,7 +18883,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -19678,12 +18904,9 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -19703,10 +18926,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -19739,13 +18958,10 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -19821,9 +19037,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -19834,7 +19047,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -19863,14 +19075,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -19889,10 +19093,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -19922,14 +19122,10 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -20002,9 +19198,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -20015,7 +19208,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -20039,14 +19231,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -20065,10 +19249,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -20097,14 +19277,10 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -20171,7 +19347,8 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
 class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -20179,9 +19356,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -20197,8 +19371,9 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -20218,14 +19393,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -20272,9 +19439,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -20352,9 +19516,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -20363,7 +19524,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -20389,14 +19549,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -20410,10 +19562,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -20446,13 +19594,9 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -20899,13 +20043,17 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     TypedDict
 ):
     discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -20916,7 +20064,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -20928,7 +20075,8 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -20939,10 +20087,12 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -20963,10 +20113,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -21004,7 +20150,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -21073,13 +20218,12 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     TypedDict
 ):
     discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -21090,7 +20234,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -21102,7 +20245,8 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -21112,12 +20256,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -21137,10 +20275,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -21172,13 +20306,10 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -21251,9 +20382,9 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -21264,7 +20395,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -21286,12 +20416,9 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -21311,10 +20438,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -21347,13 +20470,10 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -21381,9 +20501,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
     discover_method: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -21392,7 +20509,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -21418,14 +20534,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -21439,10 +20547,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -21475,13 +20579,9 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -21503,13 +20603,13 @@ RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPTy
     "RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -22529,9 +21629,9 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -22542,7 +21642,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -22564,12 +21663,9 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -22589,10 +21685,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -22625,13 +21717,10 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -22707,9 +21796,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -22720,7 +21806,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -22749,14 +21834,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -22775,10 +21852,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -22808,14 +21881,10 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -22888,9 +21957,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -22901,7 +21967,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -22925,14 +21990,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -22951,10 +22008,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -22983,14 +22036,10 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -23057,7 +22106,8 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
 class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -23065,9 +22115,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -23083,8 +22130,9 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -23104,14 +22152,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -23158,9 +22198,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -23238,9 +22275,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     discover_method: RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -23249,7 +22283,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -23275,14 +22308,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -23296,10 +22321,6 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -23332,13 +22353,9 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTyp
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -23360,13 +22377,13 @@ RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPT
     "RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestAuthenticationLoginGetAuthTokenFromHeaderFalseRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -24780,13 +23797,17 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     TypedDict
 ):
     discover_method: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -24797,7 +23818,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -24809,7 +23829,8 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -24820,10 +23841,12 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -24844,10 +23867,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -24885,7 +23904,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -24954,13 +23972,12 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     TypedDict
 ):
     discover_method: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -24971,7 +23988,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -24983,7 +23999,8 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -24993,12 +24010,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -25018,10 +24029,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -25053,13 +24060,10 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -25132,9 +24136,9 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -25145,7 +24149,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -25167,12 +24170,9 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -25192,10 +24192,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -25228,13 +24224,10 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -25307,9 +24300,9 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -25320,7 +24313,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -25342,12 +24334,9 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -25367,10 +24356,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -25403,13 +24388,10 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -25485,9 +24467,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -25498,7 +24477,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -25527,14 +24505,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -25553,10 +24523,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -25586,14 +24552,10 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -25666,9 +24628,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -25679,7 +24638,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -25703,14 +24661,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -25729,10 +24679,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -25761,14 +24707,10 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -25835,7 +24777,8 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
 class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -25843,9 +24786,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     discover_method: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -25861,8 +24801,9 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -25882,14 +24823,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -25936,9 +24869,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -26016,9 +24946,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     discover_method: RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -26027,7 +24954,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -26053,14 +24979,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -26074,10 +24992,6 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -26110,13 +25024,9 @@ class RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -26138,13 +25048,13 @@ RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasT
     "RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestAuthenticationBasicSecretRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -27417,13 +26327,17 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTyp
     TypedDict
 ):
     discover_method: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -27434,7 +26348,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTyp
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -27446,7 +26359,8 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -27457,10 +26371,12 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -27481,10 +26397,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -27522,7 +26434,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -27591,13 +26502,12 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
     TypedDict
 ):
     discover_method: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -27608,7 +26518,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -27620,7 +26529,8 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -27630,12 +26540,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -27655,10 +26559,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -27690,13 +26590,10 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWith
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -27769,9 +26666,9 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -27782,7 +26679,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostType
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -27802,12 +26698,9 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Bas
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -27827,10 +26720,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Bas
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -27863,13 +26752,10 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Bas
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -27942,9 +26828,9 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTyped
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -27955,7 +26841,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTyped
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -27975,12 +26860,9 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(Base
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -28000,10 +26882,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(Base
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -28036,13 +26914,10 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(Base
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -28118,9 +26993,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -28131,7 +27003,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -28160,14 +27031,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -28186,10 +27049,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -28219,14 +27078,10 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -28299,9 +27154,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFals
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -28312,7 +27164,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFals
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -28336,14 +27187,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFals
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -28362,10 +27205,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFals
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -28394,14 +27233,10 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFals
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -28468,7 +27303,8 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
 class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -28476,9 +27312,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
     discover_method: RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -28494,8 +27327,9 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -28515,14 +27349,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -28569,9 +27395,6 @@ class RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPa
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -28643,13 +27466,13 @@ RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestAuthenticationBasicRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -29903,13 +28726,17 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherType
     TypedDict
 ):
     discover_method: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -29920,7 +28747,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherType
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -29930,7 +28756,8 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -29941,10 +28768,12 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -29965,10 +28794,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -30006,7 +28831,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -30075,13 +28899,12 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     TypedDict
 ):
     discover_method: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -30092,7 +28915,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -30104,7 +28926,8 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -30114,12 +28937,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -30139,10 +28956,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -30174,13 +28987,10 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -30253,9 +29063,9 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTyped
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -30266,7 +29076,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTyped
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -30286,12 +29095,9 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -30311,10 +29117,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -30347,13 +29149,10 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -30428,9 +29227,9 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedD
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -30441,7 +29240,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedD
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -30461,12 +29259,9 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -30486,10 +29281,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -30522,13 +29313,10 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -30604,9 +29392,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueT
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -30617,7 +29402,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueT
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -30646,14 +29430,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -30672,10 +29448,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -30705,14 +29477,10 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -30785,9 +29553,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -30798,7 +29563,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -30822,14 +29586,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -30848,10 +29604,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -30880,14 +29632,10 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -30954,7 +29702,8 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
 class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -30962,9 +29711,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     discover_method: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -30980,8 +29726,9 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -31001,14 +29748,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -31055,9 +29794,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -31135,9 +29871,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     discover_method: RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -31146,7 +29879,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -31172,14 +29904,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -31193,10 +29917,6 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -31229,13 +29949,9 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -31257,13 +29973,13 @@ RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -32505,13 +31221,17 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherType
     TypedDict
 ):
     discover_method: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -32522,7 +31242,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherType
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -32532,7 +31251,8 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -32543,10 +31263,12 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -32567,10 +31289,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -32608,7 +31326,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -32677,13 +31394,12 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     TypedDict
 ):
     discover_method: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -32694,7 +31410,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -32706,7 +31421,8 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -32716,12 +31432,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -32741,10 +31451,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -32776,13 +31482,10 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -32855,9 +31558,9 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTyped
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -32868,7 +31571,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTyped
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -32888,12 +31590,9 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -32913,10 +31612,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -32949,13 +31644,10 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -33030,9 +31722,9 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedD
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -33043,7 +31735,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedD
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -33063,12 +31754,9 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -33088,10 +31776,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -33124,13 +31808,10 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -33206,9 +31887,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueT
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -33219,7 +31897,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueT
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -33248,14 +31925,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -33274,10 +31943,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -33307,14 +31972,10 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -33387,9 +32048,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -33400,7 +32058,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -33424,14 +32081,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -33450,10 +32099,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -33482,14 +32127,10 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -33556,7 +32197,8 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
 class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -33564,9 +32206,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     discover_method: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -33582,8 +32221,9 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -33603,14 +32243,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -33657,9 +32289,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -33737,9 +32366,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     discover_method: RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -33748,7 +32374,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -33774,14 +32399,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -33795,10 +32412,6 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -33831,13 +32444,9 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -33859,13 +32468,13 @@ RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -35139,13 +33748,17 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     TypedDict
 ):
     discover_method: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -35156,7 +33769,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -35168,7 +33780,8 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -35179,10 +33792,12 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -35203,10 +33818,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -35244,7 +33855,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -35313,13 +33923,12 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     TypedDict
 ):
     discover_method: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -35330,7 +33939,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -35342,7 +33950,8 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -35352,12 +33961,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -35377,10 +33980,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -35412,13 +34011,10 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -35491,9 +34087,9 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -35504,7 +34100,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -35526,12 +34121,9 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -35551,10 +34143,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -35587,13 +34175,10 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -35666,9 +34251,9 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -35679,7 +34264,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -35701,12 +34285,9 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -35726,10 +34307,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -35762,13 +34339,10 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -35844,9 +34418,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -35857,7 +34428,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -35886,14 +34456,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -35912,10 +34474,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -35945,14 +34503,10 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -36025,9 +34579,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -36038,7 +34589,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -36062,14 +34612,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -36088,10 +34630,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -36120,14 +34658,10 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -36194,7 +34728,8 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
 class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -36202,9 +34737,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     discover_method: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -36220,8 +34752,9 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -36241,14 +34774,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -36295,9 +34820,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -36375,9 +34897,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     discover_method: RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -36386,7 +34905,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -36412,14 +34930,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -36433,10 +34943,6 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -36469,13 +34975,9 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDisc
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -36497,13 +34999,13 @@ RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasT
     "RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -37776,13 +36278,17 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTyped
     TypedDict
 ):
     discover_method: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -37793,7 +36299,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTyped
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -37803,7 +36308,8 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Base
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -37814,10 +36320,12 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Base
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -37838,10 +36346,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Base
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -37879,7 +36383,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Base
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -37948,13 +36451,12 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBo
     TypedDict
 ):
     discover_method: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -37965,7 +36467,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBo
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -37977,7 +36478,8 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBo
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -37987,12 +36489,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBo
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -38012,10 +36508,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -38047,13 +36539,10 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBo
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -38128,9 +36617,9 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedD
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -38141,7 +36630,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedD
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -38161,12 +36649,9 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(BaseM
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -38186,10 +36671,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(BaseM
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -38222,13 +36703,10 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(BaseM
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -38303,9 +36781,9 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDi
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -38316,7 +36794,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDi
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -38336,12 +36813,9 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseMo
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -38361,10 +36835,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseMo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -38397,13 +36867,10 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseMo
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -38479,9 +36946,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTy
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -38492,7 +36956,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTy
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -38521,14 +36984,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -38547,10 +37002,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -38580,14 +37031,10 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -38660,9 +37107,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseT
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -38673,7 +37117,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseT
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -38697,14 +37140,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -38723,10 +37158,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -38755,14 +37186,10 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -38829,7 +37256,8 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPars
 class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -38837,9 +37265,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPars
     discover_method: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -38855,8 +37280,9 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPars
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -38876,14 +37302,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPars
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -38930,9 +37348,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPars
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -39010,9 +37425,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPars
     discover_method: RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -39021,7 +37433,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPars
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -39047,14 +37458,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPars
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -39068,10 +37471,6 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPars
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -39104,13 +37503,9 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPars
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -39132,13 +37527,13 @@ RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 
@@ -40391,15 +38786,19 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedD
     TypedDict
 ):
     discover_method: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverMethod
-    discover_verb: Any
+    discover_verb: str
+    r"""Custom HTTP method to use for the Discover operation"""
     discover_type: (
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
     )
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for body to send with the discover request"""
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -40410,7 +38809,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedD
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -40420,7 +38818,8 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(BaseM
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_verb: Annotated[Any, pydantic.Field(alias="discoverVerb")]
+    discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
+    r"""Custom HTTP method to use for the Discover operation"""
 
     discover_type: Annotated[
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType,
@@ -40431,10 +38830,12 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(BaseM
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for body to send with the discover request"""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
 
     discover_request_headers: Annotated[
@@ -40455,10 +38856,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(BaseM
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -40496,7 +38893,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(BaseM
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -40565,13 +38961,12 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBod
     TypedDict
 ):
     discover_method: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverMethod
-    discover_body: Any
+    discover_body: str
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -40582,7 +38977,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBod
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -40594,7 +38988,8 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBod
         pydantic.Field(alias="discoverMethod"),
     ]
 
-    discover_body: Annotated[Any, pydantic.Field(alias="discoverBody")]
+    discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
+    r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
 
     discover_type: Annotated[
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType,
@@ -40604,12 +38999,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBod
 
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -40629,10 +39018,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBod
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -40664,13 +39049,10 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBod
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "discoverVerb",
-                "discoverRequestParams",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -40745,9 +39127,9 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDi
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -40758,7 +39140,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDi
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -40778,12 +39159,9 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(BaseMo
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -40803,10 +39181,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(BaseMo
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -40839,13 +39213,10 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(BaseMo
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -40922,9 +39293,9 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDic
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
-    discover_request_params: NotRequired[Any]
-    discover_verb: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
+    ]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -40935,7 +39306,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDic
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -40955,12 +39325,9 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseMod
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -40980,10 +39347,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseMod
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -41016,13 +39379,10 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseMod
         optional_fields = set(
             [
                 "discoverRequestParams",
-                "discoverVerb",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -41098,9 +39458,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTyp
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -41111,7 +39468,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTyp
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
@@ -41140,14 +39496,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -41166,10 +39514,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -41199,14 +39543,10 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
             [
                 "enableDiscoverCode",
                 "formatResultCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -41279,9 +39619,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTy
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
     enable_discover_code: NotRequired[bool]
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -41292,7 +39629,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTy
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_response_format: NotRequired[Any]
 
 
 class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
@@ -41316,14 +39652,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -41342,10 +39670,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     @field_serializer("discover_type")
     def serialize_discover_type(self, value):
@@ -41374,14 +39698,10 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse(
         optional_fields = set(
             [
                 "enableDiscoverCode",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
                 "enableStrictDiscoverParsing",
-                "discoverResponseFormat",
             ]
         )
         serialized = handler(self)
@@ -41448,7 +39768,8 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsi
 class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict(
     TypedDict
 ):
-    discover_response_format: Any
+    discover_response_format: str
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     discover_type: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -41456,9 +39777,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsi
     discover_method: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -41474,8 +39792,9 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsi
     BaseModel
 ):
     discover_response_format: Annotated[
-        Any, pydantic.Field(alias="discoverResponseFormat")
+        str, pydantic.Field(alias="discoverResponseFormat")
     ]
+    r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
 
     discover_type: Annotated[
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueDiscoverType,
@@ -41495,14 +39814,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsi
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
@@ -41549,9 +39860,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsi
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
@@ -41629,9 +39937,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsi
     discover_method: RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseDiscoverMethod
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
-    discover_verb: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
     discover_request_headers: NotRequired[
         List[ItemsTypeRestCollectMethodGetCollectRequestParamsTypedDict]
     ]
@@ -41640,7 +39945,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsi
     ]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-    discover_response_format: NotRequired[Any]
     enable_discover_code: NotRequired[bool]
 
 
@@ -41666,14 +39970,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsi
     ] = None
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
 
-    discover_verb: Annotated[Optional[Any], pydantic.Field(alias="discoverVerb")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeRestCollectMethodGetCollectRequestParams]],
         pydantic.Field(alias="discoverRequestHeaders"),
@@ -41687,10 +39983,6 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsi
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
-
-    discover_response_format: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverResponseFormat")
-    ] = None
 
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
@@ -41723,13 +40015,9 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsi
         optional_fields = set(
             [
                 "enableStrictDiscoverParsing",
-                "discoverVerb",
-                "discoverRequestParams",
-                "discoverBody",
                 "discoverRequestHeaders",
                 "pagination",
                 "discoverDataField",
-                "discoverResponseFormat",
                 "enableDiscoverCode",
             ]
         )
@@ -41751,13 +40039,13 @@ RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     "RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPTypedDict",
     Union[
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingFalseTypedDict,
-        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseTypedDict,
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverParsingTrueTypedDict,
+        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDict,
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDict,
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyTypedDict,
         RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedDict,
-        RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrueTypedDict,
     ],
 )
 

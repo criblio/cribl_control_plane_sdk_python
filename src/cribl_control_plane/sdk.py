@@ -33,7 +33,14 @@ if TYPE_CHECKING:
 
 
 class CriblControlPlane(BaseSDK):
-    r"""Cribl API Reference: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io)."""
+    r"""Cribl API Reference: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources.
+    Base URL contexts for reference:
+    - Leader context: /api/v1
+    - Worker Group or Edge Fleet context: /api/v1/m/{groupName}
+    - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
+    - Search context: /api/v1/m/default_search
+    https://docs.cribl.io - See our complementary product documentation
+    """
 
     database_connections: "DatabaseConnections"
     functions: "Functions"

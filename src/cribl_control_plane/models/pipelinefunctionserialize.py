@@ -3,11 +3,13 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from cribl_control_plane.utils import get_discriminator
+from cribl_control_plane.utils.unions import parse_open_union
 from enum import Enum
+from functools import partial
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import List, Optional, Union
+from pydantic import ConfigDict, field_serializer, model_serializer
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, List, Literal, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -286,13 +288,39 @@ PipelineFunctionSerializeConfTypedDict = TypeAliasType(
 )
 
 
+class UnknownPipelineFunctionSerializeConf(BaseModel):
+    r"""A PipelineFunctionSerializeConf variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_PIPELINE_FUNCTION_SERIALIZE_CONF_VARIANTS: dict[str, Any] = {
+    "kvp": SerializeTypeKvp,
+    "delim": SerializeTypeDelim,
+    "csv": SerializeTypeCsv,
+}
+
+
 PipelineFunctionSerializeConf = Annotated[
     Union[
-        Annotated[SerializeTypeKvp, Tag("kvp")],
-        Annotated[SerializeTypeDelim, Tag("delim")],
-        Annotated[SerializeTypeCsv, Tag("csv")],
+        SerializeTypeKvp,
+        SerializeTypeDelim,
+        SerializeTypeCsv,
+        UnknownPipelineFunctionSerializeConf,
     ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="type",
+            variants=_PIPELINE_FUNCTION_SERIALIZE_CONF_VARIANTS,
+            unknown_cls=UnknownPipelineFunctionSerializeConf,
+            union_name="PipelineFunctionSerializeConf",
+        )
+    ),
 ]
 
 

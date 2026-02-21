@@ -7,11 +7,13 @@ from .retrytypeoptionshealthcheckcollectorconfretryrules import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from cribl_control_plane.utils import get_discriminator
+from cribl_control_plane.utils.unions import parse_open_union
 from enum import Enum
+from functools import partial
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import Any, List, Optional, Union
+from pydantic import ConfigDict, field_serializer, model_serializer
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, List, Literal, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -275,17 +277,39 @@ SplunkAuthenticationLoginSecretRetryRulesTypedDict = TypeAliasType(
 )
 
 
+class UnknownSplunkAuthenticationLoginSecretRetryRules(BaseModel):
+    r"""A SplunkAuthenticationLoginSecretRetryRules variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_SPLUNK_AUTHENTICATION_LOGIN_SECRET_RETRY_RULES_VARIANTS: dict[str, Any] = {
+    "none": SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNone,
+    "static": SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStatic,
+    "backoff": SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoff,
+}
+
+
 SplunkAuthenticationLoginSecretRetryRules = Annotated[
     Union[
-        Annotated[SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNone, Tag("none")],
-        Annotated[
-            SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStatic, Tag("static")
-        ],
-        Annotated[
-            SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoff, Tag("backoff")
-        ],
+        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeNone,
+        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeStatic,
+        SplunkAuthenticationLoginSecretSplunkRetryRulesTypeBackoff,
+        UnknownSplunkAuthenticationLoginSecretRetryRules,
     ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="type",
+            variants=_SPLUNK_AUTHENTICATION_LOGIN_SECRET_RETRY_RULES_VARIANTS,
+            unknown_cls=UnknownSplunkAuthenticationLoginSecretRetryRules,
+            union_name="SplunkAuthenticationLoginSecretRetryRules",
+        )
+    ),
 ]
 
 
@@ -720,13 +744,39 @@ SplunkAuthenticationLoginRetryRulesTypedDict = TypeAliasType(
 )
 
 
+class UnknownSplunkAuthenticationLoginRetryRules(BaseModel):
+    r"""A SplunkAuthenticationLoginRetryRules variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_SPLUNK_AUTHENTICATION_LOGIN_RETRY_RULES_VARIANTS: dict[str, Any] = {
+    "none": SplunkAuthenticationLoginSplunkRetryRulesTypeNone,
+    "static": SplunkAuthenticationLoginSplunkRetryRulesTypeStatic,
+    "backoff": SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff,
+}
+
+
 SplunkAuthenticationLoginRetryRules = Annotated[
     Union[
-        Annotated[SplunkAuthenticationLoginSplunkRetryRulesTypeNone, Tag("none")],
-        Annotated[SplunkAuthenticationLoginSplunkRetryRulesTypeStatic, Tag("static")],
-        Annotated[SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff, Tag("backoff")],
+        SplunkAuthenticationLoginSplunkRetryRulesTypeNone,
+        SplunkAuthenticationLoginSplunkRetryRulesTypeStatic,
+        SplunkAuthenticationLoginSplunkRetryRulesTypeBackoff,
+        UnknownSplunkAuthenticationLoginRetryRules,
     ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="type",
+            variants=_SPLUNK_AUTHENTICATION_LOGIN_RETRY_RULES_VARIANTS,
+            unknown_cls=UnknownSplunkAuthenticationLoginRetryRules,
+            union_name="SplunkAuthenticationLoginRetryRules",
+        )
+    ),
 ]
 
 
@@ -1164,17 +1214,39 @@ SplunkAuthenticationTokenSecretRetryRulesTypedDict = TypeAliasType(
 )
 
 
+class UnknownSplunkAuthenticationTokenSecretRetryRules(BaseModel):
+    r"""A SplunkAuthenticationTokenSecretRetryRules variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_SPLUNK_AUTHENTICATION_TOKEN_SECRET_RETRY_RULES_VARIANTS: dict[str, Any] = {
+    "none": SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNone,
+    "static": SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStatic,
+    "backoff": SplunkAuthenticationTokenSecretSplunkRetryRulesTypeBackoff,
+}
+
+
 SplunkAuthenticationTokenSecretRetryRules = Annotated[
     Union[
-        Annotated[SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNone, Tag("none")],
-        Annotated[
-            SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStatic, Tag("static")
-        ],
-        Annotated[
-            SplunkAuthenticationTokenSecretSplunkRetryRulesTypeBackoff, Tag("backoff")
-        ],
+        SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNone,
+        SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStatic,
+        SplunkAuthenticationTokenSecretSplunkRetryRulesTypeBackoff,
+        UnknownSplunkAuthenticationTokenSecretRetryRules,
     ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="type",
+            variants=_SPLUNK_AUTHENTICATION_TOKEN_SECRET_RETRY_RULES_VARIANTS,
+            unknown_cls=UnknownSplunkAuthenticationTokenSecretRetryRules,
+            union_name="SplunkAuthenticationTokenSecretRetryRules",
+        )
+    ),
 ]
 
 
@@ -1589,13 +1661,39 @@ SplunkAuthenticationTokenRetryRulesTypedDict = TypeAliasType(
 )
 
 
+class UnknownSplunkAuthenticationTokenRetryRules(BaseModel):
+    r"""A SplunkAuthenticationTokenRetryRules variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_SPLUNK_AUTHENTICATION_TOKEN_RETRY_RULES_VARIANTS: dict[str, Any] = {
+    "none": SplunkAuthenticationTokenSplunkRetryRulesTypeNone,
+    "static": SplunkAuthenticationTokenSplunkRetryRulesTypeStatic,
+    "backoff": SplunkAuthenticationTokenSplunkRetryRulesTypeBackoff,
+}
+
+
 SplunkAuthenticationTokenRetryRules = Annotated[
     Union[
-        Annotated[SplunkAuthenticationTokenSplunkRetryRulesTypeNone, Tag("none")],
-        Annotated[SplunkAuthenticationTokenSplunkRetryRulesTypeStatic, Tag("static")],
-        Annotated[SplunkAuthenticationTokenSplunkRetryRulesTypeBackoff, Tag("backoff")],
+        SplunkAuthenticationTokenSplunkRetryRulesTypeNone,
+        SplunkAuthenticationTokenSplunkRetryRulesTypeStatic,
+        SplunkAuthenticationTokenSplunkRetryRulesTypeBackoff,
+        UnknownSplunkAuthenticationTokenRetryRules,
     ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="type",
+            variants=_SPLUNK_AUTHENTICATION_TOKEN_RETRY_RULES_VARIANTS,
+            unknown_cls=UnknownSplunkAuthenticationTokenRetryRules,
+            union_name="SplunkAuthenticationTokenRetryRules",
+        )
+    ),
 ]
 
 
@@ -2010,17 +2108,39 @@ SplunkAuthenticationBasicSecretRetryRulesTypedDict = TypeAliasType(
 )
 
 
+class UnknownSplunkAuthenticationBasicSecretRetryRules(BaseModel):
+    r"""A SplunkAuthenticationBasicSecretRetryRules variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_SPLUNK_AUTHENTICATION_BASIC_SECRET_RETRY_RULES_VARIANTS: dict[str, Any] = {
+    "none": SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNone,
+    "static": SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStatic,
+    "backoff": SplunkAuthenticationBasicSecretSplunkRetryRulesTypeBackoff,
+}
+
+
 SplunkAuthenticationBasicSecretRetryRules = Annotated[
     Union[
-        Annotated[SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNone, Tag("none")],
-        Annotated[
-            SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStatic, Tag("static")
-        ],
-        Annotated[
-            SplunkAuthenticationBasicSecretSplunkRetryRulesTypeBackoff, Tag("backoff")
-        ],
+        SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNone,
+        SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStatic,
+        SplunkAuthenticationBasicSecretSplunkRetryRulesTypeBackoff,
+        UnknownSplunkAuthenticationBasicSecretRetryRules,
     ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="type",
+            variants=_SPLUNK_AUTHENTICATION_BASIC_SECRET_RETRY_RULES_VARIANTS,
+            unknown_cls=UnknownSplunkAuthenticationBasicSecretRetryRules,
+            union_name="SplunkAuthenticationBasicSecretRetryRules",
+        )
+    ),
 ]
 
 
@@ -2435,13 +2555,39 @@ SplunkAuthenticationBasicRetryRulesTypedDict = TypeAliasType(
 )
 
 
+class UnknownSplunkAuthenticationBasicRetryRules(BaseModel):
+    r"""A SplunkAuthenticationBasicRetryRules variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_SPLUNK_AUTHENTICATION_BASIC_RETRY_RULES_VARIANTS: dict[str, Any] = {
+    "none": SplunkAuthenticationBasicSplunkRetryRulesTypeNone,
+    "static": SplunkAuthenticationBasicSplunkRetryRulesTypeStatic,
+    "backoff": SplunkAuthenticationBasicSplunkRetryRulesTypeBackoff,
+}
+
+
 SplunkAuthenticationBasicRetryRules = Annotated[
     Union[
-        Annotated[SplunkAuthenticationBasicSplunkRetryRulesTypeNone, Tag("none")],
-        Annotated[SplunkAuthenticationBasicSplunkRetryRulesTypeStatic, Tag("static")],
-        Annotated[SplunkAuthenticationBasicSplunkRetryRulesTypeBackoff, Tag("backoff")],
+        SplunkAuthenticationBasicSplunkRetryRulesTypeNone,
+        SplunkAuthenticationBasicSplunkRetryRulesTypeStatic,
+        SplunkAuthenticationBasicSplunkRetryRulesTypeBackoff,
+        UnknownSplunkAuthenticationBasicRetryRules,
     ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="type",
+            variants=_SPLUNK_AUTHENTICATION_BASIC_RETRY_RULES_VARIANTS,
+            unknown_cls=UnknownSplunkAuthenticationBasicRetryRules,
+            union_name="SplunkAuthenticationBasicRetryRules",
+        )
+    ),
 ]
 
 
@@ -2861,13 +3007,39 @@ SplunkAuthenticationNoneRetryRulesTypedDict = TypeAliasType(
 )
 
 
+class UnknownSplunkAuthenticationNoneRetryRules(BaseModel):
+    r"""A SplunkAuthenticationNoneRetryRules variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_SPLUNK_AUTHENTICATION_NONE_RETRY_RULES_VARIANTS: dict[str, Any] = {
+    "none": SplunkAuthenticationNoneSplunkRetryRulesTypeNone,
+    "static": SplunkAuthenticationNoneSplunkRetryRulesTypeStatic,
+    "backoff": SplunkAuthenticationNoneSplunkRetryRulesTypeBackoff,
+}
+
+
 SplunkAuthenticationNoneRetryRules = Annotated[
     Union[
-        Annotated[SplunkAuthenticationNoneSplunkRetryRulesTypeNone, Tag("none")],
-        Annotated[SplunkAuthenticationNoneSplunkRetryRulesTypeStatic, Tag("static")],
-        Annotated[SplunkAuthenticationNoneSplunkRetryRulesTypeBackoff, Tag("backoff")],
+        SplunkAuthenticationNoneSplunkRetryRulesTypeNone,
+        SplunkAuthenticationNoneSplunkRetryRulesTypeStatic,
+        SplunkAuthenticationNoneSplunkRetryRulesTypeBackoff,
+        UnknownSplunkAuthenticationNoneRetryRules,
     ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="type",
+            variants=_SPLUNK_AUTHENTICATION_NONE_RETRY_RULES_VARIANTS,
+            unknown_cls=UnknownSplunkAuthenticationNoneRetryRules,
+            union_name="SplunkAuthenticationNoneRetryRules",
+        )
+    ),
 ]
 
 
@@ -3032,17 +3204,47 @@ SplunkCollectorConfTypedDict = TypeAliasType(
 )
 
 
+class UnknownSplunkCollectorConf(BaseModel):
+    r"""A SplunkCollectorConf variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    authentication: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_SPLUNK_COLLECTOR_CONF_VARIANTS: dict[str, Any] = {
+    "none": SplunkAuthenticationNone,
+    "basic": SplunkAuthenticationBasic,
+    "basicSecret": SplunkAuthenticationBasicSecret,
+    "token": SplunkAuthenticationToken,
+    "tokenSecret": SplunkAuthenticationTokenSecret,
+    "login": SplunkAuthenticationLogin,
+    "loginSecret": SplunkAuthenticationLoginSecret,
+}
+
+
 SplunkCollectorConf = Annotated[
     Union[
-        Annotated[SplunkAuthenticationNone, Tag("none")],
-        Annotated[SplunkAuthenticationBasic, Tag("basic")],
-        Annotated[SplunkAuthenticationBasicSecret, Tag("basicSecret")],
-        Annotated[SplunkAuthenticationToken, Tag("token")],
-        Annotated[SplunkAuthenticationTokenSecret, Tag("tokenSecret")],
-        Annotated[SplunkAuthenticationLogin, Tag("login")],
-        Annotated[SplunkAuthenticationLoginSecret, Tag("loginSecret")],
+        SplunkAuthenticationNone,
+        SplunkAuthenticationBasic,
+        SplunkAuthenticationBasicSecret,
+        SplunkAuthenticationToken,
+        SplunkAuthenticationTokenSecret,
+        SplunkAuthenticationLogin,
+        SplunkAuthenticationLoginSecret,
+        UnknownSplunkCollectorConf,
     ],
-    Discriminator(lambda m: get_discriminator(m, "authentication", "authentication")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="authentication",
+            variants=_SPLUNK_COLLECTOR_CONF_VARIANTS,
+            unknown_cls=UnknownSplunkCollectorConf,
+            union_name="SplunkCollectorConf",
+        )
+    ),
 ]
 
 

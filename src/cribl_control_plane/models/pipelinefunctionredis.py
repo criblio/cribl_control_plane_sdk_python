@@ -13,11 +13,13 @@ from .tlsoptionstyperedisdeploymenttypeclustertlstrue import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from cribl_control_plane.utils import get_discriminator
+from cribl_control_plane.utils.unions import parse_open_union
 from enum import Enum
+from functools import partial
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import List, Optional, Union
+from pydantic import ConfigDict, field_serializer, model_serializer
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, List, Literal, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -1694,14 +1696,41 @@ PipelineFunctionRedisConfTypedDict = TypeAliasType(
 )
 
 
+class UnknownPipelineFunctionRedisConf(BaseModel):
+    r"""A PipelineFunctionRedisConf variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    auth_type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_PIPELINE_FUNCTION_REDIS_CONF_VARIANTS: dict[str, Any] = {
+    "none": RedisAuthTypeNone,
+    "manual": RedisAuthTypeManual,
+    "credentialsSecret": RedisAuthTypeCredentialsSecret,
+    "textSecret": RedisAuthTypeTextSecret,
+}
+
+
 PipelineFunctionRedisConf = Annotated[
     Union[
-        Annotated[RedisAuthTypeNone, Tag("none")],
-        Annotated[RedisAuthTypeManual, Tag("manual")],
-        Annotated[RedisAuthTypeCredentialsSecret, Tag("credentialsSecret")],
-        Annotated[RedisAuthTypeTextSecret, Tag("textSecret")],
+        RedisAuthTypeNone,
+        RedisAuthTypeManual,
+        RedisAuthTypeCredentialsSecret,
+        RedisAuthTypeTextSecret,
+        UnknownPipelineFunctionRedisConf,
     ],
-    Discriminator(lambda m: get_discriminator(m, "auth_type", "authType")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="authType",
+            variants=_PIPELINE_FUNCTION_REDIS_CONF_VARIANTS,
+            unknown_cls=UnknownPipelineFunctionRedisConf,
+            union_name="PipelineFunctionRedisConf",
+        )
+    ),
 ]
 
 

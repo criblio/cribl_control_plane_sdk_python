@@ -179,3 +179,13 @@ class RunnableJobExecutor(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    RunnableJobExecutorRun.model_rebuild()
+except NameError:
+    pass
+try:
+    RunnableJobExecutor.model_rebuild()
+except NameError:
+    pass

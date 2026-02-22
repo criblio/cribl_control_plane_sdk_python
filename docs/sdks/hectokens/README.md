@@ -11,9 +11,35 @@
 
 Add an HEC token and optional metadata to the specified Splunk HEC Source.
 
-### Example Usage
+### Example Usage: HecTokenExamplesHecToken
 
-<!-- UsageSnippet language="python" operationID="createInputHecTokenById" method="post" path="/system/inputs/{id}/hectoken" -->
+<!-- UsageSnippet language="python" operationID="createInputHecTokenById" method="post" path="/system/inputs/{id}/hectoken" example="HecTokenExamplesHecToken" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.hec_tokens.create(id="<id>", token="12345678901", enabled=True, metadata=[
+        {
+            "name": "fieldX",
+            "value": "valueX",
+        },
+    ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: HecTokenExamplesHecTokenWithIndexAccess
+
+<!-- UsageSnippet language="python" operationID="createInputHecTokenById" method="post" path="/system/inputs/{id}/hectoken" example="HecTokenExamplesHecTokenWithIndexAccess" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -27,13 +53,8 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.sources.hec_tokens.create(id="<id>", token="12345678901", allowed_indexes_at_token=[
-        "<value 1>",
-    ], description="toward precedent merry vaguely across ha fooey ingratiate jealously outlying", enabled=True, metadata=[
-        {
-            "name": "fieldX",
-            "value": "valueX",
-        },
-    ])
+        "myIndex6",
+    ], enabled=True)
 
     # Handle response
     print(res)
@@ -67,9 +88,35 @@ with CriblControlPlane(
 
 Update the metadata for the specified HEC token for the specified Splunk HEC Source.
 
-### Example Usage
+### Example Usage: HecTokenExamplesHecToken
 
-<!-- UsageSnippet language="python" operationID="updateInputHecTokenByIdAndToken" method="patch" path="/system/inputs/{id}/hectoken/{token}" -->
+<!-- UsageSnippet language="python" operationID="updateInputHecTokenByIdAndToken" method="patch" path="/system/inputs/{id}/hectoken/{token}" example="HecTokenExamplesHecToken" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.hec_tokens.update(id="<id>", token="<value>", enabled=True, metadata=[
+        {
+            "name": "fieldX",
+            "value": "valueX",
+        },
+    ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: HecTokenExamplesHecTokenWithIndexAccess
+
+<!-- UsageSnippet language="python" operationID="updateInputHecTokenByIdAndToken" method="patch" path="/system/inputs/{id}/hectoken/{token}" example="HecTokenExamplesHecTokenWithIndexAccess" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -83,13 +130,8 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.sources.hec_tokens.update(id="<id>", token="<value>", allowed_indexes_at_token=[
-        "<value 1>",
-    ], description="once lively fooey who though while dampen please denitrify pish", enabled=True, metadata=[
-        {
-            "name": "fieldX",
-            "value": "valueX",
-        },
-    ])
+        "myIndex6",
+    ], enabled=True)
 
     # Handle response
     print(res)

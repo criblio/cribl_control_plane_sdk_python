@@ -9,11 +9,13 @@ from .signatureversionoptionss3collectorconf import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from cribl_control_plane.utils import get_discriminator
+from cribl_control_plane.utils.unions import parse_open_union
 from enum import Enum
+from functools import partial
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import Any, List, Optional, Union
+from pydantic import ConfigDict, field_serializer, model_serializer
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, List, Literal, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -1204,15 +1206,59 @@ S3CollectorConfTypedDict = TypeAliasType(
 )
 
 
+class UnknownS3CollectorConf(BaseModel):
+    r"""A S3CollectorConf variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    aws_authentication_method: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_S3_COLLECTOR_CONF_VARIANTS: dict[str, Any] = {
+    "auto": S3AwsAuthenticationMethodAuto,
+    "manual": S3AwsAuthenticationMethodManual,
+    "secret": S3AwsAuthenticationMethodSecret,
+}
+
+
 S3CollectorConf = Annotated[
     Union[
-        Annotated[S3AwsAuthenticationMethodAuto, Tag("auto")],
-        Annotated[S3AwsAuthenticationMethodManual, Tag("manual")],
-        Annotated[S3AwsAuthenticationMethodSecret, Tag("secret")],
+        S3AwsAuthenticationMethodAuto,
+        S3AwsAuthenticationMethodManual,
+        S3AwsAuthenticationMethodSecret,
+        UnknownS3CollectorConf,
     ],
-    Discriminator(
-        lambda m: get_discriminator(
-            m, "aws_authentication_method", "awsAuthenticationMethod"
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="awsAuthenticationMethod",
+            variants=_S3_COLLECTOR_CONF_VARIANTS,
+            unknown_cls=UnknownS3CollectorConf,
+            union_name="S3CollectorConf",
         )
     ),
 ]
+
+
+try:
+    S3AwsAuthenticationMethodSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    S3AwsAuthenticationMethodManual.model_rebuild()
+except NameError:
+    pass
+try:
+    S3AwsAuthenticationMethodAuto.model_rebuild()
+except NameError:
+    pass
+try:
+    S3PartitioningSchemeNone.model_rebuild()
+except NameError:
+    pass
+try:
+    S3PartitioningSchemeDdss.model_rebuild()
+except NameError:
+    pass

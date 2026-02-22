@@ -71,3 +71,9 @@ class PipelineFunctionSampling(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionSampling.model_rebuild()
+except NameError:
+    pass

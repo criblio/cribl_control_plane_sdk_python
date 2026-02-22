@@ -120,3 +120,13 @@ class PipelineFunctionLakeExport(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    LakeExportConfiguration.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionLakeExport.model_rebuild()
+except NameError:
+    pass

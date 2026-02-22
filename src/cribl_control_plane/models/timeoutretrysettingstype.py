@@ -47,3 +47,9 @@ class TimeoutRetrySettingsType(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    TimeoutRetrySettingsType.model_rebuild()
+except NameError:
+    pass

@@ -38,3 +38,9 @@ class ItemsTypeProcessSets(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    ItemsTypeProcessSets.model_rebuild()
+except NameError:
+    pass

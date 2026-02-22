@@ -368,3 +368,9 @@ class OutputSplunk(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputSplunk.model_rebuild()
+except NameError:
+    pass

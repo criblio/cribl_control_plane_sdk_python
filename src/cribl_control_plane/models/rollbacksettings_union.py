@@ -59,3 +59,9 @@ RollbackSettingsUnionTypedDict = TypeAliasType(
 RollbackSettingsUnion = TypeAliasType(
     "RollbackSettingsUnion", Union[RollbackSettings2, RollbackSettings1]
 )
+
+
+try:
+    RollbackSettings1.model_rebuild()
+except NameError:
+    pass

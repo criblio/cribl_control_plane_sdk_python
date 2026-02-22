@@ -127,3 +127,13 @@ class PipelineFunctionCefInput(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionCef.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionCefInput.model_rebuild()
+except NameError:
+    pass

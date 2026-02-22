@@ -94,3 +94,9 @@ class PackInfo(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PackInfo.model_rebuild()
+except NameError:
+    pass

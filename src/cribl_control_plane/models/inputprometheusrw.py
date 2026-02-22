@@ -332,3 +332,9 @@ class InputPrometheusRw(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputPrometheusRw.model_rebuild()
+except NameError:
+    pass

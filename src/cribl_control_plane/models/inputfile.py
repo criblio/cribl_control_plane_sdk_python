@@ -252,3 +252,9 @@ class InputFile(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputFile.model_rebuild()
+except NameError:
+    pass

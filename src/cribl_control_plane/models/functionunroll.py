@@ -87,3 +87,9 @@ class FunctionUnroll(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionUnroll.model_rebuild()
+except NameError:
+    pass

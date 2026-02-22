@@ -71,3 +71,9 @@ class PipelineFunctionPublishMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionPublishMetrics.model_rebuild()
+except NameError:
+    pass

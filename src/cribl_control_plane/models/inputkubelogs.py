@@ -187,3 +187,13 @@ class InputKubeLogs(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputKubeLogsRule.model_rebuild()
+except NameError:
+    pass
+try:
+    InputKubeLogs.model_rebuild()
+except NameError:
+    pass

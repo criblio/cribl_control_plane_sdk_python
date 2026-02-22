@@ -673,3 +673,9 @@ class OutputWebhook(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputWebhook.model_rebuild()
+except NameError:
+    pass

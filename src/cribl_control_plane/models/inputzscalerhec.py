@@ -343,3 +343,13 @@ class InputZscalerHec(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputZscalerHecAuthToken.model_rebuild()
+except NameError:
+    pass
+try:
+    InputZscalerHec.model_rebuild()
+except NameError:
+    pass

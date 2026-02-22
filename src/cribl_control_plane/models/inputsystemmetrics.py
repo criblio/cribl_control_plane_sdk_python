@@ -709,3 +709,29 @@ class InputSystemMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputSystemMetricsCPU.model_rebuild()
+except NameError:
+    pass
+try:
+    InputSystemMetricsNetwork.model_rebuild()
+except NameError:
+    pass
+try:
+    InputSystemMetricsDisk.model_rebuild()
+except NameError:
+    pass
+try:
+    Container.model_rebuild()
+except NameError:
+    pass
+try:
+    InputSystemMetricsPersistence.model_rebuild()
+except NameError:
+    pass
+try:
+    InputSystemMetrics.model_rebuild()
+except NameError:
+    pass

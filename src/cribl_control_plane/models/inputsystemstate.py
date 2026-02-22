@@ -610,3 +610,17 @@ class InputSystemState(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    Collectors.model_rebuild()
+except NameError:
+    pass
+try:
+    InputSystemStatePersistence.model_rebuild()
+except NameError:
+    pass
+try:
+    InputSystemState.model_rebuild()
+except NameError:
+    pass

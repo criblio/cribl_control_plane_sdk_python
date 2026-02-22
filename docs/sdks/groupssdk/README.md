@@ -62,9 +62,9 @@ with CriblControlPlane(
 
 Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
 
-### Example Usage
+### Example Usage: CreateGroupExamplesCloneWg
 
-<!-- UsageSnippet language="python" operationID="createConfigGroupByProduct" method="post" path="/products/{product}/groups" -->
+<!-- UsageSnippet language="python" operationID="createConfigGroupByProduct" method="post" path="/products/{product}/groups" example="CreateGroupExamplesCloneWg" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -77,38 +77,73 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatCloudIanWg", cloud={
+    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatOnPremDollyWg", description="Worker Group cloned from goatOnPremIanWg with identical configuration", is_fleet=False, is_search=False, name="goatOnPremDollyWg", on_prem=True, source_group_id="goatOnPremIanWg", worker_remote_access=True)
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CreateGroupExamplesCloudWg
+
+<!-- UsageSnippet language="python" operationID="createConfigGroupByProduct" method="post" path="/products/{product}/groups" example="CreateGroupExamplesCloudWg" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.groups.create(product=models.ProductsCore.STREAM, id="goatCloudIanWg", cloud={
         "provider": models.CloudProvider.AWS,
         "region": "us-west-2",
-    }, deploying_worker_count=5631.58, description="ack resort boohoo", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE24_MB_PER_SEC, git={
-        "commit": "<value>",
-        "local_changes": 2413.01,
-        "log": [
-            {
-                "author_email": "<value>",
-                "author_name": "<value>",
-                "date_": "2024-04-03",
-                "hash": "<value>",
-                "message": "<value>",
-                "short": "<value>",
-            },
-        ],
-    }, incompatible_worker_count=7174.43, inherits="<value>", is_fleet=False, is_search=False, lookup_deployments=[
-        {
-            "context": "<value>",
-            "lookups": [
-                {
-                    "deployed_version": "<value>",
-                    "file": "<value>",
-                    "version": "<value>",
-                },
-            ],
-        },
-    ], max_worker_age="<value>", name="goatCloudIanWg", on_prem=False, provisioned=True, source_group_id="<id>", streamtags=[
-        "<value 1>",
-        "<value 2>",
-        "<value 3>",
-    ], tags="<value>", type_=models.TypeOptionsConfigGroup.LAKE_ACCESS, upgrade_version="<value>", worker_count=4980.41, worker_remote_access=True)
+    }, estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE24_MB_PER_SEC, is_fleet=False, is_search=False, name="goatCloudIanWg", on_prem=False, provisioned=True, worker_remote_access=True)
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CreateGroupExamplesEdgeFleet
+
+<!-- UsageSnippet language="python" operationID="createConfigGroupByProduct" method="post" path="/products/{product}/groups" example="CreateGroupExamplesEdgeFleet" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatIanEdgeFleet", description="Create a new Edge Fleet", is_fleet=True, is_search=False, name="goatIanEdgeFleet", on_prem=True, worker_remote_access=True)
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: CreateGroupExamplesOnPremWg
+
+<!-- UsageSnippet language="python" operationID="createConfigGroupByProduct" method="post" path="/products/{product}/groups" example="CreateGroupExamplesOnPremWg" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatOnPremIanWg", description="Worker group in customer-managed deployment", is_fleet=False, is_search=False, name="goatOnPremIanWg", on_prem=True, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -207,7 +242,7 @@ Update the specified Worker Group, Outpost Group, or Edge Fleet.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="updateConfigGroupByProductAndId" method="patch" path="/products/{product}/groups/{id}" -->
+<!-- UsageSnippet language="python" operationID="updateConfigGroupByProductAndId" method="patch" path="/products/{product}/groups/{id}" example="UpdateGroupExamplesScaleCloudWorkerGroup" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -220,32 +255,10 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.update(product=models.ProductsCore.STREAM, id_param="<value>", id="goatCloudIanWg", cloud={
+    res = ccp_client.groups.update(product=models.ProductsCore.EDGE, id_param="<value>", id="goatCloudIanWg", cloud={
         "provider": models.CloudProvider.AWS,
         "region": "us-west-2",
-    }, config_version="<value>", deploying_worker_count=7786.61, description="Scaled Worker Group with estimated ingest rate of 4096 (48 MB/s, 21 Worker Processes) for increased capacity", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, git={
-        "commit": "<value>",
-        "local_changes": 776.15,
-        "log": [
-            {
-                "author_email": "<value>",
-                "author_name": "<value>",
-                "date_": "2024-09-29",
-                "hash": "<value>",
-                "message": "<value>",
-                "short": "<value>",
-            },
-        ],
-    }, incompatible_worker_count=2874.65, inherits="<value>", is_fleet=False, is_search=False, lookup_deployments=[
-        {
-            "context": "<value>",
-            "lookups": [],
-        },
-    ], max_worker_age="<value>", name="goatCloudIanWg", on_prem=False, provisioned=True, streamtags=[
-        "<value 1>",
-        "<value 2>",
-        "<value 3>",
-    ], tags="<value>", type_=models.TypeOptionsConfigGroup.LAKE_ACCESS, upgrade_version="<value>", worker_count=835.08, worker_remote_access=True)
+    }, description="Scaled Worker Group with estimated ingest rate of 4096 (48 MB/s, 21 Worker Processes) for increased capacity", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, is_fleet=False, is_search=False, name="goatCloudIanWg", on_prem=False, provisioned=True, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -357,12 +370,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.deploy(product=models.ProductsCore.STREAM, id="<id>", version="<value>", lookups=[
-        {
-            "context": "<value>",
-            "lookups": [],
-        },
-    ])
+    res = ccp_client.groups.deploy(product=models.ProductsCore.STREAM, id="<id>", version="<value>")
 
     # Handle response
     print(res)

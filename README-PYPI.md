@@ -4,7 +4,7 @@ The Cribl Python SDK for the control plane provides operational control over Cri
 
 In addition to the usage examples in this repository, the Cribl documentation includes [code examples for common use cases](https://docs.cribl.io/cribl-as-code/code-examples).
 
-Complementary API reference documentation is available at https://docs.cribl.io/cribl-as-code/api-reference. Product documentation is available at https://docs.cribl.io.
+Complementary API reference documentation is available at [https://docs.cribl.io/cribl-as-code/api/](https://docs.cribl.io/cribl-as-code/api-reference/control-plane/cribl-core/). Product documentation is available at https://docs.cribl.io.
 
 > [!IMPORTANT]
 > **Preview Feature**
@@ -79,7 +79,7 @@ It's also possible to write a standalone Python script without needing to set up
 ```python
 #!/usr/bin/env -S uv run --script
 # /// script
-# requires-python = ">=3.9"
+# requires-python = ">=3.10"
 # dependencies = [
 #     "cribl-control-plane",
 # ]

@@ -429,3 +429,9 @@ class OutputFilesystem(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputFilesystem.model_rebuild()
+except NameError:
+    pass

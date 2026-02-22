@@ -14,9 +14,12 @@ from .collectorrest import CollectorRest, CollectorRestTypedDict
 from .collectors3 import CollectorS3, CollectorS3TypedDict
 from .collectorscript import CollectorScript, CollectorScriptTypedDict
 from .collectorsplunk import CollectorSplunk, CollectorSplunkTypedDict
-from cribl_control_plane.utils import get_discriminator
-from pydantic import Discriminator, Tag
-from typing import Union
+from cribl_control_plane.types import BaseModel
+from cribl_control_plane.utils.unions import parse_open_union
+from functools import partial
+from pydantic import ConfigDict
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, Literal, Union
 from typing_extensions import Annotated, TypeAliasType
 
 
@@ -38,19 +41,52 @@ CollectorTypedDict = TypeAliasType(
 r"""Collector configuration"""
 
 
+class UnknownCollector(BaseModel):
+    r"""A Collector variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_COLLECTOR_VARIANTS: dict[str, Any] = {
+    "azure_blob": CollectorAzureBlob,
+    "cribl_lake": CollectorCriblLake,
+    "database": CollectorDatabase,
+    "filesystem": CollectorFilesystem,
+    "google_cloud_storage": CollectorGoogleCloudStorage,
+    "health_check": CollectorHealthCheck,
+    "rest": CollectorRest,
+    "s3": CollectorS3,
+    "script": CollectorScript,
+    "splunk": CollectorSplunk,
+}
+
+
 Collector = Annotated[
     Union[
-        Annotated[CollectorAzureBlob, Tag("azure_blob")],
-        Annotated[CollectorCriblLake, Tag("cribl_lake")],
-        Annotated[CollectorDatabase, Tag("database")],
-        Annotated[CollectorFilesystem, Tag("filesystem")],
-        Annotated[CollectorGoogleCloudStorage, Tag("google_cloud_storage")],
-        Annotated[CollectorHealthCheck, Tag("health_check")],
-        Annotated[CollectorRest, Tag("rest")],
-        Annotated[CollectorS3, Tag("s3")],
-        Annotated[CollectorScript, Tag("script")],
-        Annotated[CollectorSplunk, Tag("splunk")],
+        CollectorAzureBlob,
+        CollectorCriblLake,
+        CollectorDatabase,
+        CollectorFilesystem,
+        CollectorGoogleCloudStorage,
+        CollectorHealthCheck,
+        CollectorRest,
+        CollectorS3,
+        CollectorScript,
+        CollectorSplunk,
+        UnknownCollector,
     ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="type",
+            variants=_COLLECTOR_VARIANTS,
+            unknown_cls=UnknownCollector,
+            union_name="Collector",
+        )
+    ),
 ]
 r"""Collector configuration"""

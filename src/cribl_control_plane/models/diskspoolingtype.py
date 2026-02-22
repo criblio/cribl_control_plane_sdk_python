@@ -65,3 +65,9 @@ class DiskSpoolingType(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    DiskSpoolingType.model_rebuild()
+except NameError:
+    pass

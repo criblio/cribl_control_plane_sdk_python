@@ -38,3 +38,9 @@ class CustomLogoTypeSystemSettingsConf(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    CustomLogoTypeSystemSettingsConf.model_rebuild()
+except NameError:
+    pass

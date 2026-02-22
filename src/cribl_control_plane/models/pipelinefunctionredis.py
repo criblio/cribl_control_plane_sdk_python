@@ -204,3 +204,17 @@ class PipelineFunctionRedis(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    Command.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionRedisConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionRedis.model_rebuild()
+except NameError:
+    pass

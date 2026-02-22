@@ -543,3 +543,9 @@ class OutputInfluxdb(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputInfluxdb.model_rebuild()
+except NameError:
+    pass

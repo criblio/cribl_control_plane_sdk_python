@@ -449,3 +449,9 @@ class OutputLoki(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputLoki.model_rebuild()
+except NameError:
+    pass

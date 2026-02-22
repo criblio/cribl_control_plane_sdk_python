@@ -123,3 +123,9 @@ class InputCriblmetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputCriblmetrics.model_rebuild()
+except NameError:
+    pass

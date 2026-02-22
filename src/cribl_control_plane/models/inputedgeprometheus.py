@@ -520,3 +520,13 @@ class InputEdgePrometheus(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PodFilter.model_rebuild()
+except NameError:
+    pass
+try:
+    InputEdgePrometheus.model_rebuild()
+except NameError:
+    pass

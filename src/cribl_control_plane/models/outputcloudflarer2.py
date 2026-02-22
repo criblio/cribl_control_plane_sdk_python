@@ -580,3 +580,9 @@ class OutputCloudflareR2(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputCloudflareR2.model_rebuild()
+except NameError:
+    pass

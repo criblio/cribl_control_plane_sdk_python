@@ -591,3 +591,9 @@ class OutputMinio(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputMinio.model_rebuild()
+except NameError:
+    pass

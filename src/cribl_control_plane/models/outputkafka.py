@@ -395,3 +395,9 @@ class OutputKafka(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputKafka.model_rebuild()
+except NameError:
+    pass

@@ -123,3 +123,9 @@ class TLSSettingsClientSideTypeKafkaSchemaRegistry(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    TLSSettingsClientSideTypeKafkaSchemaRegistry.model_rebuild()
+except NameError:
+    pass

@@ -419,3 +419,9 @@ class OutputWizHec(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputWizHec.model_rebuild()
+except NameError:
+    pass

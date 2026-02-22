@@ -395,3 +395,9 @@ class OutputConfluentCloud(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputConfluentCloud.model_rebuild()
+except NameError:
+    pass

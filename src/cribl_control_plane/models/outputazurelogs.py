@@ -405,3 +405,9 @@ class OutputAzureLogs(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputAzureLogs.model_rebuild()
+except NameError:
+    pass

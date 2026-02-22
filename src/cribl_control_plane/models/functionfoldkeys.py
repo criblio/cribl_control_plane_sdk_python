@@ -87,3 +87,9 @@ class FunctionFoldkeys(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionFoldkeys.model_rebuild()
+except NameError:
+    pass

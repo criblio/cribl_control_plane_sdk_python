@@ -357,3 +357,9 @@ class InputKinesis(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputKinesis.model_rebuild()
+except NameError:
+    pass

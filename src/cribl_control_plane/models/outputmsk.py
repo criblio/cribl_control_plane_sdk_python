@@ -501,3 +501,9 @@ class OutputMsk(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputMsk.model_rebuild()
+except NameError:
+    pass

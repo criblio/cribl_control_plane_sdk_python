@@ -98,3 +98,9 @@ class PackInstallInfo(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PackInstallInfo.model_rebuild()
+except NameError:
+    pass

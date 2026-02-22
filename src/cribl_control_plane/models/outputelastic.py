@@ -521,3 +521,9 @@ class OutputElastic(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputElastic.model_rebuild()
+except NameError:
+    pass

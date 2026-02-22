@@ -399,3 +399,9 @@ class OutputHumioHec(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputHumioHec.model_rebuild()
+except NameError:
+    pass

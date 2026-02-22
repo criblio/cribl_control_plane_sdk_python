@@ -87,3 +87,9 @@ class FunctionSampling(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionSampling.model_rebuild()
+except NameError:
+    pass

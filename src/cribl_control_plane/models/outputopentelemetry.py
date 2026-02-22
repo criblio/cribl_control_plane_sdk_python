@@ -585,3 +585,9 @@ class OutputOpenTelemetry(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputOpenTelemetry.model_rebuild()
+except NameError:
+    pass

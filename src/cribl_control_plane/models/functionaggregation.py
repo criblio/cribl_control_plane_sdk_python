@@ -87,3 +87,9 @@ class FunctionAggregation(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionAggregation.model_rebuild()
+except NameError:
+    pass

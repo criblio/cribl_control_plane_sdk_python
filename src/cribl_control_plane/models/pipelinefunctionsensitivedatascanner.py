@@ -189,3 +189,17 @@ class PipelineFunctionSensitiveDataScanner(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionSensitiveDataScannerRule.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionSensitiveDataScannerConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionSensitiveDataScanner.model_rebuild()
+except NameError:
+    pass

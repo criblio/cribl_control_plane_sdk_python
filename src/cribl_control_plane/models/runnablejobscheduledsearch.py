@@ -111,3 +111,9 @@ class RunnableJobScheduledSearch(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    RunnableJobScheduledSearch.model_rebuild()
+except NameError:
+    pass

@@ -434,3 +434,9 @@ class InputSplunkSearch(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputSplunkSearch.model_rebuild()
+except NameError:
+    pass

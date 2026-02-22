@@ -115,3 +115,13 @@ class PipelineFunctionEventBreaker(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionEventBreakerConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionEventBreaker.model_rebuild()
+except NameError:
+    pass

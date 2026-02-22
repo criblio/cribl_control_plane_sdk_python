@@ -262,3 +262,13 @@ class InputDatadogAgent(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputDatadogAgentProxyMode.model_rebuild()
+except NameError:
+    pass
+try:
+    InputDatadogAgent.model_rebuild()
+except NameError:
+    pass

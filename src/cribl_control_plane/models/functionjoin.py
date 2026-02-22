@@ -87,3 +87,9 @@ class FunctionJoin(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionJoin.model_rebuild()
+except NameError:
+    pass

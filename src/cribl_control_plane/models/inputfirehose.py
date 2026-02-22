@@ -223,3 +223,9 @@ class InputFirehose(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputFirehose.model_rebuild()
+except NameError:
+    pass

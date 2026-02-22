@@ -496,3 +496,9 @@ class OutputDynatraceHTTP(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputDynatraceHTTP.model_rebuild()
+except NameError:
+    pass

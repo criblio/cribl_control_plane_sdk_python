@@ -399,3 +399,9 @@ class OutputSumoLogic(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputSumoLogic.model_rebuild()
+except NameError:
+    pass

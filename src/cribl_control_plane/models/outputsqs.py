@@ -408,3 +408,9 @@ class OutputSqs(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputSqs.model_rebuild()
+except NameError:
+    pass

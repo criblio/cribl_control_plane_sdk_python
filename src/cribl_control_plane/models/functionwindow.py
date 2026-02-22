@@ -87,3 +87,9 @@ class FunctionWindow(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionWindow.model_rebuild()
+except NameError:
+    pass

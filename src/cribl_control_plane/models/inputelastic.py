@@ -424,3 +424,13 @@ class InputElastic(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputElasticProxyMode.model_rebuild()
+except NameError:
+    pass
+try:
+    InputElastic.model_rebuild()
+except NameError:
+    pass

@@ -71,3 +71,9 @@ class PipelineFunctionAutoTimestamp(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionAutoTimestamp.model_rebuild()
+except NameError:
+    pass

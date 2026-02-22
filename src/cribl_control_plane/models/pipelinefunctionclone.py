@@ -71,3 +71,9 @@ class PipelineFunctionClone(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionClone.model_rebuild()
+except NameError:
+    pass

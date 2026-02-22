@@ -87,3 +87,9 @@ class FunctionLakeExport(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionLakeExport.model_rebuild()
+except NameError:
+    pass

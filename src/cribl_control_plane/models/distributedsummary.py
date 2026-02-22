@@ -67,3 +67,13 @@ class DistributedSummary(BaseModel):
     groups: Groups
 
     workers: DistributedSummaryWorkers
+
+
+try:
+    Groups.model_rebuild()
+except NameError:
+    pass
+try:
+    DistributedSummaryWorkers.model_rebuild()
+except NameError:
+    pass

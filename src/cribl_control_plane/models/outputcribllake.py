@@ -470,3 +470,9 @@ class OutputCriblLake(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputCriblLake.model_rebuild()
+except NameError:
+    pass

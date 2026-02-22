@@ -80,3 +80,9 @@ class Pipeline(BaseModel):
     id: str
 
     conf: PipelineConf
+
+
+try:
+    PipelineConf.model_rebuild()
+except NameError:
+    pass

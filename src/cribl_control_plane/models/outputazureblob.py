@@ -558,3 +558,9 @@ class OutputAzureBlob(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputAzureBlob.model_rebuild()
+except NameError:
+    pass

@@ -269,3 +269,9 @@ class InputAzureBlob(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputAzureBlob.model_rebuild()
+except NameError:
+    pass

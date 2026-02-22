@@ -98,3 +98,13 @@ class PipelineFunctionPack(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionPackConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionPack.model_rebuild()
+except NameError:
+    pass

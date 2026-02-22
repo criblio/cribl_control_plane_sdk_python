@@ -179,3 +179,13 @@ class DiffFiles(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    Block.model_rebuild()
+except NameError:
+    pass
+try:
+    DiffFiles.model_rebuild()
+except NameError:
+    pass

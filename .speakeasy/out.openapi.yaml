@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-alpha.1771592147797-dd1a75bc
+  version: 4.17.0-alpha.1771852934969-ccd6192b
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -48885,6 +48885,17 @@ paths:
           schema:
             type: integer
           description: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+      x-speakeasy-pagination:
+        type: offsetLimit
+        inputs:
+          - name: offset
+            in: parameters
+            type: offset
+          - name: limit
+            in: parameters
+            type: limit
+        outputs:
+          results: $.items
   /products/{product}/workers/restart:
     patch:
       operationId: updateProductsWorkersRestartByProduct

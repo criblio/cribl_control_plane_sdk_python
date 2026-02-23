@@ -2639,6 +2639,8 @@ if TYPE_CHECKING:
     from .getproductsworkersbyproductop import (
         GetProductsWorkersByProductRequest,
         GetProductsWorkersByProductRequestTypedDict,
+        GetProductsWorkersByProductResponse,
+        GetProductsWorkersByProductResponseTypedDict,
     )
     from .getroutesbyidop import GetRoutesByIDRequest, GetRoutesByIDRequestTypedDict
     from .getroutesbypackandidop import (
@@ -9424,6 +9426,8 @@ __all__ = [
     "GetProductsWorkersByProductAndIDRequestTypedDict",
     "GetProductsWorkersByProductRequest",
     "GetProductsWorkersByProductRequestTypedDict",
+    "GetProductsWorkersByProductResponse",
+    "GetProductsWorkersByProductResponseTypedDict",
     "GetRoutesByIDRequest",
     "GetRoutesByIDRequestTypedDict",
     "GetRoutesByPackAndIDRequest",
@@ -15618,6 +15622,8 @@ _dynamic_imports: dict[str, str] = {
     "GetProductsWorkersByProductAndIDRequestTypedDict": ".getproductsworkersbyproductandidop",
     "GetProductsWorkersByProductRequest": ".getproductsworkersbyproductop",
     "GetProductsWorkersByProductRequestTypedDict": ".getproductsworkersbyproductop",
+    "GetProductsWorkersByProductResponse": ".getproductsworkersbyproductop",
+    "GetProductsWorkersByProductResponseTypedDict": ".getproductsworkersbyproductop",
     "GetRoutesByIDRequest": ".getroutesbyidop",
     "GetRoutesByIDRequestTypedDict": ".getroutesbyidop",
     "GetRoutesByPackAndIDRequest": ".getroutesbypackandidop",

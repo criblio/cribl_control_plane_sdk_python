@@ -23,7 +23,7 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -39,14 +39,11 @@ class OutputXsiamAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputXsiamURLTypedDict(TypedDict):
-    url: Any
     weight: NotRequired[float]
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
 class OutputXsiamURL(BaseModel):
-    url: Any
-
     weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 

@@ -191,7 +191,7 @@ from cribl_control_plane.utils import (
 from enum import Enum
 import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import Any, List, Optional, Union
+from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -10449,7 +10449,6 @@ class CreateOutputSystemByPackOutputWizHecTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    load_balanced: NotRequired[Any]
     next_queue: NotRequired[str]
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
     tcp_routing: NotRequired[str]
@@ -10478,7 +10477,6 @@ class CreateOutputSystemByPackOutputWizHecTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    enable_multi_metrics: NotRequired[Any]
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
@@ -10553,8 +10551,6 @@ class CreateOutputSystemByPackOutputWizHec(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    load_balanced: Annotated[Optional[Any], pydantic.Field(alias="loadBalanced")] = None
-
     next_queue: Annotated[Optional[str], pydantic.Field(alias="nextQueue")] = None
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
 
@@ -10611,10 +10607,6 @@ class CreateOutputSystemByPackOutputWizHec(BaseModel):
         Optional[List[str]], pydantic.Field(alias="safeHeaders")
     ] = None
     r"""List of headers that are safe to log in plain text"""
-
-    enable_multi_metrics: Annotated[
-        Optional[Any], pydantic.Field(alias="enableMultiMetrics")
-    ] = None
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
@@ -10776,7 +10768,6 @@ class CreateOutputSystemByPackOutputWizHec(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
-                "loadBalanced",
                 "nextQueue",
                 "tcpRouting",
                 "tls",
@@ -10790,7 +10781,6 @@ class CreateOutputSystemByPackOutputWizHec(BaseModel):
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",
                 "safeHeaders",
-                "enableMultiMetrics",
                 "authType",
                 "responseRetrySettings",
                 "timeoutRetrySettings",
@@ -14125,20 +14115,20 @@ CreateOutputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateOutputSystemByPackOutputCloudwatchTypedDict,
         CreateOutputSystemByPackOutputAzureLogsTypedDict,
         CreateOutputSystemByPackOutputPrometheusTypedDict,
-        CreateOutputSystemByPackOutputNewrelicEventsTypedDict,
         CreateOutputSystemByPackOutputXsiamTypedDict,
-        CreateOutputSystemByPackOutputSyslogTypedDict,
+        CreateOutputSystemByPackOutputNewrelicEventsTypedDict,
         CreateOutputSystemByPackOutputFilesystemTypedDict,
-        CreateOutputSystemByPackOutputNewrelicTypedDict,
-        CreateOutputSystemByPackOutputLokiTypedDict,
-        CreateOutputSystemByPackOutputDatasetTypedDict,
+        CreateOutputSystemByPackOutputSyslogTypedDict,
         CreateOutputSystemByPackOutputCriblHTTPTypedDict,
+        CreateOutputSystemByPackOutputWizHecTypedDict,
+        CreateOutputSystemByPackOutputNewrelicTypedDict,
         CreateOutputSystemByPackOutputCriblSearchEngineTypedDict,
+        CreateOutputSystemByPackOutputDatasetTypedDict,
+        CreateOutputSystemByPackOutputLokiTypedDict,
         CreateOutputSystemByPackOutputDynatraceHTTPTypedDict,
         CreateOutputSystemByPackOutputKinesisTypedDict,
         CreateOutputSystemByPackOutputServiceNowTypedDict,
         CreateOutputSystemByPackOutputDynatraceOtlpTypedDict,
-        CreateOutputSystemByPackOutputWizHecTypedDict,
         CreateOutputSystemByPackOutputSplunkHecTypedDict,
         CreateOutputSystemByPackOutputChronicleTypedDict,
         CreateOutputSystemByPackOutputSqsTypedDict,
@@ -14151,8 +14141,8 @@ CreateOutputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateOutputSystemByPackOutputGoogleChronicleTypedDict,
         CreateOutputSystemByPackOutputClickHouseTypedDict,
         CreateOutputSystemByPackOutputCriblLakeTypedDict,
-        CreateOutputSystemByPackOutputMskTypedDict,
         CreateOutputSystemByPackOutputCloudflareR2TypedDict,
+        CreateOutputSystemByPackOutputMskTypedDict,
         CreateOutputSystemByPackOutputGoogleCloudStorageTypedDict,
         CreateOutputSystemByPackOutputMinioTypedDict,
         CreateOutputSystemByPackOutputSentinelTypedDict,

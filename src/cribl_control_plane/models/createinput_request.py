@@ -1101,6 +1101,8 @@ class CreateInputInputExecTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    script: NotRequired[str]
+    r"""Optional script content to pipe into the command's stdin. The stdin stream is closed after the script is written."""
     retries: NotRequired[float]
     r"""Maximum number of retry attempts in the event that the command fails"""
     schedule_type: NotRequired[CreateInputScheduleType]
@@ -1150,6 +1152,9 @@ class CreateInputInputExec(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+
+    script: Optional[str] = None
+    r"""Optional script content to pipe into the command's stdin. The stdin stream is closed after the script is written."""
 
     retries: Optional[float] = None
     r"""Maximum number of retry attempts in the event that the command fails"""
@@ -1201,6 +1206,7 @@ class CreateInputInputExec(BaseModel):
                 "streamtags",
                 "connections",
                 "pq",
+                "script",
                 "retries",
                 "scheduleType",
                 "breakerRulesets",
@@ -7893,20 +7899,20 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputWindowsMetricsTypedDict,
         CreateInputInputSystemMetricsTypedDict,
         CreateInputInputJournalFilesTypedDict,
-        CreateInputInputExecTypedDict,
         CreateInputInputKubeLogsTypedDict,
         CreateInputInputModelDrivenTelemetryTypedDict,
-        CreateInputInputRawUDPTypedDict,
+        CreateInputInputExecTypedDict,
         CreateInputInputWinEventLogsTypedDict,
+        CreateInputInputRawUDPTypedDict,
         CreateInputInputSnmpTypedDict,
         CreateInputInputMetricsTypedDict,
-        CreateInputInputCriblTCPTypedDict,
         CreateInputInputNetflowTypedDict,
+        CreateInputInputCriblTCPTypedDict,
         CreateInputInputTcpjsonTypedDict,
         CreateInputInputGooglePubsubTypedDict,
-        CreateInputInputFirehoseTypedDict,
-        CreateInputInputWizTypedDict,
         CreateInputInputOffice365ServiceTypedDict,
+        CreateInputInputWizTypedDict,
+        CreateInputInputFirehoseTypedDict,
         CreateInputInputCriblHTTPTypedDict,
         CreateInputInputTCPTypedDict,
         CreateInputInputDatadogAgentTypedDict,

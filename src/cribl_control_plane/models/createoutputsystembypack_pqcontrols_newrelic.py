@@ -1746,6 +1746,8 @@ class CreateOutputSystemByPackOutputChronicleTypedDict(TypedDict):
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
     custom_labels: NotRequired[List[CreateOutputSystemByPackCustomLabelTypedDict]]
     r"""Custom labels to be added to every event"""
+    endpoint: NotRequired[str]
+    r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
     description: NotRequired[str]
     service_account_credentials: NotRequired[str]
     r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
@@ -1774,6 +1776,8 @@ class CreateOutputSystemByPackOutputChronicleTypedDict(TypedDict):
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsChronicleTypedDict]
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
 
 class CreateOutputSystemByPackOutputChronicle(BaseModel):
@@ -1912,6 +1916,9 @@ class CreateOutputSystemByPackOutputChronicle(BaseModel):
     ] = None
     r"""Custom labels to be added to every event"""
 
+    endpoint: Optional[str] = None
+    r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
+
     description: Optional[str] = None
 
     service_account_credentials: Annotated[
@@ -1977,6 +1984,11 @@ class CreateOutputSystemByPackOutputChronicle(BaseModel):
         Optional[str], pydantic.Field(alias="__template_region")
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
     @field_serializer("authentication_method")
     def serialize_authentication_method(self, value):
@@ -2064,6 +2076,7 @@ class CreateOutputSystemByPackOutputChronicle(BaseModel):
                 "namespace",
                 "logTextField",
                 "customLabels",
+                "endpoint",
                 "description",
                 "serviceAccountCredentials",
                 "serviceAccountCredentialsSecret",
@@ -2079,6 +2092,7 @@ class CreateOutputSystemByPackOutputChronicle(BaseModel):
                 "pqOnBackpressure",
                 "pqControls",
                 "__template_region",
+                "__template_endpoint",
             ]
         )
         serialized = handler(self)

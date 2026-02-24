@@ -1,13 +1,13 @@
 """
-On-Prem/Hybrid Worker Group Process Optimization Example
+On-Prem Worker Group Process Optimization Example
 
 This example demonstrates how to optimize Worker Process settings for an 
-existing on-prem or hybrid Worker Group in Cribl Stream using the Control Plane SDK, 
+existing on-prem Worker Group in Cribl Stream using the Control Plane SDK, 
 following the scaling guidelines from the Cribl documentation.
 
 This example performs the following operations:
 
-1. Connects to an existing on-prem or hybrid Worker Group.
+1. Connects to an existing on-prem Worker Group.
 2. Retrieves the current system settings for the Worker Group.
 3. Optimizes Worker Process settings following the scaling documentation:
    - Process count: -2 (to reserve two CPU cores for system/API overhead)

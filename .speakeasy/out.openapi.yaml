@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-alpha.1771864280286-df30eee3
+  version: 4.17.0-alpha.1771887865097-145653af
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -15257,6 +15257,10 @@ components:
           type: string
           title: Command
           description: Command to execute; supports Bourne shell (or CMD on Windows) syntax
+        script:
+          type: string
+          title: Script
+          description: Optional script content to pipe into the command's stdin. The stdin stream is closed after the script is written.
         retries:
           type: number
           title: Retry limit
@@ -34797,6 +34801,11 @@ components:
                 type: boolean
                 title: Enable RBAC
                 description: Designate this label for role-based access control and filtering
+        endpoint:
+          type: string
+          title: Endpoint
+          description: "Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"
+          pattern: ^https?://.*
         description:
           type: string
           title: Description
@@ -34854,6 +34863,9 @@ components:
         __template_region:
           type: string
           description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
+        __template_endpoint:
+          type: string
+          description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
     OutputDatabricks:
       type: object
       required:

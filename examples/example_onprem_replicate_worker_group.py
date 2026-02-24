@@ -1,9 +1,25 @@
 """
-Replace the placeholder values for ONPREM_SERVER_URL, ONPREM_USERNAME, and
-ONPREM_PASSWORD with your server URL and credentials. Your credentials are
-sensitive information and should be kept private.
+On-Prem Replicate Worker Group Example
 
-NOTE: This example is for on-prem deployments only.
+This example demonstrates how to replicate an on-prem Worker Group in 
+Cribl Stream.
+
+This example performs the following operations:
+
+1. Connects to Cribl Stream and authenticates.
+2. Verifies that the source Worker Group (SOURCE_WORKER_GROUP_ID) exists.
+3. Verifies that a Worker Group with the specified REPLICA_WORKER_GROUP_ID does
+   not already exist.
+4. Creates a new Worker Group that replicates the specified source Worker Group.
+5. Commits the configuration changes to the new Worker Group.
+6. Deploys the configuration changes to the new Worker Group.
+
+Prerequisites:
+- Replace the placeholder values for ONPREM_SERVER_URL, ONPREM_USERNAME, and
+  ONPREM_PASSWORD with your server URL and credentials. Your credentials are
+  sensitive information and should be kept private.
+- Replace the WORKER_GROUP_ID and REPLICA_WORKER_GROUP_ID placeholder values 
+  with the Worker Group IDs that you want to use.
 """
 
 import asyncio
@@ -55,6 +71,27 @@ async def main() -> None:
     )
 
     print(f"✅ Worker Group replicated: {REPLICA_WORKER_GROUP_ID} (cloned from {SOURCE_WORKER_GROUP_ID})")
+
+    # Commit configuration changes
+    commit_response = cribl.versions.commits.create(
+        group_id=REPLICA_WORKER_GROUP_ID,
+        message="Replicate Worker Group",
+        effective=True,
+        files=["."],
+    )
+    if not commit_response.items or len(commit_response.items) == 0:
+        raise Exception("Failed to commit configuration changes")
+    
+    version = commit_response.items[0].commit
+    print(f"✅ Committed configuration changes to the group: {REPLICA_WORKER_GROUP_ID}, commit ID: {version}")
+
+    # Deploy configuration changes to the Worker Group
+    cribl.groups.deploy(
+        product=ProductsCore.STREAM,
+        id=REPLICA_WORKER_GROUP_ID,
+        version=version,
+    )
+    print(f"✅ Worker Group changes deployed: {REPLICA_WORKER_GROUP_ID}")
 
 if __name__ == "__main__":
     try:

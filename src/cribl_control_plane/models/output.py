@@ -57,6 +57,10 @@ from .outputhumiohec import OutputHumioHec, OutputHumioHecTypedDict
 from .outputinfluxdb import OutputInfluxdb, OutputInfluxdbTypedDict
 from .outputkafka import OutputKafka, OutputKafkaTypedDict
 from .outputkinesis import OutputKinesis, OutputKinesisTypedDict
+from .outputlocalsearchstorage import (
+    OutputLocalSearchStorage,
+    OutputLocalSearchStorageTypedDict,
+)
 from .outputloki import OutputLoki, OutputLokiTypedDict
 from .outputmicrosoftfabric import OutputMicrosoftFabric, OutputMicrosoftFabricTypedDict
 from .outputminio import OutputMinio, OutputMinioTypedDict
@@ -151,14 +155,15 @@ OutputTypedDict = TypeAliasType(
         OutputServiceNowTypedDict,
         OutputSplunkHecTypedDict,
         OutputSqsTypedDict,
-        OutputDatadogTypedDict,
         OutputElasticTypedDict,
         OutputChronicleTypedDict,
+        OutputDatadogTypedDict,
         OutputOpenTelemetryTypedDict,
         OutputInfluxdbTypedDict,
-        OutputDatabricksTypedDict,
         OutputGoogleChronicleTypedDict,
+        OutputDatabricksTypedDict,
         OutputSentinelOneAiSiemTypedDict,
+        OutputLocalSearchStorageTypedDict,
         OutputCriblLakeTypedDict,
         OutputClickHouseTypedDict,
         OutputCloudflareR2TypedDict,
@@ -168,8 +173,8 @@ OutputTypedDict = TypeAliasType(
         OutputMinioTypedDict,
         OutputSentinelTypedDict,
         OutputSecurityLakeTypedDict,
-        OutputGoogleCloudLoggingTypedDict,
         OutputWebhookTypedDict,
+        OutputGoogleCloudLoggingTypedDict,
         OutputS3TypedDict,
         OutputDlS3TypedDict,
         OutputAzureDataExplorerTypedDict,
@@ -250,6 +255,7 @@ _OUTPUT_VARIANTS: dict[str, Any] = {
     "cribl_lake": OutputCriblLake,
     "disk_spool": OutputDiskSpool,
     "click_house": OutputClickHouse,
+    "local_search_storage": OutputLocalSearchStorage,
     "xsiam": OutputXsiam,
     "netflow": OutputNetflow,
     "dynatrace_http": OutputDynatraceHTTP,
@@ -325,6 +331,7 @@ Output = Annotated[
         OutputCriblLake,
         OutputDiskSpool,
         OutputClickHouse,
+        OutputLocalSearchStorage,
         OutputXsiam,
         OutputNetflow,
         OutputDynatraceHTTP,

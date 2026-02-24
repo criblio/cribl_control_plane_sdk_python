@@ -120,8 +120,10 @@ with CriblControlPlane(
 
     res = ccp_client.nodes.list(product=models.ProductsBase.STREAM, filter_exp="<value>", sort_exp="<value>", filter_="<value>", sort="<value>", limit=881129, offset=990978)
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -140,7 +142,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedMasterWorkerEntry](../../models/countedmasterworkerentry.md)**
+**[models.GetProductsWorkersByProductResponse](../../models/getproductsworkersbyproductresponse.md)**
 
 ### Errors
 

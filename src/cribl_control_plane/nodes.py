@@ -8,7 +8,8 @@ from cribl_control_plane.summaries import Summaries
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional
+from jsonpath import JSONPath
+from typing import Any, Awaitable, Dict, List, Mapping, Optional, Union
 
 
 class Nodes(BaseSDK):
@@ -418,7 +419,7 @@ class Nodes(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedMasterWorkerEntry:
+    ) -> Optional[models.GetProductsWorkersByProductResponse]:
         r"""Get detailed metadata for Worker or Edge Nodes
 
         Get detailed metadata for Worker or Edge Nodes for the specified Cribl product.
@@ -499,9 +500,40 @@ class Nodes(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[models.GetProductsWorkersByProductResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            offset = request.offset if not request.offset is None else 0
+
+            if not http_res.text:
+                return None
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return None
+            limit = request.limit if not request.limit is None else 0
+            if len(results[0]) < limit:
+                return None
+            next_offset = offset + len(results[0])
+
+            return self.list(
+                product=product,
+                filter_exp=filter_exp,
+                sort_exp=sort_exp,
+                filter_=filter_,
+                sort=sort,
+                limit=limit,
+                offset=next_offset,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedMasterWorkerEntry, http_res)
+            return models.GetProductsWorkersByProductResponse(
+                result=unmarshal_json_response(
+                    models.CountedMasterWorkerEntry, http_res
+                ),
+                next=next_func,
+            )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -528,7 +560,7 @@ class Nodes(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedMasterWorkerEntry:
+    ) -> Optional[models.GetProductsWorkersByProductResponse]:
         r"""Get detailed metadata for Worker or Edge Nodes
 
         Get detailed metadata for Worker or Edge Nodes for the specified Cribl product.
@@ -609,9 +641,45 @@ class Nodes(BaseSDK):
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Awaitable[Optional[models.GetProductsWorkersByProductResponse]]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            async def empty_result():
+                return None
+
+            offset = request.offset if not request.offset is None else 0
+
+            if not http_res.text:
+                return empty_result()
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return empty_result()
+            limit = request.limit if not request.limit is None else 0
+            if len(results[0]) < limit:
+                return empty_result()
+            next_offset = offset + len(results[0])
+
+            return self.list_async(
+                product=product,
+                filter_exp=filter_exp,
+                sort_exp=sort_exp,
+                filter_=filter_,
+                sort=sort,
+                limit=limit,
+                offset=next_offset,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedMasterWorkerEntry, http_res)
+            return models.GetProductsWorkersByProductResponse(
+                result=unmarshal_json_response(
+                    models.CountedMasterWorkerEntry, http_res
+                ),
+                next=next_func,
+            )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

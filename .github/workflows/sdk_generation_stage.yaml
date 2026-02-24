@@ -49,19 +49,32 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Get latest stable release from GitHub
-          echo "Fetching latest stable release from GitHub repository: ${{ github.repository }}"
+          # Get latest stable release from GitHub (with retry)
+          MAX_ATTEMPTS=5
+          attempt=1
+          LATEST_RELEASE=""
           
-          RELEASE_RESPONSE=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest)
-          LATEST_RELEASE=$(echo "$RELEASE_RESPONSE" | jq -r '.tag_name')
-          
-          echo "GitHub API response for latest release: $LATEST_RELEASE"
-          
-          # Fail if no latest release found
-          if [[ "$LATEST_RELEASE" == "null" || -z "$LATEST_RELEASE" ]]; then
-            echo "❌ Error: No stable releases found on GitHub"
-            exit 1
-          fi
+          while [ $attempt -le $MAX_ATTEMPTS ]; do
+            echo "Fetching latest stable release from GitHub repository: ${{ github.repository }} (attempt $attempt/$MAX_ATTEMPTS)"
+            
+            RELEASE_RESPONSE=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest)
+            LATEST_RELEASE=$(echo "$RELEASE_RESPONSE" | jq -r '.tag_name')
+            
+            echo "GitHub API response for latest release: $LATEST_RELEASE"
+            
+            if [[ "$LATEST_RELEASE" != "null" && -n "$LATEST_RELEASE" ]]; then
+              break
+            fi
+            
+            if [ $attempt -lt $MAX_ATTEMPTS ]; then
+              echo "⚠️  No stable release found (attempt $attempt/$MAX_ATTEMPTS), retrying in 2s..."
+              sleep 2
+              attempt=$((attempt + 1))
+            else
+              echo "❌ Error: No stable releases found on GitHub after $MAX_ATTEMPTS attempts"
+              exit 1
+            fi
+          done
           
           # Remove 'v' prefix if present (e.g., v0.0.3 -> 0.0.3)
           BASE_OFFICIAL="${LATEST_RELEASE#v}"

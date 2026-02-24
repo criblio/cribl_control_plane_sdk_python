@@ -97,9 +97,29 @@ jobs:
         run: |
           set -euo pipefail
           
-          # Example: curl -s https://api.github.com/repos/criblio/cribl_control_plane_sdk_python/releases/latest | jq -r '.tag_name'
-          echo "Fetching latest GA release from GitHub..."
-          LAST_GA_TAG=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
+          # Fetch latest GA release from GitHub (with retry)
+          MAX_ATTEMPTS=5
+          attempt=1
+          LAST_GA_TAG=""
+          
+          while [ $attempt -le $MAX_ATTEMPTS ]; do
+            echo "Fetching latest GA release from GitHub (attempt $attempt/$MAX_ATTEMPTS)..."
+            LAST_GA_TAG=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
+            
+            if [[ "$LAST_GA_TAG" != "null" && -n "$LAST_GA_TAG" ]]; then
+              break
+            fi
+            
+            if [ $attempt -lt $MAX_ATTEMPTS ]; then
+              echo "⚠️  No release found (attempt $attempt/$MAX_ATTEMPTS), retrying in 2s..."
+              sleep 2
+              attempt=$((attempt + 1))
+            else
+              echo "❌ Error: No releases found on GitHub after $MAX_ATTEMPTS attempts"
+              exit 1
+            fi
+          done
+          
           echo "✅ Latest GA tag: ${LAST_GA_TAG}"
           
           echo "Fetching tags from repository..."

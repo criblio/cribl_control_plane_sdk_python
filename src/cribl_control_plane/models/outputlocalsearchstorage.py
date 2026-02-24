@@ -33,12 +33,12 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputClickHouseType(str, Enum):
-    CLICK_HOUSE = "click_house"
+class OutputLocalSearchStorageType(str, Enum):
+    LOCAL_SEARCH_STORAGE = "local_search_storage"
 
 
-class OutputClickHouseFormat(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
+class OutputLocalSearchStorageFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Data format to use when sending data. Defaults to JSON Compact."""
 
     # JSONCompactEachRowWithNames
     JSON_COMPACT_EACH_ROW_WITH_NAMES = "json-compact-each-row-with-names"
@@ -46,8 +46,8 @@ class OutputClickHouseFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON_EACH_ROW = "json-each-row"
 
 
-class OutputClickHouseMappingType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""How event fields are mapped to ClickHouse columns."""
+class OutputLocalSearchStorageMappingType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""How event fields are mapped to columns."""
 
     # Automatic
     AUTOMATIC = "automatic"
@@ -55,26 +55,26 @@ class OutputClickHouseMappingType(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "custom"
 
 
-class OutputClickHouseColumnMappingTypedDict(TypedDict):
+class OutputLocalSearchStorageColumnMappingTypedDict(TypedDict):
     column_name: str
-    r"""Name of the column in ClickHouse that will store field value"""
+    r"""Name of the column that will store field value"""
     column_value_expression: str
-    r"""JavaScript expression to compute value to be inserted into ClickHouse table"""
+    r"""JavaScript expression to compute value to be inserted into the table"""
     column_type: NotRequired[str]
-    r"""Type of the column in the ClickHouse database"""
+    r"""Type of the column in the database"""
 
 
-class OutputClickHouseColumnMapping(BaseModel):
+class OutputLocalSearchStorageColumnMapping(BaseModel):
     column_name: Annotated[str, pydantic.Field(alias="columnName")]
-    r"""Name of the column in ClickHouse that will store field value"""
+    r"""Name of the column that will store field value"""
 
     column_value_expression: Annotated[
         str, pydantic.Field(alias="columnValueExpression")
     ]
-    r"""JavaScript expression to compute value to be inserted into ClickHouse table"""
+    r"""JavaScript expression to compute value to be inserted into the table"""
 
     column_type: Annotated[Optional[str], pydantic.Field(alias="columnType")] = None
-    r"""Type of the column in the ClickHouse database"""
+    r"""Type of the column in the database"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -93,21 +93,21 @@ class OutputClickHouseColumnMapping(BaseModel):
         return m
 
 
-class OutputClickHousePqControlsTypedDict(TypedDict):
+class OutputLocalSearchStoragePqControlsTypedDict(TypedDict):
     pass
 
 
-class OutputClickHousePqControls(BaseModel):
+class OutputLocalSearchStoragePqControls(BaseModel):
     pass
 
 
-class OutputClickHouseTypedDict(TypedDict):
-    type: OutputClickHouseType
+class OutputLocalSearchStorageTypedDict(TypedDict):
+    type: OutputLocalSearchStorageType
     url: str
-    r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
+    r"""URL of the database instance. Example: http://localhost:8123/"""
     database: str
     table_name: str
-    r"""Name of the ClickHouse table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
+    r"""Name of the table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -119,12 +119,12 @@ class OutputClickHouseTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     auth_type: NotRequired[AuthenticationTypeOptions1]
-    format_: NotRequired[OutputClickHouseFormat]
-    r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
-    mapping_type: NotRequired[OutputClickHouseMappingType]
-    r"""How event fields are mapped to ClickHouse columns."""
+    format_: NotRequired[OutputLocalSearchStorageFormat]
+    r"""Data format to use when sending data. Defaults to JSON Compact."""
+    mapping_type: NotRequired[OutputLocalSearchStorageMappingType]
+    r"""How event fields are mapped to columns."""
     async_inserts: NotRequired[bool]
-    r"""Collect data into batches for later processing. Disable to write to a ClickHouse table immediately."""
+    r"""Collect data into batches for later processing. Disable to write to a table immediately."""
     tls: NotRequired[TLSSettingsClientSideType1TypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -169,12 +169,12 @@ class OutputClickHouseTypedDict(TypedDict):
     sql_username: NotRequired[str]
     r"""Username for certificate authentication"""
     wait_for_async_inserts: NotRequired[bool]
-    r"""Cribl will wait for confirmation that data has been fully inserted into the ClickHouse database before proceeding. Disabling this option can increase throughput, but Cribl won’t be able to verify data has been completely inserted."""
+    r"""Cribl will wait for confirmation that data has been fully inserted into the database before proceeding. Disabling this option can increase throughput, but Cribl won't be able to verify data has been completely inserted."""
     exclude_mapping_fields: NotRequired[List[str]]
-    r"""Fields to exclude from sending to ClickHouse"""
+    r"""Fields to exclude from sending"""
     describe_table: NotRequired[str]
-    r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
-    column_mappings: NotRequired[List[OutputClickHouseColumnMappingTypedDict]]
+    r"""Retrieves the table schema and populates the Column Mapping table"""
+    column_mappings: NotRequired[List[OutputLocalSearchStorageColumnMappingTypedDict]]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -195,7 +195,7 @@ class OutputClickHouseTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_controls: NotRequired[OutputClickHousePqControlsTypedDict]
+    pq_controls: NotRequired[OutputLocalSearchStoragePqControlsTypedDict]
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_database: NotRequired[str]
@@ -204,16 +204,16 @@ class OutputClickHouseTypedDict(TypedDict):
     r"""Binds 'tableName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tableName' at runtime."""
 
 
-class OutputClickHouse(BaseModel):
-    type: OutputClickHouseType
+class OutputLocalSearchStorage(BaseModel):
+    type: OutputLocalSearchStorageType
 
     url: str
-    r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
+    r"""URL of the database instance. Example: http://localhost:8123/"""
 
     database: str
 
     table_name: Annotated[str, pydantic.Field(alias="tableName")]
-    r"""Name of the ClickHouse table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
+    r"""Name of the table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -237,19 +237,20 @@ class OutputClickHouse(BaseModel):
     ] = None
 
     format_: Annotated[
-        Optional[OutputClickHouseFormat], pydantic.Field(alias="format")
+        Optional[OutputLocalSearchStorageFormat], pydantic.Field(alias="format")
     ] = None
-    r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
+    r"""Data format to use when sending data. Defaults to JSON Compact."""
 
     mapping_type: Annotated[
-        Optional[OutputClickHouseMappingType], pydantic.Field(alias="mappingType")
+        Optional[OutputLocalSearchStorageMappingType],
+        pydantic.Field(alias="mappingType"),
     ] = None
-    r"""How event fields are mapped to ClickHouse columns."""
+    r"""How event fields are mapped to columns."""
 
     async_inserts: Annotated[Optional[bool], pydantic.Field(alias="asyncInserts")] = (
         None
     )
-    r"""Collect data into batches for later processing. Disable to write to a ClickHouse table immediately."""
+    r"""Collect data into batches for later processing. Disable to write to a table immediately."""
 
     tls: Optional[TLSSettingsClientSideType1] = None
 
@@ -353,20 +354,20 @@ class OutputClickHouse(BaseModel):
     wait_for_async_inserts: Annotated[
         Optional[bool], pydantic.Field(alias="waitForAsyncInserts")
     ] = None
-    r"""Cribl will wait for confirmation that data has been fully inserted into the ClickHouse database before proceeding. Disabling this option can increase throughput, but Cribl won’t be able to verify data has been completely inserted."""
+    r"""Cribl will wait for confirmation that data has been fully inserted into the database before proceeding. Disabling this option can increase throughput, but Cribl won't be able to verify data has been completely inserted."""
 
     exclude_mapping_fields: Annotated[
         Optional[List[str]], pydantic.Field(alias="excludeMappingFields")
     ] = None
-    r"""Fields to exclude from sending to ClickHouse"""
+    r"""Fields to exclude from sending"""
 
     describe_table: Annotated[Optional[str], pydantic.Field(alias="describeTable")] = (
         None
     )
-    r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
+    r"""Retrieves the table schema and populates the Column Mapping table"""
 
     column_mappings: Annotated[
-        Optional[List[OutputClickHouseColumnMapping]],
+        Optional[List[OutputLocalSearchStorageColumnMapping]],
         pydantic.Field(alias="columnMappings"),
     ] = None
 
@@ -415,7 +416,7 @@ class OutputClickHouse(BaseModel):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
     pq_controls: Annotated[
-        Optional[OutputClickHousePqControls], pydantic.Field(alias="pqControls")
+        Optional[OutputLocalSearchStoragePqControls], pydantic.Field(alias="pqControls")
     ] = None
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
@@ -446,7 +447,7 @@ class OutputClickHouse(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputClickHouseFormat(value)
+                return models.OutputLocalSearchStorageFormat(value)
             except ValueError:
                 return value
         return value
@@ -455,7 +456,7 @@ class OutputClickHouse(BaseModel):
     def serialize_mapping_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputClickHouseMappingType(value)
+                return models.OutputLocalSearchStorageMappingType(value)
             except ValueError:
                 return value
         return value
@@ -576,10 +577,10 @@ class OutputClickHouse(BaseModel):
 
 
 try:
-    OutputClickHouseColumnMapping.model_rebuild()
+    OutputLocalSearchStorageColumnMapping.model_rebuild()
 except NameError:
     pass
 try:
-    OutputClickHouse.model_rebuild()
+    OutputLocalSearchStorage.model_rebuild()
 except NameError:
     pass

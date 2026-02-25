@@ -1,4 +1,4 @@
-# CreateOutputSystemByPackAuthenticationTypeClickHouse
+# AuthenticationTypeOptions1
 
 
 ## Values

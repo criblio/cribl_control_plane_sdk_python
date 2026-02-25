@@ -26,7 +26,6 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -71,13 +70,12 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatOnPremDollyWg", description="Worker Group cloned from goatOnPremIanWg with identical configuration", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, is_fleet=False, is_search=False, name="goatOnPremDollyWg", on_prem=True, source_group_id="goatOnPremIanWg", worker_remote_access=True)
+    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatOnPremDollyWg", description="Worker Group cloned from goatOnPremIanWg with identical configuration", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, name="goatonpremdollywg", on_prem=True, source_group_id="goatOnPremIanWg", type_=models.TypeOptionsConfigGroup.STREAM, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -92,7 +90,6 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -101,7 +98,7 @@ with CriblControlPlane(
     res = ccp_client.groups.create(product=models.ProductsCore.STREAM, id="goatCloudIanWg", cloud={
         "provider": models.CloudProvider.AWS,
         "region": "us-west-2",
-    }, estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE24_MB_PER_SEC, is_fleet=False, is_search=False, name="goatCloudIanWg", on_prem=False, provisioned=True, worker_remote_access=True)
+    }, estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE24_MB_PER_SEC, name="goatcloudianwg", on_prem=False, provisioned=True, type_=models.TypeOptionsConfigGroup.STREAM, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -116,13 +113,12 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatIanEdgeFleet", description="Create a new Edge Fleet", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, is_fleet=True, is_search=False, name="goatIanEdgeFleet", on_prem=True, worker_remote_access=True)
+    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatIanEdgeFleet", description="Create a new Edge Fleet", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, name="goatianedgefleet", on_prem=True, type_=models.TypeOptionsConfigGroup.EDGE, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -137,13 +133,12 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatOnPremIanWg", description="Worker group in customer-managed deployment", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, is_fleet=False, is_search=False, name="goatOnPremIanWg", on_prem=True, worker_remote_access=True)
+    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatOnPremIanWg", description="Worker group in customer-managed deployment", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, name="goatonpremianwg", on_prem=True, type_=models.TypeOptionsConfigGroup.STREAM, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -203,7 +198,6 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -249,7 +243,6 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -258,7 +251,7 @@ with CriblControlPlane(
     res = ccp_client.groups.update(product=models.ProductsCore.EDGE, id_param="<value>", id="goatCloudIanWg", cloud={
         "provider": models.CloudProvider.AWS,
         "region": "us-west-2",
-    }, description="Scaled Worker Group with estimated ingest rate of 4096 (48 MB/s, 21 Worker Processes) for increased capacity", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, is_fleet=False, is_search=False, name="goatCloudIanWg", on_prem=False, provisioned=True, worker_remote_access=True)
+    }, description="Scaled Worker Group with estimated ingest rate of 4096 (48 MB/s, 21 Worker Processes) for increased capacity", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, name="goatcloudianwg", on_prem=False, provisioned=True, type_=models.TypeOptionsConfigGroup.STREAM, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -319,7 +312,6 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -364,7 +356,6 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),

@@ -1106,6 +1106,8 @@ class CreateInputSystemByPackInputExecTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    script: NotRequired[str]
+    r"""Optional script content to pipe into the command's stdin. The stdin stream is closed after the script is written."""
     retries: NotRequired[float]
     r"""Maximum number of retry attempts in the event that the command fails"""
     schedule_type: NotRequired[CreateInputSystemByPackScheduleType]
@@ -1155,6 +1157,9 @@ class CreateInputSystemByPackInputExec(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+
+    script: Optional[str] = None
+    r"""Optional script content to pipe into the command's stdin. The stdin stream is closed after the script is written."""
 
     retries: Optional[float] = None
     r"""Maximum number of retry attempts in the event that the command fails"""
@@ -1207,6 +1212,7 @@ class CreateInputSystemByPackInputExec(BaseModel):
                 "streamtags",
                 "connections",
                 "pq",
+                "script",
                 "retries",
                 "scheduleType",
                 "breakerRulesets",
@@ -7941,20 +7947,20 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputWindowsMetricsTypedDict,
         CreateInputSystemByPackInputSystemMetricsTypedDict,
         CreateInputSystemByPackInputJournalFilesTypedDict,
-        CreateInputSystemByPackInputExecTypedDict,
         CreateInputSystemByPackInputKubeLogsTypedDict,
         CreateInputSystemByPackInputModelDrivenTelemetryTypedDict,
-        CreateInputSystemByPackInputRawUDPTypedDict,
+        CreateInputSystemByPackInputExecTypedDict,
         CreateInputSystemByPackInputWinEventLogsTypedDict,
+        CreateInputSystemByPackInputRawUDPTypedDict,
         CreateInputSystemByPackInputSnmpTypedDict,
         CreateInputSystemByPackInputMetricsTypedDict,
-        CreateInputSystemByPackInputCriblTCPTypedDict,
         CreateInputSystemByPackInputNetflowTypedDict,
+        CreateInputSystemByPackInputCriblTCPTypedDict,
         CreateInputSystemByPackInputTcpjsonTypedDict,
         CreateInputSystemByPackInputGooglePubsubTypedDict,
-        CreateInputSystemByPackInputFirehoseTypedDict,
-        CreateInputSystemByPackInputWizTypedDict,
         CreateInputSystemByPackInputOffice365ServiceTypedDict,
+        CreateInputSystemByPackInputWizTypedDict,
+        CreateInputSystemByPackInputFirehoseTypedDict,
         CreateInputSystemByPackInputCriblHTTPTypedDict,
         CreateInputSystemByPackInputTCPTypedDict,
         CreateInputSystemByPackInputDatadogAgentTypedDict,

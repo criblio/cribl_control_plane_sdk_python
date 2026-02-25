@@ -26,9 +26,7 @@ from .compressionoptions1 import CompressionOptions1
 from .compressionoptions2 import CompressionOptions2
 from .compressionoptions3 import CompressionOptions3
 from .compressionoptionspq import CompressionOptionsPq
-from .createoutput_pqcontrols_newrelic import (
-    CreateOutputMetadatum,
-    CreateOutputMetadatumTypedDict,
+from .createoutput_outputnewrelicevents import (
     CreateOutputOutputChronicle,
     CreateOutputOutputChronicleTypedDict,
     CreateOutputOutputClickHouse,
@@ -69,6 +67,8 @@ from .createoutput_pqcontrols_newrelic import (
     CreateOutputOutputHumioHecTypedDict,
     CreateOutputOutputInfluxdb,
     CreateOutputOutputInfluxdbTypedDict,
+    CreateOutputOutputLocalSearchStorage,
+    CreateOutputOutputLocalSearchStorageTypedDict,
     CreateOutputOutputLoki,
     CreateOutputOutputLokiTypedDict,
     CreateOutputOutputMicrosoftFabric,
@@ -107,9 +107,6 @@ from .createoutput_pqcontrols_newrelic import (
     CreateOutputOutputSumoLogicTypedDict,
     CreateOutputOutputXsiam,
     CreateOutputOutputXsiamTypedDict,
-    CreateOutputPqControlsNewrelic,
-    CreateOutputPqControlsNewrelicTypedDict,
-    CreateOutputTypeNewrelic,
 )
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
@@ -188,6 +185,47 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateOutputTypeNewrelic(str, Enum):
+    NEWRELIC = "newrelic"
+
+
+class CreateOutputFieldName(str, Enum, metaclass=utils.OpenEnumMeta):
+    SERVICE = "service"
+    HOSTNAME = "hostname"
+    TIMESTAMP = "timestamp"
+    AUDIT_ID = "auditId"
+
+
+class CreateOutputMetadatumTypedDict(TypedDict):
+    name: CreateOutputFieldName
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateOutputMetadatum(BaseModel):
+    name: CreateOutputFieldName
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+    @field_serializer("name")
+    def serialize_name(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateOutputFieldName(value)
+            except ValueError:
+                return value
+        return value
+
+
+class CreateOutputPqControlsNewrelicTypedDict(TypedDict):
+    pass
+
+
+class CreateOutputPqControlsNewrelic(BaseModel):
+    pass
 
 
 class CreateOutputOutputNewrelicTypedDict(TypedDict):
@@ -14051,43 +14089,44 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputCloudwatchTypedDict,
         CreateOutputOutputAzureLogsTypedDict,
         CreateOutputOutputPrometheusTypedDict,
-        CreateOutputOutputXsiamTypedDict,
-        CreateOutputOutputNewrelicEventsTypedDict,
         CreateOutputOutputFilesystemTypedDict,
         CreateOutputOutputSyslogTypedDict,
+        CreateOutputOutputNewrelicEventsTypedDict,
+        CreateOutputOutputXsiamTypedDict,
         CreateOutputOutputCriblHTTPTypedDict,
         CreateOutputOutputWizHecTypedDict,
         CreateOutputOutputNewrelicTypedDict,
         CreateOutputOutputCriblSearchEngineTypedDict,
         CreateOutputOutputDatasetTypedDict,
         CreateOutputOutputLokiTypedDict,
-        CreateOutputOutputDynatraceHTTPTypedDict,
-        CreateOutputOutputKinesisTypedDict,
-        CreateOutputOutputServiceNowTypedDict,
         CreateOutputOutputDynatraceOtlpTypedDict,
+        CreateOutputOutputKinesisTypedDict,
+        CreateOutputOutputDynatraceHTTPTypedDict,
+        CreateOutputOutputServiceNowTypedDict,
         CreateOutputOutputSplunkHecTypedDict,
-        CreateOutputOutputChronicleTypedDict,
         CreateOutputOutputSqsTypedDict,
-        CreateOutputOutputDatadogTypedDict,
         CreateOutputOutputElasticTypedDict,
-        CreateOutputOutputInfluxdbTypedDict,
+        CreateOutputOutputChronicleTypedDict,
+        CreateOutputOutputDatadogTypedDict,
         CreateOutputOutputOpenTelemetryTypedDict,
+        CreateOutputOutputInfluxdbTypedDict,
+        CreateOutputOutputGoogleChronicleTypedDict,
         CreateOutputOutputDatabricksTypedDict,
         CreateOutputOutputSentinelOneAiSiemTypedDict,
-        CreateOutputOutputGoogleChronicleTypedDict,
-        CreateOutputOutputClickHouseTypedDict,
+        CreateOutputOutputLocalSearchStorageTypedDict,
         CreateOutputOutputCriblLakeTypedDict,
+        CreateOutputOutputClickHouseTypedDict,
         CreateOutputOutputCloudflareR2TypedDict,
         CreateOutputOutputMskTypedDict,
         CreateOutputOutputGoogleCloudStorageTypedDict,
+        CreateOutputOutputAzureBlobTypedDict,
         CreateOutputOutputMinioTypedDict,
         CreateOutputOutputSentinelTypedDict,
-        CreateOutputOutputAzureBlobTypedDict,
         CreateOutputOutputSecurityLakeTypedDict,
-        CreateOutputOutputGoogleCloudLoggingTypedDict,
         CreateOutputOutputWebhookTypedDict,
-        CreateOutputOutputDlS3TypedDict,
+        CreateOutputOutputGoogleCloudLoggingTypedDict,
         CreateOutputOutputS3TypedDict,
+        CreateOutputOutputDlS3TypedDict,
         CreateOutputOutputAzureDataExplorerTypedDict,
         CreateOutputOutputGrafanaCloudUnionTypedDict,
     ],
@@ -14160,6 +14199,7 @@ CreateOutputRequest = Annotated[
         Annotated[CreateOutputOutputCriblLake, Tag("cribl_lake")],
         Annotated[CreateOutputOutputDiskSpool, Tag("disk_spool")],
         Annotated[CreateOutputOutputClickHouse, Tag("click_house")],
+        Annotated[CreateOutputOutputLocalSearchStorage, Tag("local_search_storage")],
         Annotated[CreateOutputOutputXsiam, Tag("xsiam")],
         Annotated[CreateOutputOutputNetflow, Tag("netflow")],
         Annotated[CreateOutputOutputDynatraceHTTP, Tag("dynatrace_http")],

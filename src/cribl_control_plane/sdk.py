@@ -5,13 +5,13 @@ from .httpclient import AsyncHttpClient, ClientOwner, HttpClient, close_clients
 from .sdkconfiguration import SDKConfiguration
 from .utils.logger import Logger, get_default_logger
 from .utils.retries import RetryConfig
-from cribl_control_plane import models
+from cribl_control_plane import models, utils
 from cribl_control_plane._hooks import SDKHooks
 from cribl_control_plane.types import OptionalNullable, UNSET
 import httpx
 import importlib
 import sys
-from typing import Callable, Optional, TYPE_CHECKING, Union, cast
+from typing import Callable, Dict, Optional, TYPE_CHECKING, Union, cast
 import weakref
 
 if TYPE_CHECKING:
@@ -89,10 +89,17 @@ class CriblControlPlane(BaseSDK):
 
     def __init__(
         self,
-        server_url: str,
         security: Optional[
             Union[models.Security, Callable[[], models.Security]]
         ] = None,
+        leader_url: Optional[str] = None,
+        group_id: Optional[str] = None,
+        workspace_name: Optional[str] = None,
+        organization_id: Optional[str] = None,
+        env_domain: Optional[str] = None,
+        server: Optional[str] = None,
+        server_url: Optional[str] = None,
+        url_params: Optional[Dict[str, str]] = None,
         client: Optional[HttpClient] = None,
         async_client: Optional[AsyncHttpClient] = None,
         retry_config: OptionalNullable[RetryConfig] = UNSET,
@@ -102,7 +109,12 @@ class CriblControlPlane(BaseSDK):
         r"""Instantiates the SDK configuring it with the provided parameters.
 
         :param security: The security details required for authentication
-        :param server_idx: The index of the server to use for all methods
+        :param leader_url: Allows setting the leaderUrl variable for url substitution
+        :param group_id: Allows setting the groupId variable for url substitution
+        :param workspace_name: Allows setting the workspaceName variable for url substitution
+        :param organization_id: Allows setting the organizationId variable for url substitution
+        :param env_domain: Allows setting the envDomain variable for url substitution
+        :param server: The server by name to use for all methods
         :param server_url: The server URL to use for all methods
         :param url_params: Parameters to optionally template the server URL with
         :param client: The HTTP client to use for all synchronous methods
@@ -131,6 +143,36 @@ class CriblControlPlane(BaseSDK):
             type(async_client), AsyncHttpClient
         ), "The provided async_client must implement the AsyncHttpClient protocol."
 
+        if server_url is not None:
+            if url_params is not None:
+                server_url = utils.template_url(server_url, url_params)
+
+        server_defaults: Dict[str, Dict[str, str]] = {
+            "onprem-leader": {
+                "leaderUrl": leader_url or "localhost:9000",
+            },
+            "onprem-group": {
+                "leaderUrl": leader_url or "localhost:9000",
+                "groupId": group_id or "default",
+            },
+            "cloud-group": {
+                "workspaceName": workspace_name or "main",
+                "organizationId": organization_id or "my-org",
+                "envDomain": env_domain or "cribl.cloud",
+                "groupId": group_id or "default",
+            },
+            "search": {
+                "workspaceName": workspace_name or "main",
+                "organizationId": organization_id or "my-org",
+                "envDomain": env_domain or "cribl.cloud",
+            },
+            "cloud-leader": {
+                "workspaceName": workspace_name or "main",
+                "organizationId": organization_id or "my-org",
+                "envDomain": env_domain or "cribl.cloud",
+            },
+        }
+
         BaseSDK.__init__(
             self,
             SDKConfiguration(
@@ -140,6 +182,8 @@ class CriblControlPlane(BaseSDK):
                 async_client_supplied=async_client_supplied,
                 security=security,
                 server_url=server_url,
+                server=server,
+                server_defaults=server_defaults,
                 retry_config=retry_config,
                 timeout_ms=timeout_ms,
                 debug_logger=debug_logger,

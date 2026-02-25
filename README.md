@@ -28,7 +28,6 @@ Complementary API reference documentation is available at [https://docs.cribl.io
   * [File uploads](#file-uploads)
   * [Retries](#retries)
   * [Error Handling](#error-handling)
-  * [Server Selection](#server-selection)
   * [Custom HTTP Client](#custom-http-client)
   * [Resource Management](#resource-management)
   * [Debugging](#debugging)
@@ -285,6 +284,15 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [get](docs/sdks/configsversions/README.md#get) - Get the configuration version for a Worker Group, Outpost Group, or Edge Fleet
 
+#### [Groups.Mappings](docs/sdks/mappings/README.md)
+
+* [activate](docs/sdks/mappings/README.md#activate) - Set a Mapping Ruleset as the active configuration for the specified Cribl product
+* [create](docs/sdks/mappings/README.md#create) - Create a new Mapping Ruleset for the specified Cribl product
+* [list](docs/sdks/mappings/README.md#list) - List all Mapping Rulesets for the specified Cribl product
+* [delete](docs/sdks/mappings/README.md#delete) - Delete the specified Mapping Ruleset from the Worker Group or Edge Fleet
+* [get](docs/sdks/mappings/README.md#get) - Retrieve a Specific Mapping Ruleset
+* [update](docs/sdks/mappings/README.md#update) - Update an existing Mapping Ruleset for a Worker Group or Edge Fleet
+
 ### [Health](docs/sdks/health/README.md)
 
 * [get](docs/sdks/health/README.md#get) - Retrieve health status of the server
@@ -477,6 +485,7 @@ import os
 
 
 with CriblControlPlane(
+    server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -511,6 +520,7 @@ import os
 
 
 with CriblControlPlane(
+    server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -542,6 +552,7 @@ import os
 
 
 with CriblControlPlane(
+    server_url="https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -659,79 +670,6 @@ with CriblControlPlane(
 \* Check [the method documentation](#available-resources-and-operations) to see if the error is applicable.
 <!-- No Error Handling [errors] -->
 
-<!-- Start Server Selection [server] -->
-## Server Selection
-
-### Select Server by Name
-
-You can override the default server globally by passing a server name to the `server: str` optional parameter when initializing the SDK client instance. The selected server will then be used as the default on the operations that use it. This table lists the names associated with the available servers:
-
-| Name            | Server                                                                         | Variables                                                          | Description                                |
-| --------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------ |
-| `onprem-leader` | `https://{leaderUrl}/api/v1`                                                   | `leaderUrl`                                                        | On-prem Cribl Stream/Edge Leader API       |
-| `onprem-group`  | `https://{leaderUrl}/api/v1/m/{groupId}`                                       | `leaderUrl`<br/>`groupId`                                          | On-prem Worker Group or Edge Fleet API     |
-| `cloud-group`   | `https://{workspaceName}-{organizationId}.{envDomain}/api/v1/m/{groupId}`      | `workspaceName`<br/>`organizationId`<br/>`envDomain`<br/>`groupId` | Cribl.Cloud Worker Group or Edge Fleet API |
-| `search`        | `https://{workspaceName}-{organizationId}.{envDomain}/api/v1/m/default_search` | `workspaceName`<br/>`organizationId`<br/>`envDomain`               | Cribl.Cloud Search API                     |
-| `cloud-leader`  | `https://{workspaceName}-{organizationId}.{envDomain}/api/v1`                  | `workspaceName`<br/>`organizationId`<br/>`envDomain`               | Cribl.Cloud API                            |
-
-If the selected server has variables, you may override its default values through the additional parameters made available in the SDK constructor:
-
-| Variable         | Parameter              | Default            | Description                                        |
-| ---------------- | ---------------------- | ------------------ | -------------------------------------------------- |
-| `leaderUrl`      | `leader_url: str`      | `"localhost:9000"` | Leader host and port (e.g. cribl.example.com:9000) |
-| `groupId`        | `group_id: str`        | `"default"`        | Worker Group or Edge Fleet ID                      |
-| `workspaceName`  | `workspace_name: str`  | `"main"`           | Workspace name (e.g. main)                         |
-| `organizationId` | `organization_id: str` | `"my-org"`         | Organization ID                                    |
-| `envDomain`      | `env_domain: str`      | `"cribl.cloud"`    | Domain                                             |
-
-#### Example
-
-```python
-from cribl_control_plane import CriblControlPlane, models
-import os
-
-
-with CriblControlPlane(
-    server="cloud-group",
-    workspace_name="main",
-    organization_id="my-org",
-    env_domain="cribl.cloud",
-    group_id="default",
-    security=models.Security(
-        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
-    ),
-) as ccp_client:
-
-    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, tags="production,mysql,customer-data")
-
-    # Handle response
-    print(res)
-
-```
-
-### Override Server URL Per-Client
-
-The default server can also be overridden globally by passing a URL to the `server_url: str` optional parameter when initializing the SDK client instance. For example:
-```python
-from cribl_control_plane import CriblControlPlane, models
-import os
-
-
-with CriblControlPlane(
-    server_url="https://localhost:9000/api/v1",
-    security=models.Security(
-        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
-    ),
-) as ccp_client:
-
-    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, tags="production,mysql,customer-data")
-
-    # Handle response
-    print(res)
-
-```
-<!-- End Server Selection [server] -->
-
 <!-- Start Custom HTTP Client [http-client] -->
 ## Custom HTTP Client
 
@@ -826,6 +764,7 @@ import os
 def main():
 
     with CriblControlPlane(
+        server_url="https://api.example.com",
         security=models.Security(
             bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
         ),
@@ -837,6 +776,7 @@ def main():
 async def amain():
 
     async with CriblControlPlane(
+        server_url="https://api.example.com",
         security=models.Security(
             bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
         ),
@@ -856,7 +796,7 @@ from cribl_control_plane import CriblControlPlane
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
-s = CriblControlPlane(debug_logger=logging.getLogger("cribl_control_plane"))
+s = CriblControlPlane(server_url="https://example.com", debug_logger=logging.getLogger("cribl_control_plane"))
 ```
 
 You can also enable a default debug logger by setting an environment variable `CRIBLCONTROLPLANE_DEBUG` to true.

@@ -19,7 +19,9 @@ Get the current health status of the server.
 from cribl_control_plane import CriblControlPlane
 
 
-with CriblControlPlane() as ccp_client:
+with CriblControlPlane(
+    server_url="https://api.example.com",
+) as ccp_client:
 
     res = ccp_client.health.get()
 

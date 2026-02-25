@@ -10,29 +10,9 @@ from .httpclient import AsyncHttpClient, HttpClient
 from .utils import Logger, RetryConfig, remove_suffix
 from cribl_control_plane import models
 from cribl_control_plane.types import OptionalNullable, UNSET
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pydantic import Field
 from typing import Callable, Dict, Optional, Tuple, Union
-
-
-SERVER_ONPREM_LEADER = "onprem-leader"
-r"""On-prem Cribl Stream/Edge Leader API"""
-SERVER_ONPREM_GROUP = "onprem-group"
-r"""On-prem Worker Group or Edge Fleet API"""
-SERVER_CLOUD_GROUP = "cloud-group"
-r"""Cribl.Cloud Worker Group or Edge Fleet API"""
-SERVER_SEARCH = "search"
-r"""Cribl.Cloud Search API"""
-SERVER_CLOUD_LEADER = "cloud-leader"
-r"""Cribl.Cloud API"""
-SERVERS = {
-    SERVER_ONPREM_LEADER: "https://{leaderUrl}/api/v1",
-    SERVER_ONPREM_GROUP: "https://{leaderUrl}/api/v1/m/{groupId}",
-    SERVER_CLOUD_GROUP: "https://{workspaceName}-{organizationId}.{envDomain}/api/v1/m/{groupId}",
-    SERVER_SEARCH: "https://{workspaceName}-{organizationId}.{envDomain}/api/v1/m/default_search",
-    SERVER_CLOUD_LEADER: "https://{workspaceName}-{organizationId}.{envDomain}/api/v1",
-}
-"""Contains the list of servers available to the SDK"""
 
 
 @dataclass
@@ -42,10 +22,8 @@ class SDKConfiguration:
     async_client: Union[AsyncHttpClient, None]
     async_client_supplied: bool
     debug_logger: Logger
+    server_url: str
     security: Optional[Union[models.Security, Callable[[], models.Security]]] = None
-    server_url: Optional[str] = ""
-    server: Optional[str] = ""
-    server_defaults: Dict[str, Dict[str, str]] = field(default_factory=Dict)
     language: str = "python"
     openapi_doc_version: str = __openapi_doc_version__
     sdk_version: str = __version__
@@ -55,12 +33,4 @@ class SDKConfiguration:
     timeout_ms: Optional[int] = None
 
     def get_server_details(self) -> Tuple[str, Dict[str, str]]:
-        if self.server_url is not None and self.server_url:
-            return remove_suffix(self.server_url, "/"), {}
-        if not self.server:
-            self.server = SERVER_ONPREM_LEADER
-
-        if self.server not in SERVERS:
-            raise ValueError(f'Invalid server "{self.server}"')
-
-        return SERVERS[self.server], self.server_defaults.get(self.server, {})
+        return remove_suffix(self.server_url, "/"), {}

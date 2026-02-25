@@ -17,9 +17,7 @@ This endpoint is unavailable on Cribl.Cloud.Instead, follow the instructions at 
 from cribl_control_plane import CriblControlPlane
 
 
-with CriblControlPlane(
-    server_url="https://api.example.com",
-) as ccp_client:
+with CriblControlPlane() as ccp_client:
 
     res = ccp_client.auth.tokens.get(password="6j50J9421x29IhO", username="Lilly_Weissnat")
 

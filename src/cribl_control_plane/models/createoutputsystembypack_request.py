@@ -26,9 +26,7 @@ from .compressionoptions1 import CompressionOptions1
 from .compressionoptions2 import CompressionOptions2
 from .compressionoptions3 import CompressionOptions3
 from .compressionoptionspq import CompressionOptionsPq
-from .createoutputsystembypack_pqcontrols_newrelic import (
-    CreateOutputSystemByPackMetadatum,
-    CreateOutputSystemByPackMetadatumTypedDict,
+from .createoutputsystembypack_outputnewrelicevents import (
     CreateOutputSystemByPackOutputChronicle,
     CreateOutputSystemByPackOutputChronicleTypedDict,
     CreateOutputSystemByPackOutputClickHouse,
@@ -69,6 +67,8 @@ from .createoutputsystembypack_pqcontrols_newrelic import (
     CreateOutputSystemByPackOutputHumioHecTypedDict,
     CreateOutputSystemByPackOutputInfluxdb,
     CreateOutputSystemByPackOutputInfluxdbTypedDict,
+    CreateOutputSystemByPackOutputLocalSearchStorage,
+    CreateOutputSystemByPackOutputLocalSearchStorageTypedDict,
     CreateOutputSystemByPackOutputLoki,
     CreateOutputSystemByPackOutputLokiTypedDict,
     CreateOutputSystemByPackOutputMicrosoftFabric,
@@ -107,9 +107,6 @@ from .createoutputsystembypack_pqcontrols_newrelic import (
     CreateOutputSystemByPackOutputSumoLogicTypedDict,
     CreateOutputSystemByPackOutputXsiam,
     CreateOutputSystemByPackOutputXsiamTypedDict,
-    CreateOutputSystemByPackPqControlsNewrelic,
-    CreateOutputSystemByPackPqControlsNewrelicTypedDict,
-    CreateOutputSystemByPackTypeNewrelic,
 )
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
@@ -193,6 +190,47 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateOutputSystemByPackTypeNewrelic(str, Enum):
+    NEWRELIC = "newrelic"
+
+
+class CreateOutputSystemByPackFieldName(str, Enum, metaclass=utils.OpenEnumMeta):
+    SERVICE = "service"
+    HOSTNAME = "hostname"
+    TIMESTAMP = "timestamp"
+    AUDIT_ID = "auditId"
+
+
+class CreateOutputSystemByPackMetadatumTypedDict(TypedDict):
+    name: CreateOutputSystemByPackFieldName
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+
+class CreateOutputSystemByPackMetadatum(BaseModel):
+    name: CreateOutputSystemByPackFieldName
+
+    value: str
+    r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
+
+    @field_serializer("name")
+    def serialize_name(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateOutputSystemByPackFieldName(value)
+            except ValueError:
+                return value
+        return value
+
+
+class CreateOutputSystemByPackPqControlsNewrelicTypedDict(TypedDict):
+    pass
+
+
+class CreateOutputSystemByPackPqControlsNewrelic(BaseModel):
+    pass
 
 
 class CreateOutputSystemByPackOutputNewrelicTypedDict(TypedDict):
@@ -14115,43 +14153,44 @@ CreateOutputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateOutputSystemByPackOutputCloudwatchTypedDict,
         CreateOutputSystemByPackOutputAzureLogsTypedDict,
         CreateOutputSystemByPackOutputPrometheusTypedDict,
-        CreateOutputSystemByPackOutputXsiamTypedDict,
-        CreateOutputSystemByPackOutputNewrelicEventsTypedDict,
         CreateOutputSystemByPackOutputFilesystemTypedDict,
         CreateOutputSystemByPackOutputSyslogTypedDict,
+        CreateOutputSystemByPackOutputNewrelicEventsTypedDict,
+        CreateOutputSystemByPackOutputXsiamTypedDict,
         CreateOutputSystemByPackOutputCriblHTTPTypedDict,
         CreateOutputSystemByPackOutputWizHecTypedDict,
         CreateOutputSystemByPackOutputNewrelicTypedDict,
         CreateOutputSystemByPackOutputCriblSearchEngineTypedDict,
         CreateOutputSystemByPackOutputDatasetTypedDict,
         CreateOutputSystemByPackOutputLokiTypedDict,
-        CreateOutputSystemByPackOutputDynatraceHTTPTypedDict,
-        CreateOutputSystemByPackOutputKinesisTypedDict,
-        CreateOutputSystemByPackOutputServiceNowTypedDict,
         CreateOutputSystemByPackOutputDynatraceOtlpTypedDict,
+        CreateOutputSystemByPackOutputKinesisTypedDict,
+        CreateOutputSystemByPackOutputDynatraceHTTPTypedDict,
+        CreateOutputSystemByPackOutputServiceNowTypedDict,
         CreateOutputSystemByPackOutputSplunkHecTypedDict,
-        CreateOutputSystemByPackOutputChronicleTypedDict,
         CreateOutputSystemByPackOutputSqsTypedDict,
-        CreateOutputSystemByPackOutputDatadogTypedDict,
         CreateOutputSystemByPackOutputElasticTypedDict,
-        CreateOutputSystemByPackOutputInfluxdbTypedDict,
+        CreateOutputSystemByPackOutputChronicleTypedDict,
+        CreateOutputSystemByPackOutputDatadogTypedDict,
         CreateOutputSystemByPackOutputOpenTelemetryTypedDict,
+        CreateOutputSystemByPackOutputInfluxdbTypedDict,
+        CreateOutputSystemByPackOutputGoogleChronicleTypedDict,
         CreateOutputSystemByPackOutputDatabricksTypedDict,
         CreateOutputSystemByPackOutputSentinelOneAiSiemTypedDict,
-        CreateOutputSystemByPackOutputGoogleChronicleTypedDict,
-        CreateOutputSystemByPackOutputClickHouseTypedDict,
+        CreateOutputSystemByPackOutputLocalSearchStorageTypedDict,
         CreateOutputSystemByPackOutputCriblLakeTypedDict,
+        CreateOutputSystemByPackOutputClickHouseTypedDict,
         CreateOutputSystemByPackOutputCloudflareR2TypedDict,
         CreateOutputSystemByPackOutputMskTypedDict,
         CreateOutputSystemByPackOutputGoogleCloudStorageTypedDict,
+        CreateOutputSystemByPackOutputAzureBlobTypedDict,
         CreateOutputSystemByPackOutputMinioTypedDict,
         CreateOutputSystemByPackOutputSentinelTypedDict,
-        CreateOutputSystemByPackOutputAzureBlobTypedDict,
         CreateOutputSystemByPackOutputSecurityLakeTypedDict,
-        CreateOutputSystemByPackOutputGoogleCloudLoggingTypedDict,
         CreateOutputSystemByPackOutputWebhookTypedDict,
-        CreateOutputSystemByPackOutputDlS3TypedDict,
+        CreateOutputSystemByPackOutputGoogleCloudLoggingTypedDict,
         CreateOutputSystemByPackOutputS3TypedDict,
+        CreateOutputSystemByPackOutputDlS3TypedDict,
         CreateOutputSystemByPackOutputAzureDataExplorerTypedDict,
         CreateOutputSystemByPackOutputGrafanaCloudUnionTypedDict,
     ],
@@ -14239,6 +14278,10 @@ CreateOutputSystemByPackRequestBody = Annotated[
         Annotated[CreateOutputSystemByPackOutputCriblLake, Tag("cribl_lake")],
         Annotated[CreateOutputSystemByPackOutputDiskSpool, Tag("disk_spool")],
         Annotated[CreateOutputSystemByPackOutputClickHouse, Tag("click_house")],
+        Annotated[
+            CreateOutputSystemByPackOutputLocalSearchStorage,
+            Tag("local_search_storage"),
+        ],
         Annotated[CreateOutputSystemByPackOutputXsiam, Tag("xsiam")],
         Annotated[CreateOutputSystemByPackOutputNetflow, Tag("netflow")],
         Annotated[CreateOutputSystemByPackOutputDynatraceHTTP, Tag("dynatrace_http")],

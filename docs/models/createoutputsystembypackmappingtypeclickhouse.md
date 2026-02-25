@@ -1,4 +1,4 @@
-# MappingType
+# CreateOutputSystemByPackMappingTypeClickHouse
 
 How event fields are mapped to ClickHouse columns.
 

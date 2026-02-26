@@ -1,4 +1,4 @@
-# GitCommitParams
+# GitCommitBody
 
 
 ## Fields
@@ -7,5 +7,4 @@
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `effective`        | *Optional[bool]*   | :heavy_minus_sign: | N/A                |
 | `files`            | List[*str*]        | :heavy_minus_sign: | N/A                |
-| `group`            | *Optional[str]*    | :heavy_minus_sign: | N/A                |
 | `message`          | *str*              | :heavy_check_mark: | N/A                |

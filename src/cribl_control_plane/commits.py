@@ -30,7 +30,6 @@ class Commits(BaseSDK):
         message: str,
         effective: Optional[bool] = None,
         files: Optional[List[str]] = None,
-        group: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -43,7 +42,6 @@ class Commits(BaseSDK):
         :param message:
         :param effective:
         :param files:
-        :param group:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -59,10 +57,9 @@ class Commits(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GitCommitParams(
+        request = models.GitCommitBody(
             effective=effective,
             files=files,
-            group=group,
             message=message,
         )
 
@@ -80,7 +77,7 @@ class Commits(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.GitCommitParams
+                request, False, False, "json", models.GitCommitBody
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -134,7 +131,6 @@ class Commits(BaseSDK):
         message: str,
         effective: Optional[bool] = None,
         files: Optional[List[str]] = None,
-        group: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -147,7 +143,6 @@ class Commits(BaseSDK):
         :param message:
         :param effective:
         :param files:
-        :param group:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -163,10 +158,9 @@ class Commits(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GitCommitParams(
+        request = models.GitCommitBody(
             effective=effective,
             files=files,
-            group=group,
             message=message,
         )
 
@@ -184,7 +178,7 @@ class Commits(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.GitCommitParams
+                request, False, False, "json", models.GitCommitBody
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,

@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 5a799f78f41b0d882073f740531eea27
-  docVersion: 4.17.0-alpha.1771954403808-f0bcc9c7
+  docChecksum: 744585fde4fd27ceb59abfcfbf15f76c
+  docVersion: 4.17.0-alpha.1772060715055-b28e0254
   speakeasyVersion: 1.728.0
   generationVersion: 2.839.0
-  releaseVersion: 0.6.0b46
-  configChecksum: 6715b122d10878132f0c7c73f2095b68
+  releaseVersion: 0.6.0b47
+  configChecksum: 462c7815aeba55451af176e36be58505
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: ca680940-e9a3-4d3c-8261-5e2eaf0d5702
-  pristine_commit_hash: b9fe24b831f93dbfc29650d3186588230c32449c
-  pristine_tree_hash: f018a39ea09b823d3bf6e596d2e89eba16e6d9bb
+  generation_id: 541278e6-866e-4c6f-b297-fae0f5f8b00a
+  pristine_commit_hash: 1ab320b87f3a4e2d71d8d831c38b4c0f4046847a
+  pristine_tree_hash: 455efe5cfcd712962e082c56732f2fdac51007b0
 features:
   python:
     additionalDependencies: 1.0.0
@@ -8244,8 +8244,8 @@ trackedFiles:
     pristine_git_object: 30f0bae009731216334c42170dc2ffd917c2fef1
   docs/models/lakedatasetsearchconfig.md:
     id: 1ae748500cc0
-    last_write_checksum: sha1:1c6b728a6b940c094672502d1d13a79d0dd8e8c1
-    pristine_git_object: 3654904aec9e420e2962231e52019b4d3bad1108
+    last_write_checksum: sha1:c19d9a9288d2be0b4d20e03c0d7eb30de309894f
+    pristine_git_object: adbbe7eded11e011ac743c75485fe44f57aa331b
   docs/models/lakeexportconfiguration.md:
     id: 8bd1bb7bc273
     last_write_checksum: sha1:20517505110df707be9ce0650b19d6346daafb5c
@@ -15536,8 +15536,8 @@ trackedFiles:
     pristine_git_object: f53087107b8e27938db09c3cfa915a04ae6f2e32
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:8dc95ec0fd8db357f4e193570665f3a90d8e590f
-    pristine_git_object: fe4c1b797edbbd211197efd969846e8bb242263b
+    last_write_checksum: sha1:8c5a1470405d3b045bd31bb32e03538fecd999e4
+    pristine_git_object: 41a746e9860f3d56a0c3d690c6d258f3837f9c05
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -15568,8 +15568,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:0311b929eef17b0bd50b7b6be85a5cf0dd29392b
-    pristine_git_object: 5c6f0fda2e873816704bad20064c3aa7f3ffa20d
+    last_write_checksum: sha1:6bcd870130d4d113f80c2e7c89f2ad538a35522e
+    pristine_git_object: 660b5f8e42a320ca3ffe6063da046c79981eac4e
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -17440,8 +17440,8 @@ trackedFiles:
     pristine_git_object: c800329679d261b647ee4de8ed3481890886d64f
   src/cribl_control_plane/models/lakedatasetsearchconfig.py:
     id: 131b11361cf6
-    last_write_checksum: sha1:8e02cceb9a3287b6519aabbcd6aa4cee497a72f6
-    pristine_git_object: 642556f6e3e44dc253d3da4ee2777acaca040b4c
+    last_write_checksum: sha1:bef630ba85d395f3d0d2122035bc2db57d7b88f2
+    pristine_git_object: b742a2f6f0e7c73966fa30a6ce04def1e3d5612a
   src/cribl_control_plane/models/lakehouseconnectiontype.py:
     id: cf5a974e7e9f
     last_write_checksum: sha1:3f0dc547ed94674c0a6a7a51311d1ad5dcd96ca3
@@ -29133,6 +29133,7 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.lake_datasets.create()`: \n  *  `request.search_config` **Changed**\n  *  `response.items[].search_config` **Changed**\n* `cribl_control_plane.lake_datasets.list()`:  `response.items[].search_config` **Changed**\n* `cribl_control_plane.lake_datasets.delete()`:  `response.items[].search_config` **Changed**\n* `cribl_control_plane.lake_datasets.get()`:  `response.items[].search_config` **Changed**\n* `cribl_control_plane.lake_datasets.update()`: \n  *  `request.search_config` **Changed**\n  *  `response.items[].search_config` **Changed**\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

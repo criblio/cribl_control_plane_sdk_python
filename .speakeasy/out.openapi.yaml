@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-alpha.1771954403808-f0bcc9c7
+  version: 4.17.0-alpha.1772060715055-b28e0254
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -37163,8 +37163,12 @@ components:
           type: array
           items:
             type: string
+        description:
+          type: string
         metadata:
           $ref: "#/components/schemas/DatasetMetadata"
+        tags:
+          type: string
     CriblLakeDataset:
       type: object
       properties:

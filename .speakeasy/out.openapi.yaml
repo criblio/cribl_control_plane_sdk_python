@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-alpha.1772100635288-75a3f232
+  version: 4.17.0-alpha.1772104341358-d56b8bbf
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -37117,9 +37117,7 @@ components:
                 properties:
                   id:
                     type: string
-                    enum:
-                      - eval
-                    x-speakeasy-unknown-values: allow
+                    const: eval
                   conf:
                     type: object
                     required:
@@ -37137,9 +37135,7 @@ components:
                           properties:
                             name:
                               type: string
-                              enum:
-                                - groupId
-                              x-speakeasy-unknown-values: allow
+                              const: groupId
                             value:
                               type: string
                               minLength: 1

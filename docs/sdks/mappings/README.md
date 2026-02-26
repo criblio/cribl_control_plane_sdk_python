@@ -78,11 +78,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.EDGE, id="aws-ec2-mapping", conf={
         "functions": [
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'aws_prod_fleet'",
                         ),
                     ],
@@ -95,11 +93,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'devops_fleet'",
                         ),
                     ],
@@ -112,11 +108,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'default_fleet'",
                         ),
                     ],
@@ -153,11 +147,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.EDGE, id="complex-mapping", conf={
         "functions": [
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'high_perf_fleet'",
                         ),
                     ],
@@ -170,11 +162,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'database_fleet'",
                         ),
                     ],
@@ -187,11 +177,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'default_fleet'",
                         ),
                     ],
@@ -228,11 +216,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.STREAM, id="container-mapping", conf={
         "functions": [
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'container_high_cpu_fleet'",
                         ),
                     ],
@@ -245,11 +231,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'container_fleet'",
                         ),
                     ],
@@ -262,11 +246,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'default_fleet'",
                         ),
                     ],
@@ -303,11 +285,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.EDGE, id="simple-default-mappings", conf={
         "functions": [
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'default_fleet'",
                         ),
                     ],
@@ -344,11 +324,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.STREAM, id="os-based-mapping", conf={
         "functions": [
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'linux_fleet'",
                         ),
                     ],
@@ -361,11 +339,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'windows_fleet'",
                         ),
                     ],
@@ -378,11 +354,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'macos_fleet'",
                         ),
                     ],
@@ -395,11 +369,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'default_fleet'",
                         ),
                     ],
@@ -436,11 +408,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.EDGE, id="outpost-mapping", conf={
         "functions": [
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'outpost_a_fleet'",
                         ),
                     ],
@@ -453,11 +423,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'outpost_b_fleet'",
                         ),
                     ],
@@ -470,11 +438,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'default_fleet'",
                         ),
                     ],
@@ -511,11 +477,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.STREAM, id="tag-based-mapping", conf={
         "functions": [
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'laptop_fleet'",
                         ),
                     ],
@@ -528,11 +492,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'production_fleet'",
                         ),
                     ],
@@ -545,11 +507,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'default_fleet'",
                         ),
                     ],
@@ -746,11 +706,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.update(product=models.ProductsBase.EDGE, id_param="<value>", id="default", conf={
         "functions": [
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'default_fleet'",
                         ),
                     ],
@@ -787,11 +745,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.update(product=models.ProductsBase.STREAM, id_param="<value>", id="complex-mapping", conf={
         "functions": [
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'high_perf_fleet'",
                         ),
                     ],
@@ -804,11 +760,9 @@ with CriblControlPlane(
                 },
             ),
             models.Function(
-                id=models.MappingRulesetID.EVAL,
-                conf=models.FunctionConf(
+                conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
-                            name=models.Name.GROUP_ID,
                             value="'default_fleet'",
                         ),
                     ],

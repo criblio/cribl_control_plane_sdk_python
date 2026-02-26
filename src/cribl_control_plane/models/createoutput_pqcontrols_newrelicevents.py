@@ -38,6 +38,10 @@ from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
 from .formatoptions import FormatOptions
 from .itemstypeauthtokens import ItemsTypeAuthTokens, ItemsTypeAuthTokensTypedDict
 from .itemstypeauthtokens1 import ItemsTypeAuthTokens1, ItemsTypeAuthTokens1TypedDict
+from .itemstypecontentconfigitemsrequestparams import (
+    ItemsTypeContentConfigItemsRequestParams,
+    ItemsTypeContentConfigItemsRequestParamsTypedDict,
+)
 from .itemstypeextrahttpheaders import (
     ItemsTypeExtraHTTPHeaders,
     ItemsTypeExtraHTTPHeadersTypedDict,
@@ -47,7 +51,6 @@ from .itemstypekeyvaluemetadata import (
     ItemsTypeKeyValueMetadata,
     ItemsTypeKeyValueMetadataTypedDict,
 )
-from .itemstypelabels import ItemsTypeLabels, ItemsTypeLabelsTypedDict
 from .itemstyperesponseretrysettings import (
     ItemsTypeResponseRetrySettings,
     ItemsTypeResponseRetrySettingsTypedDict,
@@ -66,7 +69,6 @@ from .prometheusauthtype import PrometheusAuthType, PrometheusAuthTypeTypedDict
 from .protocoloptions import ProtocolOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptions import RecordDataFormatOptions
-from .regionoptions import RegionOptions
 from .requestformatoptions import RequestFormatOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .saslmechanismoptionssasl1 import SaslMechanismOptionsSasl1
@@ -79,7 +81,6 @@ from .signatureversionoptions5 import SignatureVersionOptions5
 from .signatureversionoptionss3collectorconf import (
     SignatureVersionOptionsS3CollectorConf,
 )
-from .statsdestinationtype import StatsDestinationType, StatsDestinationTypeTypedDict
 from .storageclassoptions import StorageClassOptions
 from .storageclassoptions2 import StorageClassOptions2
 from .timeoutretrysettingstype import (
@@ -4151,6 +4152,58 @@ class CreateOutputMappingTypeLocalSearchStorage(
     CUSTOM = "custom"
 
 
+class CreateOutputStatsDestinationTypedDict(TypedDict):
+    url: NotRequired[str]
+    database: NotRequired[str]
+    table_name: NotRequired[str]
+    auth_type: NotRequired[str]
+    username: NotRequired[str]
+    sql_username: NotRequired[str]
+    password: NotRequired[str]
+
+
+class CreateOutputStatsDestination(BaseModel):
+    url: Optional[str] = None
+
+    database: Optional[str] = None
+
+    table_name: Annotated[Optional[str], pydantic.Field(alias="tableName")] = None
+
+    auth_type: Annotated[Optional[str], pydantic.Field(alias="authType")] = None
+
+    username: Optional[str] = None
+
+    sql_username: Annotated[Optional[str], pydantic.Field(alias="sqlUsername")] = None
+
+    password: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "url",
+                "database",
+                "tableName",
+                "authType",
+                "username",
+                "sqlUsername",
+                "password",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 class CreateOutputColumnMappingLocalSearchStorageTypedDict(TypedDict):
     column_name: str
     r"""Name of the column that will store field value"""
@@ -4254,9 +4307,9 @@ class CreateOutputOutputLocalSearchStorageTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     dump_format_errors_to_disk: NotRequired[bool]
     r"""Log the most recent event that fails to match the table schema"""
-    stats_destination: NotRequired[StatsDestinationTypeTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
+    stats_destination: NotRequired[CreateOutputStatsDestinationTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
     password: NotRequired[str]
@@ -4426,14 +4479,14 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     ] = None
     r"""Log the most recent event that fails to match the table schema"""
 
-    stats_destination: Annotated[
-        Optional[StatsDestinationType], pydantic.Field(alias="statsDestination")
-    ] = None
-
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
+
+    stats_destination: Annotated[
+        Optional[CreateOutputStatsDestination], pydantic.Field(alias="statsDestination")
+    ] = None
 
     description: Optional[str] = None
 
@@ -4633,8 +4686,8 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
                 "timeoutRetrySettings",
                 "responseHonorRetryAfterHeader",
                 "dumpFormatErrorsToDisk",
-                "statsDestination",
                 "onBackpressure",
+                "statsDestination",
                 "description",
                 "username",
                 "password",
@@ -4799,7 +4852,6 @@ class CreateOutputOutputClickHouseTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     dump_format_errors_to_disk: NotRequired[bool]
     r"""Log the most recent event that fails to match the table schema"""
-    stats_destination: NotRequired[StatsDestinationTypeTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -4967,10 +5019,6 @@ class CreateOutputOutputClickHouse(BaseModel):
         Optional[bool], pydantic.Field(alias="dumpFormatErrorsToDisk")
     ] = None
     r"""Log the most recent event that fails to match the table schema"""
-
-    stats_destination: Annotated[
-        Optional[StatsDestinationType], pydantic.Field(alias="statsDestination")
-    ] = None
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -5174,7 +5222,6 @@ class CreateOutputOutputClickHouse(BaseModel):
                 "timeoutRetrySettings",
                 "responseHonorRetryAfterHeader",
                 "dumpFormatErrorsToDisk",
-                "statsDestination",
                 "onBackpressure",
                 "description",
                 "username",
@@ -10965,7 +11012,7 @@ class CreateOutputOutputLokiTypedDict(TypedDict):
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
     message_format: NotRequired[MessageFormatOptions]
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
-    labels: NotRequired[List[ItemsTypeLabelsTypedDict]]
+    labels: NotRequired[List[ItemsTypeContentConfigItemsRequestParamsTypedDict]]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
     auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth1]
     concurrency: NotRequired[float]
@@ -11069,7 +11116,7 @@ class CreateOutputOutputLoki(BaseModel):
     ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
-    labels: Optional[List[ItemsTypeLabels]] = None
+    labels: Optional[List[ItemsTypeContentConfigItemsRequestParams]] = None
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     auth_type: Annotated[
@@ -11385,7 +11432,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
     message_format: NotRequired[MessageFormatOptions]
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
-    labels: NotRequired[List[ItemsTypeLabelsTypedDict]]
+    labels: NotRequired[List[ItemsTypeContentConfigItemsRequestParamsTypedDict]]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
@@ -11485,7 +11532,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
     ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
-    labels: Optional[List[ItemsTypeLabels]] = None
+    labels: Optional[List[ItemsTypeContentConfigItemsRequestParams]] = None
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     metric_rename_expr: Annotated[
@@ -11782,7 +11829,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
     message_format: NotRequired[MessageFormatOptions]
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
-    labels: NotRequired[List[ItemsTypeLabelsTypedDict]]
+    labels: NotRequired[List[ItemsTypeContentConfigItemsRequestParamsTypedDict]]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
@@ -11884,7 +11931,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
     ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
-    labels: Optional[List[ItemsTypeLabels]] = None
+    labels: Optional[List[ItemsTypeContentConfigItemsRequestParams]] = None
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     metric_rename_expr: Annotated[
@@ -16368,405 +16415,6 @@ class CreateOutputPqControlsNewrelicEvents(BaseModel):
     pass
 
 
-class CreateOutputOutputNewrelicEventsTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this output"""
-    type: CreateOutputTypeNewrelicEvents
-    account_id: str
-    r"""New Relic account ID"""
-    event_type: str
-    r"""Default eventType to use when not present in an event. For more information, see [here](https://docs.newrelic.com/docs/telemetry-data-platform/custom-data/custom-events/data-requirements-limits-custom-event-data/#reserved-words)."""
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data before sending out to this output"""
-    system_fields: NotRequired[List[str]]
-    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    region: NotRequired[RegionOptions]
-    r"""Which New Relic region endpoint to use."""
-    concurrency: NotRequired[float]
-    r"""Maximum number of ongoing requests before blocking"""
-    max_payload_size_kb: NotRequired[float]
-    r"""Maximum size, in KB, of the request body"""
-    max_payload_events: NotRequired[float]
-    r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
-    compress: NotRequired[bool]
-    r"""Compress the payload body before sending"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
-    Enabled by default. When this setting is also present in TLS Settings (Client Side),
-    that value will take precedence.
-    """
-    timeout_sec: NotRequired[float]
-    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
-    flush_period_sec: NotRequired[float]
-    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
-    r"""Headers to add to all events"""
-    use_round_robin_dns: NotRequired[bool]
-    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
-    failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
-    r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
-    safe_headers: NotRequired[List[str]]
-    r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
-    r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
-    timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
-    response_honor_retry_after_header: NotRequired[bool]
-    r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions]
-    r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
-    r"""Enter API key directly, or select a stored secret"""
-    description: NotRequired[str]
-    custom_url: NotRequired[str]
-    pq_strict_ordering: NotRequired[bool]
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-    pq_rate_per_sec: NotRequired[float]
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-    pq_mode: NotRequired[ModeOptions]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-    pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
-    pq_max_backpressure_sec: NotRequired[float]
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
-    pq_max_file_size: NotRequired[str]
-    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
-    pq_max_size: NotRequired[str]
-    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
-    pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
-    pq_compress: NotRequired[CompressionOptionsPq]
-    r"""Codec to use to compress the persisted data"""
-    pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
-    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_controls: NotRequired[CreateOutputPqControlsNewrelicEventsTypedDict]
-    api_key: NotRequired[str]
-    r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_account_id: NotRequired[str]
-    r"""Binds 'accountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accountId' at runtime."""
-    template_event_type: NotRequired[str]
-    r"""Binds 'eventType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'eventType' at runtime."""
-    template_custom_url: NotRequired[str]
-    r"""Binds 'customUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customUrl' at runtime."""
-
-
-class CreateOutputOutputNewrelicEvents(BaseModel):
-    id: str
-    r"""Unique ID for this output"""
-
-    type: CreateOutputTypeNewrelicEvents
-
-    account_id: Annotated[str, pydantic.Field(alias="accountId")]
-    r"""New Relic account ID"""
-
-    event_type: Annotated[str, pydantic.Field(alias="eventType")]
-    r"""Default eventType to use when not present in an event. For more information, see [here](https://docs.newrelic.com/docs/telemetry-data-platform/custom-data/custom-events/data-requirements-limits-custom-event-data/#reserved-words)."""
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data before sending out to this output"""
-
-    system_fields: Annotated[
-        Optional[List[str]], pydantic.Field(alias="systemFields")
-    ] = None
-    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    region: Optional[RegionOptions] = None
-    r"""Which New Relic region endpoint to use."""
-
-    concurrency: Optional[float] = None
-    r"""Maximum number of ongoing requests before blocking"""
-
-    max_payload_size_kb: Annotated[
-        Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = None
-    r"""Maximum size, in KB, of the request body"""
-
-    max_payload_events: Annotated[
-        Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = None
-    r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
-
-    compress: Optional[bool] = None
-    r"""Compress the payload body before sending"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
-    Enabled by default. When this setting is also present in TLS Settings (Client Side),
-    that value will take precedence.
-    """
-
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
-    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
-
-    flush_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = None
-    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-
-    extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
-        pydantic.Field(alias="extraHttpHeaders"),
-    ] = None
-    r"""Headers to add to all events"""
-
-    use_round_robin_dns: Annotated[
-        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = None
-    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
-
-    failed_request_logging_mode: Annotated[
-        Optional[FailedRequestLoggingModeOptions],
-        pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = None
-    r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
-
-    safe_headers: Annotated[
-        Optional[List[str]], pydantic.Field(alias="safeHeaders")
-    ] = None
-    r"""List of headers that are safe to log in plain text"""
-
-    response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
-        pydantic.Field(alias="responseRetrySettings"),
-    ] = None
-    r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
-
-    timeout_retry_settings: Annotated[
-        Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
-    ] = None
-
-    response_honor_retry_after_header: Annotated[
-        Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = None
-    r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-
-    on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = None
-    r"""How to handle events when all receivers are exerting backpressure"""
-
-    auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
-    ] = None
-    r"""Enter API key directly, or select a stored secret"""
-
-    description: Optional[str] = None
-
-    custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
-
-    pq_strict_ordering: Annotated[
-        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = None
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-
-    pq_rate_per_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = None
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    pq_max_buffer_size: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
-
-    pq_max_backpressure_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = None
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
-
-    pq_max_file_size: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = None
-    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
-
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
-    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
-
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
-
-    pq_compress: Annotated[
-        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = None
-    r"""Codec to use to compress the persisted data"""
-
-    pq_on_backpressure: Annotated[
-        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = None
-    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_controls: Annotated[
-        Optional[CreateOutputPqControlsNewrelicEvents],
-        pydantic.Field(alias="pqControls"),
-    ] = None
-
-    api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
-    r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_account_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_accountId")
-    ] = None
-    r"""Binds 'accountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accountId' at runtime."""
-
-    template_event_type: Annotated[
-        Optional[str], pydantic.Field(alias="__template_eventType")
-    ] = None
-    r"""Binds 'eventType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'eventType' at runtime."""
-
-    template_custom_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_customUrl")
-    ] = None
-    r"""Binds 'customUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customUrl' at runtime."""
-
-    @field_serializer("region")
-    def serialize_region(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RegionOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("failed_request_logging_mode")
-    def serialize_failed_request_logging_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.FailedRequestLoggingModeOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("on_backpressure")
-    def serialize_on_backpressure(self, value):
-        if isinstance(value, str):
-            try:
-                return models.BackpressureBehaviorOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptions2(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("pq_mode")
-    def serialize_pq_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ModeOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("pq_compress")
-    def serialize_pq_compress(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CompressionOptionsPq(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("pq_on_backpressure")
-    def serialize_pq_on_backpressure(self, value):
-        if isinstance(value, str):
-            try:
-                return models.QueueFullBehaviorOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "pipeline",
-                "systemFields",
-                "environment",
-                "streamtags",
-                "region",
-                "concurrency",
-                "maxPayloadSizeKB",
-                "maxPayloadEvents",
-                "compress",
-                "rejectUnauthorized",
-                "timeoutSec",
-                "flushPeriodSec",
-                "extraHttpHeaders",
-                "useRoundRobinDns",
-                "failedRequestLoggingMode",
-                "safeHeaders",
-                "responseRetrySettings",
-                "timeoutRetrySettings",
-                "responseHonorRetryAfterHeader",
-                "onBackpressure",
-                "authType",
-                "description",
-                "customUrl",
-                "pqStrictOrdering",
-                "pqRatePerSec",
-                "pqMode",
-                "pqMaxBufferSize",
-                "pqMaxBackpressureSec",
-                "pqMaxFileSize",
-                "pqMaxSize",
-                "pqPath",
-                "pqCompress",
-                "pqOnBackpressure",
-                "pqControls",
-                "apiKey",
-                "textSecret",
-                "__template_region",
-                "__template_accountId",
-                "__template_eventType",
-                "__template_customUrl",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
 try:
     CreateOutputOutputCloudflareR2.model_rebuild()
 except NameError:
@@ -16813,6 +16461,10 @@ except NameError:
     pass
 try:
     CreateOutputOutputXsiam.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputStatsDestination.model_rebuild()
 except NameError:
     pass
 try:
@@ -16953,9 +16605,5 @@ except NameError:
     pass
 try:
     CreateOutputOutputInfluxdb.model_rebuild()
-except NameError:
-    pass
-try:
-    CreateOutputOutputNewrelicEvents.model_rebuild()
 except NameError:
     pass

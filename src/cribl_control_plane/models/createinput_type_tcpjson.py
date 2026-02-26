@@ -23,6 +23,10 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
+from .itemstypecontentconfigitemsrequestparams import (
+    ItemsTypeContentConfigItemsRequestParams,
+    ItemsTypeContentConfigItemsRequestParamsTypedDict,
+)
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .itemstyperules import ItemsTypeRules, ItemsTypeRulesTypedDict
 from .maximumtlsversionoptionskafkaschemaregistrytls import (
@@ -1703,15 +1707,386 @@ class CreateInputInputWizWebhook(BaseModel):
         return m
 
 
+class CreateInputTypeOpenai(str, Enum):
+    OPENAI = "openai"
+
+
+class CreateInputManageStateOpenaiTypedDict(TypedDict):
+    pass
+
+
+class CreateInputManageStateOpenai(BaseModel):
+    pass
+
+
+class CreateInputPaginationType(str, Enum, metaclass=utils.OpenEnumMeta):
+    # None
+    NONE = "none"
+    # Response Body Attribute
+    RESPONSE_BODY = "response_body"
+    # Response Header Attribute
+    RESPONSE_HEADER = "response_header"
+    # RFC 5988 Link Header
+    RESPONSE_HEADER_LINK = "response_header_link"
+
+
+class CreateInputLogLevelOpenai(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Collector runtime log level."""
+
+    ERROR = "error"
+    WARN = "warn"
+    INFO = "info"
+    DEBUG = "debug"
+    SILLY = "silly"
+
+
+class CreateInputContentConfigOpenaiTypedDict(TypedDict):
+    request_params: List[ItemsTypeContentConfigItemsRequestParamsTypedDict]
+    r"""Query-string parameters to send with this endpoint"""
+    pagination_type: CreateInputPaginationType
+    cron_schedule: str
+    r"""A cron schedule on which to run this job"""
+    earliest: str
+    r"""Relative to the current time"""
+    latest: str
+    r"""Relative to the current time"""
+    disabled: NotRequired[bool]
+    state_tracking: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions."""
+    state_update_expression: NotRequired[str]
+    r"""JavaScript expression that defines how to update the state from an event"""
+    state_merge_expression: NotRequired[str]
+    r"""JavaScript expression that defines which state to keep when merging task state"""
+    manage_state: NotRequired[CreateInputManageStateOpenaiTypedDict]
+    pagination_attribute: NotRequired[List[str]]
+    pagination_last_page_expr: NotRequired[str]
+    max_pages: NotRequired[float]
+    r"""Maximum number of pages to retrieve per collection task. Set to 0 only when unlimited pagination is required."""
+    pagination_next_relation_attribute: NotRequired[str]
+    r"""Used only for RFC 5988 link-header pagination"""
+    pagination_cur_relation_attribute: NotRequired[str]
+    r"""Optional relation that represents the current page"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+    log_level: NotRequired[CreateInputLogLevelOpenai]
+    r"""Collector runtime log level."""
+    endpoint_metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields automatically added to events from this Content Type"""
+
+
+class CreateInputContentConfigOpenai(BaseModel):
+    request_params: Annotated[
+        List[ItemsTypeContentConfigItemsRequestParams],
+        pydantic.Field(alias="requestParams"),
+    ]
+    r"""Query-string parameters to send with this endpoint"""
+
+    pagination_type: Annotated[
+        CreateInputPaginationType, pydantic.Field(alias="paginationType")
+    ]
+
+    cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
+    r"""A cron schedule on which to run this job"""
+
+    earliest: str
+    r"""Relative to the current time"""
+
+    latest: str
+    r"""Relative to the current time"""
+
+    disabled: Optional[bool] = None
+
+    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
+        None
+    )
+    r"""Track collection progress between consecutive scheduled executions."""
+
+    state_update_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateUpdateExpression")
+    ] = None
+    r"""JavaScript expression that defines how to update the state from an event"""
+
+    state_merge_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateMergeExpression")
+    ] = None
+    r"""JavaScript expression that defines which state to keep when merging task state"""
+
+    manage_state: Annotated[
+        Optional[CreateInputManageStateOpenai], pydantic.Field(alias="manageState")
+    ] = None
+
+    pagination_attribute: Annotated[
+        Optional[List[str]], pydantic.Field(alias="paginationAttribute")
+    ] = None
+
+    pagination_last_page_expr: Annotated[
+        Optional[str], pydantic.Field(alias="paginationLastPageExpr")
+    ] = None
+
+    max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
+    r"""Maximum number of pages to retrieve per collection task. Set to 0 only when unlimited pagination is required."""
+
+    pagination_next_relation_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="paginationNextRelationAttribute")
+    ] = None
+    r"""Used only for RFC 5988 link-header pagination"""
+
+    pagination_cur_relation_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="paginationCurRelationAttribute")
+    ] = None
+    r"""Optional relation that represents the current page"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    log_level: Annotated[
+        Optional[CreateInputLogLevelOpenai], pydantic.Field(alias="logLevel")
+    ] = None
+    r"""Collector runtime log level."""
+
+    endpoint_metadata: Annotated[
+        Optional[List[ItemsTypeMetadata]], pydantic.Field(alias="endpointMetadata")
+    ] = None
+    r"""Fields automatically added to events from this Content Type"""
+
+    @field_serializer("pagination_type")
+    def serialize_pagination_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputPaginationType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("log_level")
+    def serialize_log_level(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputLogLevelOpenai(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "stateTracking",
+                "stateUpdateExpression",
+                "stateMergeExpression",
+                "manageState",
+                "paginationAttribute",
+                "paginationLastPageExpr",
+                "maxPages",
+                "paginationNextRelationAttribute",
+                "paginationCurRelationAttribute",
+                "jobTimeout",
+                "logLevel",
+                "endpointMetadata",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputInputOpenaiTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputTypeOpenai
+    content_config: List[CreateInputContentConfigOpenaiTypedDict]
+    text_secret: str
+    r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    openai_organization: NotRequired[str]
+    r"""Optional `OpenAI-Organization` request header value, typically `org-xxxxxxxxxxxxxxxxxxxxxxxx`"""
+    openai_project: NotRequired[str]
+    r"""Optional `OpenAI-Project` request header value, typically `proj_xxxxxxxxxxxxxxxxxxxxxxxx`"""
+    request_timeout: NotRequired[float]
+    r"""HTTP request inactivity timeout. Use 0 to disable."""
+    api_key: NotRequired[str]
+    keep_alive_time: NotRequired[float]
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    max_missed_keep_alives: NotRequired[float]
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+    ttl: NotRequired[str]
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+    ignore_group_jobs_limit: NotRequired[bool]
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    retry_rules: NotRequired[RetryRulesTypeTypedDict]
+    description: NotRequired[str]
+    template_openai_organization: NotRequired[str]
+    r"""Binds 'openaiOrganization' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'openaiOrganization' at runtime."""
+    template_openai_project: NotRequired[str]
+    r"""Binds 'openaiProject' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'openaiProject' at runtime."""
+
+
+class CreateInputInputOpenai(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputTypeOpenai
+
+    content_config: Annotated[
+        List[CreateInputContentConfigOpenai], pydantic.Field(alias="contentConfig")
+    ]
+
+    text_secret: Annotated[str, pydantic.Field(alias="textSecret")]
+    r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
+
+    disabled: Optional[bool] = None
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    openai_organization: Annotated[
+        Optional[str], pydantic.Field(alias="openaiOrganization")
+    ] = None
+    r"""Optional `OpenAI-Organization` request header value, typically `org-xxxxxxxxxxxxxxxxxxxxxxxx`"""
+
+    openai_project: Annotated[Optional[str], pydantic.Field(alias="openaiProject")] = (
+        None
+    )
+    r"""Optional `OpenAI-Project` request header value, typically `proj_xxxxxxxxxxxxxxxxxxxxxxxx`"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = None
+    r"""HTTP request inactivity timeout. Use 0 to disable."""
+
+    api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
+
+    keep_alive_time: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTime")
+    ] = None
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+
+    max_missed_keep_alives: Annotated[
+        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
+    ] = None
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+
+    ttl: Optional[str] = None
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+
+    ignore_group_jobs_limit: Annotated[
+        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
+    ] = None
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    retry_rules: Annotated[
+        Optional[RetryRulesType], pydantic.Field(alias="retryRules")
+    ] = None
+
+    description: Optional[str] = None
+
+    template_openai_organization: Annotated[
+        Optional[str], pydantic.Field(alias="__template_openaiOrganization")
+    ] = None
+    r"""Binds 'openaiOrganization' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'openaiOrganization' at runtime."""
+
+    template_openai_project: Annotated[
+        Optional[str], pydantic.Field(alias="__template_openaiProject")
+    ] = None
+    r"""Binds 'openaiProject' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'openaiProject' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "openaiOrganization",
+                "openaiProject",
+                "requestTimeout",
+                "apiKey",
+                "keepAliveTime",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "retryRules",
+                "description",
+                "__template_openaiOrganization",
+                "__template_openaiProject",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 class CreateInputTypeWiz(str, Enum):
     WIZ = "wiz"
 
 
-class CreateInputManageStateTypedDict(TypedDict):
+class CreateInputManageStateWizTypedDict(TypedDict):
     pass
 
 
-class CreateInputManageState(BaseModel):
+class CreateInputManageStateWiz(BaseModel):
     pass
 
 
@@ -1744,7 +2119,7 @@ class CreateInputContentConfigWizTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[CreateInputManageStateTypedDict]
+    manage_state: NotRequired[CreateInputManageStateWizTypedDict]
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
     log_level: NotRequired[CreateInputLogLevelWiz]
@@ -1791,7 +2166,7 @@ class CreateInputContentConfigWiz(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
-        Optional[CreateInputManageState], pydantic.Field(alias="manageState")
+        Optional[CreateInputManageStateWiz], pydantic.Field(alias="manageState")
     ] = None
 
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
@@ -10360,577 +10735,6 @@ class CreateInputTypeTcpjson(str, Enum):
     TCPJSON = "tcpjson"
 
 
-class CreateInputInputTcpjsonTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this input"""
-    type: CreateInputTypeTcpjson
-    host: str
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: float
-    r"""Port to listen on"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    ip_whitelist_regex: NotRequired[str]
-    r"""Regex matching IP addresses that are allowed to establish a connection"""
-    max_active_cxn: NotRequired[float]
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-    socket_idle_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
-    socket_ending_max_wait: NotRequired[float]
-    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
-    socket_max_lifespan: NotRequired[float]
-    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
-    enable_proxy_header: NotRequired[bool]
-    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    enable_load_balancing: NotRequired[bool]
-    r"""Load balance traffic across all Worker Processes"""
-    auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
-    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
-    description: NotRequired[str]
-    auth_token: NotRequired[str]
-    r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
-
-class CreateInputInputTcpjson(BaseModel):
-    id: str
-    r"""Unique ID for this input"""
-
-    type: CreateInputTypeTcpjson
-
-    host: str
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: float
-    r"""Port to listen on"""
-
-    disabled: Optional[bool] = None
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        None
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    ip_whitelist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
-    ] = None
-    r"""Regex matching IP addresses that are allowed to establish a connection"""
-
-    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
-        None
-    )
-    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
-
-    socket_idle_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketIdleTimeout")
-    ] = None
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
-
-    socket_ending_max_wait: Annotated[
-        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
-    ] = None
-    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
-
-    socket_max_lifespan: Annotated[
-        Optional[float], pydantic.Field(alias="socketMaxLifespan")
-    ] = None
-    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = None
-    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-
-    metadata: Optional[List[ItemsTypeMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    enable_load_balancing: Annotated[
-        Optional[bool], pydantic.Field(alias="enableLoadBalancing")
-    ] = None
-    r"""Load balance traffic across all Worker Processes"""
-
-    auth_type: Annotated[
-        Optional[AuthenticationMethodOptionsAuthTokensItems],
-        pydantic.Field(alias="authType"),
-    ] = None
-    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
-
-    description: Optional[str] = None
-
-    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
-    r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptionsAuthTokensItems(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "disabled",
-                "pipeline",
-                "sendToRoutes",
-                "environment",
-                "pqEnabled",
-                "streamtags",
-                "connections",
-                "pq",
-                "tls",
-                "ipWhitelistRegex",
-                "maxActiveCxn",
-                "socketIdleTimeout",
-                "socketEndingMaxWait",
-                "socketMaxLifespan",
-                "enableProxyHeader",
-                "metadata",
-                "enableLoadBalancing",
-                "authType",
-                "description",
-                "authToken",
-                "textSecret",
-                "__template_host",
-                "__template_port",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class CreateInputTypeCriblLakeHTTP(str, Enum):
-    CRIBL_LAKE_HTTP = "cribl_lake_http"
-
-
-class CreateInputSplunkHecMetadataTypedDict(TypedDict):
-    enabled: NotRequired[bool]
-    default_dataset: NotRequired[str]
-    allowed_indexes_at_token: NotRequired[List[str]]
-
-
-class CreateInputSplunkHecMetadata(BaseModel):
-    enabled: Optional[bool] = None
-
-    default_dataset: Annotated[
-        Optional[str], pydantic.Field(alias="defaultDataset")
-    ] = None
-
-    allowed_indexes_at_token: Annotated[
-        Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
-    ] = None
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["enabled", "defaultDataset", "allowedIndexesAtToken"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class CreateInputElasticsearchMetadataTypedDict(TypedDict):
-    enabled: NotRequired[bool]
-    default_dataset: NotRequired[str]
-
-
-class CreateInputElasticsearchMetadata(BaseModel):
-    enabled: Optional[bool] = None
-
-    default_dataset: Annotated[
-        Optional[str], pydantic.Field(alias="defaultDataset")
-    ] = None
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["enabled", "defaultDataset"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class CreateInputAuthTokensExtTypedDict(TypedDict):
-    token: str
-    description: NotRequired[str]
-    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
-    r"""Fields to add to events referencing this token"""
-    splunk_hec_metadata: NotRequired[CreateInputSplunkHecMetadataTypedDict]
-    elasticsearch_metadata: NotRequired[CreateInputElasticsearchMetadataTypedDict]
-
-
-class CreateInputAuthTokensExt(BaseModel):
-    token: str
-
-    description: Optional[str] = None
-
-    metadata: Optional[List[ItemsTypeMetadata]] = None
-    r"""Fields to add to events referencing this token"""
-
-    splunk_hec_metadata: Annotated[
-        Optional[CreateInputSplunkHecMetadata],
-        pydantic.Field(alias="splunkHecMetadata"),
-    ] = None
-
-    elasticsearch_metadata: Annotated[
-        Optional[CreateInputElasticsearchMetadata],
-        pydantic.Field(alias="elasticsearchMetadata"),
-    ] = None
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["description", "metadata", "splunkHecMetadata", "elasticsearchMetadata"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class CreateInputInputCriblLakeHTTPTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this input"""
-    type: CreateInputTypeCriblLakeHTTP
-    host: str
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-    port: float
-    r"""Port to listen on"""
-    disabled: NotRequired[bool]
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-    send_to_routes: NotRequired[bool]
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    pq_enabled: NotRequired[bool]
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-    pq: NotRequired[PqTypeTypedDict]
-    auth_tokens: NotRequired[List[str]]
-    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    max_active_req: NotRequired[float]
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-    max_requests_per_socket: NotRequired[int]
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[bool]
-    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
-    capture_headers: NotRequired[bool]
-    r"""Add request headers to events, in the __headers field"""
-    activity_log_sample_rate: NotRequired[float]
-    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
-    request_timeout: NotRequired[float]
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-    socket_timeout: NotRequired[float]
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-    keep_alive_timeout: NotRequired[float]
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[bool]
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-    ip_allowlist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-    ip_denylist_regex: NotRequired[str]
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    cribl_api: NotRequired[str]
-    r"""Absolute path on which to listen for the Cribl HTTP API requests. Only _bulk (default /cribl/_bulk) is available. Use empty string to disable."""
-    elastic_api: NotRequired[str]
-    r"""Absolute path on which to listen for the Elasticsearch API requests. Only _bulk (default /elastic/_bulk) is available. Use empty string to disable."""
-    splunk_hec_api: NotRequired[str]
-    r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
-    splunk_hec_acks: NotRequired[bool]
-    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
-    r"""Fields to add to events from this input"""
-    auth_tokens_ext: NotRequired[List[CreateInputAuthTokensExtTypedDict]]
-    description: NotRequired[str]
-    template_host: NotRequired[str]
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-    template_port: NotRequired[str]
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-    template_splunk_hec_api: NotRequired[str]
-    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
-
-
-class CreateInputInputCriblLakeHTTP(BaseModel):
-    id: str
-    r"""Unique ID for this input"""
-
-    type: CreateInputTypeCriblLakeHTTP
-
-    host: str
-    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
-
-    port: float
-    r"""Port to listen on"""
-
-    disabled: Optional[bool] = None
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data from this Source before sending it through the Routes"""
-
-    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
-        None
-    )
-    r"""Select whether to send data to Routes, or directly to Destinations."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
-    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
-    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
-
-    pq: Optional[PqType] = None
-
-    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
-        None
-    )
-    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-
-    tls: Optional[TLSSettingsServerSideType] = None
-
-    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
-        None
-    )
-    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
-
-    max_requests_per_socket: Annotated[
-        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
-    ] = None
-    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[bool], pydantic.Field(alias="enableProxyHeader")
-    ] = None
-    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
-
-    capture_headers: Annotated[
-        Optional[bool], pydantic.Field(alias="captureHeaders")
-    ] = None
-    r"""Add request headers to events, in the __headers field"""
-
-    activity_log_sample_rate: Annotated[
-        Optional[float], pydantic.Field(alias="activityLogSampleRate")
-    ] = None
-    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
-
-    request_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="requestTimeout")
-    ] = None
-    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
-
-    socket_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="socketTimeout")
-    ] = None
-    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
-
-    keep_alive_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="keepAliveTimeout")
-    ] = None
-    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-
-    enable_health_check: Annotated[
-        Optional[bool], pydantic.Field(alias="enableHealthCheck")
-    ] = None
-    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
-
-    ip_allowlist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
-    ] = None
-    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
-
-    ip_denylist_regex: Annotated[
-        Optional[str], pydantic.Field(alias="ipDenylistRegex")
-    ] = None
-    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-
-    cribl_api: Annotated[Optional[str], pydantic.Field(alias="criblAPI")] = None
-    r"""Absolute path on which to listen for the Cribl HTTP API requests. Only _bulk (default /cribl/_bulk) is available. Use empty string to disable."""
-
-    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = None
-    r"""Absolute path on which to listen for the Elasticsearch API requests. Only _bulk (default /elastic/_bulk) is available. Use empty string to disable."""
-
-    splunk_hec_api: Annotated[Optional[str], pydantic.Field(alias="splunkHecAPI")] = (
-        None
-    )
-    r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
-
-    splunk_hec_acks: Annotated[
-        Optional[bool], pydantic.Field(alias="splunkHecAcks")
-    ] = None
-
-    metadata: Optional[List[ItemsTypeMetadata]] = None
-    r"""Fields to add to events from this input"""
-
-    auth_tokens_ext: Annotated[
-        Optional[List[CreateInputAuthTokensExt]], pydantic.Field(alias="authTokensExt")
-    ] = None
-
-    description: Optional[str] = None
-
-    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
-        None
-    )
-    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
-
-    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
-        None
-    )
-    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
-    template_splunk_hec_api: Annotated[
-        Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
-    ] = None
-    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "disabled",
-                "pipeline",
-                "sendToRoutes",
-                "environment",
-                "pqEnabled",
-                "streamtags",
-                "connections",
-                "pq",
-                "authTokens",
-                "tls",
-                "maxActiveReq",
-                "maxRequestsPerSocket",
-                "enableProxyHeader",
-                "captureHeaders",
-                "activityLogSampleRate",
-                "requestTimeout",
-                "socketTimeout",
-                "keepAliveTimeout",
-                "enableHealthCheck",
-                "ipAllowlistRegex",
-                "ipDenylistRegex",
-                "criblAPI",
-                "elasticAPI",
-                "splunkHecAPI",
-                "splunkHecAcks",
-                "metadata",
-                "authTokensExt",
-                "description",
-                "__template_host",
-                "__template_port",
-                "__template_splunkHecAPI",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
 try:
     CreateInputAuthTokenCloudflareHec.model_rebuild()
 except NameError:
@@ -10961,6 +10765,14 @@ except NameError:
     pass
 try:
     CreateInputInputWizWebhook.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputContentConfigOpenai.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputOpenai.model_rebuild()
 except NameError:
     pass
 try:
@@ -11173,25 +10985,5 @@ except NameError:
     pass
 try:
     CreateInputInputSystemMetrics.model_rebuild()
-except NameError:
-    pass
-try:
-    CreateInputInputTcpjson.model_rebuild()
-except NameError:
-    pass
-try:
-    CreateInputSplunkHecMetadata.model_rebuild()
-except NameError:
-    pass
-try:
-    CreateInputElasticsearchMetadata.model_rebuild()
-except NameError:
-    pass
-try:
-    CreateInputAuthTokensExt.model_rebuild()
-except NameError:
-    pass
-try:
-    CreateInputInputCriblLakeHTTP.model_rebuild()
 except NameError:
     pass

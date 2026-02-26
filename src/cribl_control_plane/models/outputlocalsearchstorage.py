@@ -15,7 +15,6 @@ from .itemstyperesponseretrysettings import (
 )
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .statsdestinationtype import StatsDestinationType, StatsDestinationTypeTypedDict
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -53,6 +52,58 @@ class OutputLocalSearchStorageMappingType(str, Enum, metaclass=utils.OpenEnumMet
     AUTOMATIC = "automatic"
     # Custom
     CUSTOM = "custom"
+
+
+class StatsDestinationTypedDict(TypedDict):
+    url: NotRequired[str]
+    database: NotRequired[str]
+    table_name: NotRequired[str]
+    auth_type: NotRequired[str]
+    username: NotRequired[str]
+    sql_username: NotRequired[str]
+    password: NotRequired[str]
+
+
+class StatsDestination(BaseModel):
+    url: Optional[str] = None
+
+    database: Optional[str] = None
+
+    table_name: Annotated[Optional[str], pydantic.Field(alias="tableName")] = None
+
+    auth_type: Annotated[Optional[str], pydantic.Field(alias="authType")] = None
+
+    username: Optional[str] = None
+
+    sql_username: Annotated[Optional[str], pydantic.Field(alias="sqlUsername")] = None
+
+    password: Optional[str] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "url",
+                "database",
+                "tableName",
+                "authType",
+                "username",
+                "sqlUsername",
+                "password",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class OutputLocalSearchStorageColumnMappingTypedDict(TypedDict):
@@ -158,9 +209,9 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     dump_format_errors_to_disk: NotRequired[bool]
     r"""Log the most recent event that fails to match the table schema"""
-    stats_destination: NotRequired[StatsDestinationTypeTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
+    stats_destination: NotRequired[StatsDestinationTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
     password: NotRequired[str]
@@ -328,14 +379,14 @@ class OutputLocalSearchStorage(BaseModel):
     ] = None
     r"""Log the most recent event that fails to match the table schema"""
 
-    stats_destination: Annotated[
-        Optional[StatsDestinationType], pydantic.Field(alias="statsDestination")
-    ] = None
-
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
+
+    stats_destination: Annotated[
+        Optional[StatsDestination], pydantic.Field(alias="statsDestination")
+    ] = None
 
     description: Optional[str] = None
 
@@ -535,8 +586,8 @@ class OutputLocalSearchStorage(BaseModel):
                 "timeoutRetrySettings",
                 "responseHonorRetryAfterHeader",
                 "dumpFormatErrorsToDisk",
-                "statsDestination",
                 "onBackpressure",
+                "statsDestination",
                 "description",
                 "username",
                 "password",
@@ -576,6 +627,10 @@ class OutputLocalSearchStorage(BaseModel):
         return m
 
 
+try:
+    StatsDestination.model_rebuild()
+except NameError:
+    pass
 try:
     OutputLocalSearchStorageColumnMapping.model_rebuild()
 except NameError:

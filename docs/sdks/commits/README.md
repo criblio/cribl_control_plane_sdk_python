@@ -16,9 +16,9 @@
 
 Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
-### Example Usage
+### Example Usage: VersionCommitExamplesCommitAll
 
-<!-- UsageSnippet language="python" operationID="createVersionCommit" method="post" path="/version/commit" -->
+<!-- UsageSnippet language="python" operationID="createVersionCommit" method="post" path="/version/commit" example="VersionCommitExamplesCommitAll" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -31,7 +31,31 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.create(message="<value>")
+    res = ccp_client.versions.commits.create(message="Updated pipeline configuration for syslog parsing")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: VersionCommitExamplesCommitSpecificFiles
+
+<!-- UsageSnippet language="python" operationID="createVersionCommit" method="post" path="/version/commit" example="VersionCommitExamplesCommitSpecificFiles" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.versions.commits.create(message="Update Route and Pipeline for HTTP Sources", effective=True, files=[
+        "groups/default/local/cribl/pipelines/http_input/conf.yml",
+        "groups/default/local/cribl/routes.yml",
+    ])
 
     # Handle response
     print(res)
@@ -45,7 +69,6 @@ with CriblControlPlane(
 | `message`                                                           | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
 | `effective`                                                         | *Optional[bool]*                                                    | :heavy_minus_sign:                                                  | N/A                                                                 |
 | `files`                                                             | List[*str*]                                                         | :heavy_minus_sign:                                                  | N/A                                                                 |
-| `group`                                                             | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | N/A                                                                 |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -196,9 +219,9 @@ with CriblControlPlane(
 
 Revert a commit in the local repository.
 
-### Example Usage
+### Example Usage: VersionRevertExamplesForceRevertWithMessage
 
-<!-- UsageSnippet language="python" operationID="createVersionRevert" method="post" path="/version/revert" -->
+<!-- UsageSnippet language="python" operationID="createVersionRevert" method="post" path="/version/revert" example="VersionRevertExamplesForceRevertWithMessage" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -211,7 +234,28 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.revert(commit="<value>")
+    res = ccp_client.versions.commits.revert(commit="a1b2c3d4e5f6", force=True, message="Revert commit due to misconfiguration in Pipeline settings")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: VersionRevertExamplesRevertCommit
+
+<!-- UsageSnippet language="python" operationID="createVersionRevert" method="post" path="/version/revert" example="VersionRevertExamplesRevertCommit" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.versions.commits.revert(commit="a1b2c3d4e5f6")
 
     # Handle response
     print(res)

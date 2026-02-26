@@ -335,6 +335,12 @@ value: models.CreateInputInputJournalFiles = /* values here */
 value: models.CreateInputInputWiz = /* values here */
 ```
 
+### `models.CreateInputInputOpenai`
+
+```python
+value: models.CreateInputInputOpenai = /* values here */
+```
+
 ### `models.CreateInputInputWizWebhook`
 
 ```python

@@ -5,12 +5,12 @@ from cribl_control_plane.types import BaseModel
 from typing_extensions import TypedDict
 
 
-class ItemsTypeLabelsTypedDict(TypedDict):
+class ItemsTypeContentConfigItemsRequestParamsTypedDict(TypedDict):
     name: str
     value: str
 
 
-class ItemsTypeLabels(BaseModel):
+class ItemsTypeContentConfigItemsRequestParams(BaseModel):
     name: str
 
     value: str

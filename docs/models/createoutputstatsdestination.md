@@ -1,4 +1,4 @@
-# StatsDestinationType
+# CreateOutputStatsDestination
 
 
 ## Fields

@@ -1,4 +1,4 @@
-# ItemsTypeLabels
+# ItemsTypeContentConfigItemsRequestParams
 
 
 ## Fields

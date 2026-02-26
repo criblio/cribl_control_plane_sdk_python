@@ -20,13 +20,11 @@ from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCert,
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
-from .createinputsystembypack_inputcribllakehttp import (
+from .createinputsystembypack_type_tcpjson import (
     CreateInputSystemByPackInputAppscope,
     CreateInputSystemByPackInputAppscopeTypedDict,
     CreateInputSystemByPackInputCloudflareHec,
     CreateInputSystemByPackInputCloudflareHecTypedDict,
-    CreateInputSystemByPackInputCriblLakeHTTP,
-    CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
     CreateInputSystemByPackInputCriblmetrics,
     CreateInputSystemByPackInputCriblmetricsTypedDict,
     CreateInputSystemByPackInputCrowdstrike,
@@ -57,6 +55,8 @@ from .createinputsystembypack_inputcribllakehttp import (
     CreateInputSystemByPackInputNetflowTypedDict,
     CreateInputSystemByPackInputOpenTelemetry,
     CreateInputSystemByPackInputOpenTelemetryTypedDict,
+    CreateInputSystemByPackInputOpenai,
+    CreateInputSystemByPackInputOpenaiTypedDict,
     CreateInputSystemByPackInputRawUDP,
     CreateInputSystemByPackInputRawUDPTypedDict,
     CreateInputSystemByPackInputS3,
@@ -77,8 +77,6 @@ from .createinputsystembypack_inputcribllakehttp import (
     CreateInputSystemByPackInputSystemStateTypedDict,
     CreateInputSystemByPackInputTCP,
     CreateInputSystemByPackInputTCPTypedDict,
-    CreateInputSystemByPackInputTcpjson,
-    CreateInputSystemByPackInputTcpjsonTypedDict,
     CreateInputSystemByPackInputWef,
     CreateInputSystemByPackInputWefTypedDict,
     CreateInputSystemByPackInputWinEventLogs,
@@ -91,6 +89,7 @@ from .createinputsystembypack_inputcribllakehttp import (
     CreateInputSystemByPackInputWizWebhookTypedDict,
     CreateInputSystemByPackInputZscalerHec,
     CreateInputSystemByPackInputZscalerHecTypedDict,
+    CreateInputSystemByPackTypeTcpjson,
 )
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
@@ -149,6 +148,580 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputSystemByPackInputTcpjsonTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputSystemByPackTypeTcpjson
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: float
+    r"""Port to listen on"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    ip_whitelist_regex: NotRequired[str]
+    r"""Regex matching IP addresses that are allowed to establish a connection"""
+    max_active_cxn: NotRequired[float]
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    socket_idle_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+    socket_ending_max_wait: NotRequired[float]
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+    socket_max_lifespan: NotRequired[float]
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    enable_load_balancing: NotRequired[bool]
+    r"""Load balance traffic across all Worker Processes"""
+    auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+    description: NotRequired[str]
+    auth_token: NotRequired[str]
+    r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+
+class CreateInputSystemByPackInputTcpjson(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputSystemByPackTypeTcpjson
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: float
+    r"""Port to listen on"""
+
+    disabled: Optional[bool] = None
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    ip_whitelist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
+    ] = None
+    r"""Regex matching IP addresses that are allowed to establish a connection"""
+
+    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
+        None
+    )
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+
+    socket_idle_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketIdleTimeout")
+    ] = None
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+
+    socket_ending_max_wait: Annotated[
+        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
+    ] = None
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+
+    socket_max_lifespan: Annotated[
+        Optional[float], pydantic.Field(alias="socketMaxLifespan")
+    ] = None
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = None
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    enable_load_balancing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableLoadBalancing")
+    ] = None
+    r"""Load balance traffic across all Worker Processes"""
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
+        pydantic.Field(alias="authType"),
+    ] = None
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    description: Optional[str] = None
+
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
+    r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsAuthTokensItems(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "ipWhitelistRegex",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "enableProxyHeader",
+                "metadata",
+                "enableLoadBalancing",
+                "authType",
+                "description",
+                "authToken",
+                "textSecret",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackTypeCriblLakeHTTP(str, Enum):
+    CRIBL_LAKE_HTTP = "cribl_lake_http"
+
+
+class CreateInputSystemByPackSplunkHecMetadataTypedDict(TypedDict):
+    enabled: NotRequired[bool]
+    default_dataset: NotRequired[str]
+    allowed_indexes_at_token: NotRequired[List[str]]
+
+
+class CreateInputSystemByPackSplunkHecMetadata(BaseModel):
+    enabled: Optional[bool] = None
+
+    default_dataset: Annotated[
+        Optional[str], pydantic.Field(alias="defaultDataset")
+    ] = None
+
+    allowed_indexes_at_token: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "defaultDataset", "allowedIndexesAtToken"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackElasticsearchMetadataTypedDict(TypedDict):
+    enabled: NotRequired[bool]
+    default_dataset: NotRequired[str]
+
+
+class CreateInputSystemByPackElasticsearchMetadata(BaseModel):
+    enabled: Optional[bool] = None
+
+    default_dataset: Annotated[
+        Optional[str], pydantic.Field(alias="defaultDataset")
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "defaultDataset"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackAuthTokensExtTypedDict(TypedDict):
+    token: str
+    description: NotRequired[str]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events referencing this token"""
+    splunk_hec_metadata: NotRequired[CreateInputSystemByPackSplunkHecMetadataTypedDict]
+    elasticsearch_metadata: NotRequired[
+        CreateInputSystemByPackElasticsearchMetadataTypedDict
+    ]
+
+
+class CreateInputSystemByPackAuthTokensExt(BaseModel):
+    token: str
+
+    description: Optional[str] = None
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events referencing this token"""
+
+    splunk_hec_metadata: Annotated[
+        Optional[CreateInputSystemByPackSplunkHecMetadata],
+        pydantic.Field(alias="splunkHecMetadata"),
+    ] = None
+
+    elasticsearch_metadata: Annotated[
+        Optional[CreateInputSystemByPackElasticsearchMetadata],
+        pydantic.Field(alias="elasticsearchMetadata"),
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["description", "metadata", "splunkHecMetadata", "elasticsearchMetadata"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackInputCriblLakeHTTPTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputSystemByPackTypeCriblLakeHTTP
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: float
+    r"""Port to listen on"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    auth_tokens: NotRequired[List[str]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    cribl_api: NotRequired[str]
+    r"""Absolute path on which to listen for the Cribl HTTP API requests. Only _bulk (default /cribl/_bulk) is available. Use empty string to disable."""
+    elastic_api: NotRequired[str]
+    r"""Absolute path on which to listen for the Elasticsearch API requests. Only _bulk (default /elastic/_bulk) is available. Use empty string to disable."""
+    splunk_hec_api: NotRequired[str]
+    r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
+    splunk_hec_acks: NotRequired[bool]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    auth_tokens_ext: NotRequired[List[CreateInputSystemByPackAuthTokensExtTypedDict]]
+    description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_splunk_hec_api: NotRequired[str]
+    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
+
+
+class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputSystemByPackTypeCriblLakeHTTP
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: float
+    r"""Port to listen on"""
+
+    disabled: Optional[bool] = None
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
+        None
+    )
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        None
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = None
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = None
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = None
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = None
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = None
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = None
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = None
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = None
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = None
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = None
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    cribl_api: Annotated[Optional[str], pydantic.Field(alias="criblAPI")] = None
+    r"""Absolute path on which to listen for the Cribl HTTP API requests. Only _bulk (default /cribl/_bulk) is available. Use empty string to disable."""
+
+    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = None
+    r"""Absolute path on which to listen for the Elasticsearch API requests. Only _bulk (default /elastic/_bulk) is available. Use empty string to disable."""
+
+    splunk_hec_api: Annotated[Optional[str], pydantic.Field(alias="splunkHecAPI")] = (
+        None
+    )
+    r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
+
+    splunk_hec_acks: Annotated[
+        Optional[bool], pydantic.Field(alias="splunkHecAcks")
+    ] = None
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    auth_tokens_ext: Annotated[
+        Optional[List[CreateInputSystemByPackAuthTokensExt]],
+        pydantic.Field(alias="authTokensExt"),
+    ] = None
+
+    description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_splunk_hec_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
+    ] = None
+    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "criblAPI",
+                "elasticAPI",
+                "splunkHecAPI",
+                "splunkHecAcks",
+                "metadata",
+                "authTokensExt",
+                "description",
+                "__template_host",
+                "__template_port",
+                "__template_splunkHecAPI",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputSystemByPackTypeCriblHTTP(str, Enum):
@@ -7937,15 +8510,15 @@ class CreateInputSystemByPackInputCollection(BaseModel):
 CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
     "CreateInputSystemByPackRequestBodyTypedDict",
     Union[
-        CreateInputSystemByPackInputDatagenTypedDict,
         CreateInputSystemByPackInputCriblTypedDict,
+        CreateInputSystemByPackInputDatagenTypedDict,
         CreateInputSystemByPackInputKubeEventsTypedDict,
         CreateInputSystemByPackInputCriblmetricsTypedDict,
         CreateInputSystemByPackInputKubeMetricsTypedDict,
         CreateInputSystemByPackInputCollectionTypedDict,
-        CreateInputSystemByPackInputSystemStateTypedDict,
-        CreateInputSystemByPackInputWindowsMetricsTypedDict,
         CreateInputSystemByPackInputSystemMetricsTypedDict,
+        CreateInputSystemByPackInputWindowsMetricsTypedDict,
+        CreateInputSystemByPackInputSystemStateTypedDict,
         CreateInputSystemByPackInputJournalFilesTypedDict,
         CreateInputSystemByPackInputKubeLogsTypedDict,
         CreateInputSystemByPackInputModelDrivenTelemetryTypedDict,
@@ -7956,43 +8529,44 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputMetricsTypedDict,
         CreateInputSystemByPackInputNetflowTypedDict,
         CreateInputSystemByPackInputCriblTCPTypedDict,
+        CreateInputSystemByPackInputOpenaiTypedDict,
         CreateInputSystemByPackInputTcpjsonTypedDict,
         CreateInputSystemByPackInputGooglePubsubTypedDict,
-        CreateInputSystemByPackInputOffice365ServiceTypedDict,
-        CreateInputSystemByPackInputWizTypedDict,
         CreateInputSystemByPackInputFirehoseTypedDict,
         CreateInputSystemByPackInputCriblHTTPTypedDict,
+        CreateInputSystemByPackInputWizTypedDict,
+        CreateInputSystemByPackInputOffice365ServiceTypedDict,
         CreateInputSystemByPackInputTCPTypedDict,
         CreateInputSystemByPackInputDatadogAgentTypedDict,
-        CreateInputSystemByPackInputFileTypedDict,
         CreateInputSystemByPackInputSplunkTypedDict,
+        CreateInputSystemByPackInputFileTypedDict,
         CreateInputSystemByPackInputOffice365MgmtTypedDict,
-        CreateInputSystemByPackInputAppscopeTypedDict,
         CreateInputSystemByPackInputWefTypedDict,
-        CreateInputSystemByPackInputWizWebhookTypedDict,
+        CreateInputSystemByPackInputAppscopeTypedDict,
         CreateInputSystemByPackInputHTTPRawTypedDict,
-        CreateInputSystemByPackInputKafkaTypedDict,
-        CreateInputSystemByPackInputZscalerHecTypedDict,
-        CreateInputSystemByPackInputHTTPTypedDict,
-        CreateInputSystemByPackInputLokiTypedDict,
-        CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
-        CreateInputSystemByPackInputCloudflareHecTypedDict,
+        CreateInputSystemByPackInputWizWebhookTypedDict,
         CreateInputSystemByPackInputEventhubTypedDict,
+        CreateInputSystemByPackInputCloudflareHecTypedDict,
+        CreateInputSystemByPackInputZscalerHecTypedDict,
+        CreateInputSystemByPackInputKafkaTypedDict,
+        CreateInputSystemByPackInputHTTPTypedDict,
         CreateInputSystemByPackInputConfluentCloudTypedDict,
+        CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
+        CreateInputSystemByPackInputLokiTypedDict,
         CreateInputSystemByPackInputPrometheusRwTypedDict,
         CreateInputSystemByPackInputOpenTelemetryTypedDict,
         CreateInputSystemByPackInputAzureBlobTypedDict,
         CreateInputSystemByPackInputElasticTypedDict,
         CreateInputSystemByPackInputSplunkHecTypedDict,
-        CreateInputSystemByPackInputSplunkSearchTypedDict,
         CreateInputSystemByPackInputSqsTypedDict,
+        CreateInputSystemByPackInputSplunkSearchTypedDict,
         CreateInputSystemByPackInputKinesisTypedDict,
         CreateInputSystemByPackInputOffice365MsgTraceTypedDict,
-        CreateInputSystemByPackInputEdgePrometheusTypedDict,
         CreateInputSystemByPackInputCrowdstrikeTypedDict,
+        CreateInputSystemByPackInputEdgePrometheusTypedDict,
         CreateInputSystemByPackInputMskTypedDict,
-        CreateInputSystemByPackInputS3TypedDict,
         CreateInputSystemByPackInputPrometheusTypedDict,
+        CreateInputSystemByPackInputS3TypedDict,
         CreateInputSystemByPackInputSecurityLakeTypedDict,
         CreateInputSystemByPackInputS3InventoryTypedDict,
         CreateInputSystemByPackInputSyslogUnionTypedDict,
@@ -8066,6 +8640,7 @@ CreateInputSystemByPackRequestBody = Annotated[
         Annotated[CreateInputSystemByPackInputRawUDP, Tag("raw_udp")],
         Annotated[CreateInputSystemByPackInputJournalFiles, Tag("journal_files")],
         Annotated[CreateInputSystemByPackInputWiz, Tag("wiz")],
+        Annotated[CreateInputSystemByPackInputOpenai, Tag("openai")],
         Annotated[CreateInputSystemByPackInputWizWebhook, Tag("wiz_webhook")],
         Annotated[CreateInputSystemByPackInputNetflow, Tag("netflow")],
         Annotated[CreateInputSystemByPackInputSecurityLake, Tag("security_lake")],
@@ -8097,6 +8672,26 @@ class CreateInputSystemByPackRequest(BaseModel):
     r"""Input object"""
 
 
+try:
+    CreateInputSystemByPackInputTcpjson.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackSplunkHecMetadata.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackElasticsearchMetadata.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackAuthTokensExt.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputCriblLakeHTTP.model_rebuild()
+except NameError:
+    pass
 try:
     CreateInputSystemByPackInputCriblHTTP.model_rebuild()
 except NameError:

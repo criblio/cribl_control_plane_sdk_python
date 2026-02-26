@@ -44,6 +44,7 @@ from .inputoffice365msgtrace import (
     InputOffice365MsgTraceTypedDict,
 )
 from .inputoffice365service import InputOffice365Service, InputOffice365ServiceTypedDict
+from .inputopenai import InputOpenai, InputOpenaiTypedDict
 from .inputopentelemetry import InputOpenTelemetry, InputOpenTelemetryTypedDict
 from .inputprometheus import InputPrometheus, InputPrometheusTypedDict
 from .inputprometheusrw import InputPrometheusRw, InputPrometheusRwTypedDict
@@ -76,18 +77,18 @@ from typing import Any, Literal, Union
 from typing_extensions import Annotated, TypeAliasType
 
 
-InputTypedDict = TypeAliasType(
-    "InputTypedDict",
+Input1TypedDict = TypeAliasType(
+    "Input1TypedDict",
     Union[
-        InputDatagenTypedDict,
         InputCriblTypedDict,
+        InputDatagenTypedDict,
         InputKubeEventsTypedDict,
         InputCriblmetricsTypedDict,
         InputKubeMetricsTypedDict,
         InputCollectionTypedDict,
-        InputSystemStateTypedDict,
-        InputWindowsMetricsTypedDict,
         InputSystemMetricsTypedDict,
+        InputWindowsMetricsTypedDict,
+        InputSystemStateTypedDict,
         InputJournalFilesTypedDict,
         InputKubeLogsTypedDict,
         InputModelDrivenTelemetryTypedDict,
@@ -98,43 +99,44 @@ InputTypedDict = TypeAliasType(
         InputMetricsTypedDict,
         InputNetflowTypedDict,
         InputCriblTCPTypedDict,
+        InputOpenaiTypedDict,
         InputTcpjsonTypedDict,
         InputGooglePubsubTypedDict,
-        InputOffice365ServiceTypedDict,
-        InputWizTypedDict,
         InputFirehoseTypedDict,
         InputCriblHTTPTypedDict,
+        InputWizTypedDict,
+        InputOffice365ServiceTypedDict,
         InputTCPTypedDict,
         InputDatadogAgentTypedDict,
-        InputFileTypedDict,
         InputSplunkTypedDict,
+        InputFileTypedDict,
         InputOffice365MgmtTypedDict,
-        InputAppscopeTypedDict,
         InputWefTypedDict,
-        InputWizWebhookTypedDict,
+        InputAppscopeTypedDict,
         InputHTTPRawTypedDict,
-        InputKafkaTypedDict,
-        InputZscalerHecTypedDict,
-        InputHTTPTypedDict,
-        InputLokiTypedDict,
-        InputCriblLakeHTTPTypedDict,
-        InputCloudflareHecTypedDict,
+        InputWizWebhookTypedDict,
         InputEventhubTypedDict,
+        InputCloudflareHecTypedDict,
+        InputZscalerHecTypedDict,
+        InputKafkaTypedDict,
+        InputHTTPTypedDict,
         InputConfluentCloudTypedDict,
+        InputCriblLakeHTTPTypedDict,
+        InputLokiTypedDict,
         InputPrometheusRwTypedDict,
         InputOpenTelemetryTypedDict,
         InputAzureBlobTypedDict,
         InputElasticTypedDict,
         InputSplunkHecTypedDict,
-        InputSplunkSearchTypedDict,
         InputSqsTypedDict,
+        InputSplunkSearchTypedDict,
         InputKinesisTypedDict,
         InputOffice365MsgTraceTypedDict,
-        InputEdgePrometheusTypedDict,
         InputCrowdstrikeTypedDict,
+        InputEdgePrometheusTypedDict,
         InputMskTypedDict,
-        InputS3TypedDict,
         InputPrometheusTypedDict,
+        InputS3TypedDict,
         InputSecurityLakeTypedDict,
         InputS3InventoryTypedDict,
         InputSyslogUnionTypedDict,
@@ -143,8 +145,8 @@ InputTypedDict = TypeAliasType(
 )
 
 
-class UnknownInput(BaseModel):
-    r"""A Input variant the SDK doesn't recognize. Preserves the raw payload."""
+class UnknownInput1(BaseModel):
+    r"""A Input1 variant the SDK doesn't recognize. Preserves the raw payload."""
 
     type: Literal["UNKNOWN"] = "UNKNOWN"
     raw: Any
@@ -153,7 +155,7 @@ class UnknownInput(BaseModel):
     model_config = ConfigDict(frozen=True)
 
 
-_INPUT_VARIANTS: dict[str, Any] = {
+_INPUT_1_VARIANTS: dict[str, Any] = {
     "collection": InputCollection,
     "kafka": InputKafka,
     "msk": InputMsk,
@@ -209,6 +211,7 @@ _INPUT_VARIANTS: dict[str, Any] = {
     "raw_udp": InputRawUDP,
     "journal_files": InputJournalFiles,
     "wiz": InputWiz,
+    "openai": InputOpenai,
     "wiz_webhook": InputWizWebhook,
     "netflow": InputNetflow,
     "security_lake": InputSecurityLake,
@@ -217,7 +220,7 @@ _INPUT_VARIANTS: dict[str, Any] = {
 }
 
 
-Input = Annotated[
+Input1 = Annotated[
     Union[
         InputCollection,
         InputKafka,
@@ -274,20 +277,21 @@ Input = Annotated[
         InputRawUDP,
         InputJournalFiles,
         InputWiz,
+        InputOpenai,
         InputWizWebhook,
         InputNetflow,
         InputSecurityLake,
         InputZscalerHec,
         InputCloudflareHec,
-        UnknownInput,
+        UnknownInput1,
     ],
     BeforeValidator(
         partial(
             parse_open_union,
             disc_key="type",
-            variants=_INPUT_VARIANTS,
-            unknown_cls=UnknownInput,
-            union_name="Input",
+            variants=_INPUT_1_VARIANTS,
+            unknown_cls=UnknownInput1,
+            union_name="Input1",
         )
     ),
 ]

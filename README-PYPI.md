@@ -284,15 +284,6 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/configsversions/README.md#get) - Get the configuration version for a Worker Group, Outpost Group, or Edge Fleet
 
-#### [Groups.Mappings](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/mappings/README.md)
-
-* [activate](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/mappings/README.md#activate) - Set a Mapping Ruleset as the active configuration for the specified Cribl product
-* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/mappings/README.md#create) - Create a new Mapping Ruleset for the specified Cribl product
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/mappings/README.md#list) - List all Mapping Rulesets for the specified Cribl product
-* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/mappings/README.md#delete) - Delete the specified Mapping Ruleset from the Worker Group or Edge Fleet
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/mappings/README.md#get) - Retrieve a Specific Mapping Ruleset
-* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/mappings/README.md#update) - Update an existing Mapping Ruleset for a Worker Group or Edge Fleet
-
 ### [Health](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md)
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md#get) - Retrieve health status of the server

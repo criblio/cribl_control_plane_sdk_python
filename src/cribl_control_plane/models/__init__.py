@@ -220,10 +220,6 @@ if TYPE_CHECKING:
     )
     from .countedinputstatus import CountedInputStatus, CountedInputStatusTypedDict
     from .countedjobinfo import CountedJobInfo, CountedJobInfoTypedDict
-    from .countedmappingruleset import (
-        CountedMappingRuleset,
-        CountedMappingRulesetTypedDict,
-    )
     from .countedmasterworkerentry import (
         CountedMasterWorkerEntry,
         CountedMasterWorkerEntryTypedDict,
@@ -255,7 +251,6 @@ if TYPE_CHECKING:
         CountedRestartResponseTypedDict,
     )
     from .countedroutes import CountedRoutes, CountedRoutesTypedDict
-    from .countedrulesetid import CountedRulesetID, CountedRulesetIDTypedDict
     from .countedsavedjob import CountedSavedJob, CountedSavedJobTypedDict
     from .countedstring import CountedString, CountedStringTypedDict
     from .countedsystemrestartresponse import (
@@ -273,14 +268,6 @@ if TYPE_CHECKING:
     from .counteduseraccesscontrollist import (
         CountedUserAccessControlList,
         CountedUserAccessControlListTypedDict,
-    )
-    from .createadminproductsmappingsactivatebyproductop import (
-        CreateAdminProductsMappingsActivateByProductRequest,
-        CreateAdminProductsMappingsActivateByProductRequestTypedDict,
-    )
-    from .createadminproductsmappingsbyproductop import (
-        CreateAdminProductsMappingsByProductRequest,
-        CreateAdminProductsMappingsByProductRequestTypedDict,
     )
     from .createauthloginop import (
         CreateAuthLoginResponse,
@@ -1962,10 +1949,6 @@ if TYPE_CHECKING:
         DatasetMetadataRunInfo,
         DatasetMetadataRunInfoTypedDict,
     )
-    from .deleteadminproductsmappingsbyproductandidop import (
-        DeleteAdminProductsMappingsByProductAndIDRequest,
-        DeleteAdminProductsMappingsByProductAndIDRequestTypedDict,
-    )
     from .deleteconfiggroupbyproductandidop import (
         DeleteConfigGroupByProductAndIDRequest,
         DeleteConfigGroupByProductAndIDRequestTypedDict,
@@ -2540,14 +2523,6 @@ if TYPE_CHECKING:
         FunctionXMLUnrollID,
         FunctionXMLUnrollTypedDict,
     )
-    from .getadminproductsmappingsbyproductandidop import (
-        GetAdminProductsMappingsByProductAndIDRequest,
-        GetAdminProductsMappingsByProductAndIDRequestTypedDict,
-    )
-    from .getadminproductsmappingsbyproductop import (
-        GetAdminProductsMappingsByProductRequest,
-        GetAdminProductsMappingsByProductRequestTypedDict,
-    )
     from .getconfiggroupaclbyproductandidop import (
         GetConfigGroupACLByProductAndIDRequest,
         GetConfigGroupACLByProductAndIDRequestTypedDict,
@@ -2705,7 +2680,7 @@ if TYPE_CHECKING:
     )
     from .getversionop import GetVersionRequest, GetVersionRequestTypedDict
     from .getversionshowop import GetVersionShowRequest, GetVersionShowRequestTypedDict
-    from .gitcommitparams import GitCommitParams, GitCommitParamsTypedDict
+    from .gitcommitbody import GitCommitBody, GitCommitBodyTypedDict
     from .gitcommitsummary import (
         Author,
         AuthorTypedDict,
@@ -3729,20 +3704,6 @@ if TYPE_CHECKING:
     from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
     from .logleveloptionsrunnablejobcollectionschedulerun import (
         LogLevelOptionsRunnableJobCollectionScheduleRun,
-    )
-    from .mappingruleset import (
-        Function,
-        FunctionConf,
-        FunctionConfTypedDict,
-        FunctionTypedDict,
-        MappingRuleset,
-        MappingRulesetAdd,
-        MappingRulesetAddTypedDict,
-        MappingRulesetConf,
-        MappingRulesetConfTypedDict,
-        MappingRulesetID,
-        MappingRulesetTypedDict,
-        Name,
     )
     from .masterworkerentry import (
         MasterWorkerEntry,
@@ -6718,7 +6679,6 @@ if TYPE_CHECKING:
     from .routecomment import RouteComment, RouteCommentTypedDict
     from .routeconf import RouteConf, RouteConfTypedDict
     from .routes import Routes, RoutesGroups, RoutesGroupsTypedDict, RoutesTypedDict
-    from .rulesetid import RulesetID, RulesetIDTypedDict
     from .runnablejob import RunnableJob, RunnableJobTypedDict
     from .runnablejobcollection import (
         CaptureSettings,
@@ -7003,10 +6963,6 @@ if TYPE_CHECKING:
     )
     from .typeoptions import TypeOptions
     from .typeoptionsconfiggroup import TypeOptionsConfigGroup
-    from .updateadminproductsmappingsbyproductandidop import (
-        UpdateAdminProductsMappingsByProductAndIDRequest,
-        UpdateAdminProductsMappingsByProductAndIDRequestTypedDict,
-    )
     from .updateconfiggroupbyproductandidop import (
         UpdateConfigGroupByProductAndIDRequest,
         UpdateConfigGroupByProductAndIDRequestTypedDict,
@@ -7331,8 +7287,6 @@ __all__ = [
     "CountedInputTypedDict",
     "CountedJobInfo",
     "CountedJobInfoTypedDict",
-    "CountedMappingRuleset",
-    "CountedMappingRulesetTypedDict",
     "CountedMasterWorkerEntry",
     "CountedMasterWorkerEntryTypedDict",
     "CountedNumber",
@@ -7359,8 +7313,6 @@ __all__ = [
     "CountedRestartResponseTypedDict",
     "CountedRoutes",
     "CountedRoutesTypedDict",
-    "CountedRulesetID",
-    "CountedRulesetIDTypedDict",
     "CountedSavedJob",
     "CountedSavedJobTypedDict",
     "CountedString",
@@ -7373,10 +7325,6 @@ __all__ = [
     "CountedTeamAccessControlListTypedDict",
     "CountedUserAccessControlList",
     "CountedUserAccessControlListTypedDict",
-    "CreateAdminProductsMappingsActivateByProductRequest",
-    "CreateAdminProductsMappingsActivateByProductRequestTypedDict",
-    "CreateAdminProductsMappingsByProductRequest",
-    "CreateAdminProductsMappingsByProductRequestTypedDict",
     "CreateAuthLoginResponse",
     "CreateAuthLoginResponseTypedDict",
     "CreateConfigGroupByProductRequest",
@@ -9020,8 +8968,6 @@ __all__ = [
     "DatasetMetadataRunInfoTypedDict",
     "DatasetMetadataTypedDict",
     "DefaultTime",
-    "DeleteAdminProductsMappingsByProductAndIDRequest",
-    "DeleteAdminProductsMappingsByProductAndIDRequestTypedDict",
     "DeleteConfigGroupByProductAndIDRequest",
     "DeleteConfigGroupByProductAndIDRequestTypedDict",
     "DeleteCriblLakeDatasetByLakeIDAndIDRequest",
@@ -9175,7 +9121,6 @@ __all__ = [
     "FormatOptions",
     "FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesets",
     "FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesetsTypedDict",
-    "Function",
     "FunctionAggregateMetrics",
     "FunctionAggregateMetricsID",
     "FunctionAggregateMetricsTypedDict",
@@ -9200,7 +9145,6 @@ __all__ = [
     "FunctionComment",
     "FunctionCommentID",
     "FunctionCommentTypedDict",
-    "FunctionConf",
     "FunctionConfSchemaAutoTimestamp",
     "FunctionConfSchemaAutoTimestampTypedDict",
     "FunctionConfSchemaCef",
@@ -9270,7 +9214,6 @@ __all__ = [
     "FunctionConfSchemaSnmpTrapSerializeTypedDict",
     "FunctionConfSchemaTrimTimestamp",
     "FunctionConfSchemaTrimTimestampTypedDict",
-    "FunctionConfTypedDict",
     "FunctionDNSLookup",
     "FunctionDNSLookupID",
     "FunctionDNSLookupTypedDict",
@@ -9432,7 +9375,6 @@ __all__ = [
     "FunctionTrimTimestamp",
     "FunctionTrimTimestampID",
     "FunctionTrimTimestampTypedDict",
-    "FunctionTypedDict",
     "FunctionUnion",
     "FunctionUnionID",
     "FunctionUnionTypedDict",
@@ -9446,10 +9388,6 @@ __all__ = [
     "FunctionXMLUnrollID",
     "FunctionXMLUnrollTypedDict",
     "GaugeUpdate",
-    "GetAdminProductsMappingsByProductAndIDRequest",
-    "GetAdminProductsMappingsByProductAndIDRequestTypedDict",
-    "GetAdminProductsMappingsByProductRequest",
-    "GetAdminProductsMappingsByProductRequestTypedDict",
     "GetConfigGroupACLByProductAndIDRequest",
     "GetConfigGroupACLByProductAndIDRequestTypedDict",
     "GetConfigGroupACLTeamsByProductAndIDRequest",
@@ -9546,8 +9484,8 @@ __all__ = [
     "GetVersionRequestTypedDict",
     "GetVersionShowRequest",
     "GetVersionShowRequestTypedDict",
-    "GitCommitParams",
-    "GitCommitParamsTypedDict",
+    "GitCommitBody",
+    "GitCommitBodyTypedDict",
     "GitCommitSummary",
     "GitCommitSummaryTypedDict",
     "GitCountResult",
@@ -10429,13 +10367,6 @@ __all__ = [
     "ManageStateTypedDict",
     "MappingOfFieldNames",
     "MappingOfFieldNamesTypedDict",
-    "MappingRuleset",
-    "MappingRulesetAdd",
-    "MappingRulesetAddTypedDict",
-    "MappingRulesetConf",
-    "MappingRulesetConfTypedDict",
-    "MappingRulesetID",
-    "MappingRulesetTypedDict",
     "MasterWorkerEntry",
     "MasterWorkerEntryType",
     "MasterWorkerEntryTypedDict",
@@ -10461,7 +10392,6 @@ __all__ = [
     "ModeOptionsHost",
     "ModeOptionsInstanceSettingsSchema",
     "ModeOptionsPq",
-    "Name",
     "NestedFieldSerializationOptions",
     "NodeActiveUpgradeStatus",
     "NodeFailedUpgradeStatus",
@@ -12935,8 +12865,6 @@ __all__ = [
     "RoutesGroups",
     "RoutesGroupsTypedDict",
     "RoutesTypedDict",
-    "RulesetID",
-    "RulesetIDTypedDict",
     "RulesetType",
     "RunSettingsTypeRunnableJobCollectionSchedule",
     "RunSettingsTypeRunnableJobCollectionScheduleType",
@@ -13351,8 +13279,6 @@ __all__ = [
     "UnknownSplunkAuthenticationTokenSecretRetryRules",
     "UnknownSplunkCollectorConf",
     "UnknownV3User",
-    "UpdateAdminProductsMappingsByProductAndIDRequest",
-    "UpdateAdminProductsMappingsByProductAndIDRequestTypedDict",
     "UpdateConfigGroupByProductAndIDRequest",
     "UpdateConfigGroupByProductAndIDRequestTypedDict",
     "UpdateConfigGroupDeployByProductAndIDRequest",
@@ -13594,8 +13520,6 @@ _dynamic_imports: dict[str, str] = {
     "CountedInputStatusTypedDict": ".countedinputstatus",
     "CountedJobInfo": ".countedjobinfo",
     "CountedJobInfoTypedDict": ".countedjobinfo",
-    "CountedMappingRuleset": ".countedmappingruleset",
-    "CountedMappingRulesetTypedDict": ".countedmappingruleset",
     "CountedMasterWorkerEntry": ".countedmasterworkerentry",
     "CountedMasterWorkerEntryTypedDict": ".countedmasterworkerentry",
     "CountedNumber": ".countednumber",
@@ -13622,8 +13546,6 @@ _dynamic_imports: dict[str, str] = {
     "CountedRestartResponseTypedDict": ".countedrestartresponse",
     "CountedRoutes": ".countedroutes",
     "CountedRoutesTypedDict": ".countedroutes",
-    "CountedRulesetID": ".countedrulesetid",
-    "CountedRulesetIDTypedDict": ".countedrulesetid",
     "CountedSavedJob": ".countedsavedjob",
     "CountedSavedJobTypedDict": ".countedsavedjob",
     "CountedString": ".countedstring",
@@ -13636,10 +13558,6 @@ _dynamic_imports: dict[str, str] = {
     "CountedTeamAccessControlListTypedDict": ".countedteamaccesscontrollist",
     "CountedUserAccessControlList": ".counteduseraccesscontrollist",
     "CountedUserAccessControlListTypedDict": ".counteduseraccesscontrollist",
-    "CreateAdminProductsMappingsActivateByProductRequest": ".createadminproductsmappingsactivatebyproductop",
-    "CreateAdminProductsMappingsActivateByProductRequestTypedDict": ".createadminproductsmappingsactivatebyproductop",
-    "CreateAdminProductsMappingsByProductRequest": ".createadminproductsmappingsbyproductop",
-    "CreateAdminProductsMappingsByProductRequestTypedDict": ".createadminproductsmappingsbyproductop",
     "CreateAuthLoginResponse": ".createauthloginop",
     "CreateAuthLoginResponseTypedDict": ".createauthloginop",
     "CreateConfigGroupByProductRequest": ".createconfiggroupbyproductop",
@@ -15275,8 +15193,6 @@ _dynamic_imports: dict[str, str] = {
     "ScanMode": ".datasetmetadata",
     "DatasetMetadataRunInfo": ".datasetmetadataruninfo",
     "DatasetMetadataRunInfoTypedDict": ".datasetmetadataruninfo",
-    "DeleteAdminProductsMappingsByProductAndIDRequest": ".deleteadminproductsmappingsbyproductandidop",
-    "DeleteAdminProductsMappingsByProductAndIDRequestTypedDict": ".deleteadminproductsmappingsbyproductandidop",
     "DeleteConfigGroupByProductAndIDRequest": ".deleteconfiggroupbyproductandidop",
     "DeleteConfigGroupByProductAndIDRequestTypedDict": ".deleteconfiggroupbyproductandidop",
     "DeleteCriblLakeDatasetByLakeIDAndIDRequest": ".deletecribllakedatasetbylakeidandidop",
@@ -15691,10 +15607,6 @@ _dynamic_imports: dict[str, str] = {
     "FunctionXMLUnroll": ".functionxmlunroll",
     "FunctionXMLUnrollID": ".functionxmlunroll",
     "FunctionXMLUnrollTypedDict": ".functionxmlunroll",
-    "GetAdminProductsMappingsByProductAndIDRequest": ".getadminproductsmappingsbyproductandidop",
-    "GetAdminProductsMappingsByProductAndIDRequestTypedDict": ".getadminproductsmappingsbyproductandidop",
-    "GetAdminProductsMappingsByProductRequest": ".getadminproductsmappingsbyproductop",
-    "GetAdminProductsMappingsByProductRequestTypedDict": ".getadminproductsmappingsbyproductop",
     "GetConfigGroupACLByProductAndIDRequest": ".getconfiggroupaclbyproductandidop",
     "GetConfigGroupACLByProductAndIDRequestTypedDict": ".getconfiggroupaclbyproductandidop",
     "GetConfigGroupACLTeamsByProductAndIDRequest": ".getconfiggroupaclteamsbyproductandidop",
@@ -15791,8 +15703,8 @@ _dynamic_imports: dict[str, str] = {
     "GetVersionRequestTypedDict": ".getversionop",
     "GetVersionShowRequest": ".getversionshowop",
     "GetVersionShowRequestTypedDict": ".getversionshowop",
-    "GitCommitParams": ".gitcommitparams",
-    "GitCommitParamsTypedDict": ".gitcommitparams",
+    "GitCommitBody": ".gitcommitbody",
+    "GitCommitBodyTypedDict": ".gitcommitbody",
     "Author": ".gitcommitsummary",
     "AuthorTypedDict": ".gitcommitsummary",
     "GitCommitSummary": ".gitcommitsummary",
@@ -16740,18 +16652,6 @@ _dynamic_imports: dict[str, str] = {
     "LoginInfoTypedDict": ".logininfo",
     "LogLevelOptionsContentConfigItems": ".logleveloptionscontentconfigitems",
     "LogLevelOptionsRunnableJobCollectionScheduleRun": ".logleveloptionsrunnablejobcollectionschedulerun",
-    "Function": ".mappingruleset",
-    "FunctionConf": ".mappingruleset",
-    "FunctionConfTypedDict": ".mappingruleset",
-    "FunctionTypedDict": ".mappingruleset",
-    "MappingRuleset": ".mappingruleset",
-    "MappingRulesetAdd": ".mappingruleset",
-    "MappingRulesetAddTypedDict": ".mappingruleset",
-    "MappingRulesetConf": ".mappingruleset",
-    "MappingRulesetConfTypedDict": ".mappingruleset",
-    "MappingRulesetID": ".mappingruleset",
-    "MappingRulesetTypedDict": ".mappingruleset",
-    "Name": ".mappingruleset",
     "MasterWorkerEntry": ".masterworkerentry",
     "MasterWorkerEntryType": ".masterworkerentry",
     "MasterWorkerEntryTypedDict": ".masterworkerentry",
@@ -19446,8 +19346,6 @@ _dynamic_imports: dict[str, str] = {
     "RoutesGroups": ".routes",
     "RoutesGroupsTypedDict": ".routes",
     "RoutesTypedDict": ".routes",
-    "RulesetID": ".rulesetid",
-    "RulesetIDTypedDict": ".rulesetid",
     "RunnableJob": ".runnablejob",
     "RunnableJobTypedDict": ".runnablejob",
     "CaptureSettings": ".runnablejobcollection",
@@ -19674,8 +19572,6 @@ _dynamic_imports: dict[str, str] = {
     "TypeCollectionWithBreakerRulesetsConstraintTypedDict": ".typecollectionwithbreakerrulesetsconstraint",
     "TypeOptions": ".typeoptions",
     "TypeOptionsConfigGroup": ".typeoptionsconfiggroup",
-    "UpdateAdminProductsMappingsByProductAndIDRequest": ".updateadminproductsmappingsbyproductandidop",
-    "UpdateAdminProductsMappingsByProductAndIDRequestTypedDict": ".updateadminproductsmappingsbyproductandidop",
     "UpdateConfigGroupByProductAndIDRequest": ".updateconfiggroupbyproductandidop",
     "UpdateConfigGroupByProductAndIDRequestTypedDict": ".updateconfiggroupbyproductandidop",
     "UpdateConfigGroupDeployByProductAndIDRequest": ".updateconfiggroupdeploybyproductandidop",

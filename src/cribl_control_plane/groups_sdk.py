@@ -6,7 +6,6 @@ from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.acl import ACL
 from cribl_control_plane.groups_configs import GroupsConfigs
-from cribl_control_plane.mappings import Mappings
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
@@ -18,7 +17,6 @@ class GroupsSDK(BaseSDK):
 
     configs: GroupsConfigs
     acl: ACL
-    mappings: Mappings
 
     def __init__(
         self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
@@ -30,7 +28,6 @@ class GroupsSDK(BaseSDK):
     def _init_sdks(self):
         self.configs = GroupsConfigs(self.sdk_configuration, parent_ref=self.parent_ref)
         self.acl = ACL(self.sdk_configuration, parent_ref=self.parent_ref)
-        self.mappings = Mappings(self.sdk_configuration, parent_ref=self.parent_ref)
 
     def list(
         self,

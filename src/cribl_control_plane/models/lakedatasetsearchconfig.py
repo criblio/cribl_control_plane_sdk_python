@@ -10,17 +10,23 @@ from typing_extensions import NotRequired, TypedDict
 
 class LakeDatasetSearchConfigTypedDict(TypedDict):
     datatypes: NotRequired[List[str]]
+    description: NotRequired[str]
     metadata: NotRequired[DatasetMetadataTypedDict]
+    tags: NotRequired[str]
 
 
 class LakeDatasetSearchConfig(BaseModel):
     datatypes: Optional[List[str]] = None
 
+    description: Optional[str] = None
+
     metadata: Optional[DatasetMetadata] = None
+
+    tags: Optional[str] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["datatypes", "metadata"])
+        optional_fields = set(["datatypes", "description", "metadata", "tags"])
         serialized = handler(self)
         m = {}
 

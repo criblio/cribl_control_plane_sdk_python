@@ -335,6 +335,12 @@ value: models.CreateInputSystemByPackInputJournalFiles = /* values here */
 value: models.CreateInputSystemByPackInputWiz = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputOpenai`
+
+```python
+value: models.CreateInputSystemByPackInputOpenai = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputWizWebhook`
 
 ```python

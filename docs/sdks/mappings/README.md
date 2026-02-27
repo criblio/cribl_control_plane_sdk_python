@@ -78,6 +78,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.EDGE, id="aws-ec2-mapping", conf={
         "functions": [
             models.Function(
+                filter_="aws?.tags?.Environment === \"Production\"",
+                disabled=False,
+                description="Map Production EC2 instances",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -85,14 +88,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "aws?.tags?.Environment === \"Production\"",
-                    "description": "Map Production EC2 instances",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="aws?.tags?.Team === \"DevOps\"",
+                disabled=False,
+                description="Map DevOps team EC2 instances",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -100,14 +100,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "aws?.tags?.Team === \"DevOps\"",
-                    "description": "Map DevOps team EC2 instances",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="!cribl.group",
+                disabled=False,
+                description="Default mapping",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -115,12 +112,6 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "!cribl.group",
-                    "description": "Default mapping",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
         ],
     })
@@ -147,6 +138,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.EDGE, id="complex-mapping", conf={
         "functions": [
             models.Function(
+                filter_="(conn_ip.startsWith(\"10.10.42.\") && cpus > 6) || env.CRIBL_HOME.match(\"DMZ\")",
+                disabled=False,
+                description="Map high-performance nodes in specific network or DMZ",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -154,14 +148,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "(conn_ip.startsWith(\"10.10.42.\") && cpus > 6) || env.CRIBL_HOME.match(\"DMZ\")",
-                    "description": "Map high-performance nodes in specific network or DMZ",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="platform === \"linux\" && memory > 16000 && cribl.tags.includes(\"Database\")",
+                disabled=False,
+                description="Map Linux nodes with high memory for database workloads",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -169,14 +160,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "platform === \"linux\" && memory > 16000 && cribl.tags.includes(\"Database\")",
-                    "description": "Map Linux nodes with high memory for database workloads",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="!cribl.group",
+                disabled=False,
+                description="Default mapping",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -184,12 +172,6 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "!cribl.group",
-                    "description": "Default mapping",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
         ],
     })
@@ -216,6 +198,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.STREAM, id="container-mapping", conf={
         "functions": [
             models.Function(
+                filter_="hostOs?.platform === \"linux\" && hostOs?.cpu_count > 4",
+                disabled=False,
+                description="Map containerized nodes on high-CPU Linux hosts",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -223,14 +208,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "hostOs?.platform === \"linux\" && hostOs?.cpu_count > 4",
-                    "description": "Map containerized nodes on high-CPU Linux hosts",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="hostOs?.id",
+                disabled=False,
+                description="Map all containerized Edge Nodes",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -238,14 +220,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "hostOs?.id",
-                    "description": "Map all containerized Edge Nodes",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="!cribl.group",
+                disabled=False,
+                description="Default mapping for non-containerized nodes",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -253,12 +232,6 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "!cribl.group",
-                    "description": "Default mapping for non-containerized nodes",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
         ],
     })
@@ -285,6 +258,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.EDGE, id="simple-default-mappings", conf={
         "functions": [
             models.Function(
+                filter_="!cribl.group",
+                disabled=False,
+                description="Simple default Mapping Ruleset",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -292,12 +268,6 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "!cribl.group",
-                    "description": "Simple default Mapping Ruleset",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
         ],
     })
@@ -324,6 +294,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.STREAM, id="os-based-mapping", conf={
         "functions": [
             models.Function(
+                filter_="platform === \"linux\"",
+                disabled=False,
+                description="Map Linux Edge Nodes",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -331,14 +304,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "platform === \"linux\"",
-                    "description": "Map Linux Edge Nodes",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="platform === \"win32\"",
+                disabled=False,
+                description="Map Windows Edge Nodes",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -346,14 +316,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "platform === \"win32\"",
-                    "description": "Map Windows Edge Nodes",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="platform === \"darwin\"",
+                disabled=False,
+                description="Map macOS Edge Nodes",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -361,14 +328,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "platform === \"darwin\"",
-                    "description": "Map macOS Edge Nodes",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="!cribl.group",
+                disabled=False,
+                description="Default mapping for unmapped nodes",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -376,12 +340,6 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "!cribl.group",
-                    "description": "Default mapping for unmapped nodes",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
         ],
     })
@@ -408,6 +366,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.EDGE, id="outpost-mapping", conf={
         "functions": [
             models.Function(
+                filter_="outpost.host === \"5ab6c676be6a\"",
+                disabled=False,
+                description="Map Edge Nodes from Outpost A",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -415,14 +376,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "outpost.host === \"5ab6c676be6a\"",
-                    "description": "Map Edge Nodes from Outpost A",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="outpost.guid === \"550e8400-e29b-41d4-a716-446655440000\"",
+                disabled=False,
+                description="Map Edge Nodes from Outpost B by GUID",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -430,14 +388,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "outpost.guid === \"550e8400-e29b-41d4-a716-446655440000\"",
-                    "description": "Map Edge Nodes from Outpost B by GUID",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="!cribl.group",
+                disabled=False,
+                description="Default mapping",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -445,12 +400,6 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "!cribl.group",
-                    "description": "Default mapping",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
         ],
     })
@@ -477,6 +426,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.create(product=models.ProductsBase.STREAM, id="tag-based-mapping", conf={
         "functions": [
             models.Function(
+                filter_="cribl.tags.includes(\"WinLaptop\")",
+                disabled=False,
+                description="Map Windows Laptop Edge Nodes",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -484,14 +436,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "cribl.tags.includes(\"WinLaptop\")",
-                    "description": "Map Windows Laptop Edge Nodes",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="cribl.tags.includes(\"Production\")",
+                disabled=False,
+                description="Map Production Edge Nodes",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -499,14 +448,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "cribl.tags.includes(\"Production\")",
-                    "description": "Map Production Edge Nodes",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="!cribl.group",
+                disabled=False,
+                description="Default mapping",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -514,12 +460,6 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "!cribl.group",
-                    "description": "Default mapping",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
         ],
     })
@@ -706,6 +646,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.update(product=models.ProductsBase.EDGE, id_param="<value>", id="default", conf={
         "functions": [
             models.Function(
+                filter_="!cribl.group",
+                disabled=False,
+                description="Default Mappings",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -713,12 +656,6 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "!cribl.group",
-                    "description": "Default Mappings",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
         ],
     }, active=True)
@@ -745,6 +682,9 @@ with CriblControlPlane(
     res = ccp_client.groups.mappings.update(product=models.ProductsBase.STREAM, id_param="<value>", id="complex-mapping", conf={
         "functions": [
             models.Function(
+                filter_="(conn_ip.startsWith(\"10.10.42.\") && cpus > 6) || env.CRIBL_HOME.match(\"DMZ\")",
+                disabled=False,
+                description="Map high-performance nodes in specific network or DMZ",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -752,14 +692,11 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "(conn_ip.startsWith(\"10.10.42.\") && cpus > 6) || env.CRIBL_HOME.match(\"DMZ\")",
-                    "description": "Map high-performance nodes in specific network or DMZ",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
             models.Function(
+                filter_="!cribl.group",
+                disabled=False,
+                description="Default mapping",
                 conf=models.ConfEval(
                     add=[
                         models.MappingRulesetAdd(
@@ -767,12 +704,6 @@ with CriblControlPlane(
                         ),
                     ],
                 ),
-                **{
-                    "filter": "!cribl.group",
-                    "description": "Default mapping",
-                    "disabled": False,
-                    "final": True,
-                },
             ),
         ],
     })

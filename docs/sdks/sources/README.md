@@ -1063,6 +1063,56 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesOpenAI
+
+<!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="InputCreateExamplesOpenAI" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.create(request={
+        "id": "openai-source",
+        "type": models.CreateInputTypeOpenai.OPENAI,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "content_config": [
+            {
+                "disabled": False,
+                "request_params": [
+                    {
+                        "name": "effective_at[gt]",
+                        "value": "`${Math.round(Date.now()/1000 - 3600)}`",
+                    },
+                    {
+                        "name": "limit",
+                        "value": "100",
+                    },
+                ],
+                "pagination_type": models.CreateInputPaginationType.RESPONSE_BODY,
+                "pagination_attribute": [
+                    "last_id",
+                ],
+                "pagination_last_page_expr": "has_more === false",
+                "cron_schedule": "0 * * * *",
+                "earliest": "-1h",
+                "latest": "now",
+            },
+        ],
+        "text_secret": "openai-api-key-secret",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesOpenTelemetry
 
 <!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="InputCreateExamplesOpenTelemetry" -->
@@ -2796,6 +2846,56 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesOpenAI
+
+<!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" example="InputCreateExamplesOpenAI" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    server_url="https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.update(id="<id>", input_={
+        "id": "openai-source",
+        "type": models.InputOpenaiType.OPENAI,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "content_config": [
+            {
+                "disabled": False,
+                "request_params": [
+                    {
+                        "name": "effective_at[gt]",
+                        "value": "`${Math.round(Date.now()/1000 - 3600)}`",
+                    },
+                    {
+                        "name": "limit",
+                        "value": "100",
+                    },
+                ],
+                "pagination_type": models.PaginationType.RESPONSE_BODY,
+                "pagination_attribute": [
+                    "last_id",
+                ],
+                "pagination_last_page_expr": "has_more === false",
+                "cron_schedule": "0 * * * *",
+                "earliest": "-1h",
+                "latest": "now",
+            },
+        ],
+        "text_secret": "openai-api-key-secret",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesOpenTelemetry
 
 <!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" example="InputCreateExamplesOpenTelemetry" -->
@@ -3516,7 +3616,7 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Source to update.                        |
-| `input`                                                             | [models.Input](../../models/input.md)                               | :heavy_check_mark:                                                  | Input object                                                        |
+| `input`                                                             | [models.Input2](../../models/input2.md)                             | :heavy_check_mark:                                                  | Input object                                                        |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

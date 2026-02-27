@@ -33,8 +33,12 @@ class ConfEval(BaseModel):
 
 
 class FunctionTypedDict(TypedDict):
+    disabled: bool
     conf: ConfEvalTypedDict
     id: Literal["eval"]
+    filter_: NotRequired[str]
+    final: Literal[True]
+    description: NotRequired[str]
 
 
 class Function(BaseModel):
@@ -43,12 +47,23 @@ class Function(BaseModel):
     )
     __pydantic_extra__: Dict[str, Any] = pydantic.Field(init=False)
 
+    disabled: bool
+
     conf: ConfEval
 
     ID: Annotated[
         Annotated[Literal["eval"], AfterValidator(validate_const("eval"))],
         pydantic.Field(alias="id"),
     ] = "eval"
+
+    filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
+
+    FINAL: Annotated[
+        Annotated[Literal[True], AfterValidator(validate_const(True))],
+        pydantic.Field(alias="final"),
+    ] = True
+
+    description: Optional[str] = None
 
     @property
     def additional_properties(self):
@@ -57,6 +72,25 @@ class Function(BaseModel):
     @additional_properties.setter
     def additional_properties(self, value):
         self.__pydantic_extra__ = value  # pyright: ignore[reportIncompatibleVariableOverride]
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["filter", "description"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+            serialized.pop(k, None)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+        for k, v in serialized.items():
+            m[k] = v
+
+        return m
 
 
 class MappingRulesetConfTypedDict(TypedDict):

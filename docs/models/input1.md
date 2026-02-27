@@ -1,4 +1,4 @@
-# Input
+# Input1
 
 
 ## Supported Types
@@ -331,6 +331,12 @@ value: models.InputJournalFiles = /* values here */
 
 ```python
 value: models.InputWiz = /* values here */
+```
+
+### `models.InputOpenai`
+
+```python
+value: models.InputOpenai = /* values here */
 ```
 
 ### `models.InputWizWebhook`

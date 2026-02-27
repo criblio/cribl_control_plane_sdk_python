@@ -22,11 +22,11 @@ class InputWizType(str, Enum):
     WIZ = "wiz"
 
 
-class ManageStateTypedDict(TypedDict):
+class InputWizManageStateTypedDict(TypedDict):
     pass
 
 
-class ManageState(BaseModel):
+class InputWizManageState(BaseModel):
     pass
 
 
@@ -59,7 +59,7 @@ class InputWizContentConfigTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[ManageStateTypedDict]
+    manage_state: NotRequired[InputWizManageStateTypedDict]
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
     log_level: NotRequired[InputWizLogLevel]
@@ -106,7 +106,7 @@ class InputWizContentConfig(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
-        Optional[ManageState], pydantic.Field(alias="manageState")
+        Optional[InputWizManageState], pydantic.Field(alias="manageState")
     ] = None
 
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None

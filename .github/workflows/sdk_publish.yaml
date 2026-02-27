@@ -64,7 +64,7 @@ jobs:
 
   publish:
     needs: check-branch
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@a66b1a5a02f1eaf9392d9433e4dc6bc89df3e979
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@b823adc6be7d30b25198529f99f46303bc083534
     with:
       target: cribl-control-plane
     secrets:

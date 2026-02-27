@@ -15,7 +15,6 @@ from .itemstyperesponseretrysettings import (
 )
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .statsdestinationtype import StatsDestinationType, StatsDestinationTypeTypedDict
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -158,7 +157,6 @@ class OutputClickHouseTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     dump_format_errors_to_disk: NotRequired[bool]
     r"""Log the most recent event that fails to match the table schema"""
-    stats_destination: NotRequired[StatsDestinationTypeTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -326,10 +324,6 @@ class OutputClickHouse(BaseModel):
         Optional[bool], pydantic.Field(alias="dumpFormatErrorsToDisk")
     ] = None
     r"""Log the most recent event that fails to match the table schema"""
-
-    stats_destination: Annotated[
-        Optional[StatsDestinationType], pydantic.Field(alias="statsDestination")
-    ] = None
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -534,7 +528,6 @@ class OutputClickHouse(BaseModel):
                 "timeoutRetrySettings",
                 "responseHonorRetryAfterHeader",
                 "dumpFormatErrorsToDisk",
-                "statsDestination",
                 "onBackpressure",
                 "description",
                 "username",

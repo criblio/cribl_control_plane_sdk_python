@@ -4,11 +4,14 @@ from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
+from .itemstypecontentconfigitemsrequestparams import (
+    ItemsTypeContentConfigItemsRequestParams,
+    ItemsTypeContentConfigItemsRequestParamsTypedDict,
+)
 from .itemstypeextrahttpheaders import (
     ItemsTypeExtraHTTPHeaders,
     ItemsTypeExtraHTTPHeadersTypedDict,
 )
-from .itemstypelabels import ItemsTypeLabels, ItemsTypeLabelsTypedDict
 from .itemstyperesponseretrysettings import (
     ItemsTypeResponseRetrySettings,
     ItemsTypeResponseRetrySettingsTypedDict,
@@ -62,7 +65,7 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
     message_format: NotRequired[MessageFormatOptions]
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
-    labels: NotRequired[List[ItemsTypeLabelsTypedDict]]
+    labels: NotRequired[List[ItemsTypeContentConfigItemsRequestParamsTypedDict]]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
@@ -162,7 +165,7 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
-    labels: Optional[List[ItemsTypeLabels]] = None
+    labels: Optional[List[ItemsTypeContentConfigItemsRequestParams]] = None
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     metric_rename_expr: Annotated[
@@ -459,7 +462,7 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
     message_format: NotRequired[MessageFormatOptions]
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
-    labels: NotRequired[List[ItemsTypeLabelsTypedDict]]
+    labels: NotRequired[List[ItemsTypeContentConfigItemsRequestParamsTypedDict]]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
@@ -561,7 +564,7 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
-    labels: Optional[List[ItemsTypeLabels]] = None
+    labels: Optional[List[ItemsTypeContentConfigItemsRequestParams]] = None
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     metric_rename_expr: Annotated[

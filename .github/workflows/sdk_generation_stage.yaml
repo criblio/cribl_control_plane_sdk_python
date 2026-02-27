@@ -163,7 +163,7 @@ jobs:
 
   generate:
     needs: compute-version
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@a66b1a5a02f1eaf9392d9433e4dc6bc89df3e979
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@b823adc6be7d30b25198529f99f46303bc083534
     with:
       force: ${{ github.event.inputs.force }}
       mode: pr

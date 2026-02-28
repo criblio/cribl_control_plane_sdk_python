@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-alpha.1772136542642-51545bcb
+  version: 4.17.0-alpha.1772233558002-f6d75b50
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -3219,6 +3219,52 @@ components:
         - name
         - uischema
         - version
+    FunctionConfSchemaLocalSearchTransformer:
+      type: object
+    FunctionLocalSearchTransformer:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - local_search_transformer
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          additionalProperties: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
     FunctionConfSchemaLookup:
       type: object
       properties:
@@ -6076,6 +6122,7 @@ components:
         - $ref: "#/components/schemas/FunctionLimit"
         - $ref: "#/components/schemas/FunctionLocalSearchDatatypeParser"
         - $ref: "#/components/schemas/FunctionLocalSearchRulesetRunner"
+        - $ref: "#/components/schemas/FunctionLocalSearchTransformer"
         - $ref: "#/components/schemas/FunctionLookup"
         - $ref: "#/components/schemas/FunctionMask"
         - $ref: "#/components/schemas/FunctionMvExpand"
@@ -6144,6 +6191,7 @@ components:
           limit: "#/components/schemas/FunctionLimit"
           local_search_datatype_parser: "#/components/schemas/FunctionLocalSearchDatatypeParser"
           local_search_ruleset_runner: "#/components/schemas/FunctionLocalSearchRulesetRunner"
+          local_search_transformer: "#/components/schemas/FunctionLocalSearchTransformer"
           lookup: "#/components/schemas/FunctionLookup"
           mask: "#/components/schemas/FunctionMask"
           mv_expand: "#/components/schemas/FunctionMvExpand"
@@ -7238,6 +7286,41 @@ components:
           type: boolean
         conf:
           $ref: "#/components/schemas/FunctionConfSchemaLocalSearchRulesetRunner"
+        groupId:
+          title: Group ID
+          description: Group ID
+          type: string
+    PipelineFunctionLocalSearchTransformer:
+      type: object
+      required:
+        - id
+        - conf
+      additionalProperties: false
+      properties:
+        filter:
+          title: Filter
+          description: Filter that selects data to be fed through this Function
+          type: string
+        id:
+          title: ID
+          description: Function ID
+          type: string
+          enum:
+            - local_search_transformer
+        description:
+          title: Description
+          description: Simple description of this step
+          type: string
+        disabled:
+          title: Disabled
+          description: If true, data will not be pushed through this function
+          type: boolean
+        final:
+          title: Final
+          description: If enabled, stops the results of this Function from being passed to the downstream Functions
+          type: boolean
+        conf:
+          $ref: "#/components/schemas/FunctionConfSchemaLocalSearchTransformer"
         groupId:
           title: Group ID
           description: Group ID
@@ -8617,6 +8700,7 @@ components:
         - $ref: "#/components/schemas/PipelineFunctionLimit"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchDatatypeParser"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchRulesetRunner"
+        - $ref: "#/components/schemas/PipelineFunctionLocalSearchTransformer"
         - $ref: "#/components/schemas/PipelineFunctionLookup"
         - $ref: "#/components/schemas/PipelineFunctionMask"
         - $ref: "#/components/schemas/PipelineFunctionMvExpand"
@@ -8685,6 +8769,7 @@ components:
           limit: "#/components/schemas/PipelineFunctionLimit"
           local_search_datatype_parser: "#/components/schemas/PipelineFunctionLocalSearchDatatypeParser"
           local_search_ruleset_runner: "#/components/schemas/PipelineFunctionLocalSearchRulesetRunner"
+          local_search_transformer: "#/components/schemas/PipelineFunctionLocalSearchTransformer"
           lookup: "#/components/schemas/PipelineFunctionLookup"
           mask: "#/components/schemas/PipelineFunctionMask"
           mv_expand: "#/components/schemas/PipelineFunctionMvExpand"

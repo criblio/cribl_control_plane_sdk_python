@@ -5,10 +5,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
@@ -92,7 +89,7 @@ class ElasticsearchMetadata(BaseModel):
 class AuthTokensExtTypedDict(TypedDict):
     token: str
     description: NotRequired[str]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events referencing this token"""
     splunk_hec_metadata: NotRequired[SplunkHecMetadataTypedDict]
     elasticsearch_metadata: NotRequired[ElasticsearchMetadataTypedDict]
@@ -103,7 +100,7 @@ class AuthTokensExt(BaseModel):
 
     description: Optional[str] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events referencing this token"""
 
     splunk_hec_metadata: Annotated[
@@ -187,10 +184,16 @@ class InputCriblLakeHTTPTypedDict(TypedDict):
     splunk_hec_api: NotRequired[str]
     r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
     splunk_hec_acks: NotRequired[bool]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[AuthTokensExtTypedDict]]
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_splunk_hec_api: NotRequired[str]
+    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
 
 
 class InputCriblLakeHTTP(BaseModel):
@@ -306,7 +309,7 @@ class InputCriblLakeHTTP(BaseModel):
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
     ] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     auth_tokens_ext: Annotated[
@@ -314,6 +317,21 @@ class InputCriblLakeHTTP(BaseModel):
     ] = None
 
     description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_splunk_hec_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
+    ] = None
+    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -348,6 +366,9 @@ class InputCriblLakeHTTP(BaseModel):
                 "metadata",
                 "authTokensExt",
                 "description",
+                "__template_host",
+                "__template_port",
+                "__template_splunkHecAPI",
             ]
         )
         serialized = handler(self)

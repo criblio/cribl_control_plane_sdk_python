@@ -5,10 +5,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -71,7 +68,7 @@ class InputWinEventLogsTypedDict(TypedDict):
     r"""Time, in seconds, between checking for new entries (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
     batch_size: NotRequired[float]
     r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     max_event_bytes: NotRequired[float]
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
@@ -134,7 +131,7 @@ class InputWinEventLogs(BaseModel):
     batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = None
     r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     max_event_bytes: Annotated[

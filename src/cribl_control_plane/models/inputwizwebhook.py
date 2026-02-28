@@ -9,10 +9,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
@@ -81,7 +78,7 @@ class InputWizWebhookTypedDict(TypedDict):
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     allowed_paths: NotRequired[List[str]]
     r"""List of URI paths accepted by this input. Wildcards are supported (such as /api/v*/hook). Defaults to allow all."""
@@ -90,6 +87,10 @@ class InputWizWebhookTypedDict(TypedDict):
     auth_tokens_ext: NotRequired[List[ItemsTypeAuthTokensExtTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class InputWizWebhook(BaseModel):
@@ -200,7 +201,7 @@ class InputWizWebhook(BaseModel):
     ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     allowed_paths: Annotated[
@@ -219,6 +220,16 @@ class InputWizWebhook(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -253,6 +264,8 @@ class InputWizWebhook(BaseModel):
                 "allowedMethods",
                 "authTokensExt",
                 "description",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)

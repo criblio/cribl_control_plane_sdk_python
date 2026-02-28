@@ -30,7 +30,7 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -65,7 +65,6 @@ class OutputWizHecTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    load_balanced: NotRequired[Any]
     next_queue: NotRequired[str]
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
     tcp_routing: NotRequired[str]
@@ -94,7 +93,6 @@ class OutputWizHecTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    enable_multi_metrics: NotRequired[Any]
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
@@ -130,6 +128,12 @@ class OutputWizHecTypedDict(TypedDict):
     r"""Wiz Defend Auth token"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_wiz_environment: NotRequired[str]
+    r"""Binds 'wiz_environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'wiz_environment' at runtime."""
+    template_data_center: NotRequired[str]
+    r"""Binds 'data_center' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'data_center' at runtime."""
+    template_wiz_sourcetype: NotRequired[str]
+    r"""Binds 'wiz_sourcetype' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'wiz_sourcetype' at runtime."""
 
 
 class OutputWizHec(BaseModel):
@@ -162,8 +166,6 @@ class OutputWizHec(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    load_balanced: Annotated[Optional[Any], pydantic.Field(alias="loadBalanced")] = None
 
     next_queue: Annotated[Optional[str], pydantic.Field(alias="nextQueue")] = None
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
@@ -221,10 +223,6 @@ class OutputWizHec(BaseModel):
         Optional[List[str]], pydantic.Field(alias="safeHeaders")
     ] = None
     r"""List of headers that are safe to log in plain text"""
-
-    enable_multi_metrics: Annotated[
-        Optional[Any], pydantic.Field(alias="enableMultiMetrics")
-    ] = None
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
@@ -308,6 +306,21 @@ class OutputWizHec(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_wiz_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_wiz_environment")
+    ] = None
+    r"""Binds 'wiz_environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'wiz_environment' at runtime."""
+
+    template_data_center: Annotated[
+        Optional[str], pydantic.Field(alias="__template_data_center")
+    ] = None
+    r"""Binds 'data_center' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'data_center' at runtime."""
+
+    template_wiz_sourcetype: Annotated[
+        Optional[str], pydantic.Field(alias="__template_wiz_sourcetype")
+    ] = None
+    r"""Binds 'wiz_sourcetype' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'wiz_sourcetype' at runtime."""
+
     @field_serializer("failed_request_logging_mode")
     def serialize_failed_request_logging_mode(self, value):
         if isinstance(value, str):
@@ -371,7 +384,6 @@ class OutputWizHec(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
-                "loadBalanced",
                 "nextQueue",
                 "tcpRouting",
                 "tls",
@@ -385,7 +397,6 @@ class OutputWizHec(BaseModel):
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",
                 "safeHeaders",
-                "enableMultiMetrics",
                 "authType",
                 "responseRetrySettings",
                 "timeoutRetrySettings",
@@ -405,6 +416,9 @@ class OutputWizHec(BaseModel):
                 "pqControls",
                 "token",
                 "textSecret",
+                "__template_wiz_environment",
+                "__template_data_center",
+                "__template_wiz_sourcetype",
             ]
         )
         serialized = handler(self)

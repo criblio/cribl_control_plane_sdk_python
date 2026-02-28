@@ -6,10 +6,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
 from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
@@ -118,7 +115,7 @@ class InputOffice365ServiceTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     content_config: NotRequired[List[InputOffice365ServiceContentConfigTypedDict]]
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
@@ -130,6 +127,12 @@ class InputOffice365ServiceTypedDict(TypedDict):
     r"""Office 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_app_id: NotRequired[str]
+    r"""Binds 'appId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'appId' at runtime."""
+    template_client_secret: NotRequired[str]
+    r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
 
 
 class InputOffice365Service(BaseModel):
@@ -197,7 +200,7 @@ class InputOffice365Service(BaseModel):
     ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     content_config: Annotated[
@@ -222,6 +225,21 @@ class InputOffice365Service(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_app_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_appId")
+    ] = None
+    r"""Binds 'appId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'appId' at runtime."""
+
+    template_client_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientSecret")
+    ] = None
+    r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
 
     @field_serializer("plan_type")
     def serialize_plan_type(self, value):
@@ -268,6 +286,9 @@ class InputOffice365Service(BaseModel):
                 "description",
                 "clientSecret",
                 "textSecret",
+                "__template_tenantId",
+                "__template_appId",
+                "__template_clientSecret",
             ]
         )
         serialized = handler(self)

@@ -5,10 +5,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -50,6 +47,8 @@ class InputExecTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    script: NotRequired[str]
+    r"""Optional script content to pipe into the command's stdin. The stdin stream is closed after the script is written."""
     retries: NotRequired[float]
     r"""Maximum number of retry attempts in the event that the command fails"""
     schedule_type: NotRequired[ScheduleType]
@@ -58,7 +57,7 @@ class InputExecTypedDict(TypedDict):
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     interval: NotRequired[float]
@@ -100,6 +99,9 @@ class InputExec(BaseModel):
 
     pq: Optional[PqType] = None
 
+    script: Optional[str] = None
+    r"""Optional script content to pipe into the command's stdin. The stdin stream is closed after the script is written."""
+
     retries: Optional[float] = None
     r"""Maximum number of retry attempts in the event that the command fails"""
 
@@ -118,7 +120,7 @@ class InputExec(BaseModel):
     ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -151,6 +153,7 @@ class InputExec(BaseModel):
                 "streamtags",
                 "connections",
                 "pq",
+                "script",
                 "retries",
                 "scheduleType",
                 "breakerRulesets",

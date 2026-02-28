@@ -6,6 +6,6 @@ from enum import Enum
 
 
 class NodeActiveUpgradeStatus(int, Enum, metaclass=utils.OpenEnumMeta):
-    ZERO = 0
-    ONE = 1
-    TWO = 2
+    PENDING = 0
+    QUEUED = 1
+    UPGRADING = 2

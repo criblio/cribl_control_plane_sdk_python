@@ -270,12 +270,12 @@ class GroupsSDK(BaseSDK):
         :param cloud:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
+        :param estimated_ingest_rate: Estimated ingest rate for Cloud Groups, in GB/sec.
         :param git:
         :param incompatible_worker_count:
         :param inherits:
-        :param is_fleet:
-        :param is_search:
+        :param is_fleet: Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets.
+        :param is_search: Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups.
         :param lookup_deployments:
         :param max_worker_age:
         :param name:
@@ -452,12 +452,12 @@ class GroupsSDK(BaseSDK):
         :param cloud:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
+        :param estimated_ingest_rate: Estimated ingest rate for Cloud Groups, in GB/sec.
         :param git:
         :param incompatible_worker_count:
         :param inherits:
-        :param is_fleet:
-        :param is_search:
+        :param is_fleet: Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets.
+        :param is_search: Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups.
         :param lookup_deployments:
         :param max_worker_age:
         :param name:
@@ -833,12 +833,12 @@ class GroupsSDK(BaseSDK):
         :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
+        :param estimated_ingest_rate: Estimated ingest rate for Cloud Groups, in GB/sec.
         :param git:
         :param incompatible_worker_count:
         :param inherits:
-        :param is_fleet:
-        :param is_search:
+        :param is_fleet: Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets.
+        :param is_search: Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups.
         :param lookup_deployments:
         :param max_worker_age:
         :param name:
@@ -1014,12 +1014,12 @@ class GroupsSDK(BaseSDK):
         :param config_version:
         :param deploying_worker_count:
         :param description:
-        :param estimated_ingest_rate: Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)
+        :param estimated_ingest_rate: Estimated ingest rate for Cloud Groups, in GB/sec.
         :param git:
         :param incompatible_worker_count:
         :param inherits:
-        :param is_fleet:
-        :param is_search:
+        :param is_fleet: Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets.
+        :param is_search: Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups.
         :param lookup_deployments:
         :param max_worker_age:
         :param name:

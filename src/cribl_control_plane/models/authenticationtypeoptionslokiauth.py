@@ -8,9 +8,13 @@ from enum import Enum
 class AuthenticationTypeOptionsLokiAuth(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Loki logs authentication type"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     CREDENTIALS_SECRET = "credentialsSecret"
+    # Token
     TOKEN = "token"
+    # Token (text secret)
     TEXT_SECRET = "textSecret"
-    OAUTH = "oauth"

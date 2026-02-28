@@ -6,7 +6,7 @@ from enum import Enum
 
 
 class EstimatedIngestRateOptionsConfigGroup(int, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Maximum expected volume of data ingested by the @{group}. (This setting is available only on @{group}s consisting of Cribl-managed Cribl.Cloud @{node}s.)"""
+    r"""Estimated ingest rate for Cloud Groups, in GB/sec."""
 
     # 12 MB/sec
     RATE12_MB_PER_SEC = 1024

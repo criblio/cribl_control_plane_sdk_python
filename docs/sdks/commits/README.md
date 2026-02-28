@@ -16,9 +16,9 @@
 
 Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
-### Example Usage
+### Example Usage: VersionCommitExamplesCommitAll
 
-<!-- UsageSnippet language="python" operationID="createVersionCommit" method="post" path="/version/commit" -->
+<!-- UsageSnippet language="python" operationID="createVersionCommit" method="post" path="/version/commit" example="VersionCommitExamplesCommitAll" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -31,7 +31,31 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.create(message="<value>", group_id="<id>")
+    res = ccp_client.versions.commits.create(message="Updated pipeline configuration for syslog parsing")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: VersionCommitExamplesCommitSpecificFiles
+
+<!-- UsageSnippet language="python" operationID="createVersionCommit" method="post" path="/version/commit" example="VersionCommitExamplesCommitSpecificFiles" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.versions.commits.create(message="Update Route and Pipeline for HTTP Sources", effective=True, files=[
+        "groups/default/local/cribl/pipelines/http_input/conf.yml",
+        "groups/default/local/cribl/routes.yml",
+    ])
 
     # Handle response
     print(res)
@@ -40,14 +64,12 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                         | Type                                                                              | Required                                                                          | Description                                                                       |
-| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| `message`                                                                         | *str*                                                                             | :heavy_check_mark:                                                                | N/A                                                                               |
-| `group_id`                                                                        | *Optional[str]*                                                                   | :heavy_minus_sign:                                                                | The <code>id</code> of the Worker Group or Edge Fleet to create a new commit for. |
-| `effective`                                                                       | *Optional[bool]*                                                                  | :heavy_minus_sign:                                                                | N/A                                                                               |
-| `files`                                                                           | List[*str*]                                                                       | :heavy_minus_sign:                                                                | N/A                                                                               |
-| `group`                                                                           | *Optional[str]*                                                                   | :heavy_minus_sign:                                                                | N/A                                                                               |
-| `retries`                                                                         | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                  | :heavy_minus_sign:                                                                | Configuration to override the default retry behavior of the client.               |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `message`                                                           | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `effective`                                                         | *Optional[bool]*                                                    | :heavy_minus_sign:                                                  | N/A                                                                 |
+| `files`                                                             | List[*str*]                                                         | :heavy_minus_sign:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -79,7 +101,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.diff(commit="<value>", group_id="<id>", filename="example.file", diff_line_limit=6362)
+    res = ccp_client.versions.commits.diff(commit="<value>", filename="example.file", diff_line_limit=6362)
 
     # Handle response
     print(res)
@@ -91,9 +113,8 @@ with CriblControlPlane(
 | Parameter                                                                                                                                 | Type                                                                                                                                      | Required                                                                                                                                  | Description                                                                                                                               |
 | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | `commit`                                                                                                                                  | *Optional[str]*                                                                                                                           | :heavy_minus_sign:                                                                                                                        | The Git commit hash to get the diff for.                                                                                                  |
-| `group_id`                                                                                                                                | *Optional[str]*                                                                                                                           | :heavy_minus_sign:                                                                                                                        | The <code>id</code> of the Worker Group or Edge Fleet to get the diff for.                                                                |
 | `filename`                                                                                                                                | *Optional[str]*                                                                                                                           | :heavy_minus_sign:                                                                                                                        | The relative path of the file to get the diff for.                                                                                        |
-| `diff_line_limit`                                                                                                                         | *Optional[float]*                                                                                                                         | :heavy_minus_sign:                                                                                                                        | Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines. |
+| `diff_line_limit`                                                                                                                         | *Optional[int]*                                                                                                                           | :heavy_minus_sign:                                                                                                                        | Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines. |
 | `retries`                                                                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                          | :heavy_minus_sign:                                                                                                                        | Configuration to override the default retry behavior of the client.                                                                       |
 
 ### Response
@@ -126,7 +147,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.list(group_id="<id>", count=893.58)
+    res = ccp_client.versions.commits.list(count=893.58)
 
     # Handle response
     print(res)
@@ -135,11 +156,10 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                            | Type                                                                                 | Required                                                                             | Description                                                                          |
-| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| `group_id`                                                                           | *Optional[str]*                                                                      | :heavy_minus_sign:                                                                   | The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for. |
-| `count`                                                                              | *Optional[float]*                                                                    | :heavy_minus_sign:                                                                   | Maximum number of commits to return in the response for this request.                |
-| `retries`                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                     | :heavy_minus_sign:                                                                   | Configuration to override the default retry behavior of the client.                  |
+| Parameter                                                             | Type                                                                  | Required                                                              | Description                                                           |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `count`                                                               | *Optional[int]*                                                       | :heavy_minus_sign:                                                    | Maximum number of commits to return in the response for this request. |
+| `retries`                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)      | :heavy_minus_sign:                                                    | Configuration to override the default retry behavior of the client.   |
 
 ### Response
 
@@ -199,9 +219,9 @@ with CriblControlPlane(
 
 Revert a commit in the local repository.
 
-### Example Usage
+### Example Usage: VersionRevertExamplesForceRevertWithMessage
 
-<!-- UsageSnippet language="python" operationID="createVersionRevert" method="post" path="/version/revert" -->
+<!-- UsageSnippet language="python" operationID="createVersionRevert" method="post" path="/version/revert" example="VersionRevertExamplesForceRevertWithMessage" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -214,7 +234,28 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.revert(commit="<value>", group_id="<id>")
+    res = ccp_client.versions.commits.revert(commit="a1b2c3d4e5f6", force=True, message="Revert commit due to misconfiguration in Pipeline settings")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: VersionRevertExamplesRevertCommit
+
+<!-- UsageSnippet language="python" operationID="createVersionRevert" method="post" path="/version/revert" example="VersionRevertExamplesRevertCommit" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.versions.commits.revert(commit="a1b2c3d4e5f6")
 
     # Handle response
     print(res)
@@ -223,13 +264,12 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                                                                                 | Type                                                                                                                                                      | Required                                                                                                                                                  | Description                                                                                                                                               |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `commit`                                                                                                                                                  | *str*                                                                                                                                                     | :heavy_check_mark:                                                                                                                                        | N/A                                                                                                                                                       |
-| `group_id`                                                                                                                                                | *Optional[str]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                        | The <code>id</code> of the Worker Group or Edge Fleet to revert the commit for. Required in Distributed deployments. Omit in Single-instance deployments. |
-| `force`                                                                                                                                                   | *Optional[bool]*                                                                                                                                          | :heavy_minus_sign:                                                                                                                                        | N/A                                                                                                                                                       |
-| `message`                                                                                                                                                 | *Optional[str]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                        | N/A                                                                                                                                                       |
-| `retries`                                                                                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                          | :heavy_minus_sign:                                                                                                                                        | Configuration to override the default retry behavior of the client.                                                                                       |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `commit`                                                            | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
+| `force`                                                             | *Optional[bool]*                                                    | :heavy_minus_sign:                                                  | N/A                                                                 |
+| `message`                                                           | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | N/A                                                                 |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
@@ -261,7 +301,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.get(commit="<value>", group_id="<id>", filename="example.file", diff_line_limit=7771.94)
+    res = ccp_client.versions.commits.get(commit="<value>", filename="example.file", diff_line_limit=7771.94)
 
     # Handle response
     print(res)
@@ -273,9 +313,8 @@ with CriblControlPlane(
 | Parameter                                                                                                                                 | Type                                                                                                                                      | Required                                                                                                                                  | Description                                                                                                                               |
 | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | `commit`                                                                                                                                  | *Optional[str]*                                                                                                                           | :heavy_minus_sign:                                                                                                                        | The Git commit hash to retrieve the diff and log message for.                                                                             |
-| `group_id`                                                                                                                                | *Optional[str]*                                                                                                                           | :heavy_minus_sign:                                                                                                                        | The <code>id</code> of the Worker Group or Edge Fleet to get the diff and log message for.                                                |
 | `filename`                                                                                                                                | *Optional[str]*                                                                                                                           | :heavy_minus_sign:                                                                                                                        | The relative path of the file to get the diff and log message for.                                                                        |
-| `diff_line_limit`                                                                                                                         | *Optional[float]*                                                                                                                         | :heavy_minus_sign:                                                                                                                        | Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines. |
+| `diff_line_limit`                                                                                                                         | *Optional[int]*                                                                                                                           | :heavy_minus_sign:                                                                                                                        | Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines. |
 | `retries`                                                                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                          | :heavy_minus_sign:                                                                                                                        | Configuration to override the default retry behavior of the client.                                                                       |
 
 ### Response
@@ -308,7 +347,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.undo(group_id="<id>")
+    res = ccp_client.versions.commits.undo()
 
     # Handle response
     print(res)
@@ -317,14 +356,13 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                 | Type                                                                                      | Required                                                                                  | Description                                                                               |
-| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `group_id`                                                                                | *Optional[str]*                                                                           | :heavy_minus_sign:                                                                        | The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for. |
-| `retries`                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                          | :heavy_minus_sign:                                                                        | Configuration to override the default retry behavior of the client.                       |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedObject](../../models/countedobject.md)**
+**[models.CountedBoolean](../../models/countedboolean.md)**
 
 ### Errors
 

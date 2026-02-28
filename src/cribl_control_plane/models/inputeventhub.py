@@ -6,10 +6,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
@@ -100,7 +97,7 @@ class InputEventhubTypedDict(TypedDict):
     r"""Maximum number of network errors before the consumer re-creates a socket"""
     minimize_duplicates: NotRequired[bool]
     r"""Minimize duplicate events by starting only one consumer for each topic partition"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -241,7 +238,7 @@ class InputEventhub(BaseModel):
     ] = None
     r"""Minimize duplicate events by starting only one consumer for each topic partition"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None

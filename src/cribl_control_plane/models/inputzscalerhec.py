@@ -8,10 +8,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
@@ -22,7 +19,7 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -41,7 +38,7 @@ class InputZscalerHecAuthTokenTypedDict(TypedDict):
     description: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
     r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events referencing this token"""
 
 
@@ -67,7 +64,7 @@ class InputZscalerHecAuthToken(BaseModel):
     ] = None
     r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events referencing this token"""
 
     @field_serializer("auth_type")
@@ -148,12 +145,11 @@ class InputZscalerHecTypedDict(TypedDict):
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
     keep_alive_timeout: NotRequired[float]
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[Any]
     ip_allowlist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
     allowed_indexes: NotRequired[List[str]]
     r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
@@ -166,6 +162,12 @@ class InputZscalerHecTypedDict(TypedDict):
     emit_token_metrics: NotRequired[bool]
     r"""Enable to emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_hec_api: NotRequired[str]
+    r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
 
 
 class InputZscalerHec(BaseModel):
@@ -254,10 +256,6 @@ class InputZscalerHec(BaseModel):
     ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
-    enable_health_check: Annotated[
-        Optional[Any], pydantic.Field(alias="enableHealthCheck")
-    ] = None
-
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
     ] = None
@@ -268,7 +266,7 @@ class InputZscalerHec(BaseModel):
     ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
 
     allowed_indexes: Annotated[
@@ -296,6 +294,21 @@ class InputZscalerHec(BaseModel):
 
     description: Optional[str] = None
 
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_hec_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_hecAPI")
+    ] = None
+    r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -319,7 +332,6 @@ class InputZscalerHec(BaseModel):
                 "requestTimeout",
                 "socketTimeout",
                 "keepAliveTimeout",
-                "enableHealthCheck",
                 "ipAllowlistRegex",
                 "ipDenylistRegex",
                 "metadata",
@@ -329,6 +341,9 @@ class InputZscalerHec(BaseModel):
                 "accessControlAllowHeaders",
                 "emitTokenMetrics",
                 "description",
+                "__template_host",
+                "__template_port",
+                "__template_hecAPI",
             ]
         )
         serialized = handler(self)

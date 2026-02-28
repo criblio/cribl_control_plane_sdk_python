@@ -6,10 +6,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -66,11 +63,17 @@ class InputGooglePubsubTypedDict(TypedDict):
     r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
     request_timeout: NotRequired[float]
     r"""Pull request timeout, in milliseconds"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     ordered_delivery: NotRequired[bool]
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+    template_topic_name: NotRequired[str]
+    r"""Binds 'topicName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicName' at runtime."""
+    template_subscription_name: NotRequired[str]
+    r"""Binds 'subscriptionName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'subscriptionName' at runtime."""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
 
 class InputGooglePubsub(BaseModel):
@@ -150,7 +153,7 @@ class InputGooglePubsub(BaseModel):
     ] = None
     r"""Pull request timeout, in milliseconds"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -159,6 +162,21 @@ class InputGooglePubsub(BaseModel):
         Optional[bool], pydantic.Field(alias="orderedDelivery")
     ] = None
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+
+    template_topic_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_topicName")
+    ] = None
+    r"""Binds 'topicName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicName' at runtime."""
+
+    template_subscription_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_subscriptionName")
+    ] = None
+    r"""Binds 'subscriptionName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'subscriptionName' at runtime."""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
     @field_serializer("google_auth_method")
     def serialize_google_auth_method(self, value):
@@ -195,6 +213,9 @@ class InputGooglePubsub(BaseModel):
                 "metadata",
                 "description",
                 "orderedDelivery",
+                "__template_topicName",
+                "__template_subscriptionName",
+                "__template_region",
             ]
         )
         serialized = handler(self)

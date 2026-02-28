@@ -45,6 +45,10 @@ from .functionlocalsearchrulesetrunner import (
     FunctionLocalSearchRulesetRunner,
     FunctionLocalSearchRulesetRunnerTypedDict,
 )
+from .functionlocalsearchtransformer import (
+    FunctionLocalSearchTransformer,
+    FunctionLocalSearchTransformerTypedDict,
+)
 from .functionlookup import FunctionLookup, FunctionLookupTypedDict
 from .functionmask import FunctionMask, FunctionMaskTypedDict
 from .functionmvexpand import FunctionMvExpand, FunctionMvExpandTypedDict
@@ -134,6 +138,7 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionLimitTypedDict,
         FunctionLocalSearchDatatypeParserTypedDict,
         FunctionLocalSearchRulesetRunnerTypedDict,
+        FunctionLocalSearchTransformerTypedDict,
         FunctionLookupTypedDict,
         FunctionMaskTypedDict,
         FunctionMvExpandTypedDict,
@@ -214,6 +219,7 @@ _FUNCTION_RESPONSE_VARIANTS: dict[str, Any] = {
     "limit": FunctionLimit,
     "local_search_datatype_parser": FunctionLocalSearchDatatypeParser,
     "local_search_ruleset_runner": FunctionLocalSearchRulesetRunner,
+    "local_search_transformer": FunctionLocalSearchTransformer,
     "lookup": FunctionLookup,
     "mask": FunctionMask,
     "mv_expand": FunctionMvExpand,
@@ -284,6 +290,7 @@ FunctionResponse = Annotated[
         FunctionLimit,
         FunctionLocalSearchDatatypeParser,
         FunctionLocalSearchRulesetRunner,
+        FunctionLocalSearchTransformer,
         FunctionLookup,
         FunctionMask,
         FunctionMvExpand,

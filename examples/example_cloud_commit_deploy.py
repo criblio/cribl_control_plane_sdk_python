@@ -22,6 +22,7 @@ WORKSPACE_NAME = "your-workspace-name"
 WORKER_GROUP_ID = "your-cloud-worker-group-id"  # Use the same Worker Group ID as in previous examples
 
 base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud/api/v1"
+group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 
 async def main():
     # Create authenticated SDK client
@@ -34,9 +35,6 @@ async def main():
 
     security = Security(client_oauth=client_oauth)
     cribl = CriblControlPlane(server_url=base_url, security=security)
-
-    # Construct the worker group URL
-    group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 
     # Commit configuration changes
     commit_response = cribl.versions.commits.create(

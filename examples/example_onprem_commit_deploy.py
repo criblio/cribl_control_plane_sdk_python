@@ -18,6 +18,7 @@ ONPREM_PASSWORD = "admin"  # Replace with your password
 WORKER_GROUP_ID = "your-worker-group-id"  # Use the same Worker Group ID as in previous examples
 
 base_url = f"{ONPREM_SERVER_URL}/api/v1"
+group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 
 async def main():
     # Initialize Cribl client
@@ -30,9 +31,6 @@ async def main():
     token = response.result.token
     security = Security(bearer_auth=token)
     cribl = CriblControlPlane(server_url=base_url, security=security)
-
-    # Construct the worker group URL
-    group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 
     # Commit configuration changes
     commit_response = cribl.versions.commits.create(

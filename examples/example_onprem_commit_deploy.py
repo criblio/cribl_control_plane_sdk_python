@@ -18,6 +18,7 @@ ONPREM_PASSWORD = "admin"  # Replace with your password
 WORKER_GROUP_ID = "your-worker-group-id"  # Use the same Worker Group ID as in previous examples
 
 base_url = f"{ONPREM_SERVER_URL}/api/v1"
+group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 
 async def main():
     # Initialize Cribl client
@@ -33,10 +34,10 @@ async def main():
 
     # Commit configuration changes
     commit_response = cribl.versions.commits.create(
-        group_id=WORKER_GROUP_ID,
         message="Commit for Cribl Stream example",
         effective=True,
-        files=["."]
+        files=["."],
+        server_url=group_url
     )
     
     if not commit_response.items or len(commit_response.items) == 0:

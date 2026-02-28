@@ -9,7 +9,7 @@
 
 ## list
 
-Get Cribl system settings
+Get Cribl system settings.
 
 ### Example Usage
 
@@ -52,7 +52,7 @@ with CriblControlPlane(
 
 ## update
 
-Update Cribl system settings
+Update Cribl system settings.
 
 ### Example Usage
 

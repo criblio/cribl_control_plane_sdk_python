@@ -63,21 +63,21 @@ class OutputSyslogSeverity(int, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for message severity. Will be overwritten by value of __severity if set. Defaults to notice."""
 
     # emergency
-    ZERO = 0
+    EMERGENCY = 0
     # alert
-    ONE = 1
+    ALERT = 1
     # critical
-    TWO = 2
+    CRITICAL = 2
     # error
-    THREE = 3
+    ERROR = 3
     # warning
-    FOUR = 4
+    WARNING = 4
     # notice
-    FIVE = 5
+    NOTICE = 5
     # info
-    SIX = 6
+    INFO = 6
     # debug
-    SEVEN = 7
+    DEBUG = 7
 
 
 class MessageFormat(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -89,7 +89,7 @@ class MessageFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     RFC5424 = "rfc5424"
 
 
-class TimestampFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputSyslogTimestampFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Timestamp format to use when serializing event's time field"""
 
     # Syslog
@@ -128,7 +128,7 @@ class OutputSyslogTypedDict(TypedDict):
     r"""Default name for device or application that originated the message. Defaults to Cribl, but will be overwritten by value of __appname if set."""
     message_format: NotRequired[MessageFormat]
     r"""The syslog message format depending on the receiver's support"""
-    timestamp_format: NotRequired[TimestampFormat]
+    timestamp_format: NotRequired[OutputSyslogTimestampFormat]
     r"""Timestamp format to use when serializing event's time field"""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
@@ -187,6 +187,10 @@ class OutputSyslogTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[OutputSyslogPqControlsTypedDict]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class OutputSyslog(BaseModel):
@@ -227,7 +231,7 @@ class OutputSyslog(BaseModel):
     r"""The syslog message format depending on the receiver's support"""
 
     timestamp_format: Annotated[
-        Optional[TimestampFormat], pydantic.Field(alias="timestampFormat")
+        Optional[OutputSyslogTimestampFormat], pydantic.Field(alias="timestampFormat")
     ] = None
     r"""Timestamp format to use when serializing event's time field"""
 
@@ -360,6 +364,16 @@ class OutputSyslog(BaseModel):
         Optional[OutputSyslogPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
     @field_serializer("protocol")
     def serialize_protocol(self, value):
         if isinstance(value, str):
@@ -400,7 +414,7 @@ class OutputSyslog(BaseModel):
     def serialize_timestamp_format(self, value):
         if isinstance(value, str):
             try:
-                return models.TimestampFormat(value)
+                return models.OutputSyslogTimestampFormat(value)
             except ValueError:
                 return value
         return value
@@ -486,6 +500,8 @@ class OutputSyslog(BaseModel):
                 "pqCompress",
                 "pqOnBackpressure",
                 "pqControls",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)

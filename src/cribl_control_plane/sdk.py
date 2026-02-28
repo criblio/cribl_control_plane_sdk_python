@@ -17,6 +17,7 @@ import weakref
 if TYPE_CHECKING:
     from cribl_control_plane.auth import Auth
     from cribl_control_plane.collectors_sdk import CollectorsSDK
+    from cribl_control_plane.databaseconnections import DatabaseConnections
     from cribl_control_plane.destinations import Destinations
     from cribl_control_plane.functions import Functions
     from cribl_control_plane.groups_sdk import GroupsSDK
@@ -32,46 +33,58 @@ if TYPE_CHECKING:
 
 
 class CriblControlPlane(BaseSDK):
-    r"""Cribl API Reference: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources. See our complementary product documentation at [docs.cribl.io](http://docs.cribl.io)."""
+    r"""Cribl API Reference: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources.
+    Base URL contexts for reference:
+    - Leader context: /api/v1
+    - Worker Group or Edge Fleet context: /api/v1/m/{groupName}
+    - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
+    - Search context: /api/v1/m/default_search
+    https://docs.cribl.io - See our complementary product documentation
+    """
 
-    lake_datasets: "LakeDatasets"
-    collectors: "CollectorsSDK"
-    r"""Actions related to Collectors"""
+    database_connections: "DatabaseConnections"
+    functions: "Functions"
+    r"""Actions related to functions"""
     sources: "Sources"
     r"""Actions related to Sources"""
+    packs: "Packs"
+    r"""Actions related to Packs"""
     destinations: "Destinations"
     r"""Actions related to Destinations"""
     pipelines: "Pipelines"
     r"""Actions related to Pipelines"""
     routes: "RoutesSDK"
     r"""Actions related to Routes"""
-    auth: "Auth"
-    health: "Health"
-    r"""Actions related to REST server health"""
-    packs: "Packs"
-    r"""Actions related to Packs"""
-    system: "SystemSDK"
-    versions: "Versions"
-    functions: "Functions"
-    r"""Actions related to functions"""
-    nodes: "Nodes"
+    collectors: "CollectorsSDK"
+    r"""Actions related to Collectors"""
     groups: "GroupsSDK"
     r"""Actions related to Groups"""
+    lake_datasets: "LakeDatasets"
+    auth: "Auth"
+    system: "SystemSDK"
+    nodes: "Nodes"
+    health: "Health"
+    r"""Actions related to REST server health"""
+    versions: "Versions"
     _sub_sdk_map = {
-        "lake_datasets": ("cribl_control_plane.lakedatasets", "LakeDatasets"),
-        "collectors": ("cribl_control_plane.collectors_sdk", "CollectorsSDK"),
+        "database_connections": (
+            "cribl_control_plane.databaseconnections",
+            "DatabaseConnections",
+        ),
+        "functions": ("cribl_control_plane.functions", "Functions"),
         "sources": ("cribl_control_plane.sources", "Sources"),
+        "packs": ("cribl_control_plane.packs", "Packs"),
         "destinations": ("cribl_control_plane.destinations", "Destinations"),
         "pipelines": ("cribl_control_plane.pipelines", "Pipelines"),
         "routes": ("cribl_control_plane.routes_sdk", "RoutesSDK"),
-        "auth": ("cribl_control_plane.auth", "Auth"),
-        "health": ("cribl_control_plane.health", "Health"),
-        "packs": ("cribl_control_plane.packs", "Packs"),
-        "system": ("cribl_control_plane.system_sdk", "SystemSDK"),
-        "versions": ("cribl_control_plane.versions", "Versions"),
-        "functions": ("cribl_control_plane.functions", "Functions"),
-        "nodes": ("cribl_control_plane.nodes", "Nodes"),
+        "collectors": ("cribl_control_plane.collectors_sdk", "CollectorsSDK"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
+        "lake_datasets": ("cribl_control_plane.lakedatasets", "LakeDatasets"),
+        "auth": ("cribl_control_plane.auth", "Auth"),
+        "system": ("cribl_control_plane.system_sdk", "SystemSDK"),
+        "nodes": ("cribl_control_plane.nodes", "Nodes"),
+        "health": ("cribl_control_plane.health", "Health"),
+        "versions": ("cribl_control_plane.versions", "Versions"),
     }
 
     def __init__(

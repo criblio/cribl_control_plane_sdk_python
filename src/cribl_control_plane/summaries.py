@@ -13,17 +13,17 @@ class Summaries(BaseSDK):
     def get(
         self,
         *,
-        mode: Optional[models.WorkerTypes] = None,
+        product: models.ProductsBase,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedDistributedSummary:
-        r"""Get a summary of the Distributed deployment
+        r"""Get a summary of the Distributed deployment for a specific product
 
-        Get a summary of the Distributed deployment. The response includes counts of Worker Groups, Edge Fleets, Pipelines, Routes, Sources, Destinations, and Worker and Edge Nodes, as well as statistics for the Worker and Edge Nodes.
+        Get a summary of the Distributed deployment for a specific Cribl product (Stream or Edge). The response includes counts of Worker Groups or Edge Fleets, Pipelines, Routes, Sources, Destinations, and Worker or Edge Nodes, as well as statistics for the nodes.
 
-        :param mode: Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>).
+        :param product: Name of the Cribl product to get the summary for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -39,18 +39,18 @@ class Summaries(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetSummaryRequest(
-            mode=mode,
+        request = models.GetProductsSummaryByProductRequest(
+            product=product,
         )
 
         req = self._build_request(
             method="GET",
-            path="/master/summary",
+            path="/products/{product}/summary",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
             request_body_required=False,
-            request_has_path_params=False,
+            request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
@@ -76,14 +76,14 @@ class Summaries(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getSummary",
+                operation_id="getProductsSummaryByProduct",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            error_status_codes=["400", "401", "403", "4XX", "500", "5XX"],
             retry_config=retry_config,
         )
 
@@ -93,7 +93,7 @@ class Summaries(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "401", "403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -105,17 +105,17 @@ class Summaries(BaseSDK):
     async def get_async(
         self,
         *,
-        mode: Optional[models.WorkerTypes] = None,
+        product: models.ProductsBase,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedDistributedSummary:
-        r"""Get a summary of the Distributed deployment
+        r"""Get a summary of the Distributed deployment for a specific product
 
-        Get a summary of the Distributed deployment. The response includes counts of Worker Groups, Edge Fleets, Pipelines, Routes, Sources, Destinations, and Worker and Edge Nodes, as well as statistics for the Worker and Edge Nodes.
+        Get a summary of the Distributed deployment for a specific Cribl product (Stream or Edge). The response includes counts of Worker Groups or Edge Fleets, Pipelines, Routes, Sources, Destinations, and Worker or Edge Nodes, as well as statistics for the nodes.
 
-        :param mode: Filter for limiting the response by Cribl product: Cribl Stream (<code>worker</code>) or Cribl Edge (<code>managed-edge</code>).
+        :param product: Name of the Cribl product to get the summary for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -131,18 +131,18 @@ class Summaries(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetSummaryRequest(
-            mode=mode,
+        request = models.GetProductsSummaryByProductRequest(
+            product=product,
         )
 
         req = self._build_request_async(
             method="GET",
-            path="/master/summary",
+            path="/products/{product}/summary",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
             request_body_required=False,
-            request_has_path_params=False,
+            request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
@@ -168,14 +168,14 @@ class Summaries(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getSummary",
+                operation_id="getProductsSummaryByProduct",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            error_status_codes=["400", "401", "403", "4XX", "500", "5XX"],
             retry_config=retry_config,
         )
 
@@ -185,7 +185,7 @@ class Summaries(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "401", "403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

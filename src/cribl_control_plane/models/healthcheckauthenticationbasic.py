@@ -16,6 +16,10 @@ from .itemstypehealthcheckauthenticationoauthauthrequestparams import (
     ItemsTypeHealthCheckAuthenticationOauthAuthRequestParams,
     ItemsTypeHealthCheckAuthenticationOauthAuthRequestParamsTypedDict,
 )
+from .itemstypehealthcheckcollectmethodpostcollectrequestparams import (
+    ItemsTypeHealthCheckCollectMethodPostCollectRequestParams,
+    ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict,
+)
 from .retrytypeoptionshealthcheckcollectorconfretryrules import (
     RetryTypeOptionsHealthCheckCollectorConfRetryRules,
 )
@@ -244,8 +248,8 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for POST body to send with the discover request."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -272,11 +276,8 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for POST body to send with the discover request."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -314,12 +315,7 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverBody",
-                "discoverRequestParams",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverBody", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -372,8 +368,10 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
+    ]
+    r"""Optional discover request parameters."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -401,10 +399,10 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    r"""Optional discover request parameters."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -442,12 +440,7 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverRequestParams",
-                "discoverBody",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverRequestParams", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -500,8 +493,10 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
+    ]
+    r"""Optional discover request parameters."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -529,10 +524,10 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    r"""Optional discover request parameters."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -570,12 +565,7 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverRequestParams",
-                "discoverBody",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverRequestParams", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -723,26 +713,38 @@ class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeBackoffTypedD
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -777,26 +779,33 @@ class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStaticTypedDi
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    multiplier: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStatic(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    multiplier: Optional[Any] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -809,9 +818,7 @@ class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStatic(BaseMo
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "codes", "enableHeader", "multiplier"]
-        )
+        optional_fields = set(["interval", "limit", "codes", "enableHeader"])
         serialized = handler(self)
         m = {}
 
@@ -831,26 +838,11 @@ class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNoneTypedDict
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
 
 
 class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -860,24 +852,6 @@ class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNone(BaseMode
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 HealthCheckAuthenticationOauthSecretRetryRulesTypedDict = TypeAliasType(
@@ -952,8 +926,6 @@ class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
     ]
     r"""Optional authentication request headers."""
     discovery: NotRequired[HealthCheckAuthenticationOauthSecretDiscoveryTypedDict]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationOauthSecretCollectRequestHeaderTypedDict]
     ]
@@ -1015,12 +987,6 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
     r"""Optional authentication request headers."""
 
     discovery: Optional[HealthCheckAuthenticationOauthSecretDiscovery] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationOauthSecretCollectRequestHeader]],
@@ -1093,8 +1059,6 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
                 "authRequestParams",
                 "authRequestHeaders",
                 "discovery",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -1331,8 +1295,8 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for POST body to send with the discover request."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -1359,11 +1323,8 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for POST body to send with the discover request."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -1401,12 +1362,7 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverBody",
-                "discoverRequestParams",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverBody", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -1459,8 +1415,10 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
+    ]
+    r"""Optional discover request parameters."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -1488,10 +1446,10 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    r"""Optional discover request parameters."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -1529,12 +1487,7 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverRequestParams",
-                "discoverBody",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverRequestParams", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -1587,8 +1540,10 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
+    ]
+    r"""Optional discover request parameters."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -1616,10 +1571,10 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    r"""Optional discover request parameters."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -1657,12 +1612,7 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverRequestParams",
-                "discoverBody",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverRequestParams", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -1810,26 +1760,38 @@ class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeBackoffTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -1862,26 +1824,33 @@ class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeBackoff(BaseModel):
 class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStaticTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    multiplier: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStatic(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    multiplier: Optional[Any] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -1894,9 +1863,7 @@ class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStatic(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "codes", "enableHeader", "multiplier"]
-        )
+        optional_fields = set(["interval", "limit", "codes", "enableHeader"])
         serialized = handler(self)
         m = {}
 
@@ -1914,26 +1881,11 @@ class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStatic(BaseModel):
 class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
 
 
 class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -1943,24 +1895,6 @@ class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 HealthCheckAuthenticationOauthRetryRulesTypedDict = TypeAliasType(
@@ -2035,8 +1969,6 @@ class HealthCheckAuthenticationOauthTypedDict(TypedDict):
     ]
     r"""Optional authentication request headers."""
     discovery: NotRequired[HealthCheckAuthenticationOauthDiscoveryTypedDict]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationOauthCollectRequestHeaderTypedDict]
     ]
@@ -2100,12 +2032,6 @@ class HealthCheckAuthenticationOauth(BaseModel):
     r"""Optional authentication request headers."""
 
     discovery: Optional[HealthCheckAuthenticationOauthDiscovery] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationOauthCollectRequestHeader]],
@@ -2176,8 +2102,6 @@ class HealthCheckAuthenticationOauth(BaseModel):
                 "authRequestParams",
                 "authRequestHeaders",
                 "discovery",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -2414,8 +2338,8 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for POST body to send with the discover request."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -2442,11 +2366,8 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for POST body to send with the discover request."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -2484,12 +2405,7 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverBody",
-                "discoverRequestParams",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverBody", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -2542,8 +2458,10 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
+    ]
+    r"""Optional discover request parameters."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -2571,10 +2489,10 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    r"""Optional discover request parameters."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -2612,12 +2530,7 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverRequestParams",
-                "discoverBody",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverRequestParams", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -2670,8 +2583,10 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
+    ]
+    r"""Optional discover request parameters."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -2699,10 +2614,10 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    r"""Optional discover request parameters."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -2740,12 +2655,7 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverRequestParams",
-                "discoverBody",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverRequestParams", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -2893,26 +2803,38 @@ class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeBackoffTypedD
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2947,26 +2869,33 @@ class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeStaticTypedDi
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    multiplier: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeStatic(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    multiplier: Optional[Any] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2979,9 +2908,7 @@ class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeStatic(BaseMo
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "codes", "enableHeader", "multiplier"]
-        )
+        optional_fields = set(["interval", "limit", "codes", "enableHeader"])
         serialized = handler(self)
         m = {}
 
@@ -3001,26 +2928,11 @@ class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNoneTypedDict
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
 
 
 class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -3030,24 +2942,6 @@ class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNone(BaseMode
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 HealthCheckAuthenticationLoginSecretRetryRulesTypedDict = TypeAliasType(
@@ -3118,8 +3012,6 @@ class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
     ]
     r"""Optional authentication request headers."""
     discovery: NotRequired[HealthCheckAuthenticationLoginSecretDiscoveryTypedDict]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationLoginSecretCollectRequestHeaderTypedDict]
     ]
@@ -3173,12 +3065,6 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
     r"""Optional authentication request headers."""
 
     discovery: Optional[HealthCheckAuthenticationLoginSecretDiscovery] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationLoginSecretCollectRequestHeader]],
@@ -3250,8 +3136,6 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
                 "tokenRespAttribute",
                 "authRequestHeaders",
                 "discovery",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -3488,8 +3372,8 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for POST body to send with the discover request."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -3516,11 +3400,8 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for POST body to send with the discover request."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -3558,12 +3439,7 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverBody",
-                "discoverRequestParams",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverBody", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -3616,8 +3492,10 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
+    ]
+    r"""Optional discover request parameters."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -3645,10 +3523,10 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    r"""Optional discover request parameters."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -3686,12 +3564,7 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverRequestParams",
-                "discoverBody",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverRequestParams", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -3744,8 +3617,10 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
+    ]
+    r"""Optional discover request parameters."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -3773,10 +3648,10 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    r"""Optional discover request parameters."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -3814,12 +3689,7 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverRequestParams",
-                "discoverBody",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverRequestParams", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -3967,26 +3837,38 @@ class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeBackoffTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -4019,26 +3901,33 @@ class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeBackoff(BaseModel):
 class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStaticTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    multiplier: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStatic(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    multiplier: Optional[Any] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -4051,9 +3940,7 @@ class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStatic(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "codes", "enableHeader", "multiplier"]
-        )
+        optional_fields = set(["interval", "limit", "codes", "enableHeader"])
         serialized = handler(self)
         m = {}
 
@@ -4071,26 +3958,11 @@ class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStatic(BaseModel):
 class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
 
 
 class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -4100,24 +3972,6 @@ class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 HealthCheckAuthenticationLoginRetryRulesTypedDict = TypeAliasType(
@@ -4190,8 +4044,6 @@ class HealthCheckAuthenticationLoginTypedDict(TypedDict):
     ]
     r"""Optional authentication request headers."""
     discovery: NotRequired[HealthCheckAuthenticationLoginDiscoveryTypedDict]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationLoginCollectRequestHeaderTypedDict]
     ]
@@ -4248,12 +4100,6 @@ class HealthCheckAuthenticationLogin(BaseModel):
     r"""Optional authentication request headers."""
 
     discovery: Optional[HealthCheckAuthenticationLoginDiscovery] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationLoginCollectRequestHeader]],
@@ -4323,8 +4169,6 @@ class HealthCheckAuthenticationLogin(BaseModel):
                 "tokenRespAttribute",
                 "authRequestHeaders",
                 "discovery",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -4561,8 +4405,8 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for POST body to send with the discover request."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -4589,11 +4433,8 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for POST body to send with the discover request."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -4631,12 +4472,7 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverBody",
-                "discoverRequestParams",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverBody", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -4689,8 +4525,10 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
+    ]
+    r"""Optional discover request parameters."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -4718,10 +4556,10 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    r"""Optional discover request parameters."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -4759,12 +4597,7 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverRequestParams",
-                "discoverBody",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverRequestParams", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -4817,8 +4650,10 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
+    ]
+    r"""Optional discover request parameters."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -4846,10 +4681,10 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    r"""Optional discover request parameters."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -4887,12 +4722,7 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverRequestParams",
-                "discoverBody",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverRequestParams", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -5040,26 +4870,38 @@ class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeBackoffTypedD
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -5094,26 +4936,33 @@ class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeStaticTypedDi
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    multiplier: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeStatic(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    multiplier: Optional[Any] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -5126,9 +4975,7 @@ class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeStatic(BaseMo
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "codes", "enableHeader", "multiplier"]
-        )
+        optional_fields = set(["interval", "limit", "codes", "enableHeader"])
         serialized = handler(self)
         m = {}
 
@@ -5148,26 +4995,11 @@ class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNoneTypedDict
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
 
 
 class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -5177,24 +5009,6 @@ class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNone(BaseMode
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 HealthCheckAuthenticationBasicSecretRetryRulesTypedDict = TypeAliasType(
@@ -5253,8 +5067,6 @@ class HealthCheckAuthenticationBasicSecretTypedDict(TypedDict):
     collect_method: HealthCheckAuthenticationBasicSecretHealthCheckMethod
     r"""Health check HTTP method."""
     discovery: NotRequired[HealthCheckAuthenticationBasicSecretDiscoveryTypedDict]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationBasicSecretCollectRequestHeaderTypedDict]
     ]
@@ -5288,12 +5100,6 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
     r"""Health check HTTP method."""
 
     discovery: Optional[HealthCheckAuthenticationBasicSecretDiscovery] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationBasicSecretCollectRequestHeader]],
@@ -5363,8 +5169,6 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
         optional_fields = set(
             [
                 "discovery",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -5601,8 +5405,8 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_body: NotRequired[Any]
-    discover_request_params: NotRequired[Any]
+    discover_body: NotRequired[str]
+    r"""Template for POST body to send with the discover request."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -5629,11 +5433,8 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     discover_url: Annotated[str, pydantic.Field(alias="discoverUrl")]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
-
-    discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
-    ] = None
+    discover_body: Annotated[Optional[str], pydantic.Field(alias="discoverBody")] = None
+    r"""Template for POST body to send with the discover request."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -5671,12 +5472,7 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverBody",
-                "discoverRequestParams",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverBody", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -5729,8 +5525,10 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
+    ]
+    r"""Optional discover request parameters."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -5758,10 +5556,10 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    r"""Optional discover request parameters."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -5799,12 +5597,7 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverRequestParams",
-                "discoverBody",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverRequestParams", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -5857,8 +5650,10 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: str
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
-    discover_request_params: NotRequired[Any]
-    discover_body: NotRequired[Any]
+    discover_request_params: NotRequired[
+        List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParamsTypedDict]
+    ]
+    r"""Optional discover request parameters."""
     discover_request_headers: NotRequired[
         List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeadersTypedDict]
     ]
@@ -5886,10 +5681,10 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
     discover_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="discoverRequestParams")
+        Optional[List[ItemsTypeHealthCheckCollectMethodPostCollectRequestParams]],
+        pydantic.Field(alias="discoverRequestParams"),
     ] = None
-
-    discover_body: Annotated[Optional[Any], pydantic.Field(alias="discoverBody")] = None
+    r"""Optional discover request parameters."""
 
     discover_request_headers: Annotated[
         Optional[List[ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders]],
@@ -5927,12 +5722,7 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            [
-                "discoverRequestParams",
-                "discoverBody",
-                "discoverRequestHeaders",
-                "discoverDataField",
-            ]
+            ["discoverRequestParams", "discoverRequestHeaders", "discoverDataField"]
         )
         serialized = handler(self)
         m = {}
@@ -6080,26 +5870,38 @@ class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeBackoffTypedDict(
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeBackoff(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
 
-    multiplier: Optional[Any] = None
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -6132,26 +5934,33 @@ class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeBackoff(BaseModel):
 class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStaticTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
-    multiplier: NotRequired[Any]
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStatic(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
 
-    interval: Optional[Any] = None
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
-    limit: Optional[Any] = None
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
 
-    codes: Optional[Any] = None
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
 
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
-
-    multiplier: Optional[Any] = None
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -6164,9 +5973,7 @@ class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStatic(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "codes", "enableHeader", "multiplier"]
-        )
+        optional_fields = set(["interval", "limit", "codes", "enableHeader"])
         serialized = handler(self)
         m = {}
 
@@ -6184,26 +5991,11 @@ class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStatic(BaseModel):
 class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-    interval: NotRequired[Any]
-    limit: NotRequired[Any]
-    multiplier: NotRequired[Any]
-    codes: NotRequired[Any]
-    enable_header: NotRequired[Any]
 
 
 class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
-
-    interval: Optional[Any] = None
-
-    limit: Optional[Any] = None
-
-    multiplier: Optional[Any] = None
-
-    codes: Optional[Any] = None
-
-    enable_header: Annotated[Optional[Any], pydantic.Field(alias="enableHeader")] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -6213,24 +6005,6 @@ class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            ["interval", "limit", "multiplier", "codes", "enableHeader"]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 HealthCheckAuthenticationBasicRetryRulesTypedDict = TypeAliasType(
@@ -6291,8 +6065,6 @@ class HealthCheckAuthenticationBasicTypedDict(TypedDict):
     collect_method: HealthCheckAuthenticationBasicHealthCheckMethod
     r"""Health check HTTP method."""
     discovery: NotRequired[HealthCheckAuthenticationBasicDiscoveryTypedDict]
-    collect_request_params: NotRequired[Any]
-    collect_body: NotRequired[Any]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationBasicCollectRequestHeaderTypedDict]
     ]
@@ -6329,12 +6101,6 @@ class HealthCheckAuthenticationBasic(BaseModel):
     r"""Health check HTTP method."""
 
     discovery: Optional[HealthCheckAuthenticationBasicDiscovery] = None
-
-    collect_request_params: Annotated[
-        Optional[Any], pydantic.Field(alias="collectRequestParams")
-    ] = None
-
-    collect_body: Annotated[Optional[Any], pydantic.Field(alias="collectBody")] = None
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationBasicCollectRequestHeader]],
@@ -6402,8 +6168,6 @@ class HealthCheckAuthenticationBasic(BaseModel):
         optional_fields = set(
             [
                 "discovery",
-                "collectRequestParams",
-                "collectBody",
                 "collectRequestHeaders",
                 "authenticateCollect",
                 "timeout",
@@ -6460,10 +6224,6 @@ try:
 except NameError:
     pass
 try:
-    HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNone.model_rebuild()
-except NameError:
-    pass
-try:
     HealthCheckAuthenticationOauthSecret.model_rebuild()
 except NameError:
     pass
@@ -6497,10 +6257,6 @@ except NameError:
     pass
 try:
     HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStatic.model_rebuild()
-except NameError:
-    pass
-try:
-    HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:
@@ -6540,10 +6296,6 @@ try:
 except NameError:
     pass
 try:
-    HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNone.model_rebuild()
-except NameError:
-    pass
-try:
     HealthCheckAuthenticationLoginSecret.model_rebuild()
 except NameError:
     pass
@@ -6577,10 +6329,6 @@ except NameError:
     pass
 try:
     HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStatic.model_rebuild()
-except NameError:
-    pass
-try:
-    HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:
@@ -6620,10 +6368,6 @@ try:
 except NameError:
     pass
 try:
-    HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNone.model_rebuild()
-except NameError:
-    pass
-try:
     HealthCheckAuthenticationBasicSecret.model_rebuild()
 except NameError:
     pass
@@ -6657,10 +6401,6 @@ except NameError:
     pass
 try:
     HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStatic.model_rebuild()
-except NameError:
-    pass
-try:
-    HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:

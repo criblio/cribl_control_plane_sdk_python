@@ -1,0 +1,11 @@
+# CreateInputSystemByPackTarget
+
+
+## Fields
+
+| Field                                                                                    | Type                                                                                     | Required                                                                                 | Description                                                                              |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `protocol`                                                                               | [Optional[models.ProtocolOptionsTargetsItems]](../models/protocoloptionstargetsitems.md) | :heavy_minus_sign:                                                                       | Protocol to use when collecting metrics                                                  |
+| `host`                                                                                   | *str*                                                                                    | :heavy_check_mark:                                                                       | Name of host from which to pull metrics.                                                 |
+| `port`                                                                                   | *Optional[float]*                                                                        | :heavy_minus_sign:                                                                       | The port number in the metrics URL for discovered targets.                               |
+| `path`                                                                                   | *Optional[str]*                                                                          | :heavy_minus_sign:                                                                       | Path to use when collecting metrics from discovered targets                              |

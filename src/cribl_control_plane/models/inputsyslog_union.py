@@ -5,10 +5,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
@@ -79,7 +76,7 @@ class InputSyslogSyslog2TypedDict(TypedDict):
     socket_max_lifespan: NotRequired[float]
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     udp_socket_rx_buf_size: NotRequired[float]
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
@@ -88,6 +85,12 @@ class InputSyslogSyslog2TypedDict(TypedDict):
     description: NotRequired[str]
     enable_enhanced_proxy_header_parsing: NotRequired[bool]
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_udp_port: NotRequired[str]
+    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
+    template_tcp_port: NotRequired[str]
+    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
 
 class InputSyslogSyslog2(BaseModel):
@@ -201,7 +204,7 @@ class InputSyslogSyslog2(BaseModel):
 
     tls: Optional[TLSSettingsServerSideType] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     udp_socket_rx_buf_size: Annotated[
@@ -220,6 +223,21 @@ class InputSyslogSyslog2(BaseModel):
         Optional[bool], pydantic.Field(alias="enableEnhancedProxyHeaderParsing")
     ] = None
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_udp_port: Annotated[
+        Optional[str], pydantic.Field(alias="__template_udpPort")
+    ] = None
+    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
+
+    template_tcp_port: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tcpPort")
+    ] = None
+    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -255,6 +273,9 @@ class InputSyslogSyslog2(BaseModel):
                 "enableLoadBalancing",
                 "description",
                 "enableEnhancedProxyHeaderParsing",
+                "__template_host",
+                "__template_udpPort",
+                "__template_tcpPort",
             ]
         )
         serialized = handler(self)
@@ -328,7 +349,7 @@ class InputSyslogSyslog1TypedDict(TypedDict):
     socket_max_lifespan: NotRequired[float]
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     udp_socket_rx_buf_size: NotRequired[float]
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
@@ -337,6 +358,12 @@ class InputSyslogSyslog1TypedDict(TypedDict):
     description: NotRequired[str]
     enable_enhanced_proxy_header_parsing: NotRequired[bool]
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_udp_port: NotRequired[str]
+    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
+    template_tcp_port: NotRequired[str]
+    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
 
 class InputSyslogSyslog1(BaseModel):
@@ -450,7 +477,7 @@ class InputSyslogSyslog1(BaseModel):
 
     tls: Optional[TLSSettingsServerSideType] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     udp_socket_rx_buf_size: Annotated[
@@ -469,6 +496,21 @@ class InputSyslogSyslog1(BaseModel):
         Optional[bool], pydantic.Field(alias="enableEnhancedProxyHeaderParsing")
     ] = None
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_udp_port: Annotated[
+        Optional[str], pydantic.Field(alias="__template_udpPort")
+    ] = None
+    r"""Binds 'udpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'udpPort' at runtime."""
+
+    template_tcp_port: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tcpPort")
+    ] = None
+    r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -504,6 +546,9 @@ class InputSyslogSyslog1(BaseModel):
                 "enableLoadBalancing",
                 "description",
                 "enableEnhancedProxyHeaderParsing",
+                "__template_host",
+                "__template_udpPort",
+                "__template_tcpPort",
             ]
         )
         serialized = handler(self)

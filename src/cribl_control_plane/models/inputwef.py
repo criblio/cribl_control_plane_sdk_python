@@ -5,10 +5,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .maximumtlsversionoptionskafkaschemaregistrytls import (
     MaximumTLSVersionOptionsKafkaSchemaRegistryTLS,
 )
@@ -21,7 +18,7 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -61,8 +58,6 @@ class MTLSSettingsTypedDict(TypedDict):
     max_version: NotRequired[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS]
     ocsp_check: NotRequired[bool]
     r"""Enable OCSP check of certificate"""
-    keytab: NotRequired[Any]
-    principal: NotRequired[Any]
     ocsp_check_fail_close: NotRequired[bool]
     r"""If enabled, checks will fail on any OCSP error. Otherwise, checks will fail only when a certificate is revoked, ignoring other errors."""
 
@@ -114,10 +109,6 @@ class MTLSSettings(BaseModel):
     ocsp_check: Annotated[Optional[bool], pydantic.Field(alias="ocspCheck")] = None
     r"""Enable OCSP check of certificate"""
 
-    keytab: Optional[Any] = None
-
-    principal: Optional[Any] = None
-
     ocsp_check_fail_close: Annotated[
         Optional[bool], pydantic.Field(alias="ocspCheckFailClose")
     ] = None
@@ -154,8 +145,6 @@ class MTLSSettings(BaseModel):
                 "minVersion",
                 "maxVersion",
                 "ocspCheck",
-                "keytab",
-                "principal",
                 "ocspCheckFailClose",
             ]
         )
@@ -221,7 +210,7 @@ class SubscriptionTypedDict(TypedDict):
     locale: NotRequired[str]
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
     query_selector: NotRequired[QueryBuilderMode]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events ingested under this subscription"""
     queries: NotRequired[List[QueryTypedDict]]
     xml_query: NotRequired[str]
@@ -266,7 +255,7 @@ class Subscription(BaseModel):
         Optional[QueryBuilderMode], pydantic.Field(alias="querySelector")
     ] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events ingested under this subscription"""
 
     queries: Optional[List[Query]] = None
@@ -374,11 +363,15 @@ class InputWefTypedDict(TypedDict):
     r"""Kerberos principal used for authentication, typically in the form HTTP/<hostname>@<REALM>"""
     allow_machine_id_mismatch: NotRequired[bool]
     r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     log_fingerprint_mismatch: NotRequired[bool]
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class InputWef(BaseModel):
@@ -488,7 +481,7 @@ class InputWef(BaseModel):
     ] = None
     r"""Allow events to be ingested even if their MachineID does not match the client certificate CN"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -497,6 +490,16 @@ class InputWef(BaseModel):
         Optional[bool], pydantic.Field(alias="logFingerprintMismatch")
     ] = None
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
     @field_serializer("auth_method")
     def serialize_auth_method(self, value):
@@ -538,6 +541,8 @@ class InputWef(BaseModel):
                 "metadata",
                 "description",
                 "logFingerprintMismatch",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)

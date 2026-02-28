@@ -12,4 +12,3 @@ OpenTelemetry authentication type
 | `CREDENTIALS_SECRET` | credentialsSecret    |
 | `TOKEN`              | token                |
 | `TEXT_SECRET`        | textSecret           |
-| `OAUTH`              | oauth                |

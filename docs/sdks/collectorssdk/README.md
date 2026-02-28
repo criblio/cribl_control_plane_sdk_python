@@ -34,7 +34,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.create(saved_job={
         "id": "<id>",
         "description": "yowza than voluntarily phooey meanwhile",
-        "type": models.JobTypeOptionsSavedJobCollection.COLLECTION,
+        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "ttl": "<value>",
         "ignore_group_jobs_limit": False,
         "remove_fields": [
@@ -50,10 +50,10 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 3006.78,
             "run": {
-                "type": models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": True,
                 "max_task_reschedule": 1211.14,
-                "log_level": models.ScheduleTypeSavedJobCollectionLogLevel.DEBUG,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
                 "job_timeout": "<value>",
                 "mode": "<value>",
                 "time_range_type": "<value>",
@@ -100,7 +100,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.create(saved_job={
         "id": "<id>",
         "description": "during disconnection where although airman",
-        "type": models.JobTypeOptionsSavedJobCollection.SCHEDULED_SEARCH,
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
         "ttl": "<value>",
         "ignore_group_jobs_limit": True,
         "remove_fields": [
@@ -117,10 +117,10 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 3006.78,
             "run": {
-                "type": models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": True,
                 "max_task_reschedule": 1211.14,
-                "log_level": models.ScheduleTypeSavedJobCollectionLogLevel.DEBUG,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
                 "job_timeout": "<value>",
                 "mode": "<value>",
                 "time_range_type": "<value>",
@@ -161,7 +161,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.create(saved_job={
         "id": "<id>",
         "description": "yowza than voluntarily phooey meanwhile",
-        "type": models.JobTypeOptionsSavedJobCollection.COLLECTION,
+        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "ttl": "<value>",
         "ignore_group_jobs_limit": False,
         "remove_fields": [
@@ -177,10 +177,10 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 3006.78,
             "run": {
-                "type": models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": True,
                 "max_task_reschedule": 1211.14,
-                "log_level": models.ScheduleTypeSavedJobCollectionLogLevel.DEBUG,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
                 "job_timeout": "<value>",
                 "mode": "<value>",
                 "time_range_type": "<value>",
@@ -227,7 +227,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.create(saved_job={
         "id": "<id>",
         "description": "during disconnection where although airman",
-        "type": models.JobTypeOptionsSavedJobCollection.SCHEDULED_SEARCH,
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
         "ttl": "<value>",
         "ignore_group_jobs_limit": True,
         "remove_fields": [
@@ -244,10 +244,10 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 3006.78,
             "run": {
-                "type": models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": True,
                 "max_task_reschedule": 1211.14,
-                "log_level": models.ScheduleTypeSavedJobCollectionLogLevel.DEBUG,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
                 "job_timeout": "<value>",
                 "mode": "<value>",
                 "time_range_type": "<value>",
@@ -288,7 +288,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.create(saved_job={
         "id": "<id>",
         "description": "during disconnection where although airman",
-        "type": models.JobTypeOptionsSavedJobCollection.SCHEDULED_SEARCH,
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
         "ttl": "<value>",
         "ignore_group_jobs_limit": True,
         "remove_fields": [
@@ -305,10 +305,10 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 3006.78,
             "run": {
-                "type": models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": True,
                 "max_task_reschedule": 1211.14,
-                "log_level": models.ScheduleTypeSavedJobCollectionLogLevel.DEBUG,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
                 "job_timeout": "<value>",
                 "mode": "<value>",
                 "time_range_type": "<value>",
@@ -349,7 +349,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
         id="<id>",
         description="pomelo outside offensively ew",
-        type=models.JobTypeOptionsSavedJobCollection.EXECUTOR,
+        type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
         ttl="<value>",
         ignore_group_jobs_limit=False,
         remove_fields=[
@@ -364,18 +364,18 @@ with CriblControlPlane(
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=3006.78,
-            run=models.ScheduleTypeSavedJobCollectionRunSettings(
-                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=True,
                 max_task_reschedule=1211.14,
-                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.DEBUG,
+                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
                 job_timeout="<value>",
                 mode="<value>",
                 time_range_type="<value>",
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.TimeWarning(),
+                time_warning=models.MetricsStore(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -411,7 +411,7 @@ with CriblControlPlane(
             ],
             stale_channel_flush_ms=9538.43,
             send_to_routes=True,
-            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+            preprocess=models.PreprocessType(
                 disabled=True,
                 command="<value>",
                 args=[
@@ -421,7 +421,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeNotificationMetadata(
+                models.ItemsTypeMetadata(
                     name="<value>",
                     value="<value>",
                 ),
@@ -453,7 +453,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
         id="<id>",
         description="pomelo outside offensively ew",
-        type=models.JobTypeOptionsSavedJobCollection.EXECUTOR,
+        type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
         ttl="<value>",
         ignore_group_jobs_limit=False,
         remove_fields=[
@@ -468,18 +468,18 @@ with CriblControlPlane(
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=3006.78,
-            run=models.ScheduleTypeSavedJobCollectionRunSettings(
-                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=True,
                 max_task_reschedule=1211.14,
-                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.DEBUG,
+                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
                 job_timeout="<value>",
                 mode="<value>",
                 time_range_type="<value>",
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.TimeWarning(),
+                time_warning=models.MetricsStore(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -515,7 +515,7 @@ with CriblControlPlane(
             ],
             stale_channel_flush_ms=9538.43,
             send_to_routes=True,
-            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+            preprocess=models.PreprocessType(
                 disabled=True,
                 command="<value>",
                 args=[
@@ -525,7 +525,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeNotificationMetadata(
+                models.ItemsTypeMetadata(
                     name="<value>",
                     value="<value>",
                 ),
@@ -557,7 +557,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
         id="<id>",
         description="pomelo outside offensively ew",
-        type=models.JobTypeOptionsSavedJobCollection.EXECUTOR,
+        type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
         ttl="<value>",
         ignore_group_jobs_limit=False,
         remove_fields=[
@@ -572,18 +572,18 @@ with CriblControlPlane(
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=3006.78,
-            run=models.ScheduleTypeSavedJobCollectionRunSettings(
-                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=True,
                 max_task_reschedule=1211.14,
-                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.DEBUG,
+                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
                 job_timeout="<value>",
                 mode="<value>",
                 time_range_type="<value>",
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.TimeWarning(),
+                time_warning=models.MetricsStore(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -619,7 +619,7 @@ with CriblControlPlane(
             ],
             stale_channel_flush_ms=9538.43,
             send_to_routes=True,
-            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+            preprocess=models.PreprocessType(
                 disabled=True,
                 command="<value>",
                 args=[
@@ -629,7 +629,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeNotificationMetadata(
+                models.ItemsTypeMetadata(
                     name="<value>",
                     value="<value>",
                 ),
@@ -661,7 +661,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.create(saved_job={
         "id": "<id>",
         "description": "yowza than voluntarily phooey meanwhile",
-        "type": models.JobTypeOptionsSavedJobCollection.COLLECTION,
+        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "ttl": "<value>",
         "ignore_group_jobs_limit": False,
         "remove_fields": [
@@ -677,10 +677,10 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 3006.78,
             "run": {
-                "type": models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": True,
                 "max_task_reschedule": 1211.14,
-                "log_level": models.ScheduleTypeSavedJobCollectionLogLevel.DEBUG,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
                 "job_timeout": "<value>",
                 "mode": "<value>",
                 "time_range_type": "<value>",
@@ -888,7 +888,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job={
         "id": "<id>",
         "description": "blaring spectate dark notwithstanding sparse obnoxiously editor",
-        "type": models.JobTypeOptionsSavedJobCollection.EXECUTOR,
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
         "ttl": "<value>",
         "ignore_group_jobs_limit": True,
         "remove_fields": [
@@ -903,10 +903,10 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 1498.35,
             "run": {
-                "type": models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": False,
                 "max_task_reschedule": 9677.47,
-                "log_level": models.ScheduleTypeSavedJobCollectionLogLevel.ERROR,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
                 "job_timeout": "<value>",
                 "mode": "<value>",
                 "time_range_type": "<value>",
@@ -949,7 +949,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job={
         "id": "<id>",
         "description": "blaring spectate dark notwithstanding sparse obnoxiously editor",
-        "type": models.JobTypeOptionsSavedJobCollection.EXECUTOR,
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
         "ttl": "<value>",
         "ignore_group_jobs_limit": True,
         "remove_fields": [
@@ -964,10 +964,10 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 1498.35,
             "run": {
-                "type": models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": False,
                 "max_task_reschedule": 9677.47,
-                "log_level": models.ScheduleTypeSavedJobCollectionLogLevel.ERROR,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
                 "job_timeout": "<value>",
                 "mode": "<value>",
                 "time_range_type": "<value>",
@@ -1010,7 +1010,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job={
         "id": "<id>",
         "description": "blaring spectate dark notwithstanding sparse obnoxiously editor",
-        "type": models.JobTypeOptionsSavedJobCollection.EXECUTOR,
+        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
         "ttl": "<value>",
         "ignore_group_jobs_limit": True,
         "remove_fields": [
@@ -1025,10 +1025,10 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 1498.35,
             "run": {
-                "type": models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": False,
                 "max_task_reschedule": 9677.47,
-                "log_level": models.ScheduleTypeSavedJobCollectionLogLevel.ERROR,
+                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
                 "job_timeout": "<value>",
                 "mode": "<value>",
                 "time_range_type": "<value>",
@@ -1071,7 +1071,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
         id="<id>",
         description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsSavedJobCollection.SCHEDULED_SEARCH,
+        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
         ttl="<value>",
         ignore_group_jobs_limit=False,
         remove_fields=[
@@ -1085,18 +1085,18 @@ with CriblControlPlane(
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=1498.35,
-            run=models.ScheduleTypeSavedJobCollectionRunSettings(
-                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=False,
                 max_task_reschedule=9677.47,
-                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.ERROR,
+                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
                 job_timeout="<value>",
                 mode="<value>",
                 time_range_type="<value>",
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.TimeWarning(),
+                time_warning=models.MetricsStore(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1131,7 +1131,6 @@ with CriblControlPlane(
                 assume_role_external_id="<id>",
                 duration_seconds=2075.63,
                 max_batch_size=968.91,
-                recurse="<value>",
                 reuse_connections=True,
                 reject_unauthorized=False,
                 verify_permissions=True,
@@ -1148,7 +1147,7 @@ with CriblControlPlane(
             ],
             stale_channel_flush_ms=2918.22,
             send_to_routes=False,
-            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+            preprocess=models.PreprocessType(
                 disabled=False,
                 command="<value>",
                 args=[
@@ -1157,7 +1156,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeNotificationMetadata(
+                models.ItemsTypeMetadata(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1189,7 +1188,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
         id="<id>",
         description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsSavedJobCollection.SCHEDULED_SEARCH,
+        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
         ttl="<value>",
         ignore_group_jobs_limit=False,
         remove_fields=[
@@ -1203,18 +1202,18 @@ with CriblControlPlane(
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=1498.35,
-            run=models.ScheduleTypeSavedJobCollectionRunSettings(
-                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=False,
                 max_task_reschedule=9677.47,
-                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.ERROR,
+                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
                 job_timeout="<value>",
                 mode="<value>",
                 time_range_type="<value>",
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.TimeWarning(),
+                time_warning=models.MetricsStore(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1249,7 +1248,6 @@ with CriblControlPlane(
                 assume_role_external_id="<id>",
                 duration_seconds=2075.63,
                 max_batch_size=968.91,
-                recurse="<value>",
                 reuse_connections=True,
                 reject_unauthorized=False,
                 verify_permissions=True,
@@ -1266,7 +1264,7 @@ with CriblControlPlane(
             ],
             stale_channel_flush_ms=2918.22,
             send_to_routes=False,
-            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+            preprocess=models.PreprocessType(
                 disabled=False,
                 command="<value>",
                 args=[
@@ -1275,7 +1273,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeNotificationMetadata(
+                models.ItemsTypeMetadata(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1307,7 +1305,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
         id="<id>",
         description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsSavedJobCollection.SCHEDULED_SEARCH,
+        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
         ttl="<value>",
         ignore_group_jobs_limit=False,
         remove_fields=[
@@ -1321,18 +1319,18 @@ with CriblControlPlane(
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=1498.35,
-            run=models.ScheduleTypeSavedJobCollectionRunSettings(
-                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=False,
                 max_task_reschedule=9677.47,
-                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.ERROR,
+                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
                 job_timeout="<value>",
                 mode="<value>",
                 time_range_type="<value>",
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.TimeWarning(),
+                time_warning=models.MetricsStore(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1367,7 +1365,6 @@ with CriblControlPlane(
                 assume_role_external_id="<id>",
                 duration_seconds=2075.63,
                 max_batch_size=968.91,
-                recurse="<value>",
                 reuse_connections=True,
                 reject_unauthorized=False,
                 verify_permissions=True,
@@ -1384,7 +1381,7 @@ with CriblControlPlane(
             ],
             stale_channel_flush_ms=2918.22,
             send_to_routes=False,
-            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+            preprocess=models.PreprocessType(
                 disabled=False,
                 command="<value>",
                 args=[
@@ -1393,7 +1390,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeNotificationMetadata(
+                models.ItemsTypeMetadata(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1425,7 +1422,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
         id="<id>",
         description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsSavedJobCollection.SCHEDULED_SEARCH,
+        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
         ttl="<value>",
         ignore_group_jobs_limit=False,
         remove_fields=[
@@ -1439,18 +1436,18 @@ with CriblControlPlane(
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=1498.35,
-            run=models.ScheduleTypeSavedJobCollectionRunSettings(
-                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=False,
                 max_task_reschedule=9677.47,
-                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.ERROR,
+                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
                 job_timeout="<value>",
                 mode="<value>",
                 time_range_type="<value>",
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.TimeWarning(),
+                time_warning=models.MetricsStore(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1485,7 +1482,6 @@ with CriblControlPlane(
                 assume_role_external_id="<id>",
                 duration_seconds=2075.63,
                 max_batch_size=968.91,
-                recurse="<value>",
                 reuse_connections=True,
                 reject_unauthorized=False,
                 verify_permissions=True,
@@ -1502,7 +1498,7 @@ with CriblControlPlane(
             ],
             stale_channel_flush_ms=2918.22,
             send_to_routes=False,
-            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+            preprocess=models.PreprocessType(
                 disabled=False,
                 command="<value>",
                 args=[
@@ -1511,7 +1507,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeNotificationMetadata(
+                models.ItemsTypeMetadata(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1543,7 +1539,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
         id="<id>",
         description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsSavedJobCollection.SCHEDULED_SEARCH,
+        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
         ttl="<value>",
         ignore_group_jobs_limit=False,
         remove_fields=[
@@ -1557,18 +1553,18 @@ with CriblControlPlane(
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=1498.35,
-            run=models.ScheduleTypeSavedJobCollectionRunSettings(
-                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=False,
                 max_task_reschedule=9677.47,
-                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.ERROR,
+                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
                 job_timeout="<value>",
                 mode="<value>",
                 time_range_type="<value>",
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.TimeWarning(),
+                time_warning=models.MetricsStore(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1603,7 +1599,6 @@ with CriblControlPlane(
                 assume_role_external_id="<id>",
                 duration_seconds=2075.63,
                 max_batch_size=968.91,
-                recurse="<value>",
                 reuse_connections=True,
                 reject_unauthorized=False,
                 verify_permissions=True,
@@ -1620,7 +1615,7 @@ with CriblControlPlane(
             ],
             stale_channel_flush_ms=2918.22,
             send_to_routes=False,
-            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+            preprocess=models.PreprocessType(
                 disabled=False,
                 command="<value>",
                 args=[
@@ -1629,7 +1624,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeNotificationMetadata(
+                models.ItemsTypeMetadata(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1661,7 +1656,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
         id="<id>",
         description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsSavedJobCollection.SCHEDULED_SEARCH,
+        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
         ttl="<value>",
         ignore_group_jobs_limit=False,
         remove_fields=[
@@ -1675,18 +1670,18 @@ with CriblControlPlane(
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=1498.35,
-            run=models.ScheduleTypeSavedJobCollectionRunSettings(
-                type=models.ScheduleTypeSavedJobCollectionType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=False,
                 max_task_reschedule=9677.47,
-                log_level=models.ScheduleTypeSavedJobCollectionLogLevel.ERROR,
+                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
                 job_timeout="<value>",
                 mode="<value>",
                 time_range_type="<value>",
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.TimeWarning(),
+                time_warning=models.MetricsStore(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1721,7 +1716,6 @@ with CriblControlPlane(
                 assume_role_external_id="<id>",
                 duration_seconds=2075.63,
                 max_batch_size=968.91,
-                recurse="<value>",
                 reuse_connections=True,
                 reject_unauthorized=False,
                 verify_permissions=True,
@@ -1738,7 +1732,7 @@ with CriblControlPlane(
             ],
             stale_channel_flush_ms=2918.22,
             send_to_routes=False,
-            preprocess=models.PreprocessTypeSavedJobCollectionInput(
+            preprocess=models.PreprocessType(
                 disabled=False,
                 command="<value>",
                 args=[
@@ -1747,7 +1741,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeNotificationMetadata(
+                models.ItemsTypeMetadata(
                     name="<value>",
                     value="<value>",
                 ),

@@ -4,11 +4,14 @@ from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
+from .itemstypecontentconfigitemsrequestparams import (
+    ItemsTypeContentConfigItemsRequestParams,
+    ItemsTypeContentConfigItemsRequestParamsTypedDict,
+)
 from .itemstypeextrahttpheaders import (
     ItemsTypeExtraHTTPHeaders,
     ItemsTypeExtraHTTPHeadersTypedDict,
 )
-from .itemstypelabels import ItemsTypeLabels, ItemsTypeLabelsTypedDict
 from .itemstyperesponseretrysettings import (
     ItemsTypeResponseRetrySettings,
     ItemsTypeResponseRetrySettingsTypedDict,
@@ -62,7 +65,7 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
     message_format: NotRequired[MessageFormatOptions]
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
-    labels: NotRequired[List[ItemsTypeLabelsTypedDict]]
+    labels: NotRequired[List[ItemsTypeContentConfigItemsRequestParamsTypedDict]]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
@@ -122,6 +125,10 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[OutputGrafanaCloudPqControls2TypedDict]
+    template_loki_url: NotRequired[str]
+    r"""Binds 'lokiUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiUrl' at runtime."""
+    template_prometheus_url: NotRequired[str]
+    r"""Binds 'prometheusUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusUrl' at runtime."""
 
 
 class OutputGrafanaCloudGrafanaCloud2(BaseModel):
@@ -158,7 +165,7 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
-    labels: Optional[List[ItemsTypeLabels]] = None
+    labels: Optional[List[ItemsTypeContentConfigItemsRequestParams]] = None
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     metric_rename_expr: Annotated[
@@ -298,6 +305,16 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
         Optional[OutputGrafanaCloudPqControls2], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_loki_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_lokiUrl")
+    ] = None
+    r"""Binds 'lokiUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiUrl' at runtime."""
+
+    template_prometheus_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_prometheusUrl")
+    ] = None
+    r"""Binds 'prometheusUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusUrl' at runtime."""
+
     @field_serializer("message_format")
     def serialize_message_format(self, value):
         if isinstance(value, str):
@@ -395,6 +412,8 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
                 "pqCompress",
                 "pqOnBackpressure",
                 "pqControls",
+                "__template_lokiUrl",
+                "__template_prometheusUrl",
             ]
         )
         serialized = handler(self)
@@ -443,7 +462,7 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
     message_format: NotRequired[MessageFormatOptions]
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
-    labels: NotRequired[List[ItemsTypeLabelsTypedDict]]
+    labels: NotRequired[List[ItemsTypeContentConfigItemsRequestParamsTypedDict]]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
@@ -503,6 +522,10 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[OutputGrafanaCloudPqControls1TypedDict]
+    template_loki_url: NotRequired[str]
+    r"""Binds 'lokiUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiUrl' at runtime."""
+    template_prometheus_url: NotRequired[str]
+    r"""Binds 'prometheusUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusUrl' at runtime."""
 
 
 class OutputGrafanaCloudGrafanaCloud1(BaseModel):
@@ -541,7 +564,7 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
-    labels: Optional[List[ItemsTypeLabels]] = None
+    labels: Optional[List[ItemsTypeContentConfigItemsRequestParams]] = None
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     metric_rename_expr: Annotated[
@@ -681,6 +704,16 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
         Optional[OutputGrafanaCloudPqControls1], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_loki_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_lokiUrl")
+    ] = None
+    r"""Binds 'lokiUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiUrl' at runtime."""
+
+    template_prometheus_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_prometheusUrl")
+    ] = None
+    r"""Binds 'prometheusUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusUrl' at runtime."""
+
     @field_serializer("message_format")
     def serialize_message_format(self, value):
         if isinstance(value, str):
@@ -778,6 +811,8 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
                 "pqCompress",
                 "pqOnBackpressure",
                 "pqControls",
+                "__template_lokiUrl",
+                "__template_prometheusUrl",
             ]
         )
         serialized = handler(self)

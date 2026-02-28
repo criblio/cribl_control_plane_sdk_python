@@ -23,6 +23,8 @@ Complementary API reference documentation is available at [https://docs.cribl.io
   * [SDK Example Usage](#sdk-example-usage)
   * [Authentication](#authentication)
   * [Available Resources and Operations](#available-resources-and-operations)
+  * [Json Streaming](#json-streaming)
+  * [Pagination](#pagination)
   * [File uploads](#file-uploads)
   * [Retries](#retries)
   * [Error Handling](#error-handling)
@@ -226,6 +228,13 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](docs/sdks/collectorssdk/README.md#get) - Get a Collector
 * [update](docs/sdks/collectorssdk/README.md#update) - Update a Collector
 
+### [DatabaseConnections](docs/sdks/databaseconnections/README.md)
+
+* [create](docs/sdks/databaseconnections/README.md#create) - Create Database Connection
+* [delete](docs/sdks/databaseconnections/README.md#delete) - Delete a Database Connection
+* [get](docs/sdks/databaseconnections/README.md#get) - Get a Database Connection
+* [update](docs/sdks/databaseconnections/README.md#update) - Update a Database Connection
+
 ### [Destinations](docs/sdks/destinations/README.md)
 
 * [list](docs/sdks/destinations/README.md#list) - List all Destinations
@@ -234,15 +243,20 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [update](docs/sdks/destinations/README.md#update) - Update a Destination
 * [delete](docs/sdks/destinations/README.md#delete) - Delete a Destination
 
-#### [Destinations.Pq](docs/sdks/pq/README.md)
+#### [Destinations.Pq](docs/sdks/destinationspq/README.md)
 
-* [clear](docs/sdks/pq/README.md#clear) - Clear the persistent queue for a Destination
-* [get](docs/sdks/pq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
+* [clear](docs/sdks/destinationspq/README.md#clear) - Clear the persistent queue for a Destination
+* [get](docs/sdks/destinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
 
 #### [Destinations.Samples](docs/sdks/samples/README.md)
 
 * [get](docs/sdks/samples/README.md#get) - Get sample event data for a Destination
 * [create](docs/sdks/samples/README.md#create) - Send sample event data to a Destination
+
+#### [Destinations.Statuses](docs/sdks/destinationsstatuses/README.md)
+
+* [get](docs/sdks/destinationsstatuses/README.md#get) - Get the status of a Destination
+* [list](docs/sdks/destinationsstatuses/README.md#list) - List the status of all Destinations
 
 ### [Functions](docs/sdks/functions/README.md)
 
@@ -276,20 +290,22 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [LakeDatasets](docs/sdks/lakedatasets/README.md)
 
-* [create](docs/sdks/lakedatasets/README.md#create) - Create a Lake Dataset
-* [list](docs/sdks/lakedatasets/README.md#list) - List all Lake Datasets
-* [delete](docs/sdks/lakedatasets/README.md#delete) - Delete a Lake Dataset
-* [get](docs/sdks/lakedatasets/README.md#get) - Get a Lake Dataset
-* [update](docs/sdks/lakedatasets/README.md#update) - Update a Lake Dataset
+* [create](docs/sdks/lakedatasets/README.md#create) - Create a Lake Dataset (Cribl.Cloud only)
+* [list](docs/sdks/lakedatasets/README.md#list) - List all Lake Datasets (Cribl.Cloud only)
+* [delete](docs/sdks/lakedatasets/README.md#delete) - Delete a Lake Dataset (Cribl.Cloud only)
+* [get](docs/sdks/lakedatasets/README.md#get) - Get a Lake Dataset (Cribl.Cloud only)
+* [update](docs/sdks/lakedatasets/README.md#update) - Update a Lake Dataset (Cribl.Cloud only)
 
 ### [Nodes](docs/sdks/nodes/README.md)
 
-* [list](docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker and Edge Nodes
-* [count](docs/sdks/nodes/README.md#count) - Get a count of Worker and Edge Nodes
+* [count](docs/sdks/nodes/README.md#count) - Get a count of Worker or Edge Nodes
+* [get](docs/sdks/nodes/README.md#get) - Get detailed metadata for a Worker or Edge Node
+* [list](docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker or Edge Nodes
+* [restart](docs/sdks/nodes/README.md#restart) - Restart Worker or Edge Nodes
 
 #### [Nodes.Summaries](docs/sdks/summaries/README.md)
 
-* [get](docs/sdks/summaries/README.md#get) - Get a summary of the Distributed deployment
+* [get](docs/sdks/summaries/README.md#get) - Get a summary of the Distributed deployment for a specific product
 
 ### [Packs](docs/sdks/packs/README.md)
 
@@ -300,19 +316,80 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](docs/sdks/packs/README.md#get) - Get a Pack
 * [update](docs/sdks/packs/README.md#update) - Upgrade a Pack
 
+#### [Packs.Destinations](docs/sdks/packsdestinations/README.md)
+
+* [list](docs/sdks/packsdestinations/README.md#list) - List all Destinations within a Pack
+* [create](docs/sdks/packsdestinations/README.md#create) - Create a Destination within a Pack
+* [get](docs/sdks/packsdestinations/README.md#get) - Get a Destination within a Pack
+* [update](docs/sdks/packsdestinations/README.md#update) - Update a Destination within a Pack
+* [delete](docs/sdks/packsdestinations/README.md#delete) - Delete a Destination within a Pack
+
+##### [Packs.Destinations.Pq](docs/sdks/packsdestinationspq/README.md)
+
+* [clear](docs/sdks/packsdestinationspq/README.md#clear) - Clear the persistent queue for a Destination within a Pack
+* [get](docs/sdks/packsdestinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination within a Pack
+
+##### [Packs.Destinations.Samples](docs/sdks/packssamples/README.md)
+
+* [get](docs/sdks/packssamples/README.md#get) - Get sample event data for a Destination within a Pack
+* [create](docs/sdks/packssamples/README.md#create) - Send sample event data to a Destination within a Pack
+
+##### [Packs.Destinations.Statuses](docs/sdks/packsdestinationsstatuses/README.md)
+
+* [get](docs/sdks/packsdestinationsstatuses/README.md#get) - Get the status of a Destination within a Pack
+* [list](docs/sdks/packsdestinationsstatuses/README.md#list) - List the status of all Destinations within a Pack
+
+#### [Packs.Pipelines](docs/sdks/packspipelines/README.md)
+
+* [create](docs/sdks/packspipelines/README.md#create) - Create a Pipeline within a Pack
+* [list](docs/sdks/packspipelines/README.md#list) - List all Pipelines within a Pack
+* [delete](docs/sdks/packspipelines/README.md#delete) - Delete a Pipeline within a Pack
+* [get](docs/sdks/packspipelines/README.md#get) - Get a Pipeline within a Pack
+* [update](docs/sdks/packspipelines/README.md#update) - Update a Pipeline within a Pack
+
+#### [Packs.Routes](docs/sdks/packsroutes/README.md)
+
+* [get](docs/sdks/packsroutes/README.md#get) - Get a Routing table within a Pack
+* [update](docs/sdks/packsroutes/README.md#update) - Update a Route within a Pack
+* [list](docs/sdks/packsroutes/README.md#list) - List all Routes within a Pack
+* [append](docs/sdks/packsroutes/README.md#append) - Add a Route to the end of the Routing table within a Pack
+
+#### [Packs.Sources](docs/sdks/packssources/README.md)
+
+* [list](docs/sdks/packssources/README.md#list) - List all Sources within a Pack
+* [create](docs/sdks/packssources/README.md#create) - Create a Source within a Pack
+* [get](docs/sdks/packssources/README.md#get) - Get a Source within a Pack
+* [update](docs/sdks/packssources/README.md#update) - Update a Source within a Pack
+* [delete](docs/sdks/packssources/README.md#delete) - Delete a Source within a Pack
+
+##### [Packs.Sources.HecTokens](docs/sdks/packshectokens/README.md)
+
+* [create](docs/sdks/packshectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source within a Pack
+* [update](docs/sdks/packshectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source within a Pack
+
+##### [Packs.Sources.Pq](docs/sdks/packssourcespq/README.md)
+
+* [clear](docs/sdks/packssourcespq/README.md#clear) - Clear the persistent queue for a Source within a Pack
+* [get](docs/sdks/packssourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source within a Pack
+
+##### [Packs.Sources.Statuses](docs/sdks/packssourcesstatuses/README.md)
+
+* [get](docs/sdks/packssourcesstatuses/README.md#get) - Get the status of a Source within a Pack
+* [list](docs/sdks/packssourcesstatuses/README.md#list) - List the status of all Sources within a Pack
+
 ### [Pipelines](docs/sdks/pipelines/README.md)
 
-* [list](docs/sdks/pipelines/README.md#list) - List all Pipelines
 * [create](docs/sdks/pipelines/README.md#create) - Create a Pipeline
+* [list](docs/sdks/pipelines/README.md#list) - List all Pipelines
+* [delete](docs/sdks/pipelines/README.md#delete) - Delete a Pipeline
 * [get](docs/sdks/pipelines/README.md#get) - Get a Pipeline
 * [update](docs/sdks/pipelines/README.md#update) - Update a Pipeline
-* [delete](docs/sdks/pipelines/README.md#delete) - Delete a Pipeline
 
 ### [Routes](docs/sdks/routessdk/README.md)
 
-* [list](docs/sdks/routessdk/README.md#list) - List all Routes
 * [get](docs/sdks/routessdk/README.md#get) - Get a Routing table
 * [update](docs/sdks/routessdk/README.md#update) - Update a Route
+* [list](docs/sdks/routessdk/README.md#list) - List all Routes
 * [append](docs/sdks/routessdk/README.md#append) - Add a Route to the end of the Routing table
 
 ### [Sources](docs/sdks/sources/README.md)
@@ -328,7 +405,25 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [create](docs/sdks/hectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source
 * [update](docs/sdks/hectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source
 
-### [System.Settings.Cribl](docs/sdks/cribl/README.md)
+#### [Sources.Pq](docs/sdks/sourcespq/README.md)
+
+* [clear](docs/sdks/sourcespq/README.md#clear) - Clear the persistent queue for a Source
+* [get](docs/sdks/sourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source
+
+#### [Sources.Statuses](docs/sdks/sourcesstatuses/README.md)
+
+* [get](docs/sdks/sourcesstatuses/README.md#get) - Get the status of a Source
+* [list](docs/sdks/sourcesstatuses/README.md#list) - List the status of all Sources
+
+### [System.Captures](docs/sdks/captures/README.md)
+
+* [create](docs/sdks/captures/README.md#create) - Capture live incoming data
+
+### [System.Settings](docs/sdks/settings/README.md)
+
+* [restart](docs/sdks/settings/README.md#restart) - Restart the Cribl server
+
+#### [System.Settings.Cribl](docs/sdks/cribl/README.md)
 
 * [list](docs/sdks/cribl/README.md#list) - Get Cribl system settings
 * [update](docs/sdks/cribl/README.md#update) - Update Cribl system settings
@@ -357,12 +452,80 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [get](docs/sdks/versionsconfigs/README.md#get) - Get the configuration and status for the Git integration
 
-### [Versions.Statuses](docs/sdks/statuses/README.md)
+### [Versions.Statuses](docs/sdks/versionsstatuses/README.md)
 
-* [get](docs/sdks/statuses/README.md#get) - Get the status of the current working tree
+* [get](docs/sdks/versionsstatuses/README.md#get) - Get the status of the current working tree
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
+
+<!-- Start Json Streaming [jsonl] -->
+## Json Streaming
+
+Json Streaming ([jsonl][jsonl-format] / [x-ndjson][x-ndjson]) content type can be used to stream content from certain operations. These operations will expose the stream as [Generator][generator] that
+can be consumed using a simple `for` loop. The loop will
+terminate when the server no longer has any events to send and closes the
+underlying connection.
+
+The stream is also a [Context Manager][context-manager] and can be used with the `with` statement and will close the
+underlying connection when the context is exited.
+
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.system.captures.create(duration=5, filter_="sourcetype===\"pan:traffic\"", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100)
+
+    with res as jsonl_stream:
+        for event in jsonl_stream:
+            # handle event
+            print(event, flush=True)
+
+```
+
+[jsonl-format]: https://jsonlines.org/
+[x-ndjson]: https://github.com/ndjson/ndjson-spec
+[generator]: https://book.pythontips.com/en/latest/generators.html
+[context-manager]: https://book.pythontips.com/en/latest/context_managers.html
+<!-- End Json Streaming [jsonl] -->
+
+<!-- Start Pagination [pagination] -->
+## Pagination
+
+Some of the endpoints in this SDK support pagination. To use pagination, you make your SDK calls as usual, but the
+returned response object will have a `Next` method that can be called to pull down the next group of results. If the
+return value of `Next` is `None`, then there are no more pages to be fetched.
+
+Here's an example of one such pagination call:
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.nodes.list(product=models.ProductsBase.STREAM)
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+<!-- End Pagination [pagination] -->
 
 <!-- Start File uploads [file-upload] -->
 ## File uploads

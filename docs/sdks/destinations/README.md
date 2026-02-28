@@ -40,9 +40,10 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                                                                                                        | Type                                                                                                                                                             | Required                                                                                                                                                         | Description                                                                                                                                                      |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`                                                                                                                                                           | [Optional[models.DestinationType]](../../models/destinationtype.md)                                                                                              | :heavy_minus_sign:                                                                                                                                               | Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported. |
+| `retries`                                                                                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                 | :heavy_minus_sign:                                                                                                                                               | Configuration to override the default retry behavior of the client.                                                                                              |
 
 ### Response
 
@@ -111,7 +112,7 @@ with CriblControlPlane(
         "tenant_id": "tenant-id",
         "client_id": "client-id",
         "scope": "https://mycluster.kusto.windows.net/.default",
-        "oauth_type": models.AuthenticationMethodAzureDataExplorer.CLIENT_SECRET,
+        "oauth_type": models.CreateOutputAuthenticationMethodAzureDataExplorer.CLIENT_SECRET,
         "client_secret": "client-secret",
         "format_": models.DataFormatOptions.JSON,
         "compress": models.CompressionOptions2.GZIP,
@@ -168,7 +169,7 @@ with CriblControlPlane(
         "id": "azure-logs-output",
         "type": models.CreateOutputTypeAzureLogs.AZURE_LOGS,
         "log_type": "Cribl",
-        "auth_type": models.AuthenticationMethodAzureLogs.MANUAL,
+        "auth_type": models.CreateOutputAuthenticationMethodAzureLogs.MANUAL,
         "workspace_id": "workspace-id",
         "workspace_key": "workspace-key",
     })
@@ -546,11 +547,11 @@ with CriblControlPlane(
         "id": "databricks-output",
         "type": models.CreateOutputTypeDatabricks.DATABRICKS,
         "workspace_id": "your-workspace-id",
-        "scope": "my-scope",
+        "scope": "all-apis",
         "client_id": "your-client-id",
-        "catalog": "my-catalog",
-        "schema_": "my-schema",
-        "events_volume_name": "my-volume",
+        "catalog": "main",
+        "schema_": "external",
+        "events_volume_name": "events",
         "client_text_secret": "your-client-secret",
     })
 
@@ -676,8 +677,8 @@ with CriblControlPlane(
     res = ccp_client.destinations.create(request={
         "id": "dynatrace-http-output",
         "type": models.CreateOutputTypeDynatraceHTTP.DYNATRACE_HTTP,
-        "auth_type": models.AuthenticationTypeDynatraceHTTP.TOKEN,
-        "format_": models.FormatDynatraceHTTP.JSON_ARRAY,
+        "auth_type": models.CreateOutputAuthenticationTypeDynatraceHTTP.TOKEN,
+        "format_": models.CreateOutputFormatDynatraceHTTP.JSON_ARRAY,
         "endpoint": models.CreateOutputEndpoint.CLOUD,
         "telemetry_type": models.CreateOutputTelemetryType.LOGS,
         "token": "your-api-key",
@@ -705,7 +706,7 @@ with CriblControlPlane(
     res = ccp_client.destinations.create(request={
         "id": "dynatrace-otlp-output",
         "type": models.CreateOutputTypeDynatraceOtlp.DYNATRACE_OTLP,
-        "protocol": models.ProtocolDynatraceOtlp.HTTP,
+        "protocol": models.CreateOutputProtocolDynatraceOtlp.HTTP,
         "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp",
         "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
         "endpoint_type": models.CreateOutputEndpointType.SAAS,
@@ -1107,6 +1108,33 @@ with CriblControlPlane(
         "type": models.CreateOutputTypeKinesis.KINESIS,
         "stream_name": "my-stream",
         "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesLocalSearchStorage
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesLocalSearchStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "local-search-storage-output",
+        "type": models.CreateOutputTypeLocalSearchStorage.LOCAL_SEARCH_STORAGE,
+        "url": "http://localhost:8123/",
+        "database": "default",
+        "table_name": "mytable",
     })
 
     # Handle response
@@ -2037,7 +2065,7 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
+Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
 
 ### Example Usage: OutputCreateExamplesAzureBlob
 
@@ -2526,11 +2554,11 @@ with CriblControlPlane(
         "id": "databricks-output",
         "type": models.OutputDatabricksType.DATABRICKS,
         "workspace_id": "your-workspace-id",
-        "scope": "my-scope",
+        "scope": "all-apis",
         "client_id": "your-client-id",
-        "catalog": "my-catalog",
-        "schema_": "my-schema",
-        "events_volume_name": "my-volume",
+        "catalog": "main",
+        "schema_": "external",
+        "events_volume_name": "events",
         "client_text_secret": "your-client-secret",
     })
 
@@ -3087,6 +3115,33 @@ with CriblControlPlane(
         "type": models.OutputKinesisType.KINESIS,
         "stream_name": "my-stream",
         "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesLocalSearchStorage
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="OutputCreateExamplesLocalSearchStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "local-search-storage-output",
+        "type": models.OutputLocalSearchStorageType.LOCAL_SEARCH_STORAGE,
+        "url": "http://localhost:8123/",
+        "database": "default",
+        "table_name": "mytable",
     })
 
     # Handle response

@@ -27,7 +27,7 @@ from cribl_control_plane.models import (
     CompressionOptions2,
     CompressionLevelOptions,
     Pipeline,
-    RoutesRoute,
+    RouteConf,
     PipelineConf,
     ConfInput,
     PipelineFunctionEval,
@@ -107,7 +107,7 @@ pipeline = Pipeline(
 )
 
 # Route configuration: route data from the Source to the Pipeline and Destination
-route = RoutesRoute(
+route = RouteConf(
     final=False,
     id="my_route",
     name="my_route",
@@ -183,10 +183,10 @@ async def main():
 
     # Commit configuration changes
     commit_response = cribl.versions.commits.create(
-        group_id=WORKER_GROUP_ID,
         message="Commit for Cribl Stream example",
         effective=True,
-        files=["."]
+        files=["."],
+        server_url=group_url
     )
     
     if not commit_response.items or len(commit_response.items) == 0:

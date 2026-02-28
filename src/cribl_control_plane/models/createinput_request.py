@@ -20,13 +20,11 @@ from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCert,
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
-from .createinput_inputcribllakehttp import (
+from .createinput_type_tcpjson import (
     CreateInputInputAppscope,
     CreateInputInputAppscopeTypedDict,
     CreateInputInputCloudflareHec,
     CreateInputInputCloudflareHecTypedDict,
-    CreateInputInputCriblLakeHTTP,
-    CreateInputInputCriblLakeHTTPTypedDict,
     CreateInputInputCriblmetrics,
     CreateInputInputCriblmetricsTypedDict,
     CreateInputInputCrowdstrike,
@@ -57,6 +55,8 @@ from .createinput_inputcribllakehttp import (
     CreateInputInputNetflowTypedDict,
     CreateInputInputOpenTelemetry,
     CreateInputInputOpenTelemetryTypedDict,
+    CreateInputInputOpenai,
+    CreateInputInputOpenaiTypedDict,
     CreateInputInputRawUDP,
     CreateInputInputRawUDPTypedDict,
     CreateInputInputS3,
@@ -77,8 +77,6 @@ from .createinput_inputcribllakehttp import (
     CreateInputInputSystemStateTypedDict,
     CreateInputInputTCP,
     CreateInputInputTCPTypedDict,
-    CreateInputInputTcpjson,
-    CreateInputInputTcpjsonTypedDict,
     CreateInputInputWef,
     CreateInputInputWefTypedDict,
     CreateInputInputWinEventLogs,
@@ -91,6 +89,7 @@ from .createinput_inputcribllakehttp import (
     CreateInputInputWizWebhookTypedDict,
     CreateInputInputZscalerHec,
     CreateInputInputZscalerHecTypedDict,
+    CreateInputTypeTcpjson,
 )
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
@@ -107,12 +106,7 @@ from .itemstypeextrahttpheaders import (
     ItemsTypeExtraHTTPHeaders,
     ItemsTypeExtraHTTPHeadersTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
-from .itemstypeoauthheaders import ItemsTypeOauthHeaders, ItemsTypeOauthHeadersTypedDict
-from .itemstypeoauthparams import ItemsTypeOauthParams, ItemsTypeOauthParamsTypedDict
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .itemstypesearchfilter import ItemsTypeSearchFilter, ItemsTypeSearchFilterTypedDict
 from .kafkaschemaregistryauthenticationtype import (
     KafkaSchemaRegistryAuthenticationType,
@@ -121,10 +115,7 @@ from .kafkaschemaregistryauthenticationtype import (
 from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
 from .outputmodeoptionssplunkcollectorconf import OutputModeOptionsSplunkCollectorConf
 from .pqtype import PqType, PqTypeTypedDict
-from .preprocesstypesavedjobcollectioninput import (
-    PreprocessTypeSavedJobCollectionInput,
-    PreprocessTypeSavedJobCollectionInputTypedDict,
-)
+from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
@@ -150,8 +141,579 @@ from cribl_control_plane.utils import get_discriminator
 from enum import Enum
 import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import Any, List, Optional, Union
+from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputInputTcpjsonTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputTypeTcpjson
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: float
+    r"""Port to listen on"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    ip_whitelist_regex: NotRequired[str]
+    r"""Regex matching IP addresses that are allowed to establish a connection"""
+    max_active_cxn: NotRequired[float]
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+    socket_idle_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+    socket_ending_max_wait: NotRequired[float]
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+    socket_max_lifespan: NotRequired[float]
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    enable_load_balancing: NotRequired[bool]
+    r"""Load balance traffic across all Worker Processes"""
+    auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+    description: NotRequired[str]
+    auth_token: NotRequired[str]
+    r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+
+class CreateInputInputTcpjson(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputTypeTcpjson
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: float
+    r"""Port to listen on"""
+
+    disabled: Optional[bool] = None
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    ip_whitelist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipWhitelistRegex")
+    ] = None
+    r"""Regex matching IP addresses that are allowed to establish a connection"""
+
+    max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
+        None
+    )
+    r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
+
+    socket_idle_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketIdleTimeout")
+    ] = None
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. After this time, the connection will be closed. Leave at 0 for no inactive socket monitoring."""
+
+    socket_ending_max_wait: Annotated[
+        Optional[float], pydantic.Field(alias="socketEndingMaxWait")
+    ] = None
+    r"""How long the server will wait after initiating a closure for a client to close its end of the connection. If the client doesn't close the connection within this time, the server will forcefully terminate the socket to prevent resource leaks and ensure efficient connection cleanup and system stability. Leave at 0 for no inactive socket monitoring."""
+
+    socket_max_lifespan: Annotated[
+        Optional[float], pydantic.Field(alias="socketMaxLifespan")
+    ] = None
+    r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = None
+    r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    enable_load_balancing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableLoadBalancing")
+    ] = None
+    r"""Load balance traffic across all Worker Processes"""
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
+        pydantic.Field(alias="authType"),
+    ] = None
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    description: Optional[str] = None
+
+    auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
+    r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsAuthTokensItems(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "tls",
+                "ipWhitelistRegex",
+                "maxActiveCxn",
+                "socketIdleTimeout",
+                "socketEndingMaxWait",
+                "socketMaxLifespan",
+                "enableProxyHeader",
+                "metadata",
+                "enableLoadBalancing",
+                "authType",
+                "description",
+                "authToken",
+                "textSecret",
+                "__template_host",
+                "__template_port",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputTypeCriblLakeHTTP(str, Enum):
+    CRIBL_LAKE_HTTP = "cribl_lake_http"
+
+
+class CreateInputSplunkHecMetadataTypedDict(TypedDict):
+    enabled: NotRequired[bool]
+    default_dataset: NotRequired[str]
+    allowed_indexes_at_token: NotRequired[List[str]]
+
+
+class CreateInputSplunkHecMetadata(BaseModel):
+    enabled: Optional[bool] = None
+
+    default_dataset: Annotated[
+        Optional[str], pydantic.Field(alias="defaultDataset")
+    ] = None
+
+    allowed_indexes_at_token: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "defaultDataset", "allowedIndexesAtToken"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputElasticsearchMetadataTypedDict(TypedDict):
+    enabled: NotRequired[bool]
+    default_dataset: NotRequired[str]
+
+
+class CreateInputElasticsearchMetadata(BaseModel):
+    enabled: Optional[bool] = None
+
+    default_dataset: Annotated[
+        Optional[str], pydantic.Field(alias="defaultDataset")
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "defaultDataset"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputAuthTokensExtTypedDict(TypedDict):
+    token: str
+    description: NotRequired[str]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events referencing this token"""
+    splunk_hec_metadata: NotRequired[CreateInputSplunkHecMetadataTypedDict]
+    elasticsearch_metadata: NotRequired[CreateInputElasticsearchMetadataTypedDict]
+
+
+class CreateInputAuthTokensExt(BaseModel):
+    token: str
+
+    description: Optional[str] = None
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events referencing this token"""
+
+    splunk_hec_metadata: Annotated[
+        Optional[CreateInputSplunkHecMetadata],
+        pydantic.Field(alias="splunkHecMetadata"),
+    ] = None
+
+    elasticsearch_metadata: Annotated[
+        Optional[CreateInputElasticsearchMetadata],
+        pydantic.Field(alias="elasticsearchMetadata"),
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["description", "metadata", "splunkHecMetadata", "elasticsearchMetadata"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputInputCriblLakeHTTPTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputTypeCriblLakeHTTP
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: float
+    r"""Port to listen on"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    auth_tokens: NotRequired[List[str]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    enable_health_check: NotRequired[bool]
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+    cribl_api: NotRequired[str]
+    r"""Absolute path on which to listen for the Cribl HTTP API requests. Only _bulk (default /cribl/_bulk) is available. Use empty string to disable."""
+    elastic_api: NotRequired[str]
+    r"""Absolute path on which to listen for the Elasticsearch API requests. Only _bulk (default /elastic/_bulk) is available. Use empty string to disable."""
+    splunk_hec_api: NotRequired[str]
+    r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
+    splunk_hec_acks: NotRequired[bool]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    auth_tokens_ext: NotRequired[List[CreateInputAuthTokensExtTypedDict]]
+    description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_splunk_hec_api: NotRequired[str]
+    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
+
+
+class CreateInputInputCriblLakeHTTP(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputTypeCriblLakeHTTP
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: float
+    r"""Port to listen on"""
+
+    disabled: Optional[bool] = None
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    auth_tokens: Annotated[Optional[List[str]], pydantic.Field(alias="authTokens")] = (
+        None
+    )
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        None
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = None
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = None
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = None
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = None
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = None
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = None
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = None
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    enable_health_check: Annotated[
+        Optional[bool], pydantic.Field(alias="enableHealthCheck")
+    ] = None
+    r"""Expose the /cribl_health endpoint, which returns 200 OK when this Source is healthy"""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = None
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = None
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    cribl_api: Annotated[Optional[str], pydantic.Field(alias="criblAPI")] = None
+    r"""Absolute path on which to listen for the Cribl HTTP API requests. Only _bulk (default /cribl/_bulk) is available. Use empty string to disable."""
+
+    elastic_api: Annotated[Optional[str], pydantic.Field(alias="elasticAPI")] = None
+    r"""Absolute path on which to listen for the Elasticsearch API requests. Only _bulk (default /elastic/_bulk) is available. Use empty string to disable."""
+
+    splunk_hec_api: Annotated[Optional[str], pydantic.Field(alias="splunkHecAPI")] = (
+        None
+    )
+    r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
+
+    splunk_hec_acks: Annotated[
+        Optional[bool], pydantic.Field(alias="splunkHecAcks")
+    ] = None
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    auth_tokens_ext: Annotated[
+        Optional[List[CreateInputAuthTokensExt]], pydantic.Field(alias="authTokensExt")
+    ] = None
+
+    description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_splunk_hec_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
+    ] = None
+    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "enableHealthCheck",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
+                "criblAPI",
+                "elasticAPI",
+                "splunkHecAPI",
+                "splunkHecAcks",
+                "metadata",
+                "authTokensExt",
+                "description",
+                "__template_host",
+                "__template_port",
+                "__template_splunkHecAPI",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputTypeCriblHTTP(str, Enum):
@@ -205,9 +767,13 @@ class CreateInputInputCriblHTTPTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputCriblHTTP(BaseModel):
@@ -308,10 +874,20 @@ class CreateInputInputCriblHTTP(BaseModel):
     ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -340,6 +916,8 @@ class CreateInputInputCriblHTTP(BaseModel):
                 "ipDenylistRegex",
                 "metadata",
                 "description",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)
@@ -393,13 +971,17 @@ class CreateInputInputCriblTCPTypedDict(TypedDict):
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     enable_proxy_header: NotRequired[bool]
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     enable_load_balancing: NotRequired[bool]
     r"""Load balance traffic across all Worker Processes"""
     auth_tokens: NotRequired[List[ItemsTypeAuthTokensTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputCriblTCP(BaseModel):
@@ -465,7 +1047,7 @@ class CreateInputInputCriblTCP(BaseModel):
     ] = None
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     enable_load_balancing: Annotated[
@@ -479,6 +1061,16 @@ class CreateInputInputCriblTCP(BaseModel):
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
 
     description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -502,6 +1094,8 @@ class CreateInputInputCriblTCP(BaseModel):
                 "enableLoadBalancing",
                 "authTokens",
                 "description",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)
@@ -541,7 +1135,7 @@ class CreateInputInputCriblTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     filter_: NotRequired[str]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -578,7 +1172,7 @@ class CreateInputInputCribl(BaseModel):
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -660,11 +1254,17 @@ class CreateInputInputGooglePubsubTypedDict(TypedDict):
     r"""How many streams to pull messages from at one time. Doubling the value doubles the number of messages this Source pulls from the topic (if available), while consuming more CPU and memory. Defaults to 5."""
     request_timeout: NotRequired[float]
     r"""Pull request timeout, in milliseconds"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     ordered_delivery: NotRequired[bool]
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+    template_topic_name: NotRequired[str]
+    r"""Binds 'topicName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicName' at runtime."""
+    template_subscription_name: NotRequired[str]
+    r"""Binds 'subscriptionName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'subscriptionName' at runtime."""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
 
 class CreateInputInputGooglePubsub(BaseModel):
@@ -744,7 +1344,7 @@ class CreateInputInputGooglePubsub(BaseModel):
     ] = None
     r"""Pull request timeout, in milliseconds"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -753,6 +1353,21 @@ class CreateInputInputGooglePubsub(BaseModel):
         Optional[bool], pydantic.Field(alias="orderedDelivery")
     ] = None
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+
+    template_topic_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_topicName")
+    ] = None
+    r"""Binds 'topicName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicName' at runtime."""
+
+    template_subscription_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_subscriptionName")
+    ] = None
+    r"""Binds 'subscriptionName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'subscriptionName' at runtime."""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
     @field_serializer("google_auth_method")
     def serialize_google_auth_method(self, value):
@@ -788,6 +1403,9 @@ class CreateInputInputGooglePubsub(BaseModel):
                 "metadata",
                 "description",
                 "orderedDelivery",
+                "__template_topicName",
+                "__template_subscriptionName",
+                "__template_region",
             ]
         )
         serialized = handler(self)
@@ -855,9 +1473,13 @@ class CreateInputInputFirehoseTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputFirehose(BaseModel):
@@ -958,10 +1580,20 @@ class CreateInputInputFirehose(BaseModel):
     ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -990,6 +1622,8 @@ class CreateInputInputFirehose(BaseModel):
                 "ipDenylistRegex",
                 "metadata",
                 "description",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)
@@ -1037,6 +1671,8 @@ class CreateInputInputExecTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    script: NotRequired[str]
+    r"""Optional script content to pipe into the command's stdin. The stdin stream is closed after the script is written."""
     retries: NotRequired[float]
     r"""Maximum number of retry attempts in the event that the command fails"""
     schedule_type: NotRequired[CreateInputScheduleType]
@@ -1045,7 +1681,7 @@ class CreateInputInputExecTypedDict(TypedDict):
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     interval: NotRequired[float]
@@ -1087,6 +1723,9 @@ class CreateInputInputExec(BaseModel):
 
     pq: Optional[PqType] = None
 
+    script: Optional[str] = None
+    r"""Optional script content to pipe into the command's stdin. The stdin stream is closed after the script is written."""
+
     retries: Optional[float] = None
     r"""Maximum number of retry attempts in the event that the command fails"""
 
@@ -1105,7 +1744,7 @@ class CreateInputInputExec(BaseModel):
     ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -1137,6 +1776,7 @@ class CreateInputInputExec(BaseModel):
                 "streamtags",
                 "connections",
                 "pq",
+                "script",
                 "retries",
                 "scheduleType",
                 "breakerRulesets",
@@ -1238,7 +1878,7 @@ class CreateInputInputEventhubTypedDict(TypedDict):
     r"""Maximum number of network errors before the consumer re-creates a socket"""
     minimize_duplicates: NotRequired[bool]
     r"""Minimize duplicate events by starting only one consumer for each topic partition"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -1379,7 +2019,7 @@ class CreateInputInputEventhub(BaseModel):
     ] = None
     r"""Minimize duplicate events by starting only one consumer for each topic partition"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -1439,7 +2079,9 @@ class CreateInputTypeOffice365MsgTrace(str, Enum):
     OFFICE365_MSG_TRACE = "office365_msg_trace"
 
 
-class AuthenticationMethodOffice365MsgTrace(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationMethodOffice365MsgTrace(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select authentication method."""
 
     MANUAL = "manual"
@@ -1449,7 +2091,7 @@ class AuthenticationMethodOffice365MsgTrace(str, Enum, metaclass=utils.OpenEnumM
     OAUTH_CERT = "oauthCert"
 
 
-class LogLevelOffice365MsgTrace(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputLogLevelOffice365MsgTrace(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Log Level (verbosity) for collection runtime behavior."""
 
     ERROR = "error"
@@ -1532,13 +2174,13 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[AuthenticationMethodOffice365MsgTrace]
+    auth_type: NotRequired[CreateInputAuthenticationMethodOffice365MsgTrace]
     r"""Select authentication method."""
     reschedule_dropped_tasks: NotRequired[bool]
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
     r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[LogLevelOffice365MsgTrace]
+    log_level: NotRequired[CreateInputLogLevelOffice365MsgTrace]
     r"""Log Level (verbosity) for collection runtime behavior."""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
@@ -1550,7 +2192,7 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
     description: NotRequired[str]
@@ -1573,6 +2215,14 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
     cert_options: NotRequired[CreateInputCertOptionsTypedDict]
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+    template_resource: NotRequired[str]
+    r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
 
 
 class CreateInputInputOffice365MsgTrace(BaseModel):
@@ -1626,7 +2276,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOffice365MsgTrace],
+        Optional[CreateInputAuthenticationMethodOffice365MsgTrace],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
@@ -1642,7 +2292,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[LogLevelOffice365MsgTrace], pydantic.Field(alias="logLevel")
+        Optional[CreateInputLogLevelOffice365MsgTrace], pydantic.Field(alias="logLevel")
     ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
@@ -1667,7 +2317,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     retry_rules: Annotated[
@@ -1711,11 +2361,31 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
         Optional[CreateInputCertOptions], pydantic.Field(alias="certOptions")
     ] = None
 
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
+    template_resource: Annotated[
+        Optional[str], pydantic.Field(alias="__template_resource")
+    ] = None
+    r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOffice365MsgTrace(value)
+                return models.CreateInputAuthenticationMethodOffice365MsgTrace(value)
             except ValueError:
                 return value
         return value
@@ -1724,7 +2394,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelOffice365MsgTrace(value)
+                return models.CreateInputLogLevelOffice365MsgTrace(value)
             except ValueError:
                 return value
         return value
@@ -1776,6 +2446,10 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
                 "planType",
                 "textSecret",
                 "certOptions",
+                "__template_url",
+                "__template_tenantId",
+                "__template_clientId",
+                "__template_resource",
             ]
         )
         serialized = handler(self)
@@ -1796,7 +2470,7 @@ class CreateInputTypeOffice365Service(str, Enum):
     OFFICE365_SERVICE = "office365_service"
 
 
-class ContentConfigOffice365ServiceTypedDict(TypedDict):
+class CreateInputContentConfigOffice365ServiceTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Office 365 Services API Content Type"""
     description: NotRequired[str]
@@ -1807,7 +2481,7 @@ class ContentConfigOffice365ServiceTypedDict(TypedDict):
     enabled: NotRequired[bool]
 
 
-class ContentConfigOffice365Service(BaseModel):
+class CreateInputContentConfigOffice365Service(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Office 365 Services API Content Type"""
 
@@ -1887,9 +2561,9 @@ class CreateInputInputOffice365ServiceTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    content_config: NotRequired[List[ContentConfigOffice365ServiceTypedDict]]
+    content_config: NotRequired[List[CreateInputContentConfigOffice365ServiceTypedDict]]
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
     auth_type: NotRequired[AuthenticationMethodOptions1]
@@ -1899,6 +2573,12 @@ class CreateInputInputOffice365ServiceTypedDict(TypedDict):
     r"""Office 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_app_id: NotRequired[str]
+    r"""Binds 'appId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'appId' at runtime."""
+    template_client_secret: NotRequired[str]
+    r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
 
 
 class CreateInputInputOffice365Service(BaseModel):
@@ -1966,11 +2646,11 @@ class CreateInputInputOffice365Service(BaseModel):
     ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     content_config: Annotated[
-        Optional[List[ContentConfigOffice365Service]],
+        Optional[List[CreateInputContentConfigOffice365Service]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
@@ -1991,6 +2671,21 @@ class CreateInputInputOffice365Service(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_app_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_appId")
+    ] = None
+    r"""Binds 'appId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'appId' at runtime."""
+
+    template_client_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientSecret")
+    ] = None
+    r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
 
     @field_serializer("plan_type")
     def serialize_plan_type(self, value):
@@ -2036,6 +2731,9 @@ class CreateInputInputOffice365Service(BaseModel):
                 "description",
                 "clientSecret",
                 "textSecret",
+                "__template_tenantId",
+                "__template_appId",
+                "__template_clientSecret",
             ]
         )
         serialized = handler(self)
@@ -2056,7 +2754,7 @@ class CreateInputTypeOffice365Mgmt(str, Enum):
     OFFICE365_MGMT = "office365_mgmt"
 
 
-class ContentConfigOffice365MgmtTypedDict(TypedDict):
+class CreateInputContentConfigOffice365MgmtTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Office 365 Management Activity API Content Type"""
     description: NotRequired[str]
@@ -2067,7 +2765,7 @@ class ContentConfigOffice365MgmtTypedDict(TypedDict):
     enabled: NotRequired[bool]
 
 
-class ContentConfigOffice365Mgmt(BaseModel):
+class CreateInputContentConfigOffice365Mgmt(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Office 365 Management Activity API Content Type"""
 
@@ -2147,11 +2845,11 @@ class CreateInputInputOffice365MgmtTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     publisher_identifier: NotRequired[str]
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
-    content_config: NotRequired[List[ContentConfigOffice365MgmtTypedDict]]
+    content_config: NotRequired[List[CreateInputContentConfigOffice365MgmtTypedDict]]
     r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
@@ -2163,6 +2861,14 @@ class CreateInputInputOffice365MgmtTypedDict(TypedDict):
     r"""Office 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_app_id: NotRequired[str]
+    r"""Binds 'appId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'appId' at runtime."""
+    template_publisher_identifier: NotRequired[str]
+    r"""Binds 'publisherIdentifier' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'publisherIdentifier' at runtime."""
+    template_client_secret: NotRequired[str]
+    r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
 
 
 class CreateInputInputOffice365Mgmt(BaseModel):
@@ -2228,7 +2934,7 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     publisher_identifier: Annotated[
@@ -2237,7 +2943,7 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
 
     content_config: Annotated[
-        Optional[List[ContentConfigOffice365Mgmt]],
+        Optional[List[CreateInputContentConfigOffice365Mgmt]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
@@ -2263,6 +2969,26 @@ class CreateInputInputOffice365Mgmt(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_app_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_appId")
+    ] = None
+    r"""Binds 'appId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'appId' at runtime."""
+
+    template_publisher_identifier: Annotated[
+        Optional[str], pydantic.Field(alias="__template_publisherIdentifier")
+    ] = None
+    r"""Binds 'publisherIdentifier' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'publisherIdentifier' at runtime."""
+
+    template_client_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientSecret")
+    ] = None
+    r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
 
     @field_serializer("plan_type")
     def serialize_plan_type(self, value):
@@ -2309,6 +3035,10 @@ class CreateInputInputOffice365Mgmt(BaseModel):
                 "description",
                 "clientSecret",
                 "textSecret",
+                "__template_tenantId",
+                "__template_appId",
+                "__template_publisherIdentifier",
+                "__template_clientSecret",
             ]
         )
         serialized = handler(self)
@@ -2329,7 +3059,7 @@ class CreateInputTypeEdgePrometheus(str, Enum):
     EDGE_PROMETHEUS = "edge_prometheus"
 
 
-class DiscoveryTypeEdgePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputDiscoveryTypeEdgePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     # Static
@@ -2344,7 +3074,9 @@ class DiscoveryTypeEdgePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
     K8S_PODS = "k8s-pods"
 
 
-class AuthenticationMethodEdgePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationMethodEdgePrometheus(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Enter credentials directly, or select a stored secret"""
 
     MANUAL = "manual"
@@ -2437,7 +3169,7 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputTypeEdgePrometheus
-    discovery_type: DiscoveryTypeEdgePrometheus
+    discovery_type: CreateInputDiscoveryTypeEdgePrometheus
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     interval: float
     r"""How often in seconds to scrape targets for metrics."""
@@ -2460,9 +3192,9 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     timeout: NotRequired[float]
     r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
     persistence: NotRequired[DiskSpoolingTypeTypedDict]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_type: NotRequired[AuthenticationMethodEdgePrometheus]
+    auth_type: NotRequired[CreateInputAuthenticationMethodEdgePrometheus]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
     targets: NotRequired[List[CreateInputTargetTypedDict]]
@@ -2522,6 +3254,16 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     r"""Password for Prometheus Basic authentication"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
+    template_aws_api_key: NotRequired[str]
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_assume_role_arn: NotRequired[str]
+    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
+    template_assume_role_external_id: NotRequired[str]
+    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
 
 
 class CreateInputInputEdgePrometheus(BaseModel):
@@ -2531,7 +3273,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     type: CreateInputTypeEdgePrometheus
 
     discovery_type: Annotated[
-        DiscoveryTypeEdgePrometheus, pydantic.Field(alias="discoveryType")
+        CreateInputDiscoveryTypeEdgePrometheus, pydantic.Field(alias="discoveryType")
     ]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
@@ -2572,11 +3314,12 @@ class CreateInputInputEdgePrometheus(BaseModel):
 
     persistence: Optional[DiskSpoolingType] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodEdgePrometheus], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationMethodEdgePrometheus],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -2702,11 +3445,36 @@ class CreateInputInputEdgePrometheus(BaseModel):
     ] = None
     r"""Select or create a secret that references your credentials"""
 
+    template_aws_api_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsApiKey")
+    ] = None
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_assume_role_arn: Annotated[
+        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
+    ] = None
+    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
+
+    template_assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
+    ] = None
+    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+
     @field_serializer("discovery_type")
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
             try:
-                return models.DiscoveryTypeEdgePrometheus(value)
+                return models.CreateInputDiscoveryTypeEdgePrometheus(value)
             except ValueError:
                 return value
         return value
@@ -2715,7 +3483,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodEdgePrometheus(value)
+                return models.CreateInputAuthenticationMethodEdgePrometheus(value)
             except ValueError:
                 return value
         return value
@@ -2802,6 +3570,11 @@ class CreateInputInputEdgePrometheus(BaseModel):
                 "username",
                 "password",
                 "credentialsSecret",
+                "__template_awsApiKey",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
             ]
         )
         serialized = handler(self)
@@ -2822,7 +3595,7 @@ class CreateInputTypePrometheus(str, Enum):
     PROMETHEUS = "prometheus"
 
 
-class DiscoveryTypePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputDiscoveryTypePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     # Static
@@ -2833,7 +3606,7 @@ class DiscoveryTypePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
     EC2 = "ec2"
 
 
-class LogLevelPrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputLogLevelPrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Collector runtime log level"""
 
     ERROR = "error"
@@ -2855,7 +3628,7 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     type: CreateInputTypePrometheus
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
-    log_level: LogLevelPrometheus
+    log_level: CreateInputLogLevelPrometheus
     r"""Collector runtime log level"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -2873,7 +3646,7 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     dimension_list: NotRequired[List[str]]
     r"""Other dimensions to include in events"""
-    discovery_type: NotRequired[DiscoveryTypePrometheus]
+    discovery_type: NotRequired[CreateInputDiscoveryTypePrometheus]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
@@ -2889,7 +3662,7 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     auth_type: NotRequired[AuthenticationMethodOptionsSasl]
     r"""Enter credentials directly, or select a stored secret"""
@@ -2938,6 +3711,18 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     r"""Password for Prometheus Basic authentication"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
+    template_log_level: NotRequired[str]
+    r"""Binds 'logLevel' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLevel' at runtime."""
+    template_aws_api_key: NotRequired[str]
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_assume_role_arn: NotRequired[str]
+    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
+    template_assume_role_external_id: NotRequired[str]
+    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
 
 
 class CreateInputInputPrometheus(BaseModel):
@@ -2949,7 +3734,9 @@ class CreateInputInputPrometheus(BaseModel):
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
 
-    log_level: Annotated[LogLevelPrometheus, pydantic.Field(alias="logLevel")]
+    log_level: Annotated[
+        CreateInputLogLevelPrometheus, pydantic.Field(alias="logLevel")
+    ]
     r"""Collector runtime log level"""
 
     disabled: Optional[bool] = None
@@ -2982,7 +3769,8 @@ class CreateInputInputPrometheus(BaseModel):
     r"""Other dimensions to include in events"""
 
     discovery_type: Annotated[
-        Optional[DiscoveryTypePrometheus], pydantic.Field(alias="discoveryType")
+        Optional[CreateInputDiscoveryTypePrometheus],
+        pydantic.Field(alias="discoveryType"),
     ] = None
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
@@ -3015,7 +3803,7 @@ class CreateInputInputPrometheus(BaseModel):
     ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
@@ -3119,11 +3907,41 @@ class CreateInputInputPrometheus(BaseModel):
     ] = None
     r"""Select or create a secret that references your credentials"""
 
+    template_log_level: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logLevel")
+    ] = None
+    r"""Binds 'logLevel' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLevel' at runtime."""
+
+    template_aws_api_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsApiKey")
+    ] = None
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_assume_role_arn: Annotated[
+        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
+    ] = None
+    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
+
+    template_assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
+    ] = None
+    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+
     @field_serializer("discovery_type")
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
             try:
-                return models.DiscoveryTypePrometheus(value)
+                return models.CreateInputDiscoveryTypePrometheus(value)
             except ValueError:
                 return value
         return value
@@ -3132,7 +3950,7 @@ class CreateInputInputPrometheus(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelPrometheus(value)
+                return models.CreateInputLogLevelPrometheus(value)
             except ValueError:
                 return value
         return value
@@ -3229,6 +4047,12 @@ class CreateInputInputPrometheus(BaseModel):
                 "username",
                 "password",
                 "credentialsSecret",
+                "__template_logLevel",
+                "__template_awsApiKey",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
             ]
         )
         serialized = handler(self)
@@ -3298,7 +4122,7 @@ class CreateInputInputPrometheusRwTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth]
     r"""Remote Write authentication type"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     username: NotRequired[str]
@@ -3309,22 +4133,12 @@ class CreateInputInputPrometheusRwTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_prometheus_api: NotRequired[str]
+    r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
 
 
 class CreateInputInputPrometheusRw(BaseModel):
@@ -3429,7 +4243,7 @@ class CreateInputInputPrometheusRw(BaseModel):
     ] = None
     r"""Remote Write authentication type"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -3449,41 +4263,20 @@ class CreateInputInputPrometheusRw(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
 
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_prometheus_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_prometheusAPI")
     ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -3526,14 +4319,9 @@ class CreateInputInputPrometheusRw(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
+                "__template_host",
+                "__template_port",
+                "__template_prometheusAPI",
             ]
         )
         serialized = handler(self)
@@ -3603,7 +4391,7 @@ class CreateInputInputLokiTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
     r"""Loki logs authentication type"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
     username: NotRequired[str]
@@ -3614,22 +4402,10 @@ class CreateInputInputLokiTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputLoki(BaseModel):
@@ -3733,7 +4509,7 @@ class CreateInputInputLoki(BaseModel):
     ] = None
     r"""Loki logs authentication type"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -3753,41 +4529,15 @@ class CreateInputInputLoki(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
 
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -3830,14 +4580,8 @@ class CreateInputInputLoki(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)
@@ -3869,22 +4613,6 @@ class CreateInputPrometheusAuth2TypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
 class CreateInputPrometheusAuth2(BaseModel):
@@ -3909,42 +4637,6 @@ class CreateInputPrometheusAuth2(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -3964,14 +4656,6 @@ class CreateInputPrometheusAuth2(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
             ]
         )
         serialized = handler(self)
@@ -3999,22 +4683,6 @@ class CreateInputLokiAuth2TypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
 class CreateInputLokiAuth2(BaseModel):
@@ -4038,42 +4706,6 @@ class CreateInputLokiAuth2(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -4093,14 +4725,6 @@ class CreateInputLokiAuth2(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
             ]
         )
         serialized = handler(self)
@@ -4168,9 +4792,13 @@ class CreateInputInputGrafanaGrafana2TypedDict(TypedDict):
     r"""Absolute path on which to listen for Grafana Agent's Remote Write requests. Defaults to /api/prom/push, which will expand as: 'http://<your‑upstream‑URL>:<your‑port>/api/prom/push'. Either this field or 'Logs API endpoint' must be configured."""
     prometheus_auth: NotRequired[CreateInputPrometheusAuth2TypedDict]
     loki_auth: NotRequired[CreateInputLokiAuth2TypedDict]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputGrafanaGrafana2(BaseModel):
@@ -4282,10 +4910,20 @@ class CreateInputInputGrafanaGrafana2(BaseModel):
         Optional[CreateInputLokiAuth2], pydantic.Field(alias="lokiAuth")
     ] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -4316,6 +4954,8 @@ class CreateInputInputGrafanaGrafana2(BaseModel):
                 "lokiAuth",
                 "metadata",
                 "description",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)
@@ -4347,22 +4987,6 @@ class CreateInputPrometheusAuth1TypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
 class CreateInputPrometheusAuth1(BaseModel):
@@ -4387,42 +5011,6 @@ class CreateInputPrometheusAuth1(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -4442,14 +5030,6 @@ class CreateInputPrometheusAuth1(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
             ]
         )
         serialized = handler(self)
@@ -4477,22 +5057,6 @@ class CreateInputLokiAuth1TypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
 class CreateInputLokiAuth1(BaseModel):
@@ -4516,42 +5080,6 @@ class CreateInputLokiAuth1(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -4571,14 +5099,6 @@ class CreateInputLokiAuth1(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
             ]
         )
         serialized = handler(self)
@@ -4646,9 +5166,13 @@ class CreateInputInputGrafanaGrafana1TypedDict(TypedDict):
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
     prometheus_auth: NotRequired[CreateInputPrometheusAuth1TypedDict]
     loki_auth: NotRequired[CreateInputLokiAuth1TypedDict]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputGrafanaGrafana1(BaseModel):
@@ -4758,10 +5282,20 @@ class CreateInputInputGrafanaGrafana1(BaseModel):
         Optional[CreateInputLokiAuth1], pydantic.Field(alias="lokiAuth")
     ] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -4792,6 +5326,8 @@ class CreateInputInputGrafanaGrafana1(BaseModel):
                 "lokiAuth",
                 "metadata",
                 "description",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)
@@ -4901,7 +5437,7 @@ class CreateInputInputConfluentCloudTypedDict(TypedDict):
     r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
     max_socket_errors: NotRequired[float]
     r"""Maximum number of network errors before the consumer re-creates a socket"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -5044,7 +5580,7 @@ class CreateInputInputConfluentCloud(BaseModel):
     ] = None
     r"""Maximum number of network errors before the consumer re-creates a socket"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -5104,7 +5640,7 @@ class CreateInputTypeElastic(str, Enum):
     ELASTIC = "elastic"
 
 
-class AuthenticationTypeElastic(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationTypeElastic(str, Enum, metaclass=utils.OpenEnumMeta):
     # None
     NONE = "none"
     # Basic
@@ -5126,7 +5662,7 @@ class CreateInputAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "custom"
 
 
-class AuthenticationMethodElastic(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationMethodElastic(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Enter credentials directly, or select a stored secret"""
 
     NONE = "none"
@@ -5134,10 +5670,10 @@ class AuthenticationMethodElastic(str, Enum, metaclass=utils.OpenEnumMeta):
     SECRET = "secret"
 
 
-class ProxyModeElasticTypedDict(TypedDict):
+class CreateInputProxyModeElasticTypedDict(TypedDict):
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
-    auth_type: NotRequired[AuthenticationMethodElastic]
+    auth_type: NotRequired[CreateInputAuthenticationMethodElastic]
     r"""Enter credentials directly, or select a stored secret"""
     username: NotRequired[str]
     password: NotRequired[str]
@@ -5151,14 +5687,17 @@ class ProxyModeElasticTypedDict(TypedDict):
     r"""List of headers to remove from the request to proxy"""
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
-class ProxyModeElastic(BaseModel):
+class CreateInputProxyModeElastic(BaseModel):
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodElastic], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationMethodElastic],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Enter credentials directly, or select a stored secret"""
 
@@ -5187,11 +5726,16 @@ class ProxyModeElastic(BaseModel):
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a proxy request to complete before canceling it"""
 
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodElastic(value)
+                return models.CreateInputAuthenticationMethodElastic(value)
             except ValueError:
                 return value
         return value
@@ -5208,6 +5752,7 @@ class ProxyModeElastic(BaseModel):
                 "rejectUnauthorized",
                 "removeHeaders",
                 "timeoutSec",
+                "__template_url",
             ]
         )
         serialized = handler(self)
@@ -5271,14 +5816,14 @@ class CreateInputInputElasticTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    auth_type: NotRequired[AuthenticationTypeElastic]
+    auth_type: NotRequired[CreateInputAuthenticationTypeElastic]
     api_version: NotRequired[CreateInputAPIVersion]
     r"""The API version to use for communicating with the server"""
     extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
     r"""Headers to add to all events"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    proxy_mode: NotRequired[ProxyModeElasticTypedDict]
+    proxy_mode: NotRequired[CreateInputProxyModeElasticTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
     password: NotRequired[str]
@@ -5288,6 +5833,10 @@ class CreateInputInputElasticTypedDict(TypedDict):
     r"""Bearer tokens to include in the authorization header"""
     custom_api_version: NotRequired[str]
     r"""Custom version information to respond to requests"""
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputElastic(BaseModel):
@@ -5387,7 +5936,7 @@ class CreateInputInputElastic(BaseModel):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
     auth_type: Annotated[
-        Optional[AuthenticationTypeElastic], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationTypeElastic], pydantic.Field(alias="authType")
     ] = None
 
     api_version: Annotated[
@@ -5401,11 +5950,11 @@ class CreateInputInputElastic(BaseModel):
     ] = None
     r"""Headers to add to all events"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     proxy_mode: Annotated[
-        Optional[ProxyModeElastic], pydantic.Field(alias="proxyMode")
+        Optional[CreateInputProxyModeElastic], pydantic.Field(alias="proxyMode")
     ] = None
 
     description: Optional[str] = None
@@ -5429,11 +5978,21 @@ class CreateInputInputElastic(BaseModel):
     ] = None
     r"""Custom version information to respond to requests"""
 
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationTypeElastic(value)
+                return models.CreateInputAuthenticationTypeElastic(value)
             except ValueError:
                 return value
         return value
@@ -5482,6 +6041,8 @@ class CreateInputInputElastic(BaseModel):
                 "credentialsSecret",
                 "authTokens",
                 "customAPIVersion",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)
@@ -5534,7 +6095,7 @@ class CreateInputInputAzureBlobTypedDict(TypedDict):
     r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
     skip_on_error: NotRequired[bool]
     r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
@@ -5563,6 +6124,14 @@ class CreateInputInputAzureBlobTypedDict(TypedDict):
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    template_queue_name: NotRequired[str]
+    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
+    template_connection_string: NotRequired[str]
+    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
 
 class CreateInputInputAzureBlob(BaseModel):
@@ -5622,7 +6191,7 @@ class CreateInputInputAzureBlob(BaseModel):
     skip_on_error: Annotated[Optional[bool], pydantic.Field(alias="skipOnError")] = None
     r"""Skip files that trigger a processing error. Disabled by default, which allows retries after processing errors."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     breaker_rulesets: Annotated[
@@ -5685,6 +6254,26 @@ class CreateInputInputAzureBlob(BaseModel):
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
 
+    template_queue_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_queueName")
+    ] = None
+    r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
+
+    template_connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="__template_connectionString")
+    ] = None
+    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -5728,6 +6317,10 @@ class CreateInputInputAzureBlob(BaseModel):
                 "endpointSuffix",
                 "clientTextSecret",
                 "certificate",
+                "__template_queueName",
+                "__template_connectionString",
+                "__template_tenantId",
+                "__template_clientId",
             ]
         )
         serialized = handler(self)
@@ -5748,7 +6341,7 @@ class CreateInputTypeSplunkHec(str, Enum):
     SPLUNK_HEC = "splunk_hec"
 
 
-class AuthTokenSplunkHecTypedDict(TypedDict):
+class CreateInputAuthTokenSplunkHecTypedDict(TypedDict):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
@@ -5760,11 +6353,11 @@ class AuthTokenSplunkHecTypedDict(TypedDict):
     r"""Optional token description"""
     allowed_indexes_at_token: NotRequired[List[str]]
     r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events referencing this token"""
 
 
-class AuthTokenSplunkHec(BaseModel):
+class CreateInputAuthTokenSplunkHec(BaseModel):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
@@ -5787,7 +6380,7 @@ class AuthTokenSplunkHec(BaseModel):
     ] = None
     r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events referencing this token"""
 
     @field_serializer("auth_type")
@@ -5849,7 +6442,7 @@ class CreateInputInputSplunkHecTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    auth_tokens: NotRequired[List[AuthTokenSplunkHecTypedDict]]
+    auth_tokens: NotRequired[List[CreateInputAuthTokenSplunkHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     max_active_req: NotRequired[float]
@@ -5868,12 +6461,11 @@ class CreateInputInputSplunkHecTypedDict(TypedDict):
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
     keep_alive_timeout: NotRequired[float]
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[Any]
     ip_allowlist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
     allowed_indexes: NotRequired[List[str]]
     r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
@@ -5896,6 +6488,12 @@ class CreateInputInputSplunkHecTypedDict(TypedDict):
     emit_token_metrics: NotRequired[bool]
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_splunk_hec_api: NotRequired[str]
+    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
 
 
 class CreateInputInputSplunkHec(BaseModel):
@@ -5938,7 +6536,8 @@ class CreateInputInputSplunkHec(BaseModel):
     pq: Optional[PqType] = None
 
     auth_tokens: Annotated[
-        Optional[List[AuthTokenSplunkHec]], pydantic.Field(alias="authTokens")
+        Optional[List[CreateInputAuthTokenSplunkHec]],
+        pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
@@ -5984,10 +6583,6 @@ class CreateInputInputSplunkHec(BaseModel):
     ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
-    enable_health_check: Annotated[
-        Optional[Any], pydantic.Field(alias="enableHealthCheck")
-    ] = None
-
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
     ] = None
@@ -5998,7 +6593,7 @@ class CreateInputInputSplunkHec(BaseModel):
     ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to every event. Overrides fields added at the token or request level. See [the Source documentation](https://docs.cribl.io/stream/sources-splunk-hec/#fields) for more info."""
 
     allowed_indexes: Annotated[
@@ -6053,6 +6648,21 @@ class CreateInputInputSplunkHec(BaseModel):
 
     description: Optional[str] = None
 
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_splunk_hec_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
+    ] = None
+    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -6075,7 +6685,6 @@ class CreateInputInputSplunkHec(BaseModel):
                 "requestTimeout",
                 "socketTimeout",
                 "keepAliveTimeout",
-                "enableHealthCheck",
                 "ipAllowlistRegex",
                 "ipDenylistRegex",
                 "metadata",
@@ -6090,6 +6699,9 @@ class CreateInputInputSplunkHec(BaseModel):
                 "accessControlAllowHeaders",
                 "emitTokenMetrics",
                 "description",
+                "__template_host",
+                "__template_port",
+                "__template_splunkHecAPI",
             ]
         )
         serialized = handler(self)
@@ -6136,7 +6748,7 @@ class CreateInputEndpointHeader(BaseModel):
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class LogLevelSplunkSearch(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputLogLevelSplunkSearch(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Collector runtime log level (verbosity)"""
 
     ERROR = "error"
@@ -6145,15 +6757,21 @@ class LogLevelSplunkSearch(str, Enum, metaclass=utils.OpenEnumMeta):
     DEBUG = "debug"
 
 
-class AuthenticationTypeSplunkSearch(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputAuthenticationTypeSplunkSearch(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Splunk Search authentication type"""
 
+    # None
     NONE = "none"
+    # Basic
     BASIC = "basic"
+    # Basic (credentials secret)
     CREDENTIALS_SECRET = "credentialsSecret"
+    # Token
     TOKEN = "token"
+    # Token (text secret)
     TEXT_SECRET = "textSecret"
-    OAUTH = "oauth"
 
 
 class CreateInputInputSplunkSearchTypedDict(TypedDict):
@@ -6192,7 +6810,7 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     r"""Optional request parameters to send to the endpoint"""
     endpoint_headers: NotRequired[List[CreateInputEndpointHeaderTypedDict]]
     r"""Optional request headers to send to the endpoint"""
-    log_level: NotRequired[LogLevelSplunkSearch]
+    log_level: NotRequired[CreateInputLogLevelSplunkSearch]
     r"""Collector runtime log level (verbosity)"""
     request_timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
@@ -6212,14 +6830,14 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    auth_type: NotRequired[AuthenticationTypeSplunkSearch]
+    auth_type: NotRequired[CreateInputAuthenticationTypeSplunkSearch]
     r"""Splunk Search authentication type"""
     description: NotRequired[str]
     username: NotRequired[str]
@@ -6230,22 +6848,6 @@ class CreateInputInputSplunkSearchTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
 
 class CreateInputInputSplunkSearch(BaseModel):
@@ -6313,7 +6915,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     r"""Optional request headers to send to the endpoint"""
 
     log_level: Annotated[
-        Optional[LogLevelSplunkSearch], pydantic.Field(alias="logLevel")
+        Optional[CreateInputLogLevelSplunkSearch], pydantic.Field(alias="logLevel")
     ] = None
     r"""Collector runtime log level (verbosity)"""
 
@@ -6356,7 +6958,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     retry_rules: Annotated[
@@ -6374,7 +6976,8 @@ class CreateInputInputSplunkSearch(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_type: Annotated[
-        Optional[AuthenticationTypeSplunkSearch], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationTypeSplunkSearch],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Splunk Search authentication type"""
 
@@ -6395,42 +6998,6 @@ class CreateInputInputSplunkSearch(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
     @field_serializer("output_mode")
     def serialize_output_mode(self, value):
         if isinstance(value, str):
@@ -6444,7 +7011,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelSplunkSearch(value)
+                return models.CreateInputLogLevelSplunkSearch(value)
             except ValueError:
                 return value
         return value
@@ -6453,7 +7020,7 @@ class CreateInputInputSplunkSearch(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationTypeSplunkSearch(value)
+                return models.CreateInputAuthenticationTypeSplunkSearch(value)
             except ValueError:
                 return value
         return value
@@ -6495,14 +7062,6 @@ class CreateInputInputSplunkSearch(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
             ]
         )
         serialized = handler(self)
@@ -6523,13 +7082,13 @@ class CreateInputTypeSplunk(str, Enum):
     SPLUNK = "splunk"
 
 
-class AuthTokenSplunkTypedDict(TypedDict):
+class CreateInputAuthTokenSplunkTypedDict(TypedDict):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     description: NotRequired[str]
 
 
-class AuthTokenSplunk(BaseModel):
+class CreateInputAuthTokenSplunk(BaseModel):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
@@ -6607,13 +7166,13 @@ class CreateInputInputSplunkTypedDict(TypedDict):
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     enable_proxy_header: NotRequired[bool]
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    auth_tokens: NotRequired[List[AuthTokenSplunkTypedDict]]
+    auth_tokens: NotRequired[List[CreateInputAuthTokenSplunkTypedDict]]
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     max_s2_sversion: NotRequired[CreateInputMaxS2SVersion]
     r"""The highest S2S protocol version to advertise during handshake"""
@@ -6626,6 +7185,10 @@ class CreateInputInputSplunkTypedDict(TypedDict):
     r"""Extract and process Splunk-generated metrics as Cribl metrics"""
     compress: NotRequired[CreateInputCompression]
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class CreateInputInputSplunk(BaseModel):
@@ -6696,7 +7259,7 @@ class CreateInputInputSplunk(BaseModel):
     ] = None
     r"""Enable if the connection is proxied by a device that supports proxy protocol v1 or v2"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     breaker_rulesets: Annotated[
@@ -6710,7 +7273,7 @@ class CreateInputInputSplunk(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_tokens: Annotated[
-        Optional[List[AuthTokenSplunk]], pydantic.Field(alias="authTokens")
+        Optional[List[CreateInputAuthTokenSplunk]], pydantic.Field(alias="authTokens")
     ] = None
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
@@ -6738,6 +7301,16 @@ class CreateInputInputSplunk(BaseModel):
 
     compress: Optional[CreateInputCompression] = None
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
     @field_serializer("max_s2_sversion")
     def serialize_max_s2_sversion(self, value):
@@ -6786,6 +7359,8 @@ class CreateInputInputSplunk(BaseModel):
                 "dropControlFields",
                 "extractMetrics",
                 "compress",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)
@@ -6860,11 +7435,17 @@ class CreateInputInputHTTPTypedDict(TypedDict):
     splunk_hec_api: NotRequired[str]
     r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
     splunk_hec_acks: NotRequired[bool]
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[ItemsTypeAuthTokensExtTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_splunk_hec_api: NotRequired[str]
+    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
 
 
 class CreateInputInputHTTP(BaseModel):
@@ -6980,7 +7561,7 @@ class CreateInputInputHTTP(BaseModel):
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
     ] = None
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     auth_tokens_ext: Annotated[
@@ -6989,6 +7570,21 @@ class CreateInputInputHTTP(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_splunk_hec_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
+    ] = None
+    r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -7022,6 +7618,9 @@ class CreateInputInputHTTP(BaseModel):
                 "metadata",
                 "authTokensExt",
                 "description",
+                "__template_host",
+                "__template_port",
+                "__template_splunkHecAPI",
             ]
         )
         serialized = handler(self)
@@ -7090,7 +7689,7 @@ class CreateInputInputMskTypedDict(TypedDict):
     Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
     See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
     """
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
     connection_timeout: NotRequired[float]
@@ -7141,6 +7740,16 @@ class CreateInputInputMskTypedDict(TypedDict):
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_assume_role_arn: NotRequired[str]
+    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
+    template_assume_role_external_id: NotRequired[str]
+    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+    template_aws_api_key: NotRequired[str]
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
 class CreateInputInputMsk(BaseModel):
@@ -7223,7 +7832,7 @@ class CreateInputInputMsk(BaseModel):
     See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
     """
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     kafka_schema_registry: Annotated[
@@ -7339,6 +7948,31 @@ class CreateInputInputMsk(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_assume_role_arn: Annotated[
+        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
+    ] = None
+    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
+
+    template_assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
+    ] = None
+    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+
+    template_aws_api_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsApiKey")
+    ] = None
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -7402,6 +8036,11 @@ class CreateInputInputMsk(BaseModel):
                 "description",
                 "awsApiKey",
                 "awsSecret",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+                "__template_awsApiKey",
             ]
         )
         serialized = handler(self)
@@ -7496,7 +8135,7 @@ class CreateInputInputKafkaTypedDict(TypedDict):
     r"""Maximum number of bytes that Kafka will return per fetch request. Defaults to 10485760 (10 MB)."""
     max_socket_errors: NotRequired[float]
     r"""Maximum number of network errors before the consumer re-creates a socket"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
 
@@ -7639,7 +8278,7 @@ class CreateInputInputKafka(BaseModel):
     ] = None
     r"""Maximum number of network errors before the consumer re-creates a socket"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
@@ -7721,10 +8360,10 @@ class CreateInputInputCollectionTypedDict(TypedDict):
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    preprocess: NotRequired[PreprocessTypeSavedJobCollectionInputTypedDict]
+    preprocess: NotRequired[PreprocessTypeTypedDict]
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     output: NotRequired[str]
     r"""Destination to send results to"""
@@ -7770,14 +8409,14 @@ class CreateInputInputCollection(BaseModel):
     ] = None
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
-    preprocess: Optional[PreprocessTypeSavedJobCollectionInput] = None
+    preprocess: Optional[PreprocessType] = None
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
     ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     output: Optional[str] = None
@@ -7821,65 +8460,66 @@ CreateInputRequestTypedDict = TypeAliasType(
     "CreateInputRequestTypedDict",
     Union[
         CreateInputInputCriblTypedDict,
-        CreateInputInputKubeEventsTypedDict,
         CreateInputInputDatagenTypedDict,
+        CreateInputInputKubeEventsTypedDict,
         CreateInputInputCriblmetricsTypedDict,
         CreateInputInputKubeMetricsTypedDict,
         CreateInputInputCollectionTypedDict,
-        CreateInputInputModelDrivenTelemetryTypedDict,
-        CreateInputInputWindowsMetricsTypedDict,
         CreateInputInputSystemMetricsTypedDict,
+        CreateInputInputWindowsMetricsTypedDict,
         CreateInputInputSystemStateTypedDict,
         CreateInputInputJournalFilesTypedDict,
-        CreateInputInputExecTypedDict,
         CreateInputInputKubeLogsTypedDict,
+        CreateInputInputModelDrivenTelemetryTypedDict,
+        CreateInputInputExecTypedDict,
+        CreateInputInputWinEventLogsTypedDict,
         CreateInputInputRawUDPTypedDict,
         CreateInputInputSnmpTypedDict,
         CreateInputInputMetricsTypedDict,
-        CreateInputInputWinEventLogsTypedDict,
-        CreateInputInputCriblTCPTypedDict,
         CreateInputInputNetflowTypedDict,
-        CreateInputInputGooglePubsubTypedDict,
+        CreateInputInputCriblTCPTypedDict,
+        CreateInputInputOpenaiTypedDict,
         CreateInputInputTcpjsonTypedDict,
-        CreateInputInputOffice365ServiceTypedDict,
-        CreateInputInputWizTypedDict,
+        CreateInputInputGooglePubsubTypedDict,
         CreateInputInputFirehoseTypedDict,
         CreateInputInputCriblHTTPTypedDict,
-        CreateInputInputOffice365MgmtTypedDict,
-        CreateInputInputDatadogAgentTypedDict,
+        CreateInputInputWizTypedDict,
+        CreateInputInputOffice365ServiceTypedDict,
         CreateInputInputTCPTypedDict,
+        CreateInputInputDatadogAgentTypedDict,
         CreateInputInputSplunkTypedDict,
+        CreateInputInputFileTypedDict,
+        CreateInputInputOffice365MgmtTypedDict,
         CreateInputInputWefTypedDict,
         CreateInputInputAppscopeTypedDict,
-        CreateInputInputFileTypedDict,
-        CreateInputInputWizWebhookTypedDict,
-        CreateInputInputHTTPTypedDict,
-        CreateInputInputCriblLakeHTTPTypedDict,
         CreateInputInputHTTPRawTypedDict,
-        CreateInputInputAzureBlobTypedDict,
-        CreateInputInputZscalerHecTypedDict,
-        CreateInputInputSqsTypedDict,
-        CreateInputInputCloudflareHecTypedDict,
-        CreateInputInputKinesisTypedDict,
+        CreateInputInputWizWebhookTypedDict,
         CreateInputInputEventhubTypedDict,
-        CreateInputInputConfluentCloudTypedDict,
+        CreateInputInputCloudflareHecTypedDict,
+        CreateInputInputZscalerHecTypedDict,
         CreateInputInputKafkaTypedDict,
+        CreateInputInputHTTPTypedDict,
+        CreateInputInputConfluentCloudTypedDict,
+        CreateInputInputCriblLakeHTTPTypedDict,
+        CreateInputInputLokiTypedDict,
+        CreateInputInputPrometheusRwTypedDict,
+        CreateInputInputOpenTelemetryTypedDict,
+        CreateInputInputAzureBlobTypedDict,
         CreateInputInputElasticTypedDict,
         CreateInputInputSplunkHecTypedDict,
+        CreateInputInputSqsTypedDict,
+        CreateInputInputSplunkSearchTypedDict,
+        CreateInputInputKinesisTypedDict,
         CreateInputInputOffice365MsgTraceTypedDict,
-        CreateInputInputPrometheusRwTypedDict,
-        CreateInputInputLokiTypedDict,
         CreateInputInputCrowdstrikeTypedDict,
-        CreateInputInputOpenTelemetryTypedDict,
         CreateInputInputEdgePrometheusTypedDict,
-        CreateInputInputSecurityLakeTypedDict,
-        CreateInputInputS3TypedDict,
         CreateInputInputMskTypedDict,
         CreateInputInputPrometheusTypedDict,
-        CreateInputInputSplunkSearchTypedDict,
+        CreateInputInputS3TypedDict,
+        CreateInputInputSecurityLakeTypedDict,
         CreateInputInputS3InventoryTypedDict,
-        CreateInputInputGrafanaUnionTypedDict,
         CreateInputInputSyslogUnionTypedDict,
+        CreateInputInputGrafanaUnionTypedDict,
     ],
 )
 r"""Input object"""
@@ -7942,6 +8582,7 @@ CreateInputRequest = Annotated[
         Annotated[CreateInputInputRawUDP, Tag("raw_udp")],
         Annotated[CreateInputInputJournalFiles, Tag("journal_files")],
         Annotated[CreateInputInputWiz, Tag("wiz")],
+        Annotated[CreateInputInputOpenai, Tag("openai")],
         Annotated[CreateInputInputWizWebhook, Tag("wiz_webhook")],
         Annotated[CreateInputInputNetflow, Tag("netflow")],
         Annotated[CreateInputInputSecurityLake, Tag("security_lake")],
@@ -7953,6 +8594,26 @@ CreateInputRequest = Annotated[
 r"""Input object"""
 
 
+try:
+    CreateInputInputTcpjson.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSplunkHecMetadata.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputElasticsearchMetadata.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputAuthTokensExt.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputCriblLakeHTTP.model_rebuild()
+except NameError:
+    pass
 try:
     CreateInputInputCriblHTTP.model_rebuild()
 except NameError:
@@ -7990,7 +8651,7 @@ try:
 except NameError:
     pass
 try:
-    ContentConfigOffice365Service.model_rebuild()
+    CreateInputContentConfigOffice365Service.model_rebuild()
 except NameError:
     pass
 try:
@@ -7998,7 +8659,7 @@ try:
 except NameError:
     pass
 try:
-    ContentConfigOffice365Mgmt.model_rebuild()
+    CreateInputContentConfigOffice365Mgmt.model_rebuild()
 except NameError:
     pass
 try:
@@ -8054,7 +8715,7 @@ try:
 except NameError:
     pass
 try:
-    ProxyModeElastic.model_rebuild()
+    CreateInputProxyModeElastic.model_rebuild()
 except NameError:
     pass
 try:
@@ -8066,7 +8727,7 @@ try:
 except NameError:
     pass
 try:
-    AuthTokenSplunkHec.model_rebuild()
+    CreateInputAuthTokenSplunkHec.model_rebuild()
 except NameError:
     pass
 try:

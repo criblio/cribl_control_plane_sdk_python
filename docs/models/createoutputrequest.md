@@ -371,6 +371,12 @@ value: models.CreateOutputOutputDiskSpool = /* values here */
 value: models.CreateOutputOutputClickHouse = /* values here */
 ```
 
+### `models.CreateOutputOutputLocalSearchStorage`
+
+```python
+value: models.CreateOutputOutputLocalSearchStorage = /* values here */
+```
+
 ### `models.CreateOutputOutputXsiam`
 
 ```python

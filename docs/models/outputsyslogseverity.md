@@ -5,13 +5,13 @@ Default value for message severity. Will be overwritten by value of __severity i
 
 ## Values
 
-| Name    | Value   |
-| ------- | ------- |
-| `ZERO`  | 0       |
-| `ONE`   | 1       |
-| `TWO`   | 2       |
-| `THREE` | 3       |
-| `FOUR`  | 4       |
-| `FIVE`  | 5       |
-| `SIX`   | 6       |
-| `SEVEN` | 7       |
+| Name        | Value       |
+| ----------- | ----------- |
+| `EMERGENCY` | 0           |
+| `ALERT`     | 1           |
+| `CRITICAL`  | 2           |
+| `ERROR`     | 3           |
+| `WARNING`   | 4           |
+| `NOTICE`    | 5           |
+| `INFO`      | 6           |
+| `DEBUG`     | 7           |

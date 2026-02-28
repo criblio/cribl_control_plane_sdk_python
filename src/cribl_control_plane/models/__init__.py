@@ -2213,6 +2213,10 @@ if TYPE_CHECKING:
         FunctionConfSchemaLocalSearchRulesetRunnerTypedDict,
         RulesetType,
     )
+    from .functionconfschemalocalsearchtransformer import (
+        FunctionConfSchemaLocalSearchTransformer,
+        FunctionConfSchemaLocalSearchTransformerTypedDict,
+    )
     from .functionconfschemanotificationpolicies import (
         Condition,
         ConditionTypedDict,
@@ -2399,6 +2403,11 @@ if TYPE_CHECKING:
         FunctionLocalSearchRulesetRunner,
         FunctionLocalSearchRulesetRunnerID,
         FunctionLocalSearchRulesetRunnerTypedDict,
+    )
+    from .functionlocalsearchtransformer import (
+        FunctionLocalSearchTransformer,
+        FunctionLocalSearchTransformerID,
+        FunctionLocalSearchTransformerTypedDict,
     )
     from .functionlookup import (
         FunctionLookup,
@@ -4640,6 +4649,11 @@ if TYPE_CHECKING:
         PipelineFunctionLocalSearchRulesetRunner,
         PipelineFunctionLocalSearchRulesetRunnerID,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
+    )
+    from .pipelinefunctionlocalsearchtransformer import (
+        PipelineFunctionLocalSearchTransformer,
+        PipelineFunctionLocalSearchTransformerID,
+        PipelineFunctionLocalSearchTransformerTypedDict,
     )
     from .pipelinefunctionlookup import (
         LookupDbLookupFalse,
@@ -9240,6 +9254,8 @@ __all__ = [
     "FunctionConfSchemaLocalSearchDatatypeParserTypedDict",
     "FunctionConfSchemaLocalSearchRulesetRunner",
     "FunctionConfSchemaLocalSearchRulesetRunnerTypedDict",
+    "FunctionConfSchemaLocalSearchTransformer",
+    "FunctionConfSchemaLocalSearchTransformerTypedDict",
     "FunctionConfSchemaNotificationPolicies",
     "FunctionConfSchemaNotificationPoliciesTypedDict",
     "FunctionConfSchemaNumerify",
@@ -9338,6 +9354,9 @@ __all__ = [
     "FunctionLocalSearchRulesetRunner",
     "FunctionLocalSearchRulesetRunnerID",
     "FunctionLocalSearchRulesetRunnerTypedDict",
+    "FunctionLocalSearchTransformer",
+    "FunctionLocalSearchTransformerID",
+    "FunctionLocalSearchTransformerTypedDict",
     "FunctionLookup",
     "FunctionLookupID",
     "FunctionLookupTypedDict",
@@ -11049,6 +11068,9 @@ __all__ = [
     "PipelineFunctionLocalSearchRulesetRunner",
     "PipelineFunctionLocalSearchRulesetRunnerID",
     "PipelineFunctionLocalSearchRulesetRunnerTypedDict",
+    "PipelineFunctionLocalSearchTransformer",
+    "PipelineFunctionLocalSearchTransformerID",
+    "PipelineFunctionLocalSearchTransformerTypedDict",
     "PipelineFunctionLookup",
     "PipelineFunctionLookupConf",
     "PipelineFunctionLookupConfTypedDict",
@@ -15453,6 +15475,8 @@ _dynamic_imports: dict[str, str] = {
     "FunctionConfSchemaLocalSearchRulesetRunner": ".functionconfschemalocalsearchrulesetrunner",
     "FunctionConfSchemaLocalSearchRulesetRunnerTypedDict": ".functionconfschemalocalsearchrulesetrunner",
     "RulesetType": ".functionconfschemalocalsearchrulesetrunner",
+    "FunctionConfSchemaLocalSearchTransformer": ".functionconfschemalocalsearchtransformer",
+    "FunctionConfSchemaLocalSearchTransformerTypedDict": ".functionconfschemalocalsearchtransformer",
     "Condition": ".functionconfschemanotificationpolicies",
     "ConditionTypedDict": ".functionconfschemanotificationpolicies",
     "FunctionConfSchemaNotificationPolicies": ".functionconfschemanotificationpolicies",
@@ -15594,6 +15618,9 @@ _dynamic_imports: dict[str, str] = {
     "FunctionLocalSearchRulesetRunner": ".functionlocalsearchrulesetrunner",
     "FunctionLocalSearchRulesetRunnerID": ".functionlocalsearchrulesetrunner",
     "FunctionLocalSearchRulesetRunnerTypedDict": ".functionlocalsearchrulesetrunner",
+    "FunctionLocalSearchTransformer": ".functionlocalsearchtransformer",
+    "FunctionLocalSearchTransformerID": ".functionlocalsearchtransformer",
+    "FunctionLocalSearchTransformerTypedDict": ".functionlocalsearchtransformer",
     "FunctionLookup": ".functionlookup",
     "FunctionLookupID": ".functionlookup",
     "FunctionLookupTypedDict": ".functionlookup",
@@ -17464,6 +17491,9 @@ _dynamic_imports: dict[str, str] = {
     "PipelineFunctionLocalSearchRulesetRunner": ".pipelinefunctionlocalsearchrulesetrunner",
     "PipelineFunctionLocalSearchRulesetRunnerID": ".pipelinefunctionlocalsearchrulesetrunner",
     "PipelineFunctionLocalSearchRulesetRunnerTypedDict": ".pipelinefunctionlocalsearchrulesetrunner",
+    "PipelineFunctionLocalSearchTransformer": ".pipelinefunctionlocalsearchtransformer",
+    "PipelineFunctionLocalSearchTransformerID": ".pipelinefunctionlocalsearchtransformer",
+    "PipelineFunctionLocalSearchTransformerTypedDict": ".pipelinefunctionlocalsearchtransformer",
     "LookupDbLookupFalse": ".pipelinefunctionlookup",
     "LookupDbLookupFalseMatchModeCidr": ".pipelinefunctionlookup",
     "LookupDbLookupFalseMatchModeCidrInField": ".pipelinefunctionlookup",

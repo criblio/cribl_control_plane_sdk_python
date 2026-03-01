@@ -16,19 +16,15 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class PipelineGroupsTypedDict(TypedDict):
     name: str
     description: NotRequired[str]
-    r"""Short description of this group"""
     disabled: NotRequired[bool]
-    r"""Whether this group is disabled"""
 
 
 class PipelineGroups(BaseModel):
     name: str
 
     description: Optional[str] = None
-    r"""Short description of this group"""
 
     disabled: Optional[bool] = None
-    r"""Whether this group is disabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

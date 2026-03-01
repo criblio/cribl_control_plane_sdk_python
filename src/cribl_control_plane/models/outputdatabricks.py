@@ -29,17 +29,17 @@ class OutputDatabricksType(str, Enum):
 class OutputDatabricksTypedDict(TypedDict):
     type: OutputDatabricksType
     workspace_id: str
-    r"""Databricks workspace ID"""
+    r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
     scope: str
     r"""OAuth scope for Unity Catalog authentication"""
     client_id: str
     r"""OAuth client ID for Unity Catalog authentication"""
     catalog: str
-    r"""Name of the catalog to use for the output"""
+    r"""Name of the Unity Catalog catalog to use for the Destination."""
     schema_: str
-    r"""Name of the catalog schema to use for the output"""
+    r"""Name of the Unity Catalog schema to use for the Destination."""
     events_volume_name: str
-    r"""Name of the events volume in Databricks"""
+    r"""Name of the Unity Catalog volume where event data is written."""
     client_text_secret: str
     r"""OAuth client secret for Unity Catalog authentication"""
     id: NotRequired[str]
@@ -89,8 +89,8 @@ class OutputDatabricksTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
-    timeout_sec: NotRequired[float]
-    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    timeout_sec: NotRequired[int]
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
     description: NotRequired[str]
     compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -134,7 +134,7 @@ class OutputDatabricks(BaseModel):
     type: OutputDatabricksType
 
     workspace_id: Annotated[str, pydantic.Field(alias="workspaceId")]
-    r"""Databricks workspace ID"""
+    r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
 
     scope: str
     r"""OAuth scope for Unity Catalog authentication"""
@@ -143,13 +143,13 @@ class OutputDatabricks(BaseModel):
     r"""OAuth client ID for Unity Catalog authentication"""
 
     catalog: str
-    r"""Name of the catalog to use for the output"""
+    r"""Name of the Unity Catalog catalog to use for the Destination."""
 
     schema_: Annotated[str, pydantic.Field(alias="schema")]
-    r"""Name of the catalog schema to use for the output"""
+    r"""Name of the Unity Catalog schema to use for the Destination."""
 
     events_volume_name: Annotated[str, pydantic.Field(alias="eventsVolumeName")]
-    r"""Name of the events volume in Databricks"""
+    r"""Name of the Unity Catalog volume where event data is written."""
 
     client_text_secret: Annotated[str, pydantic.Field(alias="clientTextSecret")]
     r"""OAuth client secret for Unity Catalog authentication"""
@@ -260,8 +260,8 @@ class OutputDatabricks(BaseModel):
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
-    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    timeout_sec: Annotated[Optional[int], pydantic.Field(alias="timeoutSec")] = None
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
 
     description: Optional[str] = None
 

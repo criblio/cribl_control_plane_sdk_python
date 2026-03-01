@@ -18,7 +18,7 @@ class GetInputStatusSystemInputsByPackAndIDRequestTypedDict(TypedDict):
     pack: str
     r"""The <code>id</code> of the Pack to get."""
     metrics: NotRequired[bool]
-    r"""Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default)."""
+    r"""Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default)."""
     type: NotRequired[bool]
     r"""Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default)."""
 
@@ -38,7 +38,7 @@ class GetInputStatusSystemInputsByPackAndIDRequest(BaseModel):
         Optional[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default)."""
+    r"""Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default)."""
 
     type: Annotated[
         Optional[bool],

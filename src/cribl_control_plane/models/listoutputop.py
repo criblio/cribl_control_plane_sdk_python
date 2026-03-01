@@ -4,29 +4,18 @@ from __future__ import annotations
 from .destinationtype import DestinationType
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from cribl_control_plane.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-)
+from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
 from pydantic import field_serializer, model_serializer
 from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetOutputSystemByPackRequestTypedDict(TypedDict):
-    pack: str
-    r"""The <code>id</code> of the Pack to list."""
+class ListOutputRequestTypedDict(TypedDict):
     type: NotRequired[DestinationType]
     r"""Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported."""
 
 
-class GetOutputSystemByPackRequest(BaseModel):
-    pack: Annotated[
-        str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
-    ]
-    r"""The <code>id</code> of the Pack to list."""
-
+class ListOutputRequest(BaseModel):
     type: Annotated[
         Optional[DestinationType],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),

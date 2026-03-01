@@ -221,7 +221,7 @@ class PacksSamples(BaseSDK):
 
         :param id: The <code>id</code> of the Destination to send sample event data to.
         :param pack: The <code>id</code> of the Pack to create.
-        :param events:
+        :param events: Array of event objects to send to the Destination for testing.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -328,7 +328,7 @@ class PacksSamples(BaseSDK):
 
         :param id: The <code>id</code> of the Destination to send sample event data to.
         :param pack: The <code>id</code> of the Pack to create.
-        :param events:
+        :param events: Array of event objects to send to the Destination for testing.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

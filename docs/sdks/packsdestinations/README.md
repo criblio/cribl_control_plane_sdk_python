@@ -38,10 +38,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack to list.                            |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                                                                                                        | Type                                                                                                                                                             | Required                                                                                                                                                         | Description                                                                                                                                                      |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pack`                                                                                                                                                           | *str*                                                                                                                                                            | :heavy_check_mark:                                                                                                                                               | The <code>id</code> of the Pack to list.                                                                                                                         |
+| `type`                                                                                                                                                           | [Optional[models.DestinationType]](../../models/destinationtype.md)                                                                                              | :heavy_minus_sign:                                                                                                                                               | Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported. |
+| `retries`                                                                                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                 | :heavy_minus_sign:                                                                                                                                               | Configuration to override the default retry behavior of the client.                                                                                              |
 
 ### Response
 
@@ -545,11 +546,11 @@ with CriblControlPlane(
         "id": "databricks-output",
         "type": models.CreateOutputSystemByPackTypeDatabricks.DATABRICKS,
         "workspace_id": "your-workspace-id",
-        "scope": "my-scope",
+        "scope": "all-apis",
         "client_id": "your-client-id",
-        "catalog": "my-catalog",
-        "schema_": "my-schema",
-        "events_volume_name": "my-volume",
+        "catalog": "main",
+        "schema_": "external",
+        "events_volume_name": "events",
         "client_text_secret": "your-client-secret",
     })
 
@@ -2065,7 +2066,7 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
+Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
 
 ### Example Usage: OutputCreateExamplesAzureBlob
 
@@ -2554,11 +2555,11 @@ with CriblControlPlane(
         "id": "databricks-output",
         "type": models.OutputDatabricksType.DATABRICKS,
         "workspace_id": "your-workspace-id",
-        "scope": "my-scope",
+        "scope": "all-apis",
         "client_id": "your-client-id",
-        "catalog": "my-catalog",
-        "schema_": "my-schema",
-        "events_volume_name": "my-volume",
+        "catalog": "main",
+        "schema_": "external",
+        "events_volume_name": "events",
         "client_text_secret": "your-client-secret",
     })
 

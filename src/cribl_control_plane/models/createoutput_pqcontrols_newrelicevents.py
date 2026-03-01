@@ -1176,17 +1176,17 @@ class CreateOutputOutputDatabricksTypedDict(TypedDict):
     r"""Unique ID for this output"""
     type: CreateOutputTypeDatabricks
     workspace_id: str
-    r"""Databricks workspace ID"""
+    r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
     scope: str
     r"""OAuth scope for Unity Catalog authentication"""
     client_id: str
     r"""OAuth client ID for Unity Catalog authentication"""
     catalog: str
-    r"""Name of the catalog to use for the output"""
+    r"""Name of the Unity Catalog catalog to use for the Destination."""
     schema_: str
-    r"""Name of the catalog schema to use for the output"""
+    r"""Name of the Unity Catalog schema to use for the Destination."""
     events_volume_name: str
-    r"""Name of the events volume in Databricks"""
+    r"""Name of the Unity Catalog volume where event data is written."""
     client_text_secret: str
     r"""OAuth client secret for Unity Catalog authentication"""
     pipeline: NotRequired[str]
@@ -1234,8 +1234,8 @@ class CreateOutputOutputDatabricksTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
-    timeout_sec: NotRequired[float]
-    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    timeout_sec: NotRequired[int]
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
     description: NotRequired[str]
     compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -1282,7 +1282,7 @@ class CreateOutputOutputDatabricks(BaseModel):
     type: CreateOutputTypeDatabricks
 
     workspace_id: Annotated[str, pydantic.Field(alias="workspaceId")]
-    r"""Databricks workspace ID"""
+    r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
 
     scope: str
     r"""OAuth scope for Unity Catalog authentication"""
@@ -1291,13 +1291,13 @@ class CreateOutputOutputDatabricks(BaseModel):
     r"""OAuth client ID for Unity Catalog authentication"""
 
     catalog: str
-    r"""Name of the catalog to use for the output"""
+    r"""Name of the Unity Catalog catalog to use for the Destination."""
 
     schema_: Annotated[str, pydantic.Field(alias="schema")]
-    r"""Name of the catalog schema to use for the output"""
+    r"""Name of the Unity Catalog schema to use for the Destination."""
 
     events_volume_name: Annotated[str, pydantic.Field(alias="eventsVolumeName")]
-    r"""Name of the events volume in Databricks"""
+    r"""Name of the Unity Catalog volume where event data is written."""
 
     client_text_secret: Annotated[str, pydantic.Field(alias="clientTextSecret")]
     r"""OAuth client secret for Unity Catalog authentication"""
@@ -1405,8 +1405,8 @@ class CreateOutputOutputDatabricks(BaseModel):
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
-    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    timeout_sec: Annotated[Optional[int], pydantic.Field(alias="timeoutSec")] = None
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
 
     description: Optional[str] = None
 
@@ -7944,7 +7944,7 @@ class CreateOutputOutputCriblSearchEngineTypedDict(TypedDict):
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     auth_tokens: NotRequired[List[ItemsTypeAuthTokens1TypedDict]]
-    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud."""
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     use_round_robin_dns: NotRequired[bool]
@@ -8093,7 +8093,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     auth_tokens: Annotated[
         Optional[List[ItemsTypeAuthTokens1]], pydantic.Field(alias="authTokens")
     ] = None
-    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud."""
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")

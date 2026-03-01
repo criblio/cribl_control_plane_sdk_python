@@ -2039,6 +2039,7 @@ if TYPE_CHECKING:
         DeployRequestLookupsTypedDict,
     )
     from .destinationprotocoloptions import DestinationProtocolOptions
+    from .destinationtype import DestinationType
     from .difffiles import (
         Block,
         BlockTypedDict,
@@ -3750,6 +3751,7 @@ if TYPE_CHECKING:
         ListConfigGroupByProductRequest,
         ListConfigGroupByProductRequestTypedDict,
     )
+    from .listoutputop import ListOutputRequest, ListOutputRequestTypedDict
     from .logininfo import LoginInfo, LoginInfoTypedDict
     from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
     from .logleveloptionsrunnablejobcollectionschedulerun import (
@@ -9080,6 +9082,7 @@ __all__ = [
     "DeployRequestLookupsTypedDict",
     "DeployRequestTypedDict",
     "DestinationProtocolOptions",
+    "DestinationType",
     "DiffFiles",
     "DiffFilesTypedDict",
     "DiffLine",
@@ -10421,6 +10424,8 @@ __all__ = [
     "LakehouseConnectionType",
     "ListConfigGroupByProductRequest",
     "ListConfigGroupByProductRequestTypedDict",
+    "ListOutputRequest",
+    "ListOutputRequestTypedDict",
     "ListeningPorts",
     "ListeningPortsTypedDict",
     "LogLevelForFailedLookups",
@@ -15350,6 +15355,7 @@ _dynamic_imports: dict[str, str] = {
     "DeployRequestLookupsLookupTypedDict": ".deployrequestlookups",
     "DeployRequestLookupsTypedDict": ".deployrequestlookups",
     "DestinationProtocolOptions": ".destinationprotocoloptions",
+    "DestinationType": ".destinationtype",
     "Block": ".difffiles",
     "BlockTypedDict": ".difffiles",
     "ChecksumBefore": ".difffiles",
@@ -16788,6 +16794,8 @@ _dynamic_imports: dict[str, str] = {
     "LakehouseConnectionType": ".lakehouseconnectiontype",
     "ListConfigGroupByProductRequest": ".listconfiggroupbyproductop",
     "ListConfigGroupByProductRequestTypedDict": ".listconfiggroupbyproductop",
+    "ListOutputRequest": ".listoutputop",
+    "ListOutputRequestTypedDict": ".listoutputop",
     "LoginInfo": ".logininfo",
     "LoginInfoTypedDict": ".logininfo",
     "LogLevelOptionsContentConfigItems": ".logleveloptionscontentconfigitems",

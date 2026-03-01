@@ -37,6 +37,7 @@ class Destinations(BaseSDK):
     def list(
         self,
         *,
+        type_: Optional[models.DestinationType] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -46,6 +47,7 @@ class Destinations(BaseSDK):
 
         Get a list of all Destinations.
 
+        :param type: Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -60,12 +62,17 @@ class Destinations(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.ListOutputRequest(
+            type=type_,
+        )
+
         req = self._build_request(
             method="GET",
             path="/system/outputs",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -122,6 +129,7 @@ class Destinations(BaseSDK):
     async def list_async(
         self,
         *,
+        type_: Optional[models.DestinationType] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -131,6 +139,7 @@ class Destinations(BaseSDK):
 
         Get a list of all Destinations.
 
+        :param type: Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -145,12 +154,17 @@ class Destinations(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.ListOutputRequest(
+            type=type_,
+        )
+
         req = self._build_request_async(
             method="GET",
             path="/system/outputs",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -590,7 +604,7 @@ class Destinations(BaseSDK):
     ) -> models.CountedOutput:
         r"""Update a Destination
 
-        Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
+        Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
 
         :param id: The <code>id</code> of the Destination to update.
         :param output: Output object
@@ -688,7 +702,7 @@ class Destinations(BaseSDK):
     ) -> models.CountedOutput:
         r"""Update a Destination
 
-        Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
+        Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
 
         :param id: The <code>id</code> of the Destination to update.
         :param output: Output object

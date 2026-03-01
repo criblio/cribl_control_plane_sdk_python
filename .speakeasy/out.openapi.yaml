@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-alpha.1772233558002-f6d75b50
+  version: 4.17.0-alpha.1772242696685-566cc787
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -32419,7 +32419,7 @@ components:
         authTokens:
           type: array
           title: Connected environment tokens
-          description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud.
+          description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud.
           items:
             $ref: "#/components/schemas/ItemsTypeAuthTokens1"
         onBackpressure:
@@ -35545,7 +35545,7 @@ components:
         workspaceId:
           type: string
           title: Workspace ID
-          description: Databricks workspace ID
+          description: Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL.
         scope:
           type: string
           title: OAuth scope
@@ -35557,23 +35557,23 @@ components:
         catalog:
           type: string
           title: Catalog
-          description: Name of the catalog to use for the output
+          description: Name of the Unity Catalog catalog to use for the Destination.
         schema:
           type: string
           title: Schema
-          description: Name of the catalog schema to use for the output
+          description: Name of the Unity Catalog schema to use for the Destination.
         eventsVolumeName:
           type: string
           title: Events volume name
-          description: Name of the events volume in Databricks
+          description: Name of the Unity Catalog volume where event data is written.
         clientTextSecret:
           type: string
           title: Client Secret
           description: OAuth client secret for Unity Catalog authentication
         timeoutSec:
-          type: number
+          type: integer
           title: Request timeout
-          description: Amount of time, in seconds, to wait for a request to complete before canceling it
+          description: Amount of time, in seconds, to wait for a request to complete before canceling it.
           minimum: 30
         description:
           type: string
@@ -36637,6 +36637,81 @@ components:
         - id
         - stats
         - status
+    DestinationType:
+      type: string
+      enum:
+        - default
+        - router
+        - tcpjson
+        - splunk
+        - splunk_lb
+        - splunk_hec
+        - syslog
+        - filesystem
+        - s3
+        - azure_blob
+        - azure_data_explorer
+        - sentinel
+        - azure_logs
+        - kafka
+        - confluent_cloud
+        - msk
+        - kinesis
+        - elastic
+        - elastic_cloud
+        - microsoft_fabric
+        - cloudflare_r2
+        - honeycomb
+        - newrelic
+        - newrelic_events
+        - snmp
+        - influxdb
+        - minio
+        - devnull
+        - cloudwatch
+        - azure_eventhub
+        - statsd
+        - statsd_ext
+        - graphite
+        - wavefront
+        - signalfx
+        - sqs
+        - google_cloud_storage
+        - sumo_logic
+        - datadog
+        - webhook
+        - prometheus
+        - google_pubsub
+        - google_chronicle
+        - chronicle
+        - grafana_cloud
+        - loki
+        - open_telemetry
+        - service_now
+        - dynatrace_otlp
+        - sentinel_one_ai_siem
+        - dataset
+        - ring
+        - humio_hec
+        - crowdstrike_next_gen_siem
+        - cribl_http
+        - cribl_tcp
+        - cribl_search_engine
+        - google_cloud_logging
+        - sns
+        - dl_s3
+        - security_lake
+        - cribl_lake
+        - exabeam
+        - disk_spool
+        - click_house
+        - local_search_storage
+        - xsiam
+        - netflow
+        - dynatrace_http
+        - databricks
+        - wiz_hec
+      x-speakeasy-unknown-values: allow
     CountedOutputSamplesResponse:
       type: object
       properties:
@@ -36673,14 +36748,19 @@ components:
         details:
           type: object
           additionalProperties: true
+          description: Additional details about the Destination test, such as per-event results and transport-level information.
         error:
           type: string
+          description: Error message that describes a failed Destination test.
         outputId:
           type: string
+          description: The <code>id</code> of the Destination that was tested.
         success:
           type: boolean
+          description: If <code>true</code>, the Destination test succeeded. Otherwise, <code>false</code>.
         successDetail:
           type: string
+          description: Human-readable description for a successful Destination test result.
       required:
         - outputId
         - success
@@ -36692,6 +36772,7 @@ components:
           items:
             type: object
             additionalProperties: true
+          description: Array of event objects to send to the Destination for testing.
       required:
         - events
     CountedPipeline:
@@ -36752,15 +36833,13 @@ components:
                 properties:
                   name:
                     type: string
-                    title: Group Name
+                    title: Group name
                   description:
                     type: string
                     title: Description
-                    description: Short description of this group
                   disabled:
                     type: boolean
                     title: Disabled
-                    description: Whether this group is disabled
     CountedRoutes:
       type: object
       properties:
@@ -43000,12 +43079,31 @@ components:
         id: databricks-output
         type: databricks
         workspaceId: your-workspace-id
-        scope: my-scope
+        scope: all-apis
         clientId: your-client-id
         clientTextSecret: your-client-secret
-        catalog: my-catalog
-        schema: my-schema
-        eventsVolumeName: my-volume
+        catalog: main
+        schema: external
+        eventsVolumeName: events
+    OutputTestExamplesSingleEvent:
+      summary: Send a single test event
+      description: Example request body for sending a single test event to the Destination.
+      value:
+        events:
+          - _raw: This is a test event
+            source: test
+            sourcetype: manual
+    OutputTestExamplesMultipleEvents:
+      summary: Send multiple test events
+      description: Example request body for sending multiple test events to the Destination.
+      value:
+        events:
+          - _raw: Test event 1
+            source: test
+            sourcetype: manual
+          - _raw: Test event 2
+            source: test
+            sourcetype: manual
     OutputExamplesDefault:
       summary: Default
       value:
@@ -45866,6 +45964,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      parameters:
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/DestinationType"
+          description: Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
     post:
       operationId: createOutput
       x-speakeasy-group: destinations
@@ -46028,7 +46133,7 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesDatabricks"
       responses:
         "200":
-          description: a list of Destination objects
+          description: the created Destination object
           content:
             application/json:
               schema:
@@ -46061,7 +46166,7 @@ paths:
           description: The <code>id</code> of the Destination to get.
       responses:
         "200":
-          description: a list of Destination objects
+          description: a Destination object
           content:
             application/json:
               schema:
@@ -46083,7 +46188,7 @@ paths:
       tags:
         - destinations
       summary: Update a Destination
-      description: Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
+      description: Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
       parameters:
         - name: id
           in: path
@@ -46241,7 +46346,7 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesDatabricks"
       responses:
         "200":
-          description: a list of Destination objects
+          description: the updated Destination object
           content:
             application/json:
               schema:
@@ -46273,7 +46378,7 @@ paths:
           description: The <code>id</code> of the Destination to delete.
       responses:
         "200":
-          description: a list of Destination objects
+          description: the deleted Destination object
           content:
             application/json:
               schema:
@@ -46331,7 +46436,7 @@ paths:
       description: Get information about the latest job to clear the persistent queue (PQ) for the specified Destination.
       responses:
         "200":
-          description: a list of JobInfo objects
+          description: information about the latest PQ clear job for the Destination
           content:
             application/json:
               schema:
@@ -46364,7 +46469,7 @@ paths:
       description: Get sample event data for the specified Destination to validate the configuration or test connectivity.
       responses:
         "200":
-          description: a list of OutputSamplesResponse objects
+          description: sample event data for the Destination
           content:
             application/json:
               schema:
@@ -46397,7 +46502,7 @@ paths:
       description: Send sample event data to the specified Destination to validate the configuration or test connectivity.
       responses:
         "200":
-          description: a list of OutputTestResponse objects
+          description: Destination test result
           content:
             application/json:
               schema:
@@ -46417,6 +46522,11 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/OutputTestRequest"
+            examples:
+              OutputTestExamplesSingleEvent:
+                $ref: "#/components/examples/OutputTestExamplesSingleEvent"
+              OutputTestExamplesMultipleEvents:
+                $ref: "#/components/examples/OutputTestExamplesMultipleEvents"
       parameters:
         - name: id
           in: path
@@ -46451,6 +46561,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/DestinationType"
+          description: Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         - name: pack
           in: path
           required: true
@@ -46619,7 +46735,7 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesDatabricks"
       responses:
         "200":
-          description: a list of Destination objects
+          description: the created Destination object
           content:
             application/json:
               schema:
@@ -46665,7 +46781,7 @@ paths:
           description: The <code>id</code> of the Pack to get.
       responses:
         "200":
-          description: a list of Destination objects
+          description: a Destination object
           content:
             application/json:
               schema:
@@ -46687,7 +46803,7 @@ paths:
       tags:
         - destinations
       summary: Update a Destination within a Pack
-      description: Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
+      description: Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
       parameters:
         - name: id
           in: path
@@ -46851,7 +46967,7 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesDatabricks"
       responses:
         "200":
-          description: a list of Destination objects
+          description: the updated Destination object
           content:
             application/json:
               schema:
@@ -46889,7 +47005,7 @@ paths:
           description: The <code>id</code> of the Pack to delete.
       responses:
         "200":
-          description: a list of Destination objects
+          description: the deleted Destination object
           content:
             application/json:
               schema:
@@ -46953,7 +47069,7 @@ paths:
       description: Get information about the latest job to clear the persistent queue (PQ) for the specified Destination within the specified Pack.
       responses:
         "200":
-          description: a list of JobInfo objects
+          description: information about the latest PQ clear job for the Destination
           content:
             application/json:
               schema:
@@ -46992,7 +47108,7 @@ paths:
       description: Get sample event data for the specified Destination to validate the configuration or test connectivity within the specified Pack.
       responses:
         "200":
-          description: a list of OutputSamplesResponse objects
+          description: sample event data for the Destination
           content:
             application/json:
               schema:
@@ -47031,7 +47147,7 @@ paths:
       description: Send sample event data to the specified Destination to validate the configuration or test connectivity within the specified Pack.
       responses:
         "200":
-          description: a list of OutputTestResponse objects
+          description: Destination test result
           content:
             application/json:
               schema:
@@ -47051,6 +47167,11 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/OutputTestRequest"
+            examples:
+              OutputTestExamplesSingleEvent:
+                $ref: "#/components/examples/OutputTestExamplesSingleEvent"
+              OutputTestExamplesMultipleEvents:
+                $ref: "#/components/examples/OutputTestExamplesMultipleEvents"
       parameters:
         - name: id
           in: path
@@ -48086,7 +48207,7 @@ paths:
       description: Get the status and optional metrics for the specified Source.
       responses:
         "200":
-          description: a list of InputStatus objects
+          description: a Source status object
           content:
             application/json:
               schema:
@@ -48111,7 +48232,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48128,10 +48249,10 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: List the status of all Sources
-      description: Get a list of status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet.
+      description: List status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet.
       responses:
         "200":
-          description: a list of InputStatus objects
+          description: a list of Source status objects
           content:
             application/json:
               schema:
@@ -48150,7 +48271,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48170,7 +48291,7 @@ paths:
       description: Get the status and optional metrics for the specified Source within the specified Pack.
       responses:
         "200":
-          description: a list of InputStatus objects
+          description: a Source status object
           content:
             application/json:
               schema:
@@ -48195,7 +48316,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48218,10 +48339,10 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: List the status of all Sources within a Pack
-      description: Get a list of status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet within the specified Pack.
+      description: List status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet within the specified Pack.
       responses:
         "200":
-          description: a list of InputStatus objects
+          description: a list of Source status objects
           content:
             application/json:
               schema:
@@ -48240,7 +48361,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48266,7 +48387,7 @@ paths:
       description: Get the status and optional metrics for the specified Destination.
       responses:
         "200":
-          description: a list of OutputStatus objects
+          description: Destination status object
           content:
             application/json:
               schema:
@@ -48291,7 +48412,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48308,10 +48429,10 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: List the status of all Destinations
-      description: Get a list of status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet.
+      description: List status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet.
       responses:
         "200":
-          description: a list of OutputStatus objects
+          description: a list of Destination status objects
           content:
             application/json:
               schema:
@@ -48330,7 +48451,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48350,7 +48471,7 @@ paths:
       description: Get the status and optional metrics for the specified Destination within the specified Pack.
       responses:
         "200":
-          description: a list of OutputStatus objects
+          description: Destination status object
           content:
             application/json:
               schema:
@@ -48375,7 +48496,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48398,10 +48519,10 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: List the status of all Destinations within a Pack
-      description: Get a list of status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
+      description: List status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
       responses:
         "200":
-          description: a list of OutputStatus objects
+          description: a list of Destination status objects
           content:
             application/json:
               schema:
@@ -48420,7 +48541,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false

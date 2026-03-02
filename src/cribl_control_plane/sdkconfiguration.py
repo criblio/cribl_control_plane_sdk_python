@@ -33,4 +33,4 @@ class SDKConfiguration:
     timeout_ms: Optional[int] = None
 
     def get_server_details(self) -> Tuple[str, Dict[str, str]]:
-        return remove_suffix(self.server_url, "/"), {}
+        return remove_suffix(self.server_url or "", "/"), {}

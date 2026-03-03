@@ -6,7 +6,7 @@ from cribl_control_plane.utils.dynamic_imports import lazy_getattr, lazy_dir
 
 if TYPE_CHECKING:
     from .acknowledgmentsoptions import AcknowledgmentsOptions
-    from .acknowledgmentsoptions1 import AcknowledgmentsOptions1
+    from .acknowledgmentsoptionsallleader import AcknowledgmentsOptionsAllLeader
     from .addhectokenrequest import AddHecTokenRequest, AddHecTokenRequestTypedDict
     from .additionalpropertiestypejobinfostats import (
         AdditionalPropertiesTypeJobInfoStats,
@@ -17,35 +17,46 @@ if TYPE_CHECKING:
         APITypeSystemSettingsConfTypedDict,
     )
     from .authenticationmethodoptions import AuthenticationMethodOptions
-    from .authenticationmethodoptions1 import AuthenticationMethodOptions1
-    from .authenticationmethodoptions2 import AuthenticationMethodOptions2
+    from .authenticationmethodoptionsapi import AuthenticationMethodOptionsAPI
     from .authenticationmethodoptionsauth import AuthenticationMethodOptionsAuth
     from .authenticationmethodoptionsauthtokensitems import (
         AuthenticationMethodOptionsAuthTokensItems,
+    )
+    from .authenticationmethodoptionsmanualsecret import (
+        AuthenticationMethodOptionsManualSecret,
     )
     from .authenticationmethodoptionss3collectorconf import (
         AuthenticationMethodOptionsS3CollectorConf,
     )
     from .authenticationmethodoptionssasl import AuthenticationMethodOptionsSasl
-    from .authenticationmethodoptionssasl1 import AuthenticationMethodOptionsSasl1
-    from .authenticationmethodoptionssasl2 import AuthenticationMethodOptionsSasl2
+    from .authenticationmethodoptionssaslcertificatemanual import (
+        AuthenticationMethodOptionsSaslCertificateManual,
+    )
+    from .authenticationmethodoptionssaslmanualsecret import (
+        AuthenticationMethodOptionsSaslManualSecret,
+    )
     from .authenticationprotocoloptionsv3user import AuthenticationProtocolOptionsV3User
     from .authenticationtype import AuthenticationType, AuthenticationTypeTypedDict
-    from .authenticationtype1 import AuthenticationType1, AuthenticationType1TypedDict
     from .authenticationtypeoptions import AuthenticationTypeOptions
-    from .authenticationtypeoptions1 import AuthenticationTypeOptions1
+    from .authenticationtypeoptionsbasiccredentialssecret import (
+        AuthenticationTypeOptionsBasicCredentialsSecret,
+    )
     from .authenticationtypeoptionslokiauth import AuthenticationTypeOptionsLokiAuth
     from .authenticationtypeoptionsprometheusauth import (
         AuthenticationTypeOptionsPrometheusAuth,
     )
-    from .authenticationtypeoptionsprometheusauth1 import (
-        AuthenticationTypeOptionsPrometheusAuth1,
+    from .authenticationtypeoptionsprometheusauthbasiccredentialssecret import (
+        AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret,
+    )
+    from .authenticationtypeuse import (
+        AuthenticationTypeUse,
+        AuthenticationTypeUseTypedDict,
     )
     from .authtoken import AuthToken, AuthTokenTypedDict
     from .authtype import AuthType, AuthTypeTypedDict
-    from .authtypekafkaschemaregistry import (
-        AuthTypeKafkaSchemaRegistry,
-        AuthTypeKafkaSchemaRegistryTypedDict,
+    from .authtypeauthtypecredentialssecret import (
+        AuthTypeAuthTypeCredentialsSecret,
+        AuthTypeAuthTypeCredentialsSecretTypedDict,
     )
     from .awsauthenticationmethodoptions import AwsAuthenticationMethodOptions
     from .awstypeheartbeatmetadata import (
@@ -82,7 +93,9 @@ if TYPE_CHECKING:
         AzureTypeHeartbeatMetadataTypedDict,
     )
     from .backpressurebehavioroptions import BackpressureBehaviorOptions
-    from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
+    from .backpressurebehavioroptionsblockdrop import (
+        BackpressureBehaviorOptionsBlockDrop,
+    )
     from .backupssettings_union import (
         BackupsSettings1,
         BackupsSettings1TypedDict,
@@ -148,11 +161,11 @@ if TYPE_CHECKING:
     from .commit import Commit, CommitTypedDict
     from .compressionleveloptions import CompressionLevelOptions
     from .compressionoptions import CompressionOptions
-    from .compressionoptions1 import CompressionOptions1
-    from .compressionoptions2 import CompressionOptions2
-    from .compressionoptions3 import CompressionOptions3
-    from .compressionoptions4 import CompressionOptions4
-    from .compressionoptions5 import CompressionOptions5
+    from .compressionoptionsdeflategzip import CompressionOptionsDeflateGzip
+    from .compressionoptionsgziplz4 import CompressionOptionsGzipLz4
+    from .compressionoptionsgzipnone import CompressionOptionsGzipNone
+    from .compressionoptionshttp import CompressionOptionsHTTP
+    from .compressionoptionsmessages import CompressionOptionsMessages
     from .compressionoptionspersistence import CompressionOptionsPersistence
     from .compressionoptionspq import CompressionOptionsPq
     from .configgroup import ConfigGroup, ConfigGroupTypedDict
@@ -220,10 +233,6 @@ if TYPE_CHECKING:
     )
     from .countedinputstatus import CountedInputStatus, CountedInputStatusTypedDict
     from .countedjobinfo import CountedJobInfo, CountedJobInfoTypedDict
-    from .countedmappingruleset import (
-        CountedMappingRuleset,
-        CountedMappingRulesetTypedDict,
-    )
     from .countedmasterworkerentry import (
         CountedMasterWorkerEntry,
         CountedMasterWorkerEntryTypedDict,
@@ -255,7 +264,6 @@ if TYPE_CHECKING:
         CountedRestartResponseTypedDict,
     )
     from .countedroutes import CountedRoutes, CountedRoutesTypedDict
-    from .countedrulesetid import CountedRulesetID, CountedRulesetIDTypedDict
     from .countedsavedjob import CountedSavedJob, CountedSavedJobTypedDict
     from .countedstring import CountedString, CountedStringTypedDict
     from .countedsystemrestartresponse import (
@@ -273,14 +281,6 @@ if TYPE_CHECKING:
     from .counteduseraccesscontrollist import (
         CountedUserAccessControlList,
         CountedUserAccessControlListTypedDict,
-    )
-    from .createadminproductsmappingsactivatebyproductop import (
-        CreateAdminProductsMappingsActivateByProductRequest,
-        CreateAdminProductsMappingsActivateByProductRequestTypedDict,
-    )
-    from .createadminproductsmappingsbyproductop import (
-        CreateAdminProductsMappingsByProductRequest,
-        CreateAdminProductsMappingsByProductRequestTypedDict,
     )
     from .createauthloginop import (
         CreateAuthLoginResponse,
@@ -1984,10 +1984,6 @@ if TYPE_CHECKING:
         DatasetMetadataRunInfo,
         DatasetMetadataRunInfoTypedDict,
     )
-    from .deleteadminproductsmappingsbyproductandidop import (
-        DeleteAdminProductsMappingsByProductAndIDRequest,
-        DeleteAdminProductsMappingsByProductAndIDRequestTypedDict,
-    )
     from .deleteconfiggroupbyproductandidop import (
         DeleteConfigGroupByProductAndIDRequest,
         DeleteConfigGroupByProductAndIDRequestTypedDict,
@@ -2056,6 +2052,7 @@ if TYPE_CHECKING:
         DeployRequestLookupsTypedDict,
     )
     from .destinationprotocoloptions import DestinationProtocolOptions
+    from .destinationtype import DestinationType
     from .difffiles import (
         Block,
         BlockTypedDict,
@@ -2229,6 +2226,10 @@ if TYPE_CHECKING:
         FunctionConfSchemaLocalSearchRulesetRunner,
         FunctionConfSchemaLocalSearchRulesetRunnerTypedDict,
         RulesetType,
+    )
+    from .functionconfschemalocalsearchtransformer import (
+        FunctionConfSchemaLocalSearchTransformer,
+        FunctionConfSchemaLocalSearchTransformerTypedDict,
     )
     from .functionconfschemanotificationpolicies import (
         Condition,
@@ -2417,6 +2418,11 @@ if TYPE_CHECKING:
         FunctionLocalSearchRulesetRunnerID,
         FunctionLocalSearchRulesetRunnerTypedDict,
     )
+    from .functionlocalsearchtransformer import (
+        FunctionLocalSearchTransformer,
+        FunctionLocalSearchTransformerID,
+        FunctionLocalSearchTransformerTypedDict,
+    )
     from .functionlookup import (
         FunctionLookup,
         FunctionLookupID,
@@ -2561,14 +2567,6 @@ if TYPE_CHECKING:
         FunctionXMLUnroll,
         FunctionXMLUnrollID,
         FunctionXMLUnrollTypedDict,
-    )
-    from .getadminproductsmappingsbyproductandidop import (
-        GetAdminProductsMappingsByProductAndIDRequest,
-        GetAdminProductsMappingsByProductAndIDRequestTypedDict,
-    )
-    from .getadminproductsmappingsbyproductop import (
-        GetAdminProductsMappingsByProductRequest,
-        GetAdminProductsMappingsByProductRequestTypedDict,
     )
     from .getconfiggroupaclbyproductandidop import (
         GetConfigGroupACLByProductAndIDRequest,
@@ -3656,13 +3654,13 @@ if TYPE_CHECKING:
     )
     from .itemstypeadd import ItemsTypeAdd, ItemsTypeAddTypedDict
     from .itemstypeauthtokens import ItemsTypeAuthTokens, ItemsTypeAuthTokensTypedDict
-    from .itemstypeauthtokens1 import (
-        ItemsTypeAuthTokens1,
-        ItemsTypeAuthTokens1TypedDict,
-    )
     from .itemstypeauthtokensext import (
         ItemsTypeAuthTokensExt,
         ItemsTypeAuthTokensExtTypedDict,
+    )
+    from .itemstypeauthtokenstokensecret import (
+        ItemsTypeAuthTokensTokenSecret,
+        ItemsTypeAuthTokensTokenSecretTypedDict,
     )
     from .itemstypeconnectionsoptional import (
         ItemsTypeConnectionsOptional,
@@ -3748,9 +3746,9 @@ if TYPE_CHECKING:
         KafkaSchemaRegistryAuthenticationType,
         KafkaSchemaRegistryAuthenticationTypeTypedDict,
     )
-    from .kafkaschemaregistryauthenticationtype1 import (
-        KafkaSchemaRegistryAuthenticationType1,
-        KafkaSchemaRegistryAuthenticationType1TypedDict,
+    from .kafkaschemaregistryauthenticationtypeauthconnectiontimeout import (
+        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout,
+        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict,
     )
     from .kubetypeheartbeatmetadata import (
         KubeTypeHeartbeatMetadata,
@@ -3766,22 +3764,11 @@ if TYPE_CHECKING:
         ListConfigGroupByProductRequest,
         ListConfigGroupByProductRequestTypedDict,
     )
+    from .listoutputop import ListOutputRequest, ListOutputRequestTypedDict
     from .logininfo import LoginInfo, LoginInfoTypedDict
     from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
     from .logleveloptionsrunnablejobcollectionschedulerun import (
         LogLevelOptionsRunnableJobCollectionScheduleRun,
-    )
-    from .mappingruleset import (
-        ConfEval,
-        ConfEvalTypedDict,
-        Function,
-        FunctionTypedDict,
-        MappingRuleset,
-        MappingRulesetAdd,
-        MappingRulesetAddTypedDict,
-        MappingRulesetConf,
-        MappingRulesetConfTypedDict,
-        MappingRulesetTypedDict,
     )
     from .masterworkerentry import (
         MasterWorkerEntry,
@@ -3790,12 +3777,10 @@ if TYPE_CHECKING:
         MasterWorkerEntryWorkers,
         MasterWorkerEntryWorkersTypedDict,
     )
-    from .maximumtlsversionoptionskafkaschemaregistrytls import (
-        MaximumTLSVersionOptionsKafkaSchemaRegistryTLS,
-    )
     from .maximumtlsversionoptionsredisdeploymenttypestandalonetlsoptions import (
         MaximumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions,
     )
+    from .maximumtlsversionoptionstls import MaximumTLSVersionOptionsTLS
     from .maxs2sversionoptions import MaxS2SVersionOptions
     from .messageformatoptions import MessageFormatOptions
     from .methodoptions import MethodOptions
@@ -3803,12 +3788,10 @@ if TYPE_CHECKING:
     from .microsoftentraidauthenticationendpointoptionssasl import (
         MicrosoftEntraIDAuthenticationEndpointOptionsSasl,
     )
-    from .minimumtlsversionoptionskafkaschemaregistrytls import (
-        MinimumTLSVersionOptionsKafkaSchemaRegistryTLS,
-    )
     from .minimumtlsversionoptionsredisdeploymenttypestandalonetlsoptions import (
         MinimumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions,
     )
+    from .minimumtlsversionoptionstls import MinimumTLSVersionOptionsTLS
     from .modeoptions import ModeOptions
     from .modeoptionshost import ModeOptionsHost
     from .modeoptionsinstancesettingsschema import ModeOptionsInstanceSettingsSchema
@@ -3828,9 +3811,11 @@ if TYPE_CHECKING:
     from .nodeupgradestate import NodeUpgradeState
     from .nodeupgradestatus import NodeUpgradeStatus, NodeUpgradeStatusTypedDict
     from .objectacloptions import ObjectACLOptions
-    from .objectacloptions1 import ObjectACLOptions1
+    from .objectacloptionsauthenticatedreadbucketownerfullcontrol import (
+        ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol,
+    )
     from .otlpversionoptions import OtlpVersionOptions
-    from .otlpversionoptions1 import OtlpVersionOptions1
+    from .otlpversionoptions131 import OtlpVersionOptions131
     from .outpostnodeinfo import OutpostNodeInfo, OutpostNodeInfoTypedDict
     from .output import Output, OutputTypedDict, UnknownOutput
     from .outputazureblob import (
@@ -4678,6 +4663,11 @@ if TYPE_CHECKING:
         PipelineFunctionLocalSearchRulesetRunnerID,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
     )
+    from .pipelinefunctionlocalsearchtransformer import (
+        PipelineFunctionLocalSearchTransformer,
+        PipelineFunctionLocalSearchTransformerID,
+        PipelineFunctionLocalSearchTransformerTypedDict,
+    )
     from .pipelinefunctionlookup import (
         LookupDbLookupFalse,
         LookupDbLookupFalseMatchModeCidr,
@@ -5062,7 +5052,7 @@ if TYPE_CHECKING:
     from .queuefullbehavioroptions import QueueFullBehaviorOptions
     from .rbacresource import RbacResource
     from .recorddataformatoptions import RecordDataFormatOptions
-    from .recorddataformatoptions1 import RecordDataFormatOptions1
+    from .recorddataformatoptionsjsonprotobuf import RecordDataFormatOptionsJSONProtobuf
     from .recordtypeoptions import RecordTypeOptions
     from .regionoptions import RegionOptions
     from .requestformatoptions import RequestFormatOptions
@@ -6743,7 +6733,10 @@ if TYPE_CHECKING:
         UnknownRestCollectorConf,
     )
     from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
-    from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
+    from .retryrulestypecodesenableheader import (
+        RetryRulesTypeCodesEnableHeader,
+        RetryRulesTypeCodesEnableHeaderTypedDict,
+    )
     from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
     from .retrytypeoptionshealthcheckcollectorconfretryrules import (
         RetryTypeOptionsHealthCheckCollectorConfRetryRules,
@@ -6759,7 +6752,6 @@ if TYPE_CHECKING:
     from .routecomment import RouteComment, RouteCommentTypedDict
     from .routeconf import RouteConf, RouteConfTypedDict
     from .routes import Routes, RoutesGroups, RoutesGroupsTypedDict, RoutesTypedDict
-    from .rulesetid import RulesetID, RulesetIDTypedDict
     from .runnablejob import RunnableJob, RunnableJobTypedDict
     from .runnablejobcollection import (
         CaptureSettings,
@@ -6771,6 +6763,11 @@ if TYPE_CHECKING:
         RunnableJobCollectionTypedDict,
         TimeRange,
         WhereToCapture,
+    )
+    from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType,
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
     )
     from .runnablejobexecutor import (
         RunnableJobExecutor,
@@ -6823,7 +6820,9 @@ if TYPE_CHECKING:
         UnknownS3CollectorConf,
     )
     from .saslmechanismoptionssasl import SaslMechanismOptionsSasl
-    from .saslmechanismoptionssasl1 import SaslMechanismOptionsSasl1
+    from .saslmechanismoptionssasloauthbearerplain import (
+        SaslMechanismOptionsSaslOauthbearerPlain,
+    )
     from .savedjob import SavedJob, SavedJobTypedDict
     from .savedjobcollection import SavedJobCollection, SavedJobCollectionTypedDict
     from .savedjobexecutor import SavedJobExecutor, SavedJobExecutorTypedDict
@@ -6856,14 +6855,14 @@ if TYPE_CHECKING:
         ShutdownTypeSystemSettingsConfTypedDict,
     )
     from .signatureversionoptions import SignatureVersionOptions
-    from .signatureversionoptions1 import SignatureVersionOptions1
-    from .signatureversionoptions2 import SignatureVersionOptions2
-    from .signatureversionoptions3 import SignatureVersionOptions3
-    from .signatureversionoptions4 import SignatureVersionOptions4
-    from .signatureversionoptions5 import SignatureVersionOptions5
+    from .signatureversionoptionsgoogle import SignatureVersionOptionsGoogle
+    from .signatureversionoptionskinesis import SignatureVersionOptionsKinesis
+    from .signatureversionoptionsminio import SignatureVersionOptionsMinIo
     from .signatureversionoptionss3collectorconf import (
         SignatureVersionOptionsS3CollectorConf,
     )
+    from .signatureversionoptionssqs import SignatureVersionOptionsSqs
+    from .signatureversionoptionsv2v4 import SignatureVersionOptionsV2V4
     from .snisettings_union import (
         SniSettings1,
         SniSettings1TypedDict,
@@ -6967,8 +6966,10 @@ if TYPE_CHECKING:
     )
     from .statustype import StatusType, StatusTypeTypedDict
     from .storageclassoptions import StorageClassOptions
-    from .storageclassoptions1 import StorageClassOptions1
-    from .storageclassoptions2 import StorageClassOptions2
+    from .storageclassoptionsarchivecoldline import StorageClassOptionsArchiveColdline
+    from .storageclassoptionsreducedredundancystandard import (
+        StorageClassOptionsReducedredundancyStandard,
+    )
     from .subscriptionplanoptions import SubscriptionPlanOptions
     from .supporttypesystemsettingsconf import (
         SupportTypeSystemSettingsConf,
@@ -7017,33 +7018,24 @@ if TYPE_CHECKING:
         TLSSettingsClientSideType,
         TLSSettingsClientSideTypeTypedDict,
     )
-    from .tlssettingsclientsidetype1 import (
-        TLSSettingsClientSideType1,
-        TLSSettingsClientSideType1TypedDict,
+    from .tlssettingsclientsidetypecapathcertpath import (
+        TLSSettingsClientSideTypeCaPathCertPath,
+        TLSSettingsClientSideTypeCaPathCertPathTypedDict,
     )
-    from .tlssettingsclientsidetype2 import (
-        TLSSettingsClientSideType2,
-        TLSSettingsClientSideType2TypedDict,
+    from .tlssettingsclientsidetypecapathcertpathextended import (
+        TLSSettingsClientSideTypeCaPathCertPathExtended,
+        TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict,
     )
-    from .tlssettingsclientsidetypekafkaschemaregistry import (
-        TLSSettingsClientSideTypeKafkaSchemaRegistry,
-        TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+    from .tlssettingsclientsidetypeextended import (
+        TLSSettingsClientSideTypeExtended,
+        TLSSettingsClientSideTypeExtendedTypedDict,
     )
     from .tlssettingsserversidetype import (
         TLSSettingsServerSideType,
         TLSSettingsServerSideTypeTypedDict,
     )
-    from .typecollectionwithbreakerrulesetsconstraint import (
-        TypeCollectionWithBreakerRulesetsConstraint,
-        TypeCollectionWithBreakerRulesetsConstraintType,
-        TypeCollectionWithBreakerRulesetsConstraintTypedDict,
-    )
     from .typeoptions import TypeOptions
     from .typeoptionsconfiggroup import TypeOptionsConfigGroup
-    from .updateadminproductsmappingsbyproductandidop import (
-        UpdateAdminProductsMappingsByProductAndIDRequest,
-        UpdateAdminProductsMappingsByProductAndIDRequestTypedDict,
-    )
     from .updateconfiggroupbyproductandidop import (
         UpdateConfigGroupByProductAndIDRequest,
         UpdateConfigGroupByProductAndIDRequestTypedDict,
@@ -7145,7 +7137,7 @@ __all__ = [
     "APITypeSystemSettingsConf",
     "APITypeSystemSettingsConfTypedDict",
     "AcknowledgmentsOptions",
-    "AcknowledgmentsOptions1",
+    "AcknowledgmentsOptionsAllLeader",
     "AddHecTokenRequest",
     "AddHecTokenRequestTypedDict",
     "AdditionalField",
@@ -7181,28 +7173,28 @@ __all__ = [
     "AuthTokensExt",
     "AuthTokensExtTypedDict",
     "AuthType",
-    "AuthTypeKafkaSchemaRegistry",
-    "AuthTypeKafkaSchemaRegistryTypedDict",
+    "AuthTypeAuthTypeCredentialsSecret",
+    "AuthTypeAuthTypeCredentialsSecretTypedDict",
     "AuthTypeTypedDict",
     "AuthenticationMethodOptions",
-    "AuthenticationMethodOptions1",
-    "AuthenticationMethodOptions2",
+    "AuthenticationMethodOptionsAPI",
     "AuthenticationMethodOptionsAuth",
     "AuthenticationMethodOptionsAuthTokensItems",
+    "AuthenticationMethodOptionsManualSecret",
     "AuthenticationMethodOptionsS3CollectorConf",
     "AuthenticationMethodOptionsSasl",
-    "AuthenticationMethodOptionsSasl1",
-    "AuthenticationMethodOptionsSasl2",
+    "AuthenticationMethodOptionsSaslCertificateManual",
+    "AuthenticationMethodOptionsSaslManualSecret",
     "AuthenticationProtocolOptionsV3User",
     "AuthenticationType",
-    "AuthenticationType1",
-    "AuthenticationType1TypedDict",
     "AuthenticationTypeOptions",
-    "AuthenticationTypeOptions1",
+    "AuthenticationTypeOptionsBasicCredentialsSecret",
     "AuthenticationTypeOptionsLokiAuth",
     "AuthenticationTypeOptionsPrometheusAuth",
-    "AuthenticationTypeOptionsPrometheusAuth1",
+    "AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret",
     "AuthenticationTypeTypedDict",
+    "AuthenticationTypeUse",
+    "AuthenticationTypeUseTypedDict",
     "Author",
     "AuthorTypedDict",
     "AwsAuthenticationMethodOptions",
@@ -7233,7 +7225,7 @@ __all__ = [
     "AzureTypeHeartbeatMetadata",
     "AzureTypeHeartbeatMetadataTypedDict",
     "BackpressureBehaviorOptions",
-    "BackpressureBehaviorOptions1",
+    "BackpressureBehaviorOptionsBlockDrop",
     "BackupsSettings1",
     "BackupsSettings1TypedDict",
     "BackupsSettings2",
@@ -7303,17 +7295,15 @@ __all__ = [
     "CommitTypedDict",
     "CompressionLevelOptions",
     "CompressionOptions",
-    "CompressionOptions1",
-    "CompressionOptions2",
-    "CompressionOptions3",
-    "CompressionOptions4",
-    "CompressionOptions5",
+    "CompressionOptionsDeflateGzip",
+    "CompressionOptionsGzipLz4",
+    "CompressionOptionsGzipNone",
+    "CompressionOptionsHTTP",
+    "CompressionOptionsMessages",
     "CompressionOptionsPersistence",
     "CompressionOptionsPq",
     "Condition",
     "ConditionTypedDict",
-    "ConfEval",
-    "ConfEvalTypedDict",
     "ConfInput",
     "ConfInputTypedDict",
     "Config",
@@ -7370,8 +7360,6 @@ __all__ = [
     "CountedInputTypedDict",
     "CountedJobInfo",
     "CountedJobInfoTypedDict",
-    "CountedMappingRuleset",
-    "CountedMappingRulesetTypedDict",
     "CountedMasterWorkerEntry",
     "CountedMasterWorkerEntryTypedDict",
     "CountedNumber",
@@ -7398,8 +7386,6 @@ __all__ = [
     "CountedRestartResponseTypedDict",
     "CountedRoutes",
     "CountedRoutesTypedDict",
-    "CountedRulesetID",
-    "CountedRulesetIDTypedDict",
     "CountedSavedJob",
     "CountedSavedJobTypedDict",
     "CountedString",
@@ -7412,10 +7398,6 @@ __all__ = [
     "CountedTeamAccessControlListTypedDict",
     "CountedUserAccessControlList",
     "CountedUserAccessControlListTypedDict",
-    "CreateAdminProductsMappingsActivateByProductRequest",
-    "CreateAdminProductsMappingsActivateByProductRequestTypedDict",
-    "CreateAdminProductsMappingsByProductRequest",
-    "CreateAdminProductsMappingsByProductRequestTypedDict",
     "CreateAuthLoginResponse",
     "CreateAuthLoginResponseTypedDict",
     "CreateConfigGroupByProductRequest",
@@ -9081,8 +9063,6 @@ __all__ = [
     "DatasetMetadataRunInfoTypedDict",
     "DatasetMetadataTypedDict",
     "DefaultTime",
-    "DeleteAdminProductsMappingsByProductAndIDRequest",
-    "DeleteAdminProductsMappingsByProductAndIDRequestTypedDict",
     "DeleteConfigGroupByProductAndIDRequest",
     "DeleteConfigGroupByProductAndIDRequestTypedDict",
     "DeleteCriblLakeDatasetByLakeIDAndIDRequest",
@@ -9120,6 +9100,7 @@ __all__ = [
     "DeployRequestLookupsTypedDict",
     "DeployRequestTypedDict",
     "DestinationProtocolOptions",
+    "DestinationType",
     "DiffFiles",
     "DiffFilesTypedDict",
     "DiffLine",
@@ -9236,7 +9217,6 @@ __all__ = [
     "FormatOptions",
     "FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesets",
     "FullRulesetIEForUseWithLiveDataCaptureWhichUsesDraftUnsavedRulesetsTypedDict",
-    "Function",
     "FunctionAggregateMetrics",
     "FunctionAggregateMetricsID",
     "FunctionAggregateMetricsTypedDict",
@@ -9295,6 +9275,8 @@ __all__ = [
     "FunctionConfSchemaLocalSearchDatatypeParserTypedDict",
     "FunctionConfSchemaLocalSearchRulesetRunner",
     "FunctionConfSchemaLocalSearchRulesetRunnerTypedDict",
+    "FunctionConfSchemaLocalSearchTransformer",
+    "FunctionConfSchemaLocalSearchTransformerTypedDict",
     "FunctionConfSchemaNotificationPolicies",
     "FunctionConfSchemaNotificationPoliciesTypedDict",
     "FunctionConfSchemaNumerify",
@@ -9393,6 +9375,9 @@ __all__ = [
     "FunctionLocalSearchRulesetRunner",
     "FunctionLocalSearchRulesetRunnerID",
     "FunctionLocalSearchRulesetRunnerTypedDict",
+    "FunctionLocalSearchTransformer",
+    "FunctionLocalSearchTransformerID",
+    "FunctionLocalSearchTransformerTypedDict",
     "FunctionLookup",
     "FunctionLookupID",
     "FunctionLookupTypedDict",
@@ -9491,7 +9476,6 @@ __all__ = [
     "FunctionTrimTimestamp",
     "FunctionTrimTimestampID",
     "FunctionTrimTimestampTypedDict",
-    "FunctionTypedDict",
     "FunctionUnion",
     "FunctionUnionID",
     "FunctionUnionTypedDict",
@@ -9505,10 +9489,6 @@ __all__ = [
     "FunctionXMLUnrollID",
     "FunctionXMLUnrollTypedDict",
     "GaugeUpdate",
-    "GetAdminProductsMappingsByProductAndIDRequest",
-    "GetAdminProductsMappingsByProductAndIDRequestTypedDict",
-    "GetAdminProductsMappingsByProductRequest",
-    "GetAdminProductsMappingsByProductRequestTypedDict",
     "GetConfigGroupACLByProductAndIDRequest",
     "GetConfigGroupACLByProductAndIDRequestTypedDict",
     "GetConfigGroupACLTeamsByProductAndIDRequest",
@@ -10389,10 +10369,10 @@ __all__ = [
     "ItemsTypeAdd",
     "ItemsTypeAddTypedDict",
     "ItemsTypeAuthTokens",
-    "ItemsTypeAuthTokens1",
-    "ItemsTypeAuthTokens1TypedDict",
     "ItemsTypeAuthTokensExt",
     "ItemsTypeAuthTokensExtTypedDict",
+    "ItemsTypeAuthTokensTokenSecret",
+    "ItemsTypeAuthTokensTokenSecretTypedDict",
     "ItemsTypeAuthTokensTypedDict",
     "ItemsTypeConnectionsOptional",
     "ItemsTypeConnectionsOptionalTypedDict",
@@ -10448,8 +10428,8 @@ __all__ = [
     "JoinConfiguration",
     "JoinConfigurationTypedDict",
     "KafkaSchemaRegistryAuthenticationType",
-    "KafkaSchemaRegistryAuthenticationType1",
-    "KafkaSchemaRegistryAuthenticationType1TypedDict",
+    "KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout",
+    "KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict",
     "KafkaSchemaRegistryAuthenticationTypeTypedDict",
     "KubeTypeHeartbeatMetadata",
     "KubeTypeHeartbeatMetadataTypedDict",
@@ -10462,6 +10442,8 @@ __all__ = [
     "LakehouseConnectionType",
     "ListConfigGroupByProductRequest",
     "ListConfigGroupByProductRequestTypedDict",
+    "ListOutputRequest",
+    "ListOutputRequestTypedDict",
     "ListeningPorts",
     "ListeningPortsTypedDict",
     "LogLevelForFailedLookups",
@@ -10502,12 +10484,6 @@ __all__ = [
     "MTLSSettingsTypedDict",
     "MappingOfFieldNames",
     "MappingOfFieldNamesTypedDict",
-    "MappingRuleset",
-    "MappingRulesetAdd",
-    "MappingRulesetAddTypedDict",
-    "MappingRulesetConf",
-    "MappingRulesetConfTypedDict",
-    "MappingRulesetTypedDict",
     "MasterWorkerEntry",
     "MasterWorkerEntryType",
     "MasterWorkerEntryTypedDict",
@@ -10516,8 +10492,8 @@ __all__ = [
     "MatchType",
     "MaxS2SVersion",
     "MaxS2SVersionOptions",
-    "MaximumTLSVersionOptionsKafkaSchemaRegistryTLS",
     "MaximumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions",
+    "MaximumTLSVersionOptionsTLS",
     "MessageFormat",
     "MessageFormatOptions",
     "Metadatum",
@@ -10527,8 +10503,8 @@ __all__ = [
     "MetricsStore",
     "MetricsStoreTypedDict",
     "MicrosoftEntraIDAuthenticationEndpointOptionsSasl",
-    "MinimumTLSVersionOptionsKafkaSchemaRegistryTLS",
     "MinimumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions",
+    "MinimumTLSVersionOptionsTLS",
     "ModeOptions",
     "ModeOptionsHost",
     "ModeOptionsInstanceSettingsSchema",
@@ -10567,7 +10543,7 @@ __all__ = [
     "OauthParam",
     "OauthParamTypedDict",
     "ObjectACLOptions",
-    "ObjectACLOptions1",
+    "ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol",
     "OldMode",
     "OldModeTypedDict",
     "Operator",
@@ -10576,7 +10552,7 @@ __all__ = [
     "OsUnion",
     "OsUnionTypedDict",
     "OtlpVersionOptions",
-    "OtlpVersionOptions1",
+    "OtlpVersionOptions131",
     "OutpostNodeInfo",
     "OutpostNodeInfoTypedDict",
     "Output",
@@ -11115,6 +11091,9 @@ __all__ = [
     "PipelineFunctionLocalSearchRulesetRunner",
     "PipelineFunctionLocalSearchRulesetRunnerID",
     "PipelineFunctionLocalSearchRulesetRunnerTypedDict",
+    "PipelineFunctionLocalSearchTransformer",
+    "PipelineFunctionLocalSearchTransformerID",
+    "PipelineFunctionLocalSearchTransformerTypedDict",
     "PipelineFunctionLookup",
     "PipelineFunctionLookupConf",
     "PipelineFunctionLookupConfTypedDict",
@@ -11301,7 +11280,7 @@ __all__ = [
     "ReadMode",
     "RecordDataFormat",
     "RecordDataFormatOptions",
-    "RecordDataFormatOptions1",
+    "RecordDataFormatOptionsJSONProtobuf",
     "RecordTypeOptions",
     "RedisAuthTypeCredentialsSecret",
     "RedisAuthTypeCredentialsSecretAuthenticationMethod",
@@ -12984,8 +12963,8 @@ __all__ = [
     "RestartResponseStatus",
     "RestartResponseTypedDict",
     "RetryRulesType",
-    "RetryRulesType1",
-    "RetryRulesType1TypedDict",
+    "RetryRulesTypeCodesEnableHeader",
+    "RetryRulesTypeCodesEnableHeaderTypedDict",
     "RetryRulesTypeTypedDict",
     "RetrySettingsType",
     "RetrySettingsTypeTypedDict",
@@ -13007,8 +12986,6 @@ __all__ = [
     "RoutesGroups",
     "RoutesGroupsTypedDict",
     "RoutesTypedDict",
-    "RulesetID",
-    "RulesetIDTypedDict",
     "RulesetType",
     "RunSettingsTypeRunnableJobCollectionSchedule",
     "RunSettingsTypeRunnableJobCollectionScheduleType",
@@ -13021,6 +12998,9 @@ __all__ = [
     "RunnableJobCollectionMode",
     "RunnableJobCollectionRun",
     "RunnableJobCollectionRunTypedDict",
+    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint",
+    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType",
+    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict",
     "RunnableJobCollectionTypedDict",
     "RunnableJobExecutor",
     "RunnableJobExecutorRun",
@@ -13062,7 +13042,7 @@ __all__ = [
     "SampleMode",
     "SampleTypedDict",
     "SaslMechanismOptionsSasl",
-    "SaslMechanismOptionsSasl1",
+    "SaslMechanismOptionsSaslOauthbearerPlain",
     "SavedJob",
     "SavedJobCollection",
     "SavedJobCollectionTypedDict",
@@ -13123,12 +13103,12 @@ __all__ = [
     "ShutdownTypeSystemSettingsConf",
     "ShutdownTypeSystemSettingsConfTypedDict",
     "SignatureVersionOptions",
-    "SignatureVersionOptions1",
-    "SignatureVersionOptions2",
-    "SignatureVersionOptions3",
-    "SignatureVersionOptions4",
-    "SignatureVersionOptions5",
+    "SignatureVersionOptionsGoogle",
+    "SignatureVersionOptionsKinesis",
+    "SignatureVersionOptionsMinIo",
     "SignatureVersionOptionsS3CollectorConf",
+    "SignatureVersionOptionsSqs",
+    "SignatureVersionOptionsV2V4",
     "SimplePivotConfiguration",
     "SimplePivotConfigurationTypedDict",
     "SniSettings1",
@@ -13236,8 +13216,8 @@ __all__ = [
     "StatusType",
     "StatusTypeTypedDict",
     "StorageClassOptions",
-    "StorageClassOptions1",
-    "StorageClassOptions2",
+    "StorageClassOptionsArchiveColdline",
+    "StorageClassOptionsReducedredundancyStandard",
     "StoreFunctionConfiguration",
     "StoreFunctionConfigurationTypedDict",
     "Subscription",
@@ -13263,12 +13243,12 @@ __all__ = [
     "TLSSettings2",
     "TLSSettings2TypedDict",
     "TLSSettingsClientSideType",
-    "TLSSettingsClientSideType1",
-    "TLSSettingsClientSideType1TypedDict",
-    "TLSSettingsClientSideType2",
-    "TLSSettingsClientSideType2TypedDict",
-    "TLSSettingsClientSideTypeKafkaSchemaRegistry",
-    "TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict",
+    "TLSSettingsClientSideTypeCaPathCertPath",
+    "TLSSettingsClientSideTypeCaPathCertPathExtended",
+    "TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict",
+    "TLSSettingsClientSideTypeCaPathCertPathTypedDict",
+    "TLSSettingsClientSideTypeExtended",
+    "TLSSettingsClientSideTypeExtendedTypedDict",
     "TLSSettingsClientSideTypeTypedDict",
     "TLSSettingsServerSide",
     "TLSSettingsServerSideType",
@@ -13295,9 +13275,6 @@ __all__ = [
     "TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp",
     "TimestampTypedDict",
     "TriggerType",
-    "TypeCollectionWithBreakerRulesetsConstraint",
-    "TypeCollectionWithBreakerRulesetsConstraintType",
-    "TypeCollectionWithBreakerRulesetsConstraintTypedDict",
     "TypeOptions",
     "TypeOptionsConfigGroup",
     "UDMType",
@@ -13423,8 +13400,6 @@ __all__ = [
     "UnknownSplunkAuthenticationTokenSecretRetryRules",
     "UnknownSplunkCollectorConf",
     "UnknownV3User",
-    "UpdateAdminProductsMappingsByProductAndIDRequest",
-    "UpdateAdminProductsMappingsByProductAndIDRequestTypedDict",
     "UpdateConfigGroupByProductAndIDRequest",
     "UpdateConfigGroupByProductAndIDRequestTypedDict",
     "UpdateConfigGroupDeployByProductAndIDRequest",
@@ -13492,7 +13467,7 @@ __all__ = [
 
 _dynamic_imports: dict[str, str] = {
     "AcknowledgmentsOptions": ".acknowledgmentsoptions",
-    "AcknowledgmentsOptions1": ".acknowledgmentsoptions1",
+    "AcknowledgmentsOptionsAllLeader": ".acknowledgmentsoptionsallleader",
     "AddHecTokenRequest": ".addhectokenrequest",
     "AddHecTokenRequestTypedDict": ".addhectokenrequest",
     "AdditionalPropertiesTypeJobInfoStats": ".additionalpropertiestypejobinfostats",
@@ -13500,30 +13475,30 @@ _dynamic_imports: dict[str, str] = {
     "APITypeSystemSettingsConf": ".apitypesystemsettingsconf",
     "APITypeSystemSettingsConfTypedDict": ".apitypesystemsettingsconf",
     "AuthenticationMethodOptions": ".authenticationmethodoptions",
-    "AuthenticationMethodOptions1": ".authenticationmethodoptions1",
-    "AuthenticationMethodOptions2": ".authenticationmethodoptions2",
+    "AuthenticationMethodOptionsAPI": ".authenticationmethodoptionsapi",
     "AuthenticationMethodOptionsAuth": ".authenticationmethodoptionsauth",
     "AuthenticationMethodOptionsAuthTokensItems": ".authenticationmethodoptionsauthtokensitems",
+    "AuthenticationMethodOptionsManualSecret": ".authenticationmethodoptionsmanualsecret",
     "AuthenticationMethodOptionsS3CollectorConf": ".authenticationmethodoptionss3collectorconf",
     "AuthenticationMethodOptionsSasl": ".authenticationmethodoptionssasl",
-    "AuthenticationMethodOptionsSasl1": ".authenticationmethodoptionssasl1",
-    "AuthenticationMethodOptionsSasl2": ".authenticationmethodoptionssasl2",
+    "AuthenticationMethodOptionsSaslCertificateManual": ".authenticationmethodoptionssaslcertificatemanual",
+    "AuthenticationMethodOptionsSaslManualSecret": ".authenticationmethodoptionssaslmanualsecret",
     "AuthenticationProtocolOptionsV3User": ".authenticationprotocoloptionsv3user",
     "AuthenticationType": ".authenticationtype",
     "AuthenticationTypeTypedDict": ".authenticationtype",
-    "AuthenticationType1": ".authenticationtype1",
-    "AuthenticationType1TypedDict": ".authenticationtype1",
     "AuthenticationTypeOptions": ".authenticationtypeoptions",
-    "AuthenticationTypeOptions1": ".authenticationtypeoptions1",
+    "AuthenticationTypeOptionsBasicCredentialsSecret": ".authenticationtypeoptionsbasiccredentialssecret",
     "AuthenticationTypeOptionsLokiAuth": ".authenticationtypeoptionslokiauth",
     "AuthenticationTypeOptionsPrometheusAuth": ".authenticationtypeoptionsprometheusauth",
-    "AuthenticationTypeOptionsPrometheusAuth1": ".authenticationtypeoptionsprometheusauth1",
+    "AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret": ".authenticationtypeoptionsprometheusauthbasiccredentialssecret",
+    "AuthenticationTypeUse": ".authenticationtypeuse",
+    "AuthenticationTypeUseTypedDict": ".authenticationtypeuse",
     "AuthToken": ".authtoken",
     "AuthTokenTypedDict": ".authtoken",
     "AuthType": ".authtype",
     "AuthTypeTypedDict": ".authtype",
-    "AuthTypeKafkaSchemaRegistry": ".authtypekafkaschemaregistry",
-    "AuthTypeKafkaSchemaRegistryTypedDict": ".authtypekafkaschemaregistry",
+    "AuthTypeAuthTypeCredentialsSecret": ".authtypeauthtypecredentialssecret",
+    "AuthTypeAuthTypeCredentialsSecretTypedDict": ".authtypeauthtypecredentialssecret",
     "AwsAuthenticationMethodOptions": ".awsauthenticationmethodoptions",
     "AwsTypeHeartbeatMetadata": ".awstypeheartbeatmetadata",
     "AwsTypeHeartbeatMetadataTypedDict": ".awstypeheartbeatmetadata",
@@ -13553,7 +13528,7 @@ _dynamic_imports: dict[str, str] = {
     "AzureTypeHeartbeatMetadata": ".azuretypeheartbeatmetadata",
     "AzureTypeHeartbeatMetadataTypedDict": ".azuretypeheartbeatmetadata",
     "BackpressureBehaviorOptions": ".backpressurebehavioroptions",
-    "BackpressureBehaviorOptions1": ".backpressurebehavioroptions1",
+    "BackpressureBehaviorOptionsBlockDrop": ".backpressurebehavioroptionsblockdrop",
     "BackupsSettings1": ".backupssettings_union",
     "BackupsSettings1TypedDict": ".backupssettings_union",
     "BackupsSettings2": ".backupssettings_union",
@@ -13610,11 +13585,11 @@ _dynamic_imports: dict[str, str] = {
     "CommitTypedDict": ".commit",
     "CompressionLevelOptions": ".compressionleveloptions",
     "CompressionOptions": ".compressionoptions",
-    "CompressionOptions1": ".compressionoptions1",
-    "CompressionOptions2": ".compressionoptions2",
-    "CompressionOptions3": ".compressionoptions3",
-    "CompressionOptions4": ".compressionoptions4",
-    "CompressionOptions5": ".compressionoptions5",
+    "CompressionOptionsDeflateGzip": ".compressionoptionsdeflategzip",
+    "CompressionOptionsGzipLz4": ".compressionoptionsgziplz4",
+    "CompressionOptionsGzipNone": ".compressionoptionsgzipnone",
+    "CompressionOptionsHTTP": ".compressionoptionshttp",
+    "CompressionOptionsMessages": ".compressionoptionsmessages",
     "CompressionOptionsPersistence": ".compressionoptionspersistence",
     "CompressionOptionsPq": ".compressionoptionspq",
     "ConfigGroup": ".configgroup",
@@ -13666,8 +13641,6 @@ _dynamic_imports: dict[str, str] = {
     "CountedInputStatusTypedDict": ".countedinputstatus",
     "CountedJobInfo": ".countedjobinfo",
     "CountedJobInfoTypedDict": ".countedjobinfo",
-    "CountedMappingRuleset": ".countedmappingruleset",
-    "CountedMappingRulesetTypedDict": ".countedmappingruleset",
     "CountedMasterWorkerEntry": ".countedmasterworkerentry",
     "CountedMasterWorkerEntryTypedDict": ".countedmasterworkerentry",
     "CountedNumber": ".countednumber",
@@ -13694,8 +13667,6 @@ _dynamic_imports: dict[str, str] = {
     "CountedRestartResponseTypedDict": ".countedrestartresponse",
     "CountedRoutes": ".countedroutes",
     "CountedRoutesTypedDict": ".countedroutes",
-    "CountedRulesetID": ".countedrulesetid",
-    "CountedRulesetIDTypedDict": ".countedrulesetid",
     "CountedSavedJob": ".countedsavedjob",
     "CountedSavedJobTypedDict": ".countedsavedjob",
     "CountedString": ".countedstring",
@@ -13708,10 +13679,6 @@ _dynamic_imports: dict[str, str] = {
     "CountedTeamAccessControlListTypedDict": ".countedteamaccesscontrollist",
     "CountedUserAccessControlList": ".counteduseraccesscontrollist",
     "CountedUserAccessControlListTypedDict": ".counteduseraccesscontrollist",
-    "CreateAdminProductsMappingsActivateByProductRequest": ".createadminproductsmappingsactivatebyproductop",
-    "CreateAdminProductsMappingsActivateByProductRequestTypedDict": ".createadminproductsmappingsactivatebyproductop",
-    "CreateAdminProductsMappingsByProductRequest": ".createadminproductsmappingsbyproductop",
-    "CreateAdminProductsMappingsByProductRequestTypedDict": ".createadminproductsmappingsbyproductop",
     "CreateAuthLoginResponse": ".createauthloginop",
     "CreateAuthLoginResponseTypedDict": ".createauthloginop",
     "CreateConfigGroupByProductRequest": ".createconfiggroupbyproductop",
@@ -15369,8 +15336,6 @@ _dynamic_imports: dict[str, str] = {
     "ScanMode": ".datasetmetadata",
     "DatasetMetadataRunInfo": ".datasetmetadataruninfo",
     "DatasetMetadataRunInfoTypedDict": ".datasetmetadataruninfo",
-    "DeleteAdminProductsMappingsByProductAndIDRequest": ".deleteadminproductsmappingsbyproductandidop",
-    "DeleteAdminProductsMappingsByProductAndIDRequestTypedDict": ".deleteadminproductsmappingsbyproductandidop",
     "DeleteConfigGroupByProductAndIDRequest": ".deleteconfiggroupbyproductandidop",
     "DeleteConfigGroupByProductAndIDRequestTypedDict": ".deleteconfiggroupbyproductandidop",
     "DeleteCriblLakeDatasetByLakeIDAndIDRequest": ".deletecribllakedatasetbylakeidandidop",
@@ -15408,6 +15373,7 @@ _dynamic_imports: dict[str, str] = {
     "DeployRequestLookupsLookupTypedDict": ".deployrequestlookups",
     "DeployRequestLookupsTypedDict": ".deployrequestlookups",
     "DestinationProtocolOptions": ".destinationprotocoloptions",
+    "DestinationType": ".destinationtype",
     "Block": ".difffiles",
     "BlockTypedDict": ".difffiles",
     "ChecksumBefore": ".difffiles",
@@ -15533,6 +15499,8 @@ _dynamic_imports: dict[str, str] = {
     "FunctionConfSchemaLocalSearchRulesetRunner": ".functionconfschemalocalsearchrulesetrunner",
     "FunctionConfSchemaLocalSearchRulesetRunnerTypedDict": ".functionconfschemalocalsearchrulesetrunner",
     "RulesetType": ".functionconfschemalocalsearchrulesetrunner",
+    "FunctionConfSchemaLocalSearchTransformer": ".functionconfschemalocalsearchtransformer",
+    "FunctionConfSchemaLocalSearchTransformerTypedDict": ".functionconfschemalocalsearchtransformer",
     "Condition": ".functionconfschemanotificationpolicies",
     "ConditionTypedDict": ".functionconfschemanotificationpolicies",
     "FunctionConfSchemaNotificationPolicies": ".functionconfschemanotificationpolicies",
@@ -15674,6 +15642,9 @@ _dynamic_imports: dict[str, str] = {
     "FunctionLocalSearchRulesetRunner": ".functionlocalsearchrulesetrunner",
     "FunctionLocalSearchRulesetRunnerID": ".functionlocalsearchrulesetrunner",
     "FunctionLocalSearchRulesetRunnerTypedDict": ".functionlocalsearchrulesetrunner",
+    "FunctionLocalSearchTransformer": ".functionlocalsearchtransformer",
+    "FunctionLocalSearchTransformerID": ".functionlocalsearchtransformer",
+    "FunctionLocalSearchTransformerTypedDict": ".functionlocalsearchtransformer",
     "FunctionLookup": ".functionlookup",
     "FunctionLookupID": ".functionlookup",
     "FunctionLookupTypedDict": ".functionlookup",
@@ -15785,10 +15756,6 @@ _dynamic_imports: dict[str, str] = {
     "FunctionXMLUnroll": ".functionxmlunroll",
     "FunctionXMLUnrollID": ".functionxmlunroll",
     "FunctionXMLUnrollTypedDict": ".functionxmlunroll",
-    "GetAdminProductsMappingsByProductAndIDRequest": ".getadminproductsmappingsbyproductandidop",
-    "GetAdminProductsMappingsByProductAndIDRequestTypedDict": ".getadminproductsmappingsbyproductandidop",
-    "GetAdminProductsMappingsByProductRequest": ".getadminproductsmappingsbyproductop",
-    "GetAdminProductsMappingsByProductRequestTypedDict": ".getadminproductsmappingsbyproductop",
     "GetConfigGroupACLByProductAndIDRequest": ".getconfiggroupaclbyproductandidop",
     "GetConfigGroupACLByProductAndIDRequestTypedDict": ".getconfiggroupaclbyproductandidop",
     "GetConfigGroupACLTeamsByProductAndIDRequest": ".getconfiggroupaclteamsbyproductandidop",
@@ -16776,10 +16743,10 @@ _dynamic_imports: dict[str, str] = {
     "ItemsTypeAddTypedDict": ".itemstypeadd",
     "ItemsTypeAuthTokens": ".itemstypeauthtokens",
     "ItemsTypeAuthTokensTypedDict": ".itemstypeauthtokens",
-    "ItemsTypeAuthTokens1": ".itemstypeauthtokens1",
-    "ItemsTypeAuthTokens1TypedDict": ".itemstypeauthtokens1",
     "ItemsTypeAuthTokensExt": ".itemstypeauthtokensext",
     "ItemsTypeAuthTokensExtTypedDict": ".itemstypeauthtokensext",
+    "ItemsTypeAuthTokensTokenSecret": ".itemstypeauthtokenstokensecret",
+    "ItemsTypeAuthTokensTokenSecretTypedDict": ".itemstypeauthtokenstokensecret",
     "ItemsTypeConnectionsOptional": ".itemstypeconnectionsoptional",
     "ItemsTypeConnectionsOptionalTypedDict": ".itemstypeconnectionsoptional",
     "ItemsTypeContentConfigItemsRequestParams": ".itemstypecontentconfigitemsrequestparams",
@@ -16834,8 +16801,8 @@ _dynamic_imports: dict[str, str] = {
     "JobTypeOptionsRunnableJobCollection": ".jobtypeoptionsrunnablejobcollection",
     "KafkaSchemaRegistryAuthenticationType": ".kafkaschemaregistryauthenticationtype",
     "KafkaSchemaRegistryAuthenticationTypeTypedDict": ".kafkaschemaregistryauthenticationtype",
-    "KafkaSchemaRegistryAuthenticationType1": ".kafkaschemaregistryauthenticationtype1",
-    "KafkaSchemaRegistryAuthenticationType1TypedDict": ".kafkaschemaregistryauthenticationtype1",
+    "KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout": ".kafkaschemaregistryauthenticationtypeauthconnectiontimeout",
+    "KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict": ".kafkaschemaregistryauthenticationtypeauthconnectiontimeout",
     "KubeTypeHeartbeatMetadata": ".kubetypeheartbeatmetadata",
     "KubeTypeHeartbeatMetadataTypedDict": ".kubetypeheartbeatmetadata",
     "LakeDatasetMetrics": ".lakedatasetmetrics",
@@ -16845,35 +16812,27 @@ _dynamic_imports: dict[str, str] = {
     "LakehouseConnectionType": ".lakehouseconnectiontype",
     "ListConfigGroupByProductRequest": ".listconfiggroupbyproductop",
     "ListConfigGroupByProductRequestTypedDict": ".listconfiggroupbyproductop",
+    "ListOutputRequest": ".listoutputop",
+    "ListOutputRequestTypedDict": ".listoutputop",
     "LoginInfo": ".logininfo",
     "LoginInfoTypedDict": ".logininfo",
     "LogLevelOptionsContentConfigItems": ".logleveloptionscontentconfigitems",
     "LogLevelOptionsRunnableJobCollectionScheduleRun": ".logleveloptionsrunnablejobcollectionschedulerun",
-    "ConfEval": ".mappingruleset",
-    "ConfEvalTypedDict": ".mappingruleset",
-    "Function": ".mappingruleset",
-    "FunctionTypedDict": ".mappingruleset",
-    "MappingRuleset": ".mappingruleset",
-    "MappingRulesetAdd": ".mappingruleset",
-    "MappingRulesetAddTypedDict": ".mappingruleset",
-    "MappingRulesetConf": ".mappingruleset",
-    "MappingRulesetConfTypedDict": ".mappingruleset",
-    "MappingRulesetTypedDict": ".mappingruleset",
     "MasterWorkerEntry": ".masterworkerentry",
     "MasterWorkerEntryType": ".masterworkerentry",
     "MasterWorkerEntryTypedDict": ".masterworkerentry",
     "MasterWorkerEntryWorkers": ".masterworkerentry",
     "MasterWorkerEntryWorkersTypedDict": ".masterworkerentry",
-    "MaximumTLSVersionOptionsKafkaSchemaRegistryTLS": ".maximumtlsversionoptionskafkaschemaregistrytls",
     "MaximumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions": ".maximumtlsversionoptionsredisdeploymenttypestandalonetlsoptions",
+    "MaximumTLSVersionOptionsTLS": ".maximumtlsversionoptionstls",
     "MaxS2SVersionOptions": ".maxs2sversionoptions",
     "MessageFormatOptions": ".messageformatoptions",
     "MethodOptions": ".methodoptions",
     "MetricsStore": ".metricsstore",
     "MetricsStoreTypedDict": ".metricsstore",
     "MicrosoftEntraIDAuthenticationEndpointOptionsSasl": ".microsoftentraidauthenticationendpointoptionssasl",
-    "MinimumTLSVersionOptionsKafkaSchemaRegistryTLS": ".minimumtlsversionoptionskafkaschemaregistrytls",
     "MinimumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions": ".minimumtlsversionoptionsredisdeploymenttypestandalonetlsoptions",
+    "MinimumTLSVersionOptionsTLS": ".minimumtlsversionoptionstls",
     "ModeOptions": ".modeoptions",
     "ModeOptionsHost": ".modeoptionshost",
     "ModeOptionsInstanceSettingsSchema": ".modeoptionsinstancesettingsschema",
@@ -16892,9 +16851,9 @@ _dynamic_imports: dict[str, str] = {
     "NodeUpgradeStatus": ".nodeupgradestatus",
     "NodeUpgradeStatusTypedDict": ".nodeupgradestatus",
     "ObjectACLOptions": ".objectacloptions",
-    "ObjectACLOptions1": ".objectacloptions1",
+    "ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol": ".objectacloptionsauthenticatedreadbucketownerfullcontrol",
     "OtlpVersionOptions": ".otlpversionoptions",
-    "OtlpVersionOptions1": ".otlpversionoptions1",
+    "OtlpVersionOptions131": ".otlpversionoptions131",
     "OutpostNodeInfo": ".outpostnodeinfo",
     "OutpostNodeInfoTypedDict": ".outpostnodeinfo",
     "Output": ".output",
@@ -17558,6 +17517,9 @@ _dynamic_imports: dict[str, str] = {
     "PipelineFunctionLocalSearchRulesetRunner": ".pipelinefunctionlocalsearchrulesetrunner",
     "PipelineFunctionLocalSearchRulesetRunnerID": ".pipelinefunctionlocalsearchrulesetrunner",
     "PipelineFunctionLocalSearchRulesetRunnerTypedDict": ".pipelinefunctionlocalsearchrulesetrunner",
+    "PipelineFunctionLocalSearchTransformer": ".pipelinefunctionlocalsearchtransformer",
+    "PipelineFunctionLocalSearchTransformerID": ".pipelinefunctionlocalsearchtransformer",
+    "PipelineFunctionLocalSearchTransformerTypedDict": ".pipelinefunctionlocalsearchtransformer",
     "LookupDbLookupFalse": ".pipelinefunctionlookup",
     "LookupDbLookupFalseMatchModeCidr": ".pipelinefunctionlookup",
     "LookupDbLookupFalseMatchModeCidrInField": ".pipelinefunctionlookup",
@@ -17868,7 +17830,7 @@ _dynamic_imports: dict[str, str] = {
     "QueueFullBehaviorOptions": ".queuefullbehavioroptions",
     "RbacResource": ".rbacresource",
     "RecordDataFormatOptions": ".recorddataformatoptions",
-    "RecordDataFormatOptions1": ".recorddataformatoptions1",
+    "RecordDataFormatOptionsJSONProtobuf": ".recorddataformatoptionsjsonprotobuf",
     "RecordTypeOptions": ".recordtypeoptions",
     "RegionOptions": ".regionoptions",
     "RequestFormatOptions": ".requestformatoptions",
@@ -19536,8 +19498,8 @@ _dynamic_imports: dict[str, str] = {
     "UnknownRestCollectorConf": ".restcollectorconf",
     "RetryRulesType": ".retryrulestype",
     "RetryRulesTypeTypedDict": ".retryrulestype",
-    "RetryRulesType1": ".retryrulestype1",
-    "RetryRulesType1TypedDict": ".retryrulestype1",
+    "RetryRulesTypeCodesEnableHeader": ".retryrulestypecodesenableheader",
+    "RetryRulesTypeCodesEnableHeaderTypedDict": ".retryrulestypecodesenableheader",
     "RetrySettingsType": ".retrysettingstype",
     "RetrySettingsTypeTypedDict": ".retrysettingstype",
     "RetryTypeOptionsHealthCheckCollectorConfRetryRules": ".retrytypeoptionshealthcheckcollectorconfretryrules",
@@ -19555,8 +19517,6 @@ _dynamic_imports: dict[str, str] = {
     "RoutesGroups": ".routes",
     "RoutesGroupsTypedDict": ".routes",
     "RoutesTypedDict": ".routes",
-    "RulesetID": ".rulesetid",
-    "RulesetIDTypedDict": ".rulesetid",
     "RunnableJob": ".runnablejob",
     "RunnableJobTypedDict": ".runnablejob",
     "CaptureSettings": ".runnablejobcollection",
@@ -19568,6 +19528,9 @@ _dynamic_imports: dict[str, str] = {
     "RunnableJobCollectionTypedDict": ".runnablejobcollection",
     "TimeRange": ".runnablejobcollection",
     "WhereToCapture": ".runnablejobcollection",
+    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint": ".runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint",
+    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType": ".runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint",
+    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict": ".runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint",
     "RunnableJobExecutor": ".runnablejobexecutor",
     "RunnableJobExecutorRun": ".runnablejobexecutor",
     "RunnableJobExecutorRunTypedDict": ".runnablejobexecutor",
@@ -19609,7 +19572,7 @@ _dynamic_imports: dict[str, str] = {
     "S3PartitioningSchemeNoneTypedDict": ".s3collectorconf",
     "UnknownS3CollectorConf": ".s3collectorconf",
     "SaslMechanismOptionsSasl": ".saslmechanismoptionssasl",
-    "SaslMechanismOptionsSasl1": ".saslmechanismoptionssasl1",
+    "SaslMechanismOptionsSaslOauthbearerPlain": ".saslmechanismoptionssasloauthbearerplain",
     "SavedJob": ".savedjob",
     "SavedJobTypedDict": ".savedjob",
     "SavedJobCollection": ".savedjobcollection",
@@ -19635,12 +19598,12 @@ _dynamic_imports: dict[str, str] = {
     "ShutdownTypeSystemSettingsConf": ".shutdowntypesystemsettingsconf",
     "ShutdownTypeSystemSettingsConfTypedDict": ".shutdowntypesystemsettingsconf",
     "SignatureVersionOptions": ".signatureversionoptions",
-    "SignatureVersionOptions1": ".signatureversionoptions1",
-    "SignatureVersionOptions2": ".signatureversionoptions2",
-    "SignatureVersionOptions3": ".signatureversionoptions3",
-    "SignatureVersionOptions4": ".signatureversionoptions4",
-    "SignatureVersionOptions5": ".signatureversionoptions5",
+    "SignatureVersionOptionsGoogle": ".signatureversionoptionsgoogle",
+    "SignatureVersionOptionsKinesis": ".signatureversionoptionskinesis",
+    "SignatureVersionOptionsMinIo": ".signatureversionoptionsminio",
     "SignatureVersionOptionsS3CollectorConf": ".signatureversionoptionss3collectorconf",
+    "SignatureVersionOptionsSqs": ".signatureversionoptionssqs",
+    "SignatureVersionOptionsV2V4": ".signatureversionoptionsv2v4",
     "SniSettings1": ".snisettings_union",
     "SniSettings1TypedDict": ".snisettings_union",
     "SniSettings2": ".snisettings_union",
@@ -19737,8 +19700,8 @@ _dynamic_imports: dict[str, str] = {
     "StatusType": ".statustype",
     "StatusTypeTypedDict": ".statustype",
     "StorageClassOptions": ".storageclassoptions",
-    "StorageClassOptions1": ".storageclassoptions1",
-    "StorageClassOptions2": ".storageclassoptions2",
+    "StorageClassOptionsArchiveColdline": ".storageclassoptionsarchivecoldline",
+    "StorageClassOptionsReducedredundancyStandard": ".storageclassoptionsreducedredundancystandard",
     "SubscriptionPlanOptions": ".subscriptionplanoptions",
     "SupportTypeSystemSettingsConf": ".supporttypesystemsettingsconf",
     "SupportTypeSystemSettingsConfTypedDict": ".supporttypesystemsettingsconf",
@@ -19768,21 +19731,16 @@ _dynamic_imports: dict[str, str] = {
     "TLSSettingsUnionTypedDict": ".tlssettings_union",
     "TLSSettingsClientSideType": ".tlssettingsclientsidetype",
     "TLSSettingsClientSideTypeTypedDict": ".tlssettingsclientsidetype",
-    "TLSSettingsClientSideType1": ".tlssettingsclientsidetype1",
-    "TLSSettingsClientSideType1TypedDict": ".tlssettingsclientsidetype1",
-    "TLSSettingsClientSideType2": ".tlssettingsclientsidetype2",
-    "TLSSettingsClientSideType2TypedDict": ".tlssettingsclientsidetype2",
-    "TLSSettingsClientSideTypeKafkaSchemaRegistry": ".tlssettingsclientsidetypekafkaschemaregistry",
-    "TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict": ".tlssettingsclientsidetypekafkaschemaregistry",
+    "TLSSettingsClientSideTypeCaPathCertPath": ".tlssettingsclientsidetypecapathcertpath",
+    "TLSSettingsClientSideTypeCaPathCertPathTypedDict": ".tlssettingsclientsidetypecapathcertpath",
+    "TLSSettingsClientSideTypeCaPathCertPathExtended": ".tlssettingsclientsidetypecapathcertpathextended",
+    "TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict": ".tlssettingsclientsidetypecapathcertpathextended",
+    "TLSSettingsClientSideTypeExtended": ".tlssettingsclientsidetypeextended",
+    "TLSSettingsClientSideTypeExtendedTypedDict": ".tlssettingsclientsidetypeextended",
     "TLSSettingsServerSideType": ".tlssettingsserversidetype",
     "TLSSettingsServerSideTypeTypedDict": ".tlssettingsserversidetype",
-    "TypeCollectionWithBreakerRulesetsConstraint": ".typecollectionwithbreakerrulesetsconstraint",
-    "TypeCollectionWithBreakerRulesetsConstraintType": ".typecollectionwithbreakerrulesetsconstraint",
-    "TypeCollectionWithBreakerRulesetsConstraintTypedDict": ".typecollectionwithbreakerrulesetsconstraint",
     "TypeOptions": ".typeoptions",
     "TypeOptionsConfigGroup": ".typeoptionsconfiggroup",
-    "UpdateAdminProductsMappingsByProductAndIDRequest": ".updateadminproductsmappingsbyproductandidop",
-    "UpdateAdminProductsMappingsByProductAndIDRequestTypedDict": ".updateadminproductsmappingsbyproductandidop",
     "UpdateConfigGroupByProductAndIDRequest": ".updateconfiggroupbyproductandidop",
     "UpdateConfigGroupByProductAndIDRequestTypedDict": ".updateconfiggroupbyproductandidop",
     "UpdateConfigGroupDeployByProductAndIDRequest": ".updateconfiggroupdeploybyproductandidop",

@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 from .acknowledgmentsoptions import AcknowledgmentsOptions
-from .acknowledgmentsoptions1 import AcknowledgmentsOptions1
+from .acknowledgmentsoptionsallleader import AcknowledgmentsOptionsAllLeader
 from .authenticationmethodoptions import AuthenticationMethodOptions
-from .authenticationmethodoptions2 import AuthenticationMethodOptions2
+from .authenticationmethodoptionsapi import AuthenticationMethodOptionsAPI
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
 )
@@ -12,19 +12,22 @@ from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .authenticationtype import AuthenticationType, AuthenticationTypeTypedDict
-from .authenticationtype1 import AuthenticationType1, AuthenticationType1TypedDict
-from .authtype import AuthType, AuthTypeTypedDict
+from .authenticationtypeuse import AuthenticationTypeUse, AuthenticationTypeUseTypedDict
+from .authtypeauthtypecredentialssecret import (
+    AuthTypeAuthTypeCredentialsSecret,
+    AuthTypeAuthTypeCredentialsSecretTypedDict,
+)
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
-from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
+from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
 from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCert,
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
 from .compressionleveloptions import CompressionLevelOptions
 from .compressionoptions import CompressionOptions
-from .compressionoptions1 import CompressionOptions1
-from .compressionoptions2 import CompressionOptions2
-from .compressionoptions3 import CompressionOptions3
+from .compressionoptionsgziplz4 import CompressionOptionsGzipLz4
+from .compressionoptionsgzipnone import CompressionOptionsGzipNone
+from .compressionoptionshttp import CompressionOptionsHTTP
 from .compressionoptionspq import CompressionOptionsPq
 from .createoutput_pqcontrols_newrelicevents import (
     CreateOutputOutputChronicle,
@@ -132,9 +135,9 @@ from .itemstypesaslsaslextensions import (
     ItemsTypeSaslSaslExtensions,
     ItemsTypeSaslSaslExtensionsTypedDict,
 )
-from .kafkaschemaregistryauthenticationtype1 import (
-    KafkaSchemaRegistryAuthenticationType1,
-    KafkaSchemaRegistryAuthenticationType1TypedDict,
+from .kafkaschemaregistryauthenticationtypeauthconnectiontimeout import (
+    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout,
+    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict,
 )
 from .maxs2sversionoptions import MaxS2SVersionOptions
 from .methodoptions import MethodOptions
@@ -144,24 +147,26 @@ from .microsoftentraidauthenticationendpointoptionssasl import (
 from .modeoptions import ModeOptions
 from .nestedfieldserializationoptions import NestedFieldSerializationOptions
 from .objectacloptions import ObjectACLOptions
-from .objectacloptions1 import ObjectACLOptions1
+from .objectacloptionsauthenticatedreadbucketownerfullcontrol import (
+    ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol,
+)
 from .parquetversionoptions import ParquetVersionOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptions import RecordDataFormatOptions
-from .recorddataformatoptions1 import RecordDataFormatOptions1
+from .recorddataformatoptionsjsonprotobuf import RecordDataFormatOptionsJSONProtobuf
 from .regionoptions import RegionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .serversideencryptionforuploadedobjectsoptions import (
     ServerSideEncryptionForUploadedObjectsOptions,
 )
 from .signatureversionoptions import SignatureVersionOptions
-from .signatureversionoptions2 import SignatureVersionOptions2
-from .signatureversionoptions4 import SignatureVersionOptions4
+from .signatureversionoptionsgoogle import SignatureVersionOptionsGoogle
+from .signatureversionoptionskinesis import SignatureVersionOptionsKinesis
 from .signatureversionoptionss3collectorconf import (
     SignatureVersionOptionsS3CollectorConf,
 )
 from .storageclassoptions import StorageClassOptions
-from .storageclassoptions1 import StorageClassOptions1
+from .storageclassoptionsarchivecoldline import StorageClassOptionsArchiveColdline
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -170,13 +175,13 @@ from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
     TLSSettingsClientSideTypeTypedDict,
 )
-from .tlssettingsclientsidetype1 import (
-    TLSSettingsClientSideType1,
-    TLSSettingsClientSideType1TypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypecapathcertpathextended import (
+    TLSSettingsClientSideTypeCaPathCertPathExtended,
+    TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict,
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, Nullable, UNSET_SENTINEL
@@ -238,7 +243,7 @@ class CreateOutputOutputNewrelicEventsTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[AuthenticationMethodOptionsAPI]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
     custom_url: NotRequired[str]
@@ -381,7 +386,7 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptionsAPI], pydantic.Field(alias="authType")
     ] = None
     r"""Enter API key directly, or select a stored secret"""
 
@@ -495,7 +500,7 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.AuthenticationMethodOptionsAPI(value)
             except ValueError:
                 return value
         return value
@@ -680,7 +685,7 @@ class CreateOutputOutputNewrelicTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[AuthenticationMethodOptionsAPI]
     r"""Enter API key directly, or select a stored secret"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
@@ -826,7 +831,7 @@ class CreateOutputOutputNewrelic(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptionsAPI], pydantic.Field(alias="authType")
     ] = None
     r"""Enter API key directly, or select a stored secret"""
 
@@ -939,7 +944,7 @@ class CreateOutputOutputNewrelic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.AuthenticationMethodOptionsAPI(value)
             except ValueError:
                 return value
         return value
@@ -1087,7 +1092,7 @@ class CreateOutputOutputElasticCloudTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     extra_params: NotRequired[List[ItemsTypeSaslSaslExtensionsTypedDict]]
     r"""Extra parameters to use in HTTP requests"""
-    auth: NotRequired[AuthTypeTypedDict]
+    auth: NotRequired[AuthTypeAuthTypeCredentialsSecretTypedDict]
     elastic_pipeline: NotRequired[str]
     r"""Optional Elastic Cloud Destination pipeline"""
     include_doc_id: NotRequired[bool]
@@ -1203,7 +1208,7 @@ class CreateOutputOutputElasticCloud(BaseModel):
     ] = None
     r"""Extra parameters to use in HTTP requests"""
 
-    auth: Optional[AuthType] = None
+    auth: Optional[AuthTypeAuthTypeCredentialsSecret] = None
 
     elastic_pipeline: Annotated[
         Optional[str], pydantic.Field(alias="elasticPipeline")
@@ -1501,7 +1506,7 @@ class CreateOutputOutputElasticTypedDict(TypedDict):
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     extra_params: NotRequired[List[ItemsTypeSaslSaslExtensionsTypedDict]]
-    auth: NotRequired[AuthTypeTypedDict]
+    auth: NotRequired[AuthTypeAuthTypeCredentialsSecretTypedDict]
     elastic_version: NotRequired[CreateOutputElasticVersion]
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
     elastic_pipeline: NotRequired[str]
@@ -1650,7 +1655,7 @@ class CreateOutputOutputElastic(BaseModel):
         Optional[List[ItemsTypeSaslSaslExtensions]], pydantic.Field(alias="extraParams")
     ] = None
 
-    auth: Optional[AuthType] = None
+    auth: Optional[AuthTypeAuthTypeCredentialsSecret] = None
 
     elastic_version: Annotated[
         Optional[CreateOutputElasticVersion], pydantic.Field(alias="elasticVersion")
@@ -1921,11 +1926,11 @@ class CreateOutputOutputMskTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    ack: NotRequired[AcknowledgmentsOptions1]
+    ack: NotRequired[AcknowledgmentsOptionsAllLeader]
     r"""Control the number of required acknowledgments."""
-    format_: NotRequired[RecordDataFormatOptions1]
+    format_: NotRequired[RecordDataFormatOptionsJSONProtobuf]
     r"""Format to use to serialize events before writing to Kafka."""
-    compression: NotRequired[CompressionOptions3]
+    compression: NotRequired[CompressionOptionsGzipLz4]
     r"""Codec to use to compress the data before sending to Kafka"""
     max_record_size_kb: NotRequired[float]
     r"""Maximum size of each record batch before compression. The value must not exceed the Kafka brokers' message.max.bytes setting."""
@@ -1933,7 +1938,9 @@ class CreateOutputOutputMskTypedDict(TypedDict):
     r"""The maximum number of events you want the Destination to allow in a batch before forcing a flush"""
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
-    kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationType1TypedDict]
+    kafka_schema_registry: NotRequired[
+        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
+    ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -1967,7 +1974,7 @@ class CreateOutputOutputMskTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -2048,15 +2055,15 @@ class CreateOutputOutputMsk(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Optional[AcknowledgmentsOptions1] = None
+    ack: Optional[AcknowledgmentsOptionsAllLeader] = None
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
-        Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
+        Optional[RecordDataFormatOptionsJSONProtobuf], pydantic.Field(alias="format")
     ] = None
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Optional[CompressionOptions3] = None
+    compression: Optional[CompressionOptionsGzipLz4] = None
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
@@ -2075,7 +2082,7 @@ class CreateOutputOutputMsk(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationType1],
+        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -2155,7 +2162,7 @@ class CreateOutputOutputMsk(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -2261,7 +2268,7 @@ class CreateOutputOutputMsk(BaseModel):
     def serialize_ack(self, value):
         if isinstance(value, str):
             try:
-                return models.AcknowledgmentsOptions1(value)
+                return models.AcknowledgmentsOptionsAllLeader(value)
             except ValueError:
                 return value
         return value
@@ -2270,7 +2277,7 @@ class CreateOutputOutputMsk(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.RecordDataFormatOptions1(value)
+                return models.RecordDataFormatOptionsJSONProtobuf(value)
             except ValueError:
                 return value
         return value
@@ -2279,7 +2286,7 @@ class CreateOutputOutputMsk(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions3(value)
+                return models.CompressionOptionsGzipLz4(value)
             except ValueError:
                 return value
         return value
@@ -2438,12 +2445,12 @@ class CreateOutputOutputConfluentCloudTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
-    ack: NotRequired[AcknowledgmentsOptions1]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    ack: NotRequired[AcknowledgmentsOptionsAllLeader]
     r"""Control the number of required acknowledgments."""
-    format_: NotRequired[RecordDataFormatOptions1]
+    format_: NotRequired[RecordDataFormatOptionsJSONProtobuf]
     r"""Format to use to serialize events before writing to Kafka."""
-    compression: NotRequired[CompressionOptions3]
+    compression: NotRequired[CompressionOptionsGzipLz4]
     r"""Codec to use to compress the data before sending to Kafka"""
     max_record_size_kb: NotRequired[float]
     r"""Maximum size of each record batch before compression. The value must not exceed the Kafka brokers' message.max.bytes setting."""
@@ -2451,7 +2458,9 @@ class CreateOutputOutputConfluentCloudTypedDict(TypedDict):
     r"""The maximum number of events you want the Destination to allow in a batch before forcing a flush"""
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
-    kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationType1TypedDict]
+    kafka_schema_registry: NotRequired[
+        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
+    ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -2528,17 +2537,17 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
-    ack: Optional[AcknowledgmentsOptions1] = None
+    ack: Optional[AcknowledgmentsOptionsAllLeader] = None
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
-        Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
+        Optional[RecordDataFormatOptionsJSONProtobuf], pydantic.Field(alias="format")
     ] = None
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Optional[CompressionOptions3] = None
+    compression: Optional[CompressionOptionsGzipLz4] = None
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
@@ -2557,7 +2566,7 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationType1],
+        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -2673,7 +2682,7 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     def serialize_ack(self, value):
         if isinstance(value, str):
             try:
-                return models.AcknowledgmentsOptions1(value)
+                return models.AcknowledgmentsOptionsAllLeader(value)
             except ValueError:
                 return value
         return value
@@ -2682,7 +2691,7 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.RecordDataFormatOptions1(value)
+                return models.RecordDataFormatOptionsJSONProtobuf(value)
             except ValueError:
                 return value
         return value
@@ -2691,7 +2700,7 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions3(value)
+                return models.CompressionOptionsGzipLz4(value)
             except ValueError:
                 return value
         return value
@@ -2817,11 +2826,11 @@ class CreateOutputOutputKafkaTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    ack: NotRequired[AcknowledgmentsOptions1]
+    ack: NotRequired[AcknowledgmentsOptionsAllLeader]
     r"""Control the number of required acknowledgments."""
-    format_: NotRequired[RecordDataFormatOptions1]
+    format_: NotRequired[RecordDataFormatOptionsJSONProtobuf]
     r"""Format to use to serialize events before writing to Kafka."""
-    compression: NotRequired[CompressionOptions3]
+    compression: NotRequired[CompressionOptionsGzipLz4]
     r"""Codec to use to compress the data before sending to Kafka"""
     max_record_size_kb: NotRequired[float]
     r"""Maximum size of each record batch before compression. The value must not exceed the Kafka brokers' message.max.bytes setting."""
@@ -2829,7 +2838,9 @@ class CreateOutputOutputKafkaTypedDict(TypedDict):
     r"""The maximum number of events you want the Destination to allow in a batch before forcing a flush"""
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
-    kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationType1TypedDict]
+    kafka_schema_registry: NotRequired[
+        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
+    ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -2848,7 +2859,7 @@ class CreateOutputOutputKafkaTypedDict(TypedDict):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
     sasl: NotRequired[AuthenticationTypeTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -2907,15 +2918,15 @@ class CreateOutputOutputKafka(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Optional[AcknowledgmentsOptions1] = None
+    ack: Optional[AcknowledgmentsOptionsAllLeader] = None
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
-        Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
+        Optional[RecordDataFormatOptionsJSONProtobuf], pydantic.Field(alias="format")
     ] = None
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Optional[CompressionOptions3] = None
+    compression: Optional[CompressionOptionsGzipLz4] = None
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
@@ -2934,7 +2945,7 @@ class CreateOutputOutputKafka(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationType1],
+        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -2975,7 +2986,7 @@ class CreateOutputOutputKafka(BaseModel):
     sasl: Optional[AuthenticationType] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -3051,7 +3062,7 @@ class CreateOutputOutputKafka(BaseModel):
     def serialize_ack(self, value):
         if isinstance(value, str):
             try:
-                return models.AcknowledgmentsOptions1(value)
+                return models.AcknowledgmentsOptionsAllLeader(value)
             except ValueError:
                 return value
         return value
@@ -3060,7 +3071,7 @@ class CreateOutputOutputKafka(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.RecordDataFormatOptions1(value)
+                return models.RecordDataFormatOptionsJSONProtobuf(value)
             except ValueError:
                 return value
         return value
@@ -3069,7 +3080,7 @@ class CreateOutputOutputKafka(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions3(value)
+                return models.CompressionOptionsGzipLz4(value)
             except ValueError:
                 return value
         return value
@@ -3195,11 +3206,11 @@ class CreateOutputOutputExabeamTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    signature_version: NotRequired[SignatureVersionOptions4]
+    signature_version: NotRequired[SignatureVersionOptionsGoogle]
     r"""Signature version to use for signing Google Cloud Storage requests"""
-    object_acl: NotRequired[ObjectACLOptions1]
+    object_acl: NotRequired[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol]
     r"""Object ACL to assign to uploaded objects"""
-    storage_class: NotRequired[StorageClassOptions1]
+    storage_class: NotRequired[StorageClassOptionsArchiveColdline]
     r"""Storage class to select for uploaded objects"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -3215,7 +3226,7 @@ class CreateOutputOutputExabeamTypedDict(TypedDict):
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
     max_open_files: NotRequired[float]
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -3286,17 +3297,20 @@ class CreateOutputOutputExabeam(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions4], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsGoogle],
+        pydantic.Field(alias="signatureVersion"),
     ] = None
     r"""Signature version to use for signing Google Cloud Storage requests"""
 
     object_acl: Annotated[
-        Optional[ObjectACLOptions1], pydantic.Field(alias="objectACL")
+        Optional[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol],
+        pydantic.Field(alias="objectACL"),
     ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Optional[StorageClassOptions1], pydantic.Field(alias="storageClass")
+        Optional[StorageClassOptionsArchiveColdline],
+        pydantic.Field(alias="storageClass"),
     ] = None
     r"""Storage class to select for uploaded objects"""
 
@@ -3336,7 +3350,8 @@ class CreateOutputOutputExabeam(BaseModel):
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -3414,7 +3429,7 @@ class CreateOutputOutputExabeam(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions4(value)
+                return models.SignatureVersionOptionsGoogle(value)
             except ValueError:
                 return value
         return value
@@ -3423,7 +3438,9 @@ class CreateOutputOutputExabeam(BaseModel):
     def serialize_object_acl(self, value):
         if isinstance(value, str):
             try:
-                return models.ObjectACLOptions1(value)
+                return models.ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -3432,7 +3449,7 @@ class CreateOutputOutputExabeam(BaseModel):
     def serialize_storage_class(self, value):
         if isinstance(value, str):
             try:
-                return models.StorageClassOptions1(value)
+                return models.StorageClassOptionsArchiveColdline(value)
             except ValueError:
                 return value
         return value
@@ -3441,7 +3458,7 @@ class CreateOutputOutputExabeam(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -4486,7 +4503,7 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    signature_version: NotRequired[SignatureVersionOptions4]
+    signature_version: NotRequired[SignatureVersionOptionsGoogle]
     r"""Signature version to use for signing Google Cloud Storage requests"""
     aws_authentication_method: NotRequired[
         CreateOutputAuthenticationMethodGoogleCloudStorage
@@ -4495,9 +4512,9 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
     verify_permissions: NotRequired[bool]
     r"""Disable if you can access files within the bucket but not the bucket itself"""
-    object_acl: NotRequired[ObjectACLOptions1]
+    object_acl: NotRequired[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol]
     r"""Object ACL to assign to uploaded objects"""
-    storage_class: NotRequired[StorageClassOptions1]
+    storage_class: NotRequired[StorageClassOptionsArchiveColdline]
     r"""Storage class to select for uploaded objects"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -4527,7 +4544,7 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -4537,7 +4554,7 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     description: NotRequired[str]
-    compress: NotRequired[CompressionOptions2]
+    compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -4618,7 +4635,8 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions4], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsGoogle],
+        pydantic.Field(alias="signatureVersion"),
     ] = None
     r"""Signature version to use for signing Google Cloud Storage requests"""
 
@@ -4636,12 +4654,14 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     r"""Disable if you can access files within the bucket but not the bucket itself"""
 
     object_acl: Annotated[
-        Optional[ObjectACLOptions1], pydantic.Field(alias="objectACL")
+        Optional[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol],
+        pydantic.Field(alias="objectACL"),
     ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Optional[StorageClassOptions1], pydantic.Field(alias="storageClass")
+        Optional[StorageClassOptionsArchiveColdline],
+        pydantic.Field(alias="storageClass"),
     ] = None
     r"""Storage class to select for uploaded objects"""
 
@@ -4714,7 +4734,8 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -4740,7 +4761,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptions2] = None
+    compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -4854,7 +4875,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions4(value)
+                return models.SignatureVersionOptionsGoogle(value)
             except ValueError:
                 return value
         return value
@@ -4872,7 +4893,9 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     def serialize_object_acl(self, value):
         if isinstance(value, str):
             try:
-                return models.ObjectACLOptions1(value)
+                return models.ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -4881,7 +4904,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     def serialize_storage_class(self, value):
         if isinstance(value, str):
             try:
-                return models.StorageClassOptions1(value)
+                return models.StorageClassOptionsArchiveColdline(value)
             except ValueError:
                 return value
         return value
@@ -4899,7 +4922,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -4917,7 +4940,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value
@@ -5630,7 +5653,7 @@ class CreateOutputOutputAzureEventhubTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    sasl: NotRequired[AuthenticationType1TypedDict]
+    sasl: NotRequired[AuthenticationTypeUseTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -5744,7 +5767,7 @@ class CreateOutputOutputAzureEventhub(BaseModel):
     ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
-    sasl: Optional[AuthenticationType1] = None
+    sasl: Optional[AuthenticationTypeUse] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
@@ -5975,7 +5998,7 @@ class CreateOutputOutputHoneycombTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[AuthenticationMethodOptionsAPI]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
@@ -6103,7 +6126,7 @@ class CreateOutputOutputHoneycomb(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptionsAPI], pydantic.Field(alias="authType")
     ] = None
     r"""Enter API key directly, or select a stored secret"""
 
@@ -6185,7 +6208,7 @@ class CreateOutputOutputHoneycomb(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.AuthenticationMethodOptionsAPI(value)
             except ValueError:
                 return value
         return value
@@ -6313,7 +6336,7 @@ class CreateOutputOutputKinesisTypedDict(TypedDict):
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions2]
+    signature_version: NotRequired[SignatureVersionOptionsKinesis]
     r"""Signature version to use for signing Kinesis stream requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -6422,7 +6445,8 @@ class CreateOutputOutputKinesis(BaseModel):
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions2], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsKinesis],
+        pydantic.Field(alias="signatureVersion"),
     ] = None
     r"""Signature version to use for signing Kinesis stream requests"""
 
@@ -6588,7 +6612,7 @@ class CreateOutputOutputKinesis(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions2(value)
+                return models.SignatureVersionOptionsKinesis(value)
             except ValueError:
                 return value
         return value
@@ -7262,7 +7286,7 @@ class CreateOutputOutputAzureDataExplorerTypedDict(TypedDict):
     r"""Scope to pass in the OAuth request parameter"""
     oauth_type: CreateOutputAuthenticationMethodAzureDataExplorer
     r"""The type of OAuth 2.0 client credentials grant flow to use"""
-    compress: CompressionOptions2
+    compress: CompressionOptionsHTTP
     r"""Data compression format to apply to HTTP content before it is delivered"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
@@ -7463,7 +7487,7 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     ]
     r"""The type of OAuth 2.0 client credentials grant flow to use"""
 
-    compress: CompressionOptions2
+    compress: CompressionOptionsHTTP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     pipeline: Optional[str] = None
@@ -7885,7 +7909,7 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value
@@ -8145,7 +8169,7 @@ class CreateOutputOutputAzureBlobTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -8157,7 +8181,7 @@ class CreateOutputOutputAzureBlobTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptions]
     storage_class: NotRequired[CreateOutputBlobAccessTier]
     description: NotRequired[str]
-    compress: NotRequired[CompressionOptions2]
+    compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -8318,7 +8342,8 @@ class CreateOutputOutputAzureBlob(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -8352,7 +8377,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptions2] = None
+    compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -8508,7 +8533,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -8544,7 +8569,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value
@@ -8725,7 +8750,7 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -8749,7 +8774,7 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    compress: NotRequired[CompressionOptions2]
+    compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -8948,7 +8973,8 @@ class CreateOutputOutputS3(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -9005,7 +9031,7 @@ class CreateOutputOutputS3(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Optional[CompressionOptions2] = None
+    compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -9182,7 +9208,7 @@ class CreateOutputOutputS3(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -9200,7 +9226,7 @@ class CreateOutputOutputS3(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value
@@ -9363,7 +9389,7 @@ class CreateOutputOutputFilesystemTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -9373,7 +9399,7 @@ class CreateOutputOutputFilesystemTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     description: NotRequired[str]
-    compress: NotRequired[CompressionOptions2]
+    compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -9496,7 +9522,8 @@ class CreateOutputOutputFilesystem(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -9522,7 +9549,7 @@ class CreateOutputOutputFilesystem(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptions2] = None
+    compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -9624,7 +9651,7 @@ class CreateOutputOutputFilesystem(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -9642,7 +9669,7 @@ class CreateOutputOutputFilesystem(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value
@@ -10471,13 +10498,13 @@ class CreateOutputOutputTcpjsonTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     load_balanced: NotRequired[bool]
     r"""Use load-balanced destinations"""
-    compression: NotRequired[CompressionOptions1]
+    compression: NotRequired[CompressionOptionsGzipNone]
     r"""Codec to use to compress the data before sending"""
     log_failed_requests: NotRequired[bool]
     r"""Use to troubleshoot issues with sending data"""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     connection_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
@@ -10561,7 +10588,7 @@ class CreateOutputOutputTcpjson(BaseModel):
     )
     r"""Use load-balanced destinations"""
 
-    compression: Optional[CompressionOptions1] = None
+    compression: Optional[CompressionOptionsGzipNone] = None
     r"""Codec to use to compress the data before sending"""
 
     log_failed_requests: Annotated[
@@ -10574,7 +10601,7 @@ class CreateOutputOutputTcpjson(BaseModel):
     ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -10702,7 +10729,7 @@ class CreateOutputOutputTcpjson(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions1(value)
+                return models.CompressionOptionsGzipNone(value)
             except ValueError:
                 return value
         return value
@@ -10845,7 +10872,7 @@ class CreateOutputOutputWizHecTypedDict(TypedDict):
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
     tcp_routing: NotRequired[str]
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
-    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -10949,7 +10976,7 @@ class CreateOutputOutputWizHec(BaseModel):
     tcp_routing: Annotated[Optional[str], pydantic.Field(alias="tcpRouting")] = None
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
 
-    tls: Optional[TLSSettingsClientSideType1] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -11278,7 +11305,7 @@ class CreateOutputOutputSplunkHecTypedDict(TypedDict):
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
     tcp_routing: NotRequired[str]
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
-    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -11385,7 +11412,7 @@ class CreateOutputOutputSplunkHec(BaseModel):
     tcp_routing: Annotated[Optional[str], pydantic.Field(alias="tcpRouting")] = None
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
 
-    tls: Optional[TLSSettingsClientSideType1] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -11841,7 +11868,7 @@ class CreateOutputOutputSplunkLbTypedDict(TypedDict):
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     enable_multi_metrics: NotRequired[bool]
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
     enable_ack: NotRequired[bool]
@@ -11952,7 +11979,7 @@ class CreateOutputOutputSplunkLb(BaseModel):
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
@@ -12232,7 +12259,7 @@ class CreateOutputOutputSplunkTypedDict(TypedDict):
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     enable_multi_metrics: NotRequired[bool]
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
     enable_ack: NotRequired[bool]
@@ -12327,7 +12354,7 @@ class CreateOutputOutputSplunk(BaseModel):
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
@@ -12695,7 +12722,7 @@ class CreateOutputOutputSyslogTypedDict(TypedDict):
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     max_record_size: NotRequired[float]
@@ -12832,7 +12859,7 @@ class CreateOutputOutputSyslog(BaseModel):
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -13846,7 +13873,7 @@ class CreateOutputOutputWebhookTypedDict(TypedDict):
     r"""How to handle events when all receivers are exerting backpressure"""
     auth_type: NotRequired[CreateOutputAuthenticationTypeWebhook]
     r"""Authentication method to use for the HTTP request"""
-    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     load_balanced: NotRequired[bool]
@@ -14041,7 +14068,7 @@ class CreateOutputOutputWebhook(BaseModel):
     ] = None
     r"""Authentication method to use for the HTTP request"""
 
-    tls: Optional[TLSSettingsClientSideType1] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")

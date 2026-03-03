@@ -7,13 +7,13 @@ from .logleveloptionsrunnablejobcollectionschedulerun import (
     LogLevelOptionsRunnableJobCollectionScheduleRun,
 )
 from .metricsstore import MetricsStore, MetricsStoreTypedDict
+from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
+)
 from .scheduletyperunnablejobcollection import (
     ScheduleTypeRunnableJobCollection,
     ScheduleTypeRunnableJobCollectionTypedDict,
-)
-from .typecollectionwithbreakerrulesetsconstraint import (
-    TypeCollectionWithBreakerRulesetsConstraint,
-    TypeCollectionWithBreakerRulesetsConstraintTypedDict,
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -280,7 +280,9 @@ class RunnableJobCollectionTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[TypeCollectionWithBreakerRulesetsConstraintTypedDict]
+    input: NotRequired[
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict
+    ]
 
 
 class RunnableJobCollection(BaseModel):
@@ -328,7 +330,9 @@ class RunnableJobCollection(BaseModel):
     ] = None
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[TypeCollectionWithBreakerRulesetsConstraint] = None
+    input: Optional[
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint
+    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):

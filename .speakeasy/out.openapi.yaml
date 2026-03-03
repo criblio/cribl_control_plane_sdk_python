@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-alpha.1772185358127-0e5ee1f3
+  version: 4.18.0-alpha.1772533606178-6edbcec7
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -3219,6 +3219,52 @@ components:
         - name
         - uischema
         - version
+    FunctionConfSchemaLocalSearchTransformer:
+      type: object
+    FunctionLocalSearchTransformer:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - local_search_transformer
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          additionalProperties: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
     FunctionConfSchemaLookup:
       type: object
       properties:
@@ -6076,6 +6122,7 @@ components:
         - $ref: "#/components/schemas/FunctionLimit"
         - $ref: "#/components/schemas/FunctionLocalSearchDatatypeParser"
         - $ref: "#/components/schemas/FunctionLocalSearchRulesetRunner"
+        - $ref: "#/components/schemas/FunctionLocalSearchTransformer"
         - $ref: "#/components/schemas/FunctionLookup"
         - $ref: "#/components/schemas/FunctionMask"
         - $ref: "#/components/schemas/FunctionMvExpand"
@@ -6144,6 +6191,7 @@ components:
           limit: "#/components/schemas/FunctionLimit"
           local_search_datatype_parser: "#/components/schemas/FunctionLocalSearchDatatypeParser"
           local_search_ruleset_runner: "#/components/schemas/FunctionLocalSearchRulesetRunner"
+          local_search_transformer: "#/components/schemas/FunctionLocalSearchTransformer"
           lookup: "#/components/schemas/FunctionLookup"
           mask: "#/components/schemas/FunctionMask"
           mv_expand: "#/components/schemas/FunctionMvExpand"
@@ -7238,6 +7286,41 @@ components:
           type: boolean
         conf:
           $ref: "#/components/schemas/FunctionConfSchemaLocalSearchRulesetRunner"
+        groupId:
+          title: Group ID
+          description: Group ID
+          type: string
+    PipelineFunctionLocalSearchTransformer:
+      type: object
+      required:
+        - id
+        - conf
+      additionalProperties: false
+      properties:
+        filter:
+          title: Filter
+          description: Filter that selects data to be fed through this Function
+          type: string
+        id:
+          title: ID
+          description: Function ID
+          type: string
+          enum:
+            - local_search_transformer
+        description:
+          title: Description
+          description: Simple description of this step
+          type: string
+        disabled:
+          title: Disabled
+          description: If true, data will not be pushed through this function
+          type: boolean
+        final:
+          title: Final
+          description: If enabled, stops the results of this Function from being passed to the downstream Functions
+          type: boolean
+        conf:
+          $ref: "#/components/schemas/FunctionConfSchemaLocalSearchTransformer"
         groupId:
           title: Group ID
           description: Group ID
@@ -8617,6 +8700,7 @@ components:
         - $ref: "#/components/schemas/PipelineFunctionLimit"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchDatatypeParser"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchRulesetRunner"
+        - $ref: "#/components/schemas/PipelineFunctionLocalSearchTransformer"
         - $ref: "#/components/schemas/PipelineFunctionLookup"
         - $ref: "#/components/schemas/PipelineFunctionMask"
         - $ref: "#/components/schemas/PipelineFunctionMvExpand"
@@ -8685,6 +8769,7 @@ components:
           limit: "#/components/schemas/PipelineFunctionLimit"
           local_search_datatype_parser: "#/components/schemas/PipelineFunctionLocalSearchDatatypeParser"
           local_search_ruleset_runner: "#/components/schemas/PipelineFunctionLocalSearchRulesetRunner"
+          local_search_transformer: "#/components/schemas/PipelineFunctionLocalSearchTransformer"
           lookup: "#/components/schemas/PipelineFunctionLookup"
           mask: "#/components/schemas/PipelineFunctionMask"
           mv_expand: "#/components/schemas/PipelineFunctionMvExpand"
@@ -11822,7 +11907,7 @@ components:
         sasl:
           $ref: "#/components/schemas/AuthenticationType"
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         sessionTimeout:
           type: number
           title: Session timeout (ms)
@@ -12083,7 +12168,7 @@ components:
           minimum: 900
           maximum: 43200
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         autoCommitInterval:
           type: number
           title: Offset commit interval (ms)
@@ -13363,7 +13448,7 @@ components:
             type: string
             minLength: 1
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         topics:
           type: array
           title: Topic
@@ -14180,7 +14265,7 @@ components:
           title: Endpoint
           description: EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions1"
+          $ref: "#/components/schemas/SignatureVersionOptionsV2V4"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -14419,7 +14504,7 @@ components:
           title: Endpoint
           description: EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions1"
+          $ref: "#/components/schemas/SignatureVersionOptionsV2V4"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -14637,9 +14722,9 @@ components:
           minimum: 0
           maximum: 7200
         retryRules:
-          $ref: "#/components/schemas/RetryRulesType1"
+          $ref: "#/components/schemas/RetryRulesTypeCodesEnableHeader"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions1"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsManualSecret"
         description:
           type: string
           title: Description
@@ -14782,9 +14867,9 @@ components:
                 title: Enabled
           description: "Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."
         retryRules:
-          $ref: "#/components/schemas/RetryRulesType1"
+          $ref: "#/components/schemas/RetryRulesTypeCodesEnableHeader"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions1"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsManualSecret"
         description:
           type: string
           title: Description
@@ -14942,7 +15027,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeMetadata"
         retryRules:
-          $ref: "#/components/schemas/RetryRulesType1"
+          $ref: "#/components/schemas/RetryRulesTypeCodesEnableHeader"
         description:
           type: string
           title: Description
@@ -15134,7 +15219,7 @@ components:
           minimum: 1000
           maximum: 1.8e+06
         sasl:
-          $ref: "#/components/schemas/AuthenticationType1"
+          $ref: "#/components/schemas/AuthenticationTypeUse"
         tls:
           $ref: "#/components/schemas/TlsSettingsClientSideType"
         sessionTimeout:
@@ -17840,7 +17925,7 @@ components:
           title: Endpoint
           description: Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions2"
+          $ref: "#/components/schemas/SignatureVersionOptionsKinesis"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -18999,7 +19084,7 @@ components:
           title: Endpoint
           description: SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions3"
+          $ref: "#/components/schemas/SignatureVersionOptionsSqs"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -19831,9 +19916,9 @@ components:
               title: Common name
               description: Regex matching allowable common names in peer certificates' subject attribute
             minVersion:
-              $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+              $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
             maxVersion:
-              $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
+              $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
             ocspCheck:
               type: boolean
               title: Verify certificate via OCSP
@@ -20492,7 +20577,7 @@ components:
         retryRules:
           $ref: "#/components/schemas/RetryRulesType"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions1"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsManualSecret"
         description:
           type: string
           title: Description
@@ -21568,9 +21653,9 @@ components:
               title: CA certificate path
               description: Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
             minVersion:
-              $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+              $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
             maxVersion:
-              $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
+              $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
         maxActiveReq:
           type: number
           title: Active request limit
@@ -22062,7 +22147,7 @@ components:
             - OAuth
           x-speakeasy-unknown-values: allow
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType1"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -22782,7 +22867,7 @@ components:
           title: Write timeout
           description: Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         maxRecordSize:
@@ -22912,7 +22997,7 @@ components:
           title: Write timeout
           description: Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         enableMultiMetrics:
           type: boolean
           title: Output multiple metrics
@@ -23064,7 +23149,7 @@ components:
           title: Write timeout
           description: Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         enableMultiMetrics:
           type: boolean
           title: Output multiple metrics
@@ -23264,7 +23349,7 @@ components:
           title: Default _TCP_ROUTING
           description: In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType1"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
         concurrency:
           type: number
           title: Request concurrency
@@ -23481,7 +23566,7 @@ components:
           title: Default _TCP_ROUTING
           description: In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType1"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
         concurrency:
           type: number
           title: Request concurrency
@@ -23669,7 +23754,7 @@ components:
           title: Load balancing
           description: Use load-balanced destinations
         compression:
-          $ref: "#/components/schemas/CompressionOptions1"
+          $ref: "#/components/schemas/CompressionOptionsGzipNone"
         logFailedRequests:
           type: boolean
           title: Log failed requests to disk
@@ -23680,7 +23765,7 @@ components:
           description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
           pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         connectionTimeout:
           type: number
           title: Connection timeout
@@ -24224,7 +24309,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -24241,7 +24326,7 @@ components:
           type: string
           title: Description
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -24459,7 +24544,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -24512,7 +24597,7 @@ components:
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -24716,7 +24801,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -24751,7 +24836,7 @@ components:
           type: string
           title: Description
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -24990,7 +25075,7 @@ components:
         format:
           $ref: "#/components/schemas/DataFormatOptions"
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -25579,7 +25664,7 @@ components:
           title: Endpoint
           description: Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions2"
+          $ref: "#/components/schemas/SignatureVersionOptionsKinesis"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -25830,7 +25915,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
         description:
           type: string
           title: Description
@@ -26000,7 +26085,7 @@ components:
           minimum: 1000
           maximum: 1.8e+06
         sasl:
-          $ref: "#/components/schemas/AuthenticationType1"
+          $ref: "#/components/schemas/AuthenticationTypeUse"
         tls:
           $ref: "#/components/schemas/TlsSettingsClientSideType"
         onBackpressure:
@@ -26367,7 +26452,7 @@ components:
           title: Endpoint
           description: Google Cloud Storage service endpoint
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions4"
+          $ref: "#/components/schemas/SignatureVersionOptionsGoogle"
         awsAuthenticationMethod:
           type: string
           title: Authentication method
@@ -26393,9 +26478,9 @@ components:
           title: Verify if bucket exists
           description: Disable if you can access files within the bucket but not the bucket itself
         objectACL:
-          $ref: "#/components/schemas/ObjectAclOptions1"
+          $ref: "#/components/schemas/ObjectAclOptionsAuthenticatedreadBucketownerfullcontrol"
         storageClass:
-          $ref: "#/components/schemas/StorageClassOptions1"
+          $ref: "#/components/schemas/StorageClassOptionsArchiveColdline"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -26461,7 +26546,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -26478,7 +26563,7 @@ components:
           type: string
           title: Description
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -27081,11 +27166,11 @@ components:
           title: Endpoint
           description: Google Cloud Storage service endpoint
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions4"
+          $ref: "#/components/schemas/SignatureVersionOptionsGoogle"
         objectACL:
-          $ref: "#/components/schemas/ObjectAclOptions1"
+          $ref: "#/components/schemas/ObjectAclOptionsAuthenticatedreadBucketownerfullcontrol"
         storageClass:
-          $ref: "#/components/schemas/StorageClassOptions1"
+          $ref: "#/components/schemas/StorageClassOptionsArchiveColdline"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -27121,7 +27206,7 @@ components:
           minimum: 10
           maximum: 2000
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -27238,11 +27323,11 @@ components:
           title: Topic
           description: The topic to publish events to. Can be overridden using the __topicOut field.
         ack:
-          $ref: "#/components/schemas/AcknowledgmentsOptions1"
+          $ref: "#/components/schemas/AcknowledgmentsOptionsAllLeader"
         format:
-          $ref: "#/components/schemas/RecordDataFormatOptions1"
+          $ref: "#/components/schemas/RecordDataFormatOptionsJsonProtobuf"
         compression:
-          $ref: "#/components/schemas/CompressionOptions3"
+          $ref: "#/components/schemas/CompressionOptionsGzipLz4"
         maxRecordSizeKB:
           type: number
           minimum: 1
@@ -27259,7 +27344,7 @@ components:
           title: Flush period (sec)
           description: The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent.
         kafkaSchemaRegistry:
-          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationType1"
+          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout"
         connectionTimeout:
           type: number
           title: Connection timeout (ms)
@@ -27311,7 +27396,7 @@ components:
         sasl:
           $ref: "#/components/schemas/AuthenticationType"
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         description:
@@ -27415,17 +27500,17 @@ components:
             type: string
             minLength: 1
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         topic:
           type: string
           title: Topic
           description: The topic to publish events to. Can be overridden using the __topicOut field.
         ack:
-          $ref: "#/components/schemas/AcknowledgmentsOptions1"
+          $ref: "#/components/schemas/AcknowledgmentsOptionsAllLeader"
         format:
-          $ref: "#/components/schemas/RecordDataFormatOptions1"
+          $ref: "#/components/schemas/RecordDataFormatOptionsJsonProtobuf"
         compression:
-          $ref: "#/components/schemas/CompressionOptions3"
+          $ref: "#/components/schemas/CompressionOptionsGzipLz4"
         maxRecordSizeKB:
           type: number
           minimum: 1
@@ -27442,7 +27527,7 @@ components:
           title: Flush period (sec)
           description: The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent.
         kafkaSchemaRegistry:
-          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationType1"
+          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout"
         connectionTimeout:
           type: number
           title: Connection timeout (ms)
@@ -27602,11 +27687,11 @@ components:
           title: Topic
           description: The topic to publish events to. Can be overridden using the __topicOut field.
         ack:
-          $ref: "#/components/schemas/AcknowledgmentsOptions1"
+          $ref: "#/components/schemas/AcknowledgmentsOptionsAllLeader"
         format:
-          $ref: "#/components/schemas/RecordDataFormatOptions1"
+          $ref: "#/components/schemas/RecordDataFormatOptionsJsonProtobuf"
         compression:
-          $ref: "#/components/schemas/CompressionOptions3"
+          $ref: "#/components/schemas/CompressionOptionsGzipLz4"
         maxRecordSizeKB:
           type: number
           minimum: 1
@@ -27623,7 +27708,7 @@ components:
           title: Flush period (sec)
           description: The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent.
         kafkaSchemaRegistry:
-          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationType1"
+          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout"
         connectionTimeout:
           type: number
           title: Connection timeout (ms)
@@ -27716,7 +27801,7 @@ components:
           minimum: 900
           maximum: 43200
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         description:
@@ -27913,7 +27998,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeSaslSaslExtensions"
         auth:
-          $ref: "#/components/schemas/AuthType"
+          $ref: "#/components/schemas/AuthTypeAuthTypeCredentialsSecret"
         elasticVersion:
           type: string
           title: Elastic version
@@ -28145,7 +28230,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeSaslSaslExtensions"
         auth:
-          $ref: "#/components/schemas/AuthType"
+          $ref: "#/components/schemas/AuthTypeAuthTypeCredentialsSecret"
         elasticPipeline:
           type: string
           title: Elastic pipeline
@@ -28349,7 +28434,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -28533,7 +28618,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
         description:
           type: string
           title: Description
@@ -29087,11 +29172,11 @@ components:
           title: Key prefix
           description: Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions5"
+          $ref: "#/components/schemas/SignatureVersionOptionsMinIo"
         objectACL:
           $ref: "#/components/schemas/ObjectAclOptions"
         storageClass:
-          $ref: "#/components/schemas/StorageClassOptions2"
+          $ref: "#/components/schemas/StorageClassOptionsReducedredundancyStandard"
         serverSideEncryption:
           $ref: "#/components/schemas/ServerSideEncryptionOptions"
         reuseConnections:
@@ -29147,7 +29232,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -29190,7 +29275,7 @@ components:
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -29953,7 +30038,7 @@ components:
           title: Endpoint
           description: SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions3"
+          $ref: "#/components/schemas/SignatureVersionOptionsSqs"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -30518,7 +30603,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -30824,7 +30909,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeContentConfigItemsRequestParams"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuth1"
+          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret"
         concurrency:
           type: number
           title: Request concurrency
@@ -31212,7 +31297,7 @@ components:
           title: Path location
           description: Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         description:
           type: string
           title: Description
@@ -31270,9 +31355,9 @@ components:
             - 1.3.1
           x-speakeasy-unknown-values: allow
         compress:
-          $ref: "#/components/schemas/CompressionOptions4"
+          $ref: "#/components/schemas/CompressionOptionsDeflateGzip"
         httpCompress:
-          $ref: "#/components/schemas/CompressionOptions5"
+          $ref: "#/components/schemas/CompressionOptionsMessages"
         authType:
           $ref: "#/components/schemas/AuthenticationTypeOptions"
         httpTracesEndpointOverride:
@@ -31388,7 +31473,7 @@ components:
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType2"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeExtended"
         pqStrictOrdering:
           title: Strict ordering
           description: Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed.
@@ -31481,7 +31566,7 @@ components:
           type: string
           title: Auth token name
         otlpVersion:
-          $ref: "#/components/schemas/OtlpVersionOptions1"
+          $ref: "#/components/schemas/OtlpVersionOptions131"
         maxPayloadSizeKB:
           type: number
           title: Body size limit (KB)
@@ -31491,9 +31576,9 @@ components:
         protocol:
           $ref: "#/components/schemas/ProtocolOptions"
         compress:
-          $ref: "#/components/schemas/CompressionOptions4"
+          $ref: "#/components/schemas/CompressionOptionsDeflateGzip"
         httpCompress:
-          $ref: "#/components/schemas/CompressionOptions5"
+          $ref: "#/components/schemas/CompressionOptionsMessages"
         httpTracesEndpointOverride:
           type: string
           title: Traces endpoint override
@@ -31583,7 +31668,7 @@ components:
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType2"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeExtended"
         pqStrictOrdering:
           title: Strict ordering
           description: Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed.
@@ -31779,7 +31864,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -31883,7 +31968,7 @@ components:
           title: Load balancing
           description: Use load-balanced destinations
         compression:
-          $ref: "#/components/schemas/CompressionOptions1"
+          $ref: "#/components/schemas/CompressionOptionsGzipNone"
         logFailedRequests:
           type: boolean
           title: Log failed requests to disk
@@ -31894,7 +31979,7 @@ components:
           description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
           pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         connectionTimeout:
           type: number
           title: Connection timeout
@@ -32049,7 +32134,7 @@ components:
           title: Load balancing
           description: For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         tokenTTLMinutes:
           type: number
           title: Auth Token TTL minutes
@@ -32063,7 +32148,7 @@ components:
           items:
             type: string
         compression:
-          $ref: "#/components/schemas/CompressionOptions1"
+          $ref: "#/components/schemas/CompressionOptionsGzipNone"
         concurrency:
           type: number
           title: Request concurrency
@@ -32132,7 +32217,7 @@ components:
           title: Connected environment tokens
           description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud.
           items:
-            $ref: "#/components/schemas/ItemsTypeAuthTokens1"
+            $ref: "#/components/schemas/ItemsTypeAuthTokensTokenSecret"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         description:
@@ -32253,7 +32338,7 @@ components:
           title: Load balancing
           description: For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         tokenTTLMinutes:
           type: number
           title: Auth Token TTL minutes
@@ -32267,7 +32352,7 @@ components:
           items:
             type: string
         compression:
-          $ref: "#/components/schemas/CompressionOptions1"
+          $ref: "#/components/schemas/CompressionOptionsGzipNone"
         concurrency:
           type: number
           title: Request concurrency
@@ -32334,9 +32419,9 @@ components:
         authTokens:
           type: array
           title: Connected environment tokens
-          description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud.
+          description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud.
           items:
-            $ref: "#/components/schemas/ItemsTypeAuthTokens1"
+            $ref: "#/components/schemas/ItemsTypeAuthTokensTokenSecret"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         useRoundRobinDns:
@@ -32900,7 +32985,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -32959,7 +33044,7 @@ components:
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -33190,7 +33275,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -33468,7 +33553,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -33652,7 +33737,7 @@ components:
           title: URL
           description: "URL of the ClickHouse instance. Example: http://localhost:8123/"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptions1"
+          $ref: "#/components/schemas/AuthenticationTypeOptionsBasicCredentialsSecret"
         database:
           type: string
           title: ClickHouse database
@@ -33688,7 +33773,7 @@ components:
           title: Async inserts
           description: Collect data into batches for later processing. Disable to write to a ClickHouse table immediately.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType1"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
         concurrency:
           type: number
           title: Request concurrency
@@ -33909,7 +33994,7 @@ components:
           title: URL
           description: "URL of the database instance. Example: http://localhost:8123/"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptions1"
+          $ref: "#/components/schemas/AuthenticationTypeOptionsBasicCredentialsSecret"
         database:
           type: string
           title: Database
@@ -33945,7 +34030,7 @@ components:
           title: Async inserts
           description: Collect data into batches for later processing. Disable to write to a table immediately.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType1"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
         concurrency:
           type: number
           title: Request concurrency
@@ -34710,11 +34795,11 @@ components:
           title: Endpoint
           description: The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)
         otlpVersion:
-          $ref: "#/components/schemas/OtlpVersionOptions1"
+          $ref: "#/components/schemas/OtlpVersionOptions131"
         compress:
-          $ref: "#/components/schemas/CompressionOptions4"
+          $ref: "#/components/schemas/CompressionOptionsDeflateGzip"
         httpCompress:
-          $ref: "#/components/schemas/CompressionOptions5"
+          $ref: "#/components/schemas/CompressionOptionsMessages"
         httpTracesEndpointOverride:
           type: string
           title: Traces endpoint override
@@ -35444,7 +35529,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -35460,7 +35545,7 @@ components:
         workspaceId:
           type: string
           title: Workspace ID
-          description: Databricks workspace ID
+          description: Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL.
         scope:
           type: string
           title: OAuth scope
@@ -35472,29 +35557,29 @@ components:
         catalog:
           type: string
           title: Catalog
-          description: Name of the catalog to use for the output
+          description: Name of the Unity Catalog catalog to use for the Destination.
         schema:
           type: string
           title: Schema
-          description: Name of the catalog schema to use for the output
+          description: Name of the Unity Catalog schema to use for the Destination.
         eventsVolumeName:
           type: string
           title: Events volume name
-          description: Name of the events volume in Databricks
+          description: Name of the Unity Catalog volume where event data is written.
         clientTextSecret:
           type: string
           title: Client Secret
           description: OAuth client secret for Unity Catalog authentication
         timeoutSec:
-          type: number
+          type: integer
           title: Request timeout
-          description: Amount of time, in seconds, to wait for a request to complete before canceling it
+          description: Amount of time, in seconds, to wait for a request to complete before canceling it.
           minimum: 30
         description:
           type: string
           title: Description
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -35683,7 +35768,7 @@ components:
               type: boolean
               title: Disabled
             mechanism:
-              $ref: "#/components/schemas/SaslMechanismOptionsSasl1"
+              $ref: "#/components/schemas/SaslMechanismOptionsSaslOauthbearerPlain"
             username:
               type: string
               title: SASL JASS username
@@ -35860,9 +35945,9 @@ components:
           title: Key prefix
           description: Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions5"
+          $ref: "#/components/schemas/SignatureVersionOptionsMinIo"
         storageClass:
-          $ref: "#/components/schemas/StorageClassOptions2"
+          $ref: "#/components/schemas/StorageClassOptionsReducedredundancyStandard"
         serverSideEncryption:
           $ref: "#/components/schemas/ServerSideEncryptionOptions"
         reuseConnections:
@@ -35918,7 +36003,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -35957,7 +36042,7 @@ components:
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -36255,7 +36340,7 @@ components:
         collector:
           $ref: "#/components/schemas/Collector"
         input:
-          $ref: "#/components/schemas/TypeCollectionWithBreakerRulesetsConstraint"
+          $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint"
         run:
           type: object
           required:
@@ -36552,6 +36637,81 @@ components:
         - id
         - stats
         - status
+    DestinationType:
+      type: string
+      enum:
+        - default
+        - router
+        - tcpjson
+        - splunk
+        - splunk_lb
+        - splunk_hec
+        - syslog
+        - filesystem
+        - s3
+        - azure_blob
+        - azure_data_explorer
+        - sentinel
+        - azure_logs
+        - kafka
+        - confluent_cloud
+        - msk
+        - kinesis
+        - elastic
+        - elastic_cloud
+        - microsoft_fabric
+        - cloudflare_r2
+        - honeycomb
+        - newrelic
+        - newrelic_events
+        - snmp
+        - influxdb
+        - minio
+        - devnull
+        - cloudwatch
+        - azure_eventhub
+        - statsd
+        - statsd_ext
+        - graphite
+        - wavefront
+        - signalfx
+        - sqs
+        - google_cloud_storage
+        - sumo_logic
+        - datadog
+        - webhook
+        - prometheus
+        - google_pubsub
+        - google_chronicle
+        - chronicle
+        - grafana_cloud
+        - loki
+        - open_telemetry
+        - service_now
+        - dynatrace_otlp
+        - sentinel_one_ai_siem
+        - dataset
+        - ring
+        - humio_hec
+        - crowdstrike_next_gen_siem
+        - cribl_http
+        - cribl_tcp
+        - cribl_search_engine
+        - google_cloud_logging
+        - sns
+        - dl_s3
+        - security_lake
+        - cribl_lake
+        - exabeam
+        - disk_spool
+        - click_house
+        - local_search_storage
+        - xsiam
+        - netflow
+        - dynatrace_http
+        - databricks
+        - wiz_hec
+      x-speakeasy-unknown-values: allow
     CountedOutputSamplesResponse:
       type: object
       properties:
@@ -36588,14 +36748,19 @@ components:
         details:
           type: object
           additionalProperties: true
+          description: Additional details about the Destination test, such as per-event results and transport-level information.
         error:
           type: string
+          description: Error message that describes a failed Destination test.
         outputId:
           type: string
+          description: The <code>id</code> of the Destination that was tested.
         success:
           type: boolean
+          description: If <code>true</code>, the Destination test succeeded. Otherwise, <code>false</code>.
         successDetail:
           type: string
+          description: Human-readable description for a successful Destination test result.
       required:
         - outputId
         - success
@@ -36607,6 +36772,7 @@ components:
           items:
             type: object
             additionalProperties: true
+          description: Array of event objects to send to the Destination for testing.
       required:
         - events
     CountedPipeline:
@@ -36667,15 +36833,13 @@ components:
                 properties:
                   name:
                     type: string
-                    title: Group Name
+                    title: Group name
                   description:
                     type: string
                     title: Description
-                    description: Short description of this group
                   disabled:
                     type: boolean
                     title: Disabled
-                    description: Whether this group is disabled
     CountedRoutes:
       type: object
       properties:
@@ -36942,7 +37106,7 @@ components:
         collector:
           $ref: "#/components/schemas/Collector"
         input:
-          $ref: "#/components/schemas/TypeCollectionWithBreakerRulesetsConstraint"
+          $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint"
       type: object
     SavedJobExecutor:
       required:
@@ -37305,94 +37469,6 @@ components:
         - stream
         - edge
       x-speakeasy-unknown-values: allow
-    CountedRulesetId:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: number of items present in the items array
-        items:
-          type: array
-          items:
-            $ref: "#/components/schemas/RulesetId"
-    RulesetId:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-        - id
-    CountedMappingRuleset:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: number of items present in the items array
-        items:
-          type: array
-          items:
-            $ref: "#/components/schemas/MappingRuleset"
-    MappingRuleset:
-      type: object
-      additionalProperties: false
-      required:
-        - id
-      properties:
-        id:
-          type: string
-          title: ID
-        conf:
-          type: object
-          additionalProperties: false
-          properties:
-            functions:
-              title: Functions
-              description: List of functions to pass data through
-              type: array
-              items:
-                type: object
-                required:
-                  - conf
-                  - id
-                  - final
-                  - disabled
-                additionalProperties: true
-                properties:
-                  id:
-                    type: string
-                    const: eval
-                  filter:
-                    type: string
-                  disabled:
-                    type: boolean
-                  final:
-                    type: boolean
-                    const: true
-                  description:
-                    type: string
-                  conf:
-                    type: object
-                    required:
-                      - add
-                    properties:
-                      add:
-                        type: array
-                        minItems: 1
-                        maxItems: 1
-                        items:
-                          type: object
-                          required:
-                            - name
-                            - value
-                          properties:
-                            name:
-                              type: string
-                              const: groupId
-                            value:
-                              type: string
-                              minLength: 1
-        active:
-          type: boolean
     CountedCriblLakeDataset:
       type: object
       properties:
@@ -39273,7 +39349,7 @@ components:
           type: string
           title: Value
           description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-    AuthTypeKafkaSchemaRegistry:
+    AuthType:
       type: object
       description: Credentials to use when authenticating with the schema registry using basic HTTP authentication
       required:
@@ -39286,7 +39362,7 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
-    MinimumTlsVersionOptionsKafkaSchemaRegistryTls:
+    MinimumTlsVersionOptionsTls:
       type: string
       title: Minimum TLS version
       enum:
@@ -39295,7 +39371,7 @@ components:
         - TLSv1.2
         - TLSv1.3
       x-speakeasy-unknown-values: allow
-    MaximumTlsVersionOptionsKafkaSchemaRegistryTls:
+    MaximumTlsVersionOptionsTls:
       type: string
       title: Maximum TLS version
       enum:
@@ -39447,7 +39523,7 @@ components:
           items:
             type: string
             minLength: 1
-    SignatureVersionOptions1:
+    SignatureVersionOptionsV2V4:
       type: string
       title: Signature version
       description: Signature version to use for signing EC2 requests
@@ -39496,7 +39572,7 @@ components:
         - debug
       description: Collector runtime Log Level
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions1:
+    AuthenticationMethodOptionsManualSecret:
       title: Authentication method
       type: string
       enum:
@@ -39504,7 +39580,7 @@ components:
         - secret
       description: Enter client secret directly, or select a stored secret
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptionsSasl1:
+    AuthenticationMethodOptionsSaslManualSecret:
       enum:
         - manual
         - secret
@@ -39512,7 +39588,7 @@ components:
       type: string
       description: Enter password directly, or select a stored secret
       x-speakeasy-unknown-values: allow
-    SaslMechanismOptionsSasl1:
+    SaslMechanismOptionsSaslOauthbearerPlain:
       enum:
         - plain
         - oauthbearer
@@ -39522,7 +39598,7 @@ components:
         - OAUTHBEARER
       title: SASL mechanism
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptionsSasl2:
+    AuthenticationMethodOptionsSaslCertificateManual:
       enum:
         - manual
         - secret
@@ -39650,7 +39726,7 @@ components:
         - false
         - true
       x-speakeasy-unknown-values: allow
-    SignatureVersionOptions2:
+    SignatureVersionOptionsKinesis:
       type: string
       title: Signature version
       description: Signature version to use for signing Kinesis stream requests
@@ -39675,7 +39751,7 @@ components:
         - Token
         - Token (text secret)
       x-speakeasy-unknown-values: allow
-    SignatureVersionOptions3:
+    SignatureVersionOptionsSqs:
       type: string
       title: Signature version
       description: Signature version to use for signing SQS requests
@@ -39849,7 +39925,7 @@ components:
         - Automatic
         - Always
       x-speakeasy-unknown-values: allow
-    CompressionOptions1:
+    CompressionOptionsGzipNone:
       type: string
       enum:
         - none
@@ -39873,7 +39949,7 @@ components:
         - Raw
         - Parquet
       x-speakeasy-unknown-values: allow
-    BackpressureBehaviorOptions1:
+    BackpressureBehaviorOptionsBlockDrop:
       type: string
       title: Backpressure behavior
       description: How to handle events when all receivers are exerting backpressure
@@ -39918,7 +39994,7 @@ components:
           type: number
           title: Jitter (%)
           description: "Random jitter percentage added to backoff delay to prevent thundering herd. Valid range: 0-100. Values outside this range will be clamped to the nearest valid value."
-    CompressionOptions2:
+    CompressionOptionsHttp:
       type: string
       title: Compression
       description: Data compression format to apply to HTTP content before it is delivered
@@ -40029,7 +40105,7 @@ components:
         - Amazon S3 Managed Key
         - AWS KMS Managed Key
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions2:
+    AuthenticationMethodOptionsApi:
       title: Authentication method
       type: string
       enum:
@@ -40065,7 +40141,7 @@ components:
         - JSON
         - Field _raw
       x-speakeasy-unknown-values: allow
-    SignatureVersionOptions4:
+    SignatureVersionOptionsGoogle:
       type: string
       title: Signature version
       description: Signature version to use for signing Google Cloud Storage requests
@@ -40073,7 +40149,7 @@ components:
         - v2
         - v4
       x-speakeasy-unknown-values: allow
-    ObjectAclOptions1:
+    ObjectAclOptionsAuthenticatedreadBucketownerfullcontrol:
       type: string
       title: Object ACL
       description: Object ACL to assign to uploaded objects
@@ -40092,7 +40168,7 @@ components:
         - authenticated-read
         - public-read
       x-speakeasy-unknown-values: allow
-    StorageClassOptions1:
+    StorageClassOptionsArchiveColdline:
       type: string
       title: Storage class
       description: Storage class to select for uploaded objects
@@ -40121,7 +40197,7 @@ components:
           type: string
           title: Value
           description: JavaScript expression to compute the label's value.
-    AcknowledgmentsOptions1:
+    AcknowledgmentsOptionsAllLeader:
       type: integer
       title: Acknowledgments
       description: Control the number of required acknowledgments.
@@ -40138,7 +40214,7 @@ components:
         - Leader
         - None
         - All
-    RecordDataFormatOptions1:
+    RecordDataFormatOptionsJsonProtobuf:
       type: string
       enum:
         - json
@@ -40151,7 +40227,7 @@ components:
         - Field _raw
         - Protobuf
       x-speakeasy-unknown-values: allow
-    CompressionOptions3:
+    CompressionOptionsGzipLz4:
       type: string
       enum:
         - none
@@ -40191,7 +40267,7 @@ components:
         - Europe
         - Custom
       x-speakeasy-unknown-values: allow
-    SignatureVersionOptions5:
+    SignatureVersionOptionsMinIo:
       type: string
       title: Signature version
       description: Signature version to use for signing MinIO requests
@@ -40199,7 +40275,7 @@ components:
         - v2
         - v4
       x-speakeasy-unknown-values: allow
-    StorageClassOptions2:
+    StorageClassOptionsReducedredundancyStandard:
       type: string
       title: Storage class
       description: Storage class to select for uploaded objects
@@ -40241,7 +40317,7 @@ components:
         - Protobuf
         - JSON
       x-speakeasy-unknown-values: allow
-    AuthenticationTypeOptionsPrometheusAuth1:
+    AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret:
       type: string
       title: Authentication type
       enum:
@@ -40268,7 +40344,7 @@ components:
         - gRPC
         - HTTP
       x-speakeasy-unknown-values: allow
-    CompressionOptions4:
+    CompressionOptionsDeflateGzip:
       type: string
       title: Compression
       description: Type of compression to apply to messages sent to the OpenTelemetry endpoint
@@ -40281,7 +40357,7 @@ components:
         - Deflate
         - Gzip
       x-speakeasy-unknown-values: allow
-    CompressionOptions5:
+    CompressionOptionsMessages:
       type: string
       title: Compression
       description: Type of compression to apply to messages sent to the OpenTelemetry endpoint
@@ -40292,7 +40368,7 @@ components:
         - None
         - Gzip
       x-speakeasy-unknown-values: allow
-    OtlpVersionOptions1:
+    OtlpVersionOptions131:
       type: string
       title: OTLP version
       description: The version of OTLP Protobuf definitions to use when structuring data to send
@@ -40301,7 +40377,7 @@ components:
       x-speakeasy-enum-descriptions:
         - 1.3.1
       x-speakeasy-unknown-values: allow
-    ItemsTypeAuthTokens1:
+    ItemsTypeAuthTokensTokenSecret:
       type: object
       required:
         - tokenSecret
@@ -40359,7 +40435,7 @@ components:
         - parquet
         - ddss
       x-speakeasy-unknown-values: allow
-    AuthenticationTypeOptions1:
+    AuthenticationTypeOptionsBasicCredentialsSecret:
       type: string
       title: Authentication type
       description: ""
@@ -40382,7 +40458,7 @@ components:
         - executor
         - scheduledSearch
       x-speakeasy-unknown-values: allow
-    TypeCollectionConstraint:
+    RunnableJobCollectionTypeCollectionConstraint:
       type: object
       properties:
         type:
@@ -40780,7 +40856,7 @@ components:
         pqControls:
           type: object
           title: ""
-    TlsSettingsClientSideTypeKafkaSchemaRegistry:
+    TlsSettingsClientSideTypeCaPathCertPath:
       type: object
       title: TLS settings (client side)
       properties:
@@ -40816,9 +40892,9 @@ components:
           title: Passphrase
           description: Passphrase to use to decrypt private key
         minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
         maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
     AuthenticationType:
       type: object
       title: Authentication
@@ -40925,9 +41001,9 @@ components:
           title: CA certificate path
           description: Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
         minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
         maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
     ItemsTypeAuthTokensExt:
       type: object
       required:
@@ -41015,7 +41091,7 @@ components:
           pattern: \d+[smhd]$
         compress:
           $ref: "#/components/schemas/CompressionOptionsPersistence"
-    RetryRulesType1:
+    RetryRulesTypeCodesEnableHeader:
       type: object
       required:
         - type
@@ -41060,7 +41136,7 @@ components:
           type: boolean
           title: Retry connection reset
           description: Retry request when a connection reset (ECONNRESET) error occurs
-    AuthenticationType1:
+    AuthenticationTypeUse:
       type: object
       title: Authentication
       description: Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
@@ -41071,7 +41147,7 @@ components:
           type: boolean
           title: Disabled
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsSasl1"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsSaslManualSecret"
         password:
           type: string
           title: Password
@@ -41081,13 +41157,13 @@ components:
           title: Password (text secret)
           description: Select or create a stored text secret
         mechanism:
-          $ref: "#/components/schemas/SaslMechanismOptionsSasl1"
+          $ref: "#/components/schemas/SaslMechanismOptionsSaslOauthbearerPlain"
         username:
           type: string
           title: Username
           description: The username for authentication. For Event Hubs, this should always be $ConnectionString.
         clientSecretAuthType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsSasl2"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsSaslCertificateManual"
         clientSecret:
           type: string
           title: Client secret
@@ -41129,7 +41205,7 @@ components:
           description: Configure sets to collect process metrics
           items:
             $ref: "#/components/schemas/ItemsTypeProcessSets"
-    TlsSettingsClientSideType1:
+    TlsSettingsClientSideTypeCaPathCertPathExtended:
       type: object
       title: TLS settings (client side)
       properties:
@@ -41161,9 +41237,9 @@ components:
           title: Passphrase
           description: Passphrase to use to decrypt private key
         minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
         maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
     ItemsTypeHosts:
       type: object
       required:
@@ -41196,7 +41272,7 @@ components:
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
-    AuthType:
+    AuthTypeAuthTypeCredentialsSecret:
       type: object
       required:
         - disabled
@@ -41228,7 +41304,7 @@ components:
       type: object
       properties:
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuth1"
+          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret"
         token:
           type: string
           title: Auth token
@@ -41249,7 +41325,7 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
-    TlsSettingsClientSideType2:
+    TlsSettingsClientSideTypeExtended:
       type: object
       title: TLS settings (client side)
       properties:
@@ -41281,10 +41357,10 @@ components:
           title: Passphrase
           description: Passphrase to use to decrypt private key
         minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
         maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
-    RunnableJobCollectionPart1TypeScheduleRun:
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
+    RunnableJobCollectionScheduleRunType:
       type: object
       required:
         - mode
@@ -41345,7 +41421,7 @@ components:
 
                     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
           pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
-    TypeCollectionWithBreakerRulesetsConstraint:
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint:
       type: object
       properties:
         type:
@@ -41535,10 +41611,10 @@ components:
           minimum: 0
           maximum: 100
         auth:
-          $ref: "#/components/schemas/AuthTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/AuthType"
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
-    KafkaSchemaRegistryAuthenticationType1:
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout:
       type: object
       title: Kafka Schema Registry Authentication
       required:
@@ -41570,9 +41646,9 @@ components:
           minimum: 0
           maximum: 100
         auth:
-          $ref: "#/components/schemas/AuthTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/AuthType"
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         defaultKeySchemaId:
           type: number
           title: Default key schema ID
@@ -41585,8 +41661,8 @@ components:
       type: object
       title: Run settings
       allOf:
-        - $ref: "#/components/schemas/TypeCollectionConstraint"
-        - $ref: "#/components/schemas/RunnableJobCollectionPart1TypeScheduleRun"
+        - $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionConstraint"
+        - $ref: "#/components/schemas/RunnableJobCollectionScheduleRunType"
     StatusType:
       type: object
       properties:
@@ -41616,8 +41692,8 @@ components:
       type: object
       title: Run settings
       allOf:
-        - $ref: "#/components/schemas/TypeCollectionConstraint"
-        - $ref: "#/components/schemas/RunnableJobCollectionPart1TypeScheduleRun"
+        - $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionConstraint"
+        - $ref: "#/components/schemas/RunnableJobCollectionScheduleRunType"
     ScheduleTypeRunnableJobCollection:
       type: object
       title: Schedule
@@ -43003,12 +43079,31 @@ components:
         id: databricks-output
         type: databricks
         workspaceId: your-workspace-id
-        scope: my-scope
+        scope: all-apis
         clientId: your-client-id
         clientTextSecret: your-client-secret
-        catalog: my-catalog
-        schema: my-schema
-        eventsVolumeName: my-volume
+        catalog: main
+        schema: external
+        eventsVolumeName: events
+    OutputTestExamplesSingleEvent:
+      summary: Send a single test event
+      description: Example request body for sending a single test event to the Destination.
+      value:
+        events:
+          - _raw: This is a test event
+            source: test
+            sourcetype: manual
+    OutputTestExamplesMultipleEvents:
+      summary: Send multiple test events
+      description: Example request body for sending multiple test events to the Destination.
+      value:
+        events:
+          - _raw: Test event 1
+            source: test
+            sourcetype: manual
+          - _raw: Test event 2
+            source: test
+            sourcetype: manual
     OutputExamplesDefault:
       summary: Default
       value:
@@ -44253,272 +44348,6 @@ components:
         onPrem: false
         estimatedIngestRate: 4096
         provisioned: true
-    MappingRulesetActivateExamplesActivate:
-      summary: Activate the default Mapping Ruleset
-      value:
-        id: default
-    MappingRulesetCreateExamplesOSBasedMapping:
-      summary: Map Edge Nodes based on their Operating System (Linux, Win32, macOS)
-      value:
-        id: os-based-mapping
-        conf:
-          functions:
-            - filter: platform === "linux"
-              id: eval
-              description: Map Linux Edge Nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'linux_fleet'"
-            - filter: platform === "win32"
-              id: eval
-              description: Map Windows Edge Nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'windows_fleet'"
-            - filter: platform === "darwin"
-              id: eval
-              description: Map macOS Edge Nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'macos_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping for unmapped nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetCreateExamplesTagBasedMapping:
-      summary: Map Edge Nodes using cribl.tags
-      value:
-        id: tag-based-mapping
-        conf:
-          functions:
-            - filter: cribl.tags.includes("WinLaptop")
-              id: eval
-              description: Map Windows Laptop Edge Nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'laptop_fleet'"
-            - filter: cribl.tags.includes("Production")
-              id: eval
-              description: Map Production Edge Nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'production_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetCreateExamplesOutpostBasedMapping:
-      summary: Map Edge Nodes connected to a specific Outpost ID or hostname
-      value:
-        id: outpost-mapping
-        conf:
-          functions:
-            - filter: outpost.host === "5ab6c676be6a"
-              id: eval
-              description: Map Edge Nodes from Outpost A
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'outpost_a_fleet'"
-            - filter: outpost.guid === "550e8400-e29b-41d4-a716-446655440000"
-              id: eval
-              description: Map Edge Nodes from Outpost B by GUID
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'outpost_b_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetCreateExamplesComplexMapping:
-      summary: Map Edge Nodes using complex filters based on IP, CPU, memory, and environment
-      value:
-        id: complex-mapping
-        conf:
-          functions:
-            - filter: (conn_ip.startsWith("10.10.42.") && cpus > 6) || env.CRIBL_HOME.match("DMZ")
-              id: eval
-              description: Map high-performance nodes in specific network or DMZ
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'high_perf_fleet'"
-            - filter: platform === "linux" && memory > 16000 && cribl.tags.includes("Database")
-              id: eval
-              description: Map Linux nodes with high memory for database workloads
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'database_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetCreateExamplesAWSEC2InstanceMapping:
-      summary: Map Edge Nodes using AWS EC2 instance tags
-      value:
-        id: aws-ec2-mapping
-        conf:
-          functions:
-            - filter: aws?.tags?.Environment === "Production"
-              id: eval
-              description: Map Production EC2 instances
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'aws_prod_fleet'"
-            - filter: aws?.tags?.Team === "DevOps"
-              id: eval
-              description: Map DevOps team EC2 instances
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'devops_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetCreateExamplesContainerBasedMapping:
-      summary: Map Edge Nodes running in containers based on host characteristics
-      value:
-        id: container-mapping
-        conf:
-          functions:
-            - filter: hostOs?.platform === "linux" && hostOs?.cpu_count > 4
-              id: eval
-              description: Map containerized nodes on high-CPU Linux hosts
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'container_high_cpu_fleet'"
-            - filter: hostOs?.id
-              id: eval
-              description: Map all containerized Edge Nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'container_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping for non-containerized nodes
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetCreateExamplesDefaultRuleset:
-      summary: Routes all unmapped Edge Nodes to the default_fleet
-      value:
-        id: simple-default-mappings
-        conf:
-          functions:
-            - filter: "!cribl.group"
-              id: eval
-              description: Simple default Mapping Ruleset
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetUpdateExamplesUpdateComplexRule:
-      summary: Modify an existing ruleset with a complex, multi-condition filter
-      value:
-        id: complex-mapping
-        conf:
-          functions:
-            - filter: (conn_ip.startsWith("10.10.42.") && cpus > 6) || env.CRIBL_HOME.match("DMZ")
-              id: eval
-              description: Map high-performance nodes in specific network or DMZ
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'high_perf_fleet'"
-            - filter: "!cribl.group"
-              id: eval
-              description: Default mapping
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-    MappingRulesetUpdateExamplesEnableDisabledRule:
-      summary: Change an existing ruleset flag to enable it
-      value:
-        id: default
-        conf:
-          functions:
-            - filter: "!cribl.group"
-              id: eval
-              description: Default Mappings
-              disabled: false
-              final: true
-              conf:
-                add:
-                  - name: groupId
-                    value: "'default_fleet'"
-        active: true
     CaptureExamplesSimpleExpression:
       summary: Capture events by sourcetype
       value:
@@ -44647,9 +44476,6 @@ tags:
   - name: lake
     description: Actions related to Lake
     x-cribl-availability: cloud
-  - name: mappings
-    description: Actions related to Mappings
-    x-cribl-availability: both
   - name: packs
     description: Actions related to Packs
     x-cribl-availability: both
@@ -46138,6 +45964,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      parameters:
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/DestinationType"
+          description: Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
     post:
       operationId: createOutput
       x-speakeasy-group: destinations
@@ -46300,7 +46133,7 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesDatabricks"
       responses:
         "200":
-          description: a list of Destination objects
+          description: the created Destination object
           content:
             application/json:
               schema:
@@ -46333,7 +46166,7 @@ paths:
           description: The <code>id</code> of the Destination to get.
       responses:
         "200":
-          description: a list of Destination objects
+          description: a Destination object
           content:
             application/json:
               schema:
@@ -46355,7 +46188,7 @@ paths:
       tags:
         - destinations
       summary: Update a Destination
-      description: Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
+      description: Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
       parameters:
         - name: id
           in: path
@@ -46513,7 +46346,7 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesDatabricks"
       responses:
         "200":
-          description: a list of Destination objects
+          description: the updated Destination object
           content:
             application/json:
               schema:
@@ -46545,7 +46378,7 @@ paths:
           description: The <code>id</code> of the Destination to delete.
       responses:
         "200":
-          description: a list of Destination objects
+          description: the deleted Destination object
           content:
             application/json:
               schema:
@@ -46603,7 +46436,7 @@ paths:
       description: Get information about the latest job to clear the persistent queue (PQ) for the specified Destination.
       responses:
         "200":
-          description: a list of JobInfo objects
+          description: information about the latest PQ clear job for the Destination
           content:
             application/json:
               schema:
@@ -46636,7 +46469,7 @@ paths:
       description: Get sample event data for the specified Destination to validate the configuration or test connectivity.
       responses:
         "200":
-          description: a list of OutputSamplesResponse objects
+          description: sample event data for the Destination
           content:
             application/json:
               schema:
@@ -46669,7 +46502,7 @@ paths:
       description: Send sample event data to the specified Destination to validate the configuration or test connectivity.
       responses:
         "200":
-          description: a list of OutputTestResponse objects
+          description: Destination test result
           content:
             application/json:
               schema:
@@ -46689,6 +46522,11 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/OutputTestRequest"
+            examples:
+              OutputTestExamplesSingleEvent:
+                $ref: "#/components/examples/OutputTestExamplesSingleEvent"
+              OutputTestExamplesMultipleEvents:
+                $ref: "#/components/examples/OutputTestExamplesMultipleEvents"
       parameters:
         - name: id
           in: path
@@ -46723,6 +46561,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/DestinationType"
+          description: Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         - name: pack
           in: path
           required: true
@@ -46891,7 +46735,7 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesDatabricks"
       responses:
         "200":
-          description: a list of Destination objects
+          description: the created Destination object
           content:
             application/json:
               schema:
@@ -46937,7 +46781,7 @@ paths:
           description: The <code>id</code> of the Pack to get.
       responses:
         "200":
-          description: a list of Destination objects
+          description: a Destination object
           content:
             application/json:
               schema:
@@ -46959,7 +46803,7 @@ paths:
       tags:
         - destinations
       summary: Update a Destination within a Pack
-      description: Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
+      description: Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
       parameters:
         - name: id
           in: path
@@ -47123,7 +46967,7 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesDatabricks"
       responses:
         "200":
-          description: a list of Destination objects
+          description: the updated Destination object
           content:
             application/json:
               schema:
@@ -47161,7 +47005,7 @@ paths:
           description: The <code>id</code> of the Pack to delete.
       responses:
         "200":
-          description: a list of Destination objects
+          description: the deleted Destination object
           content:
             application/json:
               schema:
@@ -47225,7 +47069,7 @@ paths:
       description: Get information about the latest job to clear the persistent queue (PQ) for the specified Destination within the specified Pack.
       responses:
         "200":
-          description: a list of JobInfo objects
+          description: information about the latest PQ clear job for the Destination
           content:
             application/json:
               schema:
@@ -47264,7 +47108,7 @@ paths:
       description: Get sample event data for the specified Destination to validate the configuration or test connectivity within the specified Pack.
       responses:
         "200":
-          description: a list of OutputSamplesResponse objects
+          description: sample event data for the Destination
           content:
             application/json:
               schema:
@@ -47303,7 +47147,7 @@ paths:
       description: Send sample event data to the specified Destination to validate the configuration or test connectivity within the specified Pack.
       responses:
         "200":
-          description: a list of OutputTestResponse objects
+          description: Destination test result
           content:
             application/json:
               schema:
@@ -47323,6 +47167,11 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/OutputTestRequest"
+            examples:
+              OutputTestExamplesSingleEvent:
+                $ref: "#/components/examples/OutputTestExamplesSingleEvent"
+              OutputTestExamplesMultipleEvents:
+                $ref: "#/components/examples/OutputTestExamplesMultipleEvents"
       parameters:
         - name: id
           in: path
@@ -48358,7 +48207,7 @@ paths:
       description: Get the status and optional metrics for the specified Source.
       responses:
         "200":
-          description: a list of InputStatus objects
+          description: a Source status object
           content:
             application/json:
               schema:
@@ -48383,7 +48232,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48400,10 +48249,10 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: List the status of all Sources
-      description: Get a list of status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet.
+      description: List status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet.
       responses:
         "200":
-          description: a list of InputStatus objects
+          description: a list of Source status objects
           content:
             application/json:
               schema:
@@ -48422,7 +48271,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48442,7 +48291,7 @@ paths:
       description: Get the status and optional metrics for the specified Source within the specified Pack.
       responses:
         "200":
-          description: a list of InputStatus objects
+          description: a Source status object
           content:
             application/json:
               schema:
@@ -48467,7 +48316,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48490,10 +48339,10 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: List the status of all Sources within a Pack
-      description: Get a list of status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet within the specified Pack.
+      description: List status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet within the specified Pack.
       responses:
         "200":
-          description: a list of InputStatus objects
+          description: a list of Source status objects
           content:
             application/json:
               schema:
@@ -48512,7 +48361,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48538,7 +48387,7 @@ paths:
       description: Get the status and optional metrics for the specified Destination.
       responses:
         "200":
-          description: a list of OutputStatus objects
+          description: Destination status object
           content:
             application/json:
               schema:
@@ -48563,7 +48412,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48580,10 +48429,10 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: List the status of all Destinations
-      description: Get a list of status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet.
+      description: List status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet.
       responses:
         "200":
-          description: a list of OutputStatus objects
+          description: a list of Destination status objects
           content:
             application/json:
               schema:
@@ -48602,7 +48451,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48622,7 +48471,7 @@ paths:
       description: Get the status and optional metrics for the specified Destination within the specified Pack.
       responses:
         "200":
-          description: a list of OutputStatus objects
+          description: Destination status object
           content:
             application/json:
               schema:
@@ -48647,7 +48496,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -48670,10 +48519,10 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: List the status of all Destinations within a Pack
-      description: Get a list of status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
+      description: List status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
       responses:
         "200":
-          description: a list of OutputStatus objects
+          description: a list of Destination status objects
           content:
             application/json:
               schema:
@@ -48692,7 +48541,7 @@ paths:
           required: false
           schema:
             type: boolean
-          description: Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
+          description: Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
         - name: type
           in: query
           required: false
@@ -49351,263 +49200,6 @@ paths:
           schema:
             $ref: "#/components/schemas/RbacResource"
           description: Filter for limiting the response to ACL entries for the specified RBAC resource type.
-  /admin/products/{product}/mappings/activate:
-    post:
-      operationId: createAdminProductsMappingsActivateByProduct
-      tags:
-        - mappings
-      x-speakeasy-group: groups.mappings
-      x-speakeasy-name-override: activate
-      x-cribl-internal: false
-      x-cribl-availability: both
-      summary: Set a Mapping Ruleset as the active configuration for the specified Cribl product
-      description: Set a specific Mapping Ruleset as the currently active configuration for the specified Cribl product.
-      responses:
-        "200":
-          description: The <code>id</code> of the Mapping Ruleset that has been successfully activated
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CountedRulesetId"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      requestBody:
-        description: RulesetId object
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/RulesetId"
-            examples:
-              MappingRulesetActivateExamplesActivate:
-                $ref: "#/components/examples/MappingRulesetActivateExamplesActivate"
-      parameters:
-        - name: product
-          in: path
-          required: true
-          schema:
-            $ref: "#/components/schemas/ProductsBase"
-          description: Name of the Cribl product to activate the Mapping Ruleset for
-  /admin/products/{product}/mappings:
-    post:
-      operationId: createAdminProductsMappingsByProduct
-      tags:
-        - mappings
-      x-speakeasy-group: groups.mappings
-      x-speakeasy-name-override: create
-      x-cribl-internal: false
-      x-cribl-availability: both
-      summary: Create a new Mapping Ruleset for the specified Cribl product
-      description: "Create and save a new Mapping Ruleset for the specified Cribl product.<br><br>Note: This functionality is not supported for Cribl Stream Workers on Cribl.Cloud."
-      responses:
-        "200":
-          description: A list containing the newly created Mapping Ruleset objects
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CountedMappingRuleset"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      requestBody:
-        description: MappingRuleset object
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/MappingRuleset"
-            examples:
-              MappingRulesetCreateExamplesOSBasedMapping:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesOSBasedMapping"
-              MappingRulesetCreateExamplesTagBasedMapping:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesTagBasedMapping"
-              MappingRulesetCreateExamplesOutpostBasedMapping:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesOutpostBasedMapping"
-              MappingRulesetCreateExamplesComplexMapping:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesComplexMapping"
-              MappingRulesetCreateExamplesAWSEC2InstanceMapping:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesAWSEC2InstanceMapping"
-              MappingRulesetCreateExamplesContainerBasedMapping:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesContainerBasedMapping"
-              MappingRulesetCreateExamplesDefaultRuleset:
-                $ref: "#/components/examples/MappingRulesetCreateExamplesDefaultRuleset"
-      parameters:
-        - name: product
-          in: path
-          required: true
-          schema:
-            $ref: "#/components/schemas/ProductsBase"
-          description: Name of the Cribl product to create the Mapping Ruleset for
-    get:
-      operationId: getAdminProductsMappingsByProduct
-      tags:
-        - mappings
-      x-speakeasy-group: groups.mappings
-      x-speakeasy-name-override: list
-      x-cribl-internal: false
-      x-cribl-availability: both
-      summary: List all Mapping Rulesets for the specified Cribl product
-      description: Retrieve a list of all existing Mapping Rulesets for the specified Cribl product.
-      responses:
-        "200":
-          description: a list of MappingRuleset objects
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CountedMappingRuleset"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: product
-          in: path
-          required: true
-          schema:
-            $ref: "#/components/schemas/ProductsBase"
-          description: Name of the Cribl product to list the Mapping Rulesets for
-  /admin/products/{product}/mappings/{id}:
-    delete:
-      operationId: deleteAdminProductsMappingsByProductAndId
-      tags:
-        - mappings
-      x-speakeasy-group: groups.mappings
-      x-speakeasy-name-override: delete
-      x-cribl-internal: false
-      x-cribl-availability: both
-      summary: Delete the specified Mapping Ruleset from the Worker Group or Edge Fleet
-      description: "Permanently remove the specified Mapping Ruleset from the Worker Group or Edge Fleet.<br><br>Note: This functionality is not supported for Cribl Stream Workers on Cribl.Cloud."
-      responses:
-        "200":
-          description: A list containing the deleted Mapping Ruleset objects
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CountedMappingRuleset"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: product
-          in: path
-          required: true
-          schema:
-            $ref: "#/components/schemas/ProductsBase"
-          description: Name of the Cribl product to delete the Mapping Ruleset for
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The <code>id</code> of the Mapping Ruleset to delete.
-    get:
-      operationId: getAdminProductsMappingsByProductAndId
-      tags:
-        - mappings
-      x-speakeasy-group: groups.mappings
-      x-speakeasy-name-override: get
-      x-cribl-internal: false
-      x-cribl-availability: both
-      summary: Retrieve a Specific Mapping Ruleset
-      description: Get the details for a single Mapping Ruleset, identified by its id, for a Worker Group or Edge Fleet.
-      responses:
-        "200":
-          description: a list of MappingRuleset objects
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CountedMappingRuleset"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      parameters:
-        - name: product
-          in: path
-          required: true
-          schema:
-            $ref: "#/components/schemas/ProductsBase"
-          description: Name of the Cribl product to get the Mappings for
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group or Edge Fleet Mapping Ruleset to get
-    patch:
-      operationId: updateAdminProductsMappingsByProductAndId
-      tags:
-        - mappings
-      x-speakeasy-group: groups.mappings
-      x-speakeasy-name-override: update
-      x-cribl-internal: false
-      x-cribl-availability: both
-      summary: Update an existing Mapping Ruleset for a Worker Group or Edge Fleet
-      description: Modify the configuration of the specified Mapping Ruleset for a Worker Group or Edge Fleet.
-      responses:
-        "200":
-          description: A list containing the updated Mapping Ruleset objects
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CountedMappingRuleset"
-        "401":
-          description: Unauthorized
-        "500":
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      requestBody:
-        description: MappingRuleset object
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/MappingRuleset"
-            examples:
-              MappingRulesetUpdateExamplesUpdateComplexRule:
-                $ref: "#/components/examples/MappingRulesetUpdateExamplesUpdateComplexRule"
-              MappingRulesetUpdateExamplesEnableDisabledRule:
-                $ref: "#/components/examples/MappingRulesetUpdateExamplesEnableDisabledRule"
-      parameters:
-        - name: product
-          in: path
-          required: true
-          schema:
-            $ref: "#/components/schemas/ProductsBase"
-          description: Name of the Cribl product to update the Mapping Ruleset for
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The <code>id</code> of the Mapping Ruleset to update.
   /products/lake/lakes/{lakeId}/datasets:
     post:
       operationId: createCriblLakeDatasetByLakeId

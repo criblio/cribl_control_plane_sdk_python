@@ -3,8 +3,8 @@
 from __future__ import annotations
 from .authenticationtypeoptions import AuthenticationTypeOptions
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
-from .compressionoptions4 import CompressionOptions4
-from .compressionoptions5 import CompressionOptions5
+from .compressionoptionsdeflategzip import CompressionOptionsDeflateGzip
+from .compressionoptionsmessages import CompressionOptionsMessages
 from .compressionoptionspq import CompressionOptionsPq
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
 from .itemstypeextrahttpheaders import (
@@ -26,9 +26,9 @@ from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
 )
-from .tlssettingsclientsidetype2 import (
-    TLSSettingsClientSideType2,
-    TLSSettingsClientSideType2TypedDict,
+from .tlssettingsclientsidetypeextended import (
+    TLSSettingsClientSideTypeExtended,
+    TLSSettingsClientSideTypeExtendedTypedDict,
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -78,9 +78,9 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     r"""Select a transport option for OpenTelemetry"""
     otlp_version: NotRequired[OutputOpenTelemetryOTLPVersion]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
-    compress: NotRequired[CompressionOptions4]
+    compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
-    http_compress: NotRequired[CompressionOptions5]
+    http_compress: NotRequired[CompressionOptionsMessages]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     auth_type: NotRequired[AuthenticationTypeOptions]
     r"""OpenTelemetry authentication type"""
@@ -135,7 +135,7 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    tls: NotRequired[TLSSettingsClientSideType2TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -190,11 +190,11 @@ class OutputOpenTelemetry(BaseModel):
     ] = None
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
-    compress: Optional[CompressionOptions4] = None
+    compress: Optional[CompressionOptionsDeflateGzip] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
-        Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
+        Optional[CompressionOptionsMessages], pydantic.Field(alias="httpCompress")
     ] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
@@ -317,7 +317,7 @@ class OutputOpenTelemetry(BaseModel):
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    tls: Optional[TLSSettingsClientSideType2] = None
+    tls: Optional[TLSSettingsClientSideTypeExtended] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -389,7 +389,7 @@ class OutputOpenTelemetry(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions4(value)
+                return models.CompressionOptionsDeflateGzip(value)
             except ValueError:
                 return value
         return value
@@ -398,7 +398,7 @@ class OutputOpenTelemetry(BaseModel):
     def serialize_http_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions5(value)
+                return models.CompressionOptionsMessages(value)
             except ValueError:
                 return value
         return value

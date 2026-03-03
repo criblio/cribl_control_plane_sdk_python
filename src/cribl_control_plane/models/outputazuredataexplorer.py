@@ -3,7 +3,7 @@
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionleveloptions import CompressionLevelOptions
-from .compressionoptions2 import CompressionOptions2
+from .compressionoptionshttp import CompressionOptionsHTTP
 from .compressionoptionspq import CompressionOptionsPq
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
@@ -198,7 +198,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Scope to pass in the OAuth request parameter"""
     oauth_type: OutputAzureDataExplorerAuthenticationMethod
     r"""The type of OAuth 2.0 client credentials grant flow to use"""
-    compress: CompressionOptions2
+    compress: CompressionOptionsHTTP
     r"""Data compression format to apply to HTTP content before it is delivered"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -397,7 +397,7 @@ class OutputAzureDataExplorer(BaseModel):
     ]
     r"""The type of OAuth 2.0 client credentials grant flow to use"""
 
-    compress: CompressionOptions2
+    compress: CompressionOptionsHTTP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     id: Optional[str] = None
@@ -819,7 +819,7 @@ class OutputAzureDataExplorer(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value

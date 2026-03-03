@@ -10,7 +10,9 @@ from .microsoftentraidauthenticationendpointoptionssasl import (
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptions import RecordDataFormatOptions
-from .saslmechanismoptionssasl1 import SaslMechanismOptionsSasl1
+from .saslmechanismoptionssasloauthbearerplain import (
+    SaslMechanismOptionsSaslOauthbearerPlain,
+)
 from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
     TLSSettingsClientSideTypeTypedDict,
@@ -39,7 +41,7 @@ class OutputMicrosoftFabricAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     disabled: bool
-    mechanism: NotRequired[SaslMechanismOptionsSasl1]
+    mechanism: NotRequired[SaslMechanismOptionsSaslOauthbearerPlain]
     username: NotRequired[str]
     r"""The username for authentication. This should always be $ConnectionString."""
     text_secret: NotRequired[str]
@@ -67,7 +69,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
 
     disabled: bool
 
-    mechanism: Optional[SaslMechanismOptionsSasl1] = None
+    mechanism: Optional[SaslMechanismOptionsSaslOauthbearerPlain] = None
 
     username: Optional[str] = None
     r"""The username for authentication. This should always be $ConnectionString."""
@@ -115,7 +117,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     def serialize_mechanism(self, value):
         if isinstance(value, str):
             try:
-                return models.SaslMechanismOptionsSasl1(value)
+                return models.SaslMechanismOptionsSaslOauthbearerPlain(value)
             except ValueError:
                 return value
         return value

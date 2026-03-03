@@ -34,7 +34,6 @@ ONPREM_PASSWORD = "admin"  # Replace with your password
 SOURCE_WORKER_GROUP_ID = "my-worker-group" # The id of the Worker Group to clone
 REPLICA_WORKER_GROUP_ID = "my-replica-worker-group" # The id to use for the replica Worker Group
 base_url = f"{ONPREM_SERVER_URL}/api/v1"
-replica_group_url = f"{base_url}/m/{REPLICA_WORKER_GROUP_ID}"
 
 async def main() -> None:
     # Initialize Cribl client
@@ -47,6 +46,9 @@ async def main() -> None:
     token = response.result.token
     security = Security(bearer_auth=token)
     cribl = CriblControlPlane(server_url=base_url, security=security)
+
+    # Construct the base URL for the replica Worker Group
+    replica_group_url = f"{base_url}/m/{REPLICA_WORKER_GROUP_ID}"
 
     # Verify that the source Worker Group exists
     source_group_response = cribl.groups.get(id=SOURCE_WORKER_GROUP_ID, product=ProductsCore.STREAM)

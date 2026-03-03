@@ -34,6 +34,7 @@ ONPREM_PASSWORD = "admin"  # Replace with your password
 SOURCE_WORKER_GROUP_ID = "my-worker-group" # The id of the Worker Group to clone
 REPLICA_WORKER_GROUP_ID = "my-replica-worker-group" # The id to use for the replica Worker Group
 base_url = f"{ONPREM_SERVER_URL}/api/v1"
+replica_group_url = f"{base_url}/m/{REPLICA_WORKER_GROUP_ID}"
 
 async def main() -> None:
     # Initialize Cribl client
@@ -74,8 +75,8 @@ async def main() -> None:
 
     # Commit configuration changes
     commit_response = cribl.versions.commits.create(
-        group_id=REPLICA_WORKER_GROUP_ID,
-        message="Replicate Worker Group",
+        message="Commit for Cribl Stream example for replicating a Worker Group",
+        server_url=replica_group_url,
         effective=True,
         files=["."],
     )

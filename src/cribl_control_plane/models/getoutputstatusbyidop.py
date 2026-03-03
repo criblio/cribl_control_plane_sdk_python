@@ -16,7 +16,7 @@ class GetOutputStatusByIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Destination to get the status for."""
     metrics: NotRequired[bool]
-    r"""Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default)."""
+    r"""Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default)."""
     type: NotRequired[bool]
     r"""Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default)."""
 
@@ -31,7 +31,7 @@ class GetOutputStatusByIDRequest(BaseModel):
         Optional[bool],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Set to true <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default)."""
+    r"""Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default)."""
 
     type: Annotated[
         Optional[bool],

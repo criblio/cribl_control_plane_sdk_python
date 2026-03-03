@@ -87,6 +87,10 @@ from .pipelinefunctionlocalsearchrulesetrunner import (
     PipelineFunctionLocalSearchRulesetRunner,
     PipelineFunctionLocalSearchRulesetRunnerTypedDict,
 )
+from .pipelinefunctionlocalsearchtransformer import (
+    PipelineFunctionLocalSearchTransformer,
+    PipelineFunctionLocalSearchTransformerTypedDict,
+)
 from .pipelinefunctionlookup import (
     PipelineFunctionLookup,
     PipelineFunctionLookupTypedDict,
@@ -242,6 +246,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionLimitTypedDict,
         PipelineFunctionLocalSearchDatatypeParserTypedDict,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
+        PipelineFunctionLocalSearchTransformerTypedDict,
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
         PipelineFunctionMvExpandTypedDict,
@@ -322,6 +327,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "limit": PipelineFunctionLimit,
     "local_search_datatype_parser": PipelineFunctionLocalSearchDatatypeParser,
     "local_search_ruleset_runner": PipelineFunctionLocalSearchRulesetRunner,
+    "local_search_transformer": PipelineFunctionLocalSearchTransformer,
     "lookup": PipelineFunctionLookup,
     "mask": PipelineFunctionMask,
     "mv_expand": PipelineFunctionMvExpand,
@@ -392,6 +398,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionLimit,
         PipelineFunctionLocalSearchDatatypeParser,
         PipelineFunctionLocalSearchRulesetRunner,
+        PipelineFunctionLocalSearchTransformer,
         PipelineFunctionLookup,
         PipelineFunctionMask,
         PipelineFunctionMvExpand,

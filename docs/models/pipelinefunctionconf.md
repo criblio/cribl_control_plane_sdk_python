@@ -177,6 +177,12 @@ value: models.PipelineFunctionLocalSearchDatatypeParser = /* values here */
 value: models.PipelineFunctionLocalSearchRulesetRunner = /* values here */
 ```
 
+### `models.PipelineFunctionLocalSearchTransformer`
+
+```python
+value: models.PipelineFunctionLocalSearchTransformer = /* values here */
+```
+
 ### `models.PipelineFunctionLookup`
 
 ```python

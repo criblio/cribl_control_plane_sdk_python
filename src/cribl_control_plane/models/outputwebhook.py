@@ -19,9 +19,9 @@ from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
 )
-from .tlssettingsclientsidetype1 import (
-    TLSSettingsClientSideType1,
-    TLSSettingsClientSideType1TypedDict,
+from .tlssettingsclientsidetypecapathcertpathextended import (
+    TLSSettingsClientSideTypeCaPathCertPathExtended,
+    TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict,
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -194,7 +194,7 @@ class OutputWebhookTypedDict(TypedDict):
     r"""How to handle events when all receivers are exerting backpressure"""
     auth_type: NotRequired[OutputWebhookAuthenticationType]
     r"""Authentication method to use for the HTTP request"""
-    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     load_balanced: NotRequired[bool]
@@ -388,7 +388,7 @@ class OutputWebhook(BaseModel):
     ] = None
     r"""Authentication method to use for the HTTP request"""
 
-    tls: Optional[TLSSettingsClientSideType1] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")

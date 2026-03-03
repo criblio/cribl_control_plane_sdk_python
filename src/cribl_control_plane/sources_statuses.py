@@ -26,7 +26,7 @@ class SourcesStatuses(BaseSDK):
         Get the status and optional metrics for the specified Source.
 
         :param id: The <code>id</code> of the Source to get the status for.
-        :param metrics: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+        :param metrics: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         :param type: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -124,7 +124,7 @@ class SourcesStatuses(BaseSDK):
         Get the status and optional metrics for the specified Source.
 
         :param id: The <code>id</code> of the Source to get the status for.
-        :param metrics: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+        :param metrics: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         :param type: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -218,9 +218,9 @@ class SourcesStatuses(BaseSDK):
     ) -> models.CountedInputStatus:
         r"""List the status of all Sources
 
-        Get a list of status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet.
+        List status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet.
 
-        :param metrics: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+        :param metrics: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         :param type: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -313,9 +313,9 @@ class SourcesStatuses(BaseSDK):
     ) -> models.CountedInputStatus:
         r"""List the status of all Sources
 
-        Get a list of status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet.
+        List status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet.
 
-        :param metrics: Set to true <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
+        :param metrics: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         :param type: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

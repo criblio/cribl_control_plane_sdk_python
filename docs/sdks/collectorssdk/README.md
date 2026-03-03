@@ -25,7 +25,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -91,7 +91,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -151,7 +151,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -216,7 +216,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -281,7 +281,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -341,7 +341,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -403,8 +403,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
             ],
@@ -442,7 +442,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -503,7 +503,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -563,7 +563,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -647,7 +647,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -693,7 +693,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -739,7 +739,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -784,7 +784,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -849,7 +849,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -910,7 +910,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -971,7 +971,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1036,7 +1036,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1097,7 +1097,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1159,8 +1159,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -1201,7 +1201,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1262,7 +1262,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1327,7 +1327,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),

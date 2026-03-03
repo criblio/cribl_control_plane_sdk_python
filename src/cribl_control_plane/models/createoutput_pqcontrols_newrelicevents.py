@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .acknowledgmentsoptions import AcknowledgmentsOptions
-from .authenticationmethodoptions2 import AuthenticationMethodOptions2
+from .authenticationmethodoptionsapi import AuthenticationMethodOptionsAPI
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
 )
@@ -10,21 +10,23 @@ from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .authenticationtypeoptions import AuthenticationTypeOptions
-from .authenticationtypeoptions1 import AuthenticationTypeOptions1
+from .authenticationtypeoptionsbasiccredentialssecret import (
+    AuthenticationTypeOptionsBasicCredentialsSecret,
+)
 from .authenticationtypeoptionsprometheusauth import (
     AuthenticationTypeOptionsPrometheusAuth,
 )
-from .authenticationtypeoptionsprometheusauth1 import (
-    AuthenticationTypeOptionsPrometheusAuth1,
+from .authenticationtypeoptionsprometheusauthbasiccredentialssecret import (
+    AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret,
 )
 from .awsauthenticationmethodoptions import AwsAuthenticationMethodOptions
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
-from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
+from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
 from .compressionleveloptions import CompressionLevelOptions
-from .compressionoptions1 import CompressionOptions1
-from .compressionoptions2 import CompressionOptions2
-from .compressionoptions4 import CompressionOptions4
-from .compressionoptions5 import CompressionOptions5
+from .compressionoptionsdeflategzip import CompressionOptionsDeflateGzip
+from .compressionoptionsgzipnone import CompressionOptionsGzipNone
+from .compressionoptionshttp import CompressionOptionsHTTP
+from .compressionoptionsmessages import CompressionOptionsMessages
 from .compressionoptionspersistence import CompressionOptionsPersistence
 from .compressionoptionspq import CompressionOptionsPq
 from .datacompressionformatoptionspersistence import (
@@ -37,7 +39,10 @@ from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
 from .formatoptions import FormatOptions
 from .itemstypeauthtokens import ItemsTypeAuthTokens, ItemsTypeAuthTokensTypedDict
-from .itemstypeauthtokens1 import ItemsTypeAuthTokens1, ItemsTypeAuthTokens1TypedDict
+from .itemstypeauthtokenstokensecret import (
+    ItemsTypeAuthTokensTokenSecret,
+    ItemsTypeAuthTokensTokenSecretTypedDict,
+)
 from .itemstypecontentconfigitemsrequestparams import (
     ItemsTypeContentConfigItemsRequestParams,
     ItemsTypeContentConfigItemsRequestParamsTypedDict,
@@ -63,7 +68,7 @@ from .microsoftentraidauthenticationendpointoptionssasl import (
 )
 from .modeoptions import ModeOptions
 from .objectacloptions import ObjectACLOptions
-from .otlpversionoptions1 import OtlpVersionOptions1
+from .otlpversionoptions131 import OtlpVersionOptions131
 from .parquetversionoptions import ParquetVersionOptions
 from .prometheusauthtype import PrometheusAuthType, PrometheusAuthTypeTypedDict
 from .protocoloptions import ProtocolOptions
@@ -71,18 +76,22 @@ from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptions import RecordDataFormatOptions
 from .requestformatoptions import RequestFormatOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
-from .saslmechanismoptionssasl1 import SaslMechanismOptionsSasl1
+from .saslmechanismoptionssasloauthbearerplain import (
+    SaslMechanismOptionsSaslOauthbearerPlain,
+)
 from .serversideencryptionforuploadedobjectsoptions import (
     ServerSideEncryptionForUploadedObjectsOptions,
 )
 from .serversideencryptionoptions import ServerSideEncryptionOptions
-from .signatureversionoptions3 import SignatureVersionOptions3
-from .signatureversionoptions5 import SignatureVersionOptions5
+from .signatureversionoptionsminio import SignatureVersionOptionsMinIo
 from .signatureversionoptionss3collectorconf import (
     SignatureVersionOptionsS3CollectorConf,
 )
+from .signatureversionoptionssqs import SignatureVersionOptionsSqs
 from .storageclassoptions import StorageClassOptions
-from .storageclassoptions2 import StorageClassOptions2
+from .storageclassoptionsreducedredundancystandard import (
+    StorageClassOptionsReducedredundancyStandard,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -91,17 +100,17 @@ from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
     TLSSettingsClientSideTypeTypedDict,
 )
-from .tlssettingsclientsidetype1 import (
-    TLSSettingsClientSideType1,
-    TLSSettingsClientSideType1TypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
-from .tlssettingsclientsidetype2 import (
-    TLSSettingsClientSideType2,
-    TLSSettingsClientSideType2TypedDict,
+from .tlssettingsclientsidetypecapathcertpathextended import (
+    TLSSettingsClientSideTypeCaPathCertPathExtended,
+    TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict,
 )
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypeextended import (
+    TLSSettingsClientSideTypeExtended,
+    TLSSettingsClientSideTypeExtendedTypedDict,
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -153,9 +162,9 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     r"""Add the Output ID value to staging location"""
     dest_path: NotRequired[str]
     r"""Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks."""
-    signature_version: NotRequired[SignatureVersionOptions5]
+    signature_version: NotRequired[SignatureVersionOptionsMinIo]
     r"""Signature version to use for signing MinIO requests"""
-    storage_class: NotRequired[StorageClassOptions2]
+    storage_class: NotRequired[StorageClassOptionsReducedredundancyStandard]
     r"""Storage class to select for uploaded objects"""
     server_side_encryption: NotRequired[ServerSideEncryptionOptions]
     r"""Server-side encryption for uploaded objects"""
@@ -183,7 +192,7 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -201,7 +210,7 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     description: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    compress: NotRequired[CompressionOptions2]
+    compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -290,12 +299,13 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     r"""Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions5], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsMinIo], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing MinIO requests"""
 
     storage_class: Annotated[
-        Optional[StorageClassOptions2], pydantic.Field(alias="storageClass")
+        Optional[StorageClassOptionsReducedredundancyStandard],
+        pydantic.Field(alias="storageClass"),
     ] = None
     r"""Storage class to select for uploaded objects"""
 
@@ -364,7 +374,8 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -408,7 +419,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Optional[CompressionOptions2] = None
+    compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -515,7 +526,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions5(value)
+                return models.SignatureVersionOptionsMinIo(value)
             except ValueError:
                 return value
         return value
@@ -524,7 +535,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     def serialize_storage_class(self, value):
         if isinstance(value, str):
             try:
-                return models.StorageClassOptions2(value)
+                return models.StorageClassOptionsReducedredundancyStandard(value)
             except ValueError:
                 return value
         return value
@@ -551,7 +562,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -569,7 +580,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value
@@ -688,7 +699,7 @@ class CreateOutputAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     disabled: bool
-    mechanism: NotRequired[SaslMechanismOptionsSasl1]
+    mechanism: NotRequired[SaslMechanismOptionsSaslOauthbearerPlain]
     username: NotRequired[str]
     r"""The username for authentication. This should always be $ConnectionString."""
     text_secret: NotRequired[str]
@@ -718,7 +729,7 @@ class CreateOutputAuthentication(BaseModel):
 
     disabled: bool
 
-    mechanism: Optional[SaslMechanismOptionsSasl1] = None
+    mechanism: Optional[SaslMechanismOptionsSaslOauthbearerPlain] = None
 
     username: Optional[str] = None
     r"""The username for authentication. This should always be $ConnectionString."""
@@ -766,7 +777,7 @@ class CreateOutputAuthentication(BaseModel):
     def serialize_mechanism(self, value):
         if isinstance(value, str):
             try:
-                return models.SaslMechanismOptionsSasl1(value)
+                return models.SaslMechanismOptionsSaslOauthbearerPlain(value)
             except ValueError:
                 return value
         return value
@@ -1176,17 +1187,17 @@ class CreateOutputOutputDatabricksTypedDict(TypedDict):
     r"""Unique ID for this output"""
     type: CreateOutputTypeDatabricks
     workspace_id: str
-    r"""Databricks workspace ID"""
+    r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
     scope: str
     r"""OAuth scope for Unity Catalog authentication"""
     client_id: str
     r"""OAuth client ID for Unity Catalog authentication"""
     catalog: str
-    r"""Name of the catalog to use for the output"""
+    r"""Name of the Unity Catalog catalog to use for the Destination."""
     schema_: str
-    r"""Name of the catalog schema to use for the output"""
+    r"""Name of the Unity Catalog schema to use for the Destination."""
     events_volume_name: str
-    r"""Name of the events volume in Databricks"""
+    r"""Name of the Unity Catalog volume where event data is written."""
     client_text_secret: str
     r"""OAuth client secret for Unity Catalog authentication"""
     pipeline: NotRequired[str]
@@ -1225,7 +1236,7 @@ class CreateOutputOutputDatabricksTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -1234,10 +1245,10 @@ class CreateOutputOutputDatabricksTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
-    timeout_sec: NotRequired[float]
-    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    timeout_sec: NotRequired[int]
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
     description: NotRequired[str]
-    compress: NotRequired[CompressionOptions2]
+    compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -1282,7 +1293,7 @@ class CreateOutputOutputDatabricks(BaseModel):
     type: CreateOutputTypeDatabricks
 
     workspace_id: Annotated[str, pydantic.Field(alias="workspaceId")]
-    r"""Databricks workspace ID"""
+    r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
 
     scope: str
     r"""OAuth scope for Unity Catalog authentication"""
@@ -1291,13 +1302,13 @@ class CreateOutputOutputDatabricks(BaseModel):
     r"""OAuth client ID for Unity Catalog authentication"""
 
     catalog: str
-    r"""Name of the catalog to use for the output"""
+    r"""Name of the Unity Catalog catalog to use for the Destination."""
 
     schema_: Annotated[str, pydantic.Field(alias="schema")]
-    r"""Name of the catalog schema to use for the output"""
+    r"""Name of the Unity Catalog schema to use for the Destination."""
 
     events_volume_name: Annotated[str, pydantic.Field(alias="eventsVolumeName")]
-    r"""Name of the events volume in Databricks"""
+    r"""Name of the Unity Catalog volume where event data is written."""
 
     client_text_secret: Annotated[str, pydantic.Field(alias="clientTextSecret")]
     r"""OAuth client secret for Unity Catalog authentication"""
@@ -1381,7 +1392,8 @@ class CreateOutputOutputDatabricks(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -1405,12 +1417,12 @@ class CreateOutputOutputDatabricks(BaseModel):
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
 
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
-    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    timeout_sec: Annotated[Optional[int], pydantic.Field(alias="timeoutSec")] = None
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptions2] = None
+    compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -1512,7 +1524,7 @@ class CreateOutputOutputDatabricks(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -1530,7 +1542,7 @@ class CreateOutputOutputDatabricks(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value
@@ -2634,7 +2646,7 @@ class CreateOutputOutputDynatraceOtlpTypedDict(TypedDict):
     r"""Select a transport option for Dynatrace"""
     endpoint: str
     r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
-    otlp_version: OtlpVersionOptions1
+    otlp_version: OtlpVersionOptions131
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
     endpoint_type: CreateOutputEndpointType
     r"""Select the type of Dynatrace endpoint configured"""
@@ -2648,9 +2660,9 @@ class CreateOutputOutputDynatraceOtlpTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    compress: NotRequired[CompressionOptions4]
+    compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
-    http_compress: NotRequired[CompressionOptions5]
+    http_compress: NotRequired[CompressionOptionsMessages]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_traces_endpoint_override: NotRequired[str]
     r"""If you want to send traces to the default `{endpoint}/v1/traces` endpoint, leave this field empty; otherwise, specify the desired endpoint"""
@@ -2731,7 +2743,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     endpoint: str
     r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
 
-    otlp_version: Annotated[OtlpVersionOptions1, pydantic.Field(alias="otlpVersion")]
+    otlp_version: Annotated[OtlpVersionOptions131, pydantic.Field(alias="otlpVersion")]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
     endpoint_type: Annotated[
@@ -2756,11 +2768,11 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    compress: Optional[CompressionOptions4] = None
+    compress: Optional[CompressionOptionsDeflateGzip] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
-        Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
+        Optional[CompressionOptionsMessages], pydantic.Field(alias="httpCompress")
     ] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
@@ -2929,7 +2941,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     def serialize_otlp_version(self, value):
         if isinstance(value, str):
             try:
-                return models.OtlpVersionOptions1(value)
+                return models.OtlpVersionOptions131(value)
             except ValueError:
                 return value
         return value
@@ -2938,7 +2950,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions4(value)
+                return models.CompressionOptionsDeflateGzip(value)
             except ValueError:
                 return value
         return value
@@ -2947,7 +2959,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     def serialize_http_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions5(value)
+                return models.CompressionOptionsMessages(value)
             except ValueError:
                 return value
         return value
@@ -4267,14 +4279,14 @@ class CreateOutputOutputLocalSearchStorageTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    auth_type: NotRequired[AuthenticationTypeOptions1]
+    auth_type: NotRequired[AuthenticationTypeOptionsBasicCredentialsSecret]
     format_: NotRequired[CreateOutputFormatLocalSearchStorage]
     r"""Data format to use when sending data. Defaults to JSON Compact."""
     mapping_type: NotRequired[CreateOutputMappingTypeLocalSearchStorage]
     r"""How event fields are mapped to columns."""
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing. Disable to write to a table immediately."""
-    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -4384,7 +4396,8 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     auth_type: Annotated[
-        Optional[AuthenticationTypeOptions1], pydantic.Field(alias="authType")
+        Optional[AuthenticationTypeOptionsBasicCredentialsSecret],
+        pydantic.Field(alias="authType"),
     ] = None
 
     format_: Annotated[
@@ -4403,7 +4416,7 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     )
     r"""Collect data into batches for later processing. Disable to write to a table immediately."""
 
-    tls: Optional[TLSSettingsClientSideType1] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -4590,7 +4603,7 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationTypeOptions1(value)
+                return models.AuthenticationTypeOptionsBasicCredentialsSecret(value)
             except ValueError:
                 return value
         return value
@@ -4812,14 +4825,14 @@ class CreateOutputOutputClickHouseTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    auth_type: NotRequired[AuthenticationTypeOptions1]
+    auth_type: NotRequired[AuthenticationTypeOptionsBasicCredentialsSecret]
     format_: NotRequired[CreateOutputFormatClickHouse]
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
     mapping_type: NotRequired[CreateOutputMappingTypeClickHouse]
     r"""How event fields are mapped to ClickHouse columns."""
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing. Disable to write to a ClickHouse table immediately."""
-    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -4926,7 +4939,8 @@ class CreateOutputOutputClickHouse(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     auth_type: Annotated[
-        Optional[AuthenticationTypeOptions1], pydantic.Field(alias="authType")
+        Optional[AuthenticationTypeOptionsBasicCredentialsSecret],
+        pydantic.Field(alias="authType"),
     ] = None
 
     format_: Annotated[
@@ -4944,7 +4958,7 @@ class CreateOutputOutputClickHouse(BaseModel):
     )
     r"""Collect data into batches for later processing. Disable to write to a ClickHouse table immediately."""
 
-    tls: Optional[TLSSettingsClientSideType1] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -5126,7 +5140,7 @@ class CreateOutputOutputClickHouse(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationTypeOptions1(value)
+                return models.AuthenticationTypeOptionsBasicCredentialsSecret(value)
             except ValueError:
                 return value
         return value
@@ -5434,7 +5448,7 @@ class CreateOutputOutputCriblLakeTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -5611,7 +5625,8 @@ class CreateOutputOutputCriblLake(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -5759,7 +5774,7 @@ class CreateOutputOutputCriblLake(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -5936,7 +5951,7 @@ class CreateOutputOutputSecurityLakeTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -6138,7 +6153,8 @@ class CreateOutputOutputSecurityLake(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -6350,7 +6366,7 @@ class CreateOutputOutputSecurityLake(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -6529,7 +6545,7 @@ class CreateOutputOutputDlS3TypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -6555,7 +6571,7 @@ class CreateOutputOutputDlS3TypedDict(TypedDict):
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    compress: NotRequired[CompressionOptions2]
+    compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -6749,7 +6765,8 @@ class CreateOutputOutputDlS3(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -6811,7 +6828,7 @@ class CreateOutputOutputDlS3(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Optional[CompressionOptions2] = None
+    compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -6988,7 +7005,7 @@ class CreateOutputOutputDlS3(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -7006,7 +7023,7 @@ class CreateOutputOutputDlS3(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value
@@ -7908,12 +7925,12 @@ class CreateOutputOutputCriblSearchEngineTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     load_balanced: NotRequired[bool]
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     token_ttl_minutes: NotRequired[float]
     r"""The number of minutes before the internally generated authentication token expires. Valid values are between 1 and 60."""
     exclude_fields: NotRequired[List[str]]
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
-    compression: NotRequired[CompressionOptions1]
+    compression: NotRequired[CompressionOptionsGzipNone]
     r"""Codec to use to compress the data before sending"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -7943,8 +7960,8 @@ class CreateOutputOutputCriblSearchEngineTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    auth_tokens: NotRequired[List[ItemsTypeAuthTokens1TypedDict]]
-    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud."""
+    auth_tokens: NotRequired[List[ItemsTypeAuthTokensTokenSecretTypedDict]]
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     use_round_robin_dns: NotRequired[bool]
@@ -8009,7 +8026,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     )
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     token_ttl_minutes: Annotated[
         Optional[float], pydantic.Field(alias="tokenTTLMinutes")
@@ -8021,7 +8038,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     ] = None
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
 
-    compression: Optional[CompressionOptions1] = None
+    compression: Optional[CompressionOptionsGzipNone] = None
     r"""Codec to use to compress the data before sending"""
 
     concurrency: Optional[float] = None
@@ -8091,9 +8108,10 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     auth_tokens: Annotated[
-        Optional[List[ItemsTypeAuthTokens1]], pydantic.Field(alias="authTokens")
+        Optional[List[ItemsTypeAuthTokensTokenSecret]],
+        pydantic.Field(alias="authTokens"),
     ] = None
-    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud."""
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -8183,7 +8201,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions1(value)
+                return models.CompressionOptionsGzipNone(value)
             except ValueError:
                 return value
         return value
@@ -8322,12 +8340,12 @@ class CreateOutputOutputCriblHTTPTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     load_balanced: NotRequired[bool]
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     token_ttl_minutes: NotRequired[float]
     r"""The number of minutes before the internally generated authentication token expires. Valid values are between 1 and 60."""
     exclude_fields: NotRequired[List[str]]
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
-    compression: NotRequired[CompressionOptions1]
+    compression: NotRequired[CompressionOptionsGzipNone]
     r"""Codec to use to compress the data before sending"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -8357,7 +8375,7 @@ class CreateOutputOutputCriblHTTPTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    auth_tokens: NotRequired[List[ItemsTypeAuthTokens1TypedDict]]
+    auth_tokens: NotRequired[List[ItemsTypeAuthTokensTokenSecretTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
@@ -8423,7 +8441,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     )
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     token_ttl_minutes: Annotated[
         Optional[float], pydantic.Field(alias="tokenTTLMinutes")
@@ -8435,7 +8453,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     ] = None
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
 
-    compression: Optional[CompressionOptions1] = None
+    compression: Optional[CompressionOptionsGzipNone] = None
     r"""Codec to use to compress the data before sending"""
 
     concurrency: Optional[float] = None
@@ -8505,7 +8523,8 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     auth_tokens: Annotated[
-        Optional[List[ItemsTypeAuthTokens1]], pydantic.Field(alias="authTokens")
+        Optional[List[ItemsTypeAuthTokensTokenSecret]],
+        pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud."""
 
@@ -8596,7 +8615,7 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions1(value)
+                return models.CompressionOptionsGzipNone(value)
             except ValueError:
                 return value
         return value
@@ -8735,13 +8754,13 @@ class CreateOutputOutputCriblTCPTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     load_balanced: NotRequired[bool]
     r"""Use load-balanced destinations"""
-    compression: NotRequired[CompressionOptions1]
+    compression: NotRequired[CompressionOptionsGzipNone]
     r"""Codec to use to compress the data before sending"""
     log_failed_requests: NotRequired[bool]
     r"""Use to troubleshoot issues with sending data"""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     connection_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
@@ -8821,7 +8840,7 @@ class CreateOutputOutputCriblTCP(BaseModel):
     )
     r"""Use load-balanced destinations"""
 
-    compression: Optional[CompressionOptions1] = None
+    compression: Optional[CompressionOptionsGzipNone] = None
     r"""Codec to use to compress the data before sending"""
 
     log_failed_requests: Annotated[
@@ -8834,7 +8853,7 @@ class CreateOutputOutputCriblTCP(BaseModel):
     ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -8957,7 +8976,7 @@ class CreateOutputOutputCriblTCP(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions1(value)
+                return models.CompressionOptionsGzipNone(value)
             except ValueError:
                 return value
         return value
@@ -9152,7 +9171,7 @@ class CreateOutputOutputDatasetTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[AuthenticationMethodOptionsAPI]
     r"""Enter API key directly, or select a stored secret"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
@@ -9308,7 +9327,7 @@ class CreateOutputOutputDataset(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptionsAPI], pydantic.Field(alias="authType")
     ] = None
     r"""Enter API key directly, or select a stored secret"""
 
@@ -9420,7 +9439,7 @@ class CreateOutputOutputDataset(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.AuthenticationMethodOptionsAPI(value)
             except ValueError:
                 return value
         return value
@@ -9535,7 +9554,7 @@ class CreateOutputOutputServiceNowTypedDict(TypedDict):
     r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
     token_secret: str
     r"""Select or create a stored text secret"""
-    otlp_version: OtlpVersionOptions1
+    otlp_version: OtlpVersionOptions131
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
     protocol: ProtocolOptions
     r"""Select a transport option for OpenTelemetry"""
@@ -9550,9 +9569,9 @@ class CreateOutputOutputServiceNowTypedDict(TypedDict):
     auth_token_name: NotRequired[str]
     max_payload_size_kb: NotRequired[float]
     r"""Maximum size, in KB, of the request body"""
-    compress: NotRequired[CompressionOptions4]
+    compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
-    http_compress: NotRequired[CompressionOptions5]
+    http_compress: NotRequired[CompressionOptionsMessages]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_traces_endpoint_override: NotRequired[str]
     r"""If you want to send traces to the default `{endpoint}/v1/traces` endpoint, leave this field empty; otherwise, specify the desired endpoint"""
@@ -9595,7 +9614,7 @@ class CreateOutputOutputServiceNowTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    tls: NotRequired[TLSSettingsClientSideType2TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -9631,7 +9650,7 @@ class CreateOutputOutputServiceNow(BaseModel):
     token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
     r"""Select or create a stored text secret"""
 
-    otlp_version: Annotated[OtlpVersionOptions1, pydantic.Field(alias="otlpVersion")]
+    otlp_version: Annotated[OtlpVersionOptions131, pydantic.Field(alias="otlpVersion")]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
     protocol: ProtocolOptions
@@ -9660,11 +9679,11 @@ class CreateOutputOutputServiceNow(BaseModel):
     ] = None
     r"""Maximum size, in KB, of the request body"""
 
-    compress: Optional[CompressionOptions4] = None
+    compress: Optional[CompressionOptionsDeflateGzip] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
-        Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
+        Optional[CompressionOptionsMessages], pydantic.Field(alias="httpCompress")
     ] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
@@ -9762,7 +9781,7 @@ class CreateOutputOutputServiceNow(BaseModel):
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    tls: Optional[TLSSettingsClientSideType2] = None
+    tls: Optional[TLSSettingsClientSideTypeExtended] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -9816,7 +9835,7 @@ class CreateOutputOutputServiceNow(BaseModel):
     def serialize_otlp_version(self, value):
         if isinstance(value, str):
             try:
-                return models.OtlpVersionOptions1(value)
+                return models.OtlpVersionOptions131(value)
             except ValueError:
                 return value
         return value
@@ -9834,7 +9853,7 @@ class CreateOutputOutputServiceNow(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions4(value)
+                return models.CompressionOptionsDeflateGzip(value)
             except ValueError:
                 return value
         return value
@@ -9843,7 +9862,7 @@ class CreateOutputOutputServiceNow(BaseModel):
     def serialize_http_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions5(value)
+                return models.CompressionOptionsMessages(value)
             except ValueError:
                 return value
         return value
@@ -9992,9 +10011,9 @@ class CreateOutputOutputOpenTelemetryTypedDict(TypedDict):
     r"""Select a transport option for OpenTelemetry"""
     otlp_version: NotRequired[CreateOutputOTLPVersion]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
-    compress: NotRequired[CompressionOptions4]
+    compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
-    http_compress: NotRequired[CompressionOptions5]
+    http_compress: NotRequired[CompressionOptionsMessages]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     auth_type: NotRequired[AuthenticationTypeOptions]
     r"""OpenTelemetry authentication type"""
@@ -10049,7 +10068,7 @@ class CreateOutputOutputOpenTelemetryTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    tls: NotRequired[TLSSettingsClientSideType2TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -10104,11 +10123,11 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     ] = None
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
-    compress: Optional[CompressionOptions4] = None
+    compress: Optional[CompressionOptionsDeflateGzip] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
-        Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
+        Optional[CompressionOptionsMessages], pydantic.Field(alias="httpCompress")
     ] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
@@ -10231,7 +10250,7 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    tls: Optional[TLSSettingsClientSideType2] = None
+    tls: Optional[TLSSettingsClientSideTypeExtended] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -10304,7 +10323,7 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions4(value)
+                return models.CompressionOptionsDeflateGzip(value)
             except ValueError:
                 return value
         return value
@@ -10313,7 +10332,7 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     def serialize_http_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions5(value)
+                return models.CompressionOptionsMessages(value)
             except ValueError:
                 return value
         return value
@@ -10473,7 +10492,7 @@ class CreateOutputOutputRingTypedDict(TypedDict):
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
 
@@ -10520,7 +10539,8 @@ class CreateOutputOutputRing(BaseModel):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -10548,7 +10568,7 @@ class CreateOutputOutputRing(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -11014,7 +11034,9 @@ class CreateOutputOutputLokiTypedDict(TypedDict):
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
     labels: NotRequired[List[ItemsTypeContentConfigItemsRequestParamsTypedDict]]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
-    auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth1]
+    auth_type: NotRequired[
+        AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret
+    ]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki to complain about entries being delivered out of order."""
     max_payload_size_kb: NotRequired[float]
@@ -11120,7 +11142,7 @@ class CreateOutputOutputLoki(BaseModel):
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     auth_type: Annotated[
-        Optional[AuthenticationTypeOptionsPrometheusAuth1],
+        Optional[AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret],
         pydantic.Field(alias="authType"),
     ] = None
 
@@ -11288,7 +11310,9 @@ class CreateOutputOutputLoki(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationTypeOptionsPrometheusAuth1(value)
+                return models.AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -12341,7 +12365,7 @@ class CreateOutputOutputDatadogTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[AuthenticationMethodOptionsAPI]
     r"""Enter API key directly, or select a stored secret"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
@@ -12508,7 +12532,7 @@ class CreateOutputOutputDatadog(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptionsAPI], pydantic.Field(alias="authType")
     ] = None
     r"""Enter API key directly, or select a stored secret"""
 
@@ -12624,7 +12648,7 @@ class CreateOutputOutputDatadog(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.AuthenticationMethodOptionsAPI(value)
             except ValueError:
                 return value
         return value
@@ -13278,7 +13302,7 @@ class CreateOutputOutputSqsTypedDict(TypedDict):
     r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions3]
+    signature_version: NotRequired[SignatureVersionOptionsSqs]
     r"""Signature version to use for signing SQS requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -13399,7 +13423,7 @@ class CreateOutputOutputSqs(BaseModel):
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions3], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsSqs], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing SQS requests"""
 
@@ -13570,7 +13594,7 @@ class CreateOutputOutputSqs(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions3(value)
+                return models.SignatureVersionOptionsSqs(value)
             except ValueError:
                 return value
         return value
@@ -14990,11 +15014,11 @@ class CreateOutputOutputMinioTypedDict(TypedDict):
     r"""Add the Output ID value to staging location"""
     dest_path: NotRequired[str]
     r"""Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks."""
-    signature_version: NotRequired[SignatureVersionOptions5]
+    signature_version: NotRequired[SignatureVersionOptionsMinIo]
     r"""Signature version to use for signing MinIO requests"""
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
-    storage_class: NotRequired[StorageClassOptions2]
+    storage_class: NotRequired[StorageClassOptionsReducedredundancyStandard]
     r"""Storage class to select for uploaded objects"""
     server_side_encryption: NotRequired[ServerSideEncryptionOptions]
     r"""Server-side encryption for uploaded objects"""
@@ -15022,7 +15046,7 @@ class CreateOutputOutputMinioTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -15042,7 +15066,7 @@ class CreateOutputOutputMinioTypedDict(TypedDict):
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    compress: NotRequired[CompressionOptions2]
+    compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -15138,7 +15162,7 @@ class CreateOutputOutputMinio(BaseModel):
     r"""Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions5], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsMinIo], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing MinIO requests"""
 
@@ -15148,7 +15172,8 @@ class CreateOutputOutputMinio(BaseModel):
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Optional[StorageClassOptions2], pydantic.Field(alias="storageClass")
+        Optional[StorageClassOptionsReducedredundancyStandard],
+        pydantic.Field(alias="storageClass"),
     ] = None
     r"""Storage class to select for uploaded objects"""
 
@@ -15217,7 +15242,8 @@ class CreateOutputOutputMinio(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -15264,7 +15290,7 @@ class CreateOutputOutputMinio(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Optional[CompressionOptions2] = None
+    compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -15381,7 +15407,7 @@ class CreateOutputOutputMinio(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions5(value)
+                return models.SignatureVersionOptionsMinIo(value)
             except ValueError:
                 return value
         return value
@@ -15399,7 +15425,7 @@ class CreateOutputOutputMinio(BaseModel):
     def serialize_storage_class(self, value):
         if isinstance(value, str):
             try:
-                return models.StorageClassOptions2(value)
+                return models.StorageClassOptionsReducedredundancyStandard(value)
             except ValueError:
                 return value
         return value
@@ -15426,7 +15452,7 @@ class CreateOutputOutputMinio(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -15444,7 +15470,7 @@ class CreateOutputOutputMinio(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value

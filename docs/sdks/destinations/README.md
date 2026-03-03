@@ -25,7 +25,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -40,9 +40,10 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                                                                                                        | Type                                                                                                                                                             | Required                                                                                                                                                         | Description                                                                                                                                                      |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`                                                                                                                                                           | [Optional[models.DestinationType]](../../models/destinationtype.md)                                                                                              | :heavy_minus_sign:                                                                                                                                               | Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported. |
+| `retries`                                                                                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                 | :heavy_minus_sign:                                                                                                                                               | Configuration to override the default retry behavior of the client.                                                                                              |
 
 ### Response
 
@@ -68,7 +69,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -94,7 +95,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -114,7 +115,7 @@ with CriblControlPlane(
         "oauth_type": models.CreateOutputAuthenticationMethodAzureDataExplorer.CLIENT_SECRET,
         "client_secret": "client-secret",
         "format_": models.DataFormatOptions.JSON,
-        "compress": models.CompressionOptions2.GZIP,
+        "compress": models.CompressionOptionsHTTP.GZIP,
     })
 
     # Handle response
@@ -130,7 +131,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -158,7 +159,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -186,7 +187,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -214,7 +215,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -241,7 +242,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -268,7 +269,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -295,7 +296,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -323,7 +324,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -347,7 +348,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -371,7 +372,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -394,7 +395,7 @@ with CriblControlPlane(
             "__metadata",
             "__winEvent",
         ],
-        "compression": models.CompressionOptions1.GZIP,
+        "compression": models.CompressionOptionsGzipNone.GZIP,
         "concurrency": 5,
         "max_payload_size_kb": 4096,
         "max_payload_events": 0,
@@ -482,7 +483,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -508,7 +509,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -536,7 +537,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -546,11 +547,11 @@ with CriblControlPlane(
         "id": "databricks-output",
         "type": models.CreateOutputTypeDatabricks.DATABRICKS,
         "workspace_id": "your-workspace-id",
-        "scope": "my-scope",
+        "scope": "all-apis",
         "client_id": "your-client-id",
-        "catalog": "my-catalog",
-        "schema_": "my-schema",
-        "events_volume_name": "my-volume",
+        "catalog": "main",
+        "schema_": "external",
+        "events_volume_name": "events",
         "client_text_secret": "your-client-secret",
     })
 
@@ -567,7 +568,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -592,7 +593,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -616,7 +617,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -640,7 +641,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -667,7 +668,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -696,7 +697,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -707,7 +708,7 @@ with CriblControlPlane(
         "type": models.CreateOutputTypeDynatraceOtlp.DYNATRACE_OTLP,
         "protocol": models.CreateOutputProtocolDynatraceOtlp.HTTP,
         "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "endpoint_type": models.CreateOutputEndpointType.SAAS,
         "token_secret": "your-token-secret",
     })
@@ -725,7 +726,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -750,7 +751,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -776,7 +777,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -805,7 +806,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -830,7 +831,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -857,7 +858,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -884,7 +885,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -912,7 +913,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -937,7 +938,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -962,7 +963,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -989,7 +990,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1014,7 +1015,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1042,7 +1043,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1068,7 +1069,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1096,7 +1097,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1122,7 +1123,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1149,7 +1150,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1174,7 +1175,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1200,7 +1201,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1227,7 +1228,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1257,7 +1258,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1287,7 +1288,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1312,7 +1313,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1339,7 +1340,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1364,7 +1365,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1389,7 +1390,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1413,7 +1414,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1443,7 +1444,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1470,7 +1471,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1500,7 +1501,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1529,7 +1530,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1555,7 +1556,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1566,7 +1567,7 @@ with CriblControlPlane(
         "type": models.CreateOutputTypeServiceNow.SERVICE_NOW,
         "endpoint": "ingest.lightstep.com:443",
         "token_secret": "your-token-secret",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "protocol": models.ProtocolOptions.HTTP,
     })
 
@@ -1583,7 +1584,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1609,7 +1610,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1639,7 +1640,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1666,7 +1667,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1692,7 +1693,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1716,7 +1717,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1746,7 +1747,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1773,7 +1774,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1800,7 +1801,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1827,7 +1828,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1852,7 +1853,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1878,7 +1879,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1904,7 +1905,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1930,7 +1931,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1955,7 +1956,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -1984,7 +1985,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2031,7 +2032,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2064,7 +2065,7 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Destination.</br></br>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
+Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
 
 ### Example Usage: OutputCreateExamplesAzureBlob
 
@@ -2075,7 +2076,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2101,7 +2102,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2121,7 +2122,7 @@ with CriblControlPlane(
         "oauth_type": models.OutputAzureDataExplorerAuthenticationMethod.CLIENT_SECRET,
         "client_secret": "client-secret",
         "format_": models.DataFormatOptions.JSON,
-        "compress": models.CompressionOptions2.GZIP,
+        "compress": models.CompressionOptionsHTTP.GZIP,
     })
 
     # Handle response
@@ -2137,7 +2138,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2165,7 +2166,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2193,7 +2194,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2221,7 +2222,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2248,7 +2249,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2275,7 +2276,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2302,7 +2303,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2330,7 +2331,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2354,7 +2355,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2378,7 +2379,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2401,7 +2402,7 @@ with CriblControlPlane(
             "__metadata",
             "__winEvent",
         ],
-        "compression": models.CompressionOptions1.GZIP,
+        "compression": models.CompressionOptionsGzipNone.GZIP,
         "concurrency": 5,
         "max_payload_size_kb": 4096,
         "max_payload_events": 0,
@@ -2489,7 +2490,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2515,7 +2516,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2543,7 +2544,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2553,11 +2554,11 @@ with CriblControlPlane(
         "id": "databricks-output",
         "type": models.OutputDatabricksType.DATABRICKS,
         "workspace_id": "your-workspace-id",
-        "scope": "my-scope",
+        "scope": "all-apis",
         "client_id": "your-client-id",
-        "catalog": "my-catalog",
-        "schema_": "my-schema",
-        "events_volume_name": "my-volume",
+        "catalog": "main",
+        "schema_": "external",
+        "events_volume_name": "events",
         "client_text_secret": "your-client-secret",
     })
 
@@ -2574,7 +2575,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2599,7 +2600,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2623,7 +2624,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2647,7 +2648,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2674,7 +2675,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2703,7 +2704,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2714,7 +2715,7 @@ with CriblControlPlane(
         "type": models.OutputDynatraceOtlpType.DYNATRACE_OTLP,
         "protocol": models.OutputDynatraceOtlpProtocol.HTTP,
         "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "endpoint_type": models.EndpointType.SAAS,
         "token_secret": "your-token-secret",
     })
@@ -2732,7 +2733,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2757,7 +2758,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2783,7 +2784,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2812,7 +2813,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2837,7 +2838,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2864,7 +2865,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2891,7 +2892,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2919,7 +2920,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2944,7 +2945,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2969,7 +2970,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -2996,7 +2997,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3021,7 +3022,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3049,7 +3050,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3075,7 +3076,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3103,7 +3104,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3129,7 +3130,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3156,7 +3157,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3181,7 +3182,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3207,7 +3208,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3234,7 +3235,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3264,7 +3265,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3294,7 +3295,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3319,7 +3320,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3346,7 +3347,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3371,7 +3372,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3396,7 +3397,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3420,7 +3421,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3450,7 +3451,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3477,7 +3478,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3507,7 +3508,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3536,7 +3537,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3562,7 +3563,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3573,7 +3574,7 @@ with CriblControlPlane(
         "type": models.OutputServiceNowType.SERVICE_NOW,
         "endpoint": "ingest.lightstep.com:443",
         "token_secret": "your-token-secret",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "protocol": models.ProtocolOptions.HTTP,
     })
 
@@ -3590,7 +3591,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3616,7 +3617,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3646,7 +3647,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3673,7 +3674,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3699,7 +3700,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3723,7 +3724,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3753,7 +3754,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3780,7 +3781,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3807,7 +3808,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3834,7 +3835,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3859,7 +3860,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3885,7 +3886,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3911,7 +3912,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3937,7 +3938,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3962,7 +3963,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -3991,7 +3992,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -4015,7 +4016,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -4064,7 +4065,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),

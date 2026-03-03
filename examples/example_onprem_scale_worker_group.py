@@ -80,11 +80,12 @@ async def main():
     print(f"   Minimum Worker Processes: {current_conf.workers.minimum}")
 
     # Configure Worker Process settings following scaling documentation
-    # For x86 hyperthreaded CPUs: Process count = -2 (default; reserves 2 CPU cores for system/API overhead)
+    # Process count = -3 (six physical cores hyperthreaded for 12 vCPUs; reserves 2 cores for 
+    # system/API overhead plus 1 for the load balancer process)
     # Memory: 2048 MB (default; 2 GB per Worker Process)
     # Minimum: 2 (spawn at least two Worker Processes)
     workers_config = WorkersTypeSystemSettingsConf(
-        count=-2,  # Negative number specifies the number of CPU cores to reserve for system/API overhead
+        count=-3,  # Negative number specifies the number of CPU cores to reserve for system/API overhead
         memory=2048,  # Amount of heap memory available to each Worker Process, in MB
         minimum=2,  # Minimum number of Worker Processes to spawn
     )

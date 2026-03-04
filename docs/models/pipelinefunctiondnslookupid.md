@@ -2,6 +2,14 @@
 
 Function ID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import PipelineFunctionDNSLookupID
+
+value = PipelineFunctionDNSLookupID.DNS_LOOKUP
+```
+
 
 ## Values
 

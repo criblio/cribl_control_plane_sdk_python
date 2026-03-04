@@ -1,5 +1,15 @@
 # RedisDeploymentTypeSentinelTLSFalseAuthenticationMethod
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import RedisDeploymentTypeSentinelTLSFalseAuthenticationMethod
+
+value = RedisDeploymentTypeSentinelTLSFalseAuthenticationMethod.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

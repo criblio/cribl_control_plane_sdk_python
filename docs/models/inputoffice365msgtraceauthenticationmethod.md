@@ -2,6 +2,16 @@
 
 Select authentication method.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import InputOffice365MsgTraceAuthenticationMethod
+
+value = InputOffice365MsgTraceAuthenticationMethod.MANUAL
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

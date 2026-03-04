@@ -1,5 +1,13 @@
 # OutputCriblSearchEngineType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import OutputCriblSearchEngineType
+
+value = OutputCriblSearchEngineType.CRIBL_SEARCH_ENGINE
+```
+
 
 ## Values
 

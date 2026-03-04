@@ -15,9 +15,11 @@ class RunSettingsTypedDict(TypedDict):
     max_task_reschedule: NotRequired[float]
     r"""Maximum number of times a task can be rescheduled."""
     now: NotRequired[datetime]
+    r"""Reference timestamp for the run. Used for scheduled execution time and relative time expressions."""
     reschedule_dropped_tasks: NotRequired[bool]
     r"""Reschedule tasks that failed with non-fatal errors."""
     task_heartbeat_period: NotRequired[float]
+    r"""Interval in seconds at which running tasks report heartbeats to the Leader. Used to detect stalled or dead tasks."""
     type: NotRequired[RunType]
 
 
@@ -33,6 +35,7 @@ class RunSettings(BaseModel):
     r"""Maximum number of times a task can be rescheduled."""
 
     now: Optional[datetime] = None
+    r"""Reference timestamp for the run. Used for scheduled execution time and relative time expressions."""
 
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
@@ -42,6 +45,7 @@ class RunSettings(BaseModel):
     task_heartbeat_period: Annotated[
         Optional[float], pydantic.Field(alias="taskHeartbeatPeriod")
     ] = None
+    r"""Interval in seconds at which running tasks report heartbeats to the Leader. Used to detect stalled or dead tasks."""
 
     type: Optional[RunType] = None
 

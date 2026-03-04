@@ -2,6 +2,14 @@
 
 Function ID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import PipelineFunctionRegexExtractID
+
+value = PipelineFunctionRegexExtractID.REGEX_EXTRACT
+```
+
 
 ## Values
 

@@ -1,5 +1,13 @@
 # CreateInputSystemByPackTypeAzureBlob
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputSystemByPackTypeAzureBlob
+
+value = CreateInputSystemByPackTypeAzureBlob.AZURE_BLOB
+```
+
 
 ## Values
 

@@ -1,5 +1,15 @@
 # ModeOptionsInstanceSettingsSchema
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import ModeOptionsInstanceSettingsSchema
+
+value = ModeOptionsInstanceSettingsSchema.SINGLE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

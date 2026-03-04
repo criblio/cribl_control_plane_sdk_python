@@ -31,7 +31,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(id="azure-blob-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.create(id="azure-blob-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */8 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -65,7 +65,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(id="cribl-lake-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.create(id="cribl-lake-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */2 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -99,7 +99,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(id="database-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.create(id="database-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 2 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -133,7 +133,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(id="filesystem-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.create(id="filesystem-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */2 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -167,7 +167,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(id="gcs-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.create(id="gcs-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */12 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -201,7 +201,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(id="rest-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.create(id="rest-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */4 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -235,7 +235,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(id="s3-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.create(id="s3-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */6 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -269,7 +269,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(id="script-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.create(id="script-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */3 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -303,7 +303,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(id="splunk-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.create(id="splunk-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */1 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -327,11 +327,9 @@ with CriblControlPlane(
 
 | Parameter                                                                                                                                                                                | Type                                                                                                                                                                                     | Required                                                                                                                                                                                 | Description                                                                                                                                                                              |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                                                                                                                                                                                     | *str*                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                       | N/A                                                                                                                                                                                      |
+| `id`                                                                                                                                                                                     | *str*                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                       | Unique ID for this Job.                                                                                                                                                                  |
 | `type`                                                                                                                                                                                   | *str*                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                       | Job type: collection, executor, or scheduledSearch.                                                                                                                                      |
-| `cribl_pack`                                                                                                                                                                             | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | The <code>id</code> of the Pack to create the Collector in.                                                                                                                              |
 | `environment`                                                                                                                                                                            | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.                                                                                     |
-| `group_id`                                                                                                                                                                               | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | Worker Group ID to run the job in. When empty, uses the default group.                                                                                                                   |
 | `ignore_group_jobs_limit`                                                                                                                                                                | *Optional[bool]*                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                       | When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live. |
 | `resume_on_boot`                                                                                                                                                                         | *Optional[bool]*                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                       | Resume the ad hoc job if a failure condition causes Stream to restart during job execution.                                                                                              |
 | `schedule`                                                                                                                                                                               | [Optional[models.ScheduleOpts]](../../models/scheduleopts.md)                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                       | N/A                                                                                                                                                                                      |
@@ -340,7 +338,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 
@@ -368,7 +366,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.list(collector_type="<value>", cribl_pack="<value>", group_id="<id>")
+    res = ccp_client.collectors.list(collector_type="<value>")
 
     # Handle response
     print(res)
@@ -380,13 +378,11 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `collector_type`                                                    | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Filter by collector type                                            |
-| `cribl_pack`                                                        | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Pack ID                                                             |
-| `group_id`                                                          | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Worker group ID                                                     |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 
@@ -414,7 +410,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.delete(id="<id>", cribl_pack="<value>", group_id="<id>")
+    res = ccp_client.collectors.delete(id="<id>")
 
     # Handle response
     print(res)
@@ -423,16 +419,14 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                      | Type                                                                           | Required                                                                       | Description                                                                    |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `id`                                                                           | *str*                                                                          | :heavy_check_mark:                                                             | The <code>id</code> of the Collector to delete.                                |
-| `cribl_pack`                                                                   | *Optional[str]*                                                                | :heavy_minus_sign:                                                             | The <code>id</code> of the Pack that includes the Collector to delete.         |
-| `group_id`                                                                     | *Optional[str]*                                                                | :heavy_minus_sign:                                                             | The <code>id</code> of the Worker Group that includes the Collector to delete. |
-| `retries`                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)               | :heavy_minus_sign:                                                             | Configuration to override the default retry behavior of the client.            |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to delete.                     |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 
@@ -460,7 +454,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.get(id="<id>", cribl_pack="<value>")
+    res = ccp_client.collectors.get(id="<id>")
 
     # Handle response
     print(res)
@@ -472,12 +466,11 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to get.                        |
-| `cribl_pack`                                                        | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | The <code>id</code> of the Pack that includes the Collector to get. |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 
@@ -505,7 +498,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id_param="<id>", id="azure-blob-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.update(id_param="<id>", id="azure-blob-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */8 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -539,7 +532,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id_param="<id>", id="cribl-lake-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.update(id_param="<id>", id="cribl-lake-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */2 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -573,7 +566,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id_param="<id>", id="database-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.update(id_param="<id>", id="database-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 2 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -607,7 +600,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id_param="<id>", id="filesystem-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.update(id_param="<id>", id="filesystem-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */2 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -641,7 +634,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id_param="<id>", id="gcs-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.update(id_param="<id>", id="gcs-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */12 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -675,7 +668,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id_param="<id>", id="rest-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.update(id_param="<id>", id="rest-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */4 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -709,7 +702,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id_param="<id>", id="s3-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.update(id_param="<id>", id="s3-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */6 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -743,7 +736,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id_param="<id>", id="script-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.update(id_param="<id>", id="script-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */3 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -777,7 +770,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id_param="<id>", id="splunk-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+    res = ccp_client.collectors.update(id_param="<id>", id="splunk-collector", type_="collection", schedule=models.ScheduleOpts(
         cron_schedule="0 */1 * * *",
         enabled=True,
         run=models.RunSettings(
@@ -802,11 +795,9 @@ with CriblControlPlane(
 | Parameter                                                                                                                                                                                | Type                                                                                                                                                                                     | Required                                                                                                                                                                                 | Description                                                                                                                                                                              |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id_param`                                                                                                                                                                               | *str*                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                       | The <code>id</code> of the Collector to update.                                                                                                                                          |
-| `id`                                                                                                                                                                                     | *str*                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                       | N/A                                                                                                                                                                                      |
+| `id`                                                                                                                                                                                     | *str*                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                       | Unique ID for this Job.                                                                                                                                                                  |
 | `type`                                                                                                                                                                                   | *str*                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                       | Job type: collection, executor, or scheduledSearch.                                                                                                                                      |
-| `cribl_pack`                                                                                                                                                                             | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | The <code>id</code> of the Pack that includes the Collector to update.                                                                                                                   |
 | `environment`                                                                                                                                                                            | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.                                                                                     |
-| `group_id`                                                                                                                                                                               | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | Worker Group ID to run the job in. When empty, uses the default group.                                                                                                                   |
 | `ignore_group_jobs_limit`                                                                                                                                                                | *Optional[bool]*                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                       | When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live. |
 | `resume_on_boot`                                                                                                                                                                         | *Optional[bool]*                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                       | Resume the ad hoc job if a failure condition causes Stream to restart during job execution.                                                                                              |
 | `schedule`                                                                                                                                                                               | [Optional[models.ScheduleOpts]](../../models/scheduleopts.md)                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                       | N/A                                                                                                                                                                                      |
@@ -815,7 +806,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 

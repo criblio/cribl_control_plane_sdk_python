@@ -2,6 +2,16 @@
 
 The API version to use for communicating with the server
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputSystemByPackAPIVersion
+
+value = CreateInputSystemByPackAPIVersion.SIX_DOT_8_DOT_4
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

@@ -2,6 +2,16 @@
 
 Operation to be applied over the results count
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CountComparator
+
+value = CountComparator.GREATER_THAN_
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

@@ -1,5 +1,13 @@
 # InputSystemStateType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import InputSystemStateType
+
+value = InputSystemStateType.SYSTEM_STATE
+```
+
 
 ## Values
 

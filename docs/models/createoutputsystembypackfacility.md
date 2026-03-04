@@ -2,6 +2,16 @@
 
 Default value for message facility. Will be overwritten by value of __facility if set. Defaults to user.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputSystemByPackFacility
+
+value = CreateOutputSystemByPackFacility.ZERO
+
+# Open enum: unrecognized values are captured as UnrecognizedInt
+```
+
 
 ## Values
 

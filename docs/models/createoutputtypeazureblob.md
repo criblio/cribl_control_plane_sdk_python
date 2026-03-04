@@ -1,5 +1,13 @@
 # CreateOutputTypeAzureBlob
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputTypeAzureBlob
+
+value = CreateOutputTypeAzureBlob.AZURE_BLOB
+```
+
 
 ## Values
 

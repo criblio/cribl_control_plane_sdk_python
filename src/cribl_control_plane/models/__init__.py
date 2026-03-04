@@ -268,7 +268,10 @@ if TYPE_CHECKING:
         CountedRestartResponseTypedDict,
     )
     from .countedroutes import CountedRoutes, CountedRoutesTypedDict
-    from .countedsavedjob import CountedSavedJob, CountedSavedJobTypedDict
+    from .countedsavedjobresponse import (
+        CountedSavedJobResponse,
+        CountedSavedJobResponseTypedDict,
+    )
     from .countedstring import CountedString, CountedStringTypedDict
     from .countedsystemrestartresponse import (
         CountedSystemRestartResponse,
@@ -1950,7 +1953,6 @@ if TYPE_CHECKING:
         CreateRoutesAppendByPackAndIDRequest,
         CreateRoutesAppendByPackAndIDRequestTypedDict,
     )
-    from .createsavedjobop import CreateSavedJobRequest, CreateSavedJobRequestTypedDict
     from .cribllakecollectorconf import (
         CriblLakeCollectorConf,
         CriblLakeCollectorConfTypedDict,
@@ -2093,6 +2095,7 @@ if TYPE_CHECKING:
         DistributedSummaryWorkers,
         DistributedSummaryWorkersTypedDict,
     )
+    from .emailrecipient import EmailRecipient, EmailRecipientTypedDict
     from .errortypestatus import ErrorTypeStatus, ErrorTypeStatusTypedDict
     from .errortypestatuspq import ErrorTypeStatusPq, ErrorTypeStatusPqTypedDict
     from .estimatedingestrateoptionsconfiggroup import (
@@ -3777,6 +3780,7 @@ if TYPE_CHECKING:
     from .maximumtlsversionoptionstls import MaximumTLSVersionOptionsTLS
     from .maxs2sversionoptions import MaxS2SVersionOptions
     from .messageformatoptions import MessageFormatOptions
+    from .metadataitem import MetadataItem, MetadataItemTypedDict
     from .methodoptions import MethodOptions
     from .metricsstore import MetricsStore, MetricsStoreTypedDict
     from .microsoftentraidauthenticationendpointoptionssasl import (
@@ -3811,15 +3815,13 @@ if TYPE_CHECKING:
         NotificationTypedDict,
     )
     from .notificationmode import NotificationMode
-    from .notificationtargetconfig_union import (
-        EmailRecipient,
-        EmailRecipientTypedDict,
-        NotificationConfigForSMTPTarget,
-        NotificationConfigForSMTPTargetTypedDict,
+    from .notificationsmtptargetconfig import (
+        NotificationSMTPTargetConfig,
+        NotificationSMTPTargetConfigTypedDict,
+    )
+    from .notificationtargetconfig import (
         NotificationTargetConfig,
         NotificationTargetConfigTypedDict,
-        NotificationTargetConfigUnion,
-        NotificationTargetConfigUnionTypedDict,
     )
     from .notificationtargetdetails import (
         NotificationTargetDetails,
@@ -6837,11 +6839,8 @@ if TYPE_CHECKING:
     from .saslmechanismoptionssasloauthbearerplain import (
         SaslMechanismOptionsSaslOauthbearerPlain,
     )
-    from .savedjob import SavedJob, SavedJobTypedDict
-    from .savedjobcreateupdate import (
-        SavedJobCreateUpdate,
-        SavedJobCreateUpdateTypedDict,
-    )
+    from .savedjobrequest import SavedJobRequest, SavedJobRequestTypedDict
+    from .savedjobresponse import SavedJobResponse, SavedJobResponseTypedDict
     from .scheduleopts import ScheduleOpts, ScheduleOptsTypedDict
     from .scheduletyperunnablejobcollection import (
         ScheduleTypeRunnableJobCollection,
@@ -7397,8 +7396,8 @@ __all__ = [
     "CountedRestartResponseTypedDict",
     "CountedRoutes",
     "CountedRoutesTypedDict",
-    "CountedSavedJob",
-    "CountedSavedJobTypedDict",
+    "CountedSavedJobResponse",
+    "CountedSavedJobResponseTypedDict",
     "CountedString",
     "CountedStringTypedDict",
     "CountedSystemRestartResponse",
@@ -9037,8 +9036,6 @@ __all__ = [
     "CreateRoutesAppendByIDRequestTypedDict",
     "CreateRoutesAppendByPackAndIDRequest",
     "CreateRoutesAppendByPackAndIDRequestTypedDict",
-    "CreateSavedJobRequest",
-    "CreateSavedJobRequestTypedDict",
     "CriblLakeCollectorConf",
     "CriblLakeCollectorConfTypedDict",
     "CriblLakeDataset",
@@ -10509,6 +10506,8 @@ __all__ = [
     "MaximumTLSVersionOptionsTLS",
     "MessageFormat",
     "MessageFormatOptions",
+    "MetadataItem",
+    "MetadataItemTypedDict",
     "Metadatum",
     "MetadatumTypedDict",
     "MethodOptions",
@@ -10532,13 +10531,11 @@ __all__ = [
     "NodeUpgradeStatus",
     "NodeUpgradeStatusTypedDict",
     "Notification",
-    "NotificationConfigForSMTPTarget",
-    "NotificationConfigForSMTPTargetTypedDict",
     "NotificationMode",
+    "NotificationSMTPTargetConfig",
+    "NotificationSMTPTargetConfigTypedDict",
     "NotificationTargetConfig",
     "NotificationTargetConfigTypedDict",
-    "NotificationTargetConfigUnion",
-    "NotificationTargetConfigUnionTypedDict",
     "NotificationTargetDetails",
     "NotificationTargetDetailsTypedDict",
     "NotificationTemplateTargetPair",
@@ -13069,10 +13066,10 @@ __all__ = [
     "SampleTypedDict",
     "SaslMechanismOptionsSasl",
     "SaslMechanismOptionsSaslOauthbearerPlain",
-    "SavedJob",
-    "SavedJobCreateUpdate",
-    "SavedJobCreateUpdateTypedDict",
-    "SavedJobTypedDict",
+    "SavedJobRequest",
+    "SavedJobRequestTypedDict",
+    "SavedJobResponse",
+    "SavedJobResponseTypedDict",
     "ScanMode",
     "ScheduleOpts",
     "ScheduleOptsTypedDict",
@@ -13691,8 +13688,8 @@ _dynamic_imports: dict[str, str] = {
     "CountedRestartResponseTypedDict": ".countedrestartresponse",
     "CountedRoutes": ".countedroutes",
     "CountedRoutesTypedDict": ".countedroutes",
-    "CountedSavedJob": ".countedsavedjob",
-    "CountedSavedJobTypedDict": ".countedsavedjob",
+    "CountedSavedJobResponse": ".countedsavedjobresponse",
+    "CountedSavedJobResponseTypedDict": ".countedsavedjobresponse",
     "CountedString": ".countedstring",
     "CountedStringTypedDict": ".countedstring",
     "CountedSystemRestartResponse": ".countedsystemrestartresponse",
@@ -15331,8 +15328,6 @@ _dynamic_imports: dict[str, str] = {
     "CreateRoutesAppendByIDRequestTypedDict": ".createroutesappendbyidop",
     "CreateRoutesAppendByPackAndIDRequest": ".createroutesappendbypackandidop",
     "CreateRoutesAppendByPackAndIDRequestTypedDict": ".createroutesappendbypackandidop",
-    "CreateSavedJobRequest": ".createsavedjobop",
-    "CreateSavedJobRequestTypedDict": ".createsavedjobop",
     "CriblLakeCollectorConf": ".cribllakecollectorconf",
     "CriblLakeCollectorConfTypedDict": ".cribllakecollectorconf",
     "CriblLakeDataset": ".cribllakedataset",
@@ -15427,6 +15422,8 @@ _dynamic_imports: dict[str, str] = {
     "DistributedSummaryTypedDict": ".distributedsummary",
     "DistributedSummaryWorkers": ".distributedsummary",
     "DistributedSummaryWorkersTypedDict": ".distributedsummary",
+    "EmailRecipient": ".emailrecipient",
+    "EmailRecipientTypedDict": ".emailrecipient",
     "ErrorTypeStatus": ".errortypestatus",
     "ErrorTypeStatusTypedDict": ".errortypestatus",
     "ErrorTypeStatusPq": ".errortypestatuspq",
@@ -16847,6 +16844,8 @@ _dynamic_imports: dict[str, str] = {
     "MaximumTLSVersionOptionsTLS": ".maximumtlsversionoptionstls",
     "MaxS2SVersionOptions": ".maxs2sversionoptions",
     "MessageFormatOptions": ".messageformatoptions",
+    "MetadataItem": ".metadataitem",
+    "MetadataItemTypedDict": ".metadataitem",
     "MethodOptions": ".methodoptions",
     "MetricsStore": ".metricsstore",
     "MetricsStoreTypedDict": ".metricsstore",
@@ -16875,14 +16874,10 @@ _dynamic_imports: dict[str, str] = {
     "NotificationTemplateTargetPairTypedDict": ".notification",
     "NotificationTypedDict": ".notification",
     "NotificationMode": ".notificationmode",
-    "EmailRecipient": ".notificationtargetconfig_union",
-    "EmailRecipientTypedDict": ".notificationtargetconfig_union",
-    "NotificationConfigForSMTPTarget": ".notificationtargetconfig_union",
-    "NotificationConfigForSMTPTargetTypedDict": ".notificationtargetconfig_union",
-    "NotificationTargetConfig": ".notificationtargetconfig_union",
-    "NotificationTargetConfigTypedDict": ".notificationtargetconfig_union",
-    "NotificationTargetConfigUnion": ".notificationtargetconfig_union",
-    "NotificationTargetConfigUnionTypedDict": ".notificationtargetconfig_union",
+    "NotificationSMTPTargetConfig": ".notificationsmtptargetconfig",
+    "NotificationSMTPTargetConfigTypedDict": ".notificationsmtptargetconfig",
+    "NotificationTargetConfig": ".notificationtargetconfig",
+    "NotificationTargetConfigTypedDict": ".notificationtargetconfig",
     "NotificationTargetDetails": ".notificationtargetdetails",
     "NotificationTargetDetailsTypedDict": ".notificationtargetdetails",
     "ObjectACLOptions": ".objectacloptions",
@@ -19612,10 +19607,10 @@ _dynamic_imports: dict[str, str] = {
     "UnknownS3CollectorConf": ".s3collectorconf",
     "SaslMechanismOptionsSasl": ".saslmechanismoptionssasl",
     "SaslMechanismOptionsSaslOauthbearerPlain": ".saslmechanismoptionssasloauthbearerplain",
-    "SavedJob": ".savedjob",
-    "SavedJobTypedDict": ".savedjob",
-    "SavedJobCreateUpdate": ".savedjobcreateupdate",
-    "SavedJobCreateUpdateTypedDict": ".savedjobcreateupdate",
+    "SavedJobRequest": ".savedjobrequest",
+    "SavedJobRequestTypedDict": ".savedjobrequest",
+    "SavedJobResponse": ".savedjobresponse",
+    "SavedJobResponseTypedDict": ".savedjobresponse",
     "ScheduleOpts": ".scheduleopts",
     "ScheduleOptsTypedDict": ".scheduleopts",
     "ScheduleTypeRunnableJobCollection": ".scheduletyperunnablejobcollection",

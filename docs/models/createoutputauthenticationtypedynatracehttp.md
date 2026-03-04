@@ -1,5 +1,15 @@
 # CreateOutputAuthenticationTypeDynatraceHTTP
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputAuthenticationTypeDynatraceHTTP
+
+value = CreateOutputAuthenticationTypeDynatraceHTTP.TOKEN
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

@@ -1,5 +1,13 @@
 # InputKubeEventsType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import InputKubeEventsType
+
+value = InputKubeEventsType.KUBE_EVENTS
+```
+
 
 ## Values
 

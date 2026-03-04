@@ -1,5 +1,15 @@
 # OtlpVersionOptions
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import OtlpVersionOptions
+
+value = OtlpVersionOptions.ZERO_DOT_10_DOT_0
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

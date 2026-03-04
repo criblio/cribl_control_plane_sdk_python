@@ -17,9 +17,7 @@ class CollectorsSDK(BaseSDK):
         *,
         id: str,
         type_: str,
-        cribl_pack: Optional[str] = None,
         environment: Optional[str] = None,
-        group_id: Optional[str] = None,
         ignore_group_jobs_limit: Optional[bool] = None,
         resume_on_boot: Optional[bool] = None,
         schedule: Optional[
@@ -30,16 +28,14 @@ class CollectorsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedSavedJob:
+    ) -> models.CountedSavedJobResponse:
         r"""Create a Collector
 
         Create a new Collector.
 
-        :param id:
+        :param id: Unique ID for this Job.
         :param type: Job type: collection, executor, or scheduledSearch.
-        :param cribl_pack: The <code>id</code> of the Pack to create the Collector in.
         :param environment: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-        :param group_id: Worker Group ID to run the job in. When empty, uses the default group.
         :param ignore_group_jobs_limit: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
         :param resume_on_boot: Resume the ad hoc job if a failure condition causes Stream to restart during job execution.
         :param schedule:
@@ -59,20 +55,14 @@ class CollectorsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CreateSavedJobRequest(
-            cribl_pack=cribl_pack,
-            saved_job_create_update=models.SavedJobCreateUpdate(
-                environment=environment,
-                group_id=group_id,
-                id=id,
-                ignore_group_jobs_limit=ignore_group_jobs_limit,
-                resume_on_boot=resume_on_boot,
-                schedule=utils.get_pydantic_model(
-                    schedule, Optional[models.ScheduleOpts]
-                ),
-                ttl=ttl,
-                type=type_,
-            ),
+        request = models.SavedJobRequest(
+            environment=environment,
+            id=id,
+            ignore_group_jobs_limit=ignore_group_jobs_limit,
+            resume_on_boot=resume_on_boot,
+            schedule=utils.get_pydantic_model(schedule, Optional[models.ScheduleOpts]),
+            ttl=ttl,
+            type=type_,
         )
 
         req = self._build_request(
@@ -89,11 +79,7 @@ class CollectorsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.saved_job_create_update,
-                False,
-                False,
-                "json",
-                models.SavedJobCreateUpdate,
+                request, False, False, "json", models.SavedJobRequest
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -128,7 +114,7 @@ class CollectorsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedSavedJob, http_res)
+            return unmarshal_json_response(models.CountedSavedJobResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -146,9 +132,7 @@ class CollectorsSDK(BaseSDK):
         *,
         id: str,
         type_: str,
-        cribl_pack: Optional[str] = None,
         environment: Optional[str] = None,
-        group_id: Optional[str] = None,
         ignore_group_jobs_limit: Optional[bool] = None,
         resume_on_boot: Optional[bool] = None,
         schedule: Optional[
@@ -159,16 +143,14 @@ class CollectorsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedSavedJob:
+    ) -> models.CountedSavedJobResponse:
         r"""Create a Collector
 
         Create a new Collector.
 
-        :param id:
+        :param id: Unique ID for this Job.
         :param type: Job type: collection, executor, or scheduledSearch.
-        :param cribl_pack: The <code>id</code> of the Pack to create the Collector in.
         :param environment: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-        :param group_id: Worker Group ID to run the job in. When empty, uses the default group.
         :param ignore_group_jobs_limit: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
         :param resume_on_boot: Resume the ad hoc job if a failure condition causes Stream to restart during job execution.
         :param schedule:
@@ -188,20 +170,14 @@ class CollectorsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CreateSavedJobRequest(
-            cribl_pack=cribl_pack,
-            saved_job_create_update=models.SavedJobCreateUpdate(
-                environment=environment,
-                group_id=group_id,
-                id=id,
-                ignore_group_jobs_limit=ignore_group_jobs_limit,
-                resume_on_boot=resume_on_boot,
-                schedule=utils.get_pydantic_model(
-                    schedule, Optional[models.ScheduleOpts]
-                ),
-                ttl=ttl,
-                type=type_,
-            ),
+        request = models.SavedJobRequest(
+            environment=environment,
+            id=id,
+            ignore_group_jobs_limit=ignore_group_jobs_limit,
+            resume_on_boot=resume_on_boot,
+            schedule=utils.get_pydantic_model(schedule, Optional[models.ScheduleOpts]),
+            ttl=ttl,
+            type=type_,
         )
 
         req = self._build_request_async(
@@ -218,11 +194,7 @@ class CollectorsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.saved_job_create_update,
-                False,
-                False,
-                "json",
-                models.SavedJobCreateUpdate,
+                request, False, False, "json", models.SavedJobRequest
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -257,7 +229,7 @@ class CollectorsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedSavedJob, http_res)
+            return unmarshal_json_response(models.CountedSavedJobResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -274,20 +246,16 @@ class CollectorsSDK(BaseSDK):
         self,
         *,
         collector_type: Optional[str] = None,
-        cribl_pack: Optional[str] = None,
-        group_id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedSavedJob:
+    ) -> models.CountedSavedJobResponse:
         r"""List all Collectors
 
         Get a list of all Collectors.
 
         :param collector_type: Filter by collector type
-        :param cribl_pack: Pack ID
-        :param group_id: Worker group ID
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -305,8 +273,6 @@ class CollectorsSDK(BaseSDK):
 
         request = models.GetSavedJobRequest(
             collector_type=collector_type,
-            cribl_pack=cribl_pack,
-            group_id=group_id,
         )
 
         req = self._build_request(
@@ -355,7 +321,7 @@ class CollectorsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedSavedJob, http_res)
+            return unmarshal_json_response(models.CountedSavedJobResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -372,20 +338,16 @@ class CollectorsSDK(BaseSDK):
         self,
         *,
         collector_type: Optional[str] = None,
-        cribl_pack: Optional[str] = None,
-        group_id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedSavedJob:
+    ) -> models.CountedSavedJobResponse:
         r"""List all Collectors
 
         Get a list of all Collectors.
 
         :param collector_type: Filter by collector type
-        :param cribl_pack: Pack ID
-        :param group_id: Worker group ID
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -403,8 +365,6 @@ class CollectorsSDK(BaseSDK):
 
         request = models.GetSavedJobRequest(
             collector_type=collector_type,
-            cribl_pack=cribl_pack,
-            group_id=group_id,
         )
 
         req = self._build_request_async(
@@ -453,7 +413,7 @@ class CollectorsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedSavedJob, http_res)
+            return unmarshal_json_response(models.CountedSavedJobResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -470,20 +430,16 @@ class CollectorsSDK(BaseSDK):
         self,
         *,
         id: str,
-        cribl_pack: Optional[str] = None,
-        group_id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedSavedJob:
+    ) -> models.CountedSavedJobResponse:
         r"""Delete a Collector
 
         Delete the specified Collector.
 
         :param id: The <code>id</code> of the Collector to delete.
-        :param cribl_pack: The <code>id</code> of the Pack that includes the Collector to delete.
-        :param group_id: The <code>id</code> of the Worker Group that includes the Collector to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -501,8 +457,6 @@ class CollectorsSDK(BaseSDK):
 
         request = models.DeleteSavedJobByIDRequest(
             id=id,
-            cribl_pack=cribl_pack,
-            group_id=group_id,
         )
 
         req = self._build_request(
@@ -551,7 +505,7 @@ class CollectorsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedSavedJob, http_res)
+            return unmarshal_json_response(models.CountedSavedJobResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -568,20 +522,16 @@ class CollectorsSDK(BaseSDK):
         self,
         *,
         id: str,
-        cribl_pack: Optional[str] = None,
-        group_id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedSavedJob:
+    ) -> models.CountedSavedJobResponse:
         r"""Delete a Collector
 
         Delete the specified Collector.
 
         :param id: The <code>id</code> of the Collector to delete.
-        :param cribl_pack: The <code>id</code> of the Pack that includes the Collector to delete.
-        :param group_id: The <code>id</code> of the Worker Group that includes the Collector to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -599,8 +549,6 @@ class CollectorsSDK(BaseSDK):
 
         request = models.DeleteSavedJobByIDRequest(
             id=id,
-            cribl_pack=cribl_pack,
-            group_id=group_id,
         )
 
         req = self._build_request_async(
@@ -649,7 +597,7 @@ class CollectorsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedSavedJob, http_res)
+            return unmarshal_json_response(models.CountedSavedJobResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -666,18 +614,16 @@ class CollectorsSDK(BaseSDK):
         self,
         *,
         id: str,
-        cribl_pack: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedSavedJob:
+    ) -> models.CountedSavedJobResponse:
         r"""Get a Collector
 
         Get the specified Collector.
 
         :param id: The <code>id</code> of the Collector to get.
-        :param cribl_pack: The <code>id</code> of the Pack that includes the Collector to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -695,7 +641,6 @@ class CollectorsSDK(BaseSDK):
 
         request = models.GetSavedJobByIDRequest(
             id=id,
-            cribl_pack=cribl_pack,
         )
 
         req = self._build_request(
@@ -744,7 +689,7 @@ class CollectorsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedSavedJob, http_res)
+            return unmarshal_json_response(models.CountedSavedJobResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -761,18 +706,16 @@ class CollectorsSDK(BaseSDK):
         self,
         *,
         id: str,
-        cribl_pack: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedSavedJob:
+    ) -> models.CountedSavedJobResponse:
         r"""Get a Collector
 
         Get the specified Collector.
 
         :param id: The <code>id</code> of the Collector to get.
-        :param cribl_pack: The <code>id</code> of the Pack that includes the Collector to get.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -790,7 +733,6 @@ class CollectorsSDK(BaseSDK):
 
         request = models.GetSavedJobByIDRequest(
             id=id,
-            cribl_pack=cribl_pack,
         )
 
         req = self._build_request_async(
@@ -839,7 +781,7 @@ class CollectorsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedSavedJob, http_res)
+            return unmarshal_json_response(models.CountedSavedJobResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -858,9 +800,7 @@ class CollectorsSDK(BaseSDK):
         id_param: str,
         id: str,
         type_: str,
-        cribl_pack: Optional[str] = None,
         environment: Optional[str] = None,
-        group_id: Optional[str] = None,
         ignore_group_jobs_limit: Optional[bool] = None,
         resume_on_boot: Optional[bool] = None,
         schedule: Optional[
@@ -871,17 +811,15 @@ class CollectorsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedSavedJob:
+    ) -> models.CountedSavedJobResponse:
         r"""Update a Collector
 
         Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
 
         :param id_param: The <code>id</code> of the Collector to update.
-        :param id:
+        :param id: Unique ID for this Job.
         :param type: Job type: collection, executor, or scheduledSearch.
-        :param cribl_pack: The <code>id</code> of the Pack that includes the Collector to update.
         :param environment: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-        :param group_id: Worker Group ID to run the job in. When empty, uses the default group.
         :param ignore_group_jobs_limit: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
         :param resume_on_boot: Resume the ad hoc job if a failure condition causes Stream to restart during job execution.
         :param schedule:
@@ -903,10 +841,8 @@ class CollectorsSDK(BaseSDK):
 
         request = models.UpdateSavedJobByIDRequest(
             id_param=id_param,
-            cribl_pack=cribl_pack,
-            saved_job_create_update=models.SavedJobCreateUpdate(
+            saved_job_request=models.SavedJobRequest(
                 environment=environment,
-                group_id=group_id,
                 id=id,
                 ignore_group_jobs_limit=ignore_group_jobs_limit,
                 resume_on_boot=resume_on_boot,
@@ -932,11 +868,7 @@ class CollectorsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.saved_job_create_update,
-                False,
-                False,
-                "json",
-                models.SavedJobCreateUpdate,
+                request.saved_job_request, False, False, "json", models.SavedJobRequest
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -971,7 +903,7 @@ class CollectorsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedSavedJob, http_res)
+            return unmarshal_json_response(models.CountedSavedJobResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -990,9 +922,7 @@ class CollectorsSDK(BaseSDK):
         id_param: str,
         id: str,
         type_: str,
-        cribl_pack: Optional[str] = None,
         environment: Optional[str] = None,
-        group_id: Optional[str] = None,
         ignore_group_jobs_limit: Optional[bool] = None,
         resume_on_boot: Optional[bool] = None,
         schedule: Optional[
@@ -1003,17 +933,15 @@ class CollectorsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedSavedJob:
+    ) -> models.CountedSavedJobResponse:
         r"""Update a Collector
 
         Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
 
         :param id_param: The <code>id</code> of the Collector to update.
-        :param id:
+        :param id: Unique ID for this Job.
         :param type: Job type: collection, executor, or scheduledSearch.
-        :param cribl_pack: The <code>id</code> of the Pack that includes the Collector to update.
         :param environment: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-        :param group_id: Worker Group ID to run the job in. When empty, uses the default group.
         :param ignore_group_jobs_limit: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
         :param resume_on_boot: Resume the ad hoc job if a failure condition causes Stream to restart during job execution.
         :param schedule:
@@ -1035,10 +963,8 @@ class CollectorsSDK(BaseSDK):
 
         request = models.UpdateSavedJobByIDRequest(
             id_param=id_param,
-            cribl_pack=cribl_pack,
-            saved_job_create_update=models.SavedJobCreateUpdate(
+            saved_job_request=models.SavedJobRequest(
                 environment=environment,
-                group_id=group_id,
                 id=id,
                 ignore_group_jobs_limit=ignore_group_jobs_limit,
                 resume_on_boot=resume_on_boot,
@@ -1064,11 +990,7 @@ class CollectorsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.saved_job_create_update,
-                False,
-                False,
-                "json",
-                models.SavedJobCreateUpdate,
+                request.saved_job_request, False, False, "json", models.SavedJobRequest
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -1103,7 +1025,7 @@ class CollectorsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedSavedJob, http_res)
+            return unmarshal_json_response(models.CountedSavedJobResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

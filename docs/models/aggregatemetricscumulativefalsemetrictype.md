@@ -2,6 +2,16 @@
 
 The output metric type
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import AggregateMetricsCumulativeFalseMetricType
+
+value = AggregateMetricsCumulativeFalseMetricType.AUTOMATIC
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

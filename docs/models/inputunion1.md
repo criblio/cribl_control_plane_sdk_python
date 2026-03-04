@@ -1,4 +1,4 @@
-# Input2
+# InputUnion1
 
 
 ## Supported Types
@@ -333,10 +333,10 @@ value: models.InputJournalFiles = /* values here */
 value: models.InputWiz = /* values here */
 ```
 
-### `models.InputOpenaiInput`
+### `models.InputOpenai`
 
 ```python
-value: models.InputOpenaiInput = /* values here */
+value: models.InputOpenai = /* values here */
 ```
 
 ### `models.InputWizWebhook`

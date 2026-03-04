@@ -1,4 +1,4 @@
-# ItemsTypePoliciesItemsTemplateTargetPairs
+# FunctionConfSchemaNotificationPoliciesTemplateTargetPair
 
 
 ## Fields

@@ -5,9 +5,12 @@ from cribl_control_plane.types import BaseModel
 from typing_extensions import TypedDict
 
 
-class ExecutorSpecificSettingsTypeRunnableJobExecutorExecutorTypedDict(TypedDict):
-    pass
+class NotificationTargetDetailsTypedDict(TypedDict):
+    id: str
+    type: str
 
 
-class ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor(BaseModel):
-    pass
+class NotificationTargetDetails(BaseModel):
+    id: str
+
+    type: str

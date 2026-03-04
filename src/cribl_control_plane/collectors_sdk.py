@@ -15,8 +15,17 @@ class CollectorsSDK(BaseSDK):
     def create(
         self,
         *,
-        saved_job: Union[models.SavedJob, models.SavedJobTypedDict],
+        id: str,
+        type_: str,
         cribl_pack: Optional[str] = None,
+        environment: Optional[str] = None,
+        group_id: Optional[str] = None,
+        ignore_group_jobs_limit: Optional[bool] = None,
+        resume_on_boot: Optional[bool] = None,
+        schedule: Optional[
+            Union[models.ScheduleOpts, models.ScheduleOptsTypedDict]
+        ] = None,
+        ttl: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -26,8 +35,15 @@ class CollectorsSDK(BaseSDK):
 
         Create a new Collector.
 
-        :param saved_job: SavedJob object
+        :param id:
+        :param type: Job type: collection, executor, or scheduledSearch.
         :param cribl_pack: The <code>id</code> of the Pack to create the Collector in.
+        :param environment: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        :param group_id: Worker Group ID to run the job in. When empty, uses the default group.
+        :param ignore_group_jobs_limit: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        :param resume_on_boot: Resume the ad hoc job if a failure condition causes Stream to restart during job execution.
+        :param schedule:
+        :param ttl: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -45,7 +61,18 @@ class CollectorsSDK(BaseSDK):
 
         request = models.CreateSavedJobRequest(
             cribl_pack=cribl_pack,
-            saved_job=utils.get_pydantic_model(saved_job, models.SavedJob),
+            saved_job_create_update=models.SavedJobCreateUpdate(
+                environment=environment,
+                group_id=group_id,
+                id=id,
+                ignore_group_jobs_limit=ignore_group_jobs_limit,
+                resume_on_boot=resume_on_boot,
+                schedule=utils.get_pydantic_model(
+                    schedule, Optional[models.ScheduleOpts]
+                ),
+                ttl=ttl,
+                type=type_,
+            ),
         )
 
         req = self._build_request(
@@ -62,7 +89,11 @@ class CollectorsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.saved_job, False, False, "json", models.SavedJob
+                request.saved_job_create_update,
+                False,
+                False,
+                "json",
+                models.SavedJobCreateUpdate,
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -113,8 +144,17 @@ class CollectorsSDK(BaseSDK):
     async def create_async(
         self,
         *,
-        saved_job: Union[models.SavedJob, models.SavedJobTypedDict],
+        id: str,
+        type_: str,
         cribl_pack: Optional[str] = None,
+        environment: Optional[str] = None,
+        group_id: Optional[str] = None,
+        ignore_group_jobs_limit: Optional[bool] = None,
+        resume_on_boot: Optional[bool] = None,
+        schedule: Optional[
+            Union[models.ScheduleOpts, models.ScheduleOptsTypedDict]
+        ] = None,
+        ttl: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -124,8 +164,15 @@ class CollectorsSDK(BaseSDK):
 
         Create a new Collector.
 
-        :param saved_job: SavedJob object
+        :param id:
+        :param type: Job type: collection, executor, or scheduledSearch.
         :param cribl_pack: The <code>id</code> of the Pack to create the Collector in.
+        :param environment: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        :param group_id: Worker Group ID to run the job in. When empty, uses the default group.
+        :param ignore_group_jobs_limit: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        :param resume_on_boot: Resume the ad hoc job if a failure condition causes Stream to restart during job execution.
+        :param schedule:
+        :param ttl: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -143,7 +190,18 @@ class CollectorsSDK(BaseSDK):
 
         request = models.CreateSavedJobRequest(
             cribl_pack=cribl_pack,
-            saved_job=utils.get_pydantic_model(saved_job, models.SavedJob),
+            saved_job_create_update=models.SavedJobCreateUpdate(
+                environment=environment,
+                group_id=group_id,
+                id=id,
+                ignore_group_jobs_limit=ignore_group_jobs_limit,
+                resume_on_boot=resume_on_boot,
+                schedule=utils.get_pydantic_model(
+                    schedule, Optional[models.ScheduleOpts]
+                ),
+                ttl=ttl,
+                type=type_,
+            ),
         )
 
         req = self._build_request_async(
@@ -160,7 +218,11 @@ class CollectorsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.saved_job, False, False, "json", models.SavedJob
+                request.saved_job_create_update,
+                False,
+                False,
+                "json",
+                models.SavedJobCreateUpdate,
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -793,9 +855,18 @@ class CollectorsSDK(BaseSDK):
     def update(
         self,
         *,
+        id_param: str,
         id: str,
-        saved_job: Union[models.SavedJob, models.SavedJobTypedDict],
+        type_: str,
         cribl_pack: Optional[str] = None,
+        environment: Optional[str] = None,
+        group_id: Optional[str] = None,
+        ignore_group_jobs_limit: Optional[bool] = None,
+        resume_on_boot: Optional[bool] = None,
+        schedule: Optional[
+            Union[models.ScheduleOpts, models.ScheduleOptsTypedDict]
+        ] = None,
+        ttl: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -805,9 +876,16 @@ class CollectorsSDK(BaseSDK):
 
         Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
 
-        :param id: The <code>id</code> of the Collector to update.
-        :param saved_job: SavedJob object
+        :param id_param: The <code>id</code> of the Collector to update.
+        :param id:
+        :param type: Job type: collection, executor, or scheduledSearch.
         :param cribl_pack: The <code>id</code> of the Pack that includes the Collector to update.
+        :param environment: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        :param group_id: Worker Group ID to run the job in. When empty, uses the default group.
+        :param ignore_group_jobs_limit: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        :param resume_on_boot: Resume the ad hoc job if a failure condition causes Stream to restart during job execution.
+        :param schedule:
+        :param ttl: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -824,9 +902,20 @@ class CollectorsSDK(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.UpdateSavedJobByIDRequest(
-            id=id,
+            id_param=id_param,
             cribl_pack=cribl_pack,
-            saved_job=utils.get_pydantic_model(saved_job, models.SavedJob),
+            saved_job_create_update=models.SavedJobCreateUpdate(
+                environment=environment,
+                group_id=group_id,
+                id=id,
+                ignore_group_jobs_limit=ignore_group_jobs_limit,
+                resume_on_boot=resume_on_boot,
+                schedule=utils.get_pydantic_model(
+                    schedule, Optional[models.ScheduleOpts]
+                ),
+                ttl=ttl,
+                type=type_,
+            ),
         )
 
         req = self._build_request(
@@ -843,7 +932,11 @@ class CollectorsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.saved_job, False, False, "json", models.SavedJob
+                request.saved_job_create_update,
+                False,
+                False,
+                "json",
+                models.SavedJobCreateUpdate,
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -894,9 +987,18 @@ class CollectorsSDK(BaseSDK):
     async def update_async(
         self,
         *,
+        id_param: str,
         id: str,
-        saved_job: Union[models.SavedJob, models.SavedJobTypedDict],
+        type_: str,
         cribl_pack: Optional[str] = None,
+        environment: Optional[str] = None,
+        group_id: Optional[str] = None,
+        ignore_group_jobs_limit: Optional[bool] = None,
+        resume_on_boot: Optional[bool] = None,
+        schedule: Optional[
+            Union[models.ScheduleOpts, models.ScheduleOptsTypedDict]
+        ] = None,
+        ttl: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -906,9 +1008,16 @@ class CollectorsSDK(BaseSDK):
 
         Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
 
-        :param id: The <code>id</code> of the Collector to update.
-        :param saved_job: SavedJob object
+        :param id_param: The <code>id</code> of the Collector to update.
+        :param id:
+        :param type: Job type: collection, executor, or scheduledSearch.
         :param cribl_pack: The <code>id</code> of the Pack that includes the Collector to update.
+        :param environment: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        :param group_id: Worker Group ID to run the job in. When empty, uses the default group.
+        :param ignore_group_jobs_limit: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        :param resume_on_boot: Resume the ad hoc job if a failure condition causes Stream to restart during job execution.
+        :param schedule:
+        :param ttl: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -925,9 +1034,20 @@ class CollectorsSDK(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.UpdateSavedJobByIDRequest(
-            id=id,
+            id_param=id_param,
             cribl_pack=cribl_pack,
-            saved_job=utils.get_pydantic_model(saved_job, models.SavedJob),
+            saved_job_create_update=models.SavedJobCreateUpdate(
+                environment=environment,
+                group_id=group_id,
+                id=id,
+                ignore_group_jobs_limit=ignore_group_jobs_limit,
+                resume_on_boot=resume_on_boot,
+                schedule=utils.get_pydantic_model(
+                    schedule, Optional[models.ScheduleOpts]
+                ),
+                ttl=ttl,
+                type=type_,
+            ),
         )
 
         req = self._build_request_async(
@@ -944,7 +1064,11 @@ class CollectorsSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.saved_job, False, False, "json", models.SavedJob
+                request.saved_job_create_update,
+                False,
+                False,
+                "json",
+                models.SavedJobCreateUpdate,
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,

@@ -115,6 +115,10 @@ if TYPE_CHECKING:
     )
     from .checkpointingtype import CheckpointingType, CheckpointingTypeTypedDict
     from .cloudprovider import CloudProvider
+    from .collectionstateentry import (
+        CollectionStateEntry,
+        CollectionStateEntryTypedDict,
+    )
     from .collector import Collector, CollectorTypedDict, UnknownCollector
     from .collectorazureblob import (
         CollectorAzureBlob,
@@ -2101,14 +2105,6 @@ if TYPE_CHECKING:
     from .eventbreakertypeoptionseventbreakerexistingornewnew import (
         EventBreakerTypeOptionsEventBreakerExistingOrNewNew,
     )
-    from .executorspecificsettingstyperunnablejobexecutorexecutor import (
-        ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor,
-        ExecutorSpecificSettingsTypeRunnableJobExecutorExecutorTypedDict,
-    )
-    from .executortyperunnablejobexecutor import (
-        ExecutorTypeRunnableJobExecutor,
-        ExecutorTypeRunnableJobExecutorTypedDict,
-    )
     from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
     from .filestypegitcommitsummary import (
         FilesTypeGitCommitSummary,
@@ -2235,6 +2231,8 @@ if TYPE_CHECKING:
         Condition,
         ConditionTypedDict,
         FunctionConfSchemaNotificationPolicies,
+        FunctionConfSchemaNotificationPoliciesTemplateTargetPair,
+        FunctionConfSchemaNotificationPoliciesTemplateTargetPairTypedDict,
         FunctionConfSchemaNotificationPoliciesTypedDict,
         Operator,
         Policy,
@@ -3227,8 +3225,8 @@ if TYPE_CHECKING:
         HostOsTypeHeartbeatMetadata,
         HostOsTypeHeartbeatMetadataTypedDict,
     )
-    from .input_1 import Input1, Input1TypedDict, UnknownInput1
-    from .input_2 import Input2, Input2TypedDict
+    from .input_union_1 import InputUnion1, InputUnion1TypedDict, UnknownInputUnion1
+    from .input_union_2 import InputUnion2, InputUnion2TypedDict
     from .inputappscope import (
         Allow,
         AllowTypedDict,
@@ -3697,10 +3695,6 @@ if TYPE_CHECKING:
     )
     from .itemstypeloglabels import ItemsTypeLogLabels, ItemsTypeLogLabelsTypedDict
     from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
-    from .itemstypepoliciesitemstemplatetargetpairs import (
-        ItemsTypePoliciesItemsTemplateTargetPairs,
-        ItemsTypePoliciesItemsTemplateTargetPairsTypedDict,
-    )
     from .itemstypeprocesssets import (
         ItemsTypeProcessSets,
         ItemsTypeProcessSetsTypedDict,
@@ -3810,6 +3804,27 @@ if TYPE_CHECKING:
     from .nodeskippedupgradestatus import NodeSkippedUpgradeStatus
     from .nodeupgradestate import NodeUpgradeState
     from .nodeupgradestatus import NodeUpgradeStatus, NodeUpgradeStatusTypedDict
+    from .notification import (
+        Notification,
+        NotificationTemplateTargetPair,
+        NotificationTemplateTargetPairTypedDict,
+        NotificationTypedDict,
+    )
+    from .notificationmode import NotificationMode
+    from .notificationtargetconfig_union import (
+        EmailRecipient,
+        EmailRecipientTypedDict,
+        NotificationConfigForSMTPTarget,
+        NotificationConfigForSMTPTargetTypedDict,
+        NotificationTargetConfig,
+        NotificationTargetConfigTypedDict,
+        NotificationTargetConfigUnion,
+        NotificationTargetConfigUnionTypedDict,
+    )
+    from .notificationtargetdetails import (
+        NotificationTargetDetails,
+        NotificationTargetDetailsTypedDict,
+    )
     from .objectacloptions import ObjectACLOptions
     from .objectacloptionsauthenticatedreadbucketownerfullcontrol import (
         ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol,
@@ -6757,19 +6772,21 @@ if TYPE_CHECKING:
         CaptureSettings,
         CaptureSettingsTypedDict,
         RunnableJobCollection,
+        RunnableJobCollectionInput,
+        RunnableJobCollectionInputTypedDict,
         RunnableJobCollectionMode,
         RunnableJobCollectionRun,
         RunnableJobCollectionRunTypedDict,
+        RunnableJobCollectionType,
         RunnableJobCollectionTypedDict,
         TimeRange,
         WhereToCapture,
     )
-    from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType,
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
-    )
     from .runnablejobexecutor import (
+        Executor,
+        ExecutorSpecificSettings,
+        ExecutorSpecificSettingsTypedDict,
+        ExecutorTypedDict,
         RunnableJobExecutor,
         RunnableJobExecutorRun,
         RunnableJobExecutorRunTypedDict,
@@ -6779,16 +6796,13 @@ if TYPE_CHECKING:
         RunnableJobScheduledSearch,
         RunnableJobScheduledSearchTypedDict,
     )
+    from .runsettings import RunSettings, RunSettingsTypedDict
     from .runsettingstyperunnablejobcollectionschedule import (
         RunSettingsTypeRunnableJobCollectionSchedule,
         RunSettingsTypeRunnableJobCollectionScheduleType,
         RunSettingsTypeRunnableJobCollectionScheduleTypedDict,
     )
-    from .runsettingstypesavedjobcollectionschedule import (
-        RunSettingsTypeSavedJobCollectionSchedule,
-        RunSettingsTypeSavedJobCollectionScheduleType,
-        RunSettingsTypeSavedJobCollectionScheduleTypedDict,
-    )
+    from .runtype import RunType
     from .s3collectorconf import (
         S3AwsAuthenticationMethodAuto,
         S3AwsAuthenticationMethodAutoExtractor,
@@ -6824,19 +6838,14 @@ if TYPE_CHECKING:
         SaslMechanismOptionsSaslOauthbearerPlain,
     )
     from .savedjob import SavedJob, SavedJobTypedDict
-    from .savedjobcollection import SavedJobCollection, SavedJobCollectionTypedDict
-    from .savedjobexecutor import SavedJobExecutor, SavedJobExecutorTypedDict
-    from .savedjobscheduledsearch import (
-        SavedJobScheduledSearch,
-        SavedJobScheduledSearchTypedDict,
+    from .savedjobcreateupdate import (
+        SavedJobCreateUpdate,
+        SavedJobCreateUpdateTypedDict,
     )
+    from .scheduleopts import ScheduleOpts, ScheduleOptsTypedDict
     from .scheduletyperunnablejobcollection import (
         ScheduleTypeRunnableJobCollection,
         ScheduleTypeRunnableJobCollectionTypedDict,
-    )
-    from .scheduletypesavedjobcollection import (
-        ScheduleTypeSavedJobCollection,
-        ScheduleTypeSavedJobCollectionTypedDict,
     )
     from .schemeclientoauth import SchemeClientOauth, SchemeClientOauthTypedDict
     from .scriptcollectorconf import (
@@ -7257,6 +7266,8 @@ __all__ = [
     "ChecksumBefore",
     "ChecksumBeforeTypedDict",
     "CloudProvider",
+    "CollectionStateEntry",
+    "CollectionStateEntryTypedDict",
     "Collector",
     "CollectorAzureBlob",
     "CollectorAzureBlobType",
@@ -9130,6 +9141,8 @@ __all__ = [
     "ElasticVersion",
     "ElasticsearchMetadata",
     "ElasticsearchMetadataTypedDict",
+    "EmailRecipient",
+    "EmailRecipientTypedDict",
     "Endpoint",
     "EndpointConfiguration",
     "EndpointHeader",
@@ -9187,10 +9200,10 @@ __all__ = [
     "EventFormat",
     "EventstatsConfiguration",
     "EventstatsConfigurationTypedDict",
-    "ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor",
-    "ExecutorSpecificSettingsTypeRunnableJobExecutorExecutorTypedDict",
-    "ExecutorTypeRunnableJobExecutor",
-    "ExecutorTypeRunnableJobExecutorTypedDict",
+    "Executor",
+    "ExecutorSpecificSettings",
+    "ExecutorSpecificSettingsTypedDict",
+    "ExecutorTypedDict",
     "Extension",
     "ExtensionTypedDict",
     "ExtentTag",
@@ -9278,6 +9291,8 @@ __all__ = [
     "FunctionConfSchemaLocalSearchTransformer",
     "FunctionConfSchemaLocalSearchTransformerTypedDict",
     "FunctionConfSchemaNotificationPolicies",
+    "FunctionConfSchemaNotificationPoliciesTemplateTargetPair",
+    "FunctionConfSchemaNotificationPoliciesTemplateTargetPairTypedDict",
     "FunctionConfSchemaNotificationPoliciesTypedDict",
     "FunctionConfSchemaNumerify",
     "FunctionConfSchemaNumerifyTypedDict",
@@ -10055,10 +10070,6 @@ __all__ = [
     "IngestIfNotExist",
     "IngestIfNotExistTypedDict",
     "IngestionMode",
-    "Input1",
-    "Input1TypedDict",
-    "Input2",
-    "Input2TypedDict",
     "InputAppscope",
     "InputAppscopeFilter",
     "InputAppscopeFilterTypedDict",
@@ -10316,6 +10327,10 @@ __all__ = [
     "InputTcpjson",
     "InputTcpjsonType",
     "InputTcpjsonTypedDict",
+    "InputUnion1",
+    "InputUnion1TypedDict",
+    "InputUnion2",
+    "InputUnion2TypedDict",
     "InputWef",
     "InputWefAuthenticationMethod",
     "InputWefFormat",
@@ -10396,8 +10411,6 @@ __all__ = [
     "ItemsTypeLogLabelsTypedDict",
     "ItemsTypeMetadata",
     "ItemsTypeMetadataTypedDict",
-    "ItemsTypePoliciesItemsTemplateTargetPairs",
-    "ItemsTypePoliciesItemsTemplateTargetPairsTypedDict",
     "ItemsTypeProcessSets",
     "ItemsTypeProcessSetsTypedDict",
     "ItemsTypeResponseRetrySettings",
@@ -10518,6 +10531,19 @@ __all__ = [
     "NodeUpgradeState",
     "NodeUpgradeStatus",
     "NodeUpgradeStatusTypedDict",
+    "Notification",
+    "NotificationConfigForSMTPTarget",
+    "NotificationConfigForSMTPTargetTypedDict",
+    "NotificationMode",
+    "NotificationTargetConfig",
+    "NotificationTargetConfigTypedDict",
+    "NotificationTargetConfigUnion",
+    "NotificationTargetConfigUnionTypedDict",
+    "NotificationTargetDetails",
+    "NotificationTargetDetailsTypedDict",
+    "NotificationTemplateTargetPair",
+    "NotificationTemplateTargetPairTypedDict",
+    "NotificationTypedDict",
     "NotifyConfiguration",
     "NotifyConfigurationTypedDict",
     "NumerifyFormatFix",
@@ -12987,20 +13013,20 @@ __all__ = [
     "RoutesGroupsTypedDict",
     "RoutesTypedDict",
     "RulesetType",
+    "RunSettings",
     "RunSettingsTypeRunnableJobCollectionSchedule",
     "RunSettingsTypeRunnableJobCollectionScheduleType",
     "RunSettingsTypeRunnableJobCollectionScheduleTypedDict",
-    "RunSettingsTypeSavedJobCollectionSchedule",
-    "RunSettingsTypeSavedJobCollectionScheduleType",
-    "RunSettingsTypeSavedJobCollectionScheduleTypedDict",
+    "RunSettingsTypedDict",
+    "RunType",
     "RunnableJob",
     "RunnableJobCollection",
+    "RunnableJobCollectionInput",
+    "RunnableJobCollectionInputTypedDict",
     "RunnableJobCollectionMode",
     "RunnableJobCollectionRun",
     "RunnableJobCollectionRunTypedDict",
-    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint",
-    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType",
-    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict",
+    "RunnableJobCollectionType",
     "RunnableJobCollectionTypedDict",
     "RunnableJobExecutor",
     "RunnableJobExecutorRun",
@@ -13044,19 +13070,15 @@ __all__ = [
     "SaslMechanismOptionsSasl",
     "SaslMechanismOptionsSaslOauthbearerPlain",
     "SavedJob",
-    "SavedJobCollection",
-    "SavedJobCollectionTypedDict",
-    "SavedJobExecutor",
-    "SavedJobExecutorTypedDict",
-    "SavedJobScheduledSearch",
-    "SavedJobScheduledSearchTypedDict",
+    "SavedJobCreateUpdate",
+    "SavedJobCreateUpdateTypedDict",
     "SavedJobTypedDict",
     "ScanMode",
+    "ScheduleOpts",
+    "ScheduleOptsTypedDict",
     "ScheduleType",
     "ScheduleTypeRunnableJobCollection",
     "ScheduleTypeRunnableJobCollectionTypedDict",
-    "ScheduleTypeSavedJobCollection",
-    "ScheduleTypeSavedJobCollectionTypedDict",
     "SchemeClientOauth",
     "SchemeClientOauthTypedDict",
     "ScriptCollectorConf",
@@ -13318,7 +13340,7 @@ __all__ = [
     "UnknownHealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTP",
     "UnknownHealthCheckCollectMethodPostWithBodyRetryRules",
     "UnknownHealthCheckCollectorConf",
-    "UnknownInput1",
+    "UnknownInputUnion1",
     "UnknownLookupDbLookupFalse",
     "UnknownOutput",
     "UnknownPipelineFunctionConf",
@@ -13548,6 +13570,8 @@ _dynamic_imports: dict[str, str] = {
     "CheckpointingType": ".checkpointingtype",
     "CheckpointingTypeTypedDict": ".checkpointingtype",
     "CloudProvider": ".cloudprovider",
+    "CollectionStateEntry": ".collectionstateentry",
+    "CollectionStateEntryTypedDict": ".collectionstateentry",
     "Collector": ".collector",
     "CollectorTypedDict": ".collector",
     "UnknownCollector": ".collector",
@@ -15411,10 +15435,6 @@ _dynamic_imports: dict[str, str] = {
     "EventBreakerRuleFields": ".eventbreakerrulefields",
     "EventBreakerRuleFieldsTypedDict": ".eventbreakerrulefields",
     "EventBreakerTypeOptionsEventBreakerExistingOrNewNew": ".eventbreakertypeoptionseventbreakerexistingornewnew",
-    "ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor": ".executorspecificsettingstyperunnablejobexecutorexecutor",
-    "ExecutorSpecificSettingsTypeRunnableJobExecutorExecutorTypedDict": ".executorspecificsettingstyperunnablejobexecutorexecutor",
-    "ExecutorTypeRunnableJobExecutor": ".executortyperunnablejobexecutor",
-    "ExecutorTypeRunnableJobExecutorTypedDict": ".executortyperunnablejobexecutor",
     "FailedRequestLoggingModeOptions": ".failedrequestloggingmodeoptions",
     "FilesTypeGitCommitSummary": ".filestypegitcommitsummary",
     "FilesTypeGitCommitSummaryTypedDict": ".filestypegitcommitsummary",
@@ -15504,6 +15524,8 @@ _dynamic_imports: dict[str, str] = {
     "Condition": ".functionconfschemanotificationpolicies",
     "ConditionTypedDict": ".functionconfschemanotificationpolicies",
     "FunctionConfSchemaNotificationPolicies": ".functionconfschemanotificationpolicies",
+    "FunctionConfSchemaNotificationPoliciesTemplateTargetPair": ".functionconfschemanotificationpolicies",
+    "FunctionConfSchemaNotificationPoliciesTemplateTargetPairTypedDict": ".functionconfschemanotificationpolicies",
     "FunctionConfSchemaNotificationPoliciesTypedDict": ".functionconfschemanotificationpolicies",
     "Operator": ".functionconfschemanotificationpolicies",
     "Policy": ".functionconfschemanotificationpolicies",
@@ -16357,11 +16379,11 @@ _dynamic_imports: dict[str, str] = {
     "HiddenDefaultBreakersOptionsDatabaseCollectorConf": ".hiddendefaultbreakersoptionsdatabasecollectorconf",
     "HostOsTypeHeartbeatMetadata": ".hostostypeheartbeatmetadata",
     "HostOsTypeHeartbeatMetadataTypedDict": ".hostostypeheartbeatmetadata",
-    "Input1": ".input_1",
-    "Input1TypedDict": ".input_1",
-    "UnknownInput1": ".input_1",
-    "Input2": ".input_2",
-    "Input2TypedDict": ".input_2",
+    "InputUnion1": ".input_union_1",
+    "InputUnion1TypedDict": ".input_union_1",
+    "UnknownInputUnion1": ".input_union_1",
+    "InputUnion2": ".input_union_2",
+    "InputUnion2TypedDict": ".input_union_2",
     "Allow": ".inputappscope",
     "AllowTypedDict": ".inputappscope",
     "InputAppscope": ".inputappscope",
@@ -16769,8 +16791,6 @@ _dynamic_imports: dict[str, str] = {
     "ItemsTypeLogLabelsTypedDict": ".itemstypeloglabels",
     "ItemsTypeMetadata": ".itemstypemetadata",
     "ItemsTypeMetadataTypedDict": ".itemstypemetadata",
-    "ItemsTypePoliciesItemsTemplateTargetPairs": ".itemstypepoliciesitemstemplatetargetpairs",
-    "ItemsTypePoliciesItemsTemplateTargetPairsTypedDict": ".itemstypepoliciesitemstemplatetargetpairs",
     "ItemsTypeProcessSets": ".itemstypeprocesssets",
     "ItemsTypeProcessSetsTypedDict": ".itemstypeprocesssets",
     "ItemsTypeResponseRetrySettings": ".itemstyperesponseretrysettings",
@@ -16850,6 +16870,21 @@ _dynamic_imports: dict[str, str] = {
     "NodeUpgradeState": ".nodeupgradestate",
     "NodeUpgradeStatus": ".nodeupgradestatus",
     "NodeUpgradeStatusTypedDict": ".nodeupgradestatus",
+    "Notification": ".notification",
+    "NotificationTemplateTargetPair": ".notification",
+    "NotificationTemplateTargetPairTypedDict": ".notification",
+    "NotificationTypedDict": ".notification",
+    "NotificationMode": ".notificationmode",
+    "EmailRecipient": ".notificationtargetconfig_union",
+    "EmailRecipientTypedDict": ".notificationtargetconfig_union",
+    "NotificationConfigForSMTPTarget": ".notificationtargetconfig_union",
+    "NotificationConfigForSMTPTargetTypedDict": ".notificationtargetconfig_union",
+    "NotificationTargetConfig": ".notificationtargetconfig_union",
+    "NotificationTargetConfigTypedDict": ".notificationtargetconfig_union",
+    "NotificationTargetConfigUnion": ".notificationtargetconfig_union",
+    "NotificationTargetConfigUnionTypedDict": ".notificationtargetconfig_union",
+    "NotificationTargetDetails": ".notificationtargetdetails",
+    "NotificationTargetDetailsTypedDict": ".notificationtargetdetails",
     "ObjectACLOptions": ".objectacloptions",
     "ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol": ".objectacloptionsauthenticatedreadbucketownerfullcontrol",
     "OtlpVersionOptions": ".otlpversionoptions",
@@ -19522,27 +19557,31 @@ _dynamic_imports: dict[str, str] = {
     "CaptureSettings": ".runnablejobcollection",
     "CaptureSettingsTypedDict": ".runnablejobcollection",
     "RunnableJobCollection": ".runnablejobcollection",
+    "RunnableJobCollectionInput": ".runnablejobcollection",
+    "RunnableJobCollectionInputTypedDict": ".runnablejobcollection",
     "RunnableJobCollectionMode": ".runnablejobcollection",
     "RunnableJobCollectionRun": ".runnablejobcollection",
     "RunnableJobCollectionRunTypedDict": ".runnablejobcollection",
+    "RunnableJobCollectionType": ".runnablejobcollection",
     "RunnableJobCollectionTypedDict": ".runnablejobcollection",
     "TimeRange": ".runnablejobcollection",
     "WhereToCapture": ".runnablejobcollection",
-    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint": ".runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint",
-    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType": ".runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint",
-    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict": ".runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint",
+    "Executor": ".runnablejobexecutor",
+    "ExecutorSpecificSettings": ".runnablejobexecutor",
+    "ExecutorSpecificSettingsTypedDict": ".runnablejobexecutor",
+    "ExecutorTypedDict": ".runnablejobexecutor",
     "RunnableJobExecutor": ".runnablejobexecutor",
     "RunnableJobExecutorRun": ".runnablejobexecutor",
     "RunnableJobExecutorRunTypedDict": ".runnablejobexecutor",
     "RunnableJobExecutorTypedDict": ".runnablejobexecutor",
     "RunnableJobScheduledSearch": ".runnablejobscheduledsearch",
     "RunnableJobScheduledSearchTypedDict": ".runnablejobscheduledsearch",
+    "RunSettings": ".runsettings",
+    "RunSettingsTypedDict": ".runsettings",
     "RunSettingsTypeRunnableJobCollectionSchedule": ".runsettingstyperunnablejobcollectionschedule",
     "RunSettingsTypeRunnableJobCollectionScheduleType": ".runsettingstyperunnablejobcollectionschedule",
     "RunSettingsTypeRunnableJobCollectionScheduleTypedDict": ".runsettingstyperunnablejobcollectionschedule",
-    "RunSettingsTypeSavedJobCollectionSchedule": ".runsettingstypesavedjobcollectionschedule",
-    "RunSettingsTypeSavedJobCollectionScheduleType": ".runsettingstypesavedjobcollectionschedule",
-    "RunSettingsTypeSavedJobCollectionScheduleTypedDict": ".runsettingstypesavedjobcollectionschedule",
+    "RunType": ".runtype",
     "S3AwsAuthenticationMethodAuto": ".s3collectorconf",
     "S3AwsAuthenticationMethodAutoExtractor": ".s3collectorconf",
     "S3AwsAuthenticationMethodAutoExtractorTypedDict": ".s3collectorconf",
@@ -19575,16 +19614,12 @@ _dynamic_imports: dict[str, str] = {
     "SaslMechanismOptionsSaslOauthbearerPlain": ".saslmechanismoptionssasloauthbearerplain",
     "SavedJob": ".savedjob",
     "SavedJobTypedDict": ".savedjob",
-    "SavedJobCollection": ".savedjobcollection",
-    "SavedJobCollectionTypedDict": ".savedjobcollection",
-    "SavedJobExecutor": ".savedjobexecutor",
-    "SavedJobExecutorTypedDict": ".savedjobexecutor",
-    "SavedJobScheduledSearch": ".savedjobscheduledsearch",
-    "SavedJobScheduledSearchTypedDict": ".savedjobscheduledsearch",
+    "SavedJobCreateUpdate": ".savedjobcreateupdate",
+    "SavedJobCreateUpdateTypedDict": ".savedjobcreateupdate",
+    "ScheduleOpts": ".scheduleopts",
+    "ScheduleOptsTypedDict": ".scheduleopts",
     "ScheduleTypeRunnableJobCollection": ".scheduletyperunnablejobcollection",
     "ScheduleTypeRunnableJobCollectionTypedDict": ".scheduletyperunnablejobcollection",
-    "ScheduleTypeSavedJobCollection": ".scheduletypesavedjobcollection",
-    "ScheduleTypeSavedJobCollectionTypedDict": ".scheduletypesavedjobcollection",
     "SchemeClientOauth": ".schemeclientoauth",
     "SchemeClientOauthTypedDict": ".schemeclientoauth",
     "EnvVar": ".scriptcollectorconf",

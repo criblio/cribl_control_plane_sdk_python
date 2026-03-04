@@ -31,52 +31,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
-        "id": "<id>",
-        "description": "which um whenever pro chase video uh-huh atop baritone yum",
-        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 7324.19,
-                "latest": 6945.52,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.create(id="azure-blob-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */8 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-            "<value 3>",
-        ],
-        "executor": {
-            "type": "<value>",
-            "store_task_results": True,
-            "conf": {},
-        },
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -97,46 +65,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
-        "id": "<id>",
-        "description": "cautiously annual worth before cleaner parsnip nimble onset once burgeon",
-        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 2728.52,
-                "latest": 4162.9,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.create(id="cribl-lake-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */2 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -157,51 +99,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
-        "id": "<id>",
-        "description": "pomelo outside offensively ew",
-        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 432.8,
-                "latest": 2023.34,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.create(id="database-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 2 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "executor": {
-            "type": "<value>",
-            "store_task_results": True,
-            "conf": {},
-        },
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -222,51 +133,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
-        "id": "<id>",
-        "description": "pomelo outside offensively ew",
-        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 432.8,
-                "latest": 2023.34,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.create(id="filesystem-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */2 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "executor": {
-            "type": "<value>",
-            "store_task_results": True,
-            "conf": {},
-        },
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -287,46 +167,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
-        "id": "<id>",
-        "description": "cautiously annual worth before cleaner parsnip nimble onset once burgeon",
-        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 2728.52,
-                "latest": 4162.9,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.create(id="gcs-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */12 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -347,87 +201,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
-        id="<id>",
-        description="pomelo outside offensively ew",
-        type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        ttl="4h",
-        ignore_group_jobs_limit=False,
-        remove_fields=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        resume_on_boot=False,
-        environment="<value>",
-        schedule=models.ScheduleTypeSavedJobCollection(
-            enabled=True,
-            skippable=True,
-            resume_missed=False,
-            cron_schedule="*/5 * * * *",
-            max_concurrent_runs=1,
-            run=models.RunSettingsTypeSavedJobCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                reschedule_dropped_tasks=True,
-                max_task_reschedule=1,
-                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                job_timeout="0",
-                mode="list",
-                time_range_type="relative",
-                earliest=432.8,
-                latest=2023.34,
-                timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
-                expression="true",
-                min_task_size="1MB",
-                max_task_size="10MB",
-            ),
+    res = ccp_client.collectors.create(id="rest-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */4 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
+                "expression": "true",
+                "logLevel": "info",
+            },
         ),
-        streamtags=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        worker_affinity=False,
-        collector=models.CollectorDatabase(
-            type=models.CollectorDatabaseType.DATABASE,
-            conf=models.DatabaseCollectorConf(
-                connection_id="<id>",
-                query="<value>",
-                query_validation_enabled=True,
-                default_breakers=models.HiddenDefaultBreakersOptionsDatabaseCollectorConf.CRIBL,
-                scheduling=models.DatabaseCollectorConfScheduling(
-                    state_tracking=models.DatabaseCollectorConfStateTracking(
-                        enabled=True,
-                    ),
-                ),
-            ),
-            destructive=True,
-            encoding="<value>",
-        ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
-            breaker_rulesets=[
-                "<value 1>",
-            ],
-            stale_channel_flush_ms=10000,
-            send_to_routes=True,
-            preprocess=models.PreprocessType(
-                disabled=True,
-                command="<value>",
-                args=[
-                    "<value 1>",
-                ],
-            ),
-            throttle_rate_per_sec="0",
-            metadata=[
-                models.ItemsTypeMetadata(
-                    name="<value>",
-                    value="<value>",
-                ),
-            ],
-            pipeline="<value>",
-            output="<value>",
-        ),
-    ), cribl_pack="<value>")
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -448,47 +235,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
-        "id": "<id>",
-        "description": "pomelo outside offensively ew",
-        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 432.8,
-                "latest": 2023.34,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.create(id="s3-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */6 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -509,46 +269,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
-        "id": "<id>",
-        "description": "cautiously annual worth before cleaner parsnip nimble onset once burgeon",
-        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 2728.52,
-                "latest": 4162.9,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.create(id="script-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */3 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -569,46 +303,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
-        "id": "<id>",
-        "description": "cautiously annual worth before cleaner parsnip nimble onset once burgeon",
-        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 2728.52,
-                "latest": 4162.9,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.create(id="splunk-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */1 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -617,11 +325,18 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `saved_job`                                                         | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | SavedJob object                                                     |
-| `cribl_pack`                                                        | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | The <code>id</code> of the Pack to create the Collector in.         |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                                                                                                                                | Type                                                                                                                                                                                     | Required                                                                                                                                                                                 | Description                                                                                                                                                                              |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                                                                                                                                                                                     | *str*                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                       | N/A                                                                                                                                                                                      |
+| `type`                                                                                                                                                                                   | *str*                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                       | Job type: collection, executor, or scheduledSearch.                                                                                                                                      |
+| `cribl_pack`                                                                                                                                                                             | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | The <code>id</code> of the Pack to create the Collector in.                                                                                                                              |
+| `environment`                                                                                                                                                                            | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.                                                                                     |
+| `group_id`                                                                                                                                                                               | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | Worker Group ID to run the job in. When empty, uses the default group.                                                                                                                   |
+| `ignore_group_jobs_limit`                                                                                                                                                                | *Optional[bool]*                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                       | When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live. |
+| `resume_on_boot`                                                                                                                                                                         | *Optional[bool]*                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                       | Resume the ad hoc job if a failure condition causes Stream to restart during job execution.                                                                                              |
+| `schedule`                                                                                                                                                                               | [Optional[models.ScheduleOpts]](../../models/scheduleopts.md)                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                       | N/A                                                                                                                                                                                      |
+| `ttl`                                                                                                                                                                                    | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.                                                          |
+| `retries`                                                                                                                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                       | Configuration to override the default retry behavior of the client.                                                                                                                      |
 
 ### Response
 
@@ -790,51 +505,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job={
-        "id": "<id>",
-        "description": "wee supposing blaring spectate dark",
-        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": False,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 4891.8,
-                "latest": 5936.75,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.update(id_param="<id>", id="azure-blob-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */8 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "executor": {
-            "type": "<value>",
-            "store_task_results": True,
-            "conf": {},
-        },
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -855,47 +539,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job={
-        "id": "<id>",
-        "description": "unabashedly notwithstanding ugh digestive",
-        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 9142.96,
-                "latest": 521.08,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.update(id_param="<id>", id="cribl-lake-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */2 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -916,47 +573,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job={
-        "id": "<id>",
-        "description": "unabashedly notwithstanding ugh digestive",
-        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 9142.96,
-                "latest": 521.08,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.update(id_param="<id>", id="database-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 2 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -977,51 +607,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job={
-        "id": "<id>",
-        "description": "wee supposing blaring spectate dark",
-        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": False,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 4891.8,
-                "latest": 5936.75,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.update(id_param="<id>", id="filesystem-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */2 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "executor": {
-            "type": "<value>",
-            "store_task_results": True,
-            "conf": {},
-        },
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -1042,47 +641,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job={
-        "id": "<id>",
-        "description": "horde before huzzah apud ha even murky favorite",
-        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": False,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 6033.18,
-                "latest": 6852.51,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.update(id_param="<id>", id="gcs-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */12 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -1103,90 +675,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
-        id="<id>",
-        description="unabashedly notwithstanding ugh digestive",
-        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        ttl="4h",
-        ignore_group_jobs_limit=False,
-        remove_fields=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        resume_on_boot=False,
-        environment="<value>",
-        schedule=models.ScheduleTypeSavedJobCollection(
-            enabled=True,
-            skippable=True,
-            resume_missed=False,
-            cron_schedule="*/5 * * * *",
-            max_concurrent_runs=1,
-            run=models.RunSettingsTypeSavedJobCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                reschedule_dropped_tasks=True,
-                max_task_reschedule=1,
-                log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                job_timeout="0",
-                mode="list",
-                time_range_type="relative",
-                earliest=9142.96,
-                latest=521.08,
-                timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
-                expression="true",
-                min_task_size="1MB",
-                max_task_size="10MB",
-            ),
+    res = ccp_client.collectors.update(id_param="<id>", id="rest-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */4 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
+                "expression": "true",
+                "logLevel": "info",
+            },
         ),
-        streamtags=[
-            "<value 1>",
-            "<value 2>",
-        ],
-        worker_affinity=False,
-        collector=models.CollectorDatabase(
-            type=models.CollectorDatabaseType.DATABASE,
-            conf=models.DatabaseCollectorConf(
-                connection_id="<id>",
-                query="<value>",
-                query_validation_enabled=True,
-                default_breakers=models.HiddenDefaultBreakersOptionsDatabaseCollectorConf.CRIBL,
-                scheduling=models.DatabaseCollectorConfScheduling(
-                    state_tracking=models.DatabaseCollectorConfStateTracking(
-                        enabled=False,
-                    ),
-                ),
-            ),
-            destructive=True,
-            encoding="<value>",
-        ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
-            breaker_rulesets=[
-                "<value 1>",
-                "<value 2>",
-                "<value 3>",
-            ],
-            stale_channel_flush_ms=10000,
-            send_to_routes=True,
-            preprocess=models.PreprocessType(
-                disabled=True,
-                command="<value>",
-                args=[
-                    "<value 1>",
-                    "<value 2>",
-                ],
-            ),
-            throttle_rate_per_sec="0",
-            metadata=[
-                models.ItemsTypeMetadata(
-                    name="<value>",
-                    value="<value>",
-                ),
-            ],
-            pipeline="<value>",
-            output="<value>",
-        ),
-    ), cribl_pack="<value>")
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -1207,47 +709,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job={
-        "id": "<id>",
-        "description": "unabashedly notwithstanding ugh digestive",
-        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 9142.96,
-                "latest": 521.08,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.update(id_param="<id>", id="s3-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */6 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -1268,51 +743,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job={
-        "id": "<id>",
-        "description": "wee supposing blaring spectate dark",
-        "type": models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": False,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 4891.8,
-                "latest": 5936.75,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.update(id_param="<id>", id="script-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */3 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "executor": {
-            "type": "<value>",
-            "store_task_results": True,
-            "conf": {},
-        },
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -1333,51 +777,20 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.update(id="<id>", saved_job={
-        "id": "<id>",
-        "description": "unabashedly notwithstanding ugh digestive",
-        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
-        "ttl": "4h",
-        "ignore_group_jobs_limit": False,
-        "remove_fields": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "resume_on_boot": False,
-        "environment": "<value>",
-        "schedule": {
-            "enabled": True,
-            "skippable": True,
-            "resume_missed": False,
-            "cron_schedule": "*/5 * * * *",
-            "max_concurrent_runs": 1,
-            "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
-                "reschedule_dropped_tasks": True,
-                "max_task_reschedule": 1,
-                "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.INFO,
-                "job_timeout": "0",
-                "mode": "list",
-                "time_range_type": "relative",
-                "earliest": 9142.96,
-                "latest": 521.08,
-                "timestamp_timezone": "<value>",
-                "time_warning": {},
+    res = ccp_client.collectors.update(id_param="<id>", id="splunk-collector", type_="collection", cribl_pack="<value>", schedule=models.ScheduleOpts(
+        cron_schedule="0 */1 * * *",
+        enabled=True,
+        run=models.RunSettings(
+            **{
+                "mode": "run",
+                "timeRangeType": "relative",
+                "earliest": -300,
                 "expression": "true",
-                "min_task_size": "1MB",
-                "max_task_size": "10MB",
+                "logLevel": "info",
             },
-        },
-        "streamtags": [
-            "<value 1>",
-            "<value 2>",
-        ],
-        "executor": {
-            "type": "<value>",
-            "store_task_results": True,
-            "conf": {},
-        },
-    }, cribl_pack="<value>")
+        ),
+        tz="UTC",
+    ))
 
     # Handle response
     print(res)
@@ -1386,12 +799,19 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                              | Type                                                                   | Required                                                               | Description                                                            |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `id`                                                                   | *str*                                                                  | :heavy_check_mark:                                                     | The <code>id</code> of the Collector to update.                        |
-| `saved_job`                                                            | [models.SavedJob](../../models/savedjob.md)                            | :heavy_check_mark:                                                     | SavedJob object                                                        |
-| `cribl_pack`                                                           | *Optional[str]*                                                        | :heavy_minus_sign:                                                     | The <code>id</code> of the Pack that includes the Collector to update. |
-| `retries`                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)       | :heavy_minus_sign:                                                     | Configuration to override the default retry behavior of the client.    |
+| Parameter                                                                                                                                                                                | Type                                                                                                                                                                                     | Required                                                                                                                                                                                 | Description                                                                                                                                                                              |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id_param`                                                                                                                                                                               | *str*                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                       | The <code>id</code> of the Collector to update.                                                                                                                                          |
+| `id`                                                                                                                                                                                     | *str*                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                       | N/A                                                                                                                                                                                      |
+| `type`                                                                                                                                                                                   | *str*                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                       | Job type: collection, executor, or scheduledSearch.                                                                                                                                      |
+| `cribl_pack`                                                                                                                                                                             | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | The <code>id</code> of the Pack that includes the Collector to update.                                                                                                                   |
+| `environment`                                                                                                                                                                            | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.                                                                                     |
+| `group_id`                                                                                                                                                                               | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | Worker Group ID to run the job in. When empty, uses the default group.                                                                                                                   |
+| `ignore_group_jobs_limit`                                                                                                                                                                | *Optional[bool]*                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                       | When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live. |
+| `resume_on_boot`                                                                                                                                                                         | *Optional[bool]*                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                       | Resume the ad hoc job if a failure condition causes Stream to restart during job execution.                                                                                              |
+| `schedule`                                                                                                                                                                               | [Optional[models.ScheduleOpts]](../../models/scheduleopts.md)                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                       | N/A                                                                                                                                                                                      |
+| `ttl`                                                                                                                                                                                    | *Optional[str]*                                                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                       | Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.                                                          |
+| `retries`                                                                                                                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                       | Configuration to override the default retry behavior of the client.                                                                                                                      |
 
 ### Response
 

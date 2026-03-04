@@ -3,13 +3,13 @@
 from __future__ import annotations
 from .collector import Collector, CollectorTypedDict
 from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
-from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
-    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
-    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
-)
 from .scheduletypesavedjobresponsecollection import (
     ScheduleTypeSavedJobResponseCollection,
     ScheduleTypeSavedJobResponseCollectionTypedDict,
+)
+from .typecollectionwithbreakerrulesetsconstraint import (
+    TypeCollectionWithBreakerRulesetsConstraint,
+    TypeCollectionWithBreakerRulesetsConstraintTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -42,9 +42,7 @@ class SavedJobCollectionTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict
-    ]
+    input: NotRequired[TypeCollectionWithBreakerRulesetsConstraintTypedDict]
 
 
 class SavedJobCollection(BaseModel):
@@ -90,9 +88,7 @@ class SavedJobCollection(BaseModel):
     ] = None
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint
-    ] = None
+    input: Optional[TypeCollectionWithBreakerRulesetsConstraint] = None
 
     @field_serializer("type")
     def serialize_type(self, value):

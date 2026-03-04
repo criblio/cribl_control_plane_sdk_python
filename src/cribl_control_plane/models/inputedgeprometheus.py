@@ -14,7 +14,7 @@ from .itemstypesearchfilter import ItemsTypeSearchFilter, ItemsTypeSearchFilterT
 from .pqtype import PqType, PqTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
-from .signatureversionoptionsv2v4 import SignatureVersionOptionsV2V4
+from .signatureversionoptions1 import SignatureVersionOptions1
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -189,7 +189,7 @@ class InputEdgePrometheusTypedDict(TypedDict):
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsV2V4]
+    signature_version: NotRequired[SignatureVersionOptions1]
     r"""Signature version to use for signing EC2 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -343,7 +343,7 @@ class InputEdgePrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptionsV2V4], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing EC2 requests"""
 
@@ -486,7 +486,7 @@ class InputEdgePrometheus(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptionsV2V4(value)
+                return models.SignatureVersionOptions1(value)
             except ValueError:
                 return value
         return value

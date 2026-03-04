@@ -111,6 +111,12 @@ value: models.InputOffice365Service = /* values here */
 value: models.InputOffice365MsgTrace = /* values here */
 ```
 
+### `models.InputMicrosoftGraph`
+
+```python
+value: models.InputMicrosoftGraph = /* values here */
+```
+
 ### `models.InputEventhub`
 
 ```python

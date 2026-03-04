@@ -3,8 +3,8 @@
 from __future__ import annotations
 from .authenticationtypeoptions import AuthenticationTypeOptions
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
-from .compressionoptionsdeflategzip import CompressionOptionsDeflateGzip
-from .compressionoptionsmessages import CompressionOptionsMessages
+from .compressionoptions4 import CompressionOptions4
+from .compressionoptions5 import CompressionOptions5
 from .compressionoptionspq import CompressionOptionsPq
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
 from .itemstypeextrahttpheaders import (
@@ -26,9 +26,9 @@ from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
 )
-from .tlssettingsclientsidetypeextended import (
-    TLSSettingsClientSideTypeExtended,
-    TLSSettingsClientSideTypeExtendedTypedDict,
+from .tlssettingsclientsidetype2 import (
+    TLSSettingsClientSideType2,
+    TLSSettingsClientSideType2TypedDict,
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -78,9 +78,9 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     r"""Select a transport option for OpenTelemetry"""
     otlp_version: NotRequired[OutputOpenTelemetryOTLPVersion]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
-    compress: NotRequired[CompressionOptionsDeflateGzip]
+    compress: NotRequired[CompressionOptions4]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
-    http_compress: NotRequired[CompressionOptionsMessages]
+    http_compress: NotRequired[CompressionOptions5]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     auth_type: NotRequired[AuthenticationTypeOptions]
     r"""OpenTelemetry authentication type"""
@@ -135,7 +135,7 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
+    tls: NotRequired[TLSSettingsClientSideType2TypedDict]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -143,7 +143,7 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -156,8 +156,6 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputOpenTelemetryPqControlsTypedDict]
 
 
@@ -192,11 +190,11 @@ class OutputOpenTelemetry(BaseModel):
     ] = None
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
-    compress: Optional[CompressionOptionsDeflateGzip] = None
+    compress: Optional[CompressionOptions4] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
-        Optional[CompressionOptionsMessages], pydantic.Field(alias="httpCompress")
+        Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
     ] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
@@ -319,7 +317,7 @@ class OutputOpenTelemetry(BaseModel):
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    tls: Optional[TLSSettingsClientSideTypeExtended] = None
+    tls: Optional[TLSSettingsClientSideType2] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -337,7 +335,7 @@ class OutputOpenTelemetry(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -365,11 +363,6 @@ class OutputOpenTelemetry(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-
     pq_controls: Annotated[
         Optional[OutputOpenTelemetryPqControls], pydantic.Field(alias="pqControls")
     ] = None
@@ -396,7 +389,7 @@ class OutputOpenTelemetry(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsDeflateGzip(value)
+                return models.CompressionOptions4(value)
             except ValueError:
                 return value
         return value
@@ -405,7 +398,7 @@ class OutputOpenTelemetry(BaseModel):
     def serialize_http_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsMessages(value)
+                return models.CompressionOptions5(value)
             except ValueError:
                 return value
         return value
@@ -515,7 +508,6 @@ class OutputOpenTelemetry(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
             ]
         )

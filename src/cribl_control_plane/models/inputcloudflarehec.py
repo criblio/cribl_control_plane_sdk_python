@@ -6,8 +6,12 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptionalTypedDict,
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
-from .maximumtlsversionoptionstls import MaximumTLSVersionOptionsTLS
-from .minimumtlsversionoptionstls import MinimumTLSVersionOptionsTLS
+from .maximumtlsversionoptionskafkaschemaregistrytls import (
+    MaximumTLSVersionOptionsKafkaSchemaRegistryTLS,
+)
+from .minimumtlsversionoptionskafkaschemaregistrytls import (
+    MinimumTLSVersionOptionsKafkaSchemaRegistryTLS,
+)
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -117,8 +121,8 @@ class TLSSettingsServerSideTypedDict(TypedDict):
     r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl certificate when TLS is enabled."""
     ca_path: NotRequired[str]
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
-    min_version: NotRequired[MinimumTLSVersionOptionsTLS]
-    max_version: NotRequired[MaximumTLSVersionOptionsTLS]
+    min_version: NotRequired[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS]
+    max_version: NotRequired[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS]
 
 
 class TLSSettingsServerSide(BaseModel):
@@ -156,18 +160,20 @@ class TLSSettingsServerSide(BaseModel):
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
 
     min_version: Annotated[
-        Optional[MinimumTLSVersionOptionsTLS], pydantic.Field(alias="minVersion")
+        Optional[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS],
+        pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Optional[MaximumTLSVersionOptionsTLS], pydantic.Field(alias="maxVersion")
+        Optional[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS],
+        pydantic.Field(alias="maxVersion"),
     ] = None
 
     @field_serializer("min_version")
     def serialize_min_version(self, value):
         if isinstance(value, str):
             try:
-                return models.MinimumTLSVersionOptionsTLS(value)
+                return models.MinimumTLSVersionOptionsKafkaSchemaRegistryTLS(value)
             except ValueError:
                 return value
         return value
@@ -176,7 +182,7 @@ class TLSSettingsServerSide(BaseModel):
     def serialize_max_version(self, value):
         if isinstance(value, str):
             try:
-                return models.MaximumTLSVersionOptionsTLS(value)
+                return models.MaximumTLSVersionOptionsKafkaSchemaRegistryTLS(value)
             except ValueError:
                 return value
         return value

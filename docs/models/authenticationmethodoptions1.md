@@ -1,0 +1,21 @@
+# AuthenticationMethodOptions1
+
+Enter client secret directly, or select a stored secret
+
+## Example Usage
+
+```python
+from cribl_control_plane.models import AuthenticationMethodOptions1
+
+value = AuthenticationMethodOptions1.MANUAL
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
+
+## Values
+
+| Name     | Value    |
+| -------- | -------- |
+| `MANUAL` | manual   |
+| `SECRET` | secret   |

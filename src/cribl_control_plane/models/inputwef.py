@@ -6,8 +6,12 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptionalTypedDict,
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
-from .maximumtlsversionoptionstls import MaximumTLSVersionOptionsTLS
-from .minimumtlsversionoptionstls import MinimumTLSVersionOptionsTLS
+from .maximumtlsversionoptionskafkaschemaregistrytls import (
+    MaximumTLSVersionOptionsKafkaSchemaRegistryTLS,
+)
+from .minimumtlsversionoptionskafkaschemaregistrytls import (
+    MinimumTLSVersionOptionsKafkaSchemaRegistryTLS,
+)
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -50,8 +54,8 @@ class MTLSSettingsTypedDict(TypedDict):
     r"""Passphrase to use to decrypt private key"""
     common_name_regex: NotRequired[str]
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
-    min_version: NotRequired[MinimumTLSVersionOptionsTLS]
-    max_version: NotRequired[MaximumTLSVersionOptionsTLS]
+    min_version: NotRequired[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS]
+    max_version: NotRequired[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS]
     ocsp_check: NotRequired[bool]
     r"""Enable OCSP check of certificate"""
     ocsp_check_fail_close: NotRequired[bool]
@@ -93,11 +97,13 @@ class MTLSSettings(BaseModel):
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     min_version: Annotated[
-        Optional[MinimumTLSVersionOptionsTLS], pydantic.Field(alias="minVersion")
+        Optional[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS],
+        pydantic.Field(alias="minVersion"),
     ] = None
 
     max_version: Annotated[
-        Optional[MaximumTLSVersionOptionsTLS], pydantic.Field(alias="maxVersion")
+        Optional[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS],
+        pydantic.Field(alias="maxVersion"),
     ] = None
 
     ocsp_check: Annotated[Optional[bool], pydantic.Field(alias="ocspCheck")] = None
@@ -112,7 +118,7 @@ class MTLSSettings(BaseModel):
     def serialize_min_version(self, value):
         if isinstance(value, str):
             try:
-                return models.MinimumTLSVersionOptionsTLS(value)
+                return models.MinimumTLSVersionOptionsKafkaSchemaRegistryTLS(value)
             except ValueError:
                 return value
         return value
@@ -121,7 +127,7 @@ class MTLSSettings(BaseModel):
     def serialize_max_version(self, value):
         if isinstance(value, str):
             try:
-                return models.MaximumTLSVersionOptionsTLS(value)
+                return models.MaximumTLSVersionOptionsKafkaSchemaRegistryTLS(value)
             except ValueError:
                 return value
         return value

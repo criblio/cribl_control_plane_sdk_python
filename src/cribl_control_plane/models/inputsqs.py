@@ -10,7 +10,7 @@ from .itemstypeconnectionsoptional import (
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
-from .signatureversionoptionssqs import SignatureVersionOptionsSqs
+from .signatureversionoptions3 import SignatureVersionOptions3
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -66,7 +66,7 @@ class InputSqsTypedDict(TypedDict):
     r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsSqs]
+    signature_version: NotRequired[SignatureVersionOptions3]
     r"""Signature version to use for signing SQS requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -171,7 +171,7 @@ class InputSqs(BaseModel):
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptionsSqs], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptions3], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing SQS requests"""
 
@@ -288,7 +288,7 @@ class InputSqs(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptionsSqs(value)
+                return models.SignatureVersionOptions3(value)
             except ValueError:
                 return value
         return value

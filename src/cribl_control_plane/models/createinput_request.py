@@ -2,26 +2,26 @@
 
 from __future__ import annotations
 from .authenticationmethodoptions import AuthenticationMethodOptions
+from .authenticationmethodoptions1 import AuthenticationMethodOptions1
+from .authenticationmethodoptions2 import AuthenticationMethodOptions2
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
-)
-from .authenticationmethodoptionsmanualsecret import (
-    AuthenticationMethodOptionsManualSecret,
 )
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .authenticationmethodoptionssasl import AuthenticationMethodOptionsSasl
 from .authenticationtype import AuthenticationType, AuthenticationTypeTypedDict
+from .authenticationtype1 import AuthenticationType1, AuthenticationType1TypedDict
 from .authenticationtypeoptionslokiauth import AuthenticationTypeOptionsLokiAuth
 from .authenticationtypeoptionsprometheusauth import (
     AuthenticationTypeOptionsPrometheusAuth,
 )
-from .authenticationtypeuse import AuthenticationTypeUse, AuthenticationTypeUseTypedDict
 from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCert,
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
+from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
 from .createinput_type_tcpjson import (
     CreateInputInputAppscope,
     CreateInputInputAppscopeTypedDict,
@@ -114,6 +114,7 @@ from .kafkaschemaregistryauthenticationtype import (
     KafkaSchemaRegistryAuthenticationType,
     KafkaSchemaRegistryAuthenticationTypeTypedDict,
 )
+from .logleveloptions import LogLevelOptions
 from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
 from .outputmodeoptionssplunkcollectorconf import OutputModeOptionsSplunkCollectorConf
 from .pqtype import PqType, PqTypeTypedDict
@@ -121,20 +122,17 @@ from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
-from .retryrulestypecodesenableheader import (
-    RetryRulesTypeCodesEnableHeader,
-    RetryRulesTypeCodesEnableHeaderTypedDict,
-)
+from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
 from .signatureversionoptions import SignatureVersionOptions
-from .signatureversionoptionsv2v4 import SignatureVersionOptionsV2V4
+from .signatureversionoptions1 import SignatureVersionOptions1
 from .subscriptionplanoptions import SubscriptionPlanOptions
 from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
     TLSSettingsClientSideTypeTypedDict,
 )
-from .tlssettingsclientsidetypecapathcertpath import (
-    TLSSettingsClientSideTypeCaPathCertPath,
-    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
+from .tlssettingsclientsidetypekafkaschemaregistry import (
+    TLSSettingsClientSideTypeKafkaSchemaRegistry,
+    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
 )
 from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
@@ -1852,7 +1850,7 @@ class CreateInputInputEventhubTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    sasl: NotRequired[AuthenticationTypeUseTypedDict]
+    sasl: NotRequired[AuthenticationType1TypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
     session_timeout: NotRequired[float]
@@ -1966,7 +1964,7 @@ class CreateInputInputEventhub(BaseModel):
     ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
-    sasl: Optional[AuthenticationTypeUse] = None
+    sasl: Optional[AuthenticationType1] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
@@ -2080,61 +2078,317 @@ class CreateInputInputEventhub(BaseModel):
         return m
 
 
-class CreateInputTypeOffice365MsgTrace(str, Enum):
-    OFFICE365_MSG_TRACE = "office365_msg_trace"
+class CreateInputTypeMicrosoftGraph(str, Enum):
+    MICROSOFT_GRAPH = "microsoft_graph"
 
 
-class CreateInputAuthenticationMethodOffice365MsgTrace(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputInputMicrosoftGraphTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputTypeMicrosoftGraph
+    url: str
+    r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
+    interval: int
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    start_date: NotRequired[str]
+    r"""Backward offset for the search range's head. (E.g.: -3h@h) Microsoft Graph data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
+    end_date: NotRequired[str]
+    r"""Backward offset for the search range's tail. (E.g.: -2h@h) Microsoft Graph data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
+    timeout: NotRequired[float]
+    r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
+    disable_time_filter: NotRequired[bool]
+    r"""Disables time filtering of events when a date range is specified."""
+    auth_type: NotRequired[AuthenticationMethodOptions2]
+    r"""Select authentication method."""
+    keep_alive_time: NotRequired[float]
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+    max_missed_keep_alives: NotRequired[float]
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+    ttl: NotRequired[str]
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+    ignore_group_jobs_limit: NotRequired[bool]
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    reschedule_dropped_tasks: NotRequired[bool]
+    r"""Reschedule tasks that failed with non-fatal errors"""
+    max_task_reschedule: NotRequired[float]
+    r"""Maximum number of times a task can be rescheduled"""
+    log_level: NotRequired[LogLevelOptions]
+    r"""Log Level (verbosity) for collection runtime behavior."""
+    retry_rules: NotRequired[RetryRulesType1TypedDict]
+    description: NotRequired[str]
+    username: NotRequired[str]
+    r"""Username to run Microsoft Graph API call."""
+    password: NotRequired[str]
+    r"""Password to run Microsoft Graph API call."""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials."""
+    client_secret: NotRequired[str]
+    r"""client_secret to pass in the OAuth request parameter."""
+    tenant_id: NotRequired[str]
+    r"""Directory ID (tenant identifier) in Azure Active Directory."""
+    client_id: NotRequired[str]
+    r"""client_id to pass in the OAuth request parameter."""
+    resource: NotRequired[str]
+    r"""Resource to pass in the OAuth request parameter."""
+    plan_type: NotRequired[SubscriptionPlanOptions]
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    text_secret: NotRequired[str]
+    r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
+    cert_options: NotRequired[CertOptionsTypeTypedDict]
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+    template_resource: NotRequired[str]
+    r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
+
+
+class CreateInputInputMicrosoftGraph(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputTypeMicrosoftGraph
+
+    url: str
+    r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
+
+    interval: int
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
+
+    disabled: Optional[bool] = None
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
+    r"""Backward offset for the search range's head. (E.g.: -3h@h) Microsoft Graph data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
+
+    end_date: Annotated[Optional[str], pydantic.Field(alias="endDate")] = None
+    r"""Backward offset for the search range's tail. (E.g.: -2h@h) Microsoft Graph data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
+
+    timeout: Optional[float] = None
+    r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
+
+    disable_time_filter: Annotated[
+        Optional[bool], pydantic.Field(alias="disableTimeFilter")
+    ] = None
+    r"""Disables time filtering of events when a date range is specified."""
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+    ] = None
     r"""Select authentication method."""
 
-    MANUAL = "manual"
-    SECRET = "secret"
-    OAUTH = "oauth"
-    OAUTH_SECRET = "oauthSecret"
-    OAUTH_CERT = "oauthCert"
+    keep_alive_time: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTime")
+    ] = None
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
 
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
-class CreateInputLogLevelOffice365MsgTrace(str, Enum, metaclass=utils.OpenEnumMeta):
+    max_missed_keep_alives: Annotated[
+        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
+    ] = None
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+
+    ttl: Optional[str] = None
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+
+    ignore_group_jobs_limit: Annotated[
+        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
+    ] = None
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    reschedule_dropped_tasks: Annotated[
+        Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
+    ] = None
+    r"""Reschedule tasks that failed with non-fatal errors"""
+
+    max_task_reschedule: Annotated[
+        Optional[float], pydantic.Field(alias="maxTaskReschedule")
+    ] = None
+    r"""Maximum number of times a task can be rescheduled"""
+
+    log_level: Annotated[
+        Optional[LogLevelOptions], pydantic.Field(alias="logLevel")
+    ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
-    ERROR = "error"
-    WARN = "warn"
-    INFO = "info"
-    DEBUG = "debug"
-    SILLY = "silly"
-
-
-class CreateInputCertOptionsTypedDict(TypedDict):
-    priv_key_path: str
-    r"""Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS."""
-    cert_path: str
-    r"""Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS."""
-    certificate_name: NotRequired[str]
-    r"""The name of the predefined certificate."""
-    passphrase: NotRequired[str]
-    r"""Passphrase to use to decrypt the private key."""
-
-
-class CreateInputCertOptions(BaseModel):
-    priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
-    r"""Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS."""
-
-    cert_path: Annotated[str, pydantic.Field(alias="certPath")]
-    r"""Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS."""
-
-    certificate_name: Annotated[
-        Optional[str], pydantic.Field(alias="certificateName")
+    retry_rules: Annotated[
+        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
     ] = None
-    r"""The name of the predefined certificate."""
 
-    passphrase: Optional[str] = None
-    r"""Passphrase to use to decrypt the private key."""
+    description: Optional[str] = None
+
+    username: Optional[str] = None
+    r"""Username to run Microsoft Graph API call."""
+
+    password: Optional[str] = None
+    r"""Password to run Microsoft Graph API call."""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials."""
+
+    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
+    r"""client_secret to pass in the OAuth request parameter."""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""Directory ID (tenant identifier) in Azure Active Directory."""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""client_id to pass in the OAuth request parameter."""
+
+    resource: Optional[str] = None
+    r"""Resource to pass in the OAuth request parameter."""
+
+    plan_type: Annotated[
+        Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
+    ] = None
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
+
+    cert_options: Annotated[
+        Optional[CertOptionsType], pydantic.Field(alias="certOptions")
+    ] = None
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
+    template_resource: Annotated[
+        Optional[str], pydantic.Field(alias="__template_resource")
+    ] = None
+    r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptions2(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("log_level")
+    def serialize_log_level(self, value):
+        if isinstance(value, str):
+            try:
+                return models.LogLevelOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("plan_type")
+    def serialize_plan_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SubscriptionPlanOptions(value)
+            except ValueError:
+                return value
+        return value
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["certificateName", "passphrase"])
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "startDate",
+                "endDate",
+                "timeout",
+                "disableTimeFilter",
+                "authType",
+                "keepAliveTime",
+                "jobTimeout",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "rescheduleDroppedTasks",
+                "maxTaskReschedule",
+                "logLevel",
+                "retryRules",
+                "description",
+                "username",
+                "password",
+                "credentialsSecret",
+                "clientSecret",
+                "tenantId",
+                "clientId",
+                "resource",
+                "planType",
+                "textSecret",
+                "certOptions",
+                "__template_url",
+                "__template_tenantId",
+                "__template_clientId",
+                "__template_resource",
+            ]
+        )
         serialized = handler(self)
         m = {}
 
@@ -2149,13 +2403,17 @@ class CreateInputCertOptions(BaseModel):
         return m
 
 
+class CreateInputTypeOffice365MsgTrace(str, Enum):
+    OFFICE365_MSG_TRACE = "office365_msg_trace"
+
+
 class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputTypeOffice365MsgTrace
     url: str
     r"""URL to use when retrieving report data."""
-    interval: float
+    interval: int
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -2179,18 +2437,12 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[CreateInputAuthenticationMethodOffice365MsgTrace]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Select authentication method."""
-    reschedule_dropped_tasks: NotRequired[bool]
-    r"""Reschedule tasks that failed with non-fatal errors"""
-    max_task_reschedule: NotRequired[float]
-    r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[CreateInputLogLevelOffice365MsgTrace]
-    r"""Log Level (verbosity) for collection runtime behavior."""
-    job_timeout: NotRequired[str]
-    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
     max_missed_keep_alives: NotRequired[float]
     r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
     ttl: NotRequired[str]
@@ -2199,7 +2451,13 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    reschedule_dropped_tasks: NotRequired[bool]
+    r"""Reschedule tasks that failed with non-fatal errors"""
+    max_task_reschedule: NotRequired[float]
+    r"""Maximum number of times a task can be rescheduled"""
+    log_level: NotRequired[LogLevelOptions]
+    r"""Log Level (verbosity) for collection runtime behavior."""
+    retry_rules: NotRequired[RetryRulesType1TypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
     r"""Username to run Message Trace API call."""
@@ -2219,7 +2477,7 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
-    cert_options: NotRequired[CreateInputCertOptionsTypedDict]
+    cert_options: NotRequired[CertOptionsTypeTypedDict]
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_tenant_id: NotRequired[str]
@@ -2239,7 +2497,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     url: str
     r"""URL to use when retrieving report data."""
 
-    interval: float
+    interval: int
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
 
     disabled: Optional[bool] = None
@@ -2281,33 +2539,17 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[CreateInputAuthenticationMethodOffice365MsgTrace],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
     ] = None
     r"""Select authentication method."""
-
-    reschedule_dropped_tasks: Annotated[
-        Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
-    ] = None
-    r"""Reschedule tasks that failed with non-fatal errors"""
-
-    max_task_reschedule: Annotated[
-        Optional[float], pydantic.Field(alias="maxTaskReschedule")
-    ] = None
-    r"""Maximum number of times a task can be rescheduled"""
-
-    log_level: Annotated[
-        Optional[CreateInputLogLevelOffice365MsgTrace], pydantic.Field(alias="logLevel")
-    ] = None
-    r"""Log Level (verbosity) for collection runtime behavior."""
-
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
-    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
     ] = None
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
     max_missed_keep_alives: Annotated[
         Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
@@ -2325,8 +2567,23 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
+    reschedule_dropped_tasks: Annotated[
+        Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
+    ] = None
+    r"""Reschedule tasks that failed with non-fatal errors"""
+
+    max_task_reschedule: Annotated[
+        Optional[float], pydantic.Field(alias="maxTaskReschedule")
+    ] = None
+    r"""Maximum number of times a task can be rescheduled"""
+
+    log_level: Annotated[
+        Optional[LogLevelOptions], pydantic.Field(alias="logLevel")
+    ] = None
+    r"""Log Level (verbosity) for collection runtime behavior."""
+
     retry_rules: Annotated[
-        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
     ] = None
 
     description: Optional[str] = None
@@ -2363,7 +2620,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
 
     cert_options: Annotated[
-        Optional[CreateInputCertOptions], pydantic.Field(alias="certOptions")
+        Optional[CertOptionsType], pydantic.Field(alias="certOptions")
     ] = None
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
@@ -2390,7 +2647,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputAuthenticationMethodOffice365MsgTrace(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -2399,7 +2656,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputLogLevelOffice365MsgTrace(value)
+                return models.LogLevelOptions(value)
             except ValueError:
                 return value
         return value
@@ -2430,15 +2687,15 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
                 "timeout",
                 "disableTimeFilter",
                 "authType",
-                "rescheduleDroppedTasks",
-                "maxTaskReschedule",
-                "logLevel",
-                "jobTimeout",
                 "keepAliveTime",
+                "jobTimeout",
                 "maxMissedKeepAlives",
                 "ttl",
                 "ignoreGroupJobsLimit",
                 "metadata",
+                "rescheduleDroppedTasks",
+                "maxTaskReschedule",
+                "logLevel",
                 "retryRules",
                 "description",
                 "username",
@@ -2570,8 +2827,8 @@ class CreateInputInputOffice365ServiceTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     content_config: NotRequired[List[CreateInputContentConfigOffice365ServiceTypedDict]]
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
-    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
+    retry_rules: NotRequired[RetryRulesType1TypedDict]
+    auth_type: NotRequired[AuthenticationMethodOptions1]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -2661,12 +2918,11 @@ class CreateInputInputOffice365Service(BaseModel):
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptionsManualSecret],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
     ] = None
     r"""Enter client secret directly, or select a stored secret"""
 
@@ -2706,7 +2962,7 @@ class CreateInputInputOffice365Service(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsManualSecret(value)
+                return models.AuthenticationMethodOptions1(value)
             except ValueError:
                 return value
         return value
@@ -2859,8 +3115,8 @@ class CreateInputInputOffice365MgmtTypedDict(TypedDict):
     r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
-    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
+    retry_rules: NotRequired[RetryRulesType1TypedDict]
+    auth_type: NotRequired[AuthenticationMethodOptions1]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -2960,12 +3216,11 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptionsManualSecret],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
     ] = None
     r"""Enter client secret directly, or select a stored secret"""
 
@@ -3010,7 +3265,7 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsManualSecret(value)
+                return models.AuthenticationMethodOptions1(value)
             except ValueError:
                 return value
         return value
@@ -3229,7 +3484,7 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsV2V4]
+    signature_version: NotRequired[SignatureVersionOptions1]
     r"""Signature version to use for signing EC2 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -3383,7 +3638,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptionsV2V4], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing EC2 requests"""
 
@@ -3526,7 +3781,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptionsV2V4(value)
+                return models.SignatureVersionOptions1(value)
             except ValueError:
                 return value
         return value
@@ -3700,7 +3955,7 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsV2V4]
+    signature_version: NotRequired[SignatureVersionOptions1]
     r"""Signature version to use for signing EC2 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -3874,7 +4129,7 @@ class CreateInputInputPrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptionsV2V4], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing EC2 requests"""
 
@@ -4002,7 +4257,7 @@ class CreateInputInputPrometheus(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptionsV2V4(value)
+                return models.SignatureVersionOptions1(value)
             except ValueError:
                 return value
         return value
@@ -5392,7 +5647,7 @@ class CreateInputInputConfluentCloudTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -5485,7 +5740,7 @@ class CreateInputInputConfluentCloud(BaseModel):
 
     pq: Optional[PqType] = None
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -7732,7 +7987,7 @@ class CreateInputInputMskTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     auto_commit_interval: NotRequired[float]
     r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
     auto_commit_threshold: NotRequired[float]
@@ -7923,7 +8178,7 @@ class CreateInputInputMsk(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     auto_commit_interval: Annotated[
         Optional[float], pydantic.Field(alias="autoCommitInterval")
@@ -8113,7 +8368,7 @@ class CreateInputInputKafkaTypedDict(TypedDict):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
     sasl: NotRequired[AuthenticationTypeTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     session_timeout: NotRequired[float]
     r"""
     Timeout used to detect client failures when using Kafka's group-management facilities.
@@ -8233,7 +8488,7 @@ class CreateInputInputKafka(BaseModel):
     sasl: Optional[AuthenticationType] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
@@ -8472,9 +8727,9 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputCriblmetricsTypedDict,
         CreateInputInputKubeMetricsTypedDict,
         CreateInputInputCollectionTypedDict,
+        CreateInputInputSystemStateTypedDict,
         CreateInputInputSystemMetricsTypedDict,
         CreateInputInputWindowsMetricsTypedDict,
-        CreateInputInputSystemStateTypedDict,
         CreateInputInputJournalFilesTypedDict,
         CreateInputInputKubeLogsTypedDict,
         CreateInputInputModelDrivenTelemetryTypedDict,
@@ -8488,9 +8743,9 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputOpenaiTypedDict,
         CreateInputInputTcpjsonTypedDict,
         CreateInputInputGooglePubsubTypedDict,
+        CreateInputInputWizTypedDict,
         CreateInputInputFirehoseTypedDict,
         CreateInputInputCriblHTTPTypedDict,
-        CreateInputInputWizTypedDict,
         CreateInputInputOffice365ServiceTypedDict,
         CreateInputInputTCPTypedDict,
         CreateInputInputDatadogAgentTypedDict,
@@ -8499,30 +8754,31 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputOffice365MgmtTypedDict,
         CreateInputInputWefTypedDict,
         CreateInputInputAppscopeTypedDict,
-        CreateInputInputHTTPRawTypedDict,
         CreateInputInputWizWebhookTypedDict,
-        CreateInputInputEventhubTypedDict,
-        CreateInputInputCloudflareHecTypedDict,
-        CreateInputInputZscalerHecTypedDict,
-        CreateInputInputKafkaTypedDict,
+        CreateInputInputHTTPRawTypedDict,
         CreateInputInputHTTPTypedDict,
-        CreateInputInputConfluentCloudTypedDict,
+        CreateInputInputKafkaTypedDict,
+        CreateInputInputZscalerHecTypedDict,
         CreateInputInputCriblLakeHTTPTypedDict,
+        CreateInputInputCloudflareHecTypedDict,
+        CreateInputInputConfluentCloudTypedDict,
+        CreateInputInputEventhubTypedDict,
         CreateInputInputLokiTypedDict,
         CreateInputInputPrometheusRwTypedDict,
-        CreateInputInputOpenTelemetryTypedDict,
         CreateInputInputAzureBlobTypedDict,
+        CreateInputInputOpenTelemetryTypedDict,
         CreateInputInputElasticTypedDict,
-        CreateInputInputSplunkHecTypedDict,
         CreateInputInputSqsTypedDict,
+        CreateInputInputSplunkHecTypedDict,
         CreateInputInputSplunkSearchTypedDict,
         CreateInputInputKinesisTypedDict,
         CreateInputInputOffice365MsgTraceTypedDict,
-        CreateInputInputCrowdstrikeTypedDict,
+        CreateInputInputMicrosoftGraphTypedDict,
         CreateInputInputEdgePrometheusTypedDict,
+        CreateInputInputCrowdstrikeTypedDict,
         CreateInputInputMskTypedDict,
-        CreateInputInputPrometheusTypedDict,
         CreateInputInputS3TypedDict,
+        CreateInputInputPrometheusTypedDict,
         CreateInputInputSecurityLakeTypedDict,
         CreateInputInputS3InventoryTypedDict,
         CreateInputInputSyslogUnionTypedDict,
@@ -8552,6 +8808,7 @@ CreateInputRequest = Annotated[
         Annotated[CreateInputInputOffice365Mgmt, Tag("office365_mgmt")],
         Annotated[CreateInputInputOffice365Service, Tag("office365_service")],
         Annotated[CreateInputInputOffice365MsgTrace, Tag("office365_msg_trace")],
+        Annotated[CreateInputInputMicrosoftGraph, Tag("microsoft_graph")],
         Annotated[CreateInputInputEventhub, Tag("eventhub")],
         Annotated[CreateInputInputExec, Tag("exec")],
         Annotated[CreateInputInputFirehose, Tag("firehose")],
@@ -8650,7 +8907,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputCertOptions.model_rebuild()
+    CreateInputInputMicrosoftGraph.model_rebuild()
 except NameError:
     pass
 try:

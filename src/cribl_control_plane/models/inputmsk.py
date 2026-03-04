@@ -15,9 +15,9 @@ from .kafkaschemaregistryauthenticationtype import (
 )
 from .pqtype import PqType, PqTypeTypedDict
 from .signatureversionoptions import SignatureVersionOptions
-from .tlssettingsclientsidetypecapathcertpath import (
-    TLSSettingsClientSideTypeCaPathCertPath,
-    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
+from .tlssettingsclientsidetypekafkaschemaregistry import (
+    TLSSettingsClientSideTypeKafkaSchemaRegistry,
+    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -116,7 +116,7 @@ class InputMskTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     auto_commit_interval: NotRequired[float]
     r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
     auto_commit_threshold: NotRequired[float]
@@ -307,7 +307,7 @@ class InputMsk(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     auto_commit_interval: Annotated[
         Optional[float], pydantic.Field(alias="autoCommitInterval")

@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1772645483046-e0f357e6
+  version: 4.17.0-alpha.1772651227296-63bbbcdd
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -111,25 +111,6 @@ components:
             delete: "#/components/schemas/DiffLineDelete"
             insert: "#/components/schemas/DiffLineInsert"
             context: "#/components/schemas/DiffLineContext"
-    SavedJobResponseExtras:
-      type: object
-      properties:
-        savedState:
-          type: object
-          additionalProperties:
-            type: object
-            required:
-              - data
-            properties:
-              data:
-                type: object
-                additionalProperties: true
-          description: Runtime collection state.
-        notifications:
-          type: array
-          items:
-            $ref: "#/components/schemas/Notification"
-          description: Notification targets.
     AggregateMetricsCumulativeTrue:
       type: object
       properties:
@@ -9018,12 +8999,6 @@ components:
           description: The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
           maximum: 3600
           minimum: 1
-        __template_containerName:
-          type: string
-          description: Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime.
-        __template_path:
-          type: string
-          description: Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/AzureBlobAuthTypeManual"
@@ -11932,7 +11907,7 @@ components:
         sasl:
           $ref: "#/components/schemas/AuthenticationType"
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         sessionTimeout:
           type: number
           title: Session timeout (ms)
@@ -12193,7 +12168,7 @@ components:
           minimum: 900
           maximum: 43200
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         autoCommitInterval:
           type: number
           title: Offset commit interval (ms)
@@ -13473,7 +13448,7 @@ components:
             type: string
             minLength: 1
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         topics:
           type: array
           title: Topic
@@ -14290,7 +14265,7 @@ components:
           title: Endpoint
           description: EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsV2V4"
+          $ref: "#/components/schemas/SignatureVersionOptions1"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -14529,7 +14504,7 @@ components:
           title: Endpoint
           description: EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsV2V4"
+          $ref: "#/components/schemas/SignatureVersionOptions1"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -14747,9 +14722,9 @@ components:
           minimum: 0
           maximum: 7200
         retryRules:
-          $ref: "#/components/schemas/RetryRulesTypeCodesEnableHeader"
+          $ref: "#/components/schemas/RetryRulesType1"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsManualSecret"
+          $ref: "#/components/schemas/AuthenticationMethodOptions1"
         description:
           type: string
           title: Description
@@ -14892,9 +14867,9 @@ components:
                 title: Enabled
           description: "Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."
         retryRules:
-          $ref: "#/components/schemas/RetryRulesTypeCodesEnableHeader"
+          $ref: "#/components/schemas/RetryRulesType1"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsManualSecret"
+          $ref: "#/components/schemas/AuthenticationMethodOptions1"
         description:
           type: string
           title: Description
@@ -14967,7 +14942,7 @@ components:
           type: string
           description: URL to use when retrieving report data.
         interval:
-          type: number
+          type: integer
           title: Poll interval
           description: How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail.
           minimum: 1
@@ -14991,46 +14966,17 @@ components:
           title: Disable time filter
           description: Disables time filtering of events when a date range is specified.
         authType:
-          title: Authentication method
-          type: string
-          enum:
-            - manual
-            - secret
-            - oauth
-            - oauthSecret
-            - oauthCert
-          description: Select authentication method.
-          x-speakeasy-unknown-values: allow
-        rescheduleDroppedTasks:
-          type: boolean
-          title: Reschedule tasks
-          description: Reschedule tasks that failed with non-fatal errors
-        maxTaskReschedule:
-          type: number
-          title: Task reschedule limit
-          description: Maximum number of times a task can be rescheduled
-          minimum: 1
-        logLevel:
-          type: string
-          title: Log level
-          description: Log Level (verbosity) for collection runtime behavior.
-          enum:
-            - error
-            - warn
-            - info
-            - debug
-            - silly
-          x-speakeasy-unknown-values: allow
-        jobTimeout:
-          type: string
-          title: Job timeout
-          description: Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time.
-          pattern: ^\d+[sm]?$
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         keepAliveTime:
           type: number
           title: Keep alive time (seconds)
           description: How often workers should check in with the scheduler to keep job subscription alive
           minimum: 10
+        jobTimeout:
+          title: Job timeout
+          type: string
+          description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+          pattern: \d+[sm]?$
         maxMissedKeepAlives:
           type: number
           title: Worker timeout (periods)
@@ -15051,8 +14997,19 @@ components:
           description: Fields to add to events from this input
           items:
             $ref: "#/components/schemas/ItemsTypeMetadata"
+        rescheduleDroppedTasks:
+          type: boolean
+          title: Reschedule tasks
+          description: Reschedule tasks that failed with non-fatal errors
+        maxTaskReschedule:
+          type: number
+          title: Task reschedule limit
+          description: Maximum number of times a task can be rescheduled
+          minimum: 1
+        logLevel:
+          $ref: "#/components/schemas/LogLevelOptions"
         retryRules:
-          $ref: "#/components/schemas/RetryRulesTypeCodesEnableHeader"
+          $ref: "#/components/schemas/RetryRulesType1"
         description:
           type: string
           title: Description
@@ -15091,27 +15048,178 @@ components:
           title: Client secret
           description: Select or create a secret that references your client_secret to pass in the OAuth request parameter.
         certOptions:
-          type: object
-          required:
-            - privKeyPath
-            - certPath
-          properties:
-            certificateName:
-              type: string
-              title: Certificate
-              description: The name of the predefined certificate.
-            privKeyPath:
-              type: string
-              title: Private key path
-              description: Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS.
-            passphrase:
-              type: string
-              title: Passphrase
-              description: Passphrase to use to decrypt the private key.
-            certPath:
-              type: string
-              title: Certificate path
-              description: Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS.
+          $ref: "#/components/schemas/CertOptionsType"
+        __template_url:
+          type: string
+          description: Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime.
+        __template_tenantId:
+          type: string
+          description: Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime.
+        __template_clientId:
+          type: string
+          description: Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime.
+        __template_resource:
+          type: string
+          description: Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime.
+    InputMicrosoftGraph:
+      type: object
+      required:
+        - type
+        - url
+        - interval
+      properties:
+        id:
+          type: string
+          title: Input ID
+          description: Unique ID for this input
+        type:
+          type: string
+          enum:
+            - microsoft_graph
+        disabled:
+          type: boolean
+          title: Disabled
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data from this Source before sending it through the Routes
+        sendToRoutes:
+          type: boolean
+          description: Select whether to send data to Routes, or directly to Destinations.
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        pqEnabled:
+          type: boolean
+          title: Enable persistent queue
+          description: Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        connections:
+          type: array
+          title: Use QuickConnect
+          description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
+          items:
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
+        pq:
+          $ref: "#/components/schemas/PqType"
+        url:
+          title: Endpoint
+          type: string
+          description: Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)
+        interval:
+          type: integer
+          title: Poll interval
+          description: How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail.
+          minimum: 1
+          maximum: 60
+        startDate:
+          title: Date range start
+          type: string
+          description: "Backward offset for the search range's head. (E.g.: -3h@h) Microsoft Graph data is delayed; this parameter (with Date range end) compensates for delay and gaps."
+        endDate:
+          title: Date range end
+          type: string
+          description: "Backward offset for the search range's tail. (E.g.: -2h@h) Microsoft Graph data is delayed; this parameter (with Date range start) compensates for delay and gaps."
+        timeout:
+          type: number
+          title: Request timeout (seconds)
+          description: HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely.
+          minimum: 0
+          maximum: 2400
+        disableTimeFilter:
+          type: boolean
+          title: Disable time filter
+          description: Disables time filtering of events when a date range is specified.
+        authType:
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+        keepAliveTime:
+          type: number
+          title: Keep alive time (seconds)
+          description: How often workers should check in with the scheduler to keep job subscription alive
+          minimum: 10
+        jobTimeout:
+          title: Job timeout
+          type: string
+          description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+          pattern: \d+[sm]?$
+        maxMissedKeepAlives:
+          type: number
+          title: Worker timeout (periods)
+          description: The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked.
+          minimum: 2
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to events from this input
+          items:
+            $ref: "#/components/schemas/ItemsTypeMetadata"
+        rescheduleDroppedTasks:
+          type: boolean
+          title: Reschedule tasks
+          description: Reschedule tasks that failed with non-fatal errors
+        maxTaskReschedule:
+          type: number
+          title: Task reschedule limit
+          description: Maximum number of times a task can be rescheduled
+          minimum: 1
+        logLevel:
+          $ref: "#/components/schemas/LogLevelOptions"
+        retryRules:
+          $ref: "#/components/schemas/RetryRulesType1"
+        description:
+          type: string
+          title: Description
+        username:
+          type: string
+          title: Username
+          description: Username to run Microsoft Graph API call.
+        password:
+          type: string
+          title: Password
+          description: Password to run Microsoft Graph API call.
+        credentialsSecret:
+          type: string
+          title: Credentials secret
+          description: Select or create a secret that references your credentials.
+        clientSecret:
+          type: string
+          title: Client secret
+          description: client_secret to pass in the OAuth request parameter.
+        tenantId:
+          type: string
+          title: Tenant identifier
+          description: Directory ID (tenant identifier) in Azure Active Directory.
+        clientId:
+          type: string
+          title: Client ID
+          description: client_id to pass in the OAuth request parameter.
+        resource:
+          type: string
+          title: Resource
+          description: Resource to pass in the OAuth request parameter.
+        planType:
+          $ref: "#/components/schemas/SubscriptionPlanOptions"
+        textSecret:
+          type: string
+          title: Client secret
+          description: Select or create a secret that references your client_secret to pass in the OAuth request parameter.
+        certOptions:
+          $ref: "#/components/schemas/CertOptionsType"
         __template_url:
           type: string
           description: Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime.
@@ -15244,7 +15352,7 @@ components:
           minimum: 1000
           maximum: 1.8e+06
         sasl:
-          $ref: "#/components/schemas/AuthenticationTypeUse"
+          $ref: "#/components/schemas/AuthenticationType1"
         tls:
           $ref: "#/components/schemas/TlsSettingsClientSideType"
         sessionTimeout:
@@ -17950,7 +18058,7 @@ components:
           title: Endpoint
           description: Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsKinesis"
+          $ref: "#/components/schemas/SignatureVersionOptions2"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -19109,7 +19217,7 @@ components:
           title: Endpoint
           description: SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsSqs"
+          $ref: "#/components/schemas/SignatureVersionOptions3"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -19941,9 +20049,9 @@ components:
               title: Common name
               description: Regex matching allowable common names in peer certificates' subject attribute
             minVersion:
-              $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
+              $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
             maxVersion:
-              $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
+              $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
             ocspCheck:
               type: boolean
               title: Verify certificate via OCSP
@@ -20602,7 +20710,7 @@ components:
         retryRules:
           $ref: "#/components/schemas/RetryRulesType"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsManualSecret"
+          $ref: "#/components/schemas/AuthenticationMethodOptions1"
         description:
           type: string
           title: Description
@@ -21678,9 +21786,9 @@ components:
               title: CA certificate path
               description: Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
             minVersion:
-              $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
+              $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
             maxVersion:
-              $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
+              $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
         maxActiveReq:
           type: number
           title: Active request limit
@@ -21808,6 +21916,7 @@ components:
         - $ref: "#/components/schemas/InputOffice365Mgmt"
         - $ref: "#/components/schemas/InputOffice365Service"
         - $ref: "#/components/schemas/InputOffice365MsgTrace"
+        - $ref: "#/components/schemas/InputMicrosoftGraph"
         - $ref: "#/components/schemas/InputEventhub"
         - $ref: "#/components/schemas/InputExec"
         - $ref: "#/components/schemas/InputFirehose"
@@ -21872,6 +21981,7 @@ components:
           office365_mgmt: "#/components/schemas/InputOffice365Mgmt"
           office365_service: "#/components/schemas/InputOffice365Service"
           office365_msg_trace: "#/components/schemas/InputOffice365MsgTrace"
+          microsoft_graph: "#/components/schemas/InputMicrosoftGraph"
           eventhub: "#/components/schemas/InputEventhub"
           exec: "#/components/schemas/InputExec"
           firehose: "#/components/schemas/InputFirehose"
@@ -22172,7 +22282,7 @@ components:
             - OAuth
           x-speakeasy-unknown-values: allow
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
+          $ref: "#/components/schemas/TlsSettingsClientSideType1"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -22230,8 +22340,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -22257,11 +22367,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -22599,8 +22704,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -22626,11 +22731,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -22902,7 +23002,7 @@ components:
           title: Write timeout
           description: Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         maxRecordSize:
@@ -22934,8 +23034,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -22961,11 +23061,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -23037,7 +23132,7 @@ components:
           title: Write timeout
           description: Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         enableMultiMetrics:
           type: boolean
           title: Output multiple metrics
@@ -23079,8 +23174,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -23106,11 +23201,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -23194,7 +23284,7 @@ components:
           title: Write timeout
           description: Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         enableMultiMetrics:
           type: boolean
           title: Output multiple metrics
@@ -23312,8 +23402,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -23339,11 +23429,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -23399,7 +23484,7 @@ components:
           title: Default _TCP_ROUTING
           description: In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
+          $ref: "#/components/schemas/TlsSettingsClientSideType1"
         concurrency:
           type: number
           title: Request concurrency
@@ -23541,8 +23626,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -23568,11 +23653,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -23621,7 +23701,7 @@ components:
           title: Default _TCP_ROUTING
           description: In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
+          $ref: "#/components/schemas/TlsSettingsClientSideType1"
         concurrency:
           type: number
           title: Request concurrency
@@ -23720,8 +23800,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -23747,11 +23827,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -23814,7 +23889,7 @@ components:
           title: Load balancing
           description: Use load-balanced destinations
         compression:
-          $ref: "#/components/schemas/CompressionOptionsGzipNone"
+          $ref: "#/components/schemas/CompressionOptions1"
         logFailedRequests:
           type: boolean
           title: Log failed requests to disk
@@ -23825,7 +23900,7 @@ components:
           description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
           pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         connectionTimeout:
           type: number
           title: Connection timeout
@@ -23900,8 +23975,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -23927,11 +24002,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -24083,8 +24153,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -24110,11 +24180,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -24250,8 +24315,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -24277,11 +24342,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -24384,7 +24444,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -24401,7 +24461,7 @@ components:
           type: string
           title: Description
         compress:
-          $ref: "#/components/schemas/CompressionOptionsHttp"
+          $ref: "#/components/schemas/CompressionOptions2"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -24619,7 +24679,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -24672,7 +24732,7 @@ components:
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
         compress:
-          $ref: "#/components/schemas/CompressionOptionsHttp"
+          $ref: "#/components/schemas/CompressionOptions2"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -24876,7 +24936,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -24911,7 +24971,7 @@ components:
           type: string
           title: Description
         compress:
-          $ref: "#/components/schemas/CompressionOptionsHttp"
+          $ref: "#/components/schemas/CompressionOptions2"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -25150,7 +25210,7 @@ components:
         format:
           $ref: "#/components/schemas/DataFormatOptions"
         compress:
-          $ref: "#/components/schemas/CompressionOptionsHttp"
+          $ref: "#/components/schemas/CompressionOptions2"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -25443,8 +25503,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -25470,11 +25530,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -25643,8 +25698,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -25670,11 +25725,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -25749,7 +25799,7 @@ components:
           title: Endpoint
           description: Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsKinesis"
+          $ref: "#/components/schemas/SignatureVersionOptions2"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -25845,8 +25895,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -25872,11 +25922,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -26005,7 +26050,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         description:
           type: string
           title: Description
@@ -26022,8 +26067,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -26049,11 +26094,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -26180,7 +26220,7 @@ components:
           minimum: 1000
           maximum: 1.8e+06
         sasl:
-          $ref: "#/components/schemas/AuthenticationTypeUse"
+          $ref: "#/components/schemas/AuthenticationType1"
         tls:
           $ref: "#/components/schemas/TlsSettingsClientSideType"
         onBackpressure:
@@ -26201,8 +26241,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -26228,11 +26268,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -26463,8 +26498,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -26490,11 +26525,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -26557,7 +26587,7 @@ components:
           title: Endpoint
           description: Google Cloud Storage service endpoint
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsGoogle"
+          $ref: "#/components/schemas/SignatureVersionOptions4"
         awsAuthenticationMethod:
           type: string
           title: Authentication method
@@ -26583,9 +26613,9 @@ components:
           title: Verify if bucket exists
           description: Disable if you can access files within the bucket but not the bucket itself
         objectACL:
-          $ref: "#/components/schemas/ObjectAclOptionsAuthenticatedreadBucketownerfullcontrol"
+          $ref: "#/components/schemas/ObjectAclOptions1"
         storageClass:
-          $ref: "#/components/schemas/StorageClassOptionsArchiveColdline"
+          $ref: "#/components/schemas/StorageClassOptions1"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -26651,7 +26681,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -26668,7 +26698,7 @@ components:
           type: string
           title: Description
         compress:
-          $ref: "#/components/schemas/CompressionOptionsHttp"
+          $ref: "#/components/schemas/CompressionOptions2"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -27039,8 +27069,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -27066,11 +27096,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -27185,8 +27210,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -27212,11 +27237,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -27281,11 +27301,11 @@ components:
           title: Endpoint
           description: Google Cloud Storage service endpoint
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsGoogle"
+          $ref: "#/components/schemas/SignatureVersionOptions4"
         objectACL:
-          $ref: "#/components/schemas/ObjectAclOptionsAuthenticatedreadBucketownerfullcontrol"
+          $ref: "#/components/schemas/ObjectAclOptions1"
         storageClass:
-          $ref: "#/components/schemas/StorageClassOptionsArchiveColdline"
+          $ref: "#/components/schemas/StorageClassOptions1"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -27321,7 +27341,7 @@ components:
           minimum: 10
           maximum: 2000
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -27438,11 +27458,11 @@ components:
           title: Topic
           description: The topic to publish events to. Can be overridden using the __topicOut field.
         ack:
-          $ref: "#/components/schemas/AcknowledgmentsOptionsAllLeader"
+          $ref: "#/components/schemas/AcknowledgmentsOptions1"
         format:
-          $ref: "#/components/schemas/RecordDataFormatOptionsJsonProtobuf"
+          $ref: "#/components/schemas/RecordDataFormatOptions1"
         compression:
-          $ref: "#/components/schemas/CompressionOptionsGzipLz4"
+          $ref: "#/components/schemas/CompressionOptions3"
         maxRecordSizeKB:
           type: number
           minimum: 1
@@ -27459,7 +27479,7 @@ components:
           title: Flush period (sec)
           description: The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent.
         kafkaSchemaRegistry:
-          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout"
+          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationType1"
         connectionTimeout:
           type: number
           title: Connection timeout (ms)
@@ -27511,7 +27531,7 @@ components:
         sasl:
           $ref: "#/components/schemas/AuthenticationType"
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         description:
@@ -27538,8 +27558,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -27565,11 +27585,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -27620,17 +27635,17 @@ components:
             type: string
             minLength: 1
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         topic:
           type: string
           title: Topic
           description: The topic to publish events to. Can be overridden using the __topicOut field.
         ack:
-          $ref: "#/components/schemas/AcknowledgmentsOptionsAllLeader"
+          $ref: "#/components/schemas/AcknowledgmentsOptions1"
         format:
-          $ref: "#/components/schemas/RecordDataFormatOptionsJsonProtobuf"
+          $ref: "#/components/schemas/RecordDataFormatOptions1"
         compression:
-          $ref: "#/components/schemas/CompressionOptionsGzipLz4"
+          $ref: "#/components/schemas/CompressionOptions3"
         maxRecordSizeKB:
           type: number
           minimum: 1
@@ -27647,7 +27662,7 @@ components:
           title: Flush period (sec)
           description: The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent.
         kafkaSchemaRegistry:
-          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout"
+          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationType1"
         connectionTimeout:
           type: number
           title: Connection timeout (ms)
@@ -27724,8 +27739,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -27751,11 +27766,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -27812,11 +27822,11 @@ components:
           title: Topic
           description: The topic to publish events to. Can be overridden using the __topicOut field.
         ack:
-          $ref: "#/components/schemas/AcknowledgmentsOptionsAllLeader"
+          $ref: "#/components/schemas/AcknowledgmentsOptions1"
         format:
-          $ref: "#/components/schemas/RecordDataFormatOptionsJsonProtobuf"
+          $ref: "#/components/schemas/RecordDataFormatOptions1"
         compression:
-          $ref: "#/components/schemas/CompressionOptionsGzipLz4"
+          $ref: "#/components/schemas/CompressionOptions3"
         maxRecordSizeKB:
           type: number
           minimum: 1
@@ -27833,7 +27843,7 @@ components:
           title: Flush period (sec)
           description: The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent.
         kafkaSchemaRegistry:
-          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout"
+          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationType1"
         connectionTimeout:
           type: number
           title: Connection timeout (ms)
@@ -27926,7 +27936,7 @@ components:
           minimum: 900
           maximum: 43200
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         description:
@@ -27961,8 +27971,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -27988,11 +27998,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -28128,7 +28133,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeSaslSaslExtensions"
         auth:
-          $ref: "#/components/schemas/AuthTypeAuthTypeCredentialsSecret"
+          $ref: "#/components/schemas/AuthType"
         elasticVersion:
           type: string
           title: Elastic version
@@ -28228,8 +28233,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -28255,11 +28260,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -28365,7 +28365,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeSaslSaslExtensions"
         auth:
-          $ref: "#/components/schemas/AuthTypeAuthTypeCredentialsSecret"
+          $ref: "#/components/schemas/AuthType"
         elasticPipeline:
           type: string
           title: Elastic pipeline
@@ -28405,8 +28405,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -28432,11 +28432,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -28574,7 +28569,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -28599,8 +28594,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -28626,11 +28621,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -28763,7 +28753,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         description:
           type: string
           title: Description
@@ -28783,8 +28773,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -28810,11 +28800,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -29025,8 +29010,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -29052,11 +29037,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -29214,8 +29194,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -29241,11 +29221,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -29332,11 +29307,11 @@ components:
           title: Key prefix
           description: Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsMinIo"
+          $ref: "#/components/schemas/SignatureVersionOptions5"
         objectACL:
           $ref: "#/components/schemas/ObjectAclOptions"
         storageClass:
-          $ref: "#/components/schemas/StorageClassOptionsReducedredundancyStandard"
+          $ref: "#/components/schemas/StorageClassOptions2"
         serverSideEncryption:
           $ref: "#/components/schemas/ServerSideEncryptionOptions"
         reuseConnections:
@@ -29392,7 +29367,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -29435,7 +29410,7 @@ components:
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
         compress:
-          $ref: "#/components/schemas/CompressionOptionsHttp"
+          $ref: "#/components/schemas/CompressionOptions2"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -29611,8 +29586,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -29638,11 +29613,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -29741,8 +29711,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -29768,11 +29738,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -29871,8 +29836,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -29898,11 +29863,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -30092,8 +30052,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -30119,11 +30079,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -30218,7 +30173,7 @@ components:
           title: Endpoint
           description: SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsSqs"
+          $ref: "#/components/schemas/SignatureVersionOptions3"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -30294,8 +30249,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -30321,11 +30276,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -30566,8 +30516,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -30593,11 +30543,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -30793,7 +30738,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -30817,8 +30762,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -30844,11 +30789,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -31008,8 +30948,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -31035,11 +30975,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -31109,7 +31044,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeContentConfigItemsRequestParams"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret"
+          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuth1"
         concurrency:
           type: number
           title: Request concurrency
@@ -31223,8 +31158,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -31250,11 +31185,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -31391,8 +31321,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -31418,11 +31348,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -31507,7 +31432,7 @@ components:
           title: Path location
           description: Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
         description:
           type: string
           title: Description
@@ -31565,9 +31490,9 @@ components:
             - 1.3.1
           x-speakeasy-unknown-values: allow
         compress:
-          $ref: "#/components/schemas/CompressionOptionsDeflateGzip"
+          $ref: "#/components/schemas/CompressionOptions4"
         httpCompress:
-          $ref: "#/components/schemas/CompressionOptionsMessages"
+          $ref: "#/components/schemas/CompressionOptions5"
         authType:
           $ref: "#/components/schemas/AuthenticationTypeOptions"
         httpTracesEndpointOverride:
@@ -31683,7 +31608,7 @@ components:
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeExtended"
+          $ref: "#/components/schemas/TlsSettingsClientSideType2"
         pqStrictOrdering:
           title: Strict ordering
           description: Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed.
@@ -31697,8 +31622,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -31724,11 +31649,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -31781,7 +31701,7 @@ components:
           type: string
           title: Auth token name
         otlpVersion:
-          $ref: "#/components/schemas/OtlpVersionOptions131"
+          $ref: "#/components/schemas/OtlpVersionOptions1"
         maxPayloadSizeKB:
           type: number
           title: Body size limit (KB)
@@ -31791,9 +31711,9 @@ components:
         protocol:
           $ref: "#/components/schemas/ProtocolOptions"
         compress:
-          $ref: "#/components/schemas/CompressionOptionsDeflateGzip"
+          $ref: "#/components/schemas/CompressionOptions4"
         httpCompress:
-          $ref: "#/components/schemas/CompressionOptionsMessages"
+          $ref: "#/components/schemas/CompressionOptions5"
         httpTracesEndpointOverride:
           type: string
           title: Traces endpoint override
@@ -31883,7 +31803,7 @@ components:
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeExtended"
+          $ref: "#/components/schemas/TlsSettingsClientSideType2"
         pqStrictOrdering:
           title: Strict ordering
           description: Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed.
@@ -31897,8 +31817,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -31924,11 +31844,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -32084,7 +31999,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -32109,8 +32024,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -32136,11 +32051,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -32193,7 +32103,7 @@ components:
           title: Load balancing
           description: Use load-balanced destinations
         compression:
-          $ref: "#/components/schemas/CompressionOptionsGzipNone"
+          $ref: "#/components/schemas/CompressionOptions1"
         logFailedRequests:
           type: boolean
           title: Log failed requests to disk
@@ -32204,7 +32114,7 @@ components:
           description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
           pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         connectionTimeout:
           type: number
           title: Connection timeout
@@ -32285,8 +32195,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -32312,11 +32222,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -32364,7 +32269,7 @@ components:
           title: Load balancing
           description: For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         tokenTTLMinutes:
           type: number
           title: Auth Token TTL minutes
@@ -32378,7 +32283,7 @@ components:
           items:
             type: string
         compression:
-          $ref: "#/components/schemas/CompressionOptionsGzipNone"
+          $ref: "#/components/schemas/CompressionOptions1"
         concurrency:
           type: number
           title: Request concurrency
@@ -32447,7 +32352,7 @@ components:
           title: Connected environment tokens
           description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud.
           items:
-            $ref: "#/components/schemas/ItemsTypeAuthTokensTokenSecret"
+            $ref: "#/components/schemas/ItemsTypeAuthTokens1"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         description:
@@ -32497,8 +32402,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -32524,11 +32429,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -32573,7 +32473,7 @@ components:
           title: Load balancing
           description: For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         tokenTTLMinutes:
           type: number
           title: Auth Token TTL minutes
@@ -32587,7 +32487,7 @@ components:
           items:
             type: string
         compression:
-          $ref: "#/components/schemas/CompressionOptionsGzipNone"
+          $ref: "#/components/schemas/CompressionOptions1"
         concurrency:
           type: number
           title: Request concurrency
@@ -32656,7 +32556,7 @@ components:
           title: Connected environment tokens
           description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud.
           items:
-            $ref: "#/components/schemas/ItemsTypeAuthTokensTokenSecret"
+            $ref: "#/components/schemas/ItemsTypeAuthTokens1"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         useRoundRobinDns:
@@ -32706,8 +32606,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -32733,11 +32633,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -32882,8 +32777,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -32909,11 +32804,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -33055,8 +32945,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -33082,11 +32972,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -33235,7 +33120,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -33294,7 +33179,7 @@ components:
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
         compress:
-          $ref: "#/components/schemas/CompressionOptionsHttp"
+          $ref: "#/components/schemas/CompressionOptions2"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -33525,7 +33410,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -33803,7 +33688,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -33987,7 +33872,7 @@ components:
           title: URL
           description: "URL of the ClickHouse instance. Example: http://localhost:8123/"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptionsBasicCredentialsSecret"
+          $ref: "#/components/schemas/AuthenticationTypeOptions1"
         database:
           type: string
           title: ClickHouse database
@@ -34023,7 +33908,7 @@ components:
           title: Async inserts
           description: Collect data into batches for later processing. Disable to write to a ClickHouse table immediately.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
+          $ref: "#/components/schemas/TlsSettingsClientSideType1"
         concurrency:
           type: number
           title: Request concurrency
@@ -34164,8 +34049,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -34191,11 +34076,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -34249,7 +34129,7 @@ components:
           title: URL
           description: "URL of the database instance. Example: http://localhost:8123/"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptionsBasicCredentialsSecret"
+          $ref: "#/components/schemas/AuthenticationTypeOptions1"
         database:
           type: string
           title: Database
@@ -34285,7 +34165,7 @@ components:
           title: Async inserts
           description: Collect data into batches for later processing. Disable to write to a table immediately.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
+          $ref: "#/components/schemas/TlsSettingsClientSideType1"
         concurrency:
           type: number
           title: Request concurrency
@@ -34443,8 +34323,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -34470,11 +34350,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -34661,8 +34536,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -34688,11 +34563,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -34954,8 +34824,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -34981,11 +34851,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -35065,11 +34930,11 @@ components:
           title: Endpoint
           description: The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)
         otlpVersion:
-          $ref: "#/components/schemas/OtlpVersionOptions131"
+          $ref: "#/components/schemas/OtlpVersionOptions1"
         compress:
-          $ref: "#/components/schemas/CompressionOptionsDeflateGzip"
+          $ref: "#/components/schemas/CompressionOptions4"
         httpCompress:
-          $ref: "#/components/schemas/CompressionOptionsMessages"
+          $ref: "#/components/schemas/CompressionOptions5"
         httpTracesEndpointOverride:
           type: string
           title: Traces endpoint override
@@ -35195,8 +35060,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -35222,11 +35087,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -35437,8 +35297,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -35464,11 +35324,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -35668,8 +35523,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -35695,11 +35550,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -35814,7 +35664,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -35864,7 +35714,7 @@ components:
           type: string
           title: Description
         compress:
-          $ref: "#/components/schemas/CompressionOptionsHttp"
+          $ref: "#/components/schemas/CompressionOptions2"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -36053,7 +35903,7 @@ components:
               type: boolean
               title: Disabled
             mechanism:
-              $ref: "#/components/schemas/SaslMechanismOptionsSaslOauthbearerPlain"
+              $ref: "#/components/schemas/SaslMechanismOptionsSasl1"
             username:
               type: string
               title: SASL JASS username
@@ -36121,8 +35971,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -36148,11 +35998,6 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
-        pqMaxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -36235,9 +36080,9 @@ components:
           title: Key prefix
           description: Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsMinIo"
+          $ref: "#/components/schemas/SignatureVersionOptions5"
         storageClass:
-          $ref: "#/components/schemas/StorageClassOptionsReducedredundancyStandard"
+          $ref: "#/components/schemas/StorageClassOptions2"
         serverSideEncryption:
           $ref: "#/components/schemas/ServerSideEncryptionOptions"
         reuseConnections:
@@ -36293,7 +36138,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -36332,7 +36177,7 @@ components:
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
         compress:
-          $ref: "#/components/schemas/CompressionOptionsHttp"
+          $ref: "#/components/schemas/CompressionOptions2"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -36630,7 +36475,7 @@ components:
         collector:
           $ref: "#/components/schemas/Collector"
         input:
-          $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint"
+          $ref: "#/components/schemas/TypeCollectionWithBreakerRulesetsConstraint"
         run:
           type: object
           required:
@@ -37340,6 +37185,19 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/SavedJobResponse"
+    SavedJobResponseEnrichedFields:
+      type: object
+      properties:
+        savedState:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedState"
+          description: Runtime collection state.
+        notifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Notification"
+          description: Notification targets.
     SavedJobResponseCollection:
       required:
         - collector
@@ -37396,7 +37254,7 @@ components:
         collector:
           $ref: "#/components/schemas/Collector"
         input:
-          $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint"
+          $ref: "#/components/schemas/TypeCollectionWithBreakerRulesetsConstraint"
       type: object
     SavedJobResponseExecutor:
       required:
@@ -37506,7 +37364,7 @@ components:
       type: object
     SavedJobResponse:
       allOf:
-        - $ref: "#/components/schemas/SavedJobResponseExtras"
+        - $ref: "#/components/schemas/SavedJobResponseEnrichedFields"
         - oneOf:
             - $ref: "#/components/schemas/SavedJobResponseCollection"
             - $ref: "#/components/schemas/SavedJobResponseExecutor"
@@ -37567,7 +37425,7 @@ components:
         collector:
           $ref: "#/components/schemas/Collector"
         input:
-          $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint"
+          $ref: "#/components/schemas/TypeCollectionWithBreakerRulesetsConstraint"
       type: object
     SavedJobExecutor:
       required:
@@ -39545,6 +39403,14 @@ components:
       required:
         - name
         - value
+    AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedState:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          additionalProperties: true
     EventBreakerTypeOptionsEventBreakerExistingOrNewNew:
       type: string
       title: Event Breaker type
@@ -39917,7 +39783,7 @@ components:
           type: string
           title: Value
           description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-    AuthType:
+    AuthTypeKafkaSchemaRegistry:
       type: object
       description: Credentials to use when authenticating with the schema registry using basic HTTP authentication
       required:
@@ -39930,7 +39796,7 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
-    MinimumTlsVersionOptionsTls:
+    MinimumTlsVersionOptionsKafkaSchemaRegistryTls:
       type: string
       title: Minimum TLS version
       enum:
@@ -39939,7 +39805,7 @@ components:
         - TLSv1.2
         - TLSv1.3
       x-speakeasy-unknown-values: allow
-    MaximumTlsVersionOptionsTls:
+    MaximumTlsVersionOptionsKafkaSchemaRegistryTls:
       type: string
       title: Maximum TLS version
       enum:
@@ -40091,7 +39957,7 @@ components:
           items:
             type: string
             minLength: 1
-    SignatureVersionOptionsV2V4:
+    SignatureVersionOptions1:
       type: string
       title: Signature version
       description: Signature version to use for signing EC2 requests
@@ -40140,7 +40006,7 @@ components:
         - debug
       description: Collector runtime Log Level
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptionsManualSecret:
+    AuthenticationMethodOptions1:
       title: Authentication method
       type: string
       enum:
@@ -40148,7 +40014,51 @@ components:
         - secret
       description: Enter client secret directly, or select a stored secret
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptionsSaslManualSecret:
+    AuthenticationMethodOptions2:
+      title: Authentication method
+      type: string
+      enum:
+        - manual
+        - secret
+        - oauth
+        - oauthSecret
+        - oauthCert
+      description: Select authentication method.
+      x-speakeasy-unknown-values: allow
+    LogLevelOptions:
+      type: string
+      title: Log level
+      description: Log Level (verbosity) for collection runtime behavior.
+      enum:
+        - error
+        - warn
+        - info
+        - debug
+        - silly
+      x-speakeasy-unknown-values: allow
+    CertOptionsType:
+      type: object
+      required:
+        - privKeyPath
+        - certPath
+      properties:
+        certificateName:
+          type: string
+          title: Certificate
+          description: The name of the predefined certificate.
+        privKeyPath:
+          type: string
+          title: Private key path
+          description: Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS.
+        passphrase:
+          type: string
+          title: Passphrase
+          description: Passphrase to use to decrypt the private key.
+        certPath:
+          type: string
+          title: Certificate path
+          description: Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS.
+    AuthenticationMethodOptionsSasl1:
       enum:
         - manual
         - secret
@@ -40156,7 +40066,7 @@ components:
       type: string
       description: Enter password directly, or select a stored secret
       x-speakeasy-unknown-values: allow
-    SaslMechanismOptionsSaslOauthbearerPlain:
+    SaslMechanismOptionsSasl1:
       enum:
         - plain
         - oauthbearer
@@ -40166,7 +40076,7 @@ components:
         - OAUTHBEARER
       title: SASL mechanism
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptionsSaslCertificateManual:
+    AuthenticationMethodOptionsSasl2:
       enum:
         - manual
         - secret
@@ -40294,7 +40204,7 @@ components:
         - false
         - true
       x-speakeasy-unknown-values: allow
-    SignatureVersionOptionsKinesis:
+    SignatureVersionOptions2:
       type: string
       title: Signature version
       description: Signature version to use for signing Kinesis stream requests
@@ -40319,7 +40229,7 @@ components:
         - Token
         - Token (text secret)
       x-speakeasy-unknown-values: allow
-    SignatureVersionOptionsSqs:
+    SignatureVersionOptions3:
       type: string
       title: Signature version
       description: Signature version to use for signing SQS requests
@@ -40493,7 +40403,7 @@ components:
         - Automatic
         - Always
       x-speakeasy-unknown-values: allow
-    CompressionOptionsGzipNone:
+    CompressionOptions1:
       type: string
       enum:
         - none
@@ -40517,7 +40427,7 @@ components:
         - Raw
         - Parquet
       x-speakeasy-unknown-values: allow
-    BackpressureBehaviorOptionsBlockDrop:
+    BackpressureBehaviorOptions1:
       type: string
       title: Backpressure behavior
       description: How to handle events when all receivers are exerting backpressure
@@ -40562,7 +40472,7 @@ components:
           type: number
           title: Jitter (%)
           description: "Random jitter percentage added to backoff delay to prevent thundering herd. Valid range: 0-100. Values outside this range will be clamped to the nearest valid value."
-    CompressionOptionsHttp:
+    CompressionOptions2:
       type: string
       title: Compression
       description: Data compression format to apply to HTTP content before it is delivered
@@ -40673,7 +40583,7 @@ components:
         - Amazon S3 Managed Key
         - AWS KMS Managed Key
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptionsApi:
+    AuthenticationMethodOptions3:
       title: Authentication method
       type: string
       enum:
@@ -40709,7 +40619,7 @@ components:
         - JSON
         - Field _raw
       x-speakeasy-unknown-values: allow
-    SignatureVersionOptionsGoogle:
+    SignatureVersionOptions4:
       type: string
       title: Signature version
       description: Signature version to use for signing Google Cloud Storage requests
@@ -40717,7 +40627,7 @@ components:
         - v2
         - v4
       x-speakeasy-unknown-values: allow
-    ObjectAclOptionsAuthenticatedreadBucketownerfullcontrol:
+    ObjectAclOptions1:
       type: string
       title: Object ACL
       description: Object ACL to assign to uploaded objects
@@ -40736,7 +40646,7 @@ components:
         - authenticated-read
         - public-read
       x-speakeasy-unknown-values: allow
-    StorageClassOptionsArchiveColdline:
+    StorageClassOptions1:
       type: string
       title: Storage class
       description: Storage class to select for uploaded objects
@@ -40765,7 +40675,7 @@ components:
           type: string
           title: Value
           description: JavaScript expression to compute the label's value.
-    AcknowledgmentsOptionsAllLeader:
+    AcknowledgmentsOptions1:
       type: integer
       title: Acknowledgments
       description: Control the number of required acknowledgments.
@@ -40782,7 +40692,7 @@ components:
         - Leader
         - None
         - All
-    RecordDataFormatOptionsJsonProtobuf:
+    RecordDataFormatOptions1:
       type: string
       enum:
         - json
@@ -40795,7 +40705,7 @@ components:
         - Field _raw
         - Protobuf
       x-speakeasy-unknown-values: allow
-    CompressionOptionsGzipLz4:
+    CompressionOptions3:
       type: string
       enum:
         - none
@@ -40835,7 +40745,7 @@ components:
         - Europe
         - Custom
       x-speakeasy-unknown-values: allow
-    SignatureVersionOptionsMinIo:
+    SignatureVersionOptions5:
       type: string
       title: Signature version
       description: Signature version to use for signing MinIO requests
@@ -40843,7 +40753,7 @@ components:
         - v2
         - v4
       x-speakeasy-unknown-values: allow
-    StorageClassOptionsReducedredundancyStandard:
+    StorageClassOptions2:
       type: string
       title: Storage class
       description: Storage class to select for uploaded objects
@@ -40885,7 +40795,7 @@ components:
         - Protobuf
         - JSON
       x-speakeasy-unknown-values: allow
-    AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret:
+    AuthenticationTypeOptionsPrometheusAuth1:
       type: string
       title: Authentication type
       enum:
@@ -40912,7 +40822,7 @@ components:
         - gRPC
         - HTTP
       x-speakeasy-unknown-values: allow
-    CompressionOptionsDeflateGzip:
+    CompressionOptions4:
       type: string
       title: Compression
       description: Type of compression to apply to messages sent to the OpenTelemetry endpoint
@@ -40925,7 +40835,7 @@ components:
         - Deflate
         - Gzip
       x-speakeasy-unknown-values: allow
-    CompressionOptionsMessages:
+    CompressionOptions5:
       type: string
       title: Compression
       description: Type of compression to apply to messages sent to the OpenTelemetry endpoint
@@ -40936,7 +40846,7 @@ components:
         - None
         - Gzip
       x-speakeasy-unknown-values: allow
-    OtlpVersionOptions131:
+    OtlpVersionOptions1:
       type: string
       title: OTLP version
       description: The version of OTLP Protobuf definitions to use when structuring data to send
@@ -40945,7 +40855,7 @@ components:
       x-speakeasy-enum-descriptions:
         - 1.3.1
       x-speakeasy-unknown-values: allow
-    ItemsTypeAuthTokensTokenSecret:
+    ItemsTypeAuthTokens1:
       type: object
       required:
         - tokenSecret
@@ -41003,7 +40913,7 @@ components:
         - parquet
         - ddss
       x-speakeasy-unknown-values: allow
-    AuthenticationTypeOptionsBasicCredentialsSecret:
+    AuthenticationTypeOptions1:
       type: string
       title: Authentication type
       description: ""
@@ -41026,7 +40936,7 @@ components:
         - executor
         - scheduledSearch
       x-speakeasy-unknown-values: allow
-    RunnableJobCollectionTypeCollectionConstraint:
+    TypeCollectionConstraint:
       type: object
       properties:
         type:
@@ -41395,15 +41305,10 @@ components:
       properties:
         mode:
           $ref: "#/components/schemas/ModeOptionsPq"
-        maxBufferSizeBytes:
-          type: string
-          title: Buffer size limit (bytes)
-          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
-          pattern: ^\d+\s*(?:\w{2})?$
         maxBufferSize:
           type: number
-          title: Buffer size limit (events - deprecated)
-          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use maxBufferSizeBytes instead.
+          title: Buffer size limit
+          description: The maximum number of events to hold in memory before writing the events to disk
           minimum: 42
         commitFrequency:
           type: number
@@ -41429,7 +41334,7 @@ components:
         pqControls:
           type: object
           title: ""
-    TlsSettingsClientSideTypeCaPathCertPath:
+    TlsSettingsClientSideTypeKafkaSchemaRegistry:
       type: object
       title: TLS settings (client side)
       properties:
@@ -41465,9 +41370,9 @@ components:
           title: Passphrase
           description: Passphrase to use to decrypt private key
         minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
         maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
     AuthenticationType:
       type: object
       title: Authentication
@@ -41574,9 +41479,9 @@ components:
           title: CA certificate path
           description: Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
         minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
         maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
     ItemsTypeAuthTokensExt:
       type: object
       required:
@@ -41664,7 +41569,7 @@ components:
           pattern: \d+[smhd]$
         compress:
           $ref: "#/components/schemas/CompressionOptionsPersistence"
-    RetryRulesTypeCodesEnableHeader:
+    RetryRulesType1:
       type: object
       required:
         - type
@@ -41709,7 +41614,7 @@ components:
           type: boolean
           title: Retry connection reset
           description: Retry request when a connection reset (ECONNRESET) error occurs
-    AuthenticationTypeUse:
+    AuthenticationType1:
       type: object
       title: Authentication
       description: Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
@@ -41720,7 +41625,7 @@ components:
           type: boolean
           title: Disabled
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsSaslManualSecret"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsSasl1"
         password:
           type: string
           title: Password
@@ -41730,13 +41635,13 @@ components:
           title: Password (text secret)
           description: Select or create a stored text secret
         mechanism:
-          $ref: "#/components/schemas/SaslMechanismOptionsSaslOauthbearerPlain"
+          $ref: "#/components/schemas/SaslMechanismOptionsSasl1"
         username:
           type: string
           title: Username
           description: The username for authentication. For Event Hubs, this should always be $ConnectionString.
         clientSecretAuthType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsSaslCertificateManual"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsSasl2"
         clientSecret:
           type: string
           title: Client secret
@@ -41778,7 +41683,7 @@ components:
           description: Configure sets to collect process metrics
           items:
             $ref: "#/components/schemas/ItemsTypeProcessSets"
-    TlsSettingsClientSideTypeCaPathCertPathExtended:
+    TlsSettingsClientSideType1:
       type: object
       title: TLS settings (client side)
       properties:
@@ -41810,9 +41715,9 @@ components:
           title: Passphrase
           description: Passphrase to use to decrypt private key
         minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
         maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
     ItemsTypeHosts:
       type: object
       required:
@@ -41845,7 +41750,7 @@ components:
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
-    AuthTypeAuthTypeCredentialsSecret:
+    AuthType:
       type: object
       required:
         - disabled
@@ -41877,7 +41782,7 @@ components:
       type: object
       properties:
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret"
+          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuth1"
         token:
           type: string
           title: Auth token
@@ -41898,7 +41803,7 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
-    TlsSettingsClientSideTypeExtended:
+    TlsSettingsClientSideType2:
       type: object
       title: TLS settings (client side)
       properties:
@@ -41930,10 +41835,10 @@ components:
           title: Passphrase
           description: Passphrase to use to decrypt private key
         minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
         maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
-    RunnableJobCollectionScheduleRunType:
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
+    RunnableJobCollectionPart1TypeScheduleRun:
       type: object
       required:
         - mode
@@ -41994,7 +41899,7 @@ components:
 
                     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
           pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
-    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint:
+    TypeCollectionWithBreakerRulesetsConstraint:
       type: object
       properties:
         type:
@@ -42184,10 +42089,10 @@ components:
           minimum: 0
           maximum: 100
         auth:
-          $ref: "#/components/schemas/AuthType"
+          $ref: "#/components/schemas/AuthTypeKafkaSchemaRegistry"
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout:
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+    KafkaSchemaRegistryAuthenticationType1:
       type: object
       title: Kafka Schema Registry Authentication
       required:
@@ -42219,9 +42124,9 @@ components:
           minimum: 0
           maximum: 100
         auth:
-          $ref: "#/components/schemas/AuthType"
+          $ref: "#/components/schemas/AuthTypeKafkaSchemaRegistry"
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
         defaultKeySchemaId:
           type: number
           title: Default key schema ID
@@ -42234,8 +42139,8 @@ components:
       type: object
       title: Run settings
       allOf:
-        - $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionConstraint"
-        - $ref: "#/components/schemas/RunnableJobCollectionScheduleRunType"
+        - $ref: "#/components/schemas/TypeCollectionConstraint"
+        - $ref: "#/components/schemas/RunnableJobCollectionPart1TypeScheduleRun"
     StatusType:
       type: object
       properties:
@@ -42265,8 +42170,8 @@ components:
       type: object
       title: Run settings
       allOf:
-        - $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionConstraint"
-        - $ref: "#/components/schemas/RunnableJobCollectionScheduleRunType"
+        - $ref: "#/components/schemas/TypeCollectionConstraint"
+        - $ref: "#/components/schemas/RunnableJobCollectionPart1TypeScheduleRun"
     ScheduleTypeRunnableJobCollection:
       type: object
       title: Schedule
@@ -42763,6 +42668,15 @@ components:
         tenantId: tenant-id
         appId: app-id
         planType: enterprise_gcc
+        sendToRoutes: true
+        pqEnabled: false
+    InputCreateExamplesMicrosoftGraph:
+      summary: Microsoft Graph
+      value:
+        id: microsoft-graph-source
+        type: microsoft_graph
+        url: https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces
+        interval: 15
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesOffice365MsgTrace:
@@ -45431,6 +45345,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesNetflow"
               InputCreateExamplesOffice365Mgmt:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesMicrosoftGraph:
+                $ref: "#/components/examples/InputCreateExamplesMicrosoftGraph"
               InputCreateExamplesOffice365MsgTrace:
                 $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
               InputCreateExamplesOffice365Service:
@@ -45626,6 +45542,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesNetflow"
               InputCreateExamplesOffice365Mgmt:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesMicrosoftGraph:
+                $ref: "#/components/examples/InputCreateExamplesMicrosoftGraph"
               InputCreateExamplesOffice365MsgTrace:
                 $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
               InputCreateExamplesOffice365Service:
@@ -46007,6 +45925,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesNetflow"
               InputCreateExamplesOffice365Mgmt:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesMicrosoftGraph:
+                $ref: "#/components/examples/InputCreateExamplesMicrosoftGraph"
               InputCreateExamplesOffice365MsgTrace:
                 $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
               InputCreateExamplesOffice365Service:
@@ -46221,6 +46141,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesNetflow"
               InputCreateExamplesOffice365Mgmt:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesMicrosoftGraph:
+                $ref: "#/components/examples/InputCreateExamplesMicrosoftGraph"
               InputCreateExamplesOffice365MsgTrace:
                 $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
               InputCreateExamplesOffice365Service:

@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 from .acknowledgmentsoptions import AcknowledgmentsOptions
-from .acknowledgmentsoptionsallleader import AcknowledgmentsOptionsAllLeader
+from .acknowledgmentsoptions1 import AcknowledgmentsOptions1
 from .authenticationmethodoptions import AuthenticationMethodOptions
-from .authenticationmethodoptionsapi import AuthenticationMethodOptionsAPI
+from .authenticationmethodoptions3 import AuthenticationMethodOptions3
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
 )
@@ -12,22 +12,19 @@ from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .authenticationtype import AuthenticationType, AuthenticationTypeTypedDict
-from .authenticationtypeuse import AuthenticationTypeUse, AuthenticationTypeUseTypedDict
-from .authtypeauthtypecredentialssecret import (
-    AuthTypeAuthTypeCredentialsSecret,
-    AuthTypeAuthTypeCredentialsSecretTypedDict,
-)
+from .authenticationtype1 import AuthenticationType1, AuthenticationType1TypedDict
+from .authtype import AuthType, AuthTypeTypedDict
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
-from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
+from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
 from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCert,
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
 from .compressionleveloptions import CompressionLevelOptions
 from .compressionoptions import CompressionOptions
-from .compressionoptionsgziplz4 import CompressionOptionsGzipLz4
-from .compressionoptionsgzipnone import CompressionOptionsGzipNone
-from .compressionoptionshttp import CompressionOptionsHTTP
+from .compressionoptions1 import CompressionOptions1
+from .compressionoptions2 import CompressionOptions2
+from .compressionoptions3 import CompressionOptions3
 from .compressionoptionspq import CompressionOptionsPq
 from .createoutput_pqcontrols_newrelicevents import (
     CreateOutputOutputChronicle,
@@ -135,9 +132,9 @@ from .itemstypesaslsaslextensions import (
     ItemsTypeSaslSaslExtensions,
     ItemsTypeSaslSaslExtensionsTypedDict,
 )
-from .kafkaschemaregistryauthenticationtypeauthconnectiontimeout import (
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout,
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict,
+from .kafkaschemaregistryauthenticationtype1 import (
+    KafkaSchemaRegistryAuthenticationType1,
+    KafkaSchemaRegistryAuthenticationType1TypedDict,
 )
 from .maxs2sversionoptions import MaxS2SVersionOptions
 from .methodoptions import MethodOptions
@@ -147,26 +144,24 @@ from .microsoftentraidauthenticationendpointoptionssasl import (
 from .modeoptions import ModeOptions
 from .nestedfieldserializationoptions import NestedFieldSerializationOptions
 from .objectacloptions import ObjectACLOptions
-from .objectacloptionsauthenticatedreadbucketownerfullcontrol import (
-    ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol,
-)
+from .objectacloptions1 import ObjectACLOptions1
 from .parquetversionoptions import ParquetVersionOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptions import RecordDataFormatOptions
-from .recorddataformatoptionsjsonprotobuf import RecordDataFormatOptionsJSONProtobuf
+from .recorddataformatoptions1 import RecordDataFormatOptions1
 from .regionoptions import RegionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .serversideencryptionforuploadedobjectsoptions import (
     ServerSideEncryptionForUploadedObjectsOptions,
 )
 from .signatureversionoptions import SignatureVersionOptions
-from .signatureversionoptionsgoogle import SignatureVersionOptionsGoogle
-from .signatureversionoptionskinesis import SignatureVersionOptionsKinesis
+from .signatureversionoptions2 import SignatureVersionOptions2
+from .signatureversionoptions4 import SignatureVersionOptions4
 from .signatureversionoptionss3collectorconf import (
     SignatureVersionOptionsS3CollectorConf,
 )
 from .storageclassoptions import StorageClassOptions
-from .storageclassoptionsarchivecoldline import StorageClassOptionsArchiveColdline
+from .storageclassoptions1 import StorageClassOptions1
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -175,13 +170,13 @@ from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
     TLSSettingsClientSideTypeTypedDict,
 )
-from .tlssettingsclientsidetypecapathcertpath import (
-    TLSSettingsClientSideTypeCaPathCertPath,
-    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
+from .tlssettingsclientsidetype1 import (
+    TLSSettingsClientSideType1,
+    TLSSettingsClientSideType1TypedDict,
 )
-from .tlssettingsclientsidetypecapathcertpathextended import (
-    TLSSettingsClientSideTypeCaPathCertPathExtended,
-    TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict,
+from .tlssettingsclientsidetypekafkaschemaregistry import (
+    TLSSettingsClientSideTypeKafkaSchemaRegistry,
+    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, Nullable, UNSET_SENTINEL
@@ -243,7 +238,7 @@ class CreateOutputOutputNewrelicEventsTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptionsAPI]
+    auth_type: NotRequired[AuthenticationMethodOptions3]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
     custom_url: NotRequired[str]
@@ -254,7 +249,7 @@ class CreateOutputOutputNewrelicEventsTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -267,8 +262,6 @@ class CreateOutputOutputNewrelicEventsTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsNewrelicEventsTypedDict]
     api_key: NotRequired[str]
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
@@ -388,7 +381,7 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptionsAPI], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
     ] = None
     r"""Enter API key directly, or select a stored secret"""
 
@@ -412,7 +405,7 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -439,11 +432,6 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsNewrelicEvents],
@@ -507,7 +495,7 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsAPI(value)
+                return models.AuthenticationMethodOptions3(value)
             except ValueError:
                 return value
         return value
@@ -576,7 +564,6 @@ class CreateOutputOutputNewrelicEvents(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "apiKey",
                 "textSecret",
@@ -693,7 +680,7 @@ class CreateOutputOutputNewrelicTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptionsAPI]
+    auth_type: NotRequired[AuthenticationMethodOptions3]
     r"""Enter API key directly, or select a stored secret"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
@@ -706,7 +693,7 @@ class CreateOutputOutputNewrelicTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -719,8 +706,6 @@ class CreateOutputOutputNewrelicTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsNewrelicTypedDict]
     api_key: NotRequired[str]
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
@@ -841,7 +826,7 @@ class CreateOutputOutputNewrelic(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptionsAPI], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
     ] = None
     r"""Enter API key directly, or select a stored secret"""
 
@@ -870,7 +855,7 @@ class CreateOutputOutputNewrelic(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -897,11 +882,6 @@ class CreateOutputOutputNewrelic(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsNewrelic], pydantic.Field(alias="pqControls")
@@ -959,7 +939,7 @@ class CreateOutputOutputNewrelic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsAPI(value)
+                return models.AuthenticationMethodOptions3(value)
             except ValueError:
                 return value
         return value
@@ -1032,7 +1012,6 @@ class CreateOutputOutputNewrelic(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "apiKey",
                 "textSecret",
@@ -1108,7 +1087,7 @@ class CreateOutputOutputElasticCloudTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     extra_params: NotRequired[List[ItemsTypeSaslSaslExtensionsTypedDict]]
     r"""Extra parameters to use in HTTP requests"""
-    auth: NotRequired[AuthTypeAuthTypeCredentialsSecretTypedDict]
+    auth: NotRequired[AuthTypeTypedDict]
     elastic_pipeline: NotRequired[str]
     r"""Optional Elastic Cloud Destination pipeline"""
     include_doc_id: NotRequired[bool]
@@ -1128,7 +1107,7 @@ class CreateOutputOutputElasticCloudTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -1141,8 +1120,6 @@ class CreateOutputOutputElasticCloudTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsElasticCloudTypedDict]
 
 
@@ -1226,7 +1203,7 @@ class CreateOutputOutputElasticCloud(BaseModel):
     ] = None
     r"""Extra parameters to use in HTTP requests"""
 
-    auth: Optional[AuthTypeAuthTypeCredentialsSecret] = None
+    auth: Optional[AuthType] = None
 
     elastic_pipeline: Annotated[
         Optional[str], pydantic.Field(alias="elasticPipeline")
@@ -1276,7 +1253,7 @@ class CreateOutputOutputElasticCloud(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -1303,11 +1280,6 @@ class CreateOutputOutputElasticCloud(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsElasticCloud], pydantic.Field(alias="pqControls")
@@ -1395,7 +1367,6 @@ class CreateOutputOutputElasticCloud(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
             ]
         )
@@ -1530,7 +1501,7 @@ class CreateOutputOutputElasticTypedDict(TypedDict):
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     extra_params: NotRequired[List[ItemsTypeSaslSaslExtensionsTypedDict]]
-    auth: NotRequired[AuthTypeAuthTypeCredentialsSecretTypedDict]
+    auth: NotRequired[AuthTypeTypedDict]
     elastic_version: NotRequired[CreateOutputElasticVersion]
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
     elastic_pipeline: NotRequired[str]
@@ -1562,7 +1533,7 @@ class CreateOutputOutputElasticTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -1575,8 +1546,6 @@ class CreateOutputOutputElasticTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsElasticTypedDict]
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
@@ -1681,7 +1650,7 @@ class CreateOutputOutputElastic(BaseModel):
         Optional[List[ItemsTypeSaslSaslExtensions]], pydantic.Field(alias="extraParams")
     ] = None
 
-    auth: Optional[AuthTypeAuthTypeCredentialsSecret] = None
+    auth: Optional[AuthType] = None
 
     elastic_version: Annotated[
         Optional[CreateOutputElasticVersion], pydantic.Field(alias="elasticVersion")
@@ -1754,7 +1723,7 @@ class CreateOutputOutputElastic(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -1781,11 +1750,6 @@ class CreateOutputOutputElastic(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsElastic], pydantic.Field(alias="pqControls")
@@ -1907,7 +1871,6 @@ class CreateOutputOutputElastic(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_url",
             ]
@@ -1958,11 +1921,11 @@ class CreateOutputOutputMskTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    ack: NotRequired[AcknowledgmentsOptionsAllLeader]
+    ack: NotRequired[AcknowledgmentsOptions1]
     r"""Control the number of required acknowledgments."""
-    format_: NotRequired[RecordDataFormatOptionsJSONProtobuf]
+    format_: NotRequired[RecordDataFormatOptions1]
     r"""Format to use to serialize events before writing to Kafka."""
-    compression: NotRequired[CompressionOptionsGzipLz4]
+    compression: NotRequired[CompressionOptions3]
     r"""Codec to use to compress the data before sending to Kafka"""
     max_record_size_kb: NotRequired[float]
     r"""Maximum size of each record batch before compression. The value must not exceed the Kafka brokers' message.max.bytes setting."""
@@ -1970,9 +1933,7 @@ class CreateOutputOutputMskTypedDict(TypedDict):
     r"""The maximum number of events you want the Destination to allow in a batch before forcing a flush"""
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
-    kafka_schema_registry: NotRequired[
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
-    ]
+    kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationType1TypedDict]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -2006,7 +1967,7 @@ class CreateOutputOutputMskTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -2024,7 +1985,7 @@ class CreateOutputOutputMskTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -2037,8 +1998,6 @@ class CreateOutputOutputMskTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsMskTypedDict]
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
@@ -2089,15 +2048,15 @@ class CreateOutputOutputMsk(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Optional[AcknowledgmentsOptionsAllLeader] = None
+    ack: Optional[AcknowledgmentsOptions1] = None
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
-        Optional[RecordDataFormatOptionsJSONProtobuf], pydantic.Field(alias="format")
+        Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
     ] = None
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Optional[CompressionOptionsGzipLz4] = None
+    compression: Optional[CompressionOptions3] = None
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
@@ -2116,7 +2075,7 @@ class CreateOutputOutputMsk(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
+        Optional[KafkaSchemaRegistryAuthenticationType1],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -2196,7 +2155,7 @@ class CreateOutputOutputMsk(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -2236,7 +2195,7 @@ class CreateOutputOutputMsk(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -2263,11 +2222,6 @@ class CreateOutputOutputMsk(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsMsk], pydantic.Field(alias="pqControls")
@@ -2307,7 +2261,7 @@ class CreateOutputOutputMsk(BaseModel):
     def serialize_ack(self, value):
         if isinstance(value, str):
             try:
-                return models.AcknowledgmentsOptionsAllLeader(value)
+                return models.AcknowledgmentsOptions1(value)
             except ValueError:
                 return value
         return value
@@ -2316,7 +2270,7 @@ class CreateOutputOutputMsk(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.RecordDataFormatOptionsJSONProtobuf(value)
+                return models.RecordDataFormatOptions1(value)
             except ValueError:
                 return value
         return value
@@ -2325,7 +2279,7 @@ class CreateOutputOutputMsk(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsGzipLz4(value)
+                return models.CompressionOptions3(value)
             except ValueError:
                 return value
         return value
@@ -2433,7 +2387,6 @@ class CreateOutputOutputMsk(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_topic",
                 "__template_awsSecretKey",
@@ -2485,12 +2438,12 @@ class CreateOutputOutputConfluentCloudTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
-    ack: NotRequired[AcknowledgmentsOptionsAllLeader]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    ack: NotRequired[AcknowledgmentsOptions1]
     r"""Control the number of required acknowledgments."""
-    format_: NotRequired[RecordDataFormatOptionsJSONProtobuf]
+    format_: NotRequired[RecordDataFormatOptions1]
     r"""Format to use to serialize events before writing to Kafka."""
-    compression: NotRequired[CompressionOptionsGzipLz4]
+    compression: NotRequired[CompressionOptions3]
     r"""Codec to use to compress the data before sending to Kafka"""
     max_record_size_kb: NotRequired[float]
     r"""Maximum size of each record batch before compression. The value must not exceed the Kafka brokers' message.max.bytes setting."""
@@ -2498,9 +2451,7 @@ class CreateOutputOutputConfluentCloudTypedDict(TypedDict):
     r"""The maximum number of events you want the Destination to allow in a batch before forcing a flush"""
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
-    kafka_schema_registry: NotRequired[
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
-    ]
+    kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationType1TypedDict]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -2533,7 +2484,7 @@ class CreateOutputOutputConfluentCloudTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -2546,8 +2497,6 @@ class CreateOutputOutputConfluentCloudTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsConfluentCloudTypedDict]
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
@@ -2579,17 +2528,17 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
-    ack: Optional[AcknowledgmentsOptionsAllLeader] = None
+    ack: Optional[AcknowledgmentsOptions1] = None
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
-        Optional[RecordDataFormatOptionsJSONProtobuf], pydantic.Field(alias="format")
+        Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
     ] = None
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Optional[CompressionOptionsGzipLz4] = None
+    compression: Optional[CompressionOptions3] = None
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
@@ -2608,7 +2557,7 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
+        Optional[KafkaSchemaRegistryAuthenticationType1],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -2682,7 +2631,7 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -2710,11 +2659,6 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsConfluentCloud],
         pydantic.Field(alias="pqControls"),
@@ -2729,7 +2673,7 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     def serialize_ack(self, value):
         if isinstance(value, str):
             try:
-                return models.AcknowledgmentsOptionsAllLeader(value)
+                return models.AcknowledgmentsOptions1(value)
             except ValueError:
                 return value
         return value
@@ -2738,7 +2682,7 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.RecordDataFormatOptionsJSONProtobuf(value)
+                return models.RecordDataFormatOptions1(value)
             except ValueError:
                 return value
         return value
@@ -2747,7 +2691,7 @@ class CreateOutputOutputConfluentCloud(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsGzipLz4(value)
+                return models.CompressionOptions3(value)
             except ValueError:
                 return value
         return value
@@ -2827,7 +2771,6 @@ class CreateOutputOutputConfluentCloud(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_topic",
             ]
@@ -2874,11 +2817,11 @@ class CreateOutputOutputKafkaTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    ack: NotRequired[AcknowledgmentsOptionsAllLeader]
+    ack: NotRequired[AcknowledgmentsOptions1]
     r"""Control the number of required acknowledgments."""
-    format_: NotRequired[RecordDataFormatOptionsJSONProtobuf]
+    format_: NotRequired[RecordDataFormatOptions1]
     r"""Format to use to serialize events before writing to Kafka."""
-    compression: NotRequired[CompressionOptionsGzipLz4]
+    compression: NotRequired[CompressionOptions3]
     r"""Codec to use to compress the data before sending to Kafka"""
     max_record_size_kb: NotRequired[float]
     r"""Maximum size of each record batch before compression. The value must not exceed the Kafka brokers' message.max.bytes setting."""
@@ -2886,9 +2829,7 @@ class CreateOutputOutputKafkaTypedDict(TypedDict):
     r"""The maximum number of events you want the Destination to allow in a batch before forcing a flush"""
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
-    kafka_schema_registry: NotRequired[
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
-    ]
+    kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationType1TypedDict]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -2907,7 +2848,7 @@ class CreateOutputOutputKafkaTypedDict(TypedDict):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
     sasl: NotRequired[AuthenticationTypeTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -2922,7 +2863,7 @@ class CreateOutputOutputKafkaTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -2935,8 +2876,6 @@ class CreateOutputOutputKafkaTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsKafkaTypedDict]
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
@@ -2968,15 +2907,15 @@ class CreateOutputOutputKafka(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Optional[AcknowledgmentsOptionsAllLeader] = None
+    ack: Optional[AcknowledgmentsOptions1] = None
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
-        Optional[RecordDataFormatOptionsJSONProtobuf], pydantic.Field(alias="format")
+        Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
     ] = None
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Optional[CompressionOptionsGzipLz4] = None
+    compression: Optional[CompressionOptions3] = None
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
@@ -2995,7 +2934,7 @@ class CreateOutputOutputKafka(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
+        Optional[KafkaSchemaRegistryAuthenticationType1],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -3036,7 +2975,7 @@ class CreateOutputOutputKafka(BaseModel):
     sasl: Optional[AuthenticationType] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -3071,7 +3010,7 @@ class CreateOutputOutputKafka(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -3099,11 +3038,6 @@ class CreateOutputOutputKafka(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsKafka], pydantic.Field(alias="pqControls")
     ] = None
@@ -3117,7 +3051,7 @@ class CreateOutputOutputKafka(BaseModel):
     def serialize_ack(self, value):
         if isinstance(value, str):
             try:
-                return models.AcknowledgmentsOptionsAllLeader(value)
+                return models.AcknowledgmentsOptions1(value)
             except ValueError:
                 return value
         return value
@@ -3126,7 +3060,7 @@ class CreateOutputOutputKafka(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.RecordDataFormatOptionsJSONProtobuf(value)
+                return models.RecordDataFormatOptions1(value)
             except ValueError:
                 return value
         return value
@@ -3135,7 +3069,7 @@ class CreateOutputOutputKafka(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsGzipLz4(value)
+                return models.CompressionOptions3(value)
             except ValueError:
                 return value
         return value
@@ -3215,7 +3149,6 @@ class CreateOutputOutputKafka(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_topic",
             ]
@@ -3262,11 +3195,11 @@ class CreateOutputOutputExabeamTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    signature_version: NotRequired[SignatureVersionOptionsGoogle]
+    signature_version: NotRequired[SignatureVersionOptions4]
     r"""Signature version to use for signing Google Cloud Storage requests"""
-    object_acl: NotRequired[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol]
+    object_acl: NotRequired[ObjectACLOptions1]
     r"""Object ACL to assign to uploaded objects"""
-    storage_class: NotRequired[StorageClassOptionsArchiveColdline]
+    storage_class: NotRequired[StorageClassOptions1]
     r"""Storage class to select for uploaded objects"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -3282,7 +3215,7 @@ class CreateOutputOutputExabeamTypedDict(TypedDict):
     r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
     max_open_files: NotRequired[float]
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
-    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
+    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -3353,20 +3286,17 @@ class CreateOutputOutputExabeam(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptionsGoogle],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions4], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing Google Cloud Storage requests"""
 
     object_acl: Annotated[
-        Optional[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol],
-        pydantic.Field(alias="objectACL"),
+        Optional[ObjectACLOptions1], pydantic.Field(alias="objectACL")
     ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Optional[StorageClassOptionsArchiveColdline],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions1], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
@@ -3406,8 +3336,7 @@ class CreateOutputOutputExabeam(BaseModel):
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptionsBlockDrop],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -3485,7 +3414,7 @@ class CreateOutputOutputExabeam(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptionsGoogle(value)
+                return models.SignatureVersionOptions4(value)
             except ValueError:
                 return value
         return value
@@ -3494,9 +3423,7 @@ class CreateOutputOutputExabeam(BaseModel):
     def serialize_object_acl(self, value):
         if isinstance(value, str):
             try:
-                return models.ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol(
-                    value
-                )
+                return models.ObjectACLOptions1(value)
             except ValueError:
                 return value
         return value
@@ -3505,7 +3432,7 @@ class CreateOutputOutputExabeam(BaseModel):
     def serialize_storage_class(self, value):
         if isinstance(value, str):
             try:
-                return models.StorageClassOptionsArchiveColdline(value)
+                return models.StorageClassOptions1(value)
             except ValueError:
                 return value
         return value
@@ -3514,7 +3441,7 @@ class CreateOutputOutputExabeam(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptionsBlockDrop(value)
+                return models.BackpressureBehaviorOptions1(value)
             except ValueError:
                 return value
         return value
@@ -3639,7 +3566,7 @@ class CreateOutputOutputGooglePubsubTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -3652,8 +3579,6 @@ class CreateOutputOutputGooglePubsubTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsGooglePubsubTypedDict]
     template_topic_name: NotRequired[str]
     r"""Binds 'topicName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicName' at runtime."""
@@ -3758,7 +3683,7 @@ class CreateOutputOutputGooglePubsub(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -3785,11 +3710,6 @@ class CreateOutputOutputGooglePubsub(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsGooglePubsub], pydantic.Field(alias="pqControls")
@@ -3882,7 +3802,6 @@ class CreateOutputOutputGooglePubsub(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_topicName",
                 "__template_region",
@@ -4054,7 +3973,7 @@ class CreateOutputOutputGoogleCloudLoggingTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -4067,8 +3986,6 @@ class CreateOutputOutputGoogleCloudLoggingTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsGoogleCloudLoggingTypedDict]
 
 
@@ -4354,7 +4271,7 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -4381,11 +4298,6 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsGoogleCloudLogging],
@@ -4522,7 +4434,6 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
             ]
         )
@@ -4575,7 +4486,7 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    signature_version: NotRequired[SignatureVersionOptionsGoogle]
+    signature_version: NotRequired[SignatureVersionOptions4]
     r"""Signature version to use for signing Google Cloud Storage requests"""
     aws_authentication_method: NotRequired[
         CreateOutputAuthenticationMethodGoogleCloudStorage
@@ -4584,9 +4495,9 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
     verify_permissions: NotRequired[bool]
     r"""Disable if you can access files within the bucket but not the bucket itself"""
-    object_acl: NotRequired[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol]
+    object_acl: NotRequired[ObjectACLOptions1]
     r"""Object ACL to assign to uploaded objects"""
-    storage_class: NotRequired[StorageClassOptionsArchiveColdline]
+    storage_class: NotRequired[StorageClassOptions1]
     r"""Storage class to select for uploaded objects"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -4616,7 +4527,7 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
+    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -4626,7 +4537,7 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     description: NotRequired[str]
-    compress: NotRequired[CompressionOptionsHTTP]
+    compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -4707,8 +4618,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptionsGoogle],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions4], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing Google Cloud Storage requests"""
 
@@ -4726,14 +4636,12 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     r"""Disable if you can access files within the bucket but not the bucket itself"""
 
     object_acl: Annotated[
-        Optional[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol],
-        pydantic.Field(alias="objectACL"),
+        Optional[ObjectACLOptions1], pydantic.Field(alias="objectACL")
     ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Optional[StorageClassOptionsArchiveColdline],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions1], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
@@ -4806,8 +4714,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptionsBlockDrop],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -4833,7 +4740,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptionsHTTP] = None
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -4947,7 +4854,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptionsGoogle(value)
+                return models.SignatureVersionOptions4(value)
             except ValueError:
                 return value
         return value
@@ -4965,9 +4872,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     def serialize_object_acl(self, value):
         if isinstance(value, str):
             try:
-                return models.ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol(
-                    value
-                )
+                return models.ObjectACLOptions1(value)
             except ValueError:
                 return value
         return value
@@ -4976,7 +4881,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     def serialize_storage_class(self, value):
         if isinstance(value, str):
             try:
-                return models.StorageClassOptionsArchiveColdline(value)
+                return models.StorageClassOptions1(value)
             except ValueError:
                 return value
         return value
@@ -4994,7 +4899,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptionsBlockDrop(value)
+                return models.BackpressureBehaviorOptions1(value)
             except ValueError:
                 return value
         return value
@@ -5012,7 +4917,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsHTTP(value)
+                return models.CompressionOptions2(value)
             except ValueError:
                 return value
         return value
@@ -5271,7 +5176,7 @@ class CreateOutputOutputGoogleChronicleTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -5284,8 +5189,6 @@ class CreateOutputOutputGoogleChronicleTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsGoogleChronicleTypedDict]
     template_api_version: NotRequired[str]
     r"""Binds 'apiVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'apiVersion' at runtime."""
@@ -5475,7 +5378,7 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -5502,11 +5405,6 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsGoogleChronicle],
@@ -5658,7 +5556,6 @@ class CreateOutputOutputGoogleChronicle(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_apiVersion",
                 "__template_region",
@@ -5733,7 +5630,7 @@ class CreateOutputOutputAzureEventhubTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    sasl: NotRequired[AuthenticationTypeUseTypedDict]
+    sasl: NotRequired[AuthenticationType1TypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -5746,7 +5643,7 @@ class CreateOutputOutputAzureEventhubTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -5759,8 +5656,6 @@ class CreateOutputOutputAzureEventhubTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsAzureEventhubTypedDict]
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
@@ -5849,7 +5744,7 @@ class CreateOutputOutputAzureEventhub(BaseModel):
     ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
-    sasl: Optional[AuthenticationTypeUse] = None
+    sasl: Optional[AuthenticationType1] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
@@ -5877,7 +5772,7 @@ class CreateOutputOutputAzureEventhub(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -5904,11 +5799,6 @@ class CreateOutputOutputAzureEventhub(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsAzureEventhub],
@@ -6009,7 +5899,6 @@ class CreateOutputOutputAzureEventhub(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_topic",
             ]
@@ -6086,7 +5975,7 @@ class CreateOutputOutputHoneycombTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptionsAPI]
+    auth_type: NotRequired[AuthenticationMethodOptions3]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
@@ -6096,7 +5985,7 @@ class CreateOutputOutputHoneycombTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -6109,8 +5998,6 @@ class CreateOutputOutputHoneycombTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsHoneycombTypedDict]
     team: NotRequired[str]
     r"""Team API key where the dataset belongs"""
@@ -6216,7 +6103,7 @@ class CreateOutputOutputHoneycomb(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptionsAPI], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
     ] = None
     r"""Enter API key directly, or select a stored secret"""
 
@@ -6238,7 +6125,7 @@ class CreateOutputOutputHoneycomb(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -6265,11 +6152,6 @@ class CreateOutputOutputHoneycomb(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsHoneycomb], pydantic.Field(alias="pqControls")
@@ -6303,7 +6185,7 @@ class CreateOutputOutputHoneycomb(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsAPI(value)
+                return models.AuthenticationMethodOptions3(value)
             except ValueError:
                 return value
         return value
@@ -6370,7 +6252,6 @@ class CreateOutputOutputHoneycomb(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "team",
                 "textSecret",
@@ -6432,7 +6313,7 @@ class CreateOutputOutputKinesisTypedDict(TypedDict):
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsKinesis]
+    signature_version: NotRequired[SignatureVersionOptions2]
     r"""Signature version to use for signing Kinesis stream requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -6473,7 +6354,7 @@ class CreateOutputOutputKinesisTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -6486,8 +6367,6 @@ class CreateOutputOutputKinesisTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsKinesisTypedDict]
     template_stream_name: NotRequired[str]
     r"""Binds 'streamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamName' at runtime."""
@@ -6543,8 +6422,7 @@ class CreateOutputOutputKinesis(BaseModel):
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptionsKinesis],
-        pydantic.Field(alias="signatureVersion"),
+        Optional[SignatureVersionOptions2], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing Kinesis stream requests"""
 
@@ -6635,7 +6513,7 @@ class CreateOutputOutputKinesis(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -6662,11 +6540,6 @@ class CreateOutputOutputKinesis(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsKinesis], pydantic.Field(alias="pqControls")
@@ -6715,7 +6588,7 @@ class CreateOutputOutputKinesis(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptionsKinesis(value)
+                return models.SignatureVersionOptions2(value)
             except ValueError:
                 return value
         return value
@@ -6804,7 +6677,6 @@ class CreateOutputOutputKinesis(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_streamName",
                 "__template_awsSecretKey",
@@ -6908,7 +6780,7 @@ class CreateOutputOutputAzureLogsTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -6921,8 +6793,6 @@ class CreateOutputOutputAzureLogsTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsAzureLogsTypedDict]
     workspace_id: NotRequired[str]
     r"""Azure Log Analytics Workspace ID. See Azure Dashboard Workspace > Advanced settings."""
@@ -7062,7 +6932,7 @@ class CreateOutputOutputAzureLogs(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -7089,11 +6959,6 @@ class CreateOutputOutputAzureLogs(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsAzureLogs], pydantic.Field(alias="pqControls")
@@ -7211,7 +7076,6 @@ class CreateOutputOutputAzureLogs(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "workspaceId",
                 "workspaceKey",
@@ -7398,7 +7262,7 @@ class CreateOutputOutputAzureDataExplorerTypedDict(TypedDict):
     r"""Scope to pass in the OAuth request parameter"""
     oauth_type: CreateOutputAuthenticationMethodAzureDataExplorer
     r"""The type of OAuth 2.0 client credentials grant flow to use"""
-    compress: CompressionOptionsHTTP
+    compress: CompressionOptions2
     r"""Data compression format to apply to HTTP content before it is delivered"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
@@ -7529,7 +7393,7 @@ class CreateOutputOutputAzureDataExplorerTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -7542,8 +7406,6 @@ class CreateOutputOutputAzureDataExplorerTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsAzureDataExplorerTypedDict]
     template_cluster_url: NotRequired[str]
     r"""Binds 'clusterUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clusterUrl' at runtime."""
@@ -7601,7 +7463,7 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     ]
     r"""The type of OAuth 2.0 client credentials grant flow to use"""
 
-    compress: CompressionOptionsHTTP
+    compress: CompressionOptions2
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     pipeline: Optional[str] = None
@@ -7905,7 +7767,7 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -7932,11 +7794,6 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsAzureDataExplorer],
@@ -8028,7 +7885,7 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsHTTP(value)
+                return models.CompressionOptions2(value)
             except ValueError:
                 return value
         return value
@@ -8199,7 +8056,6 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_clusterUrl",
                 "__template_database",
@@ -8289,7 +8145,7 @@ class CreateOutputOutputAzureBlobTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
+    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -8301,7 +8157,7 @@ class CreateOutputOutputAzureBlobTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptions]
     storage_class: NotRequired[CreateOutputBlobAccessTier]
     description: NotRequired[str]
-    compress: NotRequired[CompressionOptionsHTTP]
+    compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -8462,8 +8318,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptionsBlockDrop],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -8497,7 +8352,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptionsHTTP] = None
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -8653,7 +8508,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptionsBlockDrop(value)
+                return models.BackpressureBehaviorOptions1(value)
             except ValueError:
                 return value
         return value
@@ -8689,7 +8544,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsHTTP(value)
+                return models.CompressionOptions2(value)
             except ValueError:
                 return value
         return value
@@ -8870,7 +8725,7 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
+    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -8894,7 +8749,7 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    compress: NotRequired[CompressionOptionsHTTP]
+    compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -9093,8 +8948,7 @@ class CreateOutputOutputS3(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptionsBlockDrop],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -9151,7 +9005,7 @@ class CreateOutputOutputS3(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Optional[CompressionOptionsHTTP] = None
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -9328,7 +9182,7 @@ class CreateOutputOutputS3(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptionsBlockDrop(value)
+                return models.BackpressureBehaviorOptions1(value)
             except ValueError:
                 return value
         return value
@@ -9346,7 +9200,7 @@ class CreateOutputOutputS3(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsHTTP(value)
+                return models.CompressionOptions2(value)
             except ValueError:
                 return value
         return value
@@ -9509,7 +9363,7 @@ class CreateOutputOutputFilesystemTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
+    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -9519,7 +9373,7 @@ class CreateOutputOutputFilesystemTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     description: NotRequired[str]
-    compress: NotRequired[CompressionOptionsHTTP]
+    compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -9642,8 +9496,7 @@ class CreateOutputOutputFilesystem(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptionsBlockDrop],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -9669,7 +9522,7 @@ class CreateOutputOutputFilesystem(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptionsHTTP] = None
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -9771,7 +9624,7 @@ class CreateOutputOutputFilesystem(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptionsBlockDrop(value)
+                return models.BackpressureBehaviorOptions1(value)
             except ValueError:
                 return value
         return value
@@ -9789,7 +9642,7 @@ class CreateOutputOutputFilesystem(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsHTTP(value)
+                return models.CompressionOptions2(value)
             except ValueError:
                 return value
         return value
@@ -9954,7 +9807,7 @@ class CreateOutputOutputSignalfxTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -9967,8 +9820,6 @@ class CreateOutputOutputSignalfxTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsSignalfxTypedDict]
 
 
@@ -10099,7 +9950,7 @@ class CreateOutputOutputSignalfx(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -10126,11 +9977,6 @@ class CreateOutputOutputSignalfx(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsSignalfx], pydantic.Field(alias="pqControls")
@@ -10227,7 +10073,6 @@ class CreateOutputOutputSignalfx(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
             ]
         )
@@ -10317,7 +10162,7 @@ class CreateOutputOutputWavefrontTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -10330,8 +10175,6 @@ class CreateOutputOutputWavefrontTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsWavefrontTypedDict]
 
 
@@ -10462,7 +10305,7 @@ class CreateOutputOutputWavefront(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -10489,11 +10332,6 @@ class CreateOutputOutputWavefront(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsWavefront], pydantic.Field(alias="pqControls")
@@ -10590,7 +10428,6 @@ class CreateOutputOutputWavefront(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
             ]
         )
@@ -10634,13 +10471,13 @@ class CreateOutputOutputTcpjsonTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     load_balanced: NotRequired[bool]
     r"""Use load-balanced destinations"""
-    compression: NotRequired[CompressionOptionsGzipNone]
+    compression: NotRequired[CompressionOptions1]
     r"""Codec to use to compress the data before sending"""
     log_failed_requests: NotRequired[bool]
     r"""Use to troubleshoot issues with sending data"""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     connection_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
@@ -10675,7 +10512,7 @@ class CreateOutputOutputTcpjsonTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -10688,8 +10525,6 @@ class CreateOutputOutputTcpjsonTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsTcpjsonTypedDict]
     auth_token: NotRequired[str]
     r"""Optional authentication token to include as part of the connection header"""
@@ -10726,7 +10561,7 @@ class CreateOutputOutputTcpjson(BaseModel):
     )
     r"""Use load-balanced destinations"""
 
-    compression: Optional[CompressionOptionsGzipNone] = None
+    compression: Optional[CompressionOptions1] = None
     r"""Codec to use to compress the data before sending"""
 
     log_failed_requests: Annotated[
@@ -10739,7 +10574,7 @@ class CreateOutputOutputTcpjson(BaseModel):
     ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -10815,7 +10650,7 @@ class CreateOutputOutputTcpjson(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -10843,11 +10678,6 @@ class CreateOutputOutputTcpjson(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsTcpjson], pydantic.Field(alias="pqControls")
     ] = None
@@ -10872,7 +10702,7 @@ class CreateOutputOutputTcpjson(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsGzipNone(value)
+                return models.CompressionOptions1(value)
             except ValueError:
                 return value
         return value
@@ -10959,7 +10789,6 @@ class CreateOutputOutputTcpjson(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "authToken",
                 "textSecret",
@@ -11016,7 +10845,7 @@ class CreateOutputOutputWizHecTypedDict(TypedDict):
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
     tcp_routing: NotRequired[str]
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -11057,7 +10886,7 @@ class CreateOutputOutputWizHecTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -11070,8 +10899,6 @@ class CreateOutputOutputWizHecTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsWizHecTypedDict]
     token: NotRequired[str]
     r"""Wiz Defend Auth token"""
@@ -11122,7 +10949,7 @@ class CreateOutputOutputWizHec(BaseModel):
     tcp_routing: Annotated[Optional[str], pydantic.Field(alias="tcpRouting")] = None
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+    tls: Optional[TLSSettingsClientSideType1] = None
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -11217,7 +11044,7 @@ class CreateOutputOutputWizHec(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -11244,11 +11071,6 @@ class CreateOutputOutputWizHec(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsWizHec], pydantic.Field(alias="pqControls")
@@ -11366,7 +11188,6 @@ class CreateOutputOutputWizHec(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "token",
                 "textSecret",
@@ -11457,7 +11278,7 @@ class CreateOutputOutputSplunkHecTypedDict(TypedDict):
     r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
     tcp_routing: NotRequired[str]
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -11515,7 +11336,7 @@ class CreateOutputOutputSplunkHecTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -11528,8 +11349,6 @@ class CreateOutputOutputSplunkHecTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsSplunkHecTypedDict]
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
@@ -11566,7 +11385,7 @@ class CreateOutputOutputSplunkHec(BaseModel):
     tcp_routing: Annotated[Optional[str], pydantic.Field(alias="tcpRouting")] = None
     r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+    tls: Optional[TLSSettingsClientSideType1] = None
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -11695,7 +11514,7 @@ class CreateOutputOutputSplunkHec(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -11722,11 +11541,6 @@ class CreateOutputOutputSplunkHec(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsSplunkHec], pydantic.Field(alias="pqControls")
@@ -11838,7 +11652,6 @@ class CreateOutputOutputSplunkHec(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_url",
             ]
@@ -12028,7 +11841,7 @@ class CreateOutputOutputSplunkLbTypedDict(TypedDict):
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     enable_multi_metrics: NotRequired[bool]
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
     enable_ack: NotRequired[bool]
@@ -12061,7 +11874,7 @@ class CreateOutputOutputSplunkLbTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -12074,8 +11887,6 @@ class CreateOutputOutputSplunkLbTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsSplunkLbTypedDict]
     auth_token: NotRequired[str]
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
@@ -12141,7 +11952,7 @@ class CreateOutputOutputSplunkLb(BaseModel):
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
@@ -12217,7 +12028,7 @@ class CreateOutputOutputSplunkLb(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -12244,11 +12055,6 @@ class CreateOutputOutputSplunkLb(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsSplunkLb], pydantic.Field(alias="pqControls")
@@ -12371,7 +12177,6 @@ class CreateOutputOutputSplunkLb(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "authToken",
                 "textSecret",
@@ -12427,7 +12232,7 @@ class CreateOutputOutputSplunkTypedDict(TypedDict):
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     enable_multi_metrics: NotRequired[bool]
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
     enable_ack: NotRequired[bool]
@@ -12452,7 +12257,7 @@ class CreateOutputOutputSplunkTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -12465,8 +12270,6 @@ class CreateOutputOutputSplunkTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsSplunkTypedDict]
     auth_token: NotRequired[str]
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
@@ -12524,7 +12327,7 @@ class CreateOutputOutputSplunk(BaseModel):
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
@@ -12581,7 +12384,7 @@ class CreateOutputOutputSplunk(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -12608,11 +12411,6 @@ class CreateOutputOutputSplunk(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsSplunk], pydantic.Field(alias="pqControls")
@@ -12738,7 +12536,6 @@ class CreateOutputOutputSplunk(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "authToken",
                 "textSecret",
@@ -12898,7 +12695,7 @@ class CreateOutputOutputSyslogTypedDict(TypedDict):
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     max_record_size: NotRequired[float]
@@ -12914,7 +12711,7 @@ class CreateOutputOutputSyslogTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -12927,8 +12724,6 @@ class CreateOutputOutputSyslogTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsSyslogTypedDict]
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
@@ -13037,7 +12832,7 @@ class CreateOutputOutputSyslog(BaseModel):
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -13075,7 +12870,7 @@ class CreateOutputOutputSyslog(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -13102,11 +12897,6 @@ class CreateOutputOutputSyslog(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsSyslog], pydantic.Field(alias="pqControls")
@@ -13246,7 +13036,6 @@ class CreateOutputOutputSyslog(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_host",
                 "__template_port",
@@ -13437,7 +13226,7 @@ class CreateOutputOutputSentinelTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -13450,8 +13239,6 @@ class CreateOutputOutputSentinelTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsSentinelTypedDict]
     url: NotRequired[str]
     r"""URL to send events to. Can be overwritten by an event's __url field."""
@@ -13665,7 +13452,7 @@ class CreateOutputOutputSentinel(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -13692,11 +13479,6 @@ class CreateOutputOutputSentinel(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsSentinel], pydantic.Field(alias="pqControls")
@@ -13873,7 +13655,6 @@ class CreateOutputOutputSentinel(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "url",
                 "dcrID",
@@ -14065,7 +13846,7 @@ class CreateOutputOutputWebhookTypedDict(TypedDict):
     r"""How to handle events when all receivers are exerting backpressure"""
     auth_type: NotRequired[CreateOutputAuthenticationTypeWebhook]
     r"""Authentication method to use for the HTTP request"""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    tls: NotRequired[TLSSettingsClientSideType1TypedDict]
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     load_balanced: NotRequired[bool]
@@ -14094,7 +13875,7 @@ class CreateOutputOutputWebhookTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -14107,8 +13888,6 @@ class CreateOutputOutputWebhookTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsWebhookTypedDict]
     username: NotRequired[str]
     password: NotRequired[str]
@@ -14262,7 +14041,7 @@ class CreateOutputOutputWebhook(BaseModel):
     ] = None
     r"""Authentication method to use for the HTTP request"""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+    tls: Optional[TLSSettingsClientSideType1] = None
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
@@ -14332,7 +14111,7 @@ class CreateOutputOutputWebhook(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -14359,11 +14138,6 @@ class CreateOutputOutputWebhook(BaseModel):
         Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
         Optional[CreateOutputPqControlsWebhook], pydantic.Field(alias="pqControls")
@@ -14574,7 +14348,6 @@ class CreateOutputOutputWebhook(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "username",
                 "password",
@@ -14699,10 +14472,10 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputSplunkTypedDict,
         CreateOutputOutputSignalfxTypedDict,
         CreateOutputOutputWavefrontTypedDict,
-        CreateOutputOutputExabeamTypedDict,
         CreateOutputOutputHoneycombTypedDict,
         CreateOutputOutputAzureEventhubTypedDict,
         CreateOutputOutputCriblTCPTypedDict,
+        CreateOutputOutputExabeamTypedDict,
         CreateOutputOutputElasticCloudTypedDict,
         CreateOutputOutputMicrosoftFabricTypedDict,
         CreateOutputOutputCrowdstrikeNextGenSiemTypedDict,
@@ -14717,35 +14490,35 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputAzureLogsTypedDict,
         CreateOutputOutputPrometheusTypedDict,
         CreateOutputOutputFilesystemTypedDict,
-        CreateOutputOutputXsiamTypedDict,
         CreateOutputOutputSyslogTypedDict,
         CreateOutputOutputNewrelicEventsTypedDict,
+        CreateOutputOutputXsiamTypedDict,
         CreateOutputOutputCriblHTTPTypedDict,
-        CreateOutputOutputLokiTypedDict,
-        CreateOutputOutputDatasetTypedDict,
         CreateOutputOutputWizHecTypedDict,
-        CreateOutputOutputCriblSearchEngineTypedDict,
         CreateOutputOutputNewrelicTypedDict,
+        CreateOutputOutputCriblSearchEngineTypedDict,
+        CreateOutputOutputDatasetTypedDict,
+        CreateOutputOutputLokiTypedDict,
+        CreateOutputOutputDynatraceOtlpTypedDict,
         CreateOutputOutputKinesisTypedDict,
         CreateOutputOutputDynatraceHTTPTypedDict,
         CreateOutputOutputServiceNowTypedDict,
-        CreateOutputOutputDynatraceOtlpTypedDict,
         CreateOutputOutputSplunkHecTypedDict,
         CreateOutputOutputSqsTypedDict,
         CreateOutputOutputElasticTypedDict,
-        CreateOutputOutputDatadogTypedDict,
         CreateOutputOutputChronicleTypedDict,
+        CreateOutputOutputDatadogTypedDict,
         CreateOutputOutputOpenTelemetryTypedDict,
         CreateOutputOutputInfluxdbTypedDict,
-        CreateOutputOutputDatabricksTypedDict,
         CreateOutputOutputGoogleChronicleTypedDict,
+        CreateOutputOutputDatabricksTypedDict,
         CreateOutputOutputSentinelOneAiSiemTypedDict,
-        CreateOutputOutputCriblLakeTypedDict,
         CreateOutputOutputClickHouseTypedDict,
         CreateOutputOutputLocalSearchStorageTypedDict,
+        CreateOutputOutputCriblLakeTypedDict,
         CreateOutputOutputCloudflareR2TypedDict,
-        CreateOutputOutputGoogleCloudStorageTypedDict,
         CreateOutputOutputMskTypedDict,
+        CreateOutputOutputGoogleCloudStorageTypedDict,
         CreateOutputOutputAzureBlobTypedDict,
         CreateOutputOutputMinioTypedDict,
         CreateOutputOutputSentinelTypedDict,

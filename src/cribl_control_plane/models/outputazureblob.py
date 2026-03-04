@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 from .authenticationmethodoptions import AuthenticationMethodOptions
-from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
+from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
 from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCert,
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
 from .compressionleveloptions import CompressionLevelOptions
-from .compressionoptionshttp import CompressionOptionsHTTP
+from .compressionoptions2 import CompressionOptions2
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
@@ -90,7 +90,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
+    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -102,7 +102,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptions]
     storage_class: NotRequired[BlobAccessTier]
     description: NotRequired[str]
-    compress: NotRequired[CompressionOptionsHTTP]
+    compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -263,8 +263,7 @@ class OutputAzureBlob(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptionsBlockDrop],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -298,7 +297,7 @@ class OutputAzureBlob(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptionsHTTP] = None
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -454,7 +453,7 @@ class OutputAzureBlob(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptionsBlockDrop(value)
+                return models.BackpressureBehaviorOptions1(value)
             except ValueError:
                 return value
         return value
@@ -490,7 +489,7 @@ class OutputAzureBlob(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsHTTP(value)
+                return models.CompressionOptions2(value)
             except ValueError:
                 return value
         return value

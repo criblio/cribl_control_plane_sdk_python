@@ -6,57 +6,51 @@ from cribl_control_plane.utils.dynamic_imports import lazy_getattr, lazy_dir
 
 if TYPE_CHECKING:
     from .acknowledgmentsoptions import AcknowledgmentsOptions
-    from .acknowledgmentsoptionsallleader import AcknowledgmentsOptionsAllLeader
+    from .acknowledgmentsoptions1 import AcknowledgmentsOptions1
     from .addhectokenrequest import AddHecTokenRequest, AddHecTokenRequestTypedDict
     from .additionalpropertiestypejobinfostats import (
         AdditionalPropertiesTypeJobInfoStats,
         AdditionalPropertiesTypeJobInfoStatsTypedDict,
+    )
+    from .additionalpropertiestypesavedjobenrichedfieldssavedstate import (
+        AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedState,
+        AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedStateTypedDict,
     )
     from .apitypesystemsettingsconf import (
         APITypeSystemSettingsConf,
         APITypeSystemSettingsConfTypedDict,
     )
     from .authenticationmethodoptions import AuthenticationMethodOptions
-    from .authenticationmethodoptionsapi import AuthenticationMethodOptionsAPI
+    from .authenticationmethodoptions1 import AuthenticationMethodOptions1
+    from .authenticationmethodoptions2 import AuthenticationMethodOptions2
+    from .authenticationmethodoptions3 import AuthenticationMethodOptions3
     from .authenticationmethodoptionsauth import AuthenticationMethodOptionsAuth
     from .authenticationmethodoptionsauthtokensitems import (
         AuthenticationMethodOptionsAuthTokensItems,
-    )
-    from .authenticationmethodoptionsmanualsecret import (
-        AuthenticationMethodOptionsManualSecret,
     )
     from .authenticationmethodoptionss3collectorconf import (
         AuthenticationMethodOptionsS3CollectorConf,
     )
     from .authenticationmethodoptionssasl import AuthenticationMethodOptionsSasl
-    from .authenticationmethodoptionssaslcertificatemanual import (
-        AuthenticationMethodOptionsSaslCertificateManual,
-    )
-    from .authenticationmethodoptionssaslmanualsecret import (
-        AuthenticationMethodOptionsSaslManualSecret,
-    )
+    from .authenticationmethodoptionssasl1 import AuthenticationMethodOptionsSasl1
+    from .authenticationmethodoptionssasl2 import AuthenticationMethodOptionsSasl2
     from .authenticationprotocoloptionsv3user import AuthenticationProtocolOptionsV3User
     from .authenticationtype import AuthenticationType, AuthenticationTypeTypedDict
+    from .authenticationtype1 import AuthenticationType1, AuthenticationType1TypedDict
     from .authenticationtypeoptions import AuthenticationTypeOptions
-    from .authenticationtypeoptionsbasiccredentialssecret import (
-        AuthenticationTypeOptionsBasicCredentialsSecret,
-    )
+    from .authenticationtypeoptions1 import AuthenticationTypeOptions1
     from .authenticationtypeoptionslokiauth import AuthenticationTypeOptionsLokiAuth
     from .authenticationtypeoptionsprometheusauth import (
         AuthenticationTypeOptionsPrometheusAuth,
     )
-    from .authenticationtypeoptionsprometheusauthbasiccredentialssecret import (
-        AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret,
-    )
-    from .authenticationtypeuse import (
-        AuthenticationTypeUse,
-        AuthenticationTypeUseTypedDict,
+    from .authenticationtypeoptionsprometheusauth1 import (
+        AuthenticationTypeOptionsPrometheusAuth1,
     )
     from .authtoken import AuthToken, AuthTokenTypedDict
     from .authtype import AuthType, AuthTypeTypedDict
-    from .authtypeauthtypecredentialssecret import (
-        AuthTypeAuthTypeCredentialsSecret,
-        AuthTypeAuthTypeCredentialsSecretTypedDict,
+    from .authtypekafkaschemaregistry import (
+        AuthTypeKafkaSchemaRegistry,
+        AuthTypeKafkaSchemaRegistryTypedDict,
     )
     from .awsauthenticationmethodoptions import AwsAuthenticationMethodOptions
     from .awstypeheartbeatmetadata import (
@@ -93,9 +87,7 @@ if TYPE_CHECKING:
         AzureTypeHeartbeatMetadataTypedDict,
     )
     from .backpressurebehavioroptions import BackpressureBehaviorOptions
-    from .backpressurebehavioroptionsblockdrop import (
-        BackpressureBehaviorOptionsBlockDrop,
-    )
+    from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
     from .backupssettings_union import (
         BackupsSettings1,
         BackupsSettings1TypedDict,
@@ -113,6 +105,7 @@ if TYPE_CHECKING:
         CertificateTypeAzureBlobAuthTypeClientCert,
         CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
     )
+    from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
     from .checkpointingtype import CheckpointingType, CheckpointingTypeTypedDict
     from .cloudprovider import CloudProvider
     from .collector import Collector, CollectorTypedDict, UnknownCollector
@@ -161,11 +154,11 @@ if TYPE_CHECKING:
     from .commit import Commit, CommitTypedDict
     from .compressionleveloptions import CompressionLevelOptions
     from .compressionoptions import CompressionOptions
-    from .compressionoptionsdeflategzip import CompressionOptionsDeflateGzip
-    from .compressionoptionsgziplz4 import CompressionOptionsGzipLz4
-    from .compressionoptionsgzipnone import CompressionOptionsGzipNone
-    from .compressionoptionshttp import CompressionOptionsHTTP
-    from .compressionoptionsmessages import CompressionOptionsMessages
+    from .compressionoptions1 import CompressionOptions1
+    from .compressionoptions2 import CompressionOptions2
+    from .compressionoptions3 import CompressionOptions3
+    from .compressionoptions4 import CompressionOptions4
+    from .compressionoptions5 import CompressionOptions5
     from .compressionoptionspersistence import CompressionOptionsPersistence
     from .compressionoptionspq import CompressionOptionsPq
     from .configgroup import ConfigGroup, ConfigGroupTypedDict
@@ -307,11 +300,8 @@ if TYPE_CHECKING:
         CreateInputAuthTokensExtTypedDict,
         CreateInputAuthenticationMethodEdgePrometheus,
         CreateInputAuthenticationMethodElastic,
-        CreateInputAuthenticationMethodOffice365MsgTrace,
         CreateInputAuthenticationTypeElastic,
         CreateInputAuthenticationTypeSplunkSearch,
-        CreateInputCertOptions,
-        CreateInputCertOptionsTypedDict,
         CreateInputCompression,
         CreateInputContentConfigOffice365Mgmt,
         CreateInputContentConfigOffice365MgmtTypedDict,
@@ -366,6 +356,8 @@ if TYPE_CHECKING:
         CreateInputInputKafkaTypedDict,
         CreateInputInputLoki,
         CreateInputInputLokiTypedDict,
+        CreateInputInputMicrosoftGraph,
+        CreateInputInputMicrosoftGraphTypedDict,
         CreateInputInputMsk,
         CreateInputInputMskTypedDict,
         CreateInputInputOffice365Mgmt,
@@ -386,7 +378,6 @@ if TYPE_CHECKING:
         CreateInputInputSplunkTypedDict,
         CreateInputInputTcpjson,
         CreateInputInputTcpjsonTypedDict,
-        CreateInputLogLevelOffice365MsgTrace,
         CreateInputLogLevelPrometheus,
         CreateInputLogLevelSplunkSearch,
         CreateInputLokiAuth1,
@@ -425,6 +416,7 @@ if TYPE_CHECKING:
         CreateInputTypeHTTP,
         CreateInputTypeKafka,
         CreateInputTypeLoki,
+        CreateInputTypeMicrosoftGraph,
         CreateInputTypeMsk,
         CreateInputTypeOffice365Mgmt,
         CreateInputTypeOffice365MsgTrace,
@@ -688,11 +680,8 @@ if TYPE_CHECKING:
         CreateInputSystemByPackAuthTokensExtTypedDict,
         CreateInputSystemByPackAuthenticationMethodEdgePrometheus,
         CreateInputSystemByPackAuthenticationMethodElastic,
-        CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace,
         CreateInputSystemByPackAuthenticationTypeElastic,
         CreateInputSystemByPackAuthenticationTypeSplunkSearch,
-        CreateInputSystemByPackCertOptions,
-        CreateInputSystemByPackCertOptionsTypedDict,
         CreateInputSystemByPackCompression,
         CreateInputSystemByPackContentConfigOffice365Mgmt,
         CreateInputSystemByPackContentConfigOffice365MgmtTypedDict,
@@ -747,6 +736,8 @@ if TYPE_CHECKING:
         CreateInputSystemByPackInputKafkaTypedDict,
         CreateInputSystemByPackInputLoki,
         CreateInputSystemByPackInputLokiTypedDict,
+        CreateInputSystemByPackInputMicrosoftGraph,
+        CreateInputSystemByPackInputMicrosoftGraphTypedDict,
         CreateInputSystemByPackInputMsk,
         CreateInputSystemByPackInputMskTypedDict,
         CreateInputSystemByPackInputOffice365Mgmt,
@@ -767,7 +758,6 @@ if TYPE_CHECKING:
         CreateInputSystemByPackInputSplunkTypedDict,
         CreateInputSystemByPackInputTcpjson,
         CreateInputSystemByPackInputTcpjsonTypedDict,
-        CreateInputSystemByPackLogLevelOffice365MsgTrace,
         CreateInputSystemByPackLogLevelPrometheus,
         CreateInputSystemByPackLogLevelSplunkSearch,
         CreateInputSystemByPackLokiAuth1,
@@ -808,6 +798,7 @@ if TYPE_CHECKING:
         CreateInputSystemByPackTypeHTTP,
         CreateInputSystemByPackTypeKafka,
         CreateInputSystemByPackTypeLoki,
+        CreateInputSystemByPackTypeMicrosoftGraph,
         CreateInputSystemByPackTypeMsk,
         CreateInputSystemByPackTypeOffice365Mgmt,
         CreateInputSystemByPackTypeOffice365MsgTrace,
@@ -3396,6 +3387,11 @@ if TYPE_CHECKING:
     )
     from .inputloki import InputLoki, InputLokiType, InputLokiTypedDict
     from .inputmetrics import InputMetrics, InputMetricsType, InputMetricsTypedDict
+    from .inputmicrosoftgraph import (
+        InputMicrosoftGraph,
+        InputMicrosoftGraphType,
+        InputMicrosoftGraphTypedDict,
+    )
     from .inputmodeldriventelemetry import (
         InputModelDrivenTelemetry,
         InputModelDrivenTelemetryType,
@@ -3411,11 +3407,7 @@ if TYPE_CHECKING:
         InputOffice365MgmtTypedDict,
     )
     from .inputoffice365msgtrace import (
-        CertOptions,
-        CertOptionsTypedDict,
         InputOffice365MsgTrace,
-        InputOffice365MsgTraceAuthenticationMethod,
-        InputOffice365MsgTraceLogLevel,
         InputOffice365MsgTraceType,
         InputOffice365MsgTraceTypedDict,
     )
@@ -3656,13 +3648,13 @@ if TYPE_CHECKING:
     )
     from .itemstypeadd import ItemsTypeAdd, ItemsTypeAddTypedDict
     from .itemstypeauthtokens import ItemsTypeAuthTokens, ItemsTypeAuthTokensTypedDict
+    from .itemstypeauthtokens1 import (
+        ItemsTypeAuthTokens1,
+        ItemsTypeAuthTokens1TypedDict,
+    )
     from .itemstypeauthtokensext import (
         ItemsTypeAuthTokensExt,
         ItemsTypeAuthTokensExtTypedDict,
-    )
-    from .itemstypeauthtokenstokensecret import (
-        ItemsTypeAuthTokensTokenSecret,
-        ItemsTypeAuthTokensTokenSecretTypedDict,
     )
     from .itemstypeconnectionsoptional import (
         ItemsTypeConnectionsOptional,
@@ -3748,9 +3740,9 @@ if TYPE_CHECKING:
         KafkaSchemaRegistryAuthenticationType,
         KafkaSchemaRegistryAuthenticationTypeTypedDict,
     )
-    from .kafkaschemaregistryauthenticationtypeauthconnectiontimeout import (
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout,
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict,
+    from .kafkaschemaregistryauthenticationtype1 import (
+        KafkaSchemaRegistryAuthenticationType1,
+        KafkaSchemaRegistryAuthenticationType1TypedDict,
     )
     from .kubetypeheartbeatmetadata import (
         KubeTypeHeartbeatMetadata,
@@ -3768,6 +3760,7 @@ if TYPE_CHECKING:
     )
     from .listoutputop import ListOutputRequest, ListOutputRequestTypedDict
     from .logininfo import LoginInfo, LoginInfoTypedDict
+    from .logleveloptions import LogLevelOptions
     from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
     from .logleveloptionsrunnablejobcollectionschedulerun import (
         LogLevelOptionsRunnableJobCollectionScheduleRun,
@@ -3779,10 +3772,12 @@ if TYPE_CHECKING:
         MasterWorkerEntryWorkers,
         MasterWorkerEntryWorkersTypedDict,
     )
+    from .maximumtlsversionoptionskafkaschemaregistrytls import (
+        MaximumTLSVersionOptionsKafkaSchemaRegistryTLS,
+    )
     from .maximumtlsversionoptionsredisdeploymenttypestandalonetlsoptions import (
         MaximumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions,
     )
-    from .maximumtlsversionoptionstls import MaximumTLSVersionOptionsTLS
     from .maxs2sversionoptions import MaxS2SVersionOptions
     from .messageformatoptions import MessageFormatOptions
     from .methodoptions import MethodOptions
@@ -3790,10 +3785,12 @@ if TYPE_CHECKING:
     from .microsoftentraidauthenticationendpointoptionssasl import (
         MicrosoftEntraIDAuthenticationEndpointOptionsSasl,
     )
+    from .minimumtlsversionoptionskafkaschemaregistrytls import (
+        MinimumTLSVersionOptionsKafkaSchemaRegistryTLS,
+    )
     from .minimumtlsversionoptionsredisdeploymenttypestandalonetlsoptions import (
         MinimumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions,
     )
-    from .minimumtlsversionoptionstls import MinimumTLSVersionOptionsTLS
     from .modeoptions import ModeOptions
     from .modeoptionshost import ModeOptionsHost
     from .modeoptionsinstancesettingsschema import ModeOptionsInstanceSettingsSchema
@@ -3856,11 +3853,9 @@ if TYPE_CHECKING:
         TargetConfigUnion3TypedDict,
     )
     from .objectacloptions import ObjectACLOptions
-    from .objectacloptionsauthenticatedreadbucketownerfullcontrol import (
-        ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol,
-    )
+    from .objectacloptions1 import ObjectACLOptions1
     from .otlpversionoptions import OtlpVersionOptions
-    from .otlpversionoptions131 import OtlpVersionOptions131
+    from .otlpversionoptions1 import OtlpVersionOptions1
     from .outpostnodeinfo import OutpostNodeInfo, OutpostNodeInfoTypedDict
     from .output import Output, OutputTypedDict, UnknownOutput
     from .outputazureblob import (
@@ -5097,7 +5092,7 @@ if TYPE_CHECKING:
     from .queuefullbehavioroptions import QueueFullBehaviorOptions
     from .rbacresource import RbacResource
     from .recorddataformatoptions import RecordDataFormatOptions
-    from .recorddataformatoptionsjsonprotobuf import RecordDataFormatOptionsJSONProtobuf
+    from .recorddataformatoptions1 import RecordDataFormatOptions1
     from .recordtypeoptions import RecordTypeOptions
     from .regionoptions import RegionOptions
     from .requestformatoptions import RequestFormatOptions
@@ -6778,10 +6773,7 @@ if TYPE_CHECKING:
         UnknownRestCollectorConf,
     )
     from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
-    from .retryrulestypecodesenableheader import (
-        RetryRulesTypeCodesEnableHeader,
-        RetryRulesTypeCodesEnableHeaderTypedDict,
-    )
+    from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
     from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
     from .retrytypeoptionshealthcheckcollectorconfretryrules import (
         RetryTypeOptionsHealthCheckCollectorConfRetryRules,
@@ -6808,11 +6800,6 @@ if TYPE_CHECKING:
         RunnableJobCollectionTypedDict,
         TimeRange,
         WhereToCapture,
-    )
-    from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType,
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
     )
     from .runnablejobexecutor import (
         RunnableJobExecutor,
@@ -6865,25 +6852,17 @@ if TYPE_CHECKING:
         UnknownS3CollectorConf,
     )
     from .saslmechanismoptionssasl import SaslMechanismOptionsSasl
-    from .saslmechanismoptionssasloauthbearerplain import (
-        SaslMechanismOptionsSaslOauthbearerPlain,
-    )
+    from .saslmechanismoptionssasl1 import SaslMechanismOptionsSasl1
     from .savedjob import SavedJob, SavedJobTypedDict
     from .savedjobcollection import SavedJobCollection, SavedJobCollectionTypedDict
     from .savedjobexecutor import SavedJobExecutor, SavedJobExecutorTypedDict
     from .savedjobresponse import (
         SavedJobResponse,
         SavedJobResponseCollection,
-        SavedJobResponseCollectionSavedState,
-        SavedJobResponseCollectionSavedStateTypedDict,
         SavedJobResponseCollectionTypedDict,
         SavedJobResponseExecutor,
-        SavedJobResponseExecutorSavedState,
-        SavedJobResponseExecutorSavedStateTypedDict,
         SavedJobResponseExecutorTypedDict,
         SavedJobResponseScheduledSearch,
-        SavedJobResponseScheduledSearchSavedState,
-        SavedJobResponseScheduledSearchSavedStateTypedDict,
         SavedJobResponseScheduledSearchTypedDict,
         SavedJobResponseTypedDict,
     )
@@ -6916,14 +6895,14 @@ if TYPE_CHECKING:
         ShutdownTypeSystemSettingsConfTypedDict,
     )
     from .signatureversionoptions import SignatureVersionOptions
-    from .signatureversionoptionsgoogle import SignatureVersionOptionsGoogle
-    from .signatureversionoptionskinesis import SignatureVersionOptionsKinesis
-    from .signatureversionoptionsminio import SignatureVersionOptionsMinIo
+    from .signatureversionoptions1 import SignatureVersionOptions1
+    from .signatureversionoptions2 import SignatureVersionOptions2
+    from .signatureversionoptions3 import SignatureVersionOptions3
+    from .signatureversionoptions4 import SignatureVersionOptions4
+    from .signatureversionoptions5 import SignatureVersionOptions5
     from .signatureversionoptionss3collectorconf import (
         SignatureVersionOptionsS3CollectorConf,
     )
-    from .signatureversionoptionssqs import SignatureVersionOptionsSqs
-    from .signatureversionoptionsv2v4 import SignatureVersionOptionsV2V4
     from .snisettings_union import (
         SniSettings1,
         SniSettings1TypedDict,
@@ -7027,10 +7006,8 @@ if TYPE_CHECKING:
     )
     from .statustype import StatusType, StatusTypeTypedDict
     from .storageclassoptions import StorageClassOptions
-    from .storageclassoptionsarchivecoldline import StorageClassOptionsArchiveColdline
-    from .storageclassoptionsreducedredundancystandard import (
-        StorageClassOptionsReducedredundancyStandard,
-    )
+    from .storageclassoptions1 import StorageClassOptions1
+    from .storageclassoptions2 import StorageClassOptions2
     from .subscriptionplanoptions import SubscriptionPlanOptions
     from .supporttypesystemsettingsconf import (
         SupportTypeSystemSettingsConf,
@@ -7079,21 +7056,26 @@ if TYPE_CHECKING:
         TLSSettingsClientSideType,
         TLSSettingsClientSideTypeTypedDict,
     )
-    from .tlssettingsclientsidetypecapathcertpath import (
-        TLSSettingsClientSideTypeCaPathCertPath,
-        TLSSettingsClientSideTypeCaPathCertPathTypedDict,
+    from .tlssettingsclientsidetype1 import (
+        TLSSettingsClientSideType1,
+        TLSSettingsClientSideType1TypedDict,
     )
-    from .tlssettingsclientsidetypecapathcertpathextended import (
-        TLSSettingsClientSideTypeCaPathCertPathExtended,
-        TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict,
+    from .tlssettingsclientsidetype2 import (
+        TLSSettingsClientSideType2,
+        TLSSettingsClientSideType2TypedDict,
     )
-    from .tlssettingsclientsidetypeextended import (
-        TLSSettingsClientSideTypeExtended,
-        TLSSettingsClientSideTypeExtendedTypedDict,
+    from .tlssettingsclientsidetypekafkaschemaregistry import (
+        TLSSettingsClientSideTypeKafkaSchemaRegistry,
+        TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
     )
     from .tlssettingsserversidetype import (
         TLSSettingsServerSideType,
         TLSSettingsServerSideTypeTypedDict,
+    )
+    from .typecollectionwithbreakerrulesetsconstraint import (
+        TypeCollectionWithBreakerRulesetsConstraint,
+        TypeCollectionWithBreakerRulesetsConstraintType,
+        TypeCollectionWithBreakerRulesetsConstraintTypedDict,
     )
     from .typeoptions import TypeOptions
     from .typeoptionsconfiggroup import TypeOptionsConfigGroup
@@ -7198,13 +7180,15 @@ __all__ = [
     "APITypeSystemSettingsConf",
     "APITypeSystemSettingsConfTypedDict",
     "AcknowledgmentsOptions",
-    "AcknowledgmentsOptionsAllLeader",
+    "AcknowledgmentsOptions1",
     "AddHecTokenRequest",
     "AddHecTokenRequestTypedDict",
     "AdditionalField",
     "AdditionalFieldTypedDict",
     "AdditionalPropertiesTypeJobInfoStats",
     "AdditionalPropertiesTypeJobInfoStatsTypedDict",
+    "AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedState",
+    "AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedStateTypedDict",
     "AdditionalProperty",
     "AdditionalPropertyTypedDict",
     "AggregateMetricsCumulativeFalse",
@@ -7234,28 +7218,29 @@ __all__ = [
     "AuthTokensExt",
     "AuthTokensExtTypedDict",
     "AuthType",
-    "AuthTypeAuthTypeCredentialsSecret",
-    "AuthTypeAuthTypeCredentialsSecretTypedDict",
+    "AuthTypeKafkaSchemaRegistry",
+    "AuthTypeKafkaSchemaRegistryTypedDict",
     "AuthTypeTypedDict",
     "AuthenticationMethodOptions",
-    "AuthenticationMethodOptionsAPI",
+    "AuthenticationMethodOptions1",
+    "AuthenticationMethodOptions2",
+    "AuthenticationMethodOptions3",
     "AuthenticationMethodOptionsAuth",
     "AuthenticationMethodOptionsAuthTokensItems",
-    "AuthenticationMethodOptionsManualSecret",
     "AuthenticationMethodOptionsS3CollectorConf",
     "AuthenticationMethodOptionsSasl",
-    "AuthenticationMethodOptionsSaslCertificateManual",
-    "AuthenticationMethodOptionsSaslManualSecret",
+    "AuthenticationMethodOptionsSasl1",
+    "AuthenticationMethodOptionsSasl2",
     "AuthenticationProtocolOptionsV3User",
     "AuthenticationType",
+    "AuthenticationType1",
+    "AuthenticationType1TypedDict",
     "AuthenticationTypeOptions",
-    "AuthenticationTypeOptionsBasicCredentialsSecret",
+    "AuthenticationTypeOptions1",
     "AuthenticationTypeOptionsLokiAuth",
     "AuthenticationTypeOptionsPrometheusAuth",
-    "AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret",
+    "AuthenticationTypeOptionsPrometheusAuth1",
     "AuthenticationTypeTypedDict",
-    "AuthenticationTypeUse",
-    "AuthenticationTypeUseTypedDict",
     "Author",
     "AuthorTypedDict",
     "AwsAuthenticationMethodOptions",
@@ -7286,7 +7271,7 @@ __all__ = [
     "AzureTypeHeartbeatMetadata",
     "AzureTypeHeartbeatMetadataTypedDict",
     "BackpressureBehaviorOptions",
-    "BackpressureBehaviorOptionsBlockDrop",
+    "BackpressureBehaviorOptions1",
     "BackupsSettings1",
     "BackupsSettings1TypedDict",
     "BackupsSettings2",
@@ -7307,8 +7292,8 @@ __all__ = [
     "CaptureParamsTypedDict",
     "CaptureSettings",
     "CaptureSettingsTypedDict",
-    "CertOptions",
-    "CertOptionsTypedDict",
+    "CertOptionsType",
+    "CertOptionsTypeTypedDict",
     "Certificate",
     "CertificateTypeAzureBlobAuthTypeClientCert",
     "CertificateTypeAzureBlobAuthTypeClientCertTypedDict",
@@ -7356,11 +7341,11 @@ __all__ = [
     "CommitTypedDict",
     "CompressionLevelOptions",
     "CompressionOptions",
-    "CompressionOptionsDeflateGzip",
-    "CompressionOptionsGzipLz4",
-    "CompressionOptionsGzipNone",
-    "CompressionOptionsHTTP",
-    "CompressionOptionsMessages",
+    "CompressionOptions1",
+    "CompressionOptions2",
+    "CompressionOptions3",
+    "CompressionOptions4",
+    "CompressionOptions5",
     "CompressionOptionsPersistence",
     "CompressionOptionsPq",
     "Condition",
@@ -7487,7 +7472,6 @@ __all__ = [
     "CreateInputAuthenticationMethodCloudflareHec",
     "CreateInputAuthenticationMethodEdgePrometheus",
     "CreateInputAuthenticationMethodElastic",
-    "CreateInputAuthenticationMethodOffice365MsgTrace",
     "CreateInputAuthenticationMethodWef",
     "CreateInputAuthenticationTypeElastic",
     "CreateInputAuthenticationTypeSplunkSearch",
@@ -7497,8 +7481,6 @@ __all__ = [
     "CreateInputCPUSystemMetricsTypedDict",
     "CreateInputCPUWindowsMetrics",
     "CreateInputCPUWindowsMetricsTypedDict",
-    "CreateInputCertOptions",
-    "CreateInputCertOptionsTypedDict",
     "CreateInputCollectors",
     "CreateInputCollectorsTypedDict",
     "CreateInputCompression",
@@ -7627,6 +7609,8 @@ __all__ = [
     "CreateInputInputLokiTypedDict",
     "CreateInputInputMetrics",
     "CreateInputInputMetricsTypedDict",
+    "CreateInputInputMicrosoftGraph",
+    "CreateInputInputMicrosoftGraphTypedDict",
     "CreateInputInputModelDrivenTelemetry",
     "CreateInputInputModelDrivenTelemetryTypedDict",
     "CreateInputInputMsk",
@@ -7697,7 +7681,6 @@ __all__ = [
     "CreateInputInterfacesTypedDict",
     "CreateInputListeningPorts",
     "CreateInputListeningPortsTypedDict",
-    "CreateInputLogLevelOffice365MsgTrace",
     "CreateInputLogLevelOpenai",
     "CreateInputLogLevelPrometheus",
     "CreateInputLogLevelSplunkSearch",
@@ -7792,7 +7775,6 @@ __all__ = [
     "CreateInputSystemByPackAuthenticationMethodCloudflareHec",
     "CreateInputSystemByPackAuthenticationMethodEdgePrometheus",
     "CreateInputSystemByPackAuthenticationMethodElastic",
-    "CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace",
     "CreateInputSystemByPackAuthenticationMethodWef",
     "CreateInputSystemByPackAuthenticationTypeElastic",
     "CreateInputSystemByPackAuthenticationTypeSplunkSearch",
@@ -7802,8 +7784,6 @@ __all__ = [
     "CreateInputSystemByPackCPUSystemMetricsTypedDict",
     "CreateInputSystemByPackCPUWindowsMetrics",
     "CreateInputSystemByPackCPUWindowsMetricsTypedDict",
-    "CreateInputSystemByPackCertOptions",
-    "CreateInputSystemByPackCertOptionsTypedDict",
     "CreateInputSystemByPackCollectors",
     "CreateInputSystemByPackCollectorsTypedDict",
     "CreateInputSystemByPackCompression",
@@ -7930,6 +7910,8 @@ __all__ = [
     "CreateInputSystemByPackInputLokiTypedDict",
     "CreateInputSystemByPackInputMetrics",
     "CreateInputSystemByPackInputMetricsTypedDict",
+    "CreateInputSystemByPackInputMicrosoftGraph",
+    "CreateInputSystemByPackInputMicrosoftGraphTypedDict",
     "CreateInputSystemByPackInputModelDrivenTelemetry",
     "CreateInputSystemByPackInputModelDrivenTelemetryTypedDict",
     "CreateInputSystemByPackInputMsk",
@@ -8000,7 +7982,6 @@ __all__ = [
     "CreateInputSystemByPackInterfacesTypedDict",
     "CreateInputSystemByPackListeningPorts",
     "CreateInputSystemByPackListeningPortsTypedDict",
-    "CreateInputSystemByPackLogLevelOffice365MsgTrace",
     "CreateInputSystemByPackLogLevelOpenai",
     "CreateInputSystemByPackLogLevelPrometheus",
     "CreateInputSystemByPackLogLevelSplunkSearch",
@@ -8118,6 +8099,7 @@ __all__ = [
     "CreateInputSystemByPackTypeKubeMetrics",
     "CreateInputSystemByPackTypeLoki",
     "CreateInputSystemByPackTypeMetrics",
+    "CreateInputSystemByPackTypeMicrosoftGraph",
     "CreateInputSystemByPackTypeModelDrivenTelemetry",
     "CreateInputSystemByPackTypeMsk",
     "CreateInputSystemByPackTypeNetflow",
@@ -8190,6 +8172,7 @@ __all__ = [
     "CreateInputTypeKubeMetrics",
     "CreateInputTypeLoki",
     "CreateInputTypeMetrics",
+    "CreateInputTypeMicrosoftGraph",
     "CreateInputTypeModelDrivenTelemetry",
     "CreateInputTypeMsk",
     "CreateInputTypeNetflow",
@@ -10251,6 +10234,9 @@ __all__ = [
     "InputMetrics",
     "InputMetricsType",
     "InputMetricsTypedDict",
+    "InputMicrosoftGraph",
+    "InputMicrosoftGraphType",
+    "InputMicrosoftGraphTypedDict",
     "InputModelDrivenTelemetry",
     "InputModelDrivenTelemetryType",
     "InputModelDrivenTelemetryTypedDict",
@@ -10266,8 +10252,6 @@ __all__ = [
     "InputOffice365MgmtType",
     "InputOffice365MgmtTypedDict",
     "InputOffice365MsgTrace",
-    "InputOffice365MsgTraceAuthenticationMethod",
-    "InputOffice365MsgTraceLogLevel",
     "InputOffice365MsgTraceType",
     "InputOffice365MsgTraceTypedDict",
     "InputOffice365Service",
@@ -10440,10 +10424,10 @@ __all__ = [
     "ItemsTypeAdd",
     "ItemsTypeAddTypedDict",
     "ItemsTypeAuthTokens",
+    "ItemsTypeAuthTokens1",
+    "ItemsTypeAuthTokens1TypedDict",
     "ItemsTypeAuthTokensExt",
     "ItemsTypeAuthTokensExtTypedDict",
-    "ItemsTypeAuthTokensTokenSecret",
-    "ItemsTypeAuthTokensTokenSecretTypedDict",
     "ItemsTypeAuthTokensTypedDict",
     "ItemsTypeConnectionsOptional",
     "ItemsTypeConnectionsOptionalTypedDict",
@@ -10499,8 +10483,8 @@ __all__ = [
     "JoinConfiguration",
     "JoinConfigurationTypedDict",
     "KafkaSchemaRegistryAuthenticationType",
-    "KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout",
-    "KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict",
+    "KafkaSchemaRegistryAuthenticationType1",
+    "KafkaSchemaRegistryAuthenticationType1TypedDict",
     "KafkaSchemaRegistryAuthenticationTypeTypedDict",
     "KubeTypeHeartbeatMetadata",
     "KubeTypeHeartbeatMetadataTypedDict",
@@ -10518,6 +10502,7 @@ __all__ = [
     "ListeningPorts",
     "ListeningPortsTypedDict",
     "LogLevelForFailedLookups",
+    "LogLevelOptions",
     "LogLevelOptionsContentConfigItems",
     "LogLevelOptionsRunnableJobCollectionScheduleRun",
     "LogLocationType",
@@ -10563,8 +10548,8 @@ __all__ = [
     "MatchType",
     "MaxS2SVersion",
     "MaxS2SVersionOptions",
+    "MaximumTLSVersionOptionsKafkaSchemaRegistryTLS",
     "MaximumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions",
-    "MaximumTLSVersionOptionsTLS",
     "MessageFormat",
     "MessageFormatOptions",
     "Metadatum",
@@ -10574,8 +10559,8 @@ __all__ = [
     "MetricsStore",
     "MetricsStoreTypedDict",
     "MicrosoftEntraIDAuthenticationEndpointOptionsSasl",
+    "MinimumTLSVersionOptionsKafkaSchemaRegistryTLS",
     "MinimumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions",
-    "MinimumTLSVersionOptionsTLS",
     "ModeOptions",
     "ModeOptionsHost",
     "ModeOptionsInstanceSettingsSchema",
@@ -10631,7 +10616,7 @@ __all__ = [
     "OauthParam",
     "OauthParamTypedDict",
     "ObjectACLOptions",
-    "ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol",
+    "ObjectACLOptions1",
     "OldMode",
     "OldModeTypedDict",
     "Operator",
@@ -10640,7 +10625,7 @@ __all__ = [
     "OsUnion",
     "OsUnionTypedDict",
     "OtlpVersionOptions",
-    "OtlpVersionOptions131",
+    "OtlpVersionOptions1",
     "OutpostNodeInfo",
     "OutpostNodeInfoTypedDict",
     "Output",
@@ -11368,7 +11353,7 @@ __all__ = [
     "ReadMode",
     "RecordDataFormat",
     "RecordDataFormatOptions",
-    "RecordDataFormatOptionsJSONProtobuf",
+    "RecordDataFormatOptions1",
     "RecordTypeOptions",
     "RedisAuthTypeCredentialsSecret",
     "RedisAuthTypeCredentialsSecretAuthenticationMethod",
@@ -13051,8 +13036,8 @@ __all__ = [
     "RestartResponseStatus",
     "RestartResponseTypedDict",
     "RetryRulesType",
-    "RetryRulesTypeCodesEnableHeader",
-    "RetryRulesTypeCodesEnableHeaderTypedDict",
+    "RetryRulesType1",
+    "RetryRulesType1TypedDict",
     "RetryRulesTypeTypedDict",
     "RetrySettingsType",
     "RetrySettingsTypeTypedDict",
@@ -13086,9 +13071,6 @@ __all__ = [
     "RunnableJobCollectionMode",
     "RunnableJobCollectionRun",
     "RunnableJobCollectionRunTypedDict",
-    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint",
-    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType",
-    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict",
     "RunnableJobCollectionTypedDict",
     "RunnableJobExecutor",
     "RunnableJobExecutorRun",
@@ -13130,7 +13112,7 @@ __all__ = [
     "SampleMode",
     "SampleTypedDict",
     "SaslMechanismOptionsSasl",
-    "SaslMechanismOptionsSaslOauthbearerPlain",
+    "SaslMechanismOptionsSasl1",
     "SavedJob",
     "SavedJobCollection",
     "SavedJobCollectionTypedDict",
@@ -13138,16 +13120,10 @@ __all__ = [
     "SavedJobExecutorTypedDict",
     "SavedJobResponse",
     "SavedJobResponseCollection",
-    "SavedJobResponseCollectionSavedState",
-    "SavedJobResponseCollectionSavedStateTypedDict",
     "SavedJobResponseCollectionTypedDict",
     "SavedJobResponseExecutor",
-    "SavedJobResponseExecutorSavedState",
-    "SavedJobResponseExecutorSavedStateTypedDict",
     "SavedJobResponseExecutorTypedDict",
     "SavedJobResponseScheduledSearch",
-    "SavedJobResponseScheduledSearchSavedState",
-    "SavedJobResponseScheduledSearchSavedStateTypedDict",
     "SavedJobResponseScheduledSearchTypedDict",
     "SavedJobResponseTypedDict",
     "SavedJobScheduledSearch",
@@ -13205,12 +13181,12 @@ __all__ = [
     "ShutdownTypeSystemSettingsConf",
     "ShutdownTypeSystemSettingsConfTypedDict",
     "SignatureVersionOptions",
-    "SignatureVersionOptionsGoogle",
-    "SignatureVersionOptionsKinesis",
-    "SignatureVersionOptionsMinIo",
+    "SignatureVersionOptions1",
+    "SignatureVersionOptions2",
+    "SignatureVersionOptions3",
+    "SignatureVersionOptions4",
+    "SignatureVersionOptions5",
     "SignatureVersionOptionsS3CollectorConf",
-    "SignatureVersionOptionsSqs",
-    "SignatureVersionOptionsV2V4",
     "SimplePivotConfiguration",
     "SimplePivotConfigurationTypedDict",
     "SniSettings1",
@@ -13318,8 +13294,8 @@ __all__ = [
     "StatusType",
     "StatusTypeTypedDict",
     "StorageClassOptions",
-    "StorageClassOptionsArchiveColdline",
-    "StorageClassOptionsReducedredundancyStandard",
+    "StorageClassOptions1",
+    "StorageClassOptions2",
     "StoreFunctionConfiguration",
     "StoreFunctionConfigurationTypedDict",
     "Subscription",
@@ -13345,12 +13321,12 @@ __all__ = [
     "TLSSettings2",
     "TLSSettings2TypedDict",
     "TLSSettingsClientSideType",
-    "TLSSettingsClientSideTypeCaPathCertPath",
-    "TLSSettingsClientSideTypeCaPathCertPathExtended",
-    "TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict",
-    "TLSSettingsClientSideTypeCaPathCertPathTypedDict",
-    "TLSSettingsClientSideTypeExtended",
-    "TLSSettingsClientSideTypeExtendedTypedDict",
+    "TLSSettingsClientSideType1",
+    "TLSSettingsClientSideType1TypedDict",
+    "TLSSettingsClientSideType2",
+    "TLSSettingsClientSideType2TypedDict",
+    "TLSSettingsClientSideTypeKafkaSchemaRegistry",
+    "TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict",
     "TLSSettingsClientSideTypeTypedDict",
     "TLSSettingsServerSide",
     "TLSSettingsServerSideType",
@@ -13389,6 +13365,9 @@ __all__ = [
     "TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp",
     "TimestampTypedDict",
     "TriggerType",
+    "TypeCollectionWithBreakerRulesetsConstraint",
+    "TypeCollectionWithBreakerRulesetsConstraintType",
+    "TypeCollectionWithBreakerRulesetsConstraintTypedDict",
     "TypeOptions",
     "TypeOptionsConfigGroup",
     "UDMType",
@@ -13581,38 +13560,41 @@ __all__ = [
 
 _dynamic_imports: dict[str, str] = {
     "AcknowledgmentsOptions": ".acknowledgmentsoptions",
-    "AcknowledgmentsOptionsAllLeader": ".acknowledgmentsoptionsallleader",
+    "AcknowledgmentsOptions1": ".acknowledgmentsoptions1",
     "AddHecTokenRequest": ".addhectokenrequest",
     "AddHecTokenRequestTypedDict": ".addhectokenrequest",
     "AdditionalPropertiesTypeJobInfoStats": ".additionalpropertiestypejobinfostats",
     "AdditionalPropertiesTypeJobInfoStatsTypedDict": ".additionalpropertiestypejobinfostats",
+    "AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedState": ".additionalpropertiestypesavedjobenrichedfieldssavedstate",
+    "AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedStateTypedDict": ".additionalpropertiestypesavedjobenrichedfieldssavedstate",
     "APITypeSystemSettingsConf": ".apitypesystemsettingsconf",
     "APITypeSystemSettingsConfTypedDict": ".apitypesystemsettingsconf",
     "AuthenticationMethodOptions": ".authenticationmethodoptions",
-    "AuthenticationMethodOptionsAPI": ".authenticationmethodoptionsapi",
+    "AuthenticationMethodOptions1": ".authenticationmethodoptions1",
+    "AuthenticationMethodOptions2": ".authenticationmethodoptions2",
+    "AuthenticationMethodOptions3": ".authenticationmethodoptions3",
     "AuthenticationMethodOptionsAuth": ".authenticationmethodoptionsauth",
     "AuthenticationMethodOptionsAuthTokensItems": ".authenticationmethodoptionsauthtokensitems",
-    "AuthenticationMethodOptionsManualSecret": ".authenticationmethodoptionsmanualsecret",
     "AuthenticationMethodOptionsS3CollectorConf": ".authenticationmethodoptionss3collectorconf",
     "AuthenticationMethodOptionsSasl": ".authenticationmethodoptionssasl",
-    "AuthenticationMethodOptionsSaslCertificateManual": ".authenticationmethodoptionssaslcertificatemanual",
-    "AuthenticationMethodOptionsSaslManualSecret": ".authenticationmethodoptionssaslmanualsecret",
+    "AuthenticationMethodOptionsSasl1": ".authenticationmethodoptionssasl1",
+    "AuthenticationMethodOptionsSasl2": ".authenticationmethodoptionssasl2",
     "AuthenticationProtocolOptionsV3User": ".authenticationprotocoloptionsv3user",
     "AuthenticationType": ".authenticationtype",
     "AuthenticationTypeTypedDict": ".authenticationtype",
+    "AuthenticationType1": ".authenticationtype1",
+    "AuthenticationType1TypedDict": ".authenticationtype1",
     "AuthenticationTypeOptions": ".authenticationtypeoptions",
-    "AuthenticationTypeOptionsBasicCredentialsSecret": ".authenticationtypeoptionsbasiccredentialssecret",
+    "AuthenticationTypeOptions1": ".authenticationtypeoptions1",
     "AuthenticationTypeOptionsLokiAuth": ".authenticationtypeoptionslokiauth",
     "AuthenticationTypeOptionsPrometheusAuth": ".authenticationtypeoptionsprometheusauth",
-    "AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret": ".authenticationtypeoptionsprometheusauthbasiccredentialssecret",
-    "AuthenticationTypeUse": ".authenticationtypeuse",
-    "AuthenticationTypeUseTypedDict": ".authenticationtypeuse",
+    "AuthenticationTypeOptionsPrometheusAuth1": ".authenticationtypeoptionsprometheusauth1",
     "AuthToken": ".authtoken",
     "AuthTokenTypedDict": ".authtoken",
     "AuthType": ".authtype",
     "AuthTypeTypedDict": ".authtype",
-    "AuthTypeAuthTypeCredentialsSecret": ".authtypeauthtypecredentialssecret",
-    "AuthTypeAuthTypeCredentialsSecretTypedDict": ".authtypeauthtypecredentialssecret",
+    "AuthTypeKafkaSchemaRegistry": ".authtypekafkaschemaregistry",
+    "AuthTypeKafkaSchemaRegistryTypedDict": ".authtypekafkaschemaregistry",
     "AwsAuthenticationMethodOptions": ".awsauthenticationmethodoptions",
     "AwsTypeHeartbeatMetadata": ".awstypeheartbeatmetadata",
     "AwsTypeHeartbeatMetadataTypedDict": ".awstypeheartbeatmetadata",
@@ -13642,7 +13624,7 @@ _dynamic_imports: dict[str, str] = {
     "AzureTypeHeartbeatMetadata": ".azuretypeheartbeatmetadata",
     "AzureTypeHeartbeatMetadataTypedDict": ".azuretypeheartbeatmetadata",
     "BackpressureBehaviorOptions": ".backpressurebehavioroptions",
-    "BackpressureBehaviorOptionsBlockDrop": ".backpressurebehavioroptionsblockdrop",
+    "BackpressureBehaviorOptions1": ".backpressurebehavioroptions1",
     "BackupsSettings1": ".backupssettings_union",
     "BackupsSettings1TypedDict": ".backupssettings_union",
     "BackupsSettings2": ".backupssettings_union",
@@ -13659,6 +13641,8 @@ _dynamic_imports: dict[str, str] = {
     "CaptureParamsTypedDict": ".captureparams",
     "CertificateTypeAzureBlobAuthTypeClientCert": ".certificatetypeazureblobauthtypeclientcert",
     "CertificateTypeAzureBlobAuthTypeClientCertTypedDict": ".certificatetypeazureblobauthtypeclientcert",
+    "CertOptionsType": ".certoptionstype",
+    "CertOptionsTypeTypedDict": ".certoptionstype",
     "CheckpointingType": ".checkpointingtype",
     "CheckpointingTypeTypedDict": ".checkpointingtype",
     "CloudProvider": ".cloudprovider",
@@ -13699,11 +13683,11 @@ _dynamic_imports: dict[str, str] = {
     "CommitTypedDict": ".commit",
     "CompressionLevelOptions": ".compressionleveloptions",
     "CompressionOptions": ".compressionoptions",
-    "CompressionOptionsDeflateGzip": ".compressionoptionsdeflategzip",
-    "CompressionOptionsGzipLz4": ".compressionoptionsgziplz4",
-    "CompressionOptionsGzipNone": ".compressionoptionsgzipnone",
-    "CompressionOptionsHTTP": ".compressionoptionshttp",
-    "CompressionOptionsMessages": ".compressionoptionsmessages",
+    "CompressionOptions1": ".compressionoptions1",
+    "CompressionOptions2": ".compressionoptions2",
+    "CompressionOptions3": ".compressionoptions3",
+    "CompressionOptions4": ".compressionoptions4",
+    "CompressionOptions5": ".compressionoptions5",
     "CompressionOptionsPersistence": ".compressionoptionspersistence",
     "CompressionOptionsPq": ".compressionoptionspq",
     "ConfigGroup": ".configgroup",
@@ -13808,11 +13792,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateInputAuthTokensExtTypedDict": ".createinput_request",
     "CreateInputAuthenticationMethodEdgePrometheus": ".createinput_request",
     "CreateInputAuthenticationMethodElastic": ".createinput_request",
-    "CreateInputAuthenticationMethodOffice365MsgTrace": ".createinput_request",
     "CreateInputAuthenticationTypeElastic": ".createinput_request",
     "CreateInputAuthenticationTypeSplunkSearch": ".createinput_request",
-    "CreateInputCertOptions": ".createinput_request",
-    "CreateInputCertOptionsTypedDict": ".createinput_request",
     "CreateInputCompression": ".createinput_request",
     "CreateInputContentConfigOffice365Mgmt": ".createinput_request",
     "CreateInputContentConfigOffice365MgmtTypedDict": ".createinput_request",
@@ -13867,6 +13848,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateInputInputKafkaTypedDict": ".createinput_request",
     "CreateInputInputLoki": ".createinput_request",
     "CreateInputInputLokiTypedDict": ".createinput_request",
+    "CreateInputInputMicrosoftGraph": ".createinput_request",
+    "CreateInputInputMicrosoftGraphTypedDict": ".createinput_request",
     "CreateInputInputMsk": ".createinput_request",
     "CreateInputInputMskTypedDict": ".createinput_request",
     "CreateInputInputOffice365Mgmt": ".createinput_request",
@@ -13887,7 +13870,6 @@ _dynamic_imports: dict[str, str] = {
     "CreateInputInputSplunkTypedDict": ".createinput_request",
     "CreateInputInputTcpjson": ".createinput_request",
     "CreateInputInputTcpjsonTypedDict": ".createinput_request",
-    "CreateInputLogLevelOffice365MsgTrace": ".createinput_request",
     "CreateInputLogLevelPrometheus": ".createinput_request",
     "CreateInputLogLevelSplunkSearch": ".createinput_request",
     "CreateInputLokiAuth1": ".createinput_request",
@@ -13926,6 +13908,7 @@ _dynamic_imports: dict[str, str] = {
     "CreateInputTypeHTTP": ".createinput_request",
     "CreateInputTypeKafka": ".createinput_request",
     "CreateInputTypeLoki": ".createinput_request",
+    "CreateInputTypeMicrosoftGraph": ".createinput_request",
     "CreateInputTypeMsk": ".createinput_request",
     "CreateInputTypeOffice365Mgmt": ".createinput_request",
     "CreateInputTypeOffice365MsgTrace": ".createinput_request",
@@ -14183,11 +14166,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateInputSystemByPackAuthTokensExtTypedDict": ".createinputsystembypack_request",
     "CreateInputSystemByPackAuthenticationMethodEdgePrometheus": ".createinputsystembypack_request",
     "CreateInputSystemByPackAuthenticationMethodElastic": ".createinputsystembypack_request",
-    "CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace": ".createinputsystembypack_request",
     "CreateInputSystemByPackAuthenticationTypeElastic": ".createinputsystembypack_request",
     "CreateInputSystemByPackAuthenticationTypeSplunkSearch": ".createinputsystembypack_request",
-    "CreateInputSystemByPackCertOptions": ".createinputsystembypack_request",
-    "CreateInputSystemByPackCertOptionsTypedDict": ".createinputsystembypack_request",
     "CreateInputSystemByPackCompression": ".createinputsystembypack_request",
     "CreateInputSystemByPackContentConfigOffice365Mgmt": ".createinputsystembypack_request",
     "CreateInputSystemByPackContentConfigOffice365MgmtTypedDict": ".createinputsystembypack_request",
@@ -14242,6 +14222,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateInputSystemByPackInputKafkaTypedDict": ".createinputsystembypack_request",
     "CreateInputSystemByPackInputLoki": ".createinputsystembypack_request",
     "CreateInputSystemByPackInputLokiTypedDict": ".createinputsystembypack_request",
+    "CreateInputSystemByPackInputMicrosoftGraph": ".createinputsystembypack_request",
+    "CreateInputSystemByPackInputMicrosoftGraphTypedDict": ".createinputsystembypack_request",
     "CreateInputSystemByPackInputMsk": ".createinputsystembypack_request",
     "CreateInputSystemByPackInputMskTypedDict": ".createinputsystembypack_request",
     "CreateInputSystemByPackInputOffice365Mgmt": ".createinputsystembypack_request",
@@ -14262,7 +14244,6 @@ _dynamic_imports: dict[str, str] = {
     "CreateInputSystemByPackInputSplunkTypedDict": ".createinputsystembypack_request",
     "CreateInputSystemByPackInputTcpjson": ".createinputsystembypack_request",
     "CreateInputSystemByPackInputTcpjsonTypedDict": ".createinputsystembypack_request",
-    "CreateInputSystemByPackLogLevelOffice365MsgTrace": ".createinputsystembypack_request",
     "CreateInputSystemByPackLogLevelPrometheus": ".createinputsystembypack_request",
     "CreateInputSystemByPackLogLevelSplunkSearch": ".createinputsystembypack_request",
     "CreateInputSystemByPackLokiAuth1": ".createinputsystembypack_request",
@@ -14303,6 +14284,7 @@ _dynamic_imports: dict[str, str] = {
     "CreateInputSystemByPackTypeHTTP": ".createinputsystembypack_request",
     "CreateInputSystemByPackTypeKafka": ".createinputsystembypack_request",
     "CreateInputSystemByPackTypeLoki": ".createinputsystembypack_request",
+    "CreateInputSystemByPackTypeMicrosoftGraph": ".createinputsystembypack_request",
     "CreateInputSystemByPackTypeMsk": ".createinputsystembypack_request",
     "CreateInputSystemByPackTypeOffice365Mgmt": ".createinputsystembypack_request",
     "CreateInputSystemByPackTypeOffice365MsgTrace": ".createinputsystembypack_request",
@@ -16623,6 +16605,9 @@ _dynamic_imports: dict[str, str] = {
     "InputMetrics": ".inputmetrics",
     "InputMetricsType": ".inputmetrics",
     "InputMetricsTypedDict": ".inputmetrics",
+    "InputMicrosoftGraph": ".inputmicrosoftgraph",
+    "InputMicrosoftGraphType": ".inputmicrosoftgraph",
+    "InputMicrosoftGraphTypedDict": ".inputmicrosoftgraph",
     "InputModelDrivenTelemetry": ".inputmodeldriventelemetry",
     "InputModelDrivenTelemetryType": ".inputmodeldriventelemetry",
     "InputModelDrivenTelemetryTypedDict": ".inputmodeldriventelemetry",
@@ -16637,11 +16622,7 @@ _dynamic_imports: dict[str, str] = {
     "InputOffice365MgmtContentConfigTypedDict": ".inputoffice365mgmt",
     "InputOffice365MgmtType": ".inputoffice365mgmt",
     "InputOffice365MgmtTypedDict": ".inputoffice365mgmt",
-    "CertOptions": ".inputoffice365msgtrace",
-    "CertOptionsTypedDict": ".inputoffice365msgtrace",
     "InputOffice365MsgTrace": ".inputoffice365msgtrace",
-    "InputOffice365MsgTraceAuthenticationMethod": ".inputoffice365msgtrace",
-    "InputOffice365MsgTraceLogLevel": ".inputoffice365msgtrace",
     "InputOffice365MsgTraceType": ".inputoffice365msgtrace",
     "InputOffice365MsgTraceTypedDict": ".inputoffice365msgtrace",
     "InputOffice365Service": ".inputoffice365service",
@@ -16855,10 +16836,10 @@ _dynamic_imports: dict[str, str] = {
     "ItemsTypeAddTypedDict": ".itemstypeadd",
     "ItemsTypeAuthTokens": ".itemstypeauthtokens",
     "ItemsTypeAuthTokensTypedDict": ".itemstypeauthtokens",
+    "ItemsTypeAuthTokens1": ".itemstypeauthtokens1",
+    "ItemsTypeAuthTokens1TypedDict": ".itemstypeauthtokens1",
     "ItemsTypeAuthTokensExt": ".itemstypeauthtokensext",
     "ItemsTypeAuthTokensExtTypedDict": ".itemstypeauthtokensext",
-    "ItemsTypeAuthTokensTokenSecret": ".itemstypeauthtokenstokensecret",
-    "ItemsTypeAuthTokensTokenSecretTypedDict": ".itemstypeauthtokenstokensecret",
     "ItemsTypeConnectionsOptional": ".itemstypeconnectionsoptional",
     "ItemsTypeConnectionsOptionalTypedDict": ".itemstypeconnectionsoptional",
     "ItemsTypeContentConfigItemsRequestParams": ".itemstypecontentconfigitemsrequestparams",
@@ -16913,8 +16894,8 @@ _dynamic_imports: dict[str, str] = {
     "JobTypeOptionsRunnableJobCollection": ".jobtypeoptionsrunnablejobcollection",
     "KafkaSchemaRegistryAuthenticationType": ".kafkaschemaregistryauthenticationtype",
     "KafkaSchemaRegistryAuthenticationTypeTypedDict": ".kafkaschemaregistryauthenticationtype",
-    "KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout": ".kafkaschemaregistryauthenticationtypeauthconnectiontimeout",
-    "KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict": ".kafkaschemaregistryauthenticationtypeauthconnectiontimeout",
+    "KafkaSchemaRegistryAuthenticationType1": ".kafkaschemaregistryauthenticationtype1",
+    "KafkaSchemaRegistryAuthenticationType1TypedDict": ".kafkaschemaregistryauthenticationtype1",
     "KubeTypeHeartbeatMetadata": ".kubetypeheartbeatmetadata",
     "KubeTypeHeartbeatMetadataTypedDict": ".kubetypeheartbeatmetadata",
     "LakeDatasetMetrics": ".lakedatasetmetrics",
@@ -16928,6 +16909,7 @@ _dynamic_imports: dict[str, str] = {
     "ListOutputRequestTypedDict": ".listoutputop",
     "LoginInfo": ".logininfo",
     "LoginInfoTypedDict": ".logininfo",
+    "LogLevelOptions": ".logleveloptions",
     "LogLevelOptionsContentConfigItems": ".logleveloptionscontentconfigitems",
     "LogLevelOptionsRunnableJobCollectionScheduleRun": ".logleveloptionsrunnablejobcollectionschedulerun",
     "MasterWorkerEntry": ".masterworkerentry",
@@ -16935,16 +16917,16 @@ _dynamic_imports: dict[str, str] = {
     "MasterWorkerEntryTypedDict": ".masterworkerentry",
     "MasterWorkerEntryWorkers": ".masterworkerentry",
     "MasterWorkerEntryWorkersTypedDict": ".masterworkerentry",
+    "MaximumTLSVersionOptionsKafkaSchemaRegistryTLS": ".maximumtlsversionoptionskafkaschemaregistrytls",
     "MaximumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions": ".maximumtlsversionoptionsredisdeploymenttypestandalonetlsoptions",
-    "MaximumTLSVersionOptionsTLS": ".maximumtlsversionoptionstls",
     "MaxS2SVersionOptions": ".maxs2sversionoptions",
     "MessageFormatOptions": ".messageformatoptions",
     "MethodOptions": ".methodoptions",
     "MetricsStore": ".metricsstore",
     "MetricsStoreTypedDict": ".metricsstore",
     "MicrosoftEntraIDAuthenticationEndpointOptionsSasl": ".microsoftentraidauthenticationendpointoptionssasl",
+    "MinimumTLSVersionOptionsKafkaSchemaRegistryTLS": ".minimumtlsversionoptionskafkaschemaregistrytls",
     "MinimumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions": ".minimumtlsversionoptionsredisdeploymenttypestandalonetlsoptions",
-    "MinimumTLSVersionOptionsTLS": ".minimumtlsversionoptionstls",
     "ModeOptions": ".modeoptions",
     "ModeOptionsHost": ".modeoptionshost",
     "ModeOptionsInstanceSettingsSchema": ".modeoptionsinstancesettingsschema",
@@ -17004,9 +16986,9 @@ _dynamic_imports: dict[str, str] = {
     "TargetConfigUnion3": ".notification_union",
     "TargetConfigUnion3TypedDict": ".notification_union",
     "ObjectACLOptions": ".objectacloptions",
-    "ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol": ".objectacloptionsauthenticatedreadbucketownerfullcontrol",
+    "ObjectACLOptions1": ".objectacloptions1",
     "OtlpVersionOptions": ".otlpversionoptions",
-    "OtlpVersionOptions131": ".otlpversionoptions131",
+    "OtlpVersionOptions1": ".otlpversionoptions1",
     "OutpostNodeInfo": ".outpostnodeinfo",
     "OutpostNodeInfoTypedDict": ".outpostnodeinfo",
     "Output": ".output",
@@ -17983,7 +17965,7 @@ _dynamic_imports: dict[str, str] = {
     "QueueFullBehaviorOptions": ".queuefullbehavioroptions",
     "RbacResource": ".rbacresource",
     "RecordDataFormatOptions": ".recorddataformatoptions",
-    "RecordDataFormatOptionsJSONProtobuf": ".recorddataformatoptionsjsonprotobuf",
+    "RecordDataFormatOptions1": ".recorddataformatoptions1",
     "RecordTypeOptions": ".recordtypeoptions",
     "RegionOptions": ".regionoptions",
     "RequestFormatOptions": ".requestformatoptions",
@@ -19651,8 +19633,8 @@ _dynamic_imports: dict[str, str] = {
     "UnknownRestCollectorConf": ".restcollectorconf",
     "RetryRulesType": ".retryrulestype",
     "RetryRulesTypeTypedDict": ".retryrulestype",
-    "RetryRulesTypeCodesEnableHeader": ".retryrulestypecodesenableheader",
-    "RetryRulesTypeCodesEnableHeaderTypedDict": ".retryrulestypecodesenableheader",
+    "RetryRulesType1": ".retryrulestype1",
+    "RetryRulesType1TypedDict": ".retryrulestype1",
     "RetrySettingsType": ".retrysettingstype",
     "RetrySettingsTypeTypedDict": ".retrysettingstype",
     "RetryTypeOptionsHealthCheckCollectorConfRetryRules": ".retrytypeoptionshealthcheckcollectorconfretryrules",
@@ -19681,9 +19663,6 @@ _dynamic_imports: dict[str, str] = {
     "RunnableJobCollectionTypedDict": ".runnablejobcollection",
     "TimeRange": ".runnablejobcollection",
     "WhereToCapture": ".runnablejobcollection",
-    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint": ".runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint",
-    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType": ".runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint",
-    "RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict": ".runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint",
     "RunnableJobExecutor": ".runnablejobexecutor",
     "RunnableJobExecutorRun": ".runnablejobexecutor",
     "RunnableJobExecutorRunTypedDict": ".runnablejobexecutor",
@@ -19725,7 +19704,7 @@ _dynamic_imports: dict[str, str] = {
     "S3PartitioningSchemeNoneTypedDict": ".s3collectorconf",
     "UnknownS3CollectorConf": ".s3collectorconf",
     "SaslMechanismOptionsSasl": ".saslmechanismoptionssasl",
-    "SaslMechanismOptionsSaslOauthbearerPlain": ".saslmechanismoptionssasloauthbearerplain",
+    "SaslMechanismOptionsSasl1": ".saslmechanismoptionssasl1",
     "SavedJob": ".savedjob",
     "SavedJobTypedDict": ".savedjob",
     "SavedJobCollection": ".savedjobcollection",
@@ -19734,16 +19713,10 @@ _dynamic_imports: dict[str, str] = {
     "SavedJobExecutorTypedDict": ".savedjobexecutor",
     "SavedJobResponse": ".savedjobresponse",
     "SavedJobResponseCollection": ".savedjobresponse",
-    "SavedJobResponseCollectionSavedState": ".savedjobresponse",
-    "SavedJobResponseCollectionSavedStateTypedDict": ".savedjobresponse",
     "SavedJobResponseCollectionTypedDict": ".savedjobresponse",
     "SavedJobResponseExecutor": ".savedjobresponse",
-    "SavedJobResponseExecutorSavedState": ".savedjobresponse",
-    "SavedJobResponseExecutorSavedStateTypedDict": ".savedjobresponse",
     "SavedJobResponseExecutorTypedDict": ".savedjobresponse",
     "SavedJobResponseScheduledSearch": ".savedjobresponse",
-    "SavedJobResponseScheduledSearchSavedState": ".savedjobresponse",
-    "SavedJobResponseScheduledSearchSavedStateTypedDict": ".savedjobresponse",
     "SavedJobResponseScheduledSearchTypedDict": ".savedjobresponse",
     "SavedJobResponseTypedDict": ".savedjobresponse",
     "SavedJobScheduledSearch": ".savedjobscheduledsearch",
@@ -19765,12 +19738,12 @@ _dynamic_imports: dict[str, str] = {
     "ShutdownTypeSystemSettingsConf": ".shutdowntypesystemsettingsconf",
     "ShutdownTypeSystemSettingsConfTypedDict": ".shutdowntypesystemsettingsconf",
     "SignatureVersionOptions": ".signatureversionoptions",
-    "SignatureVersionOptionsGoogle": ".signatureversionoptionsgoogle",
-    "SignatureVersionOptionsKinesis": ".signatureversionoptionskinesis",
-    "SignatureVersionOptionsMinIo": ".signatureversionoptionsminio",
+    "SignatureVersionOptions1": ".signatureversionoptions1",
+    "SignatureVersionOptions2": ".signatureversionoptions2",
+    "SignatureVersionOptions3": ".signatureversionoptions3",
+    "SignatureVersionOptions4": ".signatureversionoptions4",
+    "SignatureVersionOptions5": ".signatureversionoptions5",
     "SignatureVersionOptionsS3CollectorConf": ".signatureversionoptionss3collectorconf",
-    "SignatureVersionOptionsSqs": ".signatureversionoptionssqs",
-    "SignatureVersionOptionsV2V4": ".signatureversionoptionsv2v4",
     "SniSettings1": ".snisettings_union",
     "SniSettings1TypedDict": ".snisettings_union",
     "SniSettings2": ".snisettings_union",
@@ -19867,8 +19840,8 @@ _dynamic_imports: dict[str, str] = {
     "StatusType": ".statustype",
     "StatusTypeTypedDict": ".statustype",
     "StorageClassOptions": ".storageclassoptions",
-    "StorageClassOptionsArchiveColdline": ".storageclassoptionsarchivecoldline",
-    "StorageClassOptionsReducedredundancyStandard": ".storageclassoptionsreducedredundancystandard",
+    "StorageClassOptions1": ".storageclassoptions1",
+    "StorageClassOptions2": ".storageclassoptions2",
     "SubscriptionPlanOptions": ".subscriptionplanoptions",
     "SupportTypeSystemSettingsConf": ".supporttypesystemsettingsconf",
     "SupportTypeSystemSettingsConfTypedDict": ".supporttypesystemsettingsconf",
@@ -19898,14 +19871,17 @@ _dynamic_imports: dict[str, str] = {
     "TLSSettingsUnionTypedDict": ".tlssettings_union",
     "TLSSettingsClientSideType": ".tlssettingsclientsidetype",
     "TLSSettingsClientSideTypeTypedDict": ".tlssettingsclientsidetype",
-    "TLSSettingsClientSideTypeCaPathCertPath": ".tlssettingsclientsidetypecapathcertpath",
-    "TLSSettingsClientSideTypeCaPathCertPathTypedDict": ".tlssettingsclientsidetypecapathcertpath",
-    "TLSSettingsClientSideTypeCaPathCertPathExtended": ".tlssettingsclientsidetypecapathcertpathextended",
-    "TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict": ".tlssettingsclientsidetypecapathcertpathextended",
-    "TLSSettingsClientSideTypeExtended": ".tlssettingsclientsidetypeextended",
-    "TLSSettingsClientSideTypeExtendedTypedDict": ".tlssettingsclientsidetypeextended",
+    "TLSSettingsClientSideType1": ".tlssettingsclientsidetype1",
+    "TLSSettingsClientSideType1TypedDict": ".tlssettingsclientsidetype1",
+    "TLSSettingsClientSideType2": ".tlssettingsclientsidetype2",
+    "TLSSettingsClientSideType2TypedDict": ".tlssettingsclientsidetype2",
+    "TLSSettingsClientSideTypeKafkaSchemaRegistry": ".tlssettingsclientsidetypekafkaschemaregistry",
+    "TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict": ".tlssettingsclientsidetypekafkaschemaregistry",
     "TLSSettingsServerSideType": ".tlssettingsserversidetype",
     "TLSSettingsServerSideTypeTypedDict": ".tlssettingsserversidetype",
+    "TypeCollectionWithBreakerRulesetsConstraint": ".typecollectionwithbreakerrulesetsconstraint",
+    "TypeCollectionWithBreakerRulesetsConstraintType": ".typecollectionwithbreakerrulesetsconstraint",
+    "TypeCollectionWithBreakerRulesetsConstraintTypedDict": ".typecollectionwithbreakerrulesetsconstraint",
     "TypeOptions": ".typeoptions",
     "TypeOptionsConfigGroup": ".typeoptionsconfiggroup",
     "UpdateConfigGroupByProductAndIDRequest": ".updateconfiggroupbyproductandidop",

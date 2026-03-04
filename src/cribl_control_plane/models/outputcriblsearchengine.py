@@ -2,13 +2,10 @@
 
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
-from .compressionoptionsgzipnone import CompressionOptionsGzipNone
+from .compressionoptions1 import CompressionOptions1
 from .compressionoptionspq import CompressionOptionsPq
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypeauthtokenstokensecret import (
-    ItemsTypeAuthTokensTokenSecret,
-    ItemsTypeAuthTokensTokenSecretTypedDict,
-)
+from .itemstypeauthtokens1 import ItemsTypeAuthTokens1, ItemsTypeAuthTokens1TypedDict
 from .itemstypeextrahttpheaders import (
     ItemsTypeExtraHTTPHeaders,
     ItemsTypeExtraHTTPHeadersTypedDict,
@@ -24,9 +21,9 @@ from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
 )
-from .tlssettingsclientsidetypecapathcertpath import (
-    TLSSettingsClientSideTypeCaPathCertPath,
-    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
+from .tlssettingsclientsidetypekafkaschemaregistry import (
+    TLSSettingsClientSideTypeKafkaSchemaRegistry,
+    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -63,12 +60,12 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     load_balanced: NotRequired[bool]
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
     token_ttl_minutes: NotRequired[float]
     r"""The number of minutes before the internally generated authentication token expires. Valid values are between 1 and 60."""
     exclude_fields: NotRequired[List[str]]
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
-    compression: NotRequired[CompressionOptionsGzipNone]
+    compression: NotRequired[CompressionOptions1]
     r"""Codec to use to compress the data before sending"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -98,7 +95,7 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    auth_tokens: NotRequired[List[ItemsTypeAuthTokensTokenSecretTypedDict]]
+    auth_tokens: NotRequired[List[ItemsTypeAuthTokens1TypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
@@ -121,7 +118,7 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -134,8 +131,6 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputCriblSearchEnginePqControlsTypedDict]
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
@@ -166,7 +161,7 @@ class OutputCriblSearchEngine(BaseModel):
     )
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
 
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
 
     token_ttl_minutes: Annotated[
         Optional[float], pydantic.Field(alias="tokenTTLMinutes")
@@ -178,7 +173,7 @@ class OutputCriblSearchEngine(BaseModel):
     ] = None
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
 
-    compression: Optional[CompressionOptionsGzipNone] = None
+    compression: Optional[CompressionOptions1] = None
     r"""Codec to use to compress the data before sending"""
 
     concurrency: Optional[float] = None
@@ -248,8 +243,7 @@ class OutputCriblSearchEngine(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     auth_tokens: Annotated[
-        Optional[List[ItemsTypeAuthTokensTokenSecret]],
-        pydantic.Field(alias="authTokens"),
+        Optional[List[ItemsTypeAuthTokens1]], pydantic.Field(alias="authTokens")
     ] = None
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud."""
 
@@ -299,7 +293,7 @@ class OutputCriblSearchEngine(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    r"""The maximum number of events to hold in memory before writing the events to disk"""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -327,11 +321,6 @@ class OutputCriblSearchEngine(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-
     pq_controls: Annotated[
         Optional[OutputCriblSearchEnginePqControls], pydantic.Field(alias="pqControls")
     ] = None
@@ -345,7 +334,7 @@ class OutputCriblSearchEngine(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsGzipNone(value)
+                return models.CompressionOptions1(value)
             except ValueError:
                 return value
         return value
@@ -441,7 +430,6 @@ class OutputCriblSearchEngine(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_url",
             ]

@@ -4,9 +4,9 @@ from __future__ import annotations
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
-from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
+from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
 from .compressionleveloptions import CompressionLevelOptions
-from .compressionoptionshttp import CompressionOptionsHTTP
+from .compressionoptions2 import CompressionOptions2
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
@@ -18,10 +18,8 @@ from .objectacloptions import ObjectACLOptions
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .serversideencryptionoptions import ServerSideEncryptionOptions
-from .signatureversionoptionsminio import SignatureVersionOptionsMinIo
-from .storageclassoptionsreducedredundancystandard import (
-    StorageClassOptionsReducedredundancyStandard,
-)
+from .signatureversionoptions5 import SignatureVersionOptions5
+from .storageclassoptions2 import StorageClassOptions2
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -63,11 +61,11 @@ class OutputMinioTypedDict(TypedDict):
     r"""Add the Output ID value to staging location"""
     dest_path: NotRequired[str]
     r"""Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks."""
-    signature_version: NotRequired[SignatureVersionOptionsMinIo]
+    signature_version: NotRequired[SignatureVersionOptions5]
     r"""Signature version to use for signing MinIO requests"""
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
-    storage_class: NotRequired[StorageClassOptionsReducedredundancyStandard]
+    storage_class: NotRequired[StorageClassOptions2]
     r"""Storage class to select for uploaded objects"""
     server_side_encryption: NotRequired[ServerSideEncryptionOptions]
     r"""Server-side encryption for uploaded objects"""
@@ -95,7 +93,7 @@ class OutputMinioTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
+    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -115,7 +113,7 @@ class OutputMinioTypedDict(TypedDict):
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    compress: NotRequired[CompressionOptionsHTTP]
+    compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -211,7 +209,7 @@ class OutputMinio(BaseModel):
     r"""Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptionsMinIo], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptions5], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing MinIO requests"""
 
@@ -221,8 +219,7 @@ class OutputMinio(BaseModel):
     r"""Object ACL to assign to uploaded objects"""
 
     storage_class: Annotated[
-        Optional[StorageClassOptionsReducedredundancyStandard],
-        pydantic.Field(alias="storageClass"),
+        Optional[StorageClassOptions2], pydantic.Field(alias="storageClass")
     ] = None
     r"""Storage class to select for uploaded objects"""
 
@@ -291,8 +288,7 @@ class OutputMinio(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptionsBlockDrop],
-        pydantic.Field(alias="onBackpressure"),
+        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -339,7 +335,7 @@ class OutputMinio(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Optional[CompressionOptionsHTTP] = None
+    compress: Optional[CompressionOptions2] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -456,7 +452,7 @@ class OutputMinio(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptionsMinIo(value)
+                return models.SignatureVersionOptions5(value)
             except ValueError:
                 return value
         return value
@@ -474,7 +470,7 @@ class OutputMinio(BaseModel):
     def serialize_storage_class(self, value):
         if isinstance(value, str):
             try:
-                return models.StorageClassOptionsReducedredundancyStandard(value)
+                return models.StorageClassOptions2(value)
             except ValueError:
                 return value
         return value
@@ -501,7 +497,7 @@ class OutputMinio(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptionsBlockDrop(value)
+                return models.BackpressureBehaviorOptions1(value)
             except ValueError:
                 return value
         return value
@@ -519,7 +515,7 @@ class OutputMinio(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptionsHTTP(value)
+                return models.CompressionOptions2(value)
             except ValueError:
                 return value
         return value

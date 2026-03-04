@@ -2,6 +2,16 @@
 
 State of the Job
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import State
+
+value = State.INITIALIZING
+
+# Open enum: unrecognized values are captured as UnrecognizedInt
+```
+
 
 ## Values
 

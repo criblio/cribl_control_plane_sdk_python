@@ -1,5 +1,15 @@
 # DestinationType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import DestinationType
+
+value = DestinationType.DEFAULT
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

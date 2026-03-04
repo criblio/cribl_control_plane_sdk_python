@@ -1,5 +1,15 @@
 # RestCollectMethodPostCollectMethod
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import RestCollectMethodPostCollectMethod
+
+value = RestCollectMethodPostCollectMethod.GET
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

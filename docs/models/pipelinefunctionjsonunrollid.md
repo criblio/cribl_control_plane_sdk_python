@@ -2,6 +2,14 @@
 
 Function ID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import PipelineFunctionJSONUnrollID
+
+value = PipelineFunctionJSONUnrollID.JSON_UNROLL
+```
+
 
 ## Values
 

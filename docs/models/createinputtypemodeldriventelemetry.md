@@ -1,5 +1,13 @@
 # CreateInputTypeModelDrivenTelemetry
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputTypeModelDrivenTelemetry
+
+value = CreateInputTypeModelDrivenTelemetry.MODEL_DRIVEN_TELEMETRY
+```
+
 
 ## Values
 

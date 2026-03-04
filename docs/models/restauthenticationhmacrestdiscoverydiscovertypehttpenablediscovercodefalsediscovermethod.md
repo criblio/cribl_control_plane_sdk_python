@@ -1,5 +1,15 @@
 # RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+
+value = RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod.GET
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

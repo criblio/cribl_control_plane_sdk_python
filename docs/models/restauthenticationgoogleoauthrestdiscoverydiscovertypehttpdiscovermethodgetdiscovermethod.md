@@ -1,5 +1,15 @@
 # RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+
+value = RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod.GET
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

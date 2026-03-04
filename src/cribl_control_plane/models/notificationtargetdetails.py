@@ -7,10 +7,14 @@ from typing_extensions import TypedDict
 
 class NotificationTargetDetailsTypedDict(TypedDict):
     id: str
+    r"""ID of the notification target."""
     type: str
+    r"""Target type."""
 
 
 class NotificationTargetDetails(BaseModel):
     id: str
+    r"""ID of the notification target."""
 
     type: str
+    r"""Target type."""

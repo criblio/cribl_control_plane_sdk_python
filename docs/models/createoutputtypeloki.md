@@ -1,5 +1,13 @@
 # CreateOutputTypeLoki
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputTypeLoki
+
+value = CreateOutputTypeLoki.LOKI
+```
+
 
 ## Values
 

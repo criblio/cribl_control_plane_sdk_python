@@ -1,5 +1,15 @@
 # WhereToCapture
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import WhereToCapture
+
+value = WhereToCapture.BEFORE_PRE_PROCESSING_PIPELINE
+
+# Open enum: unrecognized values are captured as UnrecognizedInt
+```
+
 
 ## Values
 

@@ -1,5 +1,15 @@
 # NodeActiveUpgradeStatus
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import NodeActiveUpgradeStatus
+
+value = NodeActiveUpgradeStatus.PENDING
+
+# Open enum: unrecognized values are captured as UnrecognizedInt
+```
+
 
 ## Values
 

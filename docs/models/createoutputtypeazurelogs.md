@@ -1,5 +1,13 @@
 # CreateOutputTypeAzureLogs
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputTypeAzureLogs
+
+value = CreateOutputTypeAzureLogs.AZURE_LOGS
+```
+
 
 ## Values
 

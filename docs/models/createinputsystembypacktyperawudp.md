@@ -1,5 +1,13 @@
 # CreateInputSystemByPackTypeRawUDP
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputSystemByPackTypeRawUDP
+
+value = CreateInputSystemByPackTypeRawUDP.RAW_UDP
+```
+
 
 ## Values
 

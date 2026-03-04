@@ -1,5 +1,13 @@
 # CreateOutputTypeSecurityLake
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputTypeSecurityLake
+
+value = CreateOutputTypeSecurityLake.SECURITY_LAKE
+```
+
 
 ## Values
 

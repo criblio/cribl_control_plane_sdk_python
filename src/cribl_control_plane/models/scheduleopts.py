@@ -24,7 +24,7 @@ class ScheduleOptsTypedDict(TypedDict):
     skippable: NotRequired[bool]
     r"""Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits."""
     tz: NotRequired[str]
-    r"""IANA timezone for the cron schedule (e.g., America/New_York, UTC)."""
+    r"""IANA timezone for the cron schedule."""
 
 
 class ScheduleOpts(BaseModel):
@@ -53,7 +53,7 @@ class ScheduleOpts(BaseModel):
     r"""Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits."""
 
     tz: Optional[str] = None
-    r"""IANA timezone for the cron schedule (e.g., America/New_York, UTC)."""
+    r"""IANA timezone for the cron schedule."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

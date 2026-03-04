@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1772618007548-6f2977f8
+  version: 4.18.0-alpha.1772638947915-0082c105
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -37381,7 +37381,7 @@ components:
       required:
         - id
         - status
-    CountedSavedJob:
+    CountedSavedJobResponse:
       type: object
       properties:
         count:
@@ -37390,60 +37390,74 @@ components:
         items:
           type: array
           items:
-            $ref: "#/components/schemas/SavedJob"
+            $ref: "#/components/schemas/SavedJobResponse"
+    MetadataItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Field name. Must be a valid identifier (letter, underscore, or $ followed by alphanumeric, or quoted). Surround with quotes or backticks if the name contains special characters.
+        value:
+          type: string
+          description: JavaScript expression to compute the field value, enclosed in quotes or backticks. Can evaluate to a constant.
+      required:
+        - name
+        - value
     NotificationMode:
       type: string
       enum:
         - direct
         - policy
       x-speakeasy-unknown-values: allow
+    EmailRecipient:
+      type: object
+      properties:
+        bcc:
+          type: string
+          description: Bcc email addresses.
+        cc:
+          type: string
+          description: Cc email addresses.
+        to:
+          type: string
+          description: Recipient email addresses.
+      required:
+        - to
+    NotificationSmtpTargetConfig:
+      type: object
+      properties:
+        body:
+          type: string
+          description: Email body.
+        emailRecipient:
+          $ref: "#/components/schemas/EmailRecipient"
+          description: Email recipient.
+        subject:
+          type: string
+          description: Email subject.
+      required:
+        - emailRecipient
     NotificationTargetConfig:
       type: object
-      required:
-        - id
       properties:
+        conf:
+          $ref: "#/components/schemas/NotificationSmtpTargetConfig"
+          description: Notification target configuration.
         id:
           type: string
-          title: Notification target ID
-          pattern: ^[a-zA-Z0-9_-]+$
-      anyOf:
-        - properties:
-            conf:
-              type: object
-              title: Notification config for SMTP target
-              properties:
-                subject:
-                  type: string
-                  title: Subject
-                  description: Email subject
-                body:
-                  type: string
-                  title: Message
-                  description: Email body
-                emailRecipient:
-                  type: object
-                  required:
-                    - to
-                  properties:
-                    to:
-                      type: string
-                      title: To
-                      description: Recipients' email addresses
-                    cc:
-                      type: string
-                      title: Cc
-                      description: "Cc: Recipients' email addresses"
-                    bcc:
-                      type: string
-                      title: Bcc
-                      description: "Bcc: Recipients' email addresses"
+          description: ID of the notification target.
+      required:
+        - id
     NotificationTargetDetails:
       type: object
       properties:
         id:
           type: string
+          description: ID of the notification target.
         type:
           type: string
+          description: Target type.
+          example: smtp
       required:
         - id
         - type
@@ -37467,10 +37481,13 @@ components:
           type: string
         metadata:
           type: array
+          items:
+            $ref: "#/components/schemas/MetadataItem"
           description: Metadata fields.
         mode:
           $ref: "#/components/schemas/NotificationMode"
-          description: Direct or policy-based mode.
+          description: Notification mode.
+          example: direct
         targetConfigs:
           type: array
           items:
@@ -37480,6 +37497,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/NotificationTargetDetails"
+          description: Target details.
         targets:
           type: array
           items:
@@ -37532,14 +37550,17 @@ components:
         now:
           type: string
           format: date-time
+          description: Reference timestamp for the run. Used for scheduled execution time and relative time expressions.
         rescheduleDroppedTasks:
           type: boolean
           description: Reschedule tasks that failed with non-fatal errors.
         taskHeartbeatPeriod:
           type: number
+          description: Interval in seconds at which running tasks report heartbeats to the Leader. Used to detect stalled or dead tasks.
         type:
           $ref: "#/components/schemas/RunType"
-          description: "Run type: adhoc, scheduled, or system."
+          description: Type of run.
+          example: adhoc
     ScheduleOpts:
       type: object
       properties:
@@ -37566,22 +37587,20 @@ components:
           description: Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits.
         tz:
           type: string
-          description: IANA timezone for the cron schedule (e.g., America/New_York, UTC).
+          description: IANA timezone for the cron schedule.
+          example: UTC
       required:
         - enabled
         - run
-    SavedJob:
+    SavedJobResponse:
       type: object
-      additionalProperties: true
       properties:
         environment:
           type: string
           description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-        groupId:
-          type: string
-          description: Worker Group ID to run the job in. When empty, uses the default group.
         id:
           type: string
+          description: Unique ID for this Job.
         ignoreGroupJobsLimit:
           type: boolean
           description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
@@ -37608,17 +37627,15 @@ components:
       required:
         - id
         - type
-    SavedJobCreateUpdate:
+    SavedJobRequest:
       type: object
       properties:
         environment:
           type: string
           description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-        groupId:
-          type: string
-          description: Worker Group ID to run the job in. When empty, uses the default group.
         id:
           type: string
+          description: Unique ID for this Job.
         ignoreGroupJobsLimit:
           type: boolean
           description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
@@ -48878,11 +48895,11 @@ paths:
       description: Create a new Collector.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -48892,12 +48909,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       requestBody:
-        description: SavedJobCreateUpdate object
+        description: SavedJobRequest object
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SavedJobCreateUpdate"
+              $ref: "#/components/schemas/SavedJobRequest"
             examples:
               CollectorExamplesRest:
                 $ref: "#/components/examples/CollectorExamplesRest"
@@ -48917,13 +48934,6 @@ paths:
                 $ref: "#/components/examples/CollectorExamplesScript"
               CollectorExamplesCriblLake:
                 $ref: "#/components/examples/CollectorExamplesCriblLake"
-      parameters:
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack to create the Collector in.
     get:
       operationId: getSavedJob
       tags:
@@ -48936,11 +48946,11 @@ paths:
       description: Get a list of all Collectors.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -48956,18 +48966,6 @@ paths:
           schema:
             type: string
           description: Filter by collector type
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Pack ID
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Worker group ID
   /lib/jobs/{id}:
     delete:
       operationId: deleteSavedJobById
@@ -48981,11 +48979,11 @@ paths:
       description: Delete the specified Collector.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -49001,18 +48999,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Collector to delete.
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack that includes the Collector to delete.
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group that includes the Collector to delete.
     get:
       operationId: getSavedJobById
       tags:
@@ -49025,11 +49011,11 @@ paths:
       description: Get the specified Collector.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -49045,12 +49031,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Collector to get.
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack that includes the Collector to get.
     patch:
       operationId: updateSavedJobById
       tags:
@@ -49063,11 +49043,11 @@ paths:
       description: Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -49077,12 +49057,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       requestBody:
-        description: SavedJobCreateUpdate object
+        description: SavedJobRequest object
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SavedJobCreateUpdate"
+              $ref: "#/components/schemas/SavedJobRequest"
             examples:
               CollectorExamplesRest:
                 $ref: "#/components/examples/CollectorExamplesRest"
@@ -49109,12 +49089,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Collector to update.
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack that includes the Collector to update.
   /products/{product}/groups:
     get:
       operationId: listConfigGroupByProduct

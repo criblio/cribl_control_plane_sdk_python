@@ -1,5 +1,15 @@
 # RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+
+value = RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod.GET
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

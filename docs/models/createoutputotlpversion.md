@@ -2,6 +2,16 @@
 
 The version of OTLP Protobuf definitions to use when structuring data to send
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputOTLPVersion
+
+value = CreateOutputOTLPVersion.ZERO_DOT_10_DOT_0
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

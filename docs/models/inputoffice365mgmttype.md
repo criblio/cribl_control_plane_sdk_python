@@ -1,5 +1,13 @@
 # InputOffice365MgmtType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import InputOffice365MgmtType
+
+value = InputOffice365MgmtType.OFFICE365_MGMT
+```
+
 
 ## Values
 

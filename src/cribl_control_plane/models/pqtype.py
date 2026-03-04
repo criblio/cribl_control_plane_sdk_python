@@ -22,8 +22,10 @@ class PqTypePqControls(BaseModel):
 class PqTypeTypedDict(TypedDict):
     mode: NotRequired[ModeOptionsPq]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
+    max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use maxBufferSizeBytes instead."""
     commit_frequency: NotRequired[float]
     r"""The number of events to send downstream before committing that Stream has read them"""
     max_file_size: NotRequired[str]
@@ -41,10 +43,15 @@ class PqType(BaseModel):
     mode: Optional[ModeOptionsPq] = None
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
 
+    max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="maxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")
     ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use maxBufferSizeBytes instead."""
 
     commit_frequency: Annotated[
         Optional[float], pydantic.Field(alias="commitFrequency")
@@ -90,6 +97,7 @@ class PqType(BaseModel):
         optional_fields = set(
             [
                 "mode",
+                "maxBufferSizeBytes",
                 "maxBufferSize",
                 "commitFrequency",
                 "maxFileSize",

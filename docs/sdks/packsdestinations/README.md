@@ -114,7 +114,7 @@ with CriblControlPlane(
         "oauth_type": models.CreateOutputSystemByPackAuthenticationMethodAzureDataExplorer.CLIENT_SECRET,
         "client_secret": "client-secret",
         "format_": models.DataFormatOptions.JSON,
-        "compress": models.CompressionOptions2.GZIP,
+        "compress": models.CompressionOptionsHTTP.GZIP,
     })
 
     # Handle response
@@ -394,7 +394,7 @@ with CriblControlPlane(
             "__metadata",
             "__winEvent",
         ],
-        "compression": models.CompressionOptions1.GZIP,
+        "compression": models.CompressionOptionsGzipNone.GZIP,
         "concurrency": 5,
         "max_payload_size_kb": 4096,
         "max_payload_events": 0,
@@ -707,7 +707,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackTypeDynatraceOtlp.DYNATRACE_OTLP,
         "protocol": models.CreateOutputSystemByPackProtocolDynatraceOtlp.HTTP,
         "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "endpoint_type": models.CreateOutputSystemByPackEndpointType.SAAS,
         "token_secret": "your-token-secret",
     })
@@ -1566,7 +1566,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackTypeServiceNow.SERVICE_NOW,
         "endpoint": "ingest.lightstep.com:443",
         "token_secret": "your-token-secret",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "protocol": models.ProtocolOptions.HTTP,
     })
 
@@ -2123,7 +2123,7 @@ with CriblControlPlane(
         "oauth_type": models.OutputAzureDataExplorerAuthenticationMethod.CLIENT_SECRET,
         "client_secret": "client-secret",
         "format_": models.DataFormatOptions.JSON,
-        "compress": models.CompressionOptions2.GZIP,
+        "compress": models.CompressionOptionsHTTP.GZIP,
     })
 
     # Handle response
@@ -2403,7 +2403,7 @@ with CriblControlPlane(
             "__metadata",
             "__winEvent",
         ],
-        "compression": models.CompressionOptions1.GZIP,
+        "compression": models.CompressionOptionsGzipNone.GZIP,
         "concurrency": 5,
         "max_payload_size_kb": 4096,
         "max_payload_events": 0,
@@ -2716,7 +2716,7 @@ with CriblControlPlane(
         "type": models.OutputDynatraceOtlpType.DYNATRACE_OTLP,
         "protocol": models.OutputDynatraceOtlpProtocol.HTTP,
         "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "endpoint_type": models.EndpointType.SAAS,
         "token_secret": "your-token-secret",
     })
@@ -3575,7 +3575,7 @@ with CriblControlPlane(
         "type": models.OutputServiceNowType.SERVICE_NOW,
         "endpoint": "ingest.lightstep.com:443",
         "token_secret": "your-token-secret",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "protocol": models.ProtocolOptions.HTTP,
     })
 

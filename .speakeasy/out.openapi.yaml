@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1772579035660-caa26b94
+  version: 4.18.0-alpha.1772610501413-ba04e285
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -8999,6 +8999,12 @@ components:
           description: The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
           maximum: 3600
           minimum: 1
+        __template_containerName:
+          type: string
+          description: Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime.
+        __template_path:
+          type: string
+          description: Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/AzureBlobAuthTypeManual"
@@ -11907,7 +11913,7 @@ components:
         sasl:
           $ref: "#/components/schemas/AuthenticationType"
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         sessionTimeout:
           type: number
           title: Session timeout (ms)
@@ -12168,7 +12174,7 @@ components:
           minimum: 900
           maximum: 43200
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         autoCommitInterval:
           type: number
           title: Offset commit interval (ms)
@@ -13448,7 +13454,7 @@ components:
             type: string
             minLength: 1
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         topics:
           type: array
           title: Topic
@@ -14265,7 +14271,7 @@ components:
           title: Endpoint
           description: EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions1"
+          $ref: "#/components/schemas/SignatureVersionOptionsV2V4"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -14504,7 +14510,7 @@ components:
           title: Endpoint
           description: EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions1"
+          $ref: "#/components/schemas/SignatureVersionOptionsV2V4"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -14722,9 +14728,9 @@ components:
           minimum: 0
           maximum: 7200
         retryRules:
-          $ref: "#/components/schemas/RetryRulesType1"
+          $ref: "#/components/schemas/RetryRulesTypeCodesEnableHeader"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions1"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsManualSecret"
         description:
           type: string
           title: Description
@@ -14867,9 +14873,9 @@ components:
                 title: Enabled
           description: "Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."
         retryRules:
-          $ref: "#/components/schemas/RetryRulesType1"
+          $ref: "#/components/schemas/RetryRulesTypeCodesEnableHeader"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions1"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsManualSecret"
         description:
           type: string
           title: Description
@@ -15027,7 +15033,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeMetadata"
         retryRules:
-          $ref: "#/components/schemas/RetryRulesType1"
+          $ref: "#/components/schemas/RetryRulesTypeCodesEnableHeader"
         description:
           type: string
           title: Description
@@ -15219,7 +15225,7 @@ components:
           minimum: 1000
           maximum: 1.8e+06
         sasl:
-          $ref: "#/components/schemas/AuthenticationType1"
+          $ref: "#/components/schemas/AuthenticationTypeUse"
         tls:
           $ref: "#/components/schemas/TlsSettingsClientSideType"
         sessionTimeout:
@@ -17925,7 +17931,7 @@ components:
           title: Endpoint
           description: Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions2"
+          $ref: "#/components/schemas/SignatureVersionOptionsKinesis"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -19084,7 +19090,7 @@ components:
           title: Endpoint
           description: SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions3"
+          $ref: "#/components/schemas/SignatureVersionOptionsSqs"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -19916,9 +19922,9 @@ components:
               title: Common name
               description: Regex matching allowable common names in peer certificates' subject attribute
             minVersion:
-              $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+              $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
             maxVersion:
-              $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
+              $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
             ocspCheck:
               type: boolean
               title: Verify certificate via OCSP
@@ -20577,7 +20583,7 @@ components:
         retryRules:
           $ref: "#/components/schemas/RetryRulesType"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions1"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsManualSecret"
         description:
           type: string
           title: Description
@@ -21653,9 +21659,9 @@ components:
               title: CA certificate path
               description: Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
             minVersion:
-              $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+              $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
             maxVersion:
-              $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
+              $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
         maxActiveReq:
           type: number
           title: Active request limit
@@ -22147,7 +22153,7 @@ components:
             - OAuth
           x-speakeasy-unknown-values: allow
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType1"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -22877,7 +22883,7 @@ components:
           title: Write timeout
           description: Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         maxRecordSize:
@@ -23012,7 +23018,7 @@ components:
           title: Write timeout
           description: Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         enableMultiMetrics:
           type: boolean
           title: Output multiple metrics
@@ -23169,7 +23175,7 @@ components:
           title: Write timeout
           description: Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         enableMultiMetrics:
           type: boolean
           title: Output multiple metrics
@@ -23374,7 +23380,7 @@ components:
           title: Default _TCP_ROUTING
           description: In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType1"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
         concurrency:
           type: number
           title: Request concurrency
@@ -23596,7 +23602,7 @@ components:
           title: Default _TCP_ROUTING
           description: In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType1"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
         concurrency:
           type: number
           title: Request concurrency
@@ -23789,7 +23795,7 @@ components:
           title: Load balancing
           description: Use load-balanced destinations
         compression:
-          $ref: "#/components/schemas/CompressionOptions1"
+          $ref: "#/components/schemas/CompressionOptionsGzipNone"
         logFailedRequests:
           type: boolean
           title: Log failed requests to disk
@@ -23800,7 +23806,7 @@ components:
           description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
           pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         connectionTimeout:
           type: number
           title: Connection timeout
@@ -24359,7 +24365,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -24376,7 +24382,7 @@ components:
           type: string
           title: Description
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -24594,7 +24600,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -24647,7 +24653,7 @@ components:
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -24851,7 +24857,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -24886,7 +24892,7 @@ components:
           type: string
           title: Description
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -25125,7 +25131,7 @@ components:
         format:
           $ref: "#/components/schemas/DataFormatOptions"
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -25724,7 +25730,7 @@ components:
           title: Endpoint
           description: Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions2"
+          $ref: "#/components/schemas/SignatureVersionOptionsKinesis"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -25980,7 +25986,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
         description:
           type: string
           title: Description
@@ -26155,7 +26161,7 @@ components:
           minimum: 1000
           maximum: 1.8e+06
         sasl:
-          $ref: "#/components/schemas/AuthenticationType1"
+          $ref: "#/components/schemas/AuthenticationTypeUse"
         tls:
           $ref: "#/components/schemas/TlsSettingsClientSideType"
         onBackpressure:
@@ -26532,7 +26538,7 @@ components:
           title: Endpoint
           description: Google Cloud Storage service endpoint
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions4"
+          $ref: "#/components/schemas/SignatureVersionOptionsGoogle"
         awsAuthenticationMethod:
           type: string
           title: Authentication method
@@ -26558,9 +26564,9 @@ components:
           title: Verify if bucket exists
           description: Disable if you can access files within the bucket but not the bucket itself
         objectACL:
-          $ref: "#/components/schemas/ObjectAclOptions1"
+          $ref: "#/components/schemas/ObjectAclOptionsAuthenticatedreadBucketownerfullcontrol"
         storageClass:
-          $ref: "#/components/schemas/StorageClassOptions1"
+          $ref: "#/components/schemas/StorageClassOptionsArchiveColdline"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -26626,7 +26632,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -26643,7 +26649,7 @@ components:
           type: string
           title: Description
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -27256,11 +27262,11 @@ components:
           title: Endpoint
           description: Google Cloud Storage service endpoint
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions4"
+          $ref: "#/components/schemas/SignatureVersionOptionsGoogle"
         objectACL:
-          $ref: "#/components/schemas/ObjectAclOptions1"
+          $ref: "#/components/schemas/ObjectAclOptionsAuthenticatedreadBucketownerfullcontrol"
         storageClass:
-          $ref: "#/components/schemas/StorageClassOptions1"
+          $ref: "#/components/schemas/StorageClassOptionsArchiveColdline"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -27296,7 +27302,7 @@ components:
           minimum: 10
           maximum: 2000
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -27413,11 +27419,11 @@ components:
           title: Topic
           description: The topic to publish events to. Can be overridden using the __topicOut field.
         ack:
-          $ref: "#/components/schemas/AcknowledgmentsOptions1"
+          $ref: "#/components/schemas/AcknowledgmentsOptionsAllLeader"
         format:
-          $ref: "#/components/schemas/RecordDataFormatOptions1"
+          $ref: "#/components/schemas/RecordDataFormatOptionsJsonProtobuf"
         compression:
-          $ref: "#/components/schemas/CompressionOptions3"
+          $ref: "#/components/schemas/CompressionOptionsGzipLz4"
         maxRecordSizeKB:
           type: number
           minimum: 1
@@ -27434,7 +27440,7 @@ components:
           title: Flush period (sec)
           description: The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent.
         kafkaSchemaRegistry:
-          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationType1"
+          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout"
         connectionTimeout:
           type: number
           title: Connection timeout (ms)
@@ -27486,7 +27492,7 @@ components:
         sasl:
           $ref: "#/components/schemas/AuthenticationType"
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         description:
@@ -27595,17 +27601,17 @@ components:
             type: string
             minLength: 1
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         topic:
           type: string
           title: Topic
           description: The topic to publish events to. Can be overridden using the __topicOut field.
         ack:
-          $ref: "#/components/schemas/AcknowledgmentsOptions1"
+          $ref: "#/components/schemas/AcknowledgmentsOptionsAllLeader"
         format:
-          $ref: "#/components/schemas/RecordDataFormatOptions1"
+          $ref: "#/components/schemas/RecordDataFormatOptionsJsonProtobuf"
         compression:
-          $ref: "#/components/schemas/CompressionOptions3"
+          $ref: "#/components/schemas/CompressionOptionsGzipLz4"
         maxRecordSizeKB:
           type: number
           minimum: 1
@@ -27622,7 +27628,7 @@ components:
           title: Flush period (sec)
           description: The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent.
         kafkaSchemaRegistry:
-          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationType1"
+          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout"
         connectionTimeout:
           type: number
           title: Connection timeout (ms)
@@ -27787,11 +27793,11 @@ components:
           title: Topic
           description: The topic to publish events to. Can be overridden using the __topicOut field.
         ack:
-          $ref: "#/components/schemas/AcknowledgmentsOptions1"
+          $ref: "#/components/schemas/AcknowledgmentsOptionsAllLeader"
         format:
-          $ref: "#/components/schemas/RecordDataFormatOptions1"
+          $ref: "#/components/schemas/RecordDataFormatOptionsJsonProtobuf"
         compression:
-          $ref: "#/components/schemas/CompressionOptions3"
+          $ref: "#/components/schemas/CompressionOptionsGzipLz4"
         maxRecordSizeKB:
           type: number
           minimum: 1
@@ -27808,7 +27814,7 @@ components:
           title: Flush period (sec)
           description: The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent.
         kafkaSchemaRegistry:
-          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationType1"
+          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout"
         connectionTimeout:
           type: number
           title: Connection timeout (ms)
@@ -27901,7 +27907,7 @@ components:
           minimum: 900
           maximum: 43200
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         description:
@@ -28103,7 +28109,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeSaslSaslExtensions"
         auth:
-          $ref: "#/components/schemas/AuthType"
+          $ref: "#/components/schemas/AuthTypeAuthTypeCredentialsSecret"
         elasticVersion:
           type: string
           title: Elastic version
@@ -28340,7 +28346,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeSaslSaslExtensions"
         auth:
-          $ref: "#/components/schemas/AuthType"
+          $ref: "#/components/schemas/AuthTypeAuthTypeCredentialsSecret"
         elasticPipeline:
           type: string
           title: Elastic pipeline
@@ -28549,7 +28555,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -28738,7 +28744,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
         description:
           type: string
           title: Description
@@ -29307,11 +29313,11 @@ components:
           title: Key prefix
           description: Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions5"
+          $ref: "#/components/schemas/SignatureVersionOptionsMinIo"
         objectACL:
           $ref: "#/components/schemas/ObjectAclOptions"
         storageClass:
-          $ref: "#/components/schemas/StorageClassOptions2"
+          $ref: "#/components/schemas/StorageClassOptionsReducedredundancyStandard"
         serverSideEncryption:
           $ref: "#/components/schemas/ServerSideEncryptionOptions"
         reuseConnections:
@@ -29367,7 +29373,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -29410,7 +29416,7 @@ components:
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -30193,7 +30199,7 @@ components:
           title: Endpoint
           description: SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions3"
+          $ref: "#/components/schemas/SignatureVersionOptionsSqs"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -30768,7 +30774,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -31084,7 +31090,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeContentConfigItemsRequestParams"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuth1"
+          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret"
         concurrency:
           type: number
           title: Request concurrency
@@ -31482,7 +31488,7 @@ components:
           title: Path location
           description: Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         description:
           type: string
           title: Description
@@ -31540,9 +31546,9 @@ components:
             - 1.3.1
           x-speakeasy-unknown-values: allow
         compress:
-          $ref: "#/components/schemas/CompressionOptions4"
+          $ref: "#/components/schemas/CompressionOptionsDeflateGzip"
         httpCompress:
-          $ref: "#/components/schemas/CompressionOptions5"
+          $ref: "#/components/schemas/CompressionOptionsMessages"
         authType:
           $ref: "#/components/schemas/AuthenticationTypeOptions"
         httpTracesEndpointOverride:
@@ -31658,7 +31664,7 @@ components:
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType2"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeExtended"
         pqStrictOrdering:
           title: Strict ordering
           description: Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed.
@@ -31756,7 +31762,7 @@ components:
           type: string
           title: Auth token name
         otlpVersion:
-          $ref: "#/components/schemas/OtlpVersionOptions1"
+          $ref: "#/components/schemas/OtlpVersionOptions131"
         maxPayloadSizeKB:
           type: number
           title: Body size limit (KB)
@@ -31766,9 +31772,9 @@ components:
         protocol:
           $ref: "#/components/schemas/ProtocolOptions"
         compress:
-          $ref: "#/components/schemas/CompressionOptions4"
+          $ref: "#/components/schemas/CompressionOptionsDeflateGzip"
         httpCompress:
-          $ref: "#/components/schemas/CompressionOptions5"
+          $ref: "#/components/schemas/CompressionOptionsMessages"
         httpTracesEndpointOverride:
           type: string
           title: Traces endpoint override
@@ -31858,7 +31864,7 @@ components:
           title: Honor Retry-After header
           description: Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType2"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeExtended"
         pqStrictOrdering:
           title: Strict ordering
           description: Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed.
@@ -32059,7 +32065,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsApi"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -32168,7 +32174,7 @@ components:
           title: Load balancing
           description: Use load-balanced destinations
         compression:
-          $ref: "#/components/schemas/CompressionOptions1"
+          $ref: "#/components/schemas/CompressionOptionsGzipNone"
         logFailedRequests:
           type: boolean
           title: Log failed requests to disk
@@ -32179,7 +32185,7 @@ components:
           description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
           pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         connectionTimeout:
           type: number
           title: Connection timeout
@@ -32339,7 +32345,7 @@ components:
           title: Load balancing
           description: For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         tokenTTLMinutes:
           type: number
           title: Auth Token TTL minutes
@@ -32353,7 +32359,7 @@ components:
           items:
             type: string
         compression:
-          $ref: "#/components/schemas/CompressionOptions1"
+          $ref: "#/components/schemas/CompressionOptionsGzipNone"
         concurrency:
           type: number
           title: Request concurrency
@@ -32422,7 +32428,7 @@ components:
           title: Connected environment tokens
           description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud.
           items:
-            $ref: "#/components/schemas/ItemsTypeAuthTokens1"
+            $ref: "#/components/schemas/ItemsTypeAuthTokensTokenSecret"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         description:
@@ -32548,7 +32554,7 @@ components:
           title: Load balancing
           description: For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         tokenTTLMinutes:
           type: number
           title: Auth Token TTL minutes
@@ -32562,7 +32568,7 @@ components:
           items:
             type: string
         compression:
-          $ref: "#/components/schemas/CompressionOptions1"
+          $ref: "#/components/schemas/CompressionOptionsGzipNone"
         concurrency:
           type: number
           title: Request concurrency
@@ -32631,7 +32637,7 @@ components:
           title: Connected environment tokens
           description: Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud.
           items:
-            $ref: "#/components/schemas/ItemsTypeAuthTokens1"
+            $ref: "#/components/schemas/ItemsTypeAuthTokensTokenSecret"
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         useRoundRobinDns:
@@ -33210,7 +33216,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -33269,7 +33275,7 @@ components:
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -33500,7 +33506,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -33778,7 +33784,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -33962,7 +33968,7 @@ components:
           title: URL
           description: "URL of the ClickHouse instance. Example: http://localhost:8123/"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptions1"
+          $ref: "#/components/schemas/AuthenticationTypeOptionsBasicCredentialsSecret"
         database:
           type: string
           title: ClickHouse database
@@ -33998,7 +34004,7 @@ components:
           title: Async inserts
           description: Collect data into batches for later processing. Disable to write to a ClickHouse table immediately.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType1"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
         concurrency:
           type: number
           title: Request concurrency
@@ -34224,7 +34230,7 @@ components:
           title: URL
           description: "URL of the database instance. Example: http://localhost:8123/"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptions1"
+          $ref: "#/components/schemas/AuthenticationTypeOptionsBasicCredentialsSecret"
         database:
           type: string
           title: Database
@@ -34260,7 +34266,7 @@ components:
           title: Async inserts
           description: Collect data into batches for later processing. Disable to write to a table immediately.
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideType1"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPathExtended"
         concurrency:
           type: number
           title: Request concurrency
@@ -35040,11 +35046,11 @@ components:
           title: Endpoint
           description: The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)
         otlpVersion:
-          $ref: "#/components/schemas/OtlpVersionOptions1"
+          $ref: "#/components/schemas/OtlpVersionOptions131"
         compress:
-          $ref: "#/components/schemas/CompressionOptions4"
+          $ref: "#/components/schemas/CompressionOptionsDeflateGzip"
         httpCompress:
-          $ref: "#/components/schemas/CompressionOptions5"
+          $ref: "#/components/schemas/CompressionOptionsMessages"
         httpTracesEndpointOverride:
           type: string
           title: Traces endpoint override
@@ -35789,7 +35795,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -35839,7 +35845,7 @@ components:
           type: string
           title: Description
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -36028,7 +36034,7 @@ components:
               type: boolean
               title: Disabled
             mechanism:
-              $ref: "#/components/schemas/SaslMechanismOptionsSasl1"
+              $ref: "#/components/schemas/SaslMechanismOptionsSaslOauthbearerPlain"
             username:
               type: string
               title: SASL JASS username
@@ -36210,9 +36216,9 @@ components:
           title: Key prefix
           description: Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks.
         signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptions5"
+          $ref: "#/components/schemas/SignatureVersionOptionsMinIo"
         storageClass:
-          $ref: "#/components/schemas/StorageClassOptions2"
+          $ref: "#/components/schemas/StorageClassOptionsReducedredundancyStandard"
         serverSideEncryption:
           $ref: "#/components/schemas/ServerSideEncryptionOptions"
         reuseConnections:
@@ -36268,7 +36274,7 @@ components:
           maximum: 4096
           minimum: 16
         onBackpressure:
-          $ref: "#/components/schemas/BackpressureBehaviorOptions1"
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
         deadletterEnabled:
           type: boolean
           title: Enable dead-lettering
@@ -36307,7 +36313,7 @@ components:
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
         compress:
-          $ref: "#/components/schemas/CompressionOptions2"
+          $ref: "#/components/schemas/CompressionOptionsHttp"
         compressionLevel:
           $ref: "#/components/schemas/CompressionLevelOptions"
         automaticSchema:
@@ -36605,7 +36611,7 @@ components:
         collector:
           $ref: "#/components/schemas/Collector"
         input:
-          $ref: "#/components/schemas/TypeCollectionWithBreakerRulesetsConstraint"
+          $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint"
         run:
           type: object
           required:
@@ -37371,7 +37377,7 @@ components:
         collector:
           $ref: "#/components/schemas/Collector"
         input:
-          $ref: "#/components/schemas/TypeCollectionWithBreakerRulesetsConstraint"
+          $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint"
       type: object
     SavedJobExecutor:
       required:
@@ -39614,7 +39620,7 @@ components:
           type: string
           title: Value
           description: JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)
-    AuthTypeKafkaSchemaRegistry:
+    AuthType:
       type: object
       description: Credentials to use when authenticating with the schema registry using basic HTTP authentication
       required:
@@ -39627,7 +39633,7 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
-    MinimumTlsVersionOptionsKafkaSchemaRegistryTls:
+    MinimumTlsVersionOptionsTls:
       type: string
       title: Minimum TLS version
       enum:
@@ -39636,7 +39642,7 @@ components:
         - TLSv1.2
         - TLSv1.3
       x-speakeasy-unknown-values: allow
-    MaximumTlsVersionOptionsKafkaSchemaRegistryTls:
+    MaximumTlsVersionOptionsTls:
       type: string
       title: Maximum TLS version
       enum:
@@ -39788,7 +39794,7 @@ components:
           items:
             type: string
             minLength: 1
-    SignatureVersionOptions1:
+    SignatureVersionOptionsV2V4:
       type: string
       title: Signature version
       description: Signature version to use for signing EC2 requests
@@ -39837,7 +39843,7 @@ components:
         - debug
       description: Collector runtime Log Level
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions1:
+    AuthenticationMethodOptionsManualSecret:
       title: Authentication method
       type: string
       enum:
@@ -39845,7 +39851,7 @@ components:
         - secret
       description: Enter client secret directly, or select a stored secret
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptionsSasl1:
+    AuthenticationMethodOptionsSaslManualSecret:
       enum:
         - manual
         - secret
@@ -39853,7 +39859,7 @@ components:
       type: string
       description: Enter password directly, or select a stored secret
       x-speakeasy-unknown-values: allow
-    SaslMechanismOptionsSasl1:
+    SaslMechanismOptionsSaslOauthbearerPlain:
       enum:
         - plain
         - oauthbearer
@@ -39863,7 +39869,7 @@ components:
         - OAUTHBEARER
       title: SASL mechanism
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptionsSasl2:
+    AuthenticationMethodOptionsSaslCertificateManual:
       enum:
         - manual
         - secret
@@ -39991,7 +39997,7 @@ components:
         - false
         - true
       x-speakeasy-unknown-values: allow
-    SignatureVersionOptions2:
+    SignatureVersionOptionsKinesis:
       type: string
       title: Signature version
       description: Signature version to use for signing Kinesis stream requests
@@ -40016,7 +40022,7 @@ components:
         - Token
         - Token (text secret)
       x-speakeasy-unknown-values: allow
-    SignatureVersionOptions3:
+    SignatureVersionOptionsSqs:
       type: string
       title: Signature version
       description: Signature version to use for signing SQS requests
@@ -40190,7 +40196,7 @@ components:
         - Automatic
         - Always
       x-speakeasy-unknown-values: allow
-    CompressionOptions1:
+    CompressionOptionsGzipNone:
       type: string
       enum:
         - none
@@ -40214,7 +40220,7 @@ components:
         - Raw
         - Parquet
       x-speakeasy-unknown-values: allow
-    BackpressureBehaviorOptions1:
+    BackpressureBehaviorOptionsBlockDrop:
       type: string
       title: Backpressure behavior
       description: How to handle events when all receivers are exerting backpressure
@@ -40259,7 +40265,7 @@ components:
           type: number
           title: Jitter (%)
           description: "Random jitter percentage added to backoff delay to prevent thundering herd. Valid range: 0-100. Values outside this range will be clamped to the nearest valid value."
-    CompressionOptions2:
+    CompressionOptionsHttp:
       type: string
       title: Compression
       description: Data compression format to apply to HTTP content before it is delivered
@@ -40370,7 +40376,7 @@ components:
         - Amazon S3 Managed Key
         - AWS KMS Managed Key
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions2:
+    AuthenticationMethodOptionsApi:
       title: Authentication method
       type: string
       enum:
@@ -40406,7 +40412,7 @@ components:
         - JSON
         - Field _raw
       x-speakeasy-unknown-values: allow
-    SignatureVersionOptions4:
+    SignatureVersionOptionsGoogle:
       type: string
       title: Signature version
       description: Signature version to use for signing Google Cloud Storage requests
@@ -40414,7 +40420,7 @@ components:
         - v2
         - v4
       x-speakeasy-unknown-values: allow
-    ObjectAclOptions1:
+    ObjectAclOptionsAuthenticatedreadBucketownerfullcontrol:
       type: string
       title: Object ACL
       description: Object ACL to assign to uploaded objects
@@ -40433,7 +40439,7 @@ components:
         - authenticated-read
         - public-read
       x-speakeasy-unknown-values: allow
-    StorageClassOptions1:
+    StorageClassOptionsArchiveColdline:
       type: string
       title: Storage class
       description: Storage class to select for uploaded objects
@@ -40462,7 +40468,7 @@ components:
           type: string
           title: Value
           description: JavaScript expression to compute the label's value.
-    AcknowledgmentsOptions1:
+    AcknowledgmentsOptionsAllLeader:
       type: integer
       title: Acknowledgments
       description: Control the number of required acknowledgments.
@@ -40479,7 +40485,7 @@ components:
         - Leader
         - None
         - All
-    RecordDataFormatOptions1:
+    RecordDataFormatOptionsJsonProtobuf:
       type: string
       enum:
         - json
@@ -40492,7 +40498,7 @@ components:
         - Field _raw
         - Protobuf
       x-speakeasy-unknown-values: allow
-    CompressionOptions3:
+    CompressionOptionsGzipLz4:
       type: string
       enum:
         - none
@@ -40532,7 +40538,7 @@ components:
         - Europe
         - Custom
       x-speakeasy-unknown-values: allow
-    SignatureVersionOptions5:
+    SignatureVersionOptionsMinIo:
       type: string
       title: Signature version
       description: Signature version to use for signing MinIO requests
@@ -40540,7 +40546,7 @@ components:
         - v2
         - v4
       x-speakeasy-unknown-values: allow
-    StorageClassOptions2:
+    StorageClassOptionsReducedredundancyStandard:
       type: string
       title: Storage class
       description: Storage class to select for uploaded objects
@@ -40582,7 +40588,7 @@ components:
         - Protobuf
         - JSON
       x-speakeasy-unknown-values: allow
-    AuthenticationTypeOptionsPrometheusAuth1:
+    AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret:
       type: string
       title: Authentication type
       enum:
@@ -40609,7 +40615,7 @@ components:
         - gRPC
         - HTTP
       x-speakeasy-unknown-values: allow
-    CompressionOptions4:
+    CompressionOptionsDeflateGzip:
       type: string
       title: Compression
       description: Type of compression to apply to messages sent to the OpenTelemetry endpoint
@@ -40622,7 +40628,7 @@ components:
         - Deflate
         - Gzip
       x-speakeasy-unknown-values: allow
-    CompressionOptions5:
+    CompressionOptionsMessages:
       type: string
       title: Compression
       description: Type of compression to apply to messages sent to the OpenTelemetry endpoint
@@ -40633,7 +40639,7 @@ components:
         - None
         - Gzip
       x-speakeasy-unknown-values: allow
-    OtlpVersionOptions1:
+    OtlpVersionOptions131:
       type: string
       title: OTLP version
       description: The version of OTLP Protobuf definitions to use when structuring data to send
@@ -40642,7 +40648,7 @@ components:
       x-speakeasy-enum-descriptions:
         - 1.3.1
       x-speakeasy-unknown-values: allow
-    ItemsTypeAuthTokens1:
+    ItemsTypeAuthTokensTokenSecret:
       type: object
       required:
         - tokenSecret
@@ -40700,7 +40706,7 @@ components:
         - parquet
         - ddss
       x-speakeasy-unknown-values: allow
-    AuthenticationTypeOptions1:
+    AuthenticationTypeOptionsBasicCredentialsSecret:
       type: string
       title: Authentication type
       description: ""
@@ -40723,7 +40729,7 @@ components:
         - executor
         - scheduledSearch
       x-speakeasy-unknown-values: allow
-    TypeCollectionConstraint:
+    RunnableJobCollectionTypeCollectionConstraint:
       type: object
       properties:
         type:
@@ -41126,7 +41132,7 @@ components:
         pqControls:
           type: object
           title: ""
-    TlsSettingsClientSideTypeKafkaSchemaRegistry:
+    TlsSettingsClientSideTypeCaPathCertPath:
       type: object
       title: TLS settings (client side)
       properties:
@@ -41162,9 +41168,9 @@ components:
           title: Passphrase
           description: Passphrase to use to decrypt private key
         minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
         maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
     AuthenticationType:
       type: object
       title: Authentication
@@ -41271,9 +41277,9 @@ components:
           title: CA certificate path
           description: Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS.
         minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
         maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
     ItemsTypeAuthTokensExt:
       type: object
       required:
@@ -41361,7 +41367,7 @@ components:
           pattern: \d+[smhd]$
         compress:
           $ref: "#/components/schemas/CompressionOptionsPersistence"
-    RetryRulesType1:
+    RetryRulesTypeCodesEnableHeader:
       type: object
       required:
         - type
@@ -41406,7 +41412,7 @@ components:
           type: boolean
           title: Retry connection reset
           description: Retry request when a connection reset (ECONNRESET) error occurs
-    AuthenticationType1:
+    AuthenticationTypeUse:
       type: object
       title: Authentication
       description: Authentication parameters to use when connecting to brokers. Using TLS is highly recommended.
@@ -41417,7 +41423,7 @@ components:
           type: boolean
           title: Disabled
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsSasl1"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsSaslManualSecret"
         password:
           type: string
           title: Password
@@ -41427,13 +41433,13 @@ components:
           title: Password (text secret)
           description: Select or create a stored text secret
         mechanism:
-          $ref: "#/components/schemas/SaslMechanismOptionsSasl1"
+          $ref: "#/components/schemas/SaslMechanismOptionsSaslOauthbearerPlain"
         username:
           type: string
           title: Username
           description: The username for authentication. For Event Hubs, this should always be $ConnectionString.
         clientSecretAuthType:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsSasl2"
+          $ref: "#/components/schemas/AuthenticationMethodOptionsSaslCertificateManual"
         clientSecret:
           type: string
           title: Client secret
@@ -41475,7 +41481,7 @@ components:
           description: Configure sets to collect process metrics
           items:
             $ref: "#/components/schemas/ItemsTypeProcessSets"
-    TlsSettingsClientSideType1:
+    TlsSettingsClientSideTypeCaPathCertPathExtended:
       type: object
       title: TLS settings (client side)
       properties:
@@ -41507,9 +41513,9 @@ components:
           title: Passphrase
           description: Passphrase to use to decrypt private key
         minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
         maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
     ItemsTypeHosts:
       type: object
       required:
@@ -41542,7 +41548,7 @@ components:
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
-    AuthType:
+    AuthTypeAuthTypeCredentialsSecret:
       type: object
       required:
         - disabled
@@ -41574,7 +41580,7 @@ components:
       type: object
       properties:
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuth1"
+          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret"
         token:
           type: string
           title: Auth token
@@ -41595,7 +41601,7 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
-    TlsSettingsClientSideType2:
+    TlsSettingsClientSideTypeExtended:
       type: object
       title: TLS settings (client side)
       properties:
@@ -41627,10 +41633,10 @@ components:
           title: Passphrase
           description: Passphrase to use to decrypt private key
         minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsKafkaSchemaRegistryTls"
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
         maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsKafkaSchemaRegistryTls"
-    RunnableJobCollectionPart1TypeScheduleRun:
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
+    RunnableJobCollectionScheduleRunType:
       type: object
       required:
         - mode
@@ -41691,7 +41697,7 @@ components:
 
                     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
           pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
-    TypeCollectionWithBreakerRulesetsConstraint:
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint:
       type: object
       properties:
         type:
@@ -41881,10 +41887,10 @@ components:
           minimum: 0
           maximum: 100
         auth:
-          $ref: "#/components/schemas/AuthTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/AuthType"
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
-    KafkaSchemaRegistryAuthenticationType1:
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout:
       type: object
       title: Kafka Schema Registry Authentication
       required:
@@ -41916,9 +41922,9 @@ components:
           minimum: 0
           maximum: 100
         auth:
-          $ref: "#/components/schemas/AuthTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/AuthType"
         tls:
-          $ref: "#/components/schemas/TlsSettingsClientSideTypeKafkaSchemaRegistry"
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
         defaultKeySchemaId:
           type: number
           title: Default key schema ID
@@ -41931,8 +41937,8 @@ components:
       type: object
       title: Run settings
       allOf:
-        - $ref: "#/components/schemas/TypeCollectionConstraint"
-        - $ref: "#/components/schemas/RunnableJobCollectionPart1TypeScheduleRun"
+        - $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionConstraint"
+        - $ref: "#/components/schemas/RunnableJobCollectionScheduleRunType"
     StatusType:
       type: object
       properties:
@@ -41962,8 +41968,8 @@ components:
       type: object
       title: Run settings
       allOf:
-        - $ref: "#/components/schemas/TypeCollectionConstraint"
-        - $ref: "#/components/schemas/RunnableJobCollectionPart1TypeScheduleRun"
+        - $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionConstraint"
+        - $ref: "#/components/schemas/RunnableJobCollectionScheduleRunType"
     ScheduleTypeRunnableJobCollection:
       type: object
       title: Schedule

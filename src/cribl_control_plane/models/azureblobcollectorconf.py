@@ -77,6 +77,10 @@ class AzureBlobAuthTypeClientCertTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    template_container_name: NotRequired[str]
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+    template_path: NotRequired[str]
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
 
 
 class AzureBlobAuthTypeClientCert(BaseModel):
@@ -143,6 +147,16 @@ class AzureBlobAuthTypeClientCert(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    template_container_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_containerName")
+    ] = None
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+
+    template_path: Annotated[Optional[str], pydantic.Field(alias="__template_path")] = (
+        None
+    )
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -168,6 +182,8 @@ class AzureBlobAuthTypeClientCert(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "__template_containerName",
+                "__template_path",
             ]
         )
         serialized = handler(self)
@@ -245,6 +261,10 @@ class AzureBlobAuthTypeClientSecretTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    template_container_name: NotRequired[str]
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+    template_path: NotRequired[str]
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
 
 
 class AzureBlobAuthTypeClientSecret(BaseModel):
@@ -312,6 +332,16 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    template_container_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_containerName")
+    ] = None
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+
+    template_path: Annotated[Optional[str], pydantic.Field(alias="__template_path")] = (
+        None
+    )
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -337,6 +367,8 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "__template_containerName",
+                "__template_path",
             ]
         )
         serialized = handler(self)
@@ -404,6 +436,10 @@ class AzureBlobAuthTypeSecretTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    template_container_name: NotRequired[str]
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+    template_path: NotRequired[str]
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
 
 
 class AzureBlobAuthTypeSecret(BaseModel):
@@ -454,6 +490,16 @@ class AzureBlobAuthTypeSecret(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    template_container_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_containerName")
+    ] = None
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+
+    template_path: Annotated[Optional[str], pydantic.Field(alias="__template_path")] = (
+        None
+    )
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -477,6 +523,8 @@ class AzureBlobAuthTypeSecret(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "__template_containerName",
+                "__template_path",
             ]
         )
         serialized = handler(self)
@@ -544,6 +592,10 @@ class AzureBlobAuthTypeManualTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    template_container_name: NotRequired[str]
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+    template_path: NotRequired[str]
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
 
 
 class AzureBlobAuthTypeManual(BaseModel):
@@ -594,6 +646,16 @@ class AzureBlobAuthTypeManual(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    template_container_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_containerName")
+    ] = None
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+
+    template_path: Annotated[Optional[str], pydantic.Field(alias="__template_path")] = (
+        None
+    )
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -617,6 +679,8 @@ class AzureBlobAuthTypeManual(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "__template_containerName",
+                "__template_path",
             ]
         )
         serialized = handler(self)

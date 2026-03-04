@@ -8,7 +8,7 @@ from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .signatureversionoptions2 import SignatureVersionOptions2
+from .signatureversionoptionskinesis import SignatureVersionOptionsKinesis
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -60,7 +60,7 @@ class OutputKinesisTypedDict(TypedDict):
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions2]
+    signature_version: NotRequired[SignatureVersionOptionsKinesis]
     r"""Signature version to use for signing Kinesis stream requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -171,7 +171,8 @@ class OutputKinesis(BaseModel):
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions2], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsKinesis],
+        pydantic.Field(alias="signatureVersion"),
     ] = None
     r"""Signature version to use for signing Kinesis stream requests"""
 
@@ -342,7 +343,7 @@ class OutputKinesis(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions2(value)
+                return models.SignatureVersionOptionsKinesis(value)
             except ValueError:
                 return value
         return value

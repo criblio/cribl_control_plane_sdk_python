@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
-from .compressionoptions1 import CompressionOptions1
+from .compressionoptionsgzipnone import CompressionOptionsGzipNone
 from .compressionoptionspq import CompressionOptionsPq
 from .itemstypeauthtokens import ItemsTypeAuthTokens, ItemsTypeAuthTokensTypedDict
 from .itemstypehosts import ItemsTypeHosts, ItemsTypeHostsTypedDict
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -47,13 +47,13 @@ class OutputCriblTCPTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     load_balanced: NotRequired[bool]
     r"""Use load-balanced destinations"""
-    compression: NotRequired[CompressionOptions1]
+    compression: NotRequired[CompressionOptionsGzipNone]
     r"""Codec to use to compress the data before sending"""
     log_failed_requests: NotRequired[bool]
     r"""Use to troubleshoot issues with sending data"""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     connection_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
@@ -135,7 +135,7 @@ class OutputCriblTCP(BaseModel):
     )
     r"""Use load-balanced destinations"""
 
-    compression: Optional[CompressionOptions1] = None
+    compression: Optional[CompressionOptionsGzipNone] = None
     r"""Codec to use to compress the data before sending"""
 
     log_failed_requests: Annotated[
@@ -148,7 +148,7 @@ class OutputCriblTCP(BaseModel):
     ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -276,7 +276,7 @@ class OutputCriblTCP(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions1(value)
+                return models.CompressionOptionsGzipNone(value)
             except ValueError:
                 return value
         return value

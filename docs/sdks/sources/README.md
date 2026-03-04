@@ -3616,7 +3616,7 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Source to update.                        |
-| `input`                                                             | [models.InputUnion2](../../models/inputunion2.md)                   | :heavy_check_mark:                                                  | Input object                                                        |
+| `input`                                                             | [models.Input2](../../models/input2.md)                             | :heavy_check_mark:                                                  | Input object                                                        |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

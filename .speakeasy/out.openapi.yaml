@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1772533606178-6edbcec7
+  version: 4.18.0-alpha.1772618007548-6f2977f8
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -3688,7 +3688,19 @@ components:
                 description: List of targets to route to and the templates to use
                 minItems: 1
                 items:
-                  $ref: "#/components/schemas/ItemsTypePoliciesItemsTemplateTargetPairs"
+                  type: object
+                  required:
+                    - templateId
+                    - targetId
+                  properties:
+                    templateId:
+                      type: string
+                      title: Template ID
+                      description: ID of the notification template to use
+                    targetId:
+                      type: string
+                      title: Target ID
+                      description: ID of the notification target (output)
               final:
                 type: boolean
                 title: Final
@@ -8999,6 +9011,12 @@ components:
           description: The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
           maximum: 3600
           minimum: 1
+        __template_containerName:
+          type: string
+          description: Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime.
+        __template_path:
+          type: string
+          description: Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/AzureBlobAuthTypeManual"
@@ -22205,8 +22223,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -22232,6 +22250,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -22569,8 +22592,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -22596,6 +22619,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -22899,8 +22927,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -22926,6 +22954,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -23039,8 +23072,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -23066,6 +23099,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -23267,8 +23305,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -23294,6 +23332,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -23491,8 +23534,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -23518,6 +23561,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -23665,8 +23713,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -23692,6 +23740,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -23840,8 +23893,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -23867,6 +23920,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -24018,8 +24076,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -24045,6 +24103,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -24180,8 +24243,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -24207,6 +24270,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -25368,8 +25436,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -25395,6 +25463,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -25563,8 +25636,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -25590,6 +25663,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -25760,8 +25838,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -25787,6 +25865,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -25932,8 +26015,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -25959,6 +26042,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -26106,8 +26194,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -26133,6 +26221,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -26363,8 +26456,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -26390,6 +26483,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -26934,8 +27032,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -26961,6 +27059,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -27075,8 +27178,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -27102,6 +27205,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -27423,8 +27531,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -27450,6 +27558,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -27604,8 +27717,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -27631,6 +27744,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -27836,8 +27954,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -27863,6 +27981,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -28098,8 +28221,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -28125,6 +28248,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -28270,8 +28398,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -28297,6 +28425,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -28459,8 +28592,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -28486,6 +28619,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -28638,8 +28776,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -28665,6 +28803,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -28875,8 +29018,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -28902,6 +29045,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -29059,8 +29207,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -29086,6 +29234,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -29451,8 +29604,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -29478,6 +29631,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -29576,8 +29734,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -29603,6 +29761,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -29701,8 +29864,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -29728,6 +29891,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -29917,8 +30085,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -29944,6 +30112,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -30114,8 +30287,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -30141,6 +30314,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -30381,8 +30559,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -30408,6 +30586,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -30627,8 +30810,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -30654,6 +30837,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -30813,8 +31001,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -30840,6 +31028,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -31023,8 +31216,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -31050,6 +31243,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -31186,8 +31384,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -31213,6 +31411,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -31487,8 +31690,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -31514,6 +31717,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -31682,8 +31890,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -31709,6 +31917,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -31889,8 +32102,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -31916,6 +32129,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -32060,8 +32278,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -32087,6 +32305,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -32267,8 +32490,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -32294,6 +32517,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -32471,8 +32699,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -32498,6 +32726,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -32642,8 +32875,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -32669,6 +32902,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -32810,8 +33048,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -32837,6 +33075,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -33914,8 +34157,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -33941,6 +34184,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -34188,8 +34436,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -34215,6 +34463,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -34401,8 +34654,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -34428,6 +34681,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -34689,8 +34947,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -34716,6 +34974,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -34925,8 +35188,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -34952,6 +35215,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -35162,8 +35430,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -35189,6 +35457,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -35388,8 +35661,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -35415,6 +35688,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -35836,8 +36114,8 @@ components:
           $ref: "#/components/schemas/ModeOptions"
         pqMaxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead.
           minimum: 42
           maximum: 1000
         pqMaxBackpressureSec:
@@ -35863,6 +36141,11 @@ components:
           $ref: "#/components/schemas/CompressionOptionsPq"
         pqOnBackpressure:
           $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
           title: ""
@@ -36340,7 +36623,50 @@ components:
         collector:
           $ref: "#/components/schemas/Collector"
         input:
-          $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint"
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - collection
+              x-speakeasy-unknown-values: allow
+            breakerRulesets:
+              type: array
+              title: Event Breaker rulesets
+              description: A list of event-breaking rulesets that will be applied, in order, to the input data stream
+              items:
+                type: string
+            staleChannelFlushMs:
+              type: number
+              title: Event Breaker buffer timeout (ms)
+              description: How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
+              minimum: 10
+              maximum: 4.32e+07
+            sendToRoutes:
+              type: boolean
+              title: Send to Routes
+              description: Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination.
+            preprocess:
+              $ref: "#/components/schemas/PreprocessType"
+            throttleRatePerSec:
+              type: string
+              title: Throttling
+              description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
+              pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
+            metadata:
+              type: array
+              title: Fields
+              description: Fields to add to events from this input
+              items:
+                $ref: "#/components/schemas/ItemsTypeMetadata"
+            pipeline:
+              type: string
+              title: Pipeline
+              description: Pipeline to process results
+            output:
+              type: string
+              title: Destination
+              description: Destination to send results to
         run:
           type: object
           required:
@@ -36503,7 +36829,22 @@ components:
           items:
             type: string
         executor:
-          $ref: "#/components/schemas/ExecutorTypeRunnableJobExecutor"
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              title: Executor type
+              description: The type of executor to run
+            storeTaskResults:
+              type: boolean
+              title: Store task results
+              description: Determines whether or not to write task results to disk
+            conf:
+              type: object
+              title: Executor-specific settings
+              properties: {}
         run:
           type: object
           properties:
@@ -37050,175 +37391,252 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/SavedJob"
-    SavedJobCollection:
+    NotificationMode:
+      type: string
+      enum:
+        - direct
+        - policy
+      x-speakeasy-unknown-values: allow
+    NotificationTargetConfig:
+      type: object
       required:
-        - collector
-        - type
+        - id
       properties:
         id:
           type: string
-          title: Job ID
+          title: Notification target ID
           pattern: ^[a-zA-Z0-9_-]+$
-          description: Unique ID for this Job
-        description:
-          type: string
-          title: Description
-        type:
-          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
-        ttl:
-          type: string
-          title: Time to live
-          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
-          pattern: \d+[smh]$
-        ignoreGroupJobsLimit:
-          type: boolean
-          title: Ignore Worker Group job limits
-          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
-        removeFields:
-          type: array
-          title: Remove Discover fields
-          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
-          minItems: 0
-          items:
-            type: string
-            title: Items
-            description: List of fields to remove from Discover results
-        resumeOnBoot:
-          type: boolean
-          title: Resume job on boot
-          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
-        environment:
-          type: string
-          title: Environment
-          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-        schedule:
-          $ref: "#/components/schemas/ScheduleTypeSavedJobCollection"
-        streamtags:
-          type: array
-          title: Tags
-          description: Tags for filtering and grouping in @{product}
-          items:
-            type: string
-        workerAffinity:
-          type: boolean
-          title: Worker affinity
-          description: If enabled, tasks are created and run by the same Worker Node
-        collector:
-          $ref: "#/components/schemas/Collector"
-        input:
-          $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint"
+      anyOf:
+        - properties:
+            conf:
+              type: object
+              title: Notification config for SMTP target
+              properties:
+                subject:
+                  type: string
+                  title: Subject
+                  description: Email subject
+                body:
+                  type: string
+                  title: Message
+                  description: Email body
+                emailRecipient:
+                  type: object
+                  required:
+                    - to
+                  properties:
+                    to:
+                      type: string
+                      title: To
+                      description: Recipients' email addresses
+                    cc:
+                      type: string
+                      title: Cc
+                      description: "Cc: Recipients' email addresses"
+                    bcc:
+                      type: string
+                      title: Bcc
+                      description: "Bcc: Recipients' email addresses"
+    NotificationTargetDetails:
       type: object
-    SavedJobExecutor:
-      required:
-        - executor
-        - type
       properties:
         id:
           type: string
-          title: Job ID
-          pattern: ^[a-zA-Z0-9_-]+$
-          description: Unique ID for this Job
-        description:
-          type: string
-          title: Description
         type:
-          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
-        ttl:
           type: string
-          title: Time to live
-          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
-          pattern: \d+[smh]$
-        ignoreGroupJobsLimit:
-          type: boolean
-          title: Ignore Worker Group job limits
-          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
-        removeFields:
-          type: array
-          title: Remove Discover fields
-          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
-          minItems: 0
-          items:
-            type: string
-            title: Items
-            description: List of fields to remove from Discover results
-        resumeOnBoot:
-          type: boolean
-          title: Resume job on boot
-          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
-        environment:
-          type: string
-          title: Environment
-          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-        schedule:
-          $ref: "#/components/schemas/ScheduleTypeSavedJobCollection"
-        streamtags:
-          type: array
-          title: Tags
-          description: Tags for filtering and grouping in @{product}
-          items:
-            type: string
-        executor:
-          $ref: "#/components/schemas/ExecutorTypeRunnableJobExecutor"
-      type: object
-    SavedJobScheduledSearch:
       required:
-        - savedQueryId
+        - id
         - type
+    Notification:
+      type: object
       properties:
+        condition:
+          type: string
+          description: Expression that triggers the notification.
+        conf:
+          type: object
+          additionalProperties: true
+          description: Condition-specific configs.
+        disabled:
+          type: boolean
+          description: Disable the notification.
+        group:
+          type: string
+          description: Worker group or context.
         id:
           type: string
-          title: Job ID
-          pattern: ^[a-zA-Z0-9_-]+$
-          description: Unique ID for this Job
-        description:
-          type: string
-          title: Description
-        type:
-          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
-        ttl:
-          type: string
-          title: Time to live
-          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
-          pattern: \d+[smh]$
-        ignoreGroupJobsLimit:
-          type: boolean
-          title: Ignore Worker Group job limits
-          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
-        removeFields:
+        metadata:
           type: array
-          title: Remove Discover fields
-          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
-          minItems: 0
+          description: Metadata fields.
+        mode:
+          $ref: "#/components/schemas/NotificationMode"
+          description: Direct or policy-based mode.
+        targetConfigs:
+          type: array
+          items:
+            $ref: "#/components/schemas/NotificationTargetConfig"
+          description: Target configuration.
+        targetDetails:
+          type: array
+          items:
+            $ref: "#/components/schemas/NotificationTargetDetails"
+        targets:
+          type: array
           items:
             type: string
-            title: Items
-            description: List of fields to remove from Discover results
-        resumeOnBoot:
-          type: boolean
-          title: Resume job on boot
-          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
-        environment:
-          type: string
-          title: Environment
-          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-        schedule:
-          $ref: "#/components/schemas/ScheduleTypeSavedJobCollection"
-        streamtags:
+          description: Notification targets.
+        templateTargetPairs:
           type: array
-          title: Tags
-          description: Tags for filtering and grouping in @{product}
           items:
-            type: string
-        savedQueryId:
-          type: string
-          title: ID of the SavedQuery
-          description: Identifies which search query to run
+            type: object
+            properties:
+              targetId:
+                type: string
+                description: Notification target ID.
+              templateId:
+                type: string
+                description: Notification template ID.
+            required:
+              - targetId
+              - templateId
+          description: Template and target pairs for routing.
+      required:
+        - condition
+        - conf
+        - id
+        - targets
+    CollectionStateEntry:
       type: object
+      additionalProperties:
+        type: object
+        properties:
+          data:
+            type: object
+            additionalProperties: true
+        required:
+          - data
+    RunType:
+      type: string
+      enum:
+        - adhoc
+        - scheduled
+        - system
+      x-speakeasy-unknown-values: allow
+    RunSettings:
+      type: object
+      additionalProperties: true
+      properties:
+        maxTaskReschedule:
+          type: number
+          description: Maximum number of times a task can be rescheduled.
+        now:
+          type: string
+          format: date-time
+        rescheduleDroppedTasks:
+          type: boolean
+          description: Reschedule tasks that failed with non-fatal errors.
+        taskHeartbeatPeriod:
+          type: number
+        type:
+          $ref: "#/components/schemas/RunType"
+          description: "Run type: adhoc, scheduled, or system."
+    ScheduleOpts:
+      type: object
+      properties:
+        cronSchedule:
+          type: string
+          description: A cron schedule on which to run this job.
+        enabled:
+          type: boolean
+          description: Enable to configure scheduling for this Collector.
+        maxConcurrentRuns:
+          type: number
+          description: The maximum number of instances of this scheduled job that may be running at any time.
+        resumeMissed:
+          type: boolean
+          description: If Stream Leader (or single instance) restarts, run all missed jobs according to their original schedules.
+        run:
+          $ref: "#/components/schemas/RunSettings"
+          description: Run settings.
+        runBuffer:
+          type: number
+          description: Minimum buffer in milliseconds between consecutive runs.
+        skippable:
+          type: boolean
+          description: Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits.
+        tz:
+          type: string
+          description: IANA timezone for the cron schedule (e.g., America/New_York, UTC).
+      required:
+        - enabled
+        - run
     SavedJob:
-      oneOf:
-        - $ref: "#/components/schemas/SavedJobCollection"
-        - $ref: "#/components/schemas/SavedJobExecutor"
-        - $ref: "#/components/schemas/SavedJobScheduledSearch"
+      type: object
+      additionalProperties: true
+      properties:
+        environment:
+          type: string
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        groupId:
+          type: string
+          description: Worker Group ID to run the job in. When empty, uses the default group.
+        id:
+          type: string
+        ignoreGroupJobsLimit:
+          type: boolean
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        notifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Notification"
+          description: Notification targets.
+        resumeOnBoot:
+          type: boolean
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution.
+        savedState:
+          $ref: "#/components/schemas/CollectionStateEntry"
+          description: Runtime collection state.
+        schedule:
+          $ref: "#/components/schemas/ScheduleOpts"
+          description: Configuration for a scheduled job.
+        ttl:
+          type: string
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+        type:
+          type: string
+          description: "Job type: collection, executor, or scheduledSearch."
+      required:
+        - id
+        - type
+    SavedJobCreateUpdate:
+      type: object
+      properties:
+        environment:
+          type: string
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        groupId:
+          type: string
+          description: Worker Group ID to run the job in. When empty, uses the default group.
+        id:
+          type: string
+        ignoreGroupJobsLimit:
+          type: boolean
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        resumeOnBoot:
+          type: boolean
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution.
+        schedule:
+          $ref: "#/components/schemas/ScheduleOpts"
+          description: Configuration for a scheduled job.
+        ttl:
+          type: string
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+        type:
+          type: string
+          description: "Job type: collection, executor, or scheduledSearch."
+      required:
+        - id
+        - type
     CloudProvider:
       type:
         - string
@@ -39076,20 +39494,6 @@ components:
           type: string
           title: Value Expression
           description: JavaScript expression to compute the value (can be constant)
-    ItemsTypePoliciesItemsTemplateTargetPairs:
-      type: object
-      required:
-        - templateId
-        - targetId
-      properties:
-        templateId:
-          type: string
-          title: Template ID
-          description: ID of the notification template to use
-        targetId:
-          type: string
-          title: Target ID
-          description: ID of the notification target (output)
     OtlpVersionOptions:
       type: string
       title: OTLP version
@@ -40476,10 +40880,6 @@ components:
         - debug
         - silly
       x-speakeasy-unknown-values: allow
-    ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor:
-      type: object
-      title: Executor-specific settings
-      properties: {}
     AdditionalPropertiesTypeJobInfoStats:
       oneOf:
         - type: number
@@ -40827,10 +41227,15 @@ components:
       properties:
         mode:
           $ref: "#/components/schemas/ModeOptionsPq"
+        maxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
         maxBufferSize:
           type: number
-          title: Buffer size limit
-          description: The maximum number of events to hold in memory before writing the events to disk
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use maxBufferSizeBytes instead.
           minimum: 42
         commitFrequency:
           type: number
@@ -41421,66 +41826,6 @@ components:
 
                     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
           pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
-    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - collection
-          x-speakeasy-unknown-values: allow
-        breakerRulesets:
-          type: array
-          title: Event Breaker rulesets
-          description: A list of event-breaking rulesets that will be applied, in order, to the input data stream
-          items:
-            type: string
-        staleChannelFlushMs:
-          type: number
-          title: Event Breaker buffer timeout (ms)
-          description: How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
-          minimum: 10
-          maximum: 4.32e+07
-        sendToRoutes:
-          type: boolean
-          title: Send to Routes
-          description: Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination.
-        preprocess:
-          $ref: "#/components/schemas/PreprocessType"
-        throttleRatePerSec:
-          type: string
-          title: Throttling
-          description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
-          pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
-        metadata:
-          type: array
-          title: Fields
-          description: Fields to add to events from this input
-          items:
-            $ref: "#/components/schemas/ItemsTypeMetadata"
-        pipeline:
-          type: string
-          title: Pipeline
-          description: Pipeline to process results
-        output:
-          type: string
-          title: Destination
-          description: Destination to send results to
-    ExecutorTypeRunnableJobExecutor:
-      type: object
-      required:
-        - type
-      properties:
-        type:
-          type: string
-          title: Executor type
-          description: The type of executor to run
-        storeTaskResults:
-          type: boolean
-          title: Store task results
-          description: Determines whether or not to write task results to disk
-        conf:
-          $ref: "#/components/schemas/ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor"
     PqTypeStatus:
       type: object
       properties:
@@ -41688,12 +42033,6 @@ components:
         - healthCounts
         - timestamp
       description: Status information for the Source or Destination, aggregated across all Worker Processes.
-    RunSettingsTypeSavedJobCollectionSchedule:
-      type: object
-      title: Run settings
-      allOf:
-        - $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionConstraint"
-        - $ref: "#/components/schemas/RunnableJobCollectionScheduleRunType"
     ScheduleTypeRunnableJobCollection:
       type: object
       title: Schedule
@@ -41722,34 +42061,6 @@ components:
           minimum: 1
         run:
           $ref: "#/components/schemas/RunSettingsTypeRunnableJobCollectionSchedule"
-    ScheduleTypeSavedJobCollection:
-      type: object
-      title: Schedule
-      description: Configuration for a scheduled job
-      properties:
-        enabled:
-          type: boolean
-          title: Enabled
-          description: Enable to configure scheduling for this Collector
-        skippable:
-          type: boolean
-          title: Skippable
-          description: Skippable jobs can be delayed, up to their next run time, if the system is hitting concurrency limits
-        resumeMissed:
-          type: boolean
-          title: Resume missed runs
-          description: If Stream Leader (or single instance) restarts, run all missed jobs according to their original schedules
-        cronSchedule:
-          type: string
-          title: Cron schedule
-          description: A cron schedule on which to run this job
-        maxConcurrentRuns:
-          type: number
-          title: Concurrent run limit
-          description: The maximum number of instances of this scheduled job that may be running at any time
-          minimum: 1
-        run:
-          $ref: "#/components/schemas/RunSettingsTypeSavedJobCollectionSchedule"
   examples:
     DatabaseConnectionExamplesMySQLWithConnectionString:
       summary: MySQL with connection string
@@ -48581,12 +48892,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       requestBody:
-        description: SavedJob object
+        description: SavedJobCreateUpdate object
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SavedJob"
+              $ref: "#/components/schemas/SavedJobCreateUpdate"
             examples:
               CollectorExamplesRest:
                 $ref: "#/components/examples/CollectorExamplesRest"
@@ -48766,12 +49077,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       requestBody:
-        description: SavedJob object
+        description: SavedJobCreateUpdate object
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SavedJob"
+              $ref: "#/components/schemas/SavedJobCreateUpdate"
             examples:
               CollectorExamplesRest:
                 $ref: "#/components/examples/CollectorExamplesRest"

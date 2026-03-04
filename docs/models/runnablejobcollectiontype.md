@@ -1,4 +1,4 @@
-# RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType
+# RunnableJobCollectionType
 
 
 ## Values

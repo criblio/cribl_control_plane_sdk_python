@@ -2,15 +2,13 @@
 
 from __future__ import annotations
 from .collector import Collector, CollectorTypedDict
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
 from .logleveloptionsrunnablejobcollectionschedulerun import (
     LogLevelOptionsRunnableJobCollectionScheduleRun,
 )
 from .metricsstore import MetricsStore, MetricsStoreTypedDict
-from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
-    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
-    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
-)
+from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
 from .scheduletyperunnablejobcollection import (
     ScheduleTypeRunnableJobCollection,
     ScheduleTypeRunnableJobCollectionTypedDict,
@@ -22,6 +20,101 @@ import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
+
+
+class RunnableJobCollectionType(str, Enum, metaclass=utils.OpenEnumMeta):
+    COLLECTION = "collection"
+
+
+class RunnableJobCollectionInputTypedDict(TypedDict):
+    type: NotRequired[RunnableJobCollectionType]
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    send_to_routes: NotRequired[bool]
+    r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
+    preprocess: NotRequired[PreprocessTypeTypedDict]
+    throttle_rate_per_sec: NotRequired[str]
+    r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process results"""
+    output: NotRequired[str]
+    r"""Destination to send results to"""
+
+
+class RunnableJobCollectionInput(BaseModel):
+    type: Optional[RunnableJobCollectionType] = None
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = None
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
+
+    preprocess: Optional[PreprocessType] = None
+
+    throttle_rate_per_sec: Annotated[
+        Optional[str], pydantic.Field(alias="throttleRatePerSec")
+    ] = None
+    r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process results"""
+
+    output: Optional[str] = None
+    r"""Destination to send results to"""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RunnableJobCollectionType(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "type",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "sendToRoutes",
+                "preprocess",
+                "throttleRatePerSec",
+                "metadata",
+                "pipeline",
+                "output",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class RunnableJobCollectionMode(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -280,9 +373,7 @@ class RunnableJobCollectionTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict
-    ]
+    input: NotRequired[RunnableJobCollectionInputTypedDict]
 
 
 class RunnableJobCollection(BaseModel):
@@ -330,9 +421,7 @@ class RunnableJobCollection(BaseModel):
     ] = None
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint
-    ] = None
+    input: Optional[RunnableJobCollectionInput] = None
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -375,6 +464,10 @@ class RunnableJobCollection(BaseModel):
         return m
 
 
+try:
+    RunnableJobCollectionInput.model_rebuild()
+except NameError:
+    pass
 try:
     CaptureSettings.model_rebuild()
 except NameError:

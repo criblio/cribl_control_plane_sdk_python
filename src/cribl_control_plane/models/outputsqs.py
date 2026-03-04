@@ -8,7 +8,7 @@ from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .signatureversionoptions3 import SignatureVersionOptions3
+from .signatureversionoptionssqs import SignatureVersionOptionsSqs
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -68,7 +68,7 @@ class OutputSqsTypedDict(TypedDict):
     r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions3]
+    signature_version: NotRequired[SignatureVersionOptionsSqs]
     r"""Signature version to use for signing SQS requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -191,7 +191,7 @@ class OutputSqs(BaseModel):
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions3], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsSqs], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing SQS requests"""
 
@@ -367,7 +367,7 @@ class OutputSqs(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions3(value)
+                return models.SignatureVersionOptionsSqs(value)
             except ValueError:
                 return value
         return value

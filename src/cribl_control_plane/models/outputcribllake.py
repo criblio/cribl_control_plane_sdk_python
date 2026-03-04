@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .awsauthenticationmethodoptions import AwsAuthenticationMethodOptions
-from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
+from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
 from .formatoptions import FormatOptions
 from .objectacloptions import ObjectACLOptions
@@ -88,7 +88,7 @@ class OutputCriblLakeTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -265,7 +265,8 @@ class OutputCriblLake(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -413,7 +414,7 @@ class OutputCriblLake(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value

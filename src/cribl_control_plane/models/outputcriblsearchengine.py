@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
-from .compressionoptions1 import CompressionOptions1
+from .compressionoptionsgzipnone import CompressionOptionsGzipNone
 from .compressionoptionspq import CompressionOptionsPq
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypeauthtokens1 import ItemsTypeAuthTokens1, ItemsTypeAuthTokens1TypedDict
+from .itemstypeauthtokenstokensecret import (
+    ItemsTypeAuthTokensTokenSecret,
+    ItemsTypeAuthTokensTokenSecretTypedDict,
+)
 from .itemstypeextrahttpheaders import (
     ItemsTypeExtraHTTPHeaders,
     ItemsTypeExtraHTTPHeadersTypedDict,
@@ -21,9 +24,9 @@ from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
 )
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -60,12 +63,12 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     load_balanced: NotRequired[bool]
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     token_ttl_minutes: NotRequired[float]
     r"""The number of minutes before the internally generated authentication token expires. Valid values are between 1 and 60."""
     exclude_fields: NotRequired[List[str]]
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
-    compression: NotRequired[CompressionOptions1]
+    compression: NotRequired[CompressionOptionsGzipNone]
     r"""Codec to use to compress the data before sending"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -95,7 +98,7 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    auth_tokens: NotRequired[List[ItemsTypeAuthTokens1TypedDict]]
+    auth_tokens: NotRequired[List[ItemsTypeAuthTokensTokenSecretTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
@@ -163,7 +166,7 @@ class OutputCriblSearchEngine(BaseModel):
     )
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     token_ttl_minutes: Annotated[
         Optional[float], pydantic.Field(alias="tokenTTLMinutes")
@@ -175,7 +178,7 @@ class OutputCriblSearchEngine(BaseModel):
     ] = None
     r"""Fields to exclude from the event. By default, all internal fields except `__output` are sent. Example: `cribl_pipe`, `c*`. Wildcards supported."""
 
-    compression: Optional[CompressionOptions1] = None
+    compression: Optional[CompressionOptionsGzipNone] = None
     r"""Codec to use to compress the data before sending"""
 
     concurrency: Optional[float] = None
@@ -245,7 +248,8 @@ class OutputCriblSearchEngine(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     auth_tokens: Annotated[
-        Optional[List[ItemsTypeAuthTokens1]], pydantic.Field(alias="authTokens")
+        Optional[List[ItemsTypeAuthTokensTokenSecret]],
+        pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud."""
 
@@ -341,7 +345,7 @@ class OutputCriblSearchEngine(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions1(value)
+                return models.CompressionOptionsGzipNone(value)
             except ValueError:
                 return value
         return value

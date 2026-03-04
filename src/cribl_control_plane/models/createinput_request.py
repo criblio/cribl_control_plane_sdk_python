@@ -2,20 +2,22 @@
 
 from __future__ import annotations
 from .authenticationmethodoptions import AuthenticationMethodOptions
-from .authenticationmethodoptions1 import AuthenticationMethodOptions1
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
+)
+from .authenticationmethodoptionsmanualsecret import (
+    AuthenticationMethodOptionsManualSecret,
 )
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .authenticationmethodoptionssasl import AuthenticationMethodOptionsSasl
 from .authenticationtype import AuthenticationType, AuthenticationTypeTypedDict
-from .authenticationtype1 import AuthenticationType1, AuthenticationType1TypedDict
 from .authenticationtypeoptionslokiauth import AuthenticationTypeOptionsLokiAuth
 from .authenticationtypeoptionsprometheusauth import (
     AuthenticationTypeOptionsPrometheusAuth,
 )
+from .authenticationtypeuse import AuthenticationTypeUse, AuthenticationTypeUseTypedDict
 from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCert,
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
@@ -119,17 +121,20 @@ from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
-from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
+from .retryrulestypecodesenableheader import (
+    RetryRulesTypeCodesEnableHeader,
+    RetryRulesTypeCodesEnableHeaderTypedDict,
+)
 from .signatureversionoptions import SignatureVersionOptions
-from .signatureversionoptions1 import SignatureVersionOptions1
+from .signatureversionoptionsv2v4 import SignatureVersionOptionsV2V4
 from .subscriptionplanoptions import SubscriptionPlanOptions
 from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
     TLSSettingsClientSideTypeTypedDict,
 )
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
 from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
@@ -1847,7 +1852,7 @@ class CreateInputInputEventhubTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    sasl: NotRequired[AuthenticationType1TypedDict]
+    sasl: NotRequired[AuthenticationTypeUseTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
     session_timeout: NotRequired[float]
@@ -1961,7 +1966,7 @@ class CreateInputInputEventhub(BaseModel):
     ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
-    sasl: Optional[AuthenticationType1] = None
+    sasl: Optional[AuthenticationTypeUse] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
@@ -2194,7 +2199,7 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    retry_rules: NotRequired[RetryRulesType1TypedDict]
+    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
     r"""Username to run Message Trace API call."""
@@ -2321,7 +2326,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Fields to add to events from this input"""
 
     retry_rules: Annotated[
-        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
     description: Optional[str] = None
@@ -2565,8 +2570,8 @@ class CreateInputInputOffice365ServiceTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     content_config: NotRequired[List[CreateInputContentConfigOffice365ServiceTypedDict]]
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
-    retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -2656,11 +2661,12 @@ class CreateInputInputOffice365Service(BaseModel):
     r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptionsManualSecret],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Enter client secret directly, or select a stored secret"""
 
@@ -2700,7 +2706,7 @@ class CreateInputInputOffice365Service(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptionsManualSecret(value)
             except ValueError:
                 return value
         return value
@@ -2853,8 +2859,8 @@ class CreateInputInputOffice365MgmtTypedDict(TypedDict):
     r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
-    retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -2954,11 +2960,12 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptionsManualSecret],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Enter client secret directly, or select a stored secret"""
 
@@ -3003,7 +3010,7 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptionsManualSecret(value)
             except ValueError:
                 return value
         return value
@@ -3222,7 +3229,7 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions1]
+    signature_version: NotRequired[SignatureVersionOptionsV2V4]
     r"""Signature version to use for signing EC2 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -3376,7 +3383,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsV2V4], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing EC2 requests"""
 
@@ -3519,7 +3526,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions1(value)
+                return models.SignatureVersionOptionsV2V4(value)
             except ValueError:
                 return value
         return value
@@ -3693,7 +3700,7 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions1]
+    signature_version: NotRequired[SignatureVersionOptionsV2V4]
     r"""Signature version to use for signing EC2 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -3867,7 +3874,7 @@ class CreateInputInputPrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsV2V4], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing EC2 requests"""
 
@@ -3995,7 +4002,7 @@ class CreateInputInputPrometheus(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions1(value)
+                return models.SignatureVersionOptionsV2V4(value)
             except ValueError:
                 return value
         return value
@@ -5385,7 +5392,7 @@ class CreateInputInputConfluentCloudTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -5478,7 +5485,7 @@ class CreateInputInputConfluentCloud(BaseModel):
 
     pq: Optional[PqType] = None
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -7725,7 +7732,7 @@ class CreateInputInputMskTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     auto_commit_interval: NotRequired[float]
     r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
     auto_commit_threshold: NotRequired[float]
@@ -7916,7 +7923,7 @@ class CreateInputInputMsk(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     auto_commit_interval: Annotated[
         Optional[float], pydantic.Field(alias="autoCommitInterval")
@@ -8106,7 +8113,7 @@ class CreateInputInputKafkaTypedDict(TypedDict):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
     sasl: NotRequired[AuthenticationTypeTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     session_timeout: NotRequired[float]
     r"""
     Timeout used to detect client failures when using Kafka's group-management facilities.
@@ -8226,7 +8233,7 @@ class CreateInputInputKafka(BaseModel):
     sasl: Optional[AuthenticationType] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")

@@ -12,9 +12,9 @@ from .maxs2sversionoptions import MaxS2SVersionOptions
 from .modeoptions import ModeOptions
 from .nestedfieldserializationoptions import NestedFieldSerializationOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -196,7 +196,7 @@ class OutputSplunkLbTypedDict(TypedDict):
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     enable_multi_metrics: NotRequired[bool]
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
     enable_ack: NotRequired[bool]
@@ -309,7 +309,7 @@ class OutputSplunkLb(BaseModel):
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")

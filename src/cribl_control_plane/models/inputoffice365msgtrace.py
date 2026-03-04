@@ -7,7 +7,10 @@ from .itemstypeconnectionsoptional import (
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
-from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
+from .retryrulestypecodesenableheader import (
+    RetryRulesTypeCodesEnableHeader,
+    RetryRulesTypeCodesEnableHeaderTypedDict,
+)
 from .subscriptionplanoptions import SubscriptionPlanOptions
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -137,7 +140,7 @@ class InputOffice365MsgTraceTypedDict(TypedDict):
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
-    retry_rules: NotRequired[RetryRulesType1TypedDict]
+    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
     r"""Username to run Message Trace API call."""
@@ -264,7 +267,7 @@ class InputOffice365MsgTrace(BaseModel):
     r"""Fields to add to events from this input"""
 
     retry_rules: Annotated[
-        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
     description: Optional[str] = None

@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
-from .compressionoptions4 import CompressionOptions4
-from .compressionoptions5 import CompressionOptions5
+from .compressionoptionsdeflategzip import CompressionOptionsDeflateGzip
+from .compressionoptionsmessages import CompressionOptionsMessages
 from .compressionoptionspq import CompressionOptionsPq
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
 from .itemstypeextrahttpheaders import (
@@ -19,7 +19,7 @@ from .itemstyperesponseretrysettings import (
     ItemsTypeResponseRetrySettingsTypedDict,
 )
 from .modeoptions import ModeOptions
-from .otlpversionoptions1 import OtlpVersionOptions1
+from .otlpversionoptions131 import OtlpVersionOptions131
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
@@ -68,7 +68,7 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
     r"""Select a transport option for Dynatrace"""
     endpoint: str
     r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
-    otlp_version: OtlpVersionOptions1
+    otlp_version: OtlpVersionOptions131
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
     endpoint_type: EndpointType
     r"""Select the type of Dynatrace endpoint configured"""
@@ -84,9 +84,9 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    compress: NotRequired[CompressionOptions4]
+    compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
-    http_compress: NotRequired[CompressionOptions5]
+    http_compress: NotRequired[CompressionOptionsMessages]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_traces_endpoint_override: NotRequired[str]
     r"""If you want to send traces to the default `{endpoint}/v1/traces` endpoint, leave this field empty; otherwise, specify the desired endpoint"""
@@ -166,7 +166,7 @@ class OutputDynatraceOtlp(BaseModel):
     endpoint: str
     r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
 
-    otlp_version: Annotated[OtlpVersionOptions1, pydantic.Field(alias="otlpVersion")]
+    otlp_version: Annotated[OtlpVersionOptions131, pydantic.Field(alias="otlpVersion")]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
     endpoint_type: Annotated[EndpointType, pydantic.Field(alias="endpointType")]
@@ -192,11 +192,11 @@ class OutputDynatraceOtlp(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    compress: Optional[CompressionOptions4] = None
+    compress: Optional[CompressionOptionsDeflateGzip] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
-        Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
+        Optional[CompressionOptionsMessages], pydantic.Field(alias="httpCompress")
     ] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
@@ -369,7 +369,7 @@ class OutputDynatraceOtlp(BaseModel):
     def serialize_otlp_version(self, value):
         if isinstance(value, str):
             try:
-                return models.OtlpVersionOptions1(value)
+                return models.OtlpVersionOptions131(value)
             except ValueError:
                 return value
         return value
@@ -378,7 +378,7 @@ class OutputDynatraceOtlp(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions4(value)
+                return models.CompressionOptionsDeflateGzip(value)
             except ValueError:
                 return value
         return value
@@ -387,7 +387,7 @@ class OutputDynatraceOtlp(BaseModel):
     def serialize_http_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions5(value)
+                return models.CompressionOptionsMessages(value)
             except ValueError:
                 return value
         return value

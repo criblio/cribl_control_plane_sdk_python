@@ -627,7 +627,7 @@ class PacksSources(BaseSDK):
         *,
         id: str,
         pack: str,
-        input_: Union[models.InputUnion2, models.InputUnion2TypedDict],
+        input_: Union[models.Input2, models.Input2TypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -658,7 +658,7 @@ class PacksSources(BaseSDK):
         request = models.UpdateInputSystemByPackAndIDRequest(
             id=id,
             pack=pack,
-            input=utils.get_pydantic_model(input_, models.InputUnion2),
+            input=utils.get_pydantic_model(input_, models.Input2),
         )
 
         req = self._build_request(
@@ -675,7 +675,7 @@ class PacksSources(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.input, False, False, "json", models.InputUnion2
+                request.input, False, False, "json", models.Input2
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -728,7 +728,7 @@ class PacksSources(BaseSDK):
         *,
         id: str,
         pack: str,
-        input_: Union[models.InputUnion2, models.InputUnion2TypedDict],
+        input_: Union[models.Input2, models.Input2TypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -759,7 +759,7 @@ class PacksSources(BaseSDK):
         request = models.UpdateInputSystemByPackAndIDRequest(
             id=id,
             pack=pack,
-            input=utils.get_pydantic_model(input_, models.InputUnion2),
+            input=utils.get_pydantic_model(input_, models.Input2),
         )
 
         req = self._build_request_async(
@@ -776,7 +776,7 @@ class PacksSources(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.input, False, False, "json", models.InputUnion2
+                request.input, False, False, "json", models.Input2
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,

@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 30ad533c4528361f010a6a4d4ff92e99
-  docVersion: 4.18.0-alpha.1772638947915-0082c105
-  speakeasyVersion: 1.741.1
-  generationVersion: 2.849.2
-  releaseVersion: 0.6.0rc38
-  configChecksum: e6e49c0d88287496cd978b6257acc288
+  docChecksum: 43d973ba29bef3148a8b3e03f11733e8
+  docVersion: 4.18.0-alpha.1772645483046-e0f357e6
+  speakeasyVersion: 1.741.2
+  generationVersion: 2.849.3
+  releaseVersion: 0.6.0rc39
+  configChecksum: d0dd6ed56b3fa10cf448fade09d0b646
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: f5916135-b355-4429-926b-2dae2b6c2eaa
-  pristine_commit_hash: ff6487c9f53d1404f85eb8a7c28e1f066fd55655
-  pristine_tree_hash: 05106f8f6d09e19f805329e20d0a47cac962d0f0
+  generation_id: ed4ef907-1852-4e2d-bbed-9aa6b8e048a0
+  pristine_commit_hash: 735e5cadd8af64872323cffbb01ab6fb440f46e8
+  pristine_tree_hash: f16f4468efd925fef8828364c850a9330858ffa6
 features:
   python:
     additionalDependencies: 1.0.0
@@ -390,10 +390,6 @@ trackedFiles:
     id: df2bda30e132
     last_write_checksum: sha1:23780af90e71b77c03c7155de7ed59d78a21d12b
     pristine_git_object: 808225ef1e4fb64843b280b28d0f66c2d628fc9f
-  docs/models/collectionstateentry.md:
-    id: c13e49c88f5e
-    last_write_checksum: sha1:d1b95dddb33c2702440400c0a51722e1e098513d
-    pristine_git_object: 7af003ba89b01a242c2f458e6ac7154d7dfd4bbc
   docs/models/collector.md:
     id: abd9f95d07cb
     last_write_checksum: sha1:166d6195e630bc6ae89c44bff7edc635f13397ac
@@ -526,6 +522,18 @@ trackedFiles:
     id: b8def926cb9f
     last_write_checksum: sha1:c69d2d9a317251d7546e827dbbed51b9dfab2f39
     pristine_git_object: f7addc5f600367ad1a5a9b3234df604dc2a9e3c8
+  docs/models/conditionspecificconfigs1.md:
+    id: 96c5919c46b9
+    last_write_checksum: sha1:b96819d43d3671ca92fc0e30e1ccdd0505d41dd0
+    pristine_git_object: 11acb9574d5761f9a8bdcf76dc60a662d4047161
+  docs/models/conditionspecificconfigs2.md:
+    id: 41d04e6bccb9
+    last_write_checksum: sha1:97eb2af6e5702354f9149ac23fa942049b9bc2ad
+    pristine_git_object: 6dbf71c98b5b13449b8697c9f366bcd4db1fe3e1
+  docs/models/conditionspecificconfigs3.md:
+    id: 58e8b0e01c7a
+    last_write_checksum: sha1:fb3fcbef9aa25eebb1eb0e6c22bc8c1ad79893de
+    pristine_git_object: 22d0b378b085f721cddfcf83ec3e5b38948fea00
   docs/models/config.md:
     id: bef254bf823c
     last_write_checksum: sha1:de084093e4b55f65910d4f224b97f0efdc5b40fd
@@ -628,8 +636,8 @@ trackedFiles:
     pristine_git_object: 34dbdfec58e980e6b320cbacb34ae4f345611015
   docs/models/countedinput.md:
     id: 8d9cb4b604a2
-    last_write_checksum: sha1:3c287ba0eeae75099ab5e94c318b998d793fafe1
-    pristine_git_object: 0957decab6a0e4bfa095e65620459bf295c03fce
+    last_write_checksum: sha1:8258a34c0765d54c8c4b92c981c6b4f071cac643
+    pristine_git_object: d3057d54920072ca2260b7209c958f1b4a090d81
   docs/models/countedinputsplunkhec.md:
     id: 49782baf5571
     last_write_checksum: sha1:df686b28a94625219874cd0b12e0c2a2805be750
@@ -5142,10 +5150,18 @@ trackedFiles:
     id: c82582ebf98f
     last_write_checksum: sha1:2c0920456ad8b5fa48a22e0ceae4302ac1bc99ea
     pristine_git_object: ac45043f7b278a3dc6b9aca14c7dc4603a25f69f
-  docs/models/emailrecipient.md:
-    id: e7eb992f0e20
-    last_write_checksum: sha1:5025449872d3cf7e63cf4e153ec3415c1e6ae68d
-    pristine_git_object: 06b59e9af8ba26af0c8cf8d5b7a8341d2b78be60
+  docs/models/emailrecipient1.md:
+    id: 3452fa6197d3
+    last_write_checksum: sha1:ac9c1f28909d46351cf96bbcc989a4dac266ead8
+    pristine_git_object: 2dd121f41942c485ec469f714c1124365c6774c8
+  docs/models/emailrecipient2.md:
+    id: bcdfb9bccf1b
+    last_write_checksum: sha1:7630698a704e2d7f99fd363a7c6ccb47b824d279
+    pristine_git_object: 0050a17beba1a77c6d196e2bf3fb544baea5abba
+  docs/models/emailrecipient3.md:
+    id: 2f03393df6a7
+    last_write_checksum: sha1:67b0ce859a669f4343d3acde3417e3a069c0eb4d
+    pristine_git_object: 493c6efac468926607920a76311c1d4edd4cd24b
   docs/models/endpoint.md:
     id: dc72b5fd04e3
     last_write_checksum: sha1:a284a4b5dbd9e8855160401e4e863f5abacdf2a5
@@ -5286,14 +5302,14 @@ trackedFiles:
     id: 44a0510cb683
     last_write_checksum: sha1:9040d1d4e1a173a71caa347f48a479e85b6686cd
     pristine_git_object: ecc15468fb3e0d1e3f88a20b5f2a13e47882eb20
-  docs/models/executor.md:
-    id: ec293b0d66ef
-    last_write_checksum: sha1:0ec95fbffc8606bc1db730f4e5558bdf888cde06
-    pristine_git_object: a2b6e13f855d853802fb70c73a014a50e646d98d
-  docs/models/executorspecificsettings.md:
-    id: 61c9f146cedc
-    last_write_checksum: sha1:618ef4aee26e98f918113a3e866eb4b8f312dba0
-    pristine_git_object: 40d8abfe39e4a00e1782f9278a4f4994254f141f
+  docs/models/executorspecificsettingstyperunnablejobexecutorexecutor.md:
+    id: ab4d94d0f8c3
+    last_write_checksum: sha1:c985023500ff18bfc962338b66760b416fa99ad2
+    pristine_git_object: af8f7030168e5738943a449a6137c595ae7b64f2
+  docs/models/executortyperunnablejobexecutor.md:
+    id: af1722cc599e
+    last_write_checksum: sha1:9ded12fcabaea19c7c456c24bb4eccafc06e64be
+    pristine_git_object: a809d058596f92fa5d77973e1c7587fcfba455a3
   docs/models/extension.md:
     id: 6461b3463672
     last_write_checksum: sha1:fee3f4e8e15922df90ff09a1212c5be1cebfc686
@@ -5494,10 +5510,6 @@ trackedFiles:
     id: 4a426f38afbb
     last_write_checksum: sha1:45e9a274cd21a6a99e1b4e234e27c2d2797fc826
     pristine_git_object: fcdf962e902d46496c6db7d2ea7e877e89242300
-  docs/models/functionconfschemanotificationpoliciestemplatetargetpair.md:
-    id: 9b64c47a1fce
-    last_write_checksum: sha1:8e55f78cd4399fc9b5d4fb377cea31127037f59a
-    pristine_git_object: 0f460ab1ef3ce89e6b8ba2ee76b6686d6dc7438d
   docs/models/functionconfschemanumerify.md:
     id: f764717f8e4e
     last_write_checksum: sha1:834178d84f0fe2388ef9c66e0ca9daf87ee32190
@@ -7406,6 +7418,14 @@ trackedFiles:
     id: 3052ccfa826b
     last_write_checksum: sha1:ed68a3176d7e86b4467ddc1bfbc22bf5d1773f5c
     pristine_git_object: dc8bd840468d5ac53ac202f005a9f541fcaef4f2
+  docs/models/input1.md:
+    id: 13ac5c7b8e41
+    last_write_checksum: sha1:c9509d20dc3af80bc67752ffd0ab86e849455317
+    pristine_git_object: 8213cf0e9da4d09e5c7ab74e001a64e7976a4c11
+  docs/models/input2.md:
+    id: f914f15b24f1
+    last_write_checksum: sha1:c33d664bb700f111b585325ab6d64e6133b83b8f
+    pristine_git_object: d481f04b9df4fa89029c8566c603180c46ab2b57
   docs/models/inputappscope.md:
     id: ff69a212f541
     last_write_checksum: sha1:692c283e6ba26255cce96d703311e91839fe35bc
@@ -8082,14 +8102,6 @@ trackedFiles:
     id: 85691e0ab889
     last_write_checksum: sha1:33b027fd08770cda086ad03659e27367c46afc18
     pristine_git_object: 5903968a40cf53a73d25a11a8e5adecf76150528
-  docs/models/inputunion1.md:
-    id: ebf09a25595c
-    last_write_checksum: sha1:19ef56461d1d04c77e0fa24d341903dabae7f9ca
-    pristine_git_object: c5eebeaa7d36b0a9a7fd4cd562fa9c77429c178b
-  docs/models/inputunion2.md:
-    id: 21fe821408ee
-    last_write_checksum: sha1:10afdd53539c0c757b08ea9f0ece86f3d7c2dd90
-    pristine_git_object: 48e4c59dcda0fe193831a89532b61d75e7258166
   docs/models/inputwef.md:
     id: 7f8e9ea79ece
     last_write_checksum: sha1:09cce0b1be2302fd138a99dec9cbfa50ac4972ad
@@ -8278,6 +8290,10 @@ trackedFiles:
     id: 82ee7442934f
     last_write_checksum: sha1:3b051c78c6caad61eff1a3aa495d00322cdcc114
     pristine_git_object: 0cf071fe587ca508986a05a11e77ccfbca883f68
+  docs/models/itemstypepoliciesitemstemplatetargetpairs.md:
+    id: 2ea42aedc46a
+    last_write_checksum: sha1:09c591293e20fec1b14da1ee0121021125451599
+    pristine_git_object: 2c2f48aba23313dff38fc7667e6792159f9ac9ce
   docs/models/itemstypeprocesssets.md:
     id: 13974814e67c
     last_write_checksum: sha1:1e36204d1ffa3fa2638e9676e32c94d8be9eba70
@@ -8502,10 +8518,6 @@ trackedFiles:
     id: 7b9c857bda6e
     last_write_checksum: sha1:ef0b28b90cc5fb4e4cb40171c680b00b9a621e4c
     pristine_git_object: 5a3f58642140c010e3ca30d576eaea6465b543f3
-  docs/models/metadataitem.md:
-    id: 88dc59b2d6b3
-    last_write_checksum: sha1:301a16eaae8779cbce55f7625041db3628adf3e0
-    pristine_git_object: 5ebb9d9b9b62eb1d86434ae66616a648c40bf849
   docs/models/metadatum.md:
     id: 004e07e6d66d
     last_write_checksum: sha1:f0a5384cf0536ff41ad476ee6909bbacf8b58882
@@ -8582,30 +8594,46 @@ trackedFiles:
     id: 4f5e4d0a10fe
     last_write_checksum: sha1:29a8863b0d57f491d49ec141afb2d9c9ca5fbfad
     pristine_git_object: 70e86b10d399404f9ec862b5b82c86f72439a342
-  docs/models/notification.md:
-    id: 3d02056241c3
-    last_write_checksum: sha1:a1ff2c9e0ae9fa628b9ac8e4210f15b432cca4c3
-    pristine_git_object: 9341d00b3fba5dccb8bee7492670bc77e08ddcd8
-  docs/models/notificationmode.md:
-    id: c5f446aec2e6
-    last_write_checksum: sha1:e7504a21fb947f20353ecd46fb0966382edde63a
-    pristine_git_object: f3e5af931d013d4eff1e5905f822e10452b41cb0
-  docs/models/notificationsmtptargetconfig.md:
-    id: c4099e349941
-    last_write_checksum: sha1:791a783264a74a3ed540a2376034dc5a012c902a
-    pristine_git_object: 06c10515805283b7c455bd09217bb6aefa2f4064
-  docs/models/notificationtargetconfig.md:
-    id: d665bbae1ee4
-    last_write_checksum: sha1:795ed9efa1b8c8a4bc47cf3172386d4961da7176
-    pristine_git_object: 2be11fff7b68da4673dad61f859d2c0ad5ab7e48
-  docs/models/notificationtargetdetails.md:
-    id: e452b76232d5
-    last_write_checksum: sha1:16a7b1aa18931f480515af05660921f90b7fddaf
-    pristine_git_object: b2d802f5099292979226fd37296d55ae03adc7bb
-  docs/models/notificationtemplatetargetpair.md:
-    id: 7a9997269252
-    last_write_checksum: sha1:4bdd03ea4cc346a950ed8bfe00eb50271857e45b
-    pristine_git_object: db3b697b352a27300fc11227ba12f09c1db6227a
+  docs/models/notification1.md:
+    id: ce7a490383cc
+    last_write_checksum: sha1:02e90df564ec6e0173a28280eb2a1204280fc73c
+    pristine_git_object: 5f92c499a8a999e6c45de8b62426a871ed04c55f
+  docs/models/notification2.md:
+    id: f251942318e2
+    last_write_checksum: sha1:c1443f4f9b4ada119801463c0cf06bb58e09dbca
+    pristine_git_object: 5f6ba079573aac6665547885e27d0a6d7ea53bea
+  docs/models/notification3.md:
+    id: d7f3e6833080
+    last_write_checksum: sha1:b485c264d075d05d2f2b80d9c0d7f72a683c18ee
+    pristine_git_object: 6af9434d54c46b66081872548b618596db523f6a
+  docs/models/notificationconfigforsmtptarget1.md:
+    id: 32cf4e295928
+    last_write_checksum: sha1:2fbf7bf55d0d74e036b96b1ffd47151ce396eeab
+    pristine_git_object: 3db847d26d65b9289307329e594f820462ce3497
+  docs/models/notificationconfigforsmtptarget2.md:
+    id: f30ae761415c
+    last_write_checksum: sha1:2f32e8c148da255ad7ee2ba3d0d23b3093242b24
+    pristine_git_object: f136bf34a5343309732b1fb25f0149ce8733479c
+  docs/models/notificationconfigforsmtptarget3.md:
+    id: cb76de40cf50
+    last_write_checksum: sha1:f9e92fe44c6e74ef9a0a7a60a001644c3dd6156b
+    pristine_git_object: 84dd159e566618b2770e93f9728ac95a0601ccb4
+  docs/models/notificationmode1.md:
+    id: b2e792f3ecb9
+    last_write_checksum: sha1:60c770bf7922498b33e24a920d7abdd2a38e1587
+    pristine_git_object: 85f5062a1fa5aba39015148ed30f77fb279ad5c8
+  docs/models/notificationmode2.md:
+    id: fb74c4ec7ff4
+    last_write_checksum: sha1:783e81d16e9e8eec979239bb41ba05e97d775545
+    pristine_git_object: 43cfa6543a29834ae3b34f69815f6863cb669470
+  docs/models/notificationmode3.md:
+    id: 8c3168102687
+    last_write_checksum: sha1:0b27bbb4e8229d19a5fca80c607f66ab5a646723
+    pristine_git_object: 6814d6856fbdbd52f84677a4ba0cb4350186add7
+  docs/models/notificationunion.md:
+    id: 1ab1b1c742e9
+    last_write_checksum: sha1:61474ee91771144fbeaa90da6b0978796ea740cb
+    pristine_git_object: 3bc2e549c27ba3667d78619ca50df417f6df348b
   docs/models/notifyconfiguration.md:
     id: fa93e572471b
     last_write_checksum: sha1:86b08a901363397e88fd1fe36abfdb6af5b2daf1
@@ -10432,8 +10460,8 @@ trackedFiles:
     pristine_git_object: 522b3ef86e99f4268a822fa74a09a67ec585729a
   docs/models/policy.md:
     id: c32c4f30cd71
-    last_write_checksum: sha1:5d0b3e2edaedbf5924dbf4796bab30a96b7212ce
-    pristine_git_object: 820e79ca5c71a7f2f648c750b23d38d71d5252e0
+    last_write_checksum: sha1:9125935947ee0d8c2b11ba99bc5f72e48698f44c
+    pristine_git_object: 4d92355603893d4bf88c26c20d82e4fceb3a5810
   docs/models/pqtype.md:
     id: 98c692583770
     last_write_checksum: sha1:9c87e57ba34c6f50e0a3f590921a8298300ebecc
@@ -14680,12 +14708,8 @@ trackedFiles:
     pristine_git_object: 0e710f0067a16f19b5b562943e2707d7bd8a7eef
   docs/models/runnablejobcollection.md:
     id: 439fead8f8e5
-    last_write_checksum: sha1:66296bd8bba3921eee386c2f14efbcad98bddf44
-    pristine_git_object: 8c890e1cd9a6ff9c622c1b5d94fe09e1a3b25733
-  docs/models/runnablejobcollectioninput.md:
-    id: b621d6fb79ab
-    last_write_checksum: sha1:49106aa51e3933c8eb768102357d06a5a1f468d4
-    pristine_git_object: e5ae27013d481c7efce254397459acae062c46c4
+    last_write_checksum: sha1:0d24066ec914c97749372ab337c23b432e5cc6b4
+    pristine_git_object: e7584aeafe72ca408763d6624b3f60a6a99d798d
   docs/models/runnablejobcollectionmode.md:
     id: 7aa7a68e455c
     last_write_checksum: sha1:a2855fcc2cd89fe0d84ae0e4b3d7daa8eb606b0c
@@ -14694,14 +14718,18 @@ trackedFiles:
     id: 833f31034926
     last_write_checksum: sha1:6fb0f41b9ec947537bb25bc591e5e045bd3a77a1
     pristine_git_object: 38d99ed73b701e921b163845c0fd46126890713b
-  docs/models/runnablejobcollectiontype.md:
-    id: c085ff694c3f
-    last_write_checksum: sha1:b2b8ecd341973e35e8da4922786f7e0aa1e28d63
-    pristine_git_object: 07289e473120e12d316e662e1194a540ff16a96e
+  docs/models/runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint.md:
+    id: cd761a5eb4d1
+    last_write_checksum: sha1:add64503bb5e8676d755d82551af12163286ab46
+    pristine_git_object: 47dc4e76f43de36ce735dd9846fb555fa2236e42
+  docs/models/runnablejobcollectiontypecollectionwithbreakerrulesetsconstrainttype.md:
+    id: 69c1e7f65d86
+    last_write_checksum: sha1:17d12b1450ad31632fde317b3eb669439c308752
+    pristine_git_object: 3ea753853f11ae8b520240dab9d2cb214418d419
   docs/models/runnablejobexecutor.md:
     id: a7dcc5bf5989
-    last_write_checksum: sha1:809a65a872957b3d0020906558d59db7673dc082
-    pristine_git_object: b06d39c691eeb593b5cfe53c33d916cb301ffdd2
+    last_write_checksum: sha1:c3bbf66e2b5b1722a6adef21bf2fb38a1a71961b
+    pristine_git_object: 1f23c8c5dcd1782acb91ee120b244ac436c798a9
   docs/models/runnablejobexecutorrun.md:
     id: a3e22306ae02
     last_write_checksum: sha1:9ff8e40536d2f03dccf52631d8f746603faf66b8
@@ -14710,10 +14738,6 @@ trackedFiles:
     id: d56c635c9511
     last_write_checksum: sha1:e6cb785df704afcea60bc24fa134e06c5a34ba3b
     pristine_git_object: 40c5ced66f9bcdb70ecb7004eedb637db3b5183f
-  docs/models/runsettings.md:
-    id: 3ea2eeb92498
-    last_write_checksum: sha1:78a0a532e840ea95476a4f755128c7e890d41d09
-    pristine_git_object: 46173494216cc8ddab4a0aa62a65b2056d0928e1
   docs/models/runsettingstyperunnablejobcollectionschedule.md:
     id: 7dc261db0928
     last_write_checksum: sha1:a3938bf0ec00740d48b48d4041069b83ea6d0e9c
@@ -14722,10 +14746,14 @@ trackedFiles:
     id: 7237d39e5515
     last_write_checksum: sha1:3c9e316d31459b269962dbf77b286e5ae0b80716
     pristine_git_object: e20ab7096576ae987fe988c3c4484e92018ab35c
-  docs/models/runtype.md:
-    id: c511f9a226ab
-    last_write_checksum: sha1:fc586d8e25a11ec2e988316945d356248a7ce745
-    pristine_git_object: c662a14cf98ad22bc254b6c66c0387a00f58cd48
+  docs/models/runsettingstypesavedjobresponsecollectionschedule.md:
+    id: fe943c68fba6
+    last_write_checksum: sha1:d6b343b791e3c5e1a0fcc3afd8bf72013253a386
+    pristine_git_object: c569222a10e8c83c7a000b29f255a2407f0f2c7c
+  docs/models/runsettingstypesavedjobresponsecollectionscheduletype.md:
+    id: d94481900e3d
+    last_write_checksum: sha1:23da7a9673c3cbb00df5e90e25998ba072f38537
+    pristine_git_object: b2fcd69b60f687727e5b8b23f835c751e53227ad
   docs/models/s3awsauthenticationmethodauto.md:
     id: fdd911c62c1b
     last_write_checksum: sha1:79f976eb6981eca8ad9cc9e824ebafaad70c4c23
@@ -14806,22 +14834,54 @@ trackedFiles:
     id: c967ca655cf9
     last_write_checksum: sha1:3e79848e7b043a9cc3beb989356ab53e75f53a65
     pristine_git_object: 1201ea2ba1a7d1c9fa5ebf9bab730bdf31974c86
-  docs/models/savedjobrequest.md:
-    id: 012bc3f9afd0
-    last_write_checksum: sha1:f7b6341d30d7335b66e531d2528715ca187e546d
-    pristine_git_object: d5dc8069eeacd40492b5f12339e7adb3e6001b3a
+  docs/models/savedjob.md:
+    id: 11263fd39437
+    last_write_checksum: sha1:0a1c7027492a1af456e1d7121672eac23786a76a
+    pristine_git_object: 24db0b79d925cc49edd8341601efc4394d9baf88
+  docs/models/savedjobcollection.md:
+    id: 83f6452c4c07
+    last_write_checksum: sha1:a29062f9a93c992964d5f6539216df751cd838b8
+    pristine_git_object: 5a375d92f46eff70d8456d8263cd20d35de39a10
+  docs/models/savedjobexecutor.md:
+    id: 05f484fbe4b8
+    last_write_checksum: sha1:abe805dac02744005b8c6d406702859ece19c559
+    pristine_git_object: 31ae68c636a99e7ecebe07a988c6def974aed066
   docs/models/savedjobresponse.md:
     id: d578d0c53c19
-    last_write_checksum: sha1:9c4586bab5f3a38644686bf1844f016666e542eb
-    pristine_git_object: 428b1b50f2e8f1b45536761a0883d2992347c96e
+    last_write_checksum: sha1:257645a372c10606ea530721a700b3dd2ed651a3
+    pristine_git_object: d992e4b6e34302a2c3083aeb0f910e85bbbcdc40
+  docs/models/savedjobresponsecollection.md:
+    id: e5b8680009d0
+    last_write_checksum: sha1:d6f73db8844f66b11cacdd1bd9b27d9d704fa2ce
+    pristine_git_object: 4e09c3cb5fcff224eab01bc4bf91f183434108a0
+  docs/models/savedjobresponsecollectionsavedstate.md:
+    id: 7d194611024d
+    last_write_checksum: sha1:ec7a9f77f803d9f50e6fcbed9d9810e8f03c5ba4
+    pristine_git_object: 40f90834004f2a03137ed38d7644d0ece758a937
+  docs/models/savedjobresponseexecutor.md:
+    id: e9e56e334b36
+    last_write_checksum: sha1:c41d35f821023bffb18e8a7615216c8fd1e3e0a9
+    pristine_git_object: 89e0a4305a3c1bba35b72b8354ab715c4546946d
+  docs/models/savedjobresponseexecutorsavedstate.md:
+    id: 9f0f965efb17
+    last_write_checksum: sha1:26a66477b12ab8e5a7a7f5815b14c99bc4c185b7
+    pristine_git_object: aad610286ad65e83b55e21d8208976fc01ab5d49
+  docs/models/savedjobresponsescheduledsearch.md:
+    id: 4cc4075b3a12
+    last_write_checksum: sha1:5eb265b36249675917714d7af3c2a400e5260ee6
+    pristine_git_object: 592e7e5afe8169a175079dcd4bed4fe1d8984152
+  docs/models/savedjobresponsescheduledsearchsavedstate.md:
+    id: 6e9fcddd4650
+    last_write_checksum: sha1:cae4f3e7cd6cc15859aae70c001348baebdff0fd
+    pristine_git_object: 64350ccc77c8abeb522d6d8f9b9585ea690d881a
+  docs/models/savedjobscheduledsearch.md:
+    id: 8bc3062ea3db
+    last_write_checksum: sha1:9ad15ac4a0a367e661bc6fb63f76912dd17a7ac3
+    pristine_git_object: 6c181ac8cf58e6bd78d6a9e7bfcea6c1289c9d55
   docs/models/scanmode.md:
     id: 64aed1634e1b
     last_write_checksum: sha1:68b837656857666e8c19565418f2eaa16edb69ee
     pristine_git_object: fe6bb9233758b25e59d7c7509b027aade4cb25ab
-  docs/models/scheduleopts.md:
-    id: 808ae3b9e920
-    last_write_checksum: sha1:a065d9e83c2c281e979e1409c84cb1da846ffce5
-    pristine_git_object: 2acacd43147d6de0ac72244bed03899b3c9e2d52
   docs/models/scheduletype.md:
     id: 3f06ae7d280f
     last_write_checksum: sha1:5f8d41d89f3e720bd69e82034b0b5c50b07969fb
@@ -14830,6 +14890,10 @@ trackedFiles:
     id: 7d306b2cdd70
     last_write_checksum: sha1:5da5016a2f04afb51c70158547c966a15650cf72
     pristine_git_object: f56f38320c379bbb18ab14c7fe36cee3533dfc62
+  docs/models/scheduletypesavedjobresponsecollection.md:
+    id: d0927175a607
+    last_write_checksum: sha1:a614364bd837fed0013545853c023dcdf46c22e6
+    pristine_git_object: 715459c7db3462fc6c68570448fa71390a1c26cc
   docs/models/schemeclientoauth.md:
     id: 961e796e86c2
     last_write_checksum: sha1:71dc23b205bb9420859d196615fca4303dc598b5
@@ -15262,6 +15326,30 @@ trackedFiles:
     id: 5c0836d4405b
     last_write_checksum: sha1:c72a9d2d54cf5d83788050530d7200eec76c9004
     pristine_git_object: 7457253325102cd09cbe0e0161c9170493b1465e
+  docs/models/targetconfig1.md:
+    id: 52a0a4ac3722
+    last_write_checksum: sha1:4de7449ec8d758e8dab1bdae28a29a65e0ea8089
+    pristine_git_object: 3b870919277d66451b40f98802d332499196e3de
+  docs/models/targetconfig2.md:
+    id: abfb9ba373bb
+    last_write_checksum: sha1:70edf7c51d4316e4dcf3d8d3bcb3d085b304af3a
+    pristine_git_object: 23a8e96b03d15174e46d606732447165a5cc3dc4
+  docs/models/targetconfig3.md:
+    id: fea09c91be86
+    last_write_checksum: sha1:42bfd036a4c1d1df780ec00adc52014cfb25c217
+    pristine_git_object: d9401e906d0f1d2925675fe6182c74bb65e88203
+  docs/models/targetconfigunion1.md:
+    id: a101a632d08f
+    last_write_checksum: sha1:253e755b5b7fa9416895b817a7a90fc99c28a9ab
+    pristine_git_object: fd0cde750ef6ea5a6c49d4b36459a287a3640e1b
+  docs/models/targetconfigunion2.md:
+    id: 972215cf06de
+    last_write_checksum: sha1:5c351e0129a3d63ab02b8e68f5c0e14e1a51ab28
+    pristine_git_object: a6561a5279f10e930804ef87f85e7d9a457452ed
+  docs/models/targetconfigunion3.md:
+    id: a7270204220a
+    last_write_checksum: sha1:d875047c74505bb0c1194a845487605a05b8e82a
+    pristine_git_object: 5e5ebfb1590ff53a0de57d66a0c30efff2d014fd
   docs/models/targetcontext.md:
     id: 7e6866f72ecf
     last_write_checksum: sha1:1b8f22a82b96afa102956d0794fdd3401f9145f9
@@ -15388,16 +15476,16 @@ trackedFiles:
     pristine_git_object: d4a0d9113a1a2f63b4aad0379ea8562451f9c281
   docs/models/updateinputbyidrequest.md:
     id: 207cae1a01b1
-    last_write_checksum: sha1:4ba7d436eed8f8592f82a382c72bf0c10d03afd0
-    pristine_git_object: 1b001d470befe53122a40975e0af07f9986e49b4
+    last_write_checksum: sha1:70e688c78966a89aa612878a1bed164374dff38e
+    pristine_git_object: ec75bedc03be14e17595e86ea931161000a1b993
   docs/models/updateinputhectokenbyidandtokenrequest.md:
     id: 50fa9c8506cc
     last_write_checksum: sha1:b20128e9f0f0bdb75c89b439bad1ecaccbcb3bbe
     pristine_git_object: 1481de89adf0b091aacd21cc6a9ae07db83f64cb
   docs/models/updateinputsystembypackandidrequest.md:
     id: 84a27bc7706f
-    last_write_checksum: sha1:b102f53ab60afe41817b7c0426b3f329875069ec
-    pristine_git_object: c55a8f46a0a9a4ff9c713668742ab639a4f04a66
+    last_write_checksum: sha1:7913aca92994342c0b165a46f5f1df6b2544e00b
+    pristine_git_object: 4650ce09295041df6ec8ec3ec3e5f29384f47790
   docs/models/updateinputsystemhectokenbypackandidandtokenrequest.md:
     id: 69305a7023e2
     last_write_checksum: sha1:42c47aec22e4c9f27821262fd8131a4416ac7de3
@@ -15440,8 +15528,8 @@ trackedFiles:
     pristine_git_object: cfe78de903952684de5830c2fdb4d19fae9eccce
   docs/models/updatesavedjobbyidrequest.md:
     id: 459da13d58ca
-    last_write_checksum: sha1:281b8371ba95a32055ec625a52b634f361dd2ebf
-    pristine_git_object: bcdee9637ee804e94c2f7f70d3c691c6dad483c3
+    last_write_checksum: sha1:895587933f1c148940b70899840fb5a0093fc6ce
+    pristine_git_object: bb6555d18f78559ace3d48247c7a0bc39d0a48ff
   docs/models/upgradegroupsettings1.md:
     id: bdc9271d83c3
     last_write_checksum: sha1:f9c1d4e3874c4f1648454e79aa4538b7e5cadba1
@@ -15516,8 +15604,8 @@ trackedFiles:
     pristine_git_object: e04b0927d2d7d68e262e1cb86d83d903c486af99
   docs/sdks/collectorssdk/README.md:
     id: fb156921e8e5
-    last_write_checksum: sha1:3802369b937be3caf1ecbba5bd0749db7dac017b
-    pristine_git_object: 4fa5993ba4aa52933e5fcfb8192fe2786e422a70
+    last_write_checksum: sha1:0842de7f0c26f630a974a4d692af5bd617ff9b90
+    pristine_git_object: c71f91a80b0eb639cbace2cd2ea55c11951cbc10
   docs/sdks/commits/README.md:
     id: ae81a8318c17
     last_write_checksum: sha1:0826465168d489360ba63440baacab87805f85b2
@@ -15608,8 +15696,8 @@ trackedFiles:
     pristine_git_object: 20e799f93c4cfaa83804de3cbdee18719f54979b
   docs/sdks/packssources/README.md:
     id: 91cf5c639969
-    last_write_checksum: sha1:0dc3b985689c443fafa734ee0d65ecc789871699
-    pristine_git_object: 4946a7f2dbbab973abbbcd565f812cae4fa76926
+    last_write_checksum: sha1:2045586b6fb984d0ff1cc6e290c299e52b7ac23b
+    pristine_git_object: ab1acc362390cd5a17d29fb4cce79d4d58c5aa4e
   docs/sdks/packssourcespq/README.md:
     id: cbbc4cefed4b
     last_write_checksum: sha1:afe40253a1e1c7d472b20f333860c38c605deb49
@@ -15636,8 +15724,8 @@ trackedFiles:
     pristine_git_object: da1ca9eefda648e64d521643395cba75c53eb02f
   docs/sdks/sources/README.md:
     id: c1396b2a57d9
-    last_write_checksum: sha1:16587cfb4df3fedf22abfbe8d730b306eae3f018
-    pristine_git_object: a392aca29c8e5b4f7e44705e32bb39fcfa988bed
+    last_write_checksum: sha1:a2d71a57b057082534061e8a683bd7bc231a382a
+    pristine_git_object: 4e42a201b481eb9dc66886aedd135796ea0acb75
   docs/sdks/sourcespq/README.md:
     id: 08e24f4817a2
     last_write_checksum: sha1:444769c42ade40e89d0d10fd10120cf9f042c986
@@ -15676,12 +15764,12 @@ trackedFiles:
     pristine_git_object: 3e38f1a929f7d6b1d6de74604aa87e3d8f010544
   pylintrc:
     id: 7ce8b9f946e6
-    last_write_checksum: sha1:7b9713d8b565ad9447fd231a3471a6d8f10e0b2c
-    pristine_git_object: c47ba7304b3e9b9b1d332235d0897f51859c4daa
+    last_write_checksum: sha1:b15e1c82239e3449e514a1e0f4180c81bc89ebf2
+    pristine_git_object: 1b74b5fc91dcf2b9df16949b77bcec9b03c49e2b
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:e6bdef73679d4128bfaacdb7cd4856b5929c01df
-    pristine_git_object: 23828534e7fe180a8bd03e27e10945fdf3dc3933
+    last_write_checksum: sha1:01e85c0751ae8e73cc45cefb4e77d04f977b04aa
+    pristine_git_object: 0824f0e5491fda9066a87311c8d694b1f5fbe9e1
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -15712,8 +15800,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:edc394236edbb0bf0e0f13326be3d9b0cb362c99
-    pristine_git_object: f64873dfc3df8aea8f57f20d6e2bd069feba471c
+    last_write_checksum: sha1:641ab586e1ba2c194f58fc9f8d785379729b437d
+    pristine_git_object: 21dd30996f1a83dc4fa83d5f9456bd0ce10b6d79
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -15736,8 +15824,8 @@ trackedFiles:
     pristine_git_object: 1ccb1e595d4e1cefc31c4b786f5026d31a83bd96
   src/cribl_control_plane/collectors_sdk.py:
     id: f84df60bc0f1
-    last_write_checksum: sha1:afa05cd5032682d6be42477f3e0fa95a206d241b
-    pristine_git_object: ad073267e3066374bf5f327ef7eaa6394dc80d22
+    last_write_checksum: sha1:5a092410ac05579e5cfdf9d3937d32e4b641f66a
+    pristine_git_object: b91111b6253701a8c8d6b09531392b8a7c034993
   src/cribl_control_plane/commits.py:
     id: 77b962b3c68c
     last_write_checksum: sha1:83532d584766f187683afb4741d082fcf99e9983
@@ -15828,8 +15916,8 @@ trackedFiles:
     pristine_git_object: 2385f9e5d1fccf4cd07732c878e6a55407ac1125
   src/cribl_control_plane/models/__init__.py:
     id: 558fbe1bf6ca
-    last_write_checksum: sha1:f7ddf3c2f5a9f46adc1a0261104981dcaf305754
-    pristine_git_object: 1b68868bab97cb3851137d8060f6b013dde8878a
+    last_write_checksum: sha1:619287e63a2c91ea089cd16d37eb4b31a0f5a6b3
+    pristine_git_object: 9fe474e645b9dc7db6eb80b8de367d5f02cced70
   src/cribl_control_plane/models/acknowledgmentsoptions.py:
     id: 2537877f09eb
     last_write_checksum: sha1:610fd67330eee25b0afc942d175a52130576ed7d
@@ -15990,10 +16078,6 @@ trackedFiles:
     id: d09f2d9ac0c1
     last_write_checksum: sha1:74f9b1bad49c674a31c67c448238c9d8af0609fb
     pristine_git_object: 649ef12a69f7bd488b08819000b60c953fea613e
-  src/cribl_control_plane/models/collectionstateentry.py:
-    id: 73f624f94f5a
-    last_write_checksum: sha1:0b9814065e74e58d799a25d45bac434df016453b
-    pristine_git_object: 3fade303e20a20f744b59dc983f9fbfd7ea1594a
   src/cribl_control_plane/models/collector.py:
     id: 6c43af8124d7
     last_write_checksum: sha1:249882838de495c19a8d4c6319313a020eea86a3
@@ -16160,8 +16244,8 @@ trackedFiles:
     pristine_git_object: d09444c83fde9236614104165a41bc9070bf28f7
   src/cribl_control_plane/models/countedinput.py:
     id: 23c48bac61f4
-    last_write_checksum: sha1:83611c04f6c5d2ee01be255558af742fd5bc0824
-    pristine_git_object: 47eb73254ac8922b778adad7e54c7a791d829f63
+    last_write_checksum: sha1:95efcbe4c2d59421beac0f8f29c1a5c92a087ae8
+    pristine_git_object: ba353ab9a40034c7a2de46c1d385c9b416d0298d
   src/cribl_control_plane/models/countedinputsplunkhec.py:
     id: 3c1bd759857c
     last_write_checksum: sha1:545dc27b8e125d97b0102f960aad394c6a69684d
@@ -16482,10 +16566,6 @@ trackedFiles:
     id: 2c0ec687856c
     last_write_checksum: sha1:c3cca03c4316b5be17aa2e3c956fce1365e6a7b2
     pristine_git_object: 8e01fe6c0508daca8e640564c48b73b2df55915b
-  src/cribl_control_plane/models/emailrecipient.py:
-    id: 8f5e62f9eba3
-    last_write_checksum: sha1:1f63cc2e69b712fc47671db969f148b14e0b935e
-    pristine_git_object: 98d1c05a0222ccaf5364da7b353303ae40a65aa6
   src/cribl_control_plane/models/errortypestatus.py:
     id: 9440e48d7a64
     last_write_checksum: sha1:de11b70850a29cf8e2e52283f63172e5cccba483
@@ -16506,6 +16586,14 @@ trackedFiles:
     id: 15764f435d58
     last_write_checksum: sha1:85b423fef439613f200ca11ff243e0f92de253d3
     pristine_git_object: 4ab3bf98cbccdfc38aeb8933e09085a0b5474679
+  src/cribl_control_plane/models/executorspecificsettingstyperunnablejobexecutorexecutor.py:
+    id: 48aab4e5ad20
+    last_write_checksum: sha1:cf7355936872bff0ff3dadd0098481636576dd22
+    pristine_git_object: 69a40a4a14bf7535dcb0b40281bd72d06ae099b9
+  src/cribl_control_plane/models/executortyperunnablejobexecutor.py:
+    id: be8d61a4de85
+    last_write_checksum: sha1:69591ee6215e078599b24f95b2e426dba2c9992b
+    pristine_git_object: 8712c69f94744c7dfc9e384ea24d3b31cec338c4
   src/cribl_control_plane/models/failedrequestloggingmodeoptions.py:
     id: 426782e9dc9b
     last_write_checksum: sha1:bdb912bc36de01a2c0e4fb9a295bea1288d072f0
@@ -16620,8 +16708,8 @@ trackedFiles:
     pristine_git_object: 10367406b3a5d332bceb3091c1a311ae64cba18c
   src/cribl_control_plane/models/functionconfschemanotificationpolicies.py:
     id: 79384005643e
-    last_write_checksum: sha1:1154937ec3907fac86247c5cc96a15cff9c18df7
-    pristine_git_object: 580df0b3ccdf847debd01bcaeb57fe80788f5c54
+    last_write_checksum: sha1:ea50cb8697788d4c0654c49ce1665b4cced97238
+    pristine_git_object: d2858b45ab86c5aba47338c09091971d295fb0e8
   src/cribl_control_plane/models/functionconfschemanumerify.py:
     id: f01c1f1be4f6
     last_write_checksum: sha1:07b5ceee1e607bd3cc6735d90e56fc9522bd2a59
@@ -17206,14 +17294,14 @@ trackedFiles:
     id: fb685a62a1e7
     last_write_checksum: sha1:ccacbf132868516e39a74b019f57ccd4f1f87e53
     pristine_git_object: 8c46b169583cab4fa7c1b946158e63a2adfdf33c
-  src/cribl_control_plane/models/input_union_1.py:
-    id: 2e77213fb96f
-    last_write_checksum: sha1:03edac761db3899cb2ff63e9fb57188f51b7cbd6
-    pristine_git_object: d265c357c7e73b31a2b8b240d561c05d7151f148
-  src/cribl_control_plane/models/input_union_2.py:
-    id: e9feb853a36e
-    last_write_checksum: sha1:6580d939d0f222b569ede6f47286bf4c76069959
-    pristine_git_object: 1f91d9ed0f5182312c893181eccd6d912775423a
+  src/cribl_control_plane/models/input_1.py:
+    id: 9d9c09450cff
+    last_write_checksum: sha1:45c334b3e1557962cbc6cbf009eec88e0bb27792
+    pristine_git_object: 4acecd6c8c617b654051d7084be41a4dbf3f8513
+  src/cribl_control_plane/models/input_2.py:
+    id: 7cfd8a80ea49
+    last_write_checksum: sha1:e0be1abd8cfaea1cc7c22ec0b527a268179c3412
+    pristine_git_object: 5c8b464ea43a1b3f2da90ec524e9e9e044b181fc
   src/cribl_control_plane/models/inputappscope.py:
     id: 07e2d02b4da5
     last_write_checksum: sha1:a326f679c8b5d4223c21a34255efd2293e82820d
@@ -17522,6 +17610,10 @@ trackedFiles:
     id: db77e23a7ead
     last_write_checksum: sha1:ec67d687b77f13a4b0b58bff32e8deaffcbd1067
     pristine_git_object: 2385b4f48ce542f623d7592525369f13f8d21c4e
+  src/cribl_control_plane/models/itemstypepoliciesitemstemplatetargetpairs.py:
+    id: e64f9eeedff1
+    last_write_checksum: sha1:ed6750700b1ed486168eac54d19bd3b74719ebca
+    pristine_git_object: 792c2435fd2a82d9dab8d77706f85063852a82d2
   src/cribl_control_plane/models/itemstypeprocesssets.py:
     id: 3130ce38e31a
     last_write_checksum: sha1:b33dbc5ed738a3819498560863b74fb6b649d2f9
@@ -17642,10 +17734,6 @@ trackedFiles:
     id: efe29309d6e8
     last_write_checksum: sha1:eb74c66d5e9e626544ddfcde5dad2b4d7104e5fa
     pristine_git_object: 8ccd4cfeb344142ed456ae69e6cf4d26fb64a77c
-  src/cribl_control_plane/models/metadataitem.py:
-    id: 347167e1e4d6
-    last_write_checksum: sha1:df702fc57a298a4623df122b5575100d3c16cf30
-    pristine_git_object: cf44e7d3d52e3c848afb764a5031822da2e9007c
   src/cribl_control_plane/models/methodoptions.py:
     id: e11001be3a6f
     last_write_checksum: sha1:8126ca53daed8ee2bf5ae992d326ebae0cd75f29
@@ -17710,26 +17798,10 @@ trackedFiles:
     id: 0dd58456d128
     last_write_checksum: sha1:2e68b8fd312c14e90cddf75948dc0e1c227375a9
     pristine_git_object: 2f67bda213351a1ca77a41225aac20f8c7282726
-  src/cribl_control_plane/models/notification.py:
-    id: 5664ed8dd471
-    last_write_checksum: sha1:d0a36dd723a1c319e720e40d14c3453918476567
-    pristine_git_object: 0d701606f728165281199928217d98c1cf0a40ea
-  src/cribl_control_plane/models/notificationmode.py:
-    id: 49c5ec977eca
-    last_write_checksum: sha1:0c38a8fcf9947753d6b0a4c7f0af36148d7a999b
-    pristine_git_object: 3f6bd6fd8edb166aee9b4acb53cb984eea0e8531
-  src/cribl_control_plane/models/notificationsmtptargetconfig.py:
-    id: 39a7d01f21fa
-    last_write_checksum: sha1:b044935a5029006b648df2feca360fb5bb2b6199
-    pristine_git_object: 7bf7baf21e06c0b49d13f42b2319293f2aeb08f1
-  src/cribl_control_plane/models/notificationtargetconfig.py:
-    id: b117cf39436f
-    last_write_checksum: sha1:67014da0dfb2a02e6f4843997a2847f8505e4d6f
-    pristine_git_object: 0de31aa9b61af9cab05b31efb9b1c3b1bd30d43f
-  src/cribl_control_plane/models/notificationtargetdetails.py:
-    id: 7ccc79ce9c3b
-    last_write_checksum: sha1:f0c3b9a5fdefe5f7c76a2f0e8fa8c50d1d052824
-    pristine_git_object: 54822206d19372b1160009e4908abb77e63f53f9
+  src/cribl_control_plane/models/notification_union.py:
+    id: 6500f6ea5250
+    last_write_checksum: sha1:1c71fd87fdf91a50276ed11499bb06cc89f4d490
+    pristine_git_object: 3d14577026c74c32ea3b52ae1acba9241621e1dd
   src/cribl_control_plane/models/objectacloptions.py:
     id: bfa1f35be387
     last_write_checksum: sha1:b71714571fae5b5ab1b9d608bfd7fea386303e63
@@ -18520,28 +18592,28 @@ trackedFiles:
     pristine_git_object: d8fe401a75c1bee9d57fdae67013063bc3933c24
   src/cribl_control_plane/models/runnablejobcollection.py:
     id: e13f247d077d
-    last_write_checksum: sha1:8f346b4c66255dc1110501b2308a549b3058980d
-    pristine_git_object: 226738e30ddc68b0609cbfa6237f242418ffa8a6
+    last_write_checksum: sha1:30928b62ebbf714f061eb8eb5c238b89d1970b49
+    pristine_git_object: 604a9d516df45e98cc14a3997647213a253bc4cc
+  src/cribl_control_plane/models/runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint.py:
+    id: 1a2551a89ab2
+    last_write_checksum: sha1:2bf70808d999a86e165f463f54982300fcd651d0
+    pristine_git_object: ccb11a0f826e4b26ce20e220282fd0f1b310afdd
   src/cribl_control_plane/models/runnablejobexecutor.py:
     id: 49e90f6ba83d
-    last_write_checksum: sha1:25d71b6b44ea3ba17a929d988317abddf5b66098
-    pristine_git_object: 5c99672a0bca7b7aeae5343bba10162ddf076f72
+    last_write_checksum: sha1:bc83081c43795bcd1b71c707cc3ca182011097d5
+    pristine_git_object: 8325599471ce42912b7d193898e5daef720ef3e0
   src/cribl_control_plane/models/runnablejobscheduledsearch.py:
     id: 035785737aee
     last_write_checksum: sha1:7059ea9d69141bb9021052dee1c8ccc081596d80
     pristine_git_object: b8198411b685e2e900882120950171249c968127
-  src/cribl_control_plane/models/runsettings.py:
-    id: 7aa90fe7635c
-    last_write_checksum: sha1:0f3d1c98a0517db4ae580a23079881064a342acc
-    pristine_git_object: b2bf622973111feffa8e2fb573b305ce853d07e3
   src/cribl_control_plane/models/runsettingstyperunnablejobcollectionschedule.py:
     id: d69e51fa951c
     last_write_checksum: sha1:714a59cc2bf79594d258120961d608a4095a3fc7
     pristine_git_object: a52f0ff3300f7da86a66857eb3ef9e8ad9ec5217
-  src/cribl_control_plane/models/runtype.py:
-    id: d4d4392f85ba
-    last_write_checksum: sha1:6c0d1501b6cc9816e996db70eee1657aa4b9ab1e
-    pristine_git_object: 1bcb3512083109e0de8d05f5b3347c1fd6c78740
+  src/cribl_control_plane/models/runsettingstypesavedjobresponsecollectionschedule.py:
+    id: cb93de9580c1
+    last_write_checksum: sha1:59647c03dac4d6b454478fb3c7c739b031a94454
+    pristine_git_object: 9113b2f0d9cc132d0626964179e2335afc04eee7
   src/cribl_control_plane/models/s3collectorconf.py:
     id: d28817a2832b
     last_write_checksum: sha1:de767c7be78131a8e18627d6b2f4a286945167c3
@@ -18554,22 +18626,34 @@ trackedFiles:
     id: efd074ec387a
     last_write_checksum: sha1:cc5374282234267d6ee389c60deff85ccee9425e
     pristine_git_object: 9a71e174723c844e130e72cca7b3ac865c9e2dbf
-  src/cribl_control_plane/models/savedjobrequest.py:
-    id: 63fe538a4381
-    last_write_checksum: sha1:e1882bd33bd7d728abf7698a4997c2de8af394df
-    pristine_git_object: 658640450453e56c50e9c54996262707acc960fd
+  src/cribl_control_plane/models/savedjob.py:
+    id: e4689840952c
+    last_write_checksum: sha1:efcc3a33a9d685a1b55ad3c638e84edf2a035da2
+    pristine_git_object: ed654fc2c96abb4be99daaa869244b73633d82e4
+  src/cribl_control_plane/models/savedjobcollection.py:
+    id: 8acf5f84f8e5
+    last_write_checksum: sha1:5eaa3a7c3b2062fca4e808a3c6ea3a92e1549d36
+    pristine_git_object: fa0f3e83ba71951250a2579d83a5fd79fe7d8be9
+  src/cribl_control_plane/models/savedjobexecutor.py:
+    id: 1b7fb9775cdb
+    last_write_checksum: sha1:3630c5f40a693a28ab9b6b4a0a88a0648a0ab35b
+    pristine_git_object: e83cf122334d4b127195a55e465ca2e50b1d0ada
   src/cribl_control_plane/models/savedjobresponse.py:
     id: 83a9fbbe1f6f
-    last_write_checksum: sha1:1cdee315ab256eadb7e4fffff4e02bee80e44337
-    pristine_git_object: 624792c7d50ea1d0a8ba48f8b955ba900e57fb55
-  src/cribl_control_plane/models/scheduleopts.py:
-    id: 4c2e411c0c0e
-    last_write_checksum: sha1:9f09d141dfefefbff204f714eb04778b2becb992
-    pristine_git_object: ceb3e748fee5c44a5d5b9e368ecd969477e301f4
+    last_write_checksum: sha1:a620fb44f0dc81f4745278a39358491ee5708203
+    pristine_git_object: 90b786e4154ce4a08dd82943e8987d2b6ab28d2f
+  src/cribl_control_plane/models/savedjobscheduledsearch.py:
+    id: 7dcfacfd4540
+    last_write_checksum: sha1:20af99e37eaff1443d6d9e49afb1620b9f8ebaeb
+    pristine_git_object: 72b8a940a0fde81b70294e78d5fa4f6b609163aa
   src/cribl_control_plane/models/scheduletyperunnablejobcollection.py:
     id: 59bda834743f
     last_write_checksum: sha1:ff5b2342b9bf44165b87ffeb92789b03078c12cc
     pristine_git_object: 71577c7a0da89877be536ee36d5fe7af87a69208
+  src/cribl_control_plane/models/scheduletypesavedjobresponsecollection.py:
+    id: ff219990ff40
+    last_write_checksum: sha1:bffbfeb138ec98b7078a36377ada719cc774cd2a
+    pristine_git_object: 7b6974c0f06c72b092abd8c3051c17b75c4184b3
   src/cribl_control_plane/models/schemeclientoauth.py:
     id: d41bde2b7c9f
     last_write_checksum: sha1:66cb22d0b07b6a246f98cdad22a6145b85649c02
@@ -18760,16 +18844,16 @@ trackedFiles:
     pristine_git_object: 612d72f450742f6efed0265a603432c400f168a9
   src/cribl_control_plane/models/updateinputbyidop.py:
     id: 43771c848dea
-    last_write_checksum: sha1:e0ee59f14d309aa344e8309bef4958de3e129866
-    pristine_git_object: 172061923b7534664b81cd72841f511ed9fb0300
+    last_write_checksum: sha1:27f589a91477bb557307698a8b19b92587c3b639
+    pristine_git_object: 638e29aca30146f816e2085cd068fe58835cc84d
   src/cribl_control_plane/models/updateinputhectokenbyidandtokenop.py:
     id: 9855e9c2c13d
     last_write_checksum: sha1:b7392c5d83784a54182eed3960bd8e29f0c71c2b
     pristine_git_object: dd1afddebc0c7866717d5421ad3c809d31e26d7a
   src/cribl_control_plane/models/updateinputsystembypackandidop.py:
     id: 63d915d61ecd
-    last_write_checksum: sha1:bf73051781b4b45f622ca7fba6d01495969199a0
-    pristine_git_object: e3c5e859bc6938d81dc1717516357c6b79f2550a
+    last_write_checksum: sha1:1a4a2cab2ffdd28ff567459495e75ff34375f067
+    pristine_git_object: 303cb318f43e466ecdfd57606b473fef0991b9cf
   src/cribl_control_plane/models/updateinputsystemhectokenbypackandidandtokenop.py:
     id: 6a20e3bfeca0
     last_write_checksum: sha1:6d2645764f19d1cc57423426abd72ec6f2dd0229
@@ -18812,8 +18896,8 @@ trackedFiles:
     pristine_git_object: 8b3592f74bd8cdfd2c9a8bd0001c89fa02625318
   src/cribl_control_plane/models/updatesavedjobbyidop.py:
     id: 2b310577dbba
-    last_write_checksum: sha1:530fa69445a5f61c8b7a0db4dc88a322d6bfbb22
-    pristine_git_object: 1b9229acd189e203123cdadc17f482b57bfe676f
+    last_write_checksum: sha1:a72b1634d020a2db1f716b3aa6dd24a8f4c9f9bf
+    pristine_git_object: eebfb46cceb019a218b309582ea7220680b26140
   src/cribl_control_plane/models/upgradegroupsettings_union.py:
     id: cb9d257b866a
     last_write_checksum: sha1:2f84f7eacd6ca58de95f002d25bffa62413df5a3
@@ -18880,8 +18964,8 @@ trackedFiles:
     pristine_git_object: 299468da48d3cf5b4bd25b0776962563cee28988
   src/cribl_control_plane/packs_sources.py:
     id: 501249caef46
-    last_write_checksum: sha1:7369eadfcd205defef46000b53b455f7e0744164
-    pristine_git_object: b9f210a89ae3175e7e7957ab938fa87c2777a041
+    last_write_checksum: sha1:7edfd6bc161c58953fb62b7a51bab50e0994964f
+    pristine_git_object: e04889b16809b49a58169c9b1a37dea8602a9a41
   src/cribl_control_plane/packs_sources_pq.py:
     id: 4bee3b051119
     last_write_checksum: sha1:58410d905a553afbf09348e8d0baa8935972e1cc
@@ -18920,8 +19004,8 @@ trackedFiles:
     pristine_git_object: d9fbe985467f504bc961ac8cbd3b4e8c329006fc
   src/cribl_control_plane/sources.py:
     id: 51c4b88fc5fb
-    last_write_checksum: sha1:5fce133ff3248af11288d3a0e5516c97f99e83c5
-    pristine_git_object: 9af9a951a89a25805584fa23b9e687c7904722b0
+    last_write_checksum: sha1:5dd0bb95f687d41455fd678894b073ce02328c2a
+    pristine_git_object: 9d1e94db8b108f0608006b2e351233e134b14529
   src/cribl_control_plane/sources_pq.py:
     id: f83af0610b37
     last_write_checksum: sha1:c16d88e6300550ba4b05bc73e1d008b091cc74ee
@@ -23445,10 +23529,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "rest-collector", "schedule": {"cronSchedule": "0 */4 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "collector": {"type": "database", "conf": {"connectionId": "<id>", "query": "<value>"}}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesS3:
@@ -23456,10 +23540,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "s3-collector", "schedule": {"cronSchedule": "0 */6 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "collector": {"type": "database", "conf": {"connectionId": "<id>", "query": "<value>"}}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesFilesystem:
@@ -23467,10 +23551,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "filesystem-collector", "schedule": {"cronSchedule": "0 */2 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "savedQueryId": "<id>"}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesAzureBlob:
@@ -23478,10 +23562,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "azure-blob-collector", "schedule": {"cronSchedule": "0 */8 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "executor": {"type": "<value>"}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesGoogleCloudStorage:
@@ -23489,10 +23573,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "gcs-collector", "schedule": {"cronSchedule": "0 */12 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "executor": {"type": "<value>"}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesDatabase:
@@ -23500,10 +23584,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "database-collector", "schedule": {"cronSchedule": "0 2 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "executor": {"type": "<value>"}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesSplunk:
@@ -23511,10 +23595,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "splunk-collector", "schedule": {"cronSchedule": "0 */1 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "collector": {"type": "database", "conf": {"connectionId": "<id>", "query": "<value>"}}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesScript:
@@ -23522,10 +23606,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "script-collector", "schedule": {"cronSchedule": "0 */3 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "savedQueryId": "<id>"}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesCriblLake:
@@ -23533,10 +23617,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "cribl-lake-collector", "schedule": {"cronSchedule": "0 */2 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "collector": {"type": "database", "conf": {"connectionId": "<id>", "query": "<value>"}}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     speakeasy-default-create-saved-job:
@@ -23544,10 +23628,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "<id>", "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "executor"}
+        application/json: {"type": "collection", "executor": {"type": "<value>"}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
   getSavedJob:
@@ -23559,7 +23643,7 @@ examples:
           groupId: "<id>"
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {"key": "<value>"}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": ["<value 1>", "<value 2>", "<value 3>"]}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
   deleteSavedJobById:
@@ -23572,7 +23656,7 @@ examples:
           groupId: "<id>"
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {"key": "<value>", "key1": "<value>", "key2": "<value>"}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": ["<value 1>"]}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
   getSavedJobById:
@@ -23584,7 +23668,7 @@ examples:
           criblPack: "<value>"
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {"key": "<value>", "key1": "<value>"}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": ["<value 1>"]}], "schedule": {"enabled": true, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
   updateSavedJobById:
@@ -23595,10 +23679,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "rest-collector", "schedule": {"cronSchedule": "0 */4 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "collector": {"type": "database", "conf": {"connectionId": "<id>", "query": "<value>"}}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": false, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesS3:
@@ -23608,10 +23692,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "s3-collector", "schedule": {"cronSchedule": "0 */6 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "savedQueryId": "<id>"}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": false, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesFilesystem:
@@ -23621,10 +23705,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "filesystem-collector", "schedule": {"cronSchedule": "0 */2 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "savedQueryId": "<id>"}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": false, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesAzureBlob:
@@ -23634,10 +23718,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "azure-blob-collector", "schedule": {"cronSchedule": "0 */8 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "savedQueryId": "<id>"}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": false, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesGoogleCloudStorage:
@@ -23647,10 +23731,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "gcs-collector", "schedule": {"cronSchedule": "0 */12 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "executor": {"type": "<value>"}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": false, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesDatabase:
@@ -23660,10 +23744,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "database-collector", "schedule": {"cronSchedule": "0 2 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "collector": {"type": "database", "conf": {"connectionId": "<id>", "query": "<value>"}}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": false, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesSplunk:
@@ -23673,10 +23757,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "splunk-collector", "schedule": {"cronSchedule": "0 */1 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "collector": {"type": "database", "conf": {"connectionId": "<id>", "query": "<value>"}}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": false, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesScript:
@@ -23686,10 +23770,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "script-collector", "schedule": {"cronSchedule": "0 */3 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "savedQueryId": "<id>"}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": false, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     CollectorExamplesCriblLake:
@@ -23699,10 +23783,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "cribl-lake-collector", "schedule": {"cronSchedule": "0 */2 * * *", "enabled": true, "run": {"mode": "run", "timeRangeType": "relative", "earliest": -300, "expression": "true", "logLevel": "info"}, "tz": "UTC"}, "type": "collection"}
+        application/json: {"type": "collection", "savedQueryId": "<id>"}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": false, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
     speakeasy-default-update-saved-job-by-id:
@@ -23712,10 +23796,10 @@ examples:
         query:
           criblPack: "<value>"
       requestBody:
-        application/json: {"id": "<id>", "schedule": {"enabled": false, "run": {}, "tz": "UTC"}, "type": "scheduledSearch"}
+        application/json: {"type": "collection", "executor": {"type": "<value>"}}
       responses:
         "200":
-          application/json: {"items": [{"id": "<id>", "notifications": [{"condition": "<value>", "conf": {}, "id": "<id>", "targetDetails": [{"id": "<id>", "type": "smtp"}], "targets": []}], "schedule": {"enabled": false, "run": {}, "tz": "UTC"}, "type": "<value>"}]}
+          application/json: {}
         "500":
           application/json: {}
   getFunctionsById:
@@ -29639,7 +29723,7 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.collectors.create()`: \n  *  `request` **Changed** (Breaking ⚠️)\n  *  `response.items[]` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.collectors.list()`: \n  *  `request` **Changed** (Breaking ⚠️)\n  *  `response.items[]` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.collectors.delete()`: \n  *  `request` **Changed** (Breaking ⚠️)\n  *  `response.items[]` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.collectors.get()`: \n  *  `request.cribl_pack` **Removed** (Breaking ⚠️)\n  *  `response.items[]` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.collectors.update()`: \n  *  `request` **Changed** (Breaking ⚠️)\n  *  `response.items[]` **Changed** (Breaking ⚠️)\n"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.collectors.create()`: \n  *  `request` **Changed** (Breaking ⚠️)\n  *  `response.items[]` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.collectors.list()`:  `response.items[]` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.collectors.delete()`:  `response.items[]` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.collectors.get()`:  `response.items[]` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.collectors.update()`: \n  *  `request` **Changed** (Breaking ⚠️)\n  *  `response.items[]` **Changed** (Breaking ⚠️)\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

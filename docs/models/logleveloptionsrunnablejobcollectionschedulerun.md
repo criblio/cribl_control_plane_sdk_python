@@ -2,6 +2,16 @@
 
 Level at which to set task logging
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import LogLevelOptionsRunnableJobCollectionScheduleRun
+
+value = LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

@@ -1,5 +1,13 @@
 # InputCriblTCPType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import InputCriblTCPType
+
+value = InputCriblTCPType.CRIBL_TCP
+```
+
 
 ## Values
 

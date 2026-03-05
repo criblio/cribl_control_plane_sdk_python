@@ -1,5 +1,13 @@
 # FunctionLocalSearchDatatypeParserID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import FunctionLocalSearchDatatypeParserID
+
+value = FunctionLocalSearchDatatypeParserID.LOCAL_SEARCH_DATATYPE_PARSER
+```
+
 
 ## Values
 

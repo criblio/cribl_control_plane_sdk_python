@@ -2,6 +2,16 @@
 
 Select the level of details for disk metrics
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputDiskModeWindowsMetrics
+
+value = CreateInputDiskModeWindowsMetrics.BASIC
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

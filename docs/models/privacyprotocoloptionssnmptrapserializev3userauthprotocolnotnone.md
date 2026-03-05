@@ -1,5 +1,15 @@
 # PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
+
+value = PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

@@ -1,5 +1,15 @@
 # SaslMechanismOptionsSasl
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import SaslMechanismOptionsSasl
+
+value = SaslMechanismOptionsSasl.PLAIN
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

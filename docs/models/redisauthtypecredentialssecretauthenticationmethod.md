@@ -1,5 +1,15 @@
 # RedisAuthTypeCredentialsSecretAuthenticationMethod
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import RedisAuthTypeCredentialsSecretAuthenticationMethod
+
+value = RedisAuthTypeCredentialsSecretAuthenticationMethod.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

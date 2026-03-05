@@ -2,6 +2,16 @@
 
 Content format in which the endpoint should deliver events
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import InputWefFormat
+
+value = InputWefFormat.RAW
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

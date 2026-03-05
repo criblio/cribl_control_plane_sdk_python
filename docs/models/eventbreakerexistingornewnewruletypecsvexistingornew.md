@@ -1,5 +1,15 @@
 # EventBreakerExistingOrNewNewRuleTypeCsvExistingOrNew
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import EventBreakerExistingOrNewNewRuleTypeCsvExistingOrNew
+
+value = EventBreakerExistingOrNewNewRuleTypeCsvExistingOrNew.EXISTING
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

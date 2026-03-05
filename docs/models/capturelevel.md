@@ -2,6 +2,16 @@
 
 Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CaptureLevel
+
+value = CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE
+
+# Open enum: unrecognized values are captured as UnrecognizedInt
+```
+
 
 ## Values
 

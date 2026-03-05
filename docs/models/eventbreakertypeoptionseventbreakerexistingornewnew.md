@@ -1,5 +1,15 @@
 # EventBreakerTypeOptionsEventBreakerExistingOrNewNew
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import EventBreakerTypeOptionsEventBreakerExistingOrNewNew
+
+value = EventBreakerTypeOptionsEventBreakerExistingOrNewNew.REGEX
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

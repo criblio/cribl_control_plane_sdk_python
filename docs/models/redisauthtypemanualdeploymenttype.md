@@ -2,6 +2,16 @@
 
 How the Redis server is configured. Defaults to Standalone
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import RedisAuthTypeManualDeploymentType
+
+value = RedisAuthTypeManualDeploymentType.STANDALONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

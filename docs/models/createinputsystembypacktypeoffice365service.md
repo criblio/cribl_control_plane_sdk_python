@@ -1,5 +1,13 @@
 # CreateInputSystemByPackTypeOffice365Service
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputSystemByPackTypeOffice365Service
+
+value = CreateInputSystemByPackTypeOffice365Service.OFFICE365_SERVICE
+```
+
 
 ## Values
 

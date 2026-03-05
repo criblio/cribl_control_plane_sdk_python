@@ -2,6 +2,16 @@
 
 Minimum TLS version to use when connecting
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import MinimumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions
+
+value = MinimumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions.TL_SV1
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

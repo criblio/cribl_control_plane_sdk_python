@@ -1,5 +1,13 @@
 # FunctionRegexExtractID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import FunctionRegexExtractID
+
+value = FunctionRegexExtractID.REGEX_EXTRACT
+```
+
 
 ## Values
 

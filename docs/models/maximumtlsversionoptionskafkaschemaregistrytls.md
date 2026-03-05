@@ -1,5 +1,15 @@
 # MaximumTLSVersionOptionsKafkaSchemaRegistryTLS
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import MaximumTLSVersionOptionsKafkaSchemaRegistryTLS
+
+value = MaximumTLSVersionOptionsKafkaSchemaRegistryTLS.TL_SV1
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

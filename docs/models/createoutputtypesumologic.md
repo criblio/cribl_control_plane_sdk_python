@@ -1,5 +1,13 @@
 # CreateOutputTypeSumoLogic
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputTypeSumoLogic
+
+value = CreateOutputTypeSumoLogic.SUMO_LOGIC
+```
+
 
 ## Values
 

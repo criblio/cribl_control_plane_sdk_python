@@ -1,5 +1,15 @@
 # PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+value = PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

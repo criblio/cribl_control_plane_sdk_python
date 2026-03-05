@@ -1,5 +1,13 @@
 # OutputSumoLogicType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import OutputSumoLogicType
+
+value = OutputSumoLogicType.SUMO_LOGIC
+```
+
 
 ## Values
 

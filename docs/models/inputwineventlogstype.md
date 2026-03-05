@@ -1,5 +1,13 @@
 # InputWinEventLogsType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import InputWinEventLogsType
+
+value = InputWinEventLogsType.WIN_EVENT_LOGS
+```
+
 
 ## Values
 

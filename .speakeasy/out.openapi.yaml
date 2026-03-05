@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1772610501413-ba04e285
+  version: 4.18.0-alpha.1772665651031-cad0289c
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -10971,6 +10971,9 @@ components:
                   type: boolean
                   title: Enabled
                   description: Track collection progress between consecutive scheduled executions
+        __template_collectUrl:
+          type: string
+          description: Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/RestCollectMethodGet"
@@ -11187,6 +11190,24 @@ components:
           type: boolean
           title: Disable time filter
           description: Disable Collector event time filtering when a date range is specified
+        __template_bucket:
+          type: string
+          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
+        __template_region:
+          type: string
+          description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
+        __template_awsAuthenticationMethod:
+          type: string
+          description: Binds 'awsAuthenticationMethod' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAuthenticationMethod' at runtime.
+        __template_endpoint:
+          type: string
+          description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
+        __template_assumeRoleArn:
+          type: string
+          description: Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime.
+        __template_assumeRoleExternalId:
+          type: string
+          description: Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/S3PartitioningSchemeDdss"
@@ -11550,6 +11571,24 @@ components:
                   none: "#/components/schemas/SplunkRetryRulesTypeNone"
                   static: "#/components/schemas/SplunkRetryRulesTypeStatic"
                   backoff: "#/components/schemas/SplunkRetryRulesTypeBackoff"
+        __template_searchHead:
+          type: string
+          description: Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime.
+        __template_search:
+          type: string
+          description: Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime.
+        __template_earliest:
+          type: string
+          description: Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime.
+        __template_latest:
+          type: string
+          description: Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime.
+        __template_endpoint:
+          type: string
+          description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
+        __template_outputMode:
+          type: string
+          description: Binds 'outputMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'outputMode' at runtime.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/SplunkAuthenticationNone"

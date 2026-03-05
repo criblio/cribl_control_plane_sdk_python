@@ -2,6 +2,16 @@
 
 Determines which data types are supported and how they are represented
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import ParquetVersionOptions
+
+value = ParquetVersionOptions.PARQUET_1_0
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

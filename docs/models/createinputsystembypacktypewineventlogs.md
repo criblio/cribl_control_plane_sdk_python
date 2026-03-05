@@ -1,5 +1,13 @@
 # CreateInputSystemByPackTypeWinEventLogs
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputSystemByPackTypeWinEventLogs
+
+value = CreateInputSystemByPackTypeWinEventLogs.WIN_EVENT_LOGS
+```
+
 
 ## Values
 

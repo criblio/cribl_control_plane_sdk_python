@@ -2,6 +2,16 @@
 
 InfluxDB authentication type
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputSystemByPackAuthenticationTypeInfluxdb
+
+value = CreateOutputSystemByPackAuthenticationTypeInfluxdb.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

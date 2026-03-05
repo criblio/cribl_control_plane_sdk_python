@@ -1,5 +1,13 @@
 # CreateOutputTypeGoogleChronicle
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputTypeGoogleChronicle
+
+value = CreateOutputTypeGoogleChronicle.GOOGLE_CHRONICLE
+```
+
 
 ## Values
 

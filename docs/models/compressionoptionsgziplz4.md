@@ -2,6 +2,16 @@
 
 Codec to use to compress the data before sending to Kafka
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CompressionOptionsGzipLz4
+
+value = CompressionOptionsGzipLz4.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

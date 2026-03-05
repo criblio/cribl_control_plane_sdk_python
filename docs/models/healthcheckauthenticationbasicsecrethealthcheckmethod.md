@@ -2,6 +2,16 @@
 
 Health check HTTP method.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import HealthCheckAuthenticationBasicSecretHealthCheckMethod
+
+value = HealthCheckAuthenticationBasicSecretHealthCheckMethod.GET
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

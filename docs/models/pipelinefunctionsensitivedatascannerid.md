@@ -2,6 +2,14 @@
 
 Function ID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import PipelineFunctionSensitiveDataScannerID
+
+value = PipelineFunctionSensitiveDataScannerID.SENSITIVE_DATA_SCANNER
+```
+
 
 ## Values
 

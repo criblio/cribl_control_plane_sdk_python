@@ -1,5 +1,13 @@
 # InputEdgePrometheusType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import InputEdgePrometheusType
+
+value = InputEdgePrometheusType.EDGE_PROMETHEUS
+```
+
 
 ## Values
 

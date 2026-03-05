@@ -1,5 +1,13 @@
 # FunctionSensitiveDataScannerID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import FunctionSensitiveDataScannerID
+
+value = FunctionSensitiveDataScannerID.SENSITIVE_DATA_SCANNER
+```
+
 
 ## Values
 

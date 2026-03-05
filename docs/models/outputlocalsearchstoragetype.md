@@ -1,5 +1,13 @@
 # OutputLocalSearchStorageType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import OutputLocalSearchStorageType
+
+value = OutputLocalSearchStorageType.LOCAL_SEARCH_STORAGE
+```
+
 
 ## Values
 

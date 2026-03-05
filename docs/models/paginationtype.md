@@ -1,5 +1,15 @@
 # PaginationType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import PaginationType
+
+value = PaginationType.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

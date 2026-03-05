@@ -1,5 +1,15 @@
 # RedisDeploymentTypeClusterTLSFalseAuthenticationMethod
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import RedisDeploymentTypeClusterTLSFalseAuthenticationMethod
+
+value = RedisDeploymentTypeClusterTLSFalseAuthenticationMethod.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

@@ -1,5 +1,15 @@
 # NodeSkippedUpgradeStatus
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import NodeSkippedUpgradeStatus
+
+value = NodeSkippedUpgradeStatus.DOWNLOAD_ERROR
+
+# Open enum: unrecognized values are captured as UnrecognizedInt
+```
+
 
 ## Values
 

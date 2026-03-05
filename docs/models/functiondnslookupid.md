@@ -1,5 +1,13 @@
 # FunctionDNSLookupID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import FunctionDNSLookupID
+
+value = FunctionDNSLookupID.DNS_LOOKUP
+```
+
 
 ## Values
 

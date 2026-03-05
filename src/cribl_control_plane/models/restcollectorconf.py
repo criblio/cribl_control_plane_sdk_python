@@ -126,6 +126,8 @@ class RestCollectMethodPostTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestCollectMethodPostRetryRulesTypedDict]
     scheduling: NotRequired[RestCollectMethodPostSchedulingTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class RestCollectMethodPost(BaseModel):
@@ -197,6 +199,11 @@ class RestCollectMethodPost(BaseModel):
         Optional[RestCollectMethodPostScheduling], pydantic.Field(alias="__scheduling")
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("collect_method")
     def serialize_collect_method(self, value):
         if isinstance(value, str):
@@ -233,6 +240,7 @@ class RestCollectMethodPost(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "__scheduling",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -2719,6 +2727,8 @@ class RestCollectMethodGetTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestCollectMethodGetRetryRulesTypedDict]
     scheduling: NotRequired[RestCollectMethodGetSchedulingTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class RestCollectMethodGet(BaseModel):
@@ -2790,6 +2800,11 @@ class RestCollectMethodGet(BaseModel):
         Optional[RestCollectMethodGetScheduling], pydantic.Field(alias="__scheduling")
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("collect_method")
     def serialize_collect_method(self, value):
         if isinstance(value, str):
@@ -2826,6 +2841,7 @@ class RestCollectMethodGet(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "__scheduling",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)

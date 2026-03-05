@@ -2,6 +2,16 @@
 
 Optional Elasticsearch version, used to format events. If not specified, will auto-discover version.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputSystemByPackElasticVersion
+
+value = CreateOutputSystemByPackElasticVersion.AUTO
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

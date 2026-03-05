@@ -1,5 +1,15 @@
 # MinimumTLSVersionOptionsTLS
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import MinimumTLSVersionOptionsTLS
+
+value = MinimumTLSVersionOptionsTLS.TL_SV1
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

@@ -1,5 +1,13 @@
 # CreateOutputSystemByPackTypeSplunkHec
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputSystemByPackTypeSplunkHec
+
+value = CreateOutputSystemByPackTypeSplunkHec.SPLUNK_HEC
+```
+
 
 ## Values
 

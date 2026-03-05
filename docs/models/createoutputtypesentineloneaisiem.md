@@ -1,5 +1,13 @@
 # CreateOutputTypeSentinelOneAiSiem
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputTypeSentinelOneAiSiem
+
+value = CreateOutputTypeSentinelOneAiSiem.SENTINEL_ONE_AI_SIEM
+```
+
 
 ## Values
 

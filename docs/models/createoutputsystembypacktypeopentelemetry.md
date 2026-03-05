@@ -1,5 +1,13 @@
 # CreateOutputSystemByPackTypeOpenTelemetry
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputSystemByPackTypeOpenTelemetry
+
+value = CreateOutputSystemByPackTypeOpenTelemetry.OPEN_TELEMETRY
+```
+
 
 ## Values
 

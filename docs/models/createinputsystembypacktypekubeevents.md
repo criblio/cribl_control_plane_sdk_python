@@ -1,5 +1,13 @@
 # CreateInputSystemByPackTypeKubeEvents
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputSystemByPackTypeKubeEvents
+
+value = CreateInputSystemByPackTypeKubeEvents.KUBE_EVENTS
+```
+
 
 ## Values
 

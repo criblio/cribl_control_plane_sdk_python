@@ -1,5 +1,13 @@
 # CreateOutputSystemByPackTypeSumoLogic
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputSystemByPackTypeSumoLogic
+
+value = CreateOutputSystemByPackTypeSumoLogic.SUMO_LOGIC
+```
+
 
 ## Values
 

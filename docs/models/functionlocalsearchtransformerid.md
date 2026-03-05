@@ -1,5 +1,13 @@
 # FunctionLocalSearchTransformerID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import FunctionLocalSearchTransformerID
+
+value = FunctionLocalSearchTransformerID.LOCAL_SEARCH_TRANSFORMER
+```
+
 
 ## Values
 

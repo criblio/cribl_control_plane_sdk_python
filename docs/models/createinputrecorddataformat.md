@@ -2,6 +2,16 @@
 
 Format of data inside the Kinesis Stream records. Gzip compression is automatically detected.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputRecordDataFormat
+
+value = CreateInputRecordDataFormat.CRIBL
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

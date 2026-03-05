@@ -2492,6 +2492,8 @@ class RestAuthenticationHmacTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestAuthenticationHmacRetryRulesTypedDict]
     scheduling: NotRequired[RestAuthenticationHmacSchedulingTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class RestAuthenticationHmac(BaseModel):
@@ -2561,6 +2563,11 @@ class RestAuthenticationHmac(BaseModel):
         Optional[RestAuthenticationHmacScheduling], pydantic.Field(alias="__scheduling")
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -2596,6 +2603,7 @@ class RestAuthenticationHmac(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "__scheduling",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -5131,6 +5139,8 @@ class RestAuthenticationGoogleOauthSecretTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestAuthenticationGoogleOauthSecretRetryRulesTypedDict]
     scheduling: NotRequired[RestAuthenticationGoogleOauthSecretSchedulingTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class RestAuthenticationGoogleOauthSecret(BaseModel):
@@ -5209,6 +5219,11 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
         pydantic.Field(alias="__scheduling"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -5244,6 +5259,7 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "__scheduling",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)

@@ -1,5 +1,13 @@
 # FunctionLakeExportID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import FunctionLakeExportID
+
+value = FunctionLakeExportID.LAKE_EXPORT
+```
+
 
 ## Values
 

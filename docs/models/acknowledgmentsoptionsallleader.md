@@ -2,6 +2,16 @@
 
 Control the number of required acknowledgments.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import AcknowledgmentsOptionsAllLeader
+
+value = AcknowledgmentsOptionsAllLeader.LEADER
+
+# Open enum: unrecognized values are captured as UnrecognizedInt
+```
+
 
 ## Values
 

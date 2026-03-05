@@ -1,5 +1,13 @@
 # FunctionLocalSearchRulesetRunnerID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import FunctionLocalSearchRulesetRunnerID
+
+value = FunctionLocalSearchRulesetRunnerID.LOCAL_SEARCH_RULESET_RUNNER
+```
+
 
 ## Values
 

@@ -1,5 +1,15 @@
 # LogLevelForFailedLookups
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import LogLevelForFailedLookups
+
+value = LogLevelForFailedLookups.SILLY
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

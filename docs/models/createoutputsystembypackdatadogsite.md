@@ -2,6 +2,16 @@
 
 Datadog site to which events should be sent
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputSystemByPackDatadogSite
+
+value = CreateOutputSystemByPackDatadogSite.US
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

@@ -1,5 +1,15 @@
 # CreateOutputSystemByPackAPIVersion
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputSystemByPackAPIVersion
+
+value = CreateOutputSystemByPackAPIVersion.V1
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

@@ -1,5 +1,15 @@
 # CreateInputAuthenticationTypeElastic
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputAuthenticationTypeElastic
+
+value = CreateInputAuthenticationTypeElastic.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

@@ -1,5 +1,15 @@
 # RedisAuthTypeNoneAuthenticationMethod
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import RedisAuthTypeNoneAuthenticationMethod
+
+value = RedisAuthTypeNoneAuthenticationMethod.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

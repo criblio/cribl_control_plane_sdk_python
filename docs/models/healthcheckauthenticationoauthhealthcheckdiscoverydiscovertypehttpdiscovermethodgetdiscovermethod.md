@@ -2,6 +2,16 @@
 
 Discover HTTP method.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod
+
+value = HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverMethod.GET
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

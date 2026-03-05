@@ -2,6 +2,16 @@
 
 Data format to use when sending data. Defaults to JSON Compact.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import OutputLocalSearchStorageFormat
+
+value = OutputLocalSearchStorageFormat.JSON_COMPACT_EACH_ROW_WITH_NAMES
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

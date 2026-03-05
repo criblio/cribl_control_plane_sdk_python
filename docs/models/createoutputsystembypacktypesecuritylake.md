@@ -1,5 +1,13 @@
 # CreateOutputSystemByPackTypeSecurityLake
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputSystemByPackTypeSecurityLake
+
+value = CreateOutputSystemByPackTypeSecurityLake.SECURITY_LAKE
+```
+
 
 ## Values
 

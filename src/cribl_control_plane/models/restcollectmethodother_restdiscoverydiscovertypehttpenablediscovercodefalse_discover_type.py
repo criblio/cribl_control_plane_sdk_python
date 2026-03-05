@@ -93,6 +93,8 @@ class RestAuthenticationBasicSecretTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestAuthenticationBasicSecretRetryRulesTypedDict]
     scheduling: NotRequired[RestAuthenticationBasicSecretSchedulingTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class RestAuthenticationBasicSecret(BaseModel):
@@ -165,6 +167,11 @@ class RestAuthenticationBasicSecret(BaseModel):
         pydantic.Field(alias="__scheduling"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -200,6 +207,7 @@ class RestAuthenticationBasicSecret(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "__scheduling",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -2687,6 +2695,8 @@ class RestAuthenticationBasicTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestAuthenticationBasicRetryRulesTypedDict]
     scheduling: NotRequired[RestAuthenticationBasicSchedulingTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class RestAuthenticationBasic(BaseModel):
@@ -2758,6 +2768,11 @@ class RestAuthenticationBasic(BaseModel):
         pydantic.Field(alias="__scheduling"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -2793,6 +2808,7 @@ class RestAuthenticationBasic(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "__scheduling",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -5276,6 +5292,8 @@ class RestAuthenticationNoneTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestAuthenticationNoneRetryRulesTypedDict]
     scheduling: NotRequired[RestAuthenticationNoneSchedulingTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class RestAuthenticationNone(BaseModel):
@@ -5342,6 +5360,11 @@ class RestAuthenticationNone(BaseModel):
         Optional[RestAuthenticationNoneScheduling], pydantic.Field(alias="__scheduling")
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -5377,6 +5400,7 @@ class RestAuthenticationNone(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "__scheduling",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)

@@ -1588,6 +1588,8 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueTypedDict(TypedDict):
     scheduling: NotRequired[
         RestAuthenticationLoginGetAuthTokenFromHeaderTrueSchedulingTypedDict
     ]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderTrue(BaseModel):
@@ -1689,6 +1691,11 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrue(BaseModel):
         pydantic.Field(alias="__scheduling"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -1731,6 +1738,7 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrue(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "__scheduling",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -4311,6 +4319,8 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalseTypedDict(TypedDict):
     scheduling: NotRequired[
         RestAuthenticationLoginGetAuthTokenFromHeaderFalseSchedulingTypedDict
     ]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class RestAuthenticationLoginGetAuthTokenFromHeaderFalse(BaseModel):
@@ -4417,6 +4427,11 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalse(BaseModel):
         pydantic.Field(alias="__scheduling"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -4460,6 +4475,7 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderFalse(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "__scheduling",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)

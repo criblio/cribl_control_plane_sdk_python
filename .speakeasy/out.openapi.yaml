@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-alpha.1772253819150-d3f36156
+  version: 4.17.0-alpha.1772665653996-3f22900e
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -14942,7 +14942,7 @@ components:
           type: string
           description: URL to use when retrieving report data.
         interval:
-          type: number
+          type: integer
           title: Poll interval
           description: How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail.
           minimum: 1
@@ -14966,46 +14966,17 @@ components:
           title: Disable time filter
           description: Disables time filtering of events when a date range is specified.
         authType:
-          title: Authentication method
-          type: string
-          enum:
-            - manual
-            - secret
-            - oauth
-            - oauthSecret
-            - oauthCert
-          description: Select authentication method.
-          x-speakeasy-unknown-values: allow
-        rescheduleDroppedTasks:
-          type: boolean
-          title: Reschedule tasks
-          description: Reschedule tasks that failed with non-fatal errors
-        maxTaskReschedule:
-          type: number
-          title: Task reschedule limit
-          description: Maximum number of times a task can be rescheduled
-          minimum: 1
-        logLevel:
-          type: string
-          title: Log level
-          description: Log Level (verbosity) for collection runtime behavior.
-          enum:
-            - error
-            - warn
-            - info
-            - debug
-            - silly
-          x-speakeasy-unknown-values: allow
-        jobTimeout:
-          type: string
-          title: Job timeout
-          description: Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time.
-          pattern: ^\d+[sm]?$
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         keepAliveTime:
           type: number
           title: Keep alive time (seconds)
           description: How often workers should check in with the scheduler to keep job subscription alive
           minimum: 10
+        jobTimeout:
+          title: Job timeout
+          type: string
+          description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+          pattern: \d+[sm]?$
         maxMissedKeepAlives:
           type: number
           title: Worker timeout (periods)
@@ -15026,6 +14997,17 @@ components:
           description: Fields to add to events from this input
           items:
             $ref: "#/components/schemas/ItemsTypeMetadata"
+        rescheduleDroppedTasks:
+          type: boolean
+          title: Reschedule tasks
+          description: Reschedule tasks that failed with non-fatal errors
+        maxTaskReschedule:
+          type: number
+          title: Task reschedule limit
+          description: Maximum number of times a task can be rescheduled
+          minimum: 1
+        logLevel:
+          $ref: "#/components/schemas/LogLevelOptions"
         retryRules:
           $ref: "#/components/schemas/RetryRulesType1"
         description:
@@ -15066,27 +15048,178 @@ components:
           title: Client secret
           description: Select or create a secret that references your client_secret to pass in the OAuth request parameter.
         certOptions:
-          type: object
-          required:
-            - privKeyPath
-            - certPath
-          properties:
-            certificateName:
-              type: string
-              title: Certificate
-              description: The name of the predefined certificate.
-            privKeyPath:
-              type: string
-              title: Private key path
-              description: Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS.
-            passphrase:
-              type: string
-              title: Passphrase
-              description: Passphrase to use to decrypt the private key.
-            certPath:
-              type: string
-              title: Certificate path
-              description: Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS.
+          $ref: "#/components/schemas/CertOptionsType"
+        __template_url:
+          type: string
+          description: Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime.
+        __template_tenantId:
+          type: string
+          description: Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime.
+        __template_clientId:
+          type: string
+          description: Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime.
+        __template_resource:
+          type: string
+          description: Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime.
+    InputMicrosoftGraph:
+      type: object
+      required:
+        - type
+        - url
+        - interval
+      properties:
+        id:
+          type: string
+          title: Input ID
+          description: Unique ID for this input
+        type:
+          type: string
+          enum:
+            - microsoft_graph
+        disabled:
+          type: boolean
+          title: Disabled
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data from this Source before sending it through the Routes
+        sendToRoutes:
+          type: boolean
+          description: Select whether to send data to Routes, or directly to Destinations.
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        pqEnabled:
+          type: boolean
+          title: Enable persistent queue
+          description: Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        connections:
+          type: array
+          title: Use QuickConnect
+          description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
+          items:
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
+        pq:
+          $ref: "#/components/schemas/PqType"
+        url:
+          title: Endpoint
+          type: string
+          description: Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)
+        interval:
+          type: integer
+          title: Poll interval
+          description: How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail.
+          minimum: 1
+          maximum: 60
+        startDate:
+          title: Date range start
+          type: string
+          description: "Backward offset for the search range's head. (E.g.: -3h@h) Microsoft Graph data is delayed; this parameter (with Date range end) compensates for delay and gaps."
+        endDate:
+          title: Date range end
+          type: string
+          description: "Backward offset for the search range's tail. (E.g.: -2h@h) Microsoft Graph data is delayed; this parameter (with Date range start) compensates for delay and gaps."
+        timeout:
+          type: number
+          title: Request timeout (seconds)
+          description: HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely.
+          minimum: 0
+          maximum: 2400
+        disableTimeFilter:
+          type: boolean
+          title: Disable time filter
+          description: Disables time filtering of events when a date range is specified.
+        authType:
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+        keepAliveTime:
+          type: number
+          title: Keep alive time (seconds)
+          description: How often workers should check in with the scheduler to keep job subscription alive
+          minimum: 10
+        jobTimeout:
+          title: Job timeout
+          type: string
+          description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+          pattern: \d+[sm]?$
+        maxMissedKeepAlives:
+          type: number
+          title: Worker timeout (periods)
+          description: The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked.
+          minimum: 2
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to events from this input
+          items:
+            $ref: "#/components/schemas/ItemsTypeMetadata"
+        rescheduleDroppedTasks:
+          type: boolean
+          title: Reschedule tasks
+          description: Reschedule tasks that failed with non-fatal errors
+        maxTaskReschedule:
+          type: number
+          title: Task reschedule limit
+          description: Maximum number of times a task can be rescheduled
+          minimum: 1
+        logLevel:
+          $ref: "#/components/schemas/LogLevelOptions"
+        retryRules:
+          $ref: "#/components/schemas/RetryRulesType1"
+        description:
+          type: string
+          title: Description
+        username:
+          type: string
+          title: Username
+          description: Username to run Microsoft Graph API call.
+        password:
+          type: string
+          title: Password
+          description: Password to run Microsoft Graph API call.
+        credentialsSecret:
+          type: string
+          title: Credentials secret
+          description: Select or create a secret that references your credentials.
+        clientSecret:
+          type: string
+          title: Client secret
+          description: client_secret to pass in the OAuth request parameter.
+        tenantId:
+          type: string
+          title: Tenant identifier
+          description: Directory ID (tenant identifier) in Azure Active Directory.
+        clientId:
+          type: string
+          title: Client ID
+          description: client_id to pass in the OAuth request parameter.
+        resource:
+          type: string
+          title: Resource
+          description: Resource to pass in the OAuth request parameter.
+        planType:
+          $ref: "#/components/schemas/SubscriptionPlanOptions"
+        textSecret:
+          type: string
+          title: Client secret
+          description: Select or create a secret that references your client_secret to pass in the OAuth request parameter.
+        certOptions:
+          $ref: "#/components/schemas/CertOptionsType"
         __template_url:
           type: string
           description: Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime.
@@ -21783,6 +21916,7 @@ components:
         - $ref: "#/components/schemas/InputOffice365Mgmt"
         - $ref: "#/components/schemas/InputOffice365Service"
         - $ref: "#/components/schemas/InputOffice365MsgTrace"
+        - $ref: "#/components/schemas/InputMicrosoftGraph"
         - $ref: "#/components/schemas/InputEventhub"
         - $ref: "#/components/schemas/InputExec"
         - $ref: "#/components/schemas/InputFirehose"
@@ -21847,6 +21981,7 @@ components:
           office365_mgmt: "#/components/schemas/InputOffice365Mgmt"
           office365_service: "#/components/schemas/InputOffice365Service"
           office365_msg_trace: "#/components/schemas/InputOffice365MsgTrace"
+          microsoft_graph: "#/components/schemas/InputMicrosoftGraph"
           eventhub: "#/components/schemas/InputEventhub"
           exec: "#/components/schemas/InputExec"
           firehose: "#/components/schemas/InputFirehose"
@@ -25915,7 +26050,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         description:
           type: string
           title: Description
@@ -28434,7 +28569,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -28618,7 +28753,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         description:
           type: string
           title: Description
@@ -30603,7 +30738,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -31864,7 +31999,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          $ref: "#/components/schemas/AuthenticationMethodOptions3"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -39580,6 +39715,50 @@ components:
         - secret
       description: Enter client secret directly, or select a stored secret
       x-speakeasy-unknown-values: allow
+    AuthenticationMethodOptions2:
+      title: Authentication method
+      type: string
+      enum:
+        - manual
+        - secret
+        - oauth
+        - oauthSecret
+        - oauthCert
+      description: Select authentication method.
+      x-speakeasy-unknown-values: allow
+    LogLevelOptions:
+      type: string
+      title: Log level
+      description: Log Level (verbosity) for collection runtime behavior.
+      enum:
+        - error
+        - warn
+        - info
+        - debug
+        - silly
+      x-speakeasy-unknown-values: allow
+    CertOptionsType:
+      type: object
+      required:
+        - privKeyPath
+        - certPath
+      properties:
+        certificateName:
+          type: string
+          title: Certificate
+          description: The name of the predefined certificate.
+        privKeyPath:
+          type: string
+          title: Private key path
+          description: Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS.
+        passphrase:
+          type: string
+          title: Passphrase
+          description: Passphrase to use to decrypt the private key.
+        certPath:
+          type: string
+          title: Certificate path
+          description: Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS.
     AuthenticationMethodOptionsSasl1:
       enum:
         - manual
@@ -40105,7 +40284,7 @@ components:
         - Amazon S3 Managed Key
         - AWS KMS Managed Key
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions2:
+    AuthenticationMethodOptions3:
       title: Authentication method
       type: string
       enum:
@@ -42190,6 +42369,15 @@ components:
         tenantId: tenant-id
         appId: app-id
         planType: enterprise_gcc
+        sendToRoutes: true
+        pqEnabled: false
+    InputCreateExamplesMicrosoftGraph:
+      summary: Microsoft Graph
+      value:
+        id: microsoft-graph-source
+        type: microsoft_graph
+        url: https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces
+        interval: 15
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesOffice365MsgTrace:
@@ -44858,6 +45046,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesNetflow"
               InputCreateExamplesOffice365Mgmt:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesMicrosoftGraph:
+                $ref: "#/components/examples/InputCreateExamplesMicrosoftGraph"
               InputCreateExamplesOffice365MsgTrace:
                 $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
               InputCreateExamplesOffice365Service:
@@ -45053,6 +45243,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesNetflow"
               InputCreateExamplesOffice365Mgmt:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesMicrosoftGraph:
+                $ref: "#/components/examples/InputCreateExamplesMicrosoftGraph"
               InputCreateExamplesOffice365MsgTrace:
                 $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
               InputCreateExamplesOffice365Service:
@@ -45434,6 +45626,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesNetflow"
               InputCreateExamplesOffice365Mgmt:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesMicrosoftGraph:
+                $ref: "#/components/examples/InputCreateExamplesMicrosoftGraph"
               InputCreateExamplesOffice365MsgTrace:
                 $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
               InputCreateExamplesOffice365Service:
@@ -45648,6 +45842,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesNetflow"
               InputCreateExamplesOffice365Mgmt:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Mgmt"
+              InputCreateExamplesMicrosoftGraph:
+                $ref: "#/components/examples/InputCreateExamplesMicrosoftGraph"
               InputCreateExamplesOffice365MsgTrace:
                 $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
               InputCreateExamplesOffice365Service:

@@ -2,6 +2,16 @@
 
 Endpoint used to acquire authentication tokens from Azure
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import MicrosoftEntraIDAuthenticationEndpointOptionsSasl
+
+value = MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

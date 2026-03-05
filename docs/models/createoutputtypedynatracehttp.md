@@ -1,5 +1,13 @@
 # CreateOutputTypeDynatraceHTTP
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputTypeDynatraceHTTP
+
+value = CreateOutputTypeDynatraceHTTP.DYNATRACE_HTTP
+```
+
 
 ## Values
 

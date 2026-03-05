@@ -2,6 +2,16 @@
 
 Estimated ingest rate for Cloud Groups, in GB/sec.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import EstimatedIngestRateOptionsConfigGroup
+
+value = EstimatedIngestRateOptionsConfigGroup.RATE12_MB_PER_SEC
+
+# Open enum: unrecognized values are captured as UnrecognizedInt
+```
+
 
 ## Values
 

@@ -1,5 +1,13 @@
 # CreateInputTypeSplunkHec
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputTypeSplunkHec
+
+value = CreateInputTypeSplunkHec.SPLUNK_HEC
+```
+
 
 ## Values
 

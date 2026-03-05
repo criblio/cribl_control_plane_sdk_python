@@ -1,5 +1,15 @@
 # AuthenticationMethodOptions
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import AuthenticationMethodOptions
+
+value = AuthenticationMethodOptions.MANUAL
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

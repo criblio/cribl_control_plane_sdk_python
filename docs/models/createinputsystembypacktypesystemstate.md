@@ -1,5 +1,13 @@
 # CreateInputSystemByPackTypeSystemState
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputSystemByPackTypeSystemState
+
+value = CreateInputSystemByPackTypeSystemState.SYSTEM_STATE
+```
+
 
 ## Values
 

@@ -2,6 +2,16 @@
 
 Select the level of details for memory metrics
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputSystemByPackMemoryModeWindowsMetrics
+
+value = CreateInputSystemByPackMemoryModeWindowsMetrics.BASIC
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

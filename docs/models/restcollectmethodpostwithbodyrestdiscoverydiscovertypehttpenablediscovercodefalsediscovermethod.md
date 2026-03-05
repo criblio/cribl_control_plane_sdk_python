@@ -1,5 +1,15 @@
 # RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod
+
+value = RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalseDiscoverMethod.GET
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

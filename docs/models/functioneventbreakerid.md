@@ -1,5 +1,13 @@
 # FunctionEventBreakerID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import FunctionEventBreakerID
+
+value = FunctionEventBreakerID.EVENT_BREAKER
+```
+
 
 ## Values
 

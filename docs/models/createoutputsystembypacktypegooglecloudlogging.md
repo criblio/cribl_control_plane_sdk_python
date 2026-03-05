@@ -1,5 +1,13 @@
 # CreateOutputSystemByPackTypeGoogleCloudLogging
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputSystemByPackTypeGoogleCloudLogging
+
+value = CreateOutputSystemByPackTypeGoogleCloudLogging.GOOGLE_CLOUD_LOGGING
+```
+
 
 ## Values
 

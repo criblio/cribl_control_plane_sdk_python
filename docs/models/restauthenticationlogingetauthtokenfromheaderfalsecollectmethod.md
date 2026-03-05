@@ -1,5 +1,15 @@
 # RestAuthenticationLoginGetAuthTokenFromHeaderFalseCollectMethod
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import RestAuthenticationLoginGetAuthTokenFromHeaderFalseCollectMethod
+
+value = RestAuthenticationLoginGetAuthTokenFromHeaderFalseCollectMethod.GET
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

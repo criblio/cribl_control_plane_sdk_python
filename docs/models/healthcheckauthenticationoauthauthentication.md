@@ -2,6 +2,16 @@
 
 Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import HealthCheckAuthenticationOauthAuthentication
+
+value = HealthCheckAuthenticationOauthAuthentication.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

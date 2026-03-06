@@ -31,7 +31,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
+    res = ccp_client.collectors.create(request={
         "id": "<id>",
         "description": "yowza than voluntarily phooey meanwhile",
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
@@ -50,7 +50,7 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 3006.78,
             "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": True,
                 "max_task_reschedule": 1211.14,
                 "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
@@ -76,7 +76,7 @@ with CriblControlPlane(
             "store_task_results": True,
             "conf": {},
         },
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -97,7 +97,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
+    res = ccp_client.collectors.create(request={
         "id": "<id>",
         "description": "during disconnection where although airman",
         "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
@@ -117,7 +117,7 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 3006.78,
             "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": True,
                 "max_task_reschedule": 1211.14,
                 "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
@@ -137,7 +137,7 @@ with CriblControlPlane(
             "<value 1>",
         ],
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -158,7 +158,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
+    res = ccp_client.collectors.create(request={
         "id": "<id>",
         "description": "yowza than voluntarily phooey meanwhile",
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
@@ -177,7 +177,7 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 3006.78,
             "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": True,
                 "max_task_reschedule": 1211.14,
                 "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
@@ -203,7 +203,7 @@ with CriblControlPlane(
             "store_task_results": True,
             "conf": {},
         },
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -224,7 +224,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
+    res = ccp_client.collectors.create(request={
         "id": "<id>",
         "description": "during disconnection where although airman",
         "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
@@ -244,7 +244,7 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 3006.78,
             "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": True,
                 "max_task_reschedule": 1211.14,
                 "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
@@ -264,7 +264,7 @@ with CriblControlPlane(
             "<value 1>",
         ],
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -285,7 +285,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
+    res = ccp_client.collectors.create(request={
         "id": "<id>",
         "description": "during disconnection where although airman",
         "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
@@ -305,7 +305,7 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 3006.78,
             "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": True,
                 "max_task_reschedule": 1211.14,
                 "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
@@ -325,7 +325,7 @@ with CriblControlPlane(
             "<value 1>",
         ],
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -346,7 +346,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
+    res = ccp_client.collectors.create(request=models.SavedJobCollection(
         id="<id>",
         description="pomelo outside offensively ew",
         type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
@@ -358,14 +358,14 @@ with CriblControlPlane(
         ],
         resume_on_boot=True,
         environment="<value>",
-        schedule=models.ScheduleTypeSavedJobCollection(
+        schedule=models.ScheduleTypeSavedJobResponseCollection(
             enabled=True,
             skippable=True,
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=3006.78,
-            run=models.RunSettingsTypeSavedJobCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=True,
                 max_task_reschedule=1211.14,
                 log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
@@ -429,7 +429,7 @@ with CriblControlPlane(
             pipeline="<value>",
             output="<value>",
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -450,7 +450,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
+    res = ccp_client.collectors.create(request=models.SavedJobCollection(
         id="<id>",
         description="pomelo outside offensively ew",
         type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
@@ -462,14 +462,14 @@ with CriblControlPlane(
         ],
         resume_on_boot=True,
         environment="<value>",
-        schedule=models.ScheduleTypeSavedJobCollection(
+        schedule=models.ScheduleTypeSavedJobResponseCollection(
             enabled=True,
             skippable=True,
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=3006.78,
-            run=models.RunSettingsTypeSavedJobCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=True,
                 max_task_reschedule=1211.14,
                 log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
@@ -533,7 +533,7 @@ with CriblControlPlane(
             pipeline="<value>",
             output="<value>",
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -554,7 +554,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
+    res = ccp_client.collectors.create(request=models.SavedJobCollection(
         id="<id>",
         description="pomelo outside offensively ew",
         type=models.JobTypeOptionsRunnableJobCollection.EXECUTOR,
@@ -566,14 +566,14 @@ with CriblControlPlane(
         ],
         resume_on_boot=True,
         environment="<value>",
-        schedule=models.ScheduleTypeSavedJobCollection(
+        schedule=models.ScheduleTypeSavedJobResponseCollection(
             enabled=True,
             skippable=True,
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=3006.78,
-            run=models.RunSettingsTypeSavedJobCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=True,
                 max_task_reschedule=1211.14,
                 log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
@@ -637,7 +637,7 @@ with CriblControlPlane(
             pipeline="<value>",
             output="<value>",
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -658,7 +658,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
+    res = ccp_client.collectors.create(request={
         "id": "<id>",
         "description": "yowza than voluntarily phooey meanwhile",
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
@@ -677,7 +677,7 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 3006.78,
             "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": True,
                 "max_task_reschedule": 1211.14,
                 "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.DEBUG,
@@ -703,7 +703,7 @@ with CriblControlPlane(
             "store_task_results": True,
             "conf": {},
         },
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -714,13 +714,12 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `saved_job`                                                         | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | SavedJob object                                                     |
-| `cribl_pack`                                                        | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | The <code>id</code> of the Pack to create the Collector in.         |
+| `request`                                                           | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | The request object to use for the request.                          |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 
@@ -748,7 +747,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.list(collector_type="<value>", cribl_pack="<value>", group_id="<id>")
+    res = ccp_client.collectors.list(collector_type="<value>")
 
     # Handle response
     print(res)
@@ -760,13 +759,11 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `collector_type`                                                    | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Filter by collector type                                            |
-| `cribl_pack`                                                        | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Pack ID                                                             |
-| `group_id`                                                          | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Worker group ID                                                     |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 
@@ -794,7 +791,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.delete(id="<id>", cribl_pack="<value>", group_id="<id>")
+    res = ccp_client.collectors.delete(id="<id>")
 
     # Handle response
     print(res)
@@ -803,16 +800,14 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                      | Type                                                                           | Required                                                                       | Description                                                                    |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `id`                                                                           | *str*                                                                          | :heavy_check_mark:                                                             | The <code>id</code> of the Collector to delete.                                |
-| `cribl_pack`                                                                   | *Optional[str]*                                                                | :heavy_minus_sign:                                                             | The <code>id</code> of the Pack that includes the Collector to delete.         |
-| `group_id`                                                                     | *Optional[str]*                                                                | :heavy_minus_sign:                                                             | The <code>id</code> of the Worker Group that includes the Collector to delete. |
-| `retries`                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)               | :heavy_minus_sign:                                                             | Configuration to override the default retry behavior of the client.            |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to delete.                     |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 
@@ -840,7 +835,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.get(id="<id>", cribl_pack="<value>")
+    res = ccp_client.collectors.get(id="<id>")
 
     # Handle response
     print(res)
@@ -852,12 +847,11 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to get.                        |
-| `cribl_pack`                                                        | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | The <code>id</code> of the Pack that includes the Collector to get. |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 
@@ -903,7 +897,7 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 1498.35,
             "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": False,
                 "max_task_reschedule": 9677.47,
                 "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
@@ -925,7 +919,7 @@ with CriblControlPlane(
             "<value 3>",
         ],
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -964,7 +958,7 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 1498.35,
             "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": False,
                 "max_task_reschedule": 9677.47,
                 "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
@@ -986,7 +980,7 @@ with CriblControlPlane(
             "<value 3>",
         ],
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -1025,7 +1019,7 @@ with CriblControlPlane(
             "cron_schedule": "<value>",
             "max_concurrent_runs": 1498.35,
             "run": {
-                "type": models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+                "type": models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 "reschedule_dropped_tasks": False,
                 "max_task_reschedule": 9677.47,
                 "log_level": models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
@@ -1047,7 +1041,7 @@ with CriblControlPlane(
             "<value 3>",
         ],
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -1079,14 +1073,14 @@ with CriblControlPlane(
         ],
         resume_on_boot=False,
         environment="<value>",
-        schedule=models.ScheduleTypeSavedJobCollection(
+        schedule=models.ScheduleTypeSavedJobResponseCollection(
             enabled=True,
             skippable=False,
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=1498.35,
-            run=models.RunSettingsTypeSavedJobCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=False,
                 max_task_reschedule=9677.47,
                 log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
@@ -1164,7 +1158,7 @@ with CriblControlPlane(
             pipeline="<value>",
             output="<value>",
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -1196,14 +1190,14 @@ with CriblControlPlane(
         ],
         resume_on_boot=False,
         environment="<value>",
-        schedule=models.ScheduleTypeSavedJobCollection(
+        schedule=models.ScheduleTypeSavedJobResponseCollection(
             enabled=True,
             skippable=False,
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=1498.35,
-            run=models.RunSettingsTypeSavedJobCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=False,
                 max_task_reschedule=9677.47,
                 log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
@@ -1281,7 +1275,7 @@ with CriblControlPlane(
             pipeline="<value>",
             output="<value>",
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -1313,14 +1307,14 @@ with CriblControlPlane(
         ],
         resume_on_boot=False,
         environment="<value>",
-        schedule=models.ScheduleTypeSavedJobCollection(
+        schedule=models.ScheduleTypeSavedJobResponseCollection(
             enabled=True,
             skippable=False,
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=1498.35,
-            run=models.RunSettingsTypeSavedJobCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=False,
                 max_task_reschedule=9677.47,
                 log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
@@ -1398,7 +1392,7 @@ with CriblControlPlane(
             pipeline="<value>",
             output="<value>",
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -1430,14 +1424,14 @@ with CriblControlPlane(
         ],
         resume_on_boot=False,
         environment="<value>",
-        schedule=models.ScheduleTypeSavedJobCollection(
+        schedule=models.ScheduleTypeSavedJobResponseCollection(
             enabled=True,
             skippable=False,
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=1498.35,
-            run=models.RunSettingsTypeSavedJobCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=False,
                 max_task_reschedule=9677.47,
                 log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
@@ -1515,7 +1509,7 @@ with CriblControlPlane(
             pipeline="<value>",
             output="<value>",
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -1547,14 +1541,14 @@ with CriblControlPlane(
         ],
         resume_on_boot=False,
         environment="<value>",
-        schedule=models.ScheduleTypeSavedJobCollection(
+        schedule=models.ScheduleTypeSavedJobResponseCollection(
             enabled=True,
             skippable=False,
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=1498.35,
-            run=models.RunSettingsTypeSavedJobCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=False,
                 max_task_reschedule=9677.47,
                 log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
@@ -1632,7 +1626,7 @@ with CriblControlPlane(
             pipeline="<value>",
             output="<value>",
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -1664,14 +1658,14 @@ with CriblControlPlane(
         ],
         resume_on_boot=False,
         environment="<value>",
-        schedule=models.ScheduleTypeSavedJobCollection(
+        schedule=models.ScheduleTypeSavedJobResponseCollection(
             enabled=True,
             skippable=False,
             resume_missed=False,
             cron_schedule="<value>",
             max_concurrent_runs=1498.35,
-            run=models.RunSettingsTypeSavedJobCollectionSchedule(
-                type=models.RunSettingsTypeSavedJobCollectionScheduleType.COLLECTION,
+            run=models.RunSettingsTypeSavedJobResponseCollectionSchedule(
+                type=models.RunSettingsTypeSavedJobResponseCollectionScheduleType.COLLECTION,
                 reschedule_dropped_tasks=False,
                 max_task_reschedule=9677.47,
                 log_level=models.LogLevelOptionsRunnableJobCollectionScheduleRun.ERROR,
@@ -1749,7 +1743,7 @@ with CriblControlPlane(
             pipeline="<value>",
             output="<value>",
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -1758,16 +1752,15 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                              | Type                                                                   | Required                                                               | Description                                                            |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `id`                                                                   | *str*                                                                  | :heavy_check_mark:                                                     | The <code>id</code> of the Collector to update.                        |
-| `saved_job`                                                            | [models.SavedJob](../../models/savedjob.md)                            | :heavy_check_mark:                                                     | SavedJob object                                                        |
-| `cribl_pack`                                                           | *Optional[str]*                                                        | :heavy_minus_sign:                                                     | The <code>id</code> of the Pack that includes the Collector to update. |
-| `retries`                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)       | :heavy_minus_sign:                                                     | Configuration to override the default retry behavior of the client.    |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to update.                     |
+| `saved_job`                                                         | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | SavedJob object                                                     |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 

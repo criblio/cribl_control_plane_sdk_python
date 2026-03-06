@@ -2,17 +2,9 @@
 
 from __future__ import annotations
 from .savedjob import SavedJob, SavedJobTypedDict
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from cribl_control_plane.utils import (
-    FieldMetadata,
-    PathParamMetadata,
-    QueryParamMetadata,
-    RequestMetadata,
-)
-import pydantic
-from pydantic import model_serializer
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from cribl_control_plane.types import BaseModel
+from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
+from typing_extensions import Annotated, TypedDict
 
 
 class UpdateSavedJobByIDRequestTypedDict(TypedDict):
@@ -20,8 +12,6 @@ class UpdateSavedJobByIDRequestTypedDict(TypedDict):
     r"""The <code>id</code> of the Collector to update."""
     saved_job: SavedJobTypedDict
     r"""SavedJob object"""
-    cribl_pack: NotRequired[str]
-    r"""The <code>id</code> of the Pack that includes the Collector to update."""
 
 
 class UpdateSavedJobByIDRequest(BaseModel):
@@ -34,26 +24,3 @@ class UpdateSavedJobByIDRequest(BaseModel):
         SavedJob, FieldMetadata(request=RequestMetadata(media_type="application/json"))
     ]
     r"""SavedJob object"""
-
-    cribl_pack: Annotated[
-        Optional[str],
-        pydantic.Field(alias="criblPack"),
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""The <code>id</code> of the Pack that includes the Collector to update."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["criblPack"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

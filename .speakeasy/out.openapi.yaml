@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-alpha.1772665653996-3f22900e
+  version: 4.17.1-alpha.1772794130090-57a354e8
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -37175,7 +37175,7 @@ components:
       required:
         - id
         - status
-    CountedSavedJob:
+    CountedSavedJobResponse:
       type: object
       properties:
         count:
@@ -37184,7 +37184,191 @@ components:
         items:
           type: array
           items:
-            $ref: "#/components/schemas/SavedJob"
+            $ref: "#/components/schemas/SavedJobResponse"
+    SavedJobResponseEnrichedFields:
+      type: object
+      properties:
+        savedState:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AdditionalPropertiesTypeEnrichedFieldsSavedState"
+          description: Runtime collection state.
+        notifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Notification"
+          description: Notification targets.
+    SavedJobResponseCollection:
+      required:
+        - collector
+        - type
+      properties:
+        id:
+          type: string
+          title: Job ID
+          pattern: ^[a-zA-Z0-9_-]+$
+          description: Unique ID for this Job
+        description:
+          type: string
+          title: Description
+        type:
+          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        removeFields:
+          type: array
+          title: Remove Discover fields
+          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
+          minItems: 0
+          items:
+            type: string
+            title: Items
+            description: List of fields to remove from Discover results
+        resumeOnBoot:
+          type: boolean
+          title: Resume job on boot
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        schedule:
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        workerAffinity:
+          type: boolean
+          title: Worker affinity
+          description: If enabled, tasks are created and run by the same Worker Node
+        collector:
+          $ref: "#/components/schemas/Collector"
+        input:
+          $ref: "#/components/schemas/TypeCollectionWithBreakerRulesetsConstraint"
+      type: object
+    SavedJobResponseExecutor:
+      required:
+        - executor
+        - type
+      properties:
+        id:
+          type: string
+          title: Job ID
+          pattern: ^[a-zA-Z0-9_-]+$
+          description: Unique ID for this Job
+        description:
+          type: string
+          title: Description
+        type:
+          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        removeFields:
+          type: array
+          title: Remove Discover fields
+          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
+          minItems: 0
+          items:
+            type: string
+            title: Items
+            description: List of fields to remove from Discover results
+        resumeOnBoot:
+          type: boolean
+          title: Resume job on boot
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        schedule:
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        executor:
+          $ref: "#/components/schemas/ExecutorTypeRunnableJobExecutor"
+      type: object
+    SavedJobResponseScheduledSearch:
+      required:
+        - savedQueryId
+        - type
+      properties:
+        id:
+          type: string
+          title: Job ID
+          pattern: ^[a-zA-Z0-9_-]+$
+          description: Unique ID for this Job
+        description:
+          type: string
+          title: Description
+        type:
+          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        removeFields:
+          type: array
+          title: Remove Discover fields
+          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
+          minItems: 0
+          items:
+            type: string
+            title: Items
+            description: List of fields to remove from Discover results
+        resumeOnBoot:
+          type: boolean
+          title: Resume job on boot
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        schedule:
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        savedQueryId:
+          type: string
+          title: ID of the SavedQuery
+          description: Identifies which search query to run
+      type: object
+    SavedJobResponse:
+      allOf:
+        - $ref: "#/components/schemas/SavedJobResponseEnrichedFields"
+        - oneOf:
+            - $ref: "#/components/schemas/SavedJobResponseCollection"
+            - $ref: "#/components/schemas/SavedJobResponseExecutor"
+            - $ref: "#/components/schemas/SavedJobResponseScheduledSearch"
     SavedJobCollection:
       required:
         - collector
@@ -37227,7 +37411,7 @@ components:
           title: Environment
           description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
         schedule:
-          $ref: "#/components/schemas/ScheduleTypeSavedJobCollection"
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
         streamtags:
           type: array
           title: Tags
@@ -37285,7 +37469,7 @@ components:
           title: Environment
           description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
         schedule:
-          $ref: "#/components/schemas/ScheduleTypeSavedJobCollection"
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
         streamtags:
           type: array
           title: Tags
@@ -37337,7 +37521,7 @@ components:
           title: Environment
           description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
         schedule:
-          $ref: "#/components/schemas/ScheduleTypeSavedJobCollection"
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
         streamtags:
           type: array
           title: Tags
@@ -37354,6 +37538,113 @@ components:
         - $ref: "#/components/schemas/SavedJobCollection"
         - $ref: "#/components/schemas/SavedJobExecutor"
         - $ref: "#/components/schemas/SavedJobScheduledSearch"
+    Notification:
+      type: object
+      required:
+        - id
+        - condition
+      properties:
+        id:
+          type: string
+          title: ID
+          pattern: ^[a-zA-Z0-9_-]+$
+        disabled:
+          type: boolean
+          title: Disabled
+        condition:
+          type: string
+          title: Condition
+        targets:
+          type: array
+          title: Notification targets
+          description: Targets to send any Notifications to
+          items:
+            type: string
+        targetConfigs:
+          type: array
+          title: Target configuration
+          items:
+            type: object
+            required:
+              - id
+            properties:
+              id:
+                type: string
+                title: Notification target ID
+                pattern: ^[a-zA-Z0-9_-]+$
+            anyOf:
+              - properties:
+                  conf:
+                    type: object
+                    title: Notification config for SMTP target
+                    properties:
+                      subject:
+                        type: string
+                        title: Subject
+                        description: Email subject
+                      body:
+                        type: string
+                        title: Message
+                        description: Email body
+                      emailRecipient:
+                        type: object
+                        required:
+                          - to
+                        properties:
+                          to:
+                            type: string
+                            title: To
+                            description: Recipients' email addresses
+                          cc:
+                            type: string
+                            title: Cc
+                            description: "Cc: Recipients' email addresses"
+                          bcc:
+                            type: string
+                            title: Bcc
+                            description: "Bcc: Recipients' email addresses"
+        conf:
+          type: object
+          title: Condition-specific configs
+          properties: {}
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to events from this input
+          items:
+            $ref: "#/components/schemas/ItemsTypeMetadata"
+        mode:
+          type: string
+          title: Mode
+          description: "Notification mode: direct or policy-based"
+          enum:
+            - direct
+            - policy
+          x-speakeasy-unknown-values: allow
+        templateTargetPairs:
+          type: array
+          title: Template & Target Pairs
+          description: Pairs of templates and targets for notification routing
+          items:
+            $ref: "#/components/schemas/ItemsTypePoliciesItemsTemplateTargetPairs"
+      oneOf:
+        - properties:
+            mode:
+              const: direct
+            templateTargetPairs:
+              minItems: 1
+          required:
+            - mode
+            - templateTargetPairs
+        - properties:
+            mode:
+              const: policy
+            templateTargetPairs:
+              maxItems: 0
+          required:
+            - mode
+        - properties:
+            mode: {}
     CloudProvider:
       type:
         - string
@@ -39112,6 +39403,14 @@ components:
       required:
         - name
         - value
+    AdditionalPropertiesTypeEnrichedFieldsSavedState:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          additionalProperties: true
     EventBreakerTypeOptionsEventBreakerExistingOrNewNew:
       type: string
       title: Event Breaker type
@@ -41867,7 +42166,7 @@ components:
         - healthCounts
         - timestamp
       description: Status information for the Source or Destination, aggregated across all Worker Processes.
-    RunSettingsTypeSavedJobCollectionSchedule:
+    RunSettingsTypeSavedJobResponseCollectionSchedule:
       type: object
       title: Run settings
       allOf:
@@ -41901,7 +42200,7 @@ components:
           minimum: 1
         run:
           $ref: "#/components/schemas/RunSettingsTypeRunnableJobCollectionSchedule"
-    ScheduleTypeSavedJobCollection:
+    ScheduleTypeSavedJobResponseCollection:
       type: object
       title: Schedule
       description: Configuration for a scheduled job
@@ -41928,7 +42227,7 @@ components:
           description: The maximum number of instances of this scheduled job that may be running at any time
           minimum: 1
         run:
-          $ref: "#/components/schemas/RunSettingsTypeSavedJobCollectionSchedule"
+          $ref: "#/components/schemas/RunSettingsTypeSavedJobResponseCollectionSchedule"
   examples:
     DatabaseConnectionExamplesMySQLWithConnectionString:
       summary: MySQL with connection string
@@ -48763,11 +49062,11 @@ paths:
       description: Create a new Collector.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -48802,13 +49101,6 @@ paths:
                 $ref: "#/components/examples/CollectorExamplesScript"
               CollectorExamplesCriblLake:
                 $ref: "#/components/examples/CollectorExamplesCriblLake"
-      parameters:
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack to create the Collector in.
     get:
       operationId: getSavedJob
       tags:
@@ -48821,11 +49113,11 @@ paths:
       description: Get a list of all Collectors.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -48841,18 +49133,6 @@ paths:
           schema:
             type: string
           description: Filter by collector type
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Pack ID
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Worker group ID
   /lib/jobs/{id}:
     delete:
       operationId: deleteSavedJobById
@@ -48866,11 +49146,11 @@ paths:
       description: Delete the specified Collector.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -48886,18 +49166,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Collector to delete.
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack that includes the Collector to delete.
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group that includes the Collector to delete.
     get:
       operationId: getSavedJobById
       tags:
@@ -48910,11 +49178,11 @@ paths:
       description: Get the specified Collector.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -48930,12 +49198,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Collector to get.
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack that includes the Collector to get.
     patch:
       operationId: updateSavedJobById
       tags:
@@ -48948,11 +49210,11 @@ paths:
       description: Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -48994,12 +49256,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Collector to update.
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack that includes the Collector to update.
   /products/{product}/groups:
     get:
       operationId: listConfigGroupByProduct

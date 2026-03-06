@@ -8,13 +8,13 @@ if TYPE_CHECKING:
     from .acknowledgmentsoptions import AcknowledgmentsOptions
     from .acknowledgmentsoptions1 import AcknowledgmentsOptions1
     from .addhectokenrequest import AddHecTokenRequest, AddHecTokenRequestTypedDict
+    from .additionalpropertiestypeenrichedfieldssavedstate import (
+        AdditionalPropertiesTypeEnrichedFieldsSavedState,
+        AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict,
+    )
     from .additionalpropertiestypejobinfostats import (
         AdditionalPropertiesTypeJobInfoStats,
         AdditionalPropertiesTypeJobInfoStatsTypedDict,
-    )
-    from .additionalpropertiestypesavedjobenrichedfieldssavedstate import (
-        AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedState,
-        AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedStateTypedDict,
     )
     from .apitypesystemsettingsconf import (
         APITypeSystemSettingsConf,
@@ -7185,10 +7185,10 @@ __all__ = [
     "AddHecTokenRequestTypedDict",
     "AdditionalField",
     "AdditionalFieldTypedDict",
+    "AdditionalPropertiesTypeEnrichedFieldsSavedState",
+    "AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict",
     "AdditionalPropertiesTypeJobInfoStats",
     "AdditionalPropertiesTypeJobInfoStatsTypedDict",
-    "AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedState",
-    "AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedStateTypedDict",
     "AdditionalProperty",
     "AdditionalPropertyTypedDict",
     "AggregateMetricsCumulativeFalse",
@@ -13563,10 +13563,10 @@ _dynamic_imports: dict[str, str] = {
     "AcknowledgmentsOptions1": ".acknowledgmentsoptions1",
     "AddHecTokenRequest": ".addhectokenrequest",
     "AddHecTokenRequestTypedDict": ".addhectokenrequest",
+    "AdditionalPropertiesTypeEnrichedFieldsSavedState": ".additionalpropertiestypeenrichedfieldssavedstate",
+    "AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict": ".additionalpropertiestypeenrichedfieldssavedstate",
     "AdditionalPropertiesTypeJobInfoStats": ".additionalpropertiestypejobinfostats",
     "AdditionalPropertiesTypeJobInfoStatsTypedDict": ".additionalpropertiestypejobinfostats",
-    "AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedState": ".additionalpropertiestypesavedjobenrichedfieldssavedstate",
-    "AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedStateTypedDict": ".additionalpropertiestypesavedjobenrichedfieldssavedstate",
     "APITypeSystemSettingsConf": ".apitypesystemsettingsconf",
     "APITypeSystemSettingsConfTypedDict": ".apitypesystemsettingsconf",
     "AuthenticationMethodOptions": ".authenticationmethodoptions",

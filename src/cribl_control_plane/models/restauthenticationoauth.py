@@ -958,7 +958,7 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderTrueType
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
     interval: NotRequired[float]
-    r"""Time interval between a failed request and the first retry"""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""Maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -986,7 +986,7 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderTrue(Bas
     ] = None
 
     interval: Optional[float] = None
-    r"""Time interval between a failed request and the first retry"""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""Maximum number of times to retry a failed HTTP request"""
@@ -1057,7 +1057,7 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderFalseTyp
     enable_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     interval: NotRequired[float]
-    r"""Time interval between a failed request and the first retry"""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""Maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -1083,7 +1083,7 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffEnableHeaderFalse(
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     interval: Optional[float] = None
-    r"""Time interval between a failed request and the first retry"""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""Maximum number of times to retry a failed HTTP request"""
@@ -1181,6 +1181,9 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderTrueTyped
     r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
 
 
 class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
@@ -1215,6 +1218,13 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderTrue(Base
     ] = None
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -1235,6 +1245,8 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderTrue(Base
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -1268,6 +1280,9 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderFalseType
     r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
 
 
 class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
@@ -1298,6 +1313,13 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderFalse(Bas
     ] = None
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -1317,6 +1339,8 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticEnableHeaderFalse(Bas
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -1354,11 +1378,57 @@ RestAuthenticationGoogleOauthRestRetryRulesTypeStatic = TypeAliasType(
 class RestAuthenticationGoogleOauthRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationGoogleOauthRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -1368,6 +1438,33 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 RestAuthenticationGoogleOauthRetryRulesTypedDict = TypeAliasType(
@@ -3582,7 +3679,7 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrueType
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
     interval: NotRequired[float]
-    r"""Time interval between a failed request and the first retry"""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""Maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -3610,7 +3707,7 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderTrue(Bas
     ] = None
 
     interval: Optional[float] = None
-    r"""Time interval between a failed request and the first retry"""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""Maximum number of times to retry a failed HTTP request"""
@@ -3681,7 +3778,7 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalseTyp
     enable_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     interval: NotRequired[float]
-    r"""Time interval between a failed request and the first retry"""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""Maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -3707,7 +3804,7 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffEnableHeaderFalse(
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     interval: Optional[float] = None
-    r"""Time interval between a failed request and the first retry"""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""Maximum number of times to retry a failed HTTP request"""
@@ -3805,6 +3902,9 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderTrueTyped
     r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
 
 
 class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
@@ -3839,6 +3939,13 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderTrue(Base
     ] = None
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -3859,6 +3966,8 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderTrue(Base
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -3892,6 +4001,9 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderFalseType
     r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
 
 
 class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
@@ -3922,6 +4034,13 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderFalse(Bas
     ] = None
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -3941,6 +4060,8 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStaticEnableHeaderFalse(Bas
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -3978,11 +4099,57 @@ RestAuthenticationOauthSecretRestRetryRulesTypeStatic = TypeAliasType(
 class RestAuthenticationOauthSecretRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationOauthSecretRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -3992,6 +4159,33 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 RestAuthenticationOauthSecretRetryRulesTypedDict = TypeAliasType(
@@ -6231,7 +6425,7 @@ class RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderTrueTypedDict(
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     retry_header_name: NotRequired[str]
     interval: NotRequired[float]
-    r"""Time interval between a failed request and the first retry"""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""Maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -6259,7 +6453,7 @@ class RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel
     ] = None
 
     interval: Optional[float] = None
-    r"""Time interval between a failed request and the first retry"""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""Maximum number of times to retry a failed HTTP request"""
@@ -6330,7 +6524,7 @@ class RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderFalseTypedDict
     enable_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
     interval: NotRequired[float]
-    r"""Time interval between a failed request and the first retry"""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""Maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -6354,7 +6548,7 @@ class RestAuthenticationOauthRestRetryRulesTypeBackoffEnableHeaderFalse(BaseMode
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     interval: Optional[float] = None
-    r"""Time interval between a failed request and the first retry"""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""Maximum number of times to retry a failed HTTP request"""
@@ -6452,6 +6646,9 @@ class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderTrueTypedDict(
     r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
 
 
 class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
@@ -6486,6 +6683,13 @@ class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel)
     ] = None
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -6506,6 +6710,8 @@ class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel)
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -6539,6 +6745,9 @@ class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderFalseTypedDict(
     r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
 
 
 class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel):
@@ -6569,6 +6778,13 @@ class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel
     ] = None
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -6588,6 +6804,8 @@ class RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel
                 "codes",
                 "retryConnectTimeout",
                 "retryConnectReset",
+                "multiplier",
+                "maxIntervalMs",
             ]
         )
         serialized = handler(self)
@@ -6625,11 +6843,57 @@ RestAuthenticationOauthRestRetryRulesTypeStatic = TypeAliasType(
 class RestAuthenticationOauthRestRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""Maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    max_interval_ms: NotRequired[float]
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
 
 class RestAuthenticationOauthRestRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""Maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    max_interval_ms: Annotated[
+        Optional[float], pydantic.Field(alias="maxIntervalMs")
+    ] = None
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset (ECONNRESET) error occurs"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -6639,6 +6903,33 @@ class RestAuthenticationOauthRestRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "multiplier",
+                "maxIntervalMs",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 RestAuthenticationOauthRetryRulesTypedDict = TypeAliasType(
@@ -6996,6 +7287,10 @@ try:
 except NameError:
     pass
 try:
+    RestAuthenticationGoogleOauthRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
     RestAuthenticationGoogleOauthScheduling.model_rebuild()
 except NameError:
     pass
@@ -7084,6 +7379,10 @@ try:
 except NameError:
     pass
 try:
+    RestAuthenticationOauthSecretRestRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
     RestAuthenticationOauthSecretScheduling.model_rebuild()
 except NameError:
     pass
@@ -7169,6 +7468,10 @@ except NameError:
     pass
 try:
     RestAuthenticationOauthRestRetryRulesTypeStaticEnableHeaderFalse.model_rebuild()
+except NameError:
+    pass
+try:
+    RestAuthenticationOauthRestRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:

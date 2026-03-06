@@ -714,7 +714,7 @@ class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeBackoffTypedD
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""The maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -730,7 +730,7 @@ class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeBackoff(BaseM
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = None
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
@@ -787,6 +787,8 @@ class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStaticTypedDi
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
     enable_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
 
 class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStatic(BaseModel):
@@ -807,6 +809,9 @@ class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStatic(BaseMo
     )
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -818,7 +823,9 @@ class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeStatic(BaseMo
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["interval", "limit", "codes", "enableHeader"])
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
         serialized = handler(self)
         m = {}
 
@@ -838,11 +845,38 @@ class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNoneTypedDict
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -852,6 +886,24 @@ class HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNone(BaseMode
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 HealthCheckAuthenticationOauthSecretRetryRulesTypedDict = TypeAliasType(
@@ -1761,7 +1813,7 @@ class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeBackoffTypedDict(
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""The maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -1777,7 +1829,7 @@ class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeBackoff(BaseModel):
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = None
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
@@ -1832,6 +1884,8 @@ class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStaticTypedDict(Typ
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
     enable_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
 
 class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStatic(BaseModel):
@@ -1852,6 +1906,9 @@ class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStatic(BaseModel):
     )
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -1863,7 +1920,9 @@ class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStatic(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["interval", "limit", "codes", "enableHeader"])
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
         serialized = handler(self)
         m = {}
 
@@ -1881,11 +1940,38 @@ class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStatic(BaseModel):
 class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -1895,6 +1981,24 @@ class HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 HealthCheckAuthenticationOauthRetryRulesTypedDict = TypeAliasType(
@@ -2804,7 +2908,7 @@ class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeBackoffTypedD
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""The maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -2820,7 +2924,7 @@ class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeBackoff(BaseM
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = None
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
@@ -2877,6 +2981,8 @@ class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeStaticTypedDi
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
     enable_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
 
 class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeStatic(BaseModel):
@@ -2897,6 +3003,9 @@ class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeStatic(BaseMo
     )
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -2908,7 +3017,9 @@ class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeStatic(BaseMo
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["interval", "limit", "codes", "enableHeader"])
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
         serialized = handler(self)
         m = {}
 
@@ -2928,11 +3039,38 @@ class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNoneTypedDict
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2942,6 +3080,24 @@ class HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNone(BaseMode
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 HealthCheckAuthenticationLoginSecretRetryRulesTypedDict = TypeAliasType(
@@ -3838,7 +3994,7 @@ class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeBackoffTypedDict(
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""The maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -3854,7 +4010,7 @@ class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeBackoff(BaseModel):
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = None
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
@@ -3909,6 +4065,8 @@ class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStaticTypedDict(Typ
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
     enable_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
 
 class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStatic(BaseModel):
@@ -3929,6 +4087,9 @@ class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStatic(BaseModel):
     )
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -3940,7 +4101,9 @@ class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStatic(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["interval", "limit", "codes", "enableHeader"])
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
         serialized = handler(self)
         m = {}
 
@@ -3958,11 +4121,38 @@ class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStatic(BaseModel):
 class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -3972,6 +4162,24 @@ class HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 HealthCheckAuthenticationLoginRetryRulesTypedDict = TypeAliasType(
@@ -4871,7 +5079,7 @@ class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeBackoffTypedD
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""The maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -4887,7 +5095,7 @@ class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeBackoff(BaseM
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = None
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
@@ -4944,6 +5152,8 @@ class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeStaticTypedDi
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
     enable_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
 
 class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeStatic(BaseModel):
@@ -4964,6 +5174,9 @@ class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeStatic(BaseMo
     )
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -4975,7 +5188,9 @@ class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeStatic(BaseMo
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["interval", "limit", "codes", "enableHeader"])
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
         serialized = handler(self)
         m = {}
 
@@ -4995,11 +5210,38 @@ class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNoneTypedDict
 ):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -5009,6 +5251,24 @@ class HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNone(BaseMode
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 HealthCheckAuthenticationBasicSecretRetryRulesTypedDict = TypeAliasType(
@@ -5871,7 +6131,7 @@ class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeBackoffTypedDict(
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""The maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -5887,7 +6147,7 @@ class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeBackoff(BaseModel):
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = None
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
@@ -5942,6 +6202,8 @@ class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStaticTypedDict(Typ
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
     enable_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
 
 
 class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStatic(BaseModel):
@@ -5962,6 +6224,9 @@ class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStatic(BaseModel):
     )
     r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -5973,7 +6238,9 @@ class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStatic(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["interval", "limit", "codes", "enableHeader"])
+        optional_fields = set(
+            ["interval", "limit", "codes", "enableHeader", "multiplier"]
+        )
         serialized = handler(self)
         m = {}
 
@@ -5991,11 +6258,38 @@ class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStatic(BaseModel):
 class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNoneTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
 
 class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNone(BaseModel):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -6005,6 +6299,24 @@ class HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNone(BaseModel):
             except ValueError:
                 return value
         return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["interval", "limit", "multiplier", "codes", "enableHeader"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 HealthCheckAuthenticationBasicRetryRulesTypedDict = TypeAliasType(
@@ -6224,6 +6536,10 @@ try:
 except NameError:
     pass
 try:
+    HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
     HealthCheckAuthenticationOauthSecret.model_rebuild()
 except NameError:
     pass
@@ -6257,6 +6573,10 @@ except NameError:
     pass
 try:
     HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:
@@ -6296,6 +6616,10 @@ try:
 except NameError:
     pass
 try:
+    HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
     HealthCheckAuthenticationLoginSecret.model_rebuild()
 except NameError:
     pass
@@ -6329,6 +6653,10 @@ except NameError:
     pass
 try:
     HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:
@@ -6368,6 +6696,10 @@ try:
 except NameError:
     pass
 try:
+    HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
     HealthCheckAuthenticationBasicSecret.model_rebuild()
 except NameError:
     pass
@@ -6401,6 +6733,10 @@ except NameError:
     pass
 try:
     HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:

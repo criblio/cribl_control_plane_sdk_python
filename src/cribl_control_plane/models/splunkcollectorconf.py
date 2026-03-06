@@ -64,7 +64,7 @@ class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeBackoffTypedDict(TypedD
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""The maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -84,7 +84,7 @@ class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeBackoff(BaseModel):
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = None
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
@@ -161,6 +161,8 @@ class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStaticTypedDict(TypedDi
     r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
 
 class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStatic(BaseModel):
@@ -172,6 +174,95 @@ class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStatic(BaseModel):
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+
+
+class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
     codes: Optional[List[float]] = None
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
@@ -206,6 +297,7 @@ class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStatic(BaseModel):
             [
                 "interval",
                 "limit",
+                "multiplier",
                 "codes",
                 "enableHeader",
                 "retryConnectTimeout",
@@ -224,25 +316,6 @@ class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
-
-
-class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNoneTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-
-class SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNone(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
 
 
 SplunkAuthenticationTokenSecretRetryRulesTypedDict = TypeAliasType(
@@ -489,7 +562,7 @@ class SplunkAuthenticationTokenSplunkRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""The maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -509,7 +582,7 @@ class SplunkAuthenticationTokenSplunkRetryRulesTypeBackoff(BaseModel):
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = None
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
@@ -586,6 +659,8 @@ class SplunkAuthenticationTokenSplunkRetryRulesTypeStaticTypedDict(TypedDict):
     r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
 
 class SplunkAuthenticationTokenSplunkRetryRulesTypeStatic(BaseModel):
@@ -597,6 +672,95 @@ class SplunkAuthenticationTokenSplunkRetryRulesTypeStatic(BaseModel):
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SplunkAuthenticationTokenSplunkRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+
+
+class SplunkAuthenticationTokenSplunkRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
     codes: Optional[List[float]] = None
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
@@ -631,6 +795,7 @@ class SplunkAuthenticationTokenSplunkRetryRulesTypeStatic(BaseModel):
             [
                 "interval",
                 "limit",
+                "multiplier",
                 "codes",
                 "enableHeader",
                 "retryConnectTimeout",
@@ -649,25 +814,6 @@ class SplunkAuthenticationTokenSplunkRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
-
-
-class SplunkAuthenticationTokenSplunkRetryRulesTypeNoneTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-
-class SplunkAuthenticationTokenSplunkRetryRulesTypeNone(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
 
 
 SplunkAuthenticationTokenRetryRulesTypedDict = TypeAliasType(
@@ -914,7 +1060,7 @@ class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeBackoffTypedDict(TypedD
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""The maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -934,7 +1080,7 @@ class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeBackoff(BaseModel):
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = None
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
@@ -1011,6 +1157,8 @@ class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStaticTypedDict(TypedDi
     r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
 
 class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStatic(BaseModel):
@@ -1022,6 +1170,95 @@ class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStatic(BaseModel):
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+
+
+class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
     codes: Optional[List[float]] = None
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
@@ -1056,6 +1293,7 @@ class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStatic(BaseModel):
             [
                 "interval",
                 "limit",
+                "multiplier",
                 "codes",
                 "enableHeader",
                 "retryConnectTimeout",
@@ -1074,25 +1312,6 @@ class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
-
-
-class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNoneTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-
-class SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNone(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
 
 
 SplunkAuthenticationBasicSecretRetryRulesTypedDict = TypeAliasType(
@@ -1339,7 +1558,7 @@ class SplunkAuthenticationBasicSplunkRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""The maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -1359,7 +1578,7 @@ class SplunkAuthenticationBasicSplunkRetryRulesTypeBackoff(BaseModel):
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = None
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
@@ -1436,6 +1655,8 @@ class SplunkAuthenticationBasicSplunkRetryRulesTypeStaticTypedDict(TypedDict):
     r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
 
 class SplunkAuthenticationBasicSplunkRetryRulesTypeStatic(BaseModel):
@@ -1447,6 +1668,95 @@ class SplunkAuthenticationBasicSplunkRetryRulesTypeStatic(BaseModel):
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SplunkAuthenticationBasicSplunkRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+
+
+class SplunkAuthenticationBasicSplunkRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
     codes: Optional[List[float]] = None
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
@@ -1481,6 +1791,7 @@ class SplunkAuthenticationBasicSplunkRetryRulesTypeStatic(BaseModel):
             [
                 "interval",
                 "limit",
+                "multiplier",
                 "codes",
                 "enableHeader",
                 "retryConnectTimeout",
@@ -1499,25 +1810,6 @@ class SplunkAuthenticationBasicSplunkRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
-
-
-class SplunkAuthenticationBasicSplunkRetryRulesTypeNoneTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-
-class SplunkAuthenticationBasicSplunkRetryRulesTypeNone(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
 
 
 SplunkAuthenticationBasicRetryRulesTypedDict = TypeAliasType(
@@ -1769,7 +2061,7 @@ class SplunkAuthenticationNoneSplunkRetryRulesTypeBackoffTypedDict(TypedDict):
     type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
     r"""The algorithm to use when performing HTTP retries"""
     interval: NotRequired[float]
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
     limit: NotRequired[float]
     r"""The maximum number of times to retry a failed HTTP request"""
     multiplier: NotRequired[float]
@@ -1789,7 +2081,7 @@ class SplunkAuthenticationNoneSplunkRetryRulesTypeBackoff(BaseModel):
     r"""The algorithm to use when performing HTTP retries"""
 
     interval: Optional[float] = None
-    r"""Time interval between failed request and first retry (kickoff). Maximum allowed value is 20,000 ms (1/3 minute)."""
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
@@ -1866,6 +2158,8 @@ class SplunkAuthenticationNoneSplunkRetryRulesTypeStaticTypedDict(TypedDict):
     r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
 
 class SplunkAuthenticationNoneSplunkRetryRulesTypeStatic(BaseModel):
@@ -1877,6 +2171,95 @@ class SplunkAuthenticationNoneSplunkRetryRulesTypeStatic(BaseModel):
 
     limit: Optional[float] = None
     r"""The maximum number of times to retry a failed HTTP request"""
+
+    codes: Optional[List[float]] = None
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+
+    enable_header: Annotated[Optional[bool], pydantic.Field(alias="enableHeader")] = (
+        None
+    )
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+
+    retry_connect_timeout: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectTimeout")
+    ] = None
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+
+    retry_connect_reset: Annotated[
+        Optional[bool], pydantic.Field(alias="retryConnectReset")
+    ] = None
+    r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "interval",
+                "limit",
+                "codes",
+                "enableHeader",
+                "retryConnectTimeout",
+                "retryConnectReset",
+                "multiplier",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SplunkAuthenticationNoneSplunkRetryRulesTypeNoneTypedDict(TypedDict):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+    interval: NotRequired[float]
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+    limit: NotRequired[float]
+    r"""The maximum number of times to retry a failed HTTP request"""
+    multiplier: NotRequired[float]
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
+    codes: NotRequired[List[float]]
+    r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
+    enable_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored."""
+    retry_connect_timeout: NotRequired[bool]
+    r"""Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs"""
+    retry_connect_reset: NotRequired[bool]
+    r"""Retry request when a connection reset error (ECONNRESET) error occurs"""
+
+
+class SplunkAuthenticationNoneSplunkRetryRulesTypeNone(BaseModel):
+    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
+    r"""The algorithm to use when performing HTTP retries"""
+
+    interval: Optional[float] = None
+    r"""Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute)."""
+
+    limit: Optional[float] = None
+    r"""The maximum number of times to retry a failed HTTP request"""
+
+    multiplier: Optional[float] = None
+    r"""Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
 
     codes: Optional[List[float]] = None
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
@@ -1911,6 +2294,7 @@ class SplunkAuthenticationNoneSplunkRetryRulesTypeStatic(BaseModel):
             [
                 "interval",
                 "limit",
+                "multiplier",
                 "codes",
                 "enableHeader",
                 "retryConnectTimeout",
@@ -1929,25 +2313,6 @@ class SplunkAuthenticationNoneSplunkRetryRulesTypeStatic(BaseModel):
                     m[k] = val
 
         return m
-
-
-class SplunkAuthenticationNoneSplunkRetryRulesTypeNoneTypedDict(TypedDict):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-
-class SplunkAuthenticationNoneSplunkRetryRulesTypeNone(BaseModel):
-    type: RetryTypeOptionsHealthCheckCollectorConfRetryRules
-    r"""The algorithm to use when performing HTTP retries"""
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.RetryTypeOptionsHealthCheckCollectorConfRetryRules(value)
-            except ValueError:
-                return value
-        return value
 
 
 SplunkAuthenticationNoneRetryRulesTypedDict = TypeAliasType(
@@ -2204,6 +2569,10 @@ try:
 except NameError:
     pass
 try:
+    SplunkAuthenticationTokenSecretSplunkRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
     SplunkAuthenticationTokenSecret.model_rebuild()
 except NameError:
     pass
@@ -2213,6 +2582,10 @@ except NameError:
     pass
 try:
     SplunkAuthenticationTokenSplunkRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationTokenSplunkRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:
@@ -2228,6 +2601,10 @@ try:
 except NameError:
     pass
 try:
+    SplunkAuthenticationBasicSecretSplunkRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
     SplunkAuthenticationBasicSecret.model_rebuild()
 except NameError:
     pass
@@ -2240,6 +2617,10 @@ try:
 except NameError:
     pass
 try:
+    SplunkAuthenticationBasicSplunkRetryRulesTypeNone.model_rebuild()
+except NameError:
+    pass
+try:
     SplunkAuthenticationBasic.model_rebuild()
 except NameError:
     pass
@@ -2249,6 +2630,10 @@ except NameError:
     pass
 try:
     SplunkAuthenticationNoneSplunkRetryRulesTypeStatic.model_rebuild()
+except NameError:
+    pass
+try:
+    SplunkAuthenticationNoneSplunkRetryRulesTypeNone.model_rebuild()
 except NameError:
     pass
 try:

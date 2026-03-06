@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-alpha.1772651227296-63bbbcdd
+  version: 4.17.1-alpha.1772787560216-f2bfa519
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -5434,6 +5434,9 @@ components:
               minLength: 1
             authProtocol:
               $ref: "#/components/schemas/AuthenticationProtocolOptionsV3User"
+            authKey:
+              type: string
+              title: V3 authentication key
             privProtocol:
               type: string
           allOf:
@@ -9861,6 +9864,36 @@ components:
           properties:
             type:
               $ref: "#/components/schemas/RetryTypeOptionsHealthCheckCollectorConfRetryRules"
+            interval:
+              type: number
+              title: Wait (ms)
+              description: Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute).
+              minimum: 0
+              maximum: 20000
+            limit:
+              type: number
+              title: Retry limit
+              description: The maximum number of times to retry a failed HTTP request
+              minimum: 0
+              maximum: 20
+            multiplier:
+              type: number
+              title: Backoff multiplier
+              description: Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on
+              minimum: 1
+              maximum: 20
+            codes:
+              type: array
+              title: Retry HTTP codes
+              description: List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503.
+              minItems: 1
+              items:
+                type: number
+                minLength: 1
+            enableHeader:
+              type: boolean
+              title: Honor Retry-After header
+              description: Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/HealthCheckRetryRulesTypeNone"
@@ -10944,6 +10977,48 @@ components:
           properties:
             type:
               $ref: "#/components/schemas/RetryTypeOptionsHealthCheckCollectorConfRetryRules"
+            interval:
+              type: number
+              title: Wait (ms)
+              description: Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute).
+              minimum: 0
+              maximum: 20000
+            limit:
+              type: number
+              title: Retry limit
+              description: Maximum number of times to retry a failed HTTP request
+              minimum: 0
+              maximum: 20
+            multiplier:
+              type: number
+              title: Backoff multiplier
+              description: "Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."
+              minimum: 1
+              maximum: 20
+            maxIntervalMs:
+              type: number
+              title: Longest interval between retries (ms)
+              minimum: 0
+            codes:
+              type: array
+              title: Retry HTTP codes
+              description: List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503.
+              minItems: 1
+              items:
+                type: number
+                minLength: 1
+            enableHeader:
+              type: boolean
+              title: Honor Retry-After header
+              description: Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to the `Longest interval between retries (ms)` value, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.
+            retryConnectTimeout:
+              type: boolean
+              title: Retry connection timeout
+              description: Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs
+            retryConnectReset:
+              type: boolean
+              title: Retry connection reset
+              description: Retry request when a connection reset (ECONNRESET) error occurs
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/RestRetryRulesTypeNone"
@@ -11533,6 +11608,44 @@ components:
           properties:
             type:
               $ref: "#/components/schemas/RetryTypeOptionsHealthCheckCollectorConfRetryRules"
+            interval:
+              type: number
+              title: Wait (ms)
+              description: Time interval between retries. Maximum allowed value is 20,000 ms (1/3 minute).
+              minimum: 0
+              maximum: 20000
+            limit:
+              type: number
+              title: Retry limit
+              description: The maximum number of times to retry a failed HTTP request
+              minimum: 0
+              maximum: 20
+            multiplier:
+              type: number
+              title: Backoff multiplier
+              description: Base for exponential backoff. For example, base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on.
+              minimum: 1
+              maximum: 20
+            codes:
+              type: array
+              title: Retry HTTP codes
+              description: List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503.
+              minItems: 1
+              items:
+                type: number
+                minLength: 1
+            enableHeader:
+              type: boolean
+              title: Honor Retry-After header
+              description: Honor any Retry-After header that specifies a delay (in seconds) or a timestamp after which to retry the request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.
+            retryConnectTimeout:
+              type: boolean
+              title: Retry connection timeout
+              description: Make a single retry attempt when a connection timeout (ETIMEDOUT) error occurs
+            retryConnectReset:
+              type: boolean
+              title: Retry connection reset
+              description: Retry request when a connection reset error (ECONNRESET) error occurs
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/SplunkRetryRulesTypeNone"
@@ -37191,7 +37304,7 @@ components:
         savedState:
           type: object
           additionalProperties:
-            $ref: "#/components/schemas/AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedState"
+            $ref: "#/components/schemas/AdditionalPropertiesTypeEnrichedFieldsSavedState"
           description: Runtime collection state.
         notifications:
           type: array
@@ -39403,7 +39516,7 @@ components:
       required:
         - name
         - value
-    AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedState:
+    AdditionalPropertiesTypeEnrichedFieldsSavedState:
       type: object
       required:
         - data

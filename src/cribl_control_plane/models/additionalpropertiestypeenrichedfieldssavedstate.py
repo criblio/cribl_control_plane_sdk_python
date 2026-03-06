@@ -6,9 +6,9 @@ from typing import Any, Dict
 from typing_extensions import TypedDict
 
 
-class AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedStateTypedDict(TypedDict):
+class AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict(TypedDict):
     data: Dict[str, Any]
 
 
-class AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedState(BaseModel):
+class AdditionalPropertiesTypeEnrichedFieldsSavedState(BaseModel):
     data: Dict[str, Any]

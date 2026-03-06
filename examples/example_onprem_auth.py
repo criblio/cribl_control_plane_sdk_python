@@ -74,7 +74,5 @@ if __name__ == "__main__":
         status_code = getattr(error, "status_code", None)
         if status_code == 401:
             print("⚠️ Authentication failed! Check your USERNAME and PASSWORD.")
-        elif status_code == 429:
-            print("⚠️ Uh oh, you've reached the rate limit! Try again in a few seconds.")
         else:
             print(f"❌ Something went wrong: {error}")

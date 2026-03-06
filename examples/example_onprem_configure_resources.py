@@ -25,14 +25,16 @@ from cribl_control_plane.models import (
     CompressionOptions2,
     CompressionLevelOptions,
     Pipeline,
-    RoutesRoute,
+    RouteConf,
     PipelineConf,
     ConfInput,
     PipelineFunctionEval,
     PipelineFunctionEvalID,
+    PipelineFunctionConf,
     FunctionConfSchemaEval,
     TLSSettingsServerSideType,
 )
+from typing import List, cast
 
 ONPREM_SERVER_URL = "http://localhost:9000"  # Replace with your server URL
 ONPREM_USERNAME = "admin"  # Replace with your username
@@ -79,22 +81,25 @@ pipeline = Pipeline(
     id="my_pipeline",
     conf=PipelineConf(
         async_func_timeout=1000,
-        functions=[
-            PipelineFunctionEval(
-                filter_="true",
-                conf=FunctionConfSchemaEval(
-                    remove=["*"],
-                    keep=["eventSource", "eventID"],
-                ),
-                id=PipelineFunctionEvalID.EVAL,
-                final=True,
-            )
-        ],
+        functions=cast(
+            List[PipelineFunctionConf],
+            [
+                PipelineFunctionEval(
+                    filter_="true",
+                    conf=FunctionConfSchemaEval(
+                        remove=["*"],
+                        keep=["eventSource", "eventID"],
+                    ),
+                    id=PipelineFunctionEvalID.EVAL,
+                    final=True,
+                )
+            ],
+        ),
     ),
 )
 
 # Route configuration: route data from the Source to the Pipeline and Destination
-route = RoutesRoute(
+route = RouteConf(
     final=False,
     id="my_route",
     name="my_route",
@@ -164,10 +169,10 @@ async def main():
 
     # Commit configuration changes
     commit_response = cribl.versions.commits.create(
-        group_id=WORKER_GROUP_ID,
         message="Commit for Cribl Stream example",
         effective=True,
-        files=["."]
+        files=["."],
+        server_url=group_url
     )
     
     if not commit_response.items or len(commit_response.items) == 0:
@@ -189,3 +194,4 @@ if __name__ == "__main__":
         asyncio.run(main())
     except Exception as error:
         print(f"❌ Something went wrong: {error}")
+

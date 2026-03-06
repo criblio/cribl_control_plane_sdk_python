@@ -26,14 +26,14 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputOffice365MsgTraceType(str, Enum):
-    OFFICE365_MSG_TRACE = "office365_msg_trace"
+class InputMicrosoftGraphType(str, Enum):
+    MICROSOFT_GRAPH = "microsoft_graph"
 
 
-class InputOffice365MsgTraceTypedDict(TypedDict):
-    type: InputOffice365MsgTraceType
+class InputMicrosoftGraphTypedDict(TypedDict):
+    type: InputMicrosoftGraphType
     url: str
-    r"""URL to use when retrieving report data."""
+    r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
     interval: int
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     id: NotRequired[str]
@@ -53,9 +53,9 @@ class InputOffice365MsgTraceTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     start_date: NotRequired[str]
-    r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
+    r"""Backward offset for the search range's head. (E.g.: -3h@h) Microsoft Graph data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
     end_date: NotRequired[str]
-    r"""Backward offset for the search range's tail. (E.g.: -2h@h) Message Trace data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
+    r"""Backward offset for the search range's tail. (E.g.: -2h@h) Microsoft Graph data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
@@ -83,9 +83,9 @@ class InputOffice365MsgTraceTypedDict(TypedDict):
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
-    r"""Username to run Message Trace API call."""
+    r"""Username to run Microsoft Graph API call."""
     password: NotRequired[str]
-    r"""Password to run Message Trace API call."""
+    r"""Password to run Microsoft Graph API call."""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials."""
     client_secret: NotRequired[str]
@@ -111,11 +111,11 @@ class InputOffice365MsgTraceTypedDict(TypedDict):
     r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
 
 
-class InputOffice365MsgTrace(BaseModel):
-    type: InputOffice365MsgTraceType
+class InputMicrosoftGraph(BaseModel):
+    type: InputMicrosoftGraphType
 
     url: str
-    r"""URL to use when retrieving report data."""
+    r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
 
     interval: int
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
@@ -148,10 +148,10 @@ class InputOffice365MsgTrace(BaseModel):
     pq: Optional[PqType] = None
 
     start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
-    r"""Backward offset for the search range's head. (E.g.: -3h@h) Message Trace data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
+    r"""Backward offset for the search range's head. (E.g.: -3h@h) Microsoft Graph data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
 
     end_date: Annotated[Optional[str], pydantic.Field(alias="endDate")] = None
-    r"""Backward offset for the search range's tail. (E.g.: -2h@h) Message Trace data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
+    r"""Backward offset for the search range's tail. (E.g.: -2h@h) Microsoft Graph data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
@@ -213,10 +213,10 @@ class InputOffice365MsgTrace(BaseModel):
     description: Optional[str] = None
 
     username: Optional[str] = None
-    r"""Username to run Message Trace API call."""
+    r"""Username to run Microsoft Graph API call."""
 
     password: Optional[str] = None
-    r"""Password to run Message Trace API call."""
+    r"""Password to run Microsoft Graph API call."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -354,6 +354,6 @@ class InputOffice365MsgTrace(BaseModel):
 
 
 try:
-    InputOffice365MsgTrace.model_rebuild()
+    InputMicrosoftGraph.model_rebuild()
 except NameError:
     pass

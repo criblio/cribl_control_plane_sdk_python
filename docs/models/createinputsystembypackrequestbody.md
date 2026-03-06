@@ -113,6 +113,12 @@ value: models.CreateInputSystemByPackInputOffice365Service = /* values here */
 value: models.CreateInputSystemByPackInputOffice365MsgTrace = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputMicrosoftGraph`
+
+```python
+value: models.CreateInputSystemByPackInputMicrosoftGraph = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputEventhub`
 
 ```python

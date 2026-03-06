@@ -1,4 +1,4 @@
-# CertOptions
+# CertOptionsType
 
 
 ## Fields

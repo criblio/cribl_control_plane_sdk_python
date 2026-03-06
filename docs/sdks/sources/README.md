@@ -888,6 +888,34 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesMicrosoftGraph
+
+<!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="InputCreateExamplesMicrosoftGraph" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.create(request={
+        "id": "microsoft-graph-source",
+        "type": models.CreateInputTypeMicrosoftGraph.MICROSOFT_GRAPH,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "url": "https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces",
+        "interval": 15,
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesModelDrivenTelemetry
 
 <!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="InputCreateExamplesModelDrivenTelemetry" -->
@@ -2665,6 +2693,34 @@ with CriblControlPlane(
         "pq_enabled": False,
         "host": "0.0.0.0",
         "udp_port": 8125,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesMicrosoftGraph
+
+<!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" example="InputCreateExamplesMicrosoftGraph" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.update(id="<id>", input_={
+        "id": "microsoft-graph-source",
+        "type": models.InputMicrosoftGraphType.MICROSOFT_GRAPH,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "url": "https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces",
+        "interval": 15,
     })
 
     # Handle response

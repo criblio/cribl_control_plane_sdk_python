@@ -68,3 +68,9 @@ class FunctionConfSchemaRollupMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaRollupMetrics.model_rebuild()
+except NameError:
+    pass

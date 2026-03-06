@@ -71,3 +71,9 @@ class PipelineFunctionNotificationPolicies(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionNotificationPolicies.model_rebuild()
+except NameError:
+    pass

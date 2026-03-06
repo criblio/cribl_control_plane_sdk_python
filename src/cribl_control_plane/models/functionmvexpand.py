@@ -87,3 +87,9 @@ class FunctionMvExpand(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionMvExpand.model_rebuild()
+except NameError:
+    pass

@@ -120,3 +120,13 @@ class OutputRouter(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputRouterRule.model_rebuild()
+except NameError:
+    pass
+try:
+    OutputRouter.model_rebuild()
+except NameError:
+    pass

@@ -165,3 +165,13 @@ class PipelineFunctionSend(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    SendConfiguration.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionSend.model_rebuild()
+except NameError:
+    pass

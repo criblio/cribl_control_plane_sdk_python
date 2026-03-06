@@ -8,8 +8,6 @@ from .itemstypeextrahttpheaders import (
     ItemsTypeExtraHTTPHeaders,
     ItemsTypeExtraHTTPHeadersTypedDict,
 )
-from .itemstypeoauthheaders import ItemsTypeOauthHeaders, ItemsTypeOauthHeadersTypedDict
-from .itemstypeoauthparams import ItemsTypeOauthParams, ItemsTypeOauthParamsTypedDict
 from .itemstyperesponseretrysettings import (
     ItemsTypeResponseRetrySettings,
     ItemsTypeResponseRetrySettingsTypedDict,
@@ -76,11 +74,43 @@ class OutputWebhookPqControls(BaseModel):
     pass
 
 
+class OauthParamTypedDict(TypedDict):
+    name: str
+    r"""OAuth parameter name"""
+    value: str
+    r"""OAuth parameter value"""
+
+
+class OauthParam(BaseModel):
+    name: str
+    r"""OAuth parameter name"""
+
+    value: str
+    r"""OAuth parameter value"""
+
+
+class OauthHeaderTypedDict(TypedDict):
+    name: str
+    r"""OAuth header name"""
+    value: str
+    r"""OAuth header value"""
+
+
+class OauthHeader(BaseModel):
+    name: str
+    r"""OAuth header name"""
+
+    value: str
+    r"""OAuth header value"""
+
+
 class OutputWebhookURLTypedDict(TypedDict):
     url: str
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
     weight: NotRequired[float]
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputWebhookURL(BaseModel):
@@ -90,9 +120,14 @@ class OutputWebhookURL(BaseModel):
     weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["weight"])
+        optional_fields = set(["weight", "__template_url"])
         serialized = handler(self)
         m = {}
 
@@ -222,9 +257,9 @@ class OutputWebhookTypedDict(TypedDict):
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
     token_timeout_secs: NotRequired[float]
     r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
+    oauth_params: NotRequired[List[OauthParamTypedDict]]
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
+    oauth_headers: NotRequired[List[OauthHeaderTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     url: NotRequired[str]
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
@@ -235,6 +270,12 @@ class OutputWebhookTypedDict(TypedDict):
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
     r"""How far back in time to keep traffic stats for load balancing purposes"""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_secret: NotRequired[str]
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputWebhook(BaseModel):
@@ -491,12 +532,12 @@ class OutputWebhook(BaseModel):
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
+        Optional[List[OauthParam]], pydantic.Field(alias="oauthParams")
     ] = None
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
+        Optional[List[OauthHeader]], pydantic.Field(alias="oauthHeaders")
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
@@ -517,6 +558,21 @@ class OutputWebhook(BaseModel):
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
     ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    template_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_secret")
+    ] = None
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
     @field_serializer("method")
     def serialize_method(self, value):
@@ -659,6 +715,9 @@ class OutputWebhook(BaseModel):
                 "urls",
                 "dnsResolvePeriodSec",
                 "loadBalanceStatsPeriodSec",
+                "__template_loginUrl",
+                "__template_secret",
+                "__template_url",
             ]
         )
         serialized = handler(self)
@@ -673,3 +732,13 @@ class OutputWebhook(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputWebhookURL.model_rebuild()
+except NameError:
+    pass
+try:
+    OutputWebhook.model_rebuild()
+except NameError:
+    pass

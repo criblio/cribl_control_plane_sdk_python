@@ -282,3 +282,9 @@ class OutputStatsdExt(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputStatsdExt.model_rebuild()
+except NameError:
+    pass

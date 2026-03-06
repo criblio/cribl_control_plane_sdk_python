@@ -245,3 +245,17 @@ class FunctionConfSchemaDNSLookup(BaseModel):
             m[k] = v
 
         return m
+
+
+try:
+    DNSLookupField.model_rebuild()
+except NameError:
+    pass
+try:
+    ReverseLookupField.model_rebuild()
+except NameError:
+    pass
+try:
+    FunctionConfSchemaDNSLookup.model_rebuild()
+except NameError:
+    pass

@@ -87,3 +87,9 @@ class FunctionPivot(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionPivot.model_rebuild()
+except NameError:
+    pass

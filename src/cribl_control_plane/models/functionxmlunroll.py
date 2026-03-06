@@ -87,3 +87,9 @@ class FunctionXMLUnroll(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionXMLUnroll.model_rebuild()
+except NameError:
+    pass

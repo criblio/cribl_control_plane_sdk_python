@@ -6,7 +6,7 @@ from enum import Enum
 
 
 class NodeUpgradeState(int, Enum, metaclass=utils.OpenEnumMeta):
-    ZERO = 0
-    ONE = 1
-    TWO = 2
-    THREE = 3
+    ACTIVE = 0
+    CURRENT = 1
+    FAILED = 2
+    SKIPPED = 3

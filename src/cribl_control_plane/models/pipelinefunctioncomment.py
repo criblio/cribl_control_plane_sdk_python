@@ -71,3 +71,9 @@ class PipelineFunctionComment(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionComment.model_rebuild()
+except NameError:
+    pass

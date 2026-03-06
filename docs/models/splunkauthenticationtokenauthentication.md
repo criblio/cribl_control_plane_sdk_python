@@ -2,6 +2,16 @@
 
 Authentication method for Discover and Collect REST calls
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import SplunkAuthenticationTokenAuthentication
+
+value = SplunkAuthenticationTokenAuthentication.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 
@@ -12,5 +22,3 @@ Authentication method for Discover and Collect REST calls
 | `BASIC_SECRET` | basicSecret    |
 | `TOKEN`        | token          |
 | `TOKEN_SECRET` | tokenSecret    |
-| `LOGIN`        | login          |
-| `LOGIN_SECRET` | loginSecret    |

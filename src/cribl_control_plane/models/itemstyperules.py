@@ -37,3 +37,9 @@ class ItemsTypeRules(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    ItemsTypeRules.model_rebuild()
+except NameError:
+    pass

@@ -87,3 +87,9 @@ class FunctionGrok(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionGrok.model_rebuild()
+except NameError:
+    pass

@@ -77,3 +77,9 @@ class FunctionConfSchemaLocalSearchRulesetRunner(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaLocalSearchRulesetRunner.model_rebuild()
+except NameError:
+    pass

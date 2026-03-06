@@ -62,3 +62,9 @@ class ScriptCollectorConf(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    ScriptCollectorConf.model_rebuild()
+except NameError:
+    pass

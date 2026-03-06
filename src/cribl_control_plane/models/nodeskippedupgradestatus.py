@@ -6,7 +6,7 @@ from enum import Enum
 
 
 class NodeSkippedUpgradeStatus(int, Enum, metaclass=utils.OpenEnumMeta):
-    ZERO = 0
-    ONE = 1
-    TWO = 2
-    THREE = 3
+    DOWNLOAD_ERROR = 0
+    INSTALL_TYPE = 1
+    MISSING_PACKAGE = 2
+    TOO_OLD = 3

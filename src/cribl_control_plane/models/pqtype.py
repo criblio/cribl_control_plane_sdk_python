@@ -111,3 +111,9 @@ class PqType(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PqType.model_rebuild()
+except NameError:
+    pass

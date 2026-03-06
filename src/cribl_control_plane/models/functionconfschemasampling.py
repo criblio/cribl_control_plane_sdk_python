@@ -47,3 +47,9 @@ class FunctionConfSchemaSampling(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaSamplingRule.model_rebuild()
+except NameError:
+    pass

@@ -87,3 +87,9 @@ class FunctionSort(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionSort.model_rebuild()
+except NameError:
+    pass

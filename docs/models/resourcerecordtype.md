@@ -2,6 +2,16 @@
 
 The DNS record type (RR) to return. Defaults to 'A'.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import ResourceRecordType
+
+value = ResourceRecordType.A
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

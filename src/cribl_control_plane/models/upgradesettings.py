@@ -61,3 +61,9 @@ class UpgradeSettings(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    UpgradeSettings.model_rebuild()
+except NameError:
+    pass

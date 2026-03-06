@@ -71,3 +71,9 @@ class PipelineFunctionDNSLookup(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionDNSLookup.model_rebuild()
+except NameError:
+    pass

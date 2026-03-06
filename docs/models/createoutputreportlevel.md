@@ -2,6 +2,16 @@
 
 Level of ingestion status reporting. Defaults to FailuresOnly.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputReportLevel
+
+value = CreateOutputReportLevel.FAILURES_ONLY
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

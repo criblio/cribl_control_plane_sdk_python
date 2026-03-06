@@ -87,3 +87,9 @@ class FunctionGenStats(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionGenStats.model_rebuild()
+except NameError:
+    pass

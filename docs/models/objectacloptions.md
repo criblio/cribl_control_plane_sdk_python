@@ -2,6 +2,16 @@
 
 Object ACL to assign to uploaded objects
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import ObjectACLOptions
+
+value = ObjectACLOptions.PRIVATE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

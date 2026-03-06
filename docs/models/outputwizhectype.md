@@ -1,5 +1,13 @@
 # OutputWizHecType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import OutputWizHecType
+
+value = OutputWizHecType.WIZ_HEC
+```
+
 
 ## Values
 

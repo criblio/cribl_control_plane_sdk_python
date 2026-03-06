@@ -3,14 +3,17 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.utils.unions import parse_open_union
 from enum import Enum
+from functools import partial
 import pydantic
-from pydantic import field_serializer, model_serializer
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from pydantic import ConfigDict, field_serializer, model_serializer
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, List, Literal, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class FunctionConfSchemaNumerifyFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class NumerifyFormatNoneFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     # None
     NONE = "none"
     # Fix
@@ -21,17 +24,21 @@ class FunctionConfSchemaNumerifyFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     CEIL = "ceil"
 
 
-class FunctionConfSchemaNumerifyTypedDict(TypedDict):
+class NumerifyFormatNoneTypedDict(TypedDict):
+    format_: NotRequired[NumerifyFormatNoneFormat]
     depth: NotRequired[int]
     r"""Depth to which the Numerify Function will search within a nested event. Depth greater than 5 (the default) could decrease performance."""
     ignore_fields: NotRequired[List[str]]
     r"""Fields to NOT numerify. Takes precedence over 'Include expression' when set. Supports wildcards. A '!' before field name(s) means: numerify all fields EXCEPT these. For syntax details, see [Wildcard Lists](https://docs.cribl.io/stream/introduction-reference/#wildcard-lists)."""
     filter_expr: NotRequired[str]
     r"""Optional JavaScript expression to determine whether a field should be numerified. If left blank, all fields will be numerified. Use the 'name' and 'value' global variables to access fields' names/values. Examples: `value != null`, `name=='fieldname'`. You can access other fields' values via `__e.<fieldName>`."""
-    format_: NotRequired[FunctionConfSchemaNumerifyFormat]
 
 
-class FunctionConfSchemaNumerify(BaseModel):
+class NumerifyFormatNone(BaseModel):
+    format_: Annotated[
+        Optional[NumerifyFormatNoneFormat], pydantic.Field(alias="format")
+    ] = None
+
     depth: Optional[int] = None
     r"""Depth to which the Numerify Function will search within a nested event. Depth greater than 5 (the default) could decrease performance."""
 
@@ -43,22 +50,18 @@ class FunctionConfSchemaNumerify(BaseModel):
     filter_expr: Annotated[Optional[str], pydantic.Field(alias="filterExpr")] = None
     r"""Optional JavaScript expression to determine whether a field should be numerified. If left blank, all fields will be numerified. Use the 'name' and 'value' global variables to access fields' names/values. Examples: `value != null`, `name=='fieldname'`. You can access other fields' values via `__e.<fieldName>`."""
 
-    format_: Annotated[
-        Optional[FunctionConfSchemaNumerifyFormat], pydantic.Field(alias="format")
-    ] = None
-
     @field_serializer("format_")
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.FunctionConfSchemaNumerifyFormat(value)
+                return models.NumerifyFormatNoneFormat(value)
             except ValueError:
                 return value
         return value
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["depth", "ignoreFields", "filterExpr", "format"])
+        optional_fields = set(["format", "depth", "ignoreFields", "filterExpr"])
         serialized = handler(self)
         m = {}
 
@@ -71,3 +74,119 @@ class FunctionConfSchemaNumerify(BaseModel):
                     m[k] = val
 
         return m
+
+
+class NumerifyFormatFixFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+    # None
+    NONE = "none"
+    # Fix
+    FIX = "fix"
+    # Floor
+    FLOOR = "floor"
+    # Ceil
+    CEIL = "ceil"
+
+
+class NumerifyFormatFixTypedDict(TypedDict):
+    format_: NotRequired[NumerifyFormatFixFormat]
+    digits: NotRequired[float]
+    r"""Number of digits after the decimal point, between 0 and 20. If left blank, defaults to 2."""
+    depth: NotRequired[int]
+    r"""Depth to which the Numerify Function will search within a nested event. Depth greater than 5 (the default) could decrease performance."""
+    ignore_fields: NotRequired[List[str]]
+    r"""Fields to NOT numerify. Takes precedence over 'Include expression' when set. Supports wildcards. A '!' before field name(s) means: numerify all fields EXCEPT these. For syntax details, see [Wildcard Lists](https://docs.cribl.io/stream/introduction-reference/#wildcard-lists)."""
+    filter_expr: NotRequired[str]
+    r"""Optional JavaScript expression to determine whether a field should be numerified. If left blank, all fields will be numerified. Use the 'name' and 'value' global variables to access fields' names/values. Examples: `value != null`, `name=='fieldname'`. You can access other fields' values via `__e.<fieldName>`."""
+
+
+class NumerifyFormatFix(BaseModel):
+    format_: Annotated[
+        Optional[NumerifyFormatFixFormat], pydantic.Field(alias="format")
+    ] = None
+
+    digits: Optional[float] = None
+    r"""Number of digits after the decimal point, between 0 and 20. If left blank, defaults to 2."""
+
+    depth: Optional[int] = None
+    r"""Depth to which the Numerify Function will search within a nested event. Depth greater than 5 (the default) could decrease performance."""
+
+    ignore_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="ignoreFields")
+    ] = None
+    r"""Fields to NOT numerify. Takes precedence over 'Include expression' when set. Supports wildcards. A '!' before field name(s) means: numerify all fields EXCEPT these. For syntax details, see [Wildcard Lists](https://docs.cribl.io/stream/introduction-reference/#wildcard-lists)."""
+
+    filter_expr: Annotated[Optional[str], pydantic.Field(alias="filterExpr")] = None
+    r"""Optional JavaScript expression to determine whether a field should be numerified. If left blank, all fields will be numerified. Use the 'name' and 'value' global variables to access fields' names/values. Examples: `value != null`, `name=='fieldname'`. You can access other fields' values via `__e.<fieldName>`."""
+
+    @field_serializer("format_")
+    def serialize_format_(self, value):
+        if isinstance(value, str):
+            try:
+                return models.NumerifyFormatFixFormat(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["format", "digits", "depth", "ignoreFields", "filterExpr"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+FunctionConfSchemaNumerifyTypedDict = TypeAliasType(
+    "FunctionConfSchemaNumerifyTypedDict",
+    Union[NumerifyFormatNoneTypedDict, NumerifyFormatFixTypedDict],
+)
+
+
+class UnknownFunctionConfSchemaNumerify(BaseModel):
+    r"""A FunctionConfSchemaNumerify variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    format_: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_FUNCTION_CONF_SCHEMA_NUMERIFY_VARIANTS: dict[str, Any] = {
+    "fix": NumerifyFormatFix,
+    "none": NumerifyFormatNone,
+}
+
+
+FunctionConfSchemaNumerify = Annotated[
+    Union[NumerifyFormatFix, NumerifyFormatNone, UnknownFunctionConfSchemaNumerify],
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="format",
+            variants=_FUNCTION_CONF_SCHEMA_NUMERIFY_VARIANTS,
+            unknown_cls=UnknownFunctionConfSchemaNumerify,
+            union_name="FunctionConfSchemaNumerify",
+        )
+    ),
+]
+
+
+try:
+    NumerifyFormatNone.model_rebuild()
+except NameError:
+    pass
+try:
+    NumerifyFormatFix.model_rebuild()
+except NameError:
+    pass

@@ -71,3 +71,9 @@ class PipelineFunctionDrop(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionDrop.model_rebuild()
+except NameError:
+    pass

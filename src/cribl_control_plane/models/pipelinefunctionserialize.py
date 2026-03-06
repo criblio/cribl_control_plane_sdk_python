@@ -3,11 +3,14 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.utils.unions import parse_open_union
 from enum import Enum
+from functools import partial
 import pydantic
-from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from pydantic import ConfigDict, field_serializer, model_serializer
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, List, Literal, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class PipelineFunctionSerializeID(str, Enum):
@@ -16,7 +19,7 @@ class PipelineFunctionSerializeID(str, Enum):
     SERIALIZE = "serialize"
 
 
-class PipelineFunctionSerializeType(str, Enum, metaclass=utils.OpenEnumMeta):
+class SerializeTypeCsvType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Data output format"""
 
     # CSV
@@ -33,13 +36,9 @@ class PipelineFunctionSerializeType(str, Enum, metaclass=utils.OpenEnumMeta):
     DELIM = "delim"
 
 
-class PipelineFunctionSerializeConfTypedDict(TypedDict):
-    type: PipelineFunctionSerializeType
+class SerializeTypeCsvTypedDict(TypedDict):
+    type: SerializeTypeCsvType
     r"""Data output format"""
-    delim_char: NotRequired[Any]
-    quote_char: NotRequired[Any]
-    escape_char: NotRequired[Any]
-    null_value: NotRequired[Any]
     fields: NotRequired[List[str]]
     r"""Required for CSV, ELFF, CLF, and Delimited values. All other formats support wildcard field lists. Examples: host, array*, !host *"""
     src_field: NotRequired[str]
@@ -48,17 +47,9 @@ class PipelineFunctionSerializeConfTypedDict(TypedDict):
     r"""Field to serialize data to"""
 
 
-class PipelineFunctionSerializeConf(BaseModel):
-    type: PipelineFunctionSerializeType
+class SerializeTypeCsv(BaseModel):
+    type: SerializeTypeCsvType
     r"""Data output format"""
-
-    delim_char: Annotated[Optional[Any], pydantic.Field(alias="delimChar")] = None
-
-    quote_char: Annotated[Optional[Any], pydantic.Field(alias="quoteChar")] = None
-
-    escape_char: Annotated[Optional[Any], pydantic.Field(alias="escapeChar")] = None
-
-    null_value: Annotated[Optional[Any], pydantic.Field(alias="nullValue")] = None
 
     fields: Optional[List[str]] = None
     r"""Required for CSV, ELFF, CLF, and Delimited values. All other formats support wildcard field lists. Examples: host, array*, !host *"""
@@ -73,7 +64,94 @@ class PipelineFunctionSerializeConf(BaseModel):
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.PipelineFunctionSerializeType(value)
+                return models.SerializeTypeCsvType(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["fields", "srcField", "dstField"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SerializeTypeDelimType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Data output format"""
+
+    # CSV
+    CSV = "csv"
+    # Extended Log File Format
+    ELFF = "elff"
+    # Common Log Format
+    CLF = "clf"
+    # Key=Value Pairs
+    KVP = "kvp"
+    # JSON Object
+    JSON = "json"
+    # Delimited values
+    DELIM = "delim"
+
+
+class SerializeTypeDelimTypedDict(TypedDict):
+    type: SerializeTypeDelimType
+    r"""Data output format"""
+    delim_char: NotRequired[str]
+    r"""Delimiter character to use to split values. If left blank, will default to ','."""
+    quote_char: NotRequired[str]
+    r"""Character used to quote literal values. If left blank, will default to '\"'."""
+    escape_char: NotRequired[str]
+    r"""Escape character used to escape delimiter or quote character. If left blank, will default to the Quote char."""
+    null_value: NotRequired[str]
+    r"""Field value representing the null value. Null fields will be omitted."""
+    fields: NotRequired[List[str]]
+    r"""Required for CSV, ELFF, CLF, and Delimited values. All other formats support wildcard field lists. Examples: host, array*, !host *"""
+    src_field: NotRequired[str]
+    r"""Field containing object to serialize. Leave blank to serialize top-level event fields."""
+    dst_field: NotRequired[str]
+    r"""Field to serialize data to"""
+
+
+class SerializeTypeDelim(BaseModel):
+    type: SerializeTypeDelimType
+    r"""Data output format"""
+
+    delim_char: Annotated[Optional[str], pydantic.Field(alias="delimChar")] = None
+    r"""Delimiter character to use to split values. If left blank, will default to ','."""
+
+    quote_char: Annotated[Optional[str], pydantic.Field(alias="quoteChar")] = None
+    r"""Character used to quote literal values. If left blank, will default to '\"'."""
+
+    escape_char: Annotated[Optional[str], pydantic.Field(alias="escapeChar")] = None
+    r"""Escape character used to escape delimiter or quote character. If left blank, will default to the Quote char."""
+
+    null_value: Annotated[Optional[str], pydantic.Field(alias="nullValue")] = None
+    r"""Field value representing the null value. Null fields will be omitted."""
+
+    fields: Optional[List[str]] = None
+    r"""Required for CSV, ELFF, CLF, and Delimited values. All other formats support wildcard field lists. Examples: host, array*, !host *"""
+
+    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
+    r"""Field containing object to serialize. Leave blank to serialize top-level event fields."""
+
+    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
+    r"""Field to serialize data to"""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SerializeTypeDelimType(value)
             except ValueError:
                 return value
         return value
@@ -103,6 +181,147 @@ class PipelineFunctionSerializeConf(BaseModel):
                     m[k] = val
 
         return m
+
+
+class SerializeTypeKvpType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Data output format"""
+
+    # CSV
+    CSV = "csv"
+    # Extended Log File Format
+    ELFF = "elff"
+    # Common Log Format
+    CLF = "clf"
+    # Key=Value Pairs
+    KVP = "kvp"
+    # JSON Object
+    JSON = "json"
+    # Delimited values
+    DELIM = "delim"
+
+
+class SerializeTypeKvpTypedDict(TypedDict):
+    type: SerializeTypeKvpType
+    r"""Data output format"""
+    clean_fields: NotRequired[bool]
+    r"""Clean field names by replacing non-[a-zA-Z0-9] characters with _"""
+    fields: NotRequired[List[str]]
+    r"""Required for CSV, ELFF, CLF, and Delimited values. All other formats support wildcard field lists. Examples: host, array*, !host *"""
+    pair_delimiter: NotRequired[str]
+    r"""Delimiter used to separate key=value pairs. Defaults to a single space character. Should not have common characters with key-value delimiter."""
+    key_value_delimiter: NotRequired[str]
+    r"""Delimiter used to separate key and value in pair. Defaults to a '='. Should not have common characters with pair delimiter."""
+    src_field: NotRequired[str]
+    r"""Field containing object to serialize. Leave blank to serialize top-level event fields."""
+    dst_field: NotRequired[str]
+    r"""Field to serialize data to"""
+
+
+class SerializeTypeKvp(BaseModel):
+    type: SerializeTypeKvpType
+    r"""Data output format"""
+
+    clean_fields: Annotated[Optional[bool], pydantic.Field(alias="cleanFields")] = None
+    r"""Clean field names by replacing non-[a-zA-Z0-9] characters with _"""
+
+    fields: Optional[List[str]] = None
+    r"""Required for CSV, ELFF, CLF, and Delimited values. All other formats support wildcard field lists. Examples: host, array*, !host *"""
+
+    pair_delimiter: Annotated[Optional[str], pydantic.Field(alias="pairDelimiter")] = (
+        None
+    )
+    r"""Delimiter used to separate key=value pairs. Defaults to a single space character. Should not have common characters with key-value delimiter."""
+
+    key_value_delimiter: Annotated[
+        Optional[str], pydantic.Field(alias="keyValueDelimiter")
+    ] = None
+    r"""Delimiter used to separate key and value in pair. Defaults to a '='. Should not have common characters with pair delimiter."""
+
+    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
+    r"""Field containing object to serialize. Leave blank to serialize top-level event fields."""
+
+    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
+    r"""Field to serialize data to"""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SerializeTypeKvpType(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "cleanFields",
+                "fields",
+                "pairDelimiter",
+                "keyValueDelimiter",
+                "srcField",
+                "dstField",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+PipelineFunctionSerializeConfTypedDict = TypeAliasType(
+    "PipelineFunctionSerializeConfTypedDict",
+    Union[
+        SerializeTypeCsvTypedDict,
+        SerializeTypeKvpTypedDict,
+        SerializeTypeDelimTypedDict,
+    ],
+)
+
+
+class UnknownPipelineFunctionSerializeConf(BaseModel):
+    r"""A PipelineFunctionSerializeConf variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_PIPELINE_FUNCTION_SERIALIZE_CONF_VARIANTS: dict[str, Any] = {
+    "kvp": SerializeTypeKvp,
+    "delim": SerializeTypeDelim,
+    "csv": SerializeTypeCsv,
+}
+
+
+PipelineFunctionSerializeConf = Annotated[
+    Union[
+        SerializeTypeKvp,
+        SerializeTypeDelim,
+        SerializeTypeCsv,
+        UnknownPipelineFunctionSerializeConf,
+    ],
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="type",
+            variants=_PIPELINE_FUNCTION_SERIALIZE_CONF_VARIANTS,
+            unknown_cls=UnknownPipelineFunctionSerializeConf,
+            union_name="PipelineFunctionSerializeConf",
+        )
+    ),
+]
 
 
 class PipelineFunctionSerializeTypedDict(TypedDict):
@@ -157,3 +376,21 @@ class PipelineFunctionSerialize(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    SerializeTypeCsv.model_rebuild()
+except NameError:
+    pass
+try:
+    SerializeTypeDelim.model_rebuild()
+except NameError:
+    pass
+try:
+    SerializeTypeKvp.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionSerialize.model_rebuild()
+except NameError:
+    pass

@@ -1,5 +1,15 @@
 # CreateOutputIngestionMode
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputIngestionMode
+
+value = CreateOutputIngestionMode.BATCHING
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

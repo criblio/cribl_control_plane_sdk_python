@@ -71,3 +71,9 @@ class PipelineFunctionNumerify(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionNumerify.model_rebuild()
+except NameError:
+    pass

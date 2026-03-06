@@ -39,3 +39,9 @@ class GitTypeConfigGroup(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    GitTypeConfigGroup.model_rebuild()
+except NameError:
+    pass

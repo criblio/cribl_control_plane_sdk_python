@@ -87,3 +87,13 @@ class PipelineFunctionPivot(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    SimplePivotConfiguration.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionPivot.model_rebuild()
+except NameError:
+    pass

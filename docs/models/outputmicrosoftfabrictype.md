@@ -1,5 +1,13 @@
 # OutputMicrosoftFabricType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import OutputMicrosoftFabricType
+
+value = OutputMicrosoftFabricType.MICROSOFT_FABRIC
+```
+
 
 ## Values
 

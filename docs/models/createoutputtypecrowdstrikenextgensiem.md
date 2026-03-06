@@ -1,5 +1,13 @@
 # CreateOutputTypeCrowdstrikeNextGenSiem
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputTypeCrowdstrikeNextGenSiem
+
+value = CreateOutputTypeCrowdstrikeNextGenSiem.CROWDSTRIKE_NEXT_GEN_SIEM
+```
+
 
 ## Values
 

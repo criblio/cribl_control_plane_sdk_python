@@ -20,7 +20,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -55,16 +55,16 @@ with CriblControlPlane(
 
 Send sample event data to the specified Destination to validate the configuration or test connectivity.
 
-### Example Usage
+### Example Usage: OutputTestExamplesMultipleEvents
 
-<!-- UsageSnippet language="python" operationID="createOutputTestById" method="post" path="/system/outputs/{id}/test" -->
+<!-- UsageSnippet language="python" operationID="createOutputTestById" method="post" path="/system/outputs/{id}/test" example="OutputTestExamplesMultipleEvents" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -72,7 +72,41 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.samples.create(id="<id>", events=[
         {
-            "_raw": "<value>",
+            "_raw": "Test event 1",
+            "source": "test",
+            "sourcetype": "manual",
+        },
+        {
+            "_raw": "Test event 2",
+            "source": "test",
+            "sourcetype": "manual",
+        },
+    ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputTestExamplesSingleEvent
+
+<!-- UsageSnippet language="python" operationID="createOutputTestById" method="post" path="/system/outputs/{id}/test" example="OutputTestExamplesSingleEvent" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.samples.create(id="<id>", events=[
+        {
+            "_raw": "This is a test event",
+            "source": "test",
+            "sourcetype": "manual",
         },
     ])
 
@@ -86,7 +120,7 @@ with CriblControlPlane(
 | Parameter                                                            | Type                                                                 | Required                                                             | Description                                                          |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
 | `id`                                                                 | *str*                                                                | :heavy_check_mark:                                                   | The <code>id</code> of the Destination to send sample event data to. |
-| `events`                                                             | List[Dict[str, *Any*]]                                               | :heavy_check_mark:                                                   | N/A                                                                  |
+| `events`                                                             | List[Dict[str, *Any*]]                                               | :heavy_check_mark:                                                   | Array of event objects to send to the Destination for testing.       |
 | `retries`                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)     | :heavy_minus_sign:                                                   | Configuration to override the default retry behavior of the client.  |
 
 ### Response

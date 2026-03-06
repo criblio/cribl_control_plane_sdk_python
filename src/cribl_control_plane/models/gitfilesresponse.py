@@ -39,3 +39,9 @@ class GitFilesResponse(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    GitFilesResponse.model_rebuild()
+except NameError:
+    pass

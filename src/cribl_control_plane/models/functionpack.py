@@ -87,3 +87,9 @@ class FunctionPack(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionPack.model_rebuild()
+except NameError:
+    pass

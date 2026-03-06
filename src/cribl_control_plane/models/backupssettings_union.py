@@ -35,3 +35,9 @@ BackupsSettingsUnionTypedDict = TypeAliasType(
 BackupsSettingsUnion = TypeAliasType(
     "BackupsSettingsUnion", Union[BackupsSettings2, BackupsSettings1]
 )
+
+
+try:
+    BackupsSettings1.model_rebuild()
+except NameError:
+    pass

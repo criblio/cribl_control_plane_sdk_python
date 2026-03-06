@@ -1,0 +1,50 @@
+# Versions.Statuses
+
+## Overview
+
+### Available Operations
+
+* [get](#get) - Get the status of the current working tree
+
+## get
+
+Get the status of the current working tree of the Git repository used for Cribl configuration. The response includes details about modified, staged, untracked, and conflicted files, as well as branch and remote tracking information.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="getVersionStatus" method="get" path="/version/status" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.versions.statuses.get()
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.CountedGitStatusResult](../../models/countedgitstatusresult.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |

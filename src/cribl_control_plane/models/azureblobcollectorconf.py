@@ -7,11 +7,13 @@ from .certificatetypeazureblobauthtypeclientcert import (
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from cribl_control_plane.utils import get_discriminator
+from cribl_control_plane.utils.unions import parse_open_union
 from enum import Enum
+from functools import partial
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import List, Optional, Union
+from pydantic import ConfigDict, field_serializer, model_serializer
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, List, Literal, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -642,12 +644,57 @@ AzureBlobCollectorConfTypedDict = TypeAliasType(
 )
 
 
+class UnknownAzureBlobCollectorConf(BaseModel):
+    r"""A AzureBlobCollectorConf variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    auth_type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_AZURE_BLOB_COLLECTOR_CONF_VARIANTS: dict[str, Any] = {
+    "manual": AzureBlobAuthTypeManual,
+    "secret": AzureBlobAuthTypeSecret,
+    "clientSecret": AzureBlobAuthTypeClientSecret,
+    "clientCert": AzureBlobAuthTypeClientCert,
+}
+
+
 AzureBlobCollectorConf = Annotated[
     Union[
-        Annotated[AzureBlobAuthTypeManual, Tag("manual")],
-        Annotated[AzureBlobAuthTypeSecret, Tag("secret")],
-        Annotated[AzureBlobAuthTypeClientSecret, Tag("clientSecret")],
-        Annotated[AzureBlobAuthTypeClientCert, Tag("clientCert")],
+        AzureBlobAuthTypeManual,
+        AzureBlobAuthTypeSecret,
+        AzureBlobAuthTypeClientSecret,
+        AzureBlobAuthTypeClientCert,
+        UnknownAzureBlobCollectorConf,
     ],
-    Discriminator(lambda m: get_discriminator(m, "auth_type", "authType")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="authType",
+            variants=_AZURE_BLOB_COLLECTOR_CONF_VARIANTS,
+            unknown_cls=UnknownAzureBlobCollectorConf,
+            union_name="AzureBlobCollectorConf",
+        )
+    ),
 ]
+
+
+try:
+    AzureBlobAuthTypeClientCert.model_rebuild()
+except NameError:
+    pass
+try:
+    AzureBlobAuthTypeClientSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    AzureBlobAuthTypeSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    AzureBlobAuthTypeManual.model_rebuild()
+except NameError:
+    pass

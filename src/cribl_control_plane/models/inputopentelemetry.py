@@ -6,12 +6,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
-from .itemstypeoauthheaders import ItemsTypeOauthHeaders, ItemsTypeOauthHeadersTypedDict
-from .itemstypeoauthparams import ItemsTypeOauthParams, ItemsTypeOauthParamsTypedDict
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
@@ -22,7 +17,7 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -75,9 +70,6 @@ class InputOpenTelemetryTypedDict(TypedDict):
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-    enable_proxy_header: NotRequired[Any]
-    capture_headers: NotRequired[Any]
-    activity_log_sample_rate: NotRequired[Any]
     request_timeout: NotRequired[float]
     r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
     socket_timeout: NotRequired[float]
@@ -100,7 +92,7 @@ class InputOpenTelemetryTypedDict(TypedDict):
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
     auth_type: NotRequired[AuthenticationTypeOptions]
     r"""OpenTelemetry authentication type"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     max_active_cxn: NotRequired[float]
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
@@ -113,24 +105,12 @@ class InputOpenTelemetryTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     extract_logs: NotRequired[bool]
     r"""Enable to extract each incoming log record to a separate event"""
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class InputOpenTelemetry(BaseModel):
@@ -180,18 +160,6 @@ class InputOpenTelemetry(BaseModel):
         Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
     ] = None
     r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
-
-    enable_proxy_header: Annotated[
-        Optional[Any], pydantic.Field(alias="enableProxyHeader")
-    ] = None
-
-    capture_headers: Annotated[
-        Optional[Any], pydantic.Field(alias="captureHeaders")
-    ] = None
-
-    activity_log_sample_rate: Annotated[
-        Optional[Any], pydantic.Field(alias="activityLogSampleRate")
-    ] = None
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
@@ -246,7 +214,7 @@ class InputOpenTelemetry(BaseModel):
     ] = None
     r"""OpenTelemetry authentication type"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
@@ -271,44 +239,18 @@ class InputOpenTelemetry(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
     extract_logs: Annotated[Optional[bool], pydantic.Field(alias="extractLogs")] = None
     r"""Enable to extract each incoming log record to a separate event"""
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
     @field_serializer("protocol")
     def serialize_protocol(self, value):
@@ -353,9 +295,6 @@ class InputOpenTelemetry(BaseModel):
                 "tls",
                 "maxActiveReq",
                 "maxRequestsPerSocket",
-                "enableProxyHeader",
-                "captureHeaders",
-                "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
                 "keepAliveTimeout",
@@ -375,15 +314,9 @@ class InputOpenTelemetry(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
                 "extractLogs",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)
@@ -398,3 +331,9 @@ class InputOpenTelemetry(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputOpenTelemetry.model_rebuild()
+except NameError:
+    pass
